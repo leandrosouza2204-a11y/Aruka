@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { buscarPerfilUsuario } from "../services/perfisService";
+import {
+  buscarPerfilUsuario,
+  verificarAcessoUsuario,
+} from "../services/perfisService";
 import { supabase } from "../services/supabase";
 import EscolherPlano from "./EscolherPlano";
 
@@ -22,6 +25,13 @@ function AssinaturaPendente() {
 
     async function carregarDiagnostico() {
       try {
+        const acesso = await verificarAcessoUsuario();
+
+        if (acesso.liberado) {
+          navigate("/", { replace: true });
+          return;
+        }
+
         const {
           data: { user },
           error,
@@ -58,7 +68,7 @@ function AssinaturaPendente() {
     return () => {
       ativo = false;
     };
-  }, []);
+  }, [navigate]);
 
   async function sair() {
     await supabase.auth.signOut();
