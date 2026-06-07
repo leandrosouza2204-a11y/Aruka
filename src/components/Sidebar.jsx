@@ -29,101 +29,108 @@ function Sidebar() {
 
   return (
     <div
+      className="app-sidebar"
       style={{
         ...styles.sidebar,
         width: collapsed ? "80px" : "260px",
       }}
     >
-      <div style={styles.header}>
-        <button onClick={() => setCollapsed(!collapsed)} style={styles.toggle}>
+      <div className="app-sidebar-header" style={styles.header}>
+        <button
+          className="app-sidebar-toggle"
+          onClick={() => setCollapsed(!collapsed)}
+          style={styles.toggle}
+        >
           <Menu size={18} />
         </button>
 
         {!collapsed && (
-          <div style={styles.brand}>
+          <div className="app-sidebar-brand" style={styles.brand}>
             <h2 style={styles.title}>Consultoria</h2>
             <span style={styles.subtitle}>online</span>
           </div>
         )}
       </div>
 
-      <nav style={styles.nav}>
-        <Link
+      <nav className="app-sidebar-nav" style={styles.nav}>
+        <MenuLink
           to="/"
-          style={{
-            ...styles.link,
-            ...(isActive("/") ? styles.active : {}),
-            justifyContent: collapsed ? "center" : "flex-start",
-          }}
-        >
-          <LayoutDashboard size={18} />
-          {!collapsed && "Dashboard"}
-        </Link>
-
-        <Link
+          active={isActive("/")}
+          collapsed={collapsed}
+          icon={<LayoutDashboard size={18} />}
+          label="Dashboard"
+        />
+        <MenuLink
           to="/alunos"
-          style={{
-            ...styles.link,
-            ...(isActive("/alunos") ? styles.active : {}),
-            justifyContent: collapsed ? "center" : "flex-start",
-          }}
-        >
-          <Users size={18} />
-          {!collapsed && "Alunos"}
-        </Link>
-
-        <Link
+          active={isActive("/alunos")}
+          collapsed={collapsed}
+          icon={<Users size={18} />}
+          label="Alunos"
+        />
+        <MenuLink
           to="/financeiro"
-          style={{
-            ...styles.link,
-            ...(isActive("/financeiro") ? styles.active : {}),
-            justifyContent: collapsed ? "center" : "flex-start",
-          }}
-        >
-          <DollarSign size={18} />
-          {!collapsed && "Financeiro"}
-        </Link>
-
-        <Link
+          active={isActive("/financeiro")}
+          collapsed={collapsed}
+          icon={<DollarSign size={18} />}
+          label="Financeiro"
+        />
+        <MenuLink
           to="/avaliacoes"
-          style={{
-            ...styles.link,
-            ...(isActive("/avaliacoes") ? styles.active : {}),
-            justifyContent: collapsed ? "center" : "flex-start",
-          }}
-        >
-          <ClipboardCheck size={18} />
-          {!collapsed && "Avaliações"}
-        </Link>
-
-        <Link
+          active={isActive("/avaliacoes")}
+          collapsed={collapsed}
+          icon={<ClipboardCheck size={18} />}
+          label="Avaliacoes"
+        />
+        <MenuLink
           to="/treinos"
-          style={{
-            ...styles.link,
-            ...(isActive("/treinos") ? styles.active : {}),
-            justifyContent: collapsed ? "center" : "flex-start",
-          }}
-        >
-          <Dumbbell size={18} />
-          {!collapsed && "Treinos"}
-        </Link>
+          active={isActive("/treinos")}
+          collapsed={collapsed}
+          icon={<Dumbbell size={18} />}
+          label="Treinos"
+        />
       </nav>
 
       {!collapsed && (
-        <div style={styles.footer}>
-          <strong style={styles.footerName}>Leandro Souza</strong>
-          <span style={styles.footerRole}>Personal Online</span>
-          <button onClick={toggleTheme} style={styles.themeButton}>
+        <div className="app-sidebar-footer" style={styles.footer}>
+          <strong className="app-sidebar-footer-name" style={styles.footerName}>
+            Leandro Souza
+          </strong>
+          <span className="app-sidebar-footer-role" style={styles.footerRole}>
+            Personal Online
+          </span>
+          <button
+            className="app-sidebar-action"
+            onClick={toggleTheme}
+            style={styles.themeButton}
+          >
             {isDark ? <Sun size={16} /> : <Moon size={16} />}
-            {isDark ? "Modo claro" : "Modo escuro"}
+            <span className="app-sidebar-action-label">
+              {isDark ? "Modo claro" : "Modo escuro"}
+            </span>
           </button>
-          <button onClick={sair} style={styles.logout}>
+          <button className="app-sidebar-action" onClick={sair} style={styles.logout}>
             <LogOut size={16} />
-            Sair
+            <span className="app-sidebar-action-label">Sair</span>
           </button>
         </div>
       )}
     </div>
+  );
+}
+
+function MenuLink({ to, active, collapsed, icon, label }) {
+  return (
+    <Link
+      to={to}
+      style={{
+        ...styles.link,
+        ...(active ? styles.active : {}),
+        justifyContent: collapsed ? "center" : "flex-start",
+      }}
+    >
+      {icon}
+      {!collapsed && <span className="app-sidebar-label">{label}</span>}
+    </Link>
   );
 }
 
