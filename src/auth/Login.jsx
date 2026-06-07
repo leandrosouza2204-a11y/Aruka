@@ -8,14 +8,17 @@ function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
+  const [mensagem, setMensagem] = useState("");
   const [carregando, setCarregando] = useState(false);
   const [autenticado, setAutenticado] = useState(false);
+  const [modoCadastro, setModoCadastro] = useState(false);
 
   const destino = location.state?.from?.pathname || "/";
 
   async function entrar(e) {
     e.preventDefault();
     setErro("");
+    setMensagem("");
 
     if (!supabaseConfigurado) {
       setErro(
@@ -42,16 +45,55 @@ function Login() {
     navigate(destino, { replace: true });
   }
 
+  async function cadastrar(e) {
+    e.preventDefault();
+    setErro("");
+    setMensagem("");
+
+    if (!supabaseConfigurado) {
+      setErro(
+        "Configure VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY no arquivo .env para habilitar o cadastro."
+      );
+      return;
+    }
+
+    setCarregando(true);
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password: senha,
+    });
+
+    setCarregando(false);
+
+    if (error) {
+      setErro(error.message);
+      return;
+    }
+
+    if (data.session) {
+      setAutenticado(true);
+      navigate(destino, { replace: true });
+      return;
+    }
+
+    setMensagem("Cadastro criado. Verifique seu email para confirmar o acesso.");
+  }
+
   if (autenticado) {
     return <Navigate to={destino} replace />;
   }
 
   return (
     <div style={pagina}>
-      <form onSubmit={entrar} style={card}>
+      <form onSubmit={modoCadastro ? cadastrar : entrar} style={card}>
         <div>
           <h1 style={titulo}>Consultoria Online</h1>
-          <p style={subtitulo}>Acesse sua area de gestao.</p>
+          <p style={subtitulo}>
+            {modoCadastro
+              ? "Crie sua conta para solicitar a liberacao."
+              : "Acesse sua area de gestao."}
+          </p>
         </div>
 
         <label style={campoGrupo}>
@@ -79,9 +121,28 @@ function Login() {
         </label>
 
         {erro && <p style={erroTexto}>{erro}</p>}
+        {mensagem && <p style={sucessoTexto}>{mensagem}</p>}
 
         <button type="submit" disabled={carregando} style={botao}>
-          {carregando ? "Entrando..." : "Entrar"}
+          {carregando
+            ? modoCadastro
+              ? "Criando conta..."
+              : "Entrando..."
+            : modoCadastro
+              ? "Criar conta"
+              : "Entrar"}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            setModoCadastro(!modoCadastro);
+            setErro("");
+            setMensagem("");
+          }}
+          style={botaoAlternar}
+        >
+          {modoCadastro ? "Ja tenho conta" : "Criar nova conta"}
         </button>
       </form>
     </div>
@@ -156,6 +217,25 @@ const erroTexto = {
   color: "#991b1b",
   fontSize: "14px",
   padding: "10px",
+};
+
+const sucessoTexto = {
+  background: "#ecfdf5",
+  border: "1px solid #bbf7d0",
+  borderRadius: "8px",
+  color: "#166534",
+  fontSize: "14px",
+  padding: "10px",
+};
+
+const botaoAlternar = {
+  background: "transparent",
+  color: "#111827",
+  border: "1px solid #d1d5db",
+  borderRadius: "8px",
+  cursor: "pointer",
+  fontWeight: "700",
+  minHeight: "42px",
 };
 
 export default Login;

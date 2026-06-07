@@ -8,6 +8,7 @@ import {
   Dumbbell,
   ClipboardCheck,
   LogOut,
+  KeyRound,
   Menu,
   Moon,
   Sun,
@@ -26,6 +27,10 @@ function Sidebar() {
   async function sair() {
     await supabase.auth.signOut();
     navigate("/login", { replace: true });
+  }
+
+  function irParaAlterarSenha() {
+    navigate("/alterar-senha");
   }
 
   return (
@@ -115,6 +120,14 @@ function Sidebar() {
             <span className="app-sidebar-action-label">
               {isDark ? "Modo claro" : "Modo escuro"}
             </span>
+          </button>
+          <button
+            className="app-sidebar-action"
+            onClick={irParaAlterarSenha}
+            style={styles.themeButton}
+          >
+            <KeyRound size={16} />
+            <span className="app-sidebar-action-label">Alterar senha</span>
           </button>
           <button className="app-sidebar-action" onClick={sair} style={styles.logout}>
             <LogOut size={16} />

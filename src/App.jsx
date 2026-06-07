@@ -5,8 +5,12 @@ import Financeiro from "./pages/Financeiro";
 import Treinos from "./pages/Treinos";
 import Avaliacoes from "./pages/Avaliacoes";
 import Planos from "./pages/Planos";
+import AlterarSenha from "./pages/AlterarSenha";
 import Login from "./auth/Login";
 import ProtectedRoute from "./auth/ProtectedRoute";
+import SubscriptionRoute from "./auth/SubscriptionRoute";
+import AssinaturaPendente from "./pages/AssinaturaPendente";
+import CriarSenha from "./pages/CriarSenha";
 
 function App() {
   return (
@@ -14,10 +18,36 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route
+          path="/assinatura"
+          element={
+            <ProtectedRoute>
+              <AssinaturaPendente />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/alterar-senha"
+          element={
+            <ProtectedRoute>
+              <AlterarSenha />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/criar-senha"
+          element={
+            <ProtectedRoute>
+              <CriarSenha />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <SubscriptionRoute>
+                <Dashboard />
+              </SubscriptionRoute>
             </ProtectedRoute>
           }
         />
@@ -25,7 +55,9 @@ function App() {
           path="/alunos"
           element={
             <ProtectedRoute>
-              <Alunos />
+              <SubscriptionRoute>
+                <Alunos />
+              </SubscriptionRoute>
             </ProtectedRoute>
           }
         />
@@ -33,7 +65,9 @@ function App() {
           path="/financeiro"
           element={
             <ProtectedRoute>
-              <Financeiro />
+              <SubscriptionRoute>
+                <Financeiro />
+              </SubscriptionRoute>
             </ProtectedRoute>
           }
         />
@@ -41,7 +75,9 @@ function App() {
           path="/planos"
           element={
             <ProtectedRoute>
-              <Planos />
+              <SubscriptionRoute>
+                <Planos />
+              </SubscriptionRoute>
             </ProtectedRoute>
           }
         />
@@ -49,7 +85,9 @@ function App() {
           path="/avaliacoes"
           element={
             <ProtectedRoute>
-              <Avaliacoes />
+              <SubscriptionRoute>
+                <Avaliacoes />
+              </SubscriptionRoute>
             </ProtectedRoute>
           }
         />
@@ -57,7 +95,9 @@ function App() {
           path="/treinos"
           element={
             <ProtectedRoute>
-              <Treinos />
+              <SubscriptionRoute>
+                <Treinos />
+              </SubscriptionRoute>
             </ProtectedRoute>
           }
         />
