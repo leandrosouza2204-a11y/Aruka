@@ -1,13 +1,64 @@
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { buscarPerfilUsuario } from "../services/perfisService";
 import { supabase } from "../services/supabase";
 import EscolherPlano from "./EscolherPlano";
 
 function AssinaturaPendente() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [diagnostico, setDiagnostico] = useState({
+    carregando: true,
+    email: "",
+    perfil: null,
+    erro: "",
+  });
   const erro = location.state?.erro || "";
   const motivo = location.state?.motivo || "pendente";
   const conteudo = mensagensPorMotivo[motivo] || mensagensPorMotivo.pendente;
+
+  useEffect(() => {
+    let ativo = true;
+
+    async function carregarDiagnostico() {
+      try {
+        const {
+          data: { user },
+          error,
+        } = await supabase.auth.getUser();
+
+        if (error) throw error;
+
+        const perfil = user ? await buscarPerfilUsuario() : null;
+
+        if (!ativo) return;
+
+        setDiagnostico({
+          carregando: false,
+          email: user?.email || "",
+          perfil,
+          erro: "",
+        });
+      } catch (error) {
+        if (!ativo) return;
+
+        setDiagnostico({
+          carregando: false,
+          email: "",
+          perfil: null,
+          erro:
+            error.message ||
+            "Nao foi possivel carregar os dados de acesso do usuario.",
+        });
+      }
+    }
+
+    carregarDiagnostico();
+
+    return () => {
+      ativo = false;
+    };
+  }, []);
 
   async function sair() {
     await supabase.auth.signOut();
@@ -24,6 +75,34 @@ function AssinaturaPendente() {
         </div>
 
         {erro && <div style={erroBox}>{erro}</div>}
+
+        <div style={diagnosticoBox}>
+          <strong style={diagnosticoTitulo}>Diagnostico do acesso</strong>
+          {diagnostico.carregando ? (
+            <span style={diagnosticoTexto}>Carregando dados do perfil...</span>
+          ) : diagnostico.erro ? (
+            <span style={diagnosticoErro}>{diagnostico.erro}</span>
+          ) : (
+            <div style={diagnosticoGrid}>
+              <span>
+                <b>Email:</b> {diagnostico.email || "-"}
+              </span>
+              <span>
+                <b>Role:</b> {diagnostico.perfil?.role || "sem perfil"}
+              </span>
+              <span>
+                <b>Tipo de acesso:</b>{" "}
+                {diagnostico.perfil?.tipoAcesso || "sem perfil"}
+              </span>
+              <span>
+                <b>Status:</b> {diagnostico.perfil?.status || "sem perfil"}
+              </span>
+              <span>
+                <b>Motivo do bloqueio:</b> {motivo}
+              </span>
+            </div>
+          )}
+        </div>
 
         {motivo !== "bloqueado" && <EscolherPlano />}
 
@@ -93,6 +172,40 @@ const erroBox = {
   fontWeight: "700",
   marginTop: "16px",
   padding: "12px",
+};
+
+const diagnosticoBox = {
+  background: "#f8fafc",
+  border: "1px solid #dbe4ef",
+  borderRadius: "8px",
+  color: "#334155",
+  display: "grid",
+  gap: "10px",
+  marginTop: "18px",
+  padding: "14px",
+};
+
+const diagnosticoTitulo = {
+  color: "#0f172a",
+  fontSize: "14px",
+};
+
+const diagnosticoTexto = {
+  color: "#64748b",
+  fontSize: "14px",
+};
+
+const diagnosticoErro = {
+  color: "#991b1b",
+  fontSize: "14px",
+  fontWeight: "700",
+};
+
+const diagnosticoGrid = {
+  display: "grid",
+  gap: "6px",
+  gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+  fontSize: "14px",
 };
 
 const rodape = {
