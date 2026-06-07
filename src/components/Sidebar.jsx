@@ -52,8 +52,15 @@ function Sidebar() {
 
         {!collapsed && (
           <div className="app-sidebar-brand" style={styles.brand}>
-            <h2 style={styles.title}>Consultoria</h2>
-            <span style={styles.subtitle}>online</span>
+            <img
+              src="/brand/coachflow-logo.png"
+              alt="CoachFlow"
+              style={styles.logo}
+            />
+            <div>
+              <h2 style={styles.title}>CoachFlow</h2>
+              <span style={styles.subtitle}>Organize. Guie. Transforme.</span>
+            </div>
           </div>
         )}
       </div>
@@ -106,10 +113,10 @@ function Sidebar() {
       {!collapsed && (
         <div className="app-sidebar-footer" style={styles.footer}>
           <strong className="app-sidebar-footer-name" style={styles.footerName}>
-            Leandro Souza
+            CoachFlow
           </strong>
           <span className="app-sidebar-footer-role" style={styles.footerRole}>
-            Personal Online
+            Organize. Guie. Transforme.
           </span>
           <button
             className="app-sidebar-action"
@@ -190,23 +197,29 @@ const styles = {
   brand: {
     display: "flex",
     flex: 1,
-    flexDirection: "column",
     alignItems: "center",
-    lineHeight: "1.2",
+    gap: "10px",
+    lineHeight: "1.15",
+  },
+
+  logo: {
+    width: "42px",
+    height: "42px",
+    borderRadius: "10px",
+    objectFit: "cover",
+    background: "white",
   },
 
   title: {
     margin: 0,
-    fontSize: "16px",
-    fontWeight: "700",
+    fontSize: "18px",
+    fontWeight: "800",
   },
 
   subtitle: {
     fontSize: "11px",
-    opacity: 0.5,
-    letterSpacing: "2px",
-    textAlign: "center",
-    textTransform: "uppercase",
+    opacity: 0.65,
+    letterSpacing: "0",
   },
 
   nav: {

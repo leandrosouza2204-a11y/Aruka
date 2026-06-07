@@ -504,7 +504,7 @@ function montarMensagemVencimentoWhatsApp(registro) {
       "",
       "Qualquer dúvida ou necessidade de ajuste, estou à disposição!",
       "",
-      "Leandro Souza - Personal Online",
+      "CoachFlow - Organize. Guie. Transforme.",
     ].join("\n");
   }
 
