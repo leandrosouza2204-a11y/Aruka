@@ -4,6 +4,7 @@ import Alunos from "./pages/Alunos";
 import Financeiro from "./pages/Financeiro";
 import Treinos from "./pages/Treinos";
 import Avaliacoes from "./pages/Avaliacoes";
+import Planos from "./pages/Planos";
 import Login from "./auth/Login";
 import ProtectedRoute from "./auth/ProtectedRoute";
 
@@ -33,6 +34,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Financeiro />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/planos"
+          element={
+            <ProtectedRoute>
+              <Planos />
             </ProtectedRoute>
           }
         />

@@ -4,6 +4,7 @@ import {
   LayoutDashboard,
   Users,
   DollarSign,
+  Tags,
   Dumbbell,
   ClipboardCheck,
   LogOut,
@@ -73,6 +74,13 @@ function Sidebar() {
           collapsed={collapsed}
           icon={<DollarSign size={18} />}
           label="Financeiro"
+        />
+        <MenuLink
+          to="/planos"
+          active={isActive("/planos")}
+          collapsed={collapsed}
+          icon={<Tags size={18} />}
+          label="Planos"
         />
         <MenuLink
           to="/avaliacoes"

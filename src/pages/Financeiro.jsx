@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import Sidebar from "../components/Sidebar";
-import { planos } from "../data/planos";
 import {
   calcularDatas,
   calcularStatus,
@@ -18,6 +17,7 @@ import {
   buscarPagamentosSupabase,
   excluirPagamentoSupabase,
 } from "../services/pagamentosService";
+import { buscarPlanosSupabase } from "../services/planosService";
 
 const pagamentoInicial = {
   dataPagamento: dataHojeISO(),
@@ -31,6 +31,7 @@ const pagamentoInicial = {
 function Financeiro() {
   const [alunos, setAlunos] = useState([]);
   const [pagamentos, setPagamentos] = useState([]);
+  const [planos, setPlanos] = useState([]);
   const [busca, setBusca] = useState("");
   const [filtroStatus, setFiltroStatus] = useState("todos");
   const [filtroPagamento, setFiltroPagamento] = useState("todos");
@@ -49,17 +50,20 @@ function Financeiro() {
     setErro("");
 
     try {
-      const [alunosSupabase, pagamentosSupabase] = await Promise.all([
+      const [alunosSupabase, pagamentosSupabase, planosSupabase] = await Promise.all([
         buscarAlunosSupabase(),
         buscarPagamentosSupabase(),
+        buscarPlanosSupabase(),
       ]);
 
       setAlunos(alunosSupabase);
       setPagamentos(pagamentosSupabase);
+      setPlanos(planosSupabase);
     } catch (error) {
       setErro(`Erro ao carregar dados financeiros: ${error.message}`);
       setAlunos([]);
       setPagamentos([]);
+      setPlanos([]);
     } finally {
       setCarregando(false);
     }
@@ -70,10 +74,11 @@ function Financeiro() {
       alunos.map((aluno) =>
         montarRegistroFinanceiro(
           aluno,
+          planos.find((plano) => plano.id === aluno.plano),
           pagamentos.filter((pagamento) => pagamento.alunoId === aluno.id)
         )
       ),
-    [alunos, pagamentos]
+    [alunos, pagamentos, planos]
   );
 
   const registrosFiltrados = useMemo(() => {
@@ -191,7 +196,10 @@ function Financeiro() {
 
   async function sincronizarStatusPagamento(aluno, pagamentosAluno) {
     const valorContrato = Number(aluno.valor || 0);
-    const totalParcelas = aluno.plano === "trimestralParcelado" ? 3 : 1;
+    const planoAluno = planos.find((plano) => plano.id === aluno.plano);
+    const totalParcelas = calcularTotalParcelas(aluno, planoAluno);
+    const duracaoMeses =
+      planoAluno?.duracaoMeses || (aluno.plano === "trimestralParcelado" ? 3 : 1);
     const totalRecebido = pagamentosAluno.reduce(
       (total, pagamento) => total + Number(pagamento.valor || 0),
       0
@@ -206,8 +214,8 @@ function Financeiro() {
     );
     const proximaParcela = Math.min(maiorParcelaPaga + 1, totalParcelas);
     const datasProximaParcela =
-      aluno.plano === "trimestralParcelado" && !pagamentoRecebido
-        ? calcularDatas(aluno.inicio, planos[aluno.plano]?.meses || 1, aluno.plano, proximaParcela)
+      totalParcelas > 1 && !pagamentoRecebido
+        ? calcularDatas(aluno.inicio, duracaoMeses, aluno.plano, proximaParcela)
         : {};
     const vencimentoAtualizado =
       datasProximaParcela.vencimento || aluno.vencimento;
@@ -343,9 +351,7 @@ function Financeiro() {
                 registrosFiltrados.map((registro) => (
                   <tr key={registro.aluno.id}>
                     <td style={celula}>{registro.aluno.nome}</td>
-                    <td style={celula}>
-                      {planos[registro.aluno.plano]?.nome || "-"}
-                    </td>
+                    <td style={celula}>{registro.nomePlano}</td>
                     <td style={celula}>{formatarMoeda(registro.valorContrato)}</td>
                     <td style={celula}>
                       {registro.parcelaAtual}/{registro.totalParcelas}
@@ -428,9 +434,9 @@ function Financeiro() {
   );
 }
 
-function montarRegistroFinanceiro(aluno, pagamentosAluno) {
+function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
   const valorContrato = Number(aluno.valor || 0);
-  const totalParcelas = aluno.plano === "trimestralParcelado" ? 3 : 1;
+  const totalParcelas = calcularTotalParcelas(aluno, plano);
   const parcelaAtual = calcularParcelaAtual(aluno.inicio, totalParcelas);
   const valorParcela = totalParcelas > 1 ? valorContrato / totalParcelas : valorContrato;
   const pagamentosOrdenados = [...pagamentosAluno].sort((a, b) =>
@@ -446,6 +452,8 @@ function montarRegistroFinanceiro(aluno, pagamentosAluno) {
 
   return {
     aluno,
+    plano,
+    nomePlano: plano?.nome || aluno.plano || "-",
     pagamentos: pagamentosAluno,
     valorContrato,
     totalParcelas,
@@ -457,6 +465,15 @@ function montarRegistroFinanceiro(aluno, pagamentosAluno) {
     totalRecebido,
     valorPendente: Math.max(valorContrato - totalRecebido, 0),
   };
+}
+
+function calcularTotalParcelas(aluno, plano) {
+  if (aluno.plano === "trimestralParcelado") return 3;
+  if (!plano) return 1;
+
+  const nome = plano.nome.toLowerCase();
+
+  return nome.includes("parcelado") ? Math.max(Number(plano.duracaoMeses || 1), 1) : 1;
 }
 
 function calcularParcelaAtual(inicio, totalParcelas) {

@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import Sidebar from "../components/Sidebar";
-import { planos } from "../data/planos";
 import {
   adicionarAlunoSupabase,
   atualizarAlunoSupabase,
   buscarAlunosSupabase,
   excluirAlunoSupabase,
 } from "../services/alunosService";
+import { buscarPlanosSupabase } from "../services/planosService";
 import {
   calcularDatas,
   calcularStatus,
@@ -36,6 +36,7 @@ const formInicial = {
 
 function Alunos() {
   const [alunos, setAlunos] = useState([]);
+  const [planos, setPlanos] = useState([]);
   const [form, setForm] = useState(formInicial);
   const [modalCadastroAberto, setModalCadastroAberto] = useState(false);
   const [alunoEditandoId, setAlunoEditandoId] = useState("");
@@ -48,23 +49,33 @@ function Alunos() {
   const [salvando, setSalvando] = useState(false);
 
   useEffect(() => {
-    async function carregarAlunos() {
+    async function carregarDados() {
       setCarregando(true);
       setErro("");
 
       try {
-        const alunosSupabase = await buscarAlunosSupabase();
+        const [alunosSupabase, planosSupabase] = await Promise.all([
+          buscarAlunosSupabase(),
+          buscarPlanosSupabase(),
+        ]);
         setAlunos(alunosSupabase.map(normalizarAluno));
+        setPlanos(planosSupabase);
       } catch (error) {
-        setErro(`Erro ao buscar alunos: ${error.message}`);
+        setErro(`Erro ao buscar dados: ${error.message}`);
         setAlunos([]);
+        setPlanos([]);
       } finally {
         setCarregando(false);
       }
     }
 
-    carregarAlunos();
+    carregarDados();
   }, []);
+
+  const planosAtivos = useMemo(
+    () => planos.filter((plano) => plano.ativo),
+    [planos]
+  );
 
   const alunosFiltrados = useMemo(() => {
     const termoBusca = busca.trim().toLowerCase();
@@ -94,7 +105,7 @@ function Alunos() {
 
   function handlePlano(e) {
     const planoSelecionado = e.target.value;
-    const plano = planos[planoSelecionado];
+    const plano = planos.find((item) => item.id === planoSelecionado);
 
     if (!plano) {
       setForm({
@@ -108,7 +119,11 @@ function Alunos() {
       return;
     }
 
-    const datas = calcularDatas(form.inicio, plano.meses, planoSelecionado);
+    const datas = calcularDatas(
+      form.inicio,
+      plano.duracaoMeses,
+      planoSelecionado
+    );
 
     setForm({
       ...form,
@@ -129,8 +144,8 @@ function Alunos() {
       return;
     }
 
-    const plano = planos[form.plano];
-    const datas = calcularDatas(inicio, plano.meses, form.plano);
+    const plano = planos.find((item) => item.id === form.plano);
+    const datas = calcularDatas(inicio, plano?.duracaoMeses || 1, form.plano);
 
     setForm({
       ...form,
@@ -249,7 +264,7 @@ function Alunos() {
   }
 
   function nomePlano(plano) {
-    return planos[plano]?.nome || plano || "-";
+    return planos.find((item) => item.id === plano)?.nome || plano || "-";
   }
 
   return (
@@ -298,8 +313,8 @@ function Alunos() {
               style={{ ...campo, ...campoFiltro }}
             >
               <option value="todos">Todos os planos</option>
-              {Object.entries(planos).map(([chave, plano]) => (
-                <option key={chave} value={chave}>
+              {planos.map((plano) => (
+                <option key={plano.id} value={plano.id}>
                   {plano.nome}
                 </option>
               ))}
@@ -373,8 +388,8 @@ function Alunos() {
                 <Campo label="Plano contratado">
                   <select value={form.plano} onChange={handlePlano} style={campo}>
                     <option value="">Selecione o plano</option>
-                    {Object.entries(planos).map(([chave, plano]) => (
-                      <option key={chave} value={chave}>
+                    {planosAtivos.map((plano) => (
+                      <option key={plano.id} value={plano.id}>
                         {plano.nome}
                       </option>
                     ))}
@@ -392,10 +407,15 @@ function Alunos() {
 
                 <Campo label="Valor">
                   <input
-                    readOnly
+                    type="number"
+                    min="0"
+                    step="0.01"
                     placeholder="Calculado pelo plano"
-                    value={form.valor ? formatarMoeda(form.valor) : ""}
-                    style={{ ...campo, background: "#f9fafb" }}
+                    value={form.valor}
+                    onChange={(e) =>
+                      setForm({ ...form, valor: e.target.value })
+                    }
+                    style={campo}
                   />
                 </Campo>
 
