@@ -129,24 +129,47 @@ function Dashboard() {
           </div>
 
           {receitaMensal.some((mes) => mes.total > 0) ? (
-            <div style={grafico}>
-              {receitaMensal.map((mes) => {
-                const altura =
-                  maiorReceitaMensal > 0
-                    ? Math.max((mes.total / maiorReceitaMensal) * 100, 8)
-                    : 0;
+            <>
+              <div className="dashboard-chart-desktop" style={grafico}>
+                {receitaMensal.map((mes) => {
+                  const altura =
+                    maiorReceitaMensal > 0
+                      ? Math.max((mes.total / maiorReceitaMensal) * 100, 8)
+                      : 0;
 
-                return (
-                  <div key={mes.chave} style={barraItem}>
-                    <div style={barraValor}>{formatarMoeda(mes.total)}</div>
-                    <div style={barraTrilho}>
-                      <div style={{ ...barra, height: `${altura}%` }} />
+                  return (
+                    <div key={mes.chave} style={barraItem}>
+                      <div style={barraValor}>{formatarMoeda(mes.total)}</div>
+                      <div style={barraTrilho}>
+                        <div style={{ ...barra, height: `${altura}%` }} />
+                      </div>
+                      <div style={barraLabel}>{mes.rotulo}</div>
                     </div>
-                    <div style={barraLabel}>{mes.rotulo}</div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+
+              <div className="dashboard-chart-mobile" style={graficoMobile}>
+                {receitaMensal.map((mes) => {
+                  const largura =
+                    maiorReceitaMensal > 0
+                      ? Math.max((mes.total / maiorReceitaMensal) * 100, 4)
+                      : 4;
+
+                  return (
+                    <div key={mes.chave} style={linhaMobile}>
+                      <div style={linhaMobileTopo}>
+                        <span style={barraLabel}>{mes.rotulo}</span>
+                        <strong style={barraValor}>{formatarMoeda(mes.total)}</strong>
+                      </div>
+                      <div style={trilhoMobile}>
+                        <div style={{ ...barraMobile, width: `${largura}%` }} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
           ) : (
             <p style={estadoVazio}>
               {carregando
@@ -315,6 +338,37 @@ const barraLabel = {
   color: "#4b5563",
   fontSize: "13px",
   textTransform: "capitalize",
+};
+
+const graficoMobile = {
+  display: "none",
+  gap: "12px",
+  marginTop: "18px",
+};
+
+const linhaMobile = {
+  display: "grid",
+  gap: "8px",
+};
+
+const linhaMobileTopo = {
+  display: "flex",
+  justifyContent: "space-between",
+  gap: "12px",
+  alignItems: "center",
+};
+
+const trilhoMobile = {
+  background: "#eef2f7",
+  borderRadius: "999px",
+  height: "12px",
+  overflow: "hidden",
+};
+
+const barraMobile = {
+  background: "#2563eb",
+  borderRadius: "999px",
+  height: "100%",
 };
 
 const estadoVazio = {
