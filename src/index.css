@@ -48,9 +48,9 @@ body[data-theme="dark"] [style*="background: rgb(243, 244, 246)"],
 body[data-theme="dark"] [style*="background-color: rgb(255, 255, 255)"],
 body[data-theme="dark"] [style*="background-color: rgb(249, 250, 251)"],
 body[data-theme="dark"] [style*="background-color: rgb(243, 244, 246)"] {
-  background: #111827 !important;
-  border-color: #334155 !important;
-  box-shadow: none !important;
+  background: #182235 !important;
+  border-color: #34445f !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22) !important;
 }
 
 body[data-theme="dark"] [style*="background: #eef2f7"],
@@ -59,7 +59,7 @@ body[data-theme="dark"] [style*="background: rgb(238, 242, 247)"],
 body[data-theme="dark"] [style*="background: rgb(229, 231, 235)"],
 body[data-theme="dark"] [style*="background-color: rgb(238, 242, 247)"],
 body[data-theme="dark"] [style*="background-color: rgb(229, 231, 235)"] {
-  background: #1f2937 !important;
+  background: #223049 !important;
 }
 
 body[data-theme="dark"] [style*="color: #111827"],
@@ -91,6 +91,39 @@ body[data-theme="dark"] button[style*="background: #e5e7eb"],
 body[data-theme="dark"] button[style*="background: rgb(229, 231, 235)"] {
   background: #334155 !important;
   color: #f9fafb !important;
+}
+
+body[data-theme="dark"] [style*="box-shadow"] {
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.26) !important;
+}
+
+body[data-theme="dark"] table {
+  background: #182235 !important;
+}
+
+body[data-theme="dark"] thead tr,
+body[data-theme="dark"] tr[style*="background: #111827"],
+body[data-theme="dark"] tr[style*="background: rgb(17, 24, 39)"] {
+  background: #223049 !important;
+}
+
+body[data-theme="dark"] td,
+body[data-theme="dark"] th {
+  color: #f8fafc !important;
+}
+
+body[data-theme="dark"] pre,
+body[data-theme="dark"] [style*="font-family: Consolas"] {
+  background: #0f172a !important;
+  border-color: #34445f !important;
+  color: #e5e7eb !important;
+}
+
+body[data-theme="dark"] [style*="background: #fef2f2"],
+body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
+  background: #451a1a !important;
+  border-color: #7f1d1d !important;
+  color: #fecaca !important;
 }
 
 @media (max-width: 768px) {
