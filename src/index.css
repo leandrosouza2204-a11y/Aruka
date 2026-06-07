@@ -139,6 +139,13 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
     min-width: 0;
   }
 
+  #root > div[style*="display: flex"] {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
   .app-sidebar {
     position: relative !important;
     top: 0 !important;
@@ -153,6 +160,7 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
     border-right: none !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
     overflow: visible !important;
+    flex: 0 0 auto !important;
   }
 
   .app-sidebar-header {
