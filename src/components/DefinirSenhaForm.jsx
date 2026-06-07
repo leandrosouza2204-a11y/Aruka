@@ -43,7 +43,8 @@ function DefinirSenhaForm() {
 
   const senhaValida = senhaForteRegex.test(novaSenha);
   const confirmacaoValida = novaSenha && novaSenha === confirmacao;
-  const podeEnviar = senhaValida && confirmacaoValida && !carregando;
+  const senhasDiferentes = Boolean(confirmacao) && novaSenha !== confirmacao;
+  const mostrarAvisoSenhaFraca = Boolean(novaSenha) && !senhaValida;
 
   async function definirSenha(e) {
     e.preventDefault();
@@ -127,19 +128,30 @@ function DefinirSenhaForm() {
         onChange={setConfirmacao}
         mostrar={mostrarConfirmacao}
         onToggle={() => setMostrarConfirmacao(!mostrarConfirmacao)}
+        erro={senhasDiferentes}
       />
+
+      {senhasDiferentes && (
+        <div style={alertaValidacao}>A confirmacao da senha nao confere.</div>
+      )}
+
+      {mostrarAvisoSenhaFraca && (
+        <div style={alertaValidacao}>
+          A senha ainda nao atende todos os requisitos de seguranca.
+        </div>
+      )}
 
       {erro && <div style={erroBox}>{erro}</div>}
       {sucesso && <div style={sucessoBox}>{sucesso}</div>}
 
-      <button type="submit" disabled={!podeEnviar} style={botaoPrimario}>
+      <button type="submit" disabled={carregando} style={botaoPrimario}>
         {carregando ? "Criando senha..." : "Criar senha"}
       </button>
     </form>
   );
 }
 
-function CampoSenha({ label, value, onChange, mostrar, onToggle }) {
+function CampoSenha({ label, value, onChange, mostrar, onToggle, erro = false }) {
   return (
     <label style={campoGrupo}>
       <span style={labelCampo}>{label}</span>
@@ -148,7 +160,11 @@ function CampoSenha({ label, value, onChange, mostrar, onToggle }) {
           type={mostrar ? "text" : "password"}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          style={campo}
+          style={{
+            ...campo,
+            borderColor: erro ? "#dc2626" : campo.border,
+            background: erro ? "#fef2f2" : campo.background,
+          }}
           autoComplete="new-password"
         />
         <button type="button" onClick={onToggle} style={botaoIcone}>
@@ -244,6 +260,16 @@ const sucessoBox = {
   fontSize: "14px",
   fontWeight: "700",
   padding: "12px",
+};
+
+const alertaValidacao = {
+  background: "#fff7ed",
+  border: "1px solid #fed7aa",
+  borderRadius: "8px",
+  color: "#9a3412",
+  fontSize: "14px",
+  fontWeight: "700",
+  padding: "10px 12px",
 };
 
 const botaoPrimario = {

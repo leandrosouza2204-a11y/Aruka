@@ -6,6 +6,8 @@ function AssinaturaPendente() {
   const location = useLocation();
   const navigate = useNavigate();
   const erro = location.state?.erro || "";
+  const motivo = location.state?.motivo || "pendente";
+  const conteudo = mensagensPorMotivo[motivo] || mensagensPorMotivo.pendente;
 
   async function sair() {
     await supabase.auth.signOut();
@@ -16,18 +18,14 @@ function AssinaturaPendente() {
     <div style={pagina}>
       <main style={card}>
         <div style={topo}>
-          <span style={badge}>Acesso aguardando liberacao</span>
-          <h1 style={titulo}>Sua assinatura ainda nao esta ativa</h1>
-          <p style={texto}>
-            Seu cadastro foi criado, mas o acesso ao sistema fica bloqueado ate
-            a confirmacao da assinatura. Escolha uma opcao abaixo e solicite a
-            liberacao pelo WhatsApp.
-          </p>
+          <span style={badge}>{conteudo.badge}</span>
+          <h1 style={titulo}>{conteudo.titulo}</h1>
+          <p style={texto}>{conteudo.texto}</p>
         </div>
 
         {erro && <div style={erroBox}>{erro}</div>}
 
-        <EscolherPlano />
+        {motivo !== "bloqueado" && <EscolherPlano />}
 
         <div style={rodape}>
           <button
@@ -113,6 +111,33 @@ const botaoSecundario = {
   borderRadius: "8px",
   cursor: "pointer",
   fontWeight: "700",
+};
+
+const mensagensPorMotivo = {
+  pendente: {
+    badge: "Acesso aguardando liberacao",
+    titulo: "Seu acesso ainda está aguardando liberação.",
+    texto:
+      "Seu cadastro foi criado, mas o acesso ao sistema fica bloqueado ate a liberacao. Escolha uma opcao abaixo e solicite a ativacao pelo WhatsApp.",
+  },
+  bloqueado: {
+    badge: "Acesso bloqueado",
+    titulo: "Seu acesso está bloqueado. Entre em contato.",
+    texto:
+      "Nao foi possivel liberar seu acesso neste momento. Entre em contato com o suporte para verificar sua situacao.",
+  },
+  "sem-assinatura": {
+    badge: "Assinatura indisponivel",
+    titulo: "Assinatura não encontrada ou vencida.",
+    texto:
+      "Seu perfil exige uma assinatura ativa, mas nao encontramos uma assinatura valida. Escolha uma opcao abaixo e solicite a regularizacao.",
+  },
+  erro: {
+    badge: "Erro na verificacao",
+    titulo: "Nao foi possivel verificar seu acesso.",
+    texto:
+      "Tente novamente em alguns instantes. Se o problema continuar, entre em contato com o suporte.",
+  },
 };
 
 export default AssinaturaPendente;

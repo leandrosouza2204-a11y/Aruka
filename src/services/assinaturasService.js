@@ -19,12 +19,13 @@ export async function buscarAssinaturaUsuario() {
 }
 
 export async function verificarAcessoAtivo() {
+  return verificarAssinaturaAtiva();
+}
+
+export async function verificarAssinaturaAtiva() {
   const assinatura = await buscarAssinaturaUsuario();
 
-  if (!assinatura) {
-    await criarAssinaturaPendente();
-    return false;
-  }
+  if (!assinatura) return false;
 
   if (STATUS_COM_ACESSO.has(assinatura.status)) return true;
 

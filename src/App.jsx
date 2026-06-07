@@ -26,6 +26,14 @@ function App() {
           }
         />
         <Route
+          path="/assinatura-pendente"
+          element={
+            <ProtectedRoute>
+              <AssinaturaPendente />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/alterar-senha"
           element={
             <ProtectedRoute>

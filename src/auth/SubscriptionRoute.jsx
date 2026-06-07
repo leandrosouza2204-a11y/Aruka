@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import {
-  criarAssinaturaPendente,
-  verificarAcessoAtivo,
-} from "../services/assinaturasService";
+import { verificarAcessoUsuario } from "../services/perfisService";
 
 function SubscriptionRoute({ children }) {
   const location = useLocation();
   const [carregando, setCarregando] = useState(true);
-  const [acessoLiberado, setAcessoLiberado] = useState(false);
+  const [resultado, setResultado] = useState(null);
   const [erro, setErro] = useState("");
 
   useEffect(() => {
@@ -19,15 +16,17 @@ function SubscriptionRoute({ children }) {
       setErro("");
 
       try {
-        await criarAssinaturaPendente();
-        const acesso = await verificarAcessoAtivo();
+        const acesso = await verificarAcessoUsuario();
 
         if (!ativo) return;
-        setAcessoLiberado(acesso);
+        setResultado(acesso);
       } catch (error) {
         if (!ativo) return;
-        setErro(error.message || "Nao foi possivel verificar a assinatura.");
-        setAcessoLiberado(false);
+        setErro(error.message || "Nao foi possivel verificar o acesso.");
+        setResultado({
+          liberado: false,
+          motivo: "erro",
+        });
       } finally {
         if (ativo) setCarregando(false);
       }
@@ -41,18 +40,22 @@ function SubscriptionRoute({ children }) {
   }, []);
 
   if (carregando) {
-    return <div style={carregandoTela}>Verificando assinatura...</div>;
+    return <div style={carregandoTela}>Verificando acesso...</div>;
   }
 
-  if (erro) {
-    return <Navigate to="/assinatura" replace state={{ erro }} />;
-  }
+  if (resultado?.liberado) return children;
 
-  if (!acessoLiberado) {
-    return <Navigate to="/assinatura" replace state={{ from: location }} />;
-  }
-
-  return children;
+  return (
+    <Navigate
+      to="/assinatura-pendente"
+      replace
+      state={{
+        from: location,
+        motivo: resultado?.motivo || "pendente",
+        erro,
+      }}
+    />
+  );
 }
 
 const carregandoTela = {
