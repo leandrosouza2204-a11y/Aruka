@@ -5,6 +5,7 @@ import {
   Users,
   DollarSign,
   Tags,
+  ShieldCheck,
   Dumbbell,
   ClipboardCheck,
   LogOut,
@@ -14,11 +15,13 @@ import {
   Sun,
 } from "lucide-react";
 import { supabase } from "../services/supabase";
+import { buscarPerfilUsuario } from "../services/perfisService";
 import { useTheme } from "../theme/useTheme";
 
 function Sidebar() {
   const [menuAberto, setMenuAberto] = useState(false);
   const [usuario, setUsuario] = useState(null);
+  const [perfil, setPerfil] = useState(null);
   const menuRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
@@ -28,16 +31,25 @@ function Sidebar() {
   const nomeUsuario =
     usuario?.user_metadata?.nome || usuario?.user_metadata?.name || "";
   const emailUsuario = usuario?.email || "";
+  const usuarioAdmin = perfil?.role === "admin" || perfil?.tipoAcesso === "admin";
 
   useEffect(() => {
     let ativo = true;
 
     async function buscarUsuario() {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        const perfilAtual = user ? await buscarPerfilUsuario() : null;
 
-      if (ativo) setUsuario(user);
+        if (ativo) {
+          setUsuario(user);
+          setPerfil(perfilAtual);
+        }
+      } catch {
+        if (ativo) setPerfil(null);
+      }
     }
 
     buscarUsuario();
@@ -199,6 +211,14 @@ function Sidebar() {
           icon={<Dumbbell size={18} />}
           label="Treinos"
         />
+        {usuarioAdmin && (
+          <MenuLink
+            to="/admin/usuarios"
+            active={isActive("/admin/usuarios")}
+            icon={<ShieldCheck size={18} />}
+            label="Administração"
+          />
+        )}
       </nav>
 
       <div className="app-sidebar-footer" style={styles.footer}>

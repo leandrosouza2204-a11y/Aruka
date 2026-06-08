@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { criarPerfilPadrao } from "../services/perfisService";
 import { supabase, supabaseConfigurado } from "../services/supabase";
 
 function Login() {
@@ -41,6 +42,7 @@ function Login() {
       return;
     }
 
+    await criarPerfilPadrao();
     setAutenticado(true);
     navigate(destino, { replace: true });
   }
@@ -72,6 +74,7 @@ function Login() {
     }
 
     if (data.session) {
+      await criarPerfilPadrao();
       setAutenticado(true);
       navigate(destino, { replace: true });
       return;

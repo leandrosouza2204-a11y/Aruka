@@ -5,10 +5,12 @@ import Financeiro from "./pages/Financeiro";
 import Treinos from "./pages/Treinos";
 import Avaliacoes from "./pages/Avaliacoes";
 import Planos from "./pages/Planos";
+import AdminUsuarios from "./pages/AdminUsuarios";
 import AlterarSenha from "./pages/AlterarSenha";
 import Login from "./auth/Login";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import SubscriptionRoute from "./auth/SubscriptionRoute";
+import AdminRoute from "./auth/AdminRoute";
 import AssinaturaPendente from "./pages/AssinaturaPendente";
 import CriarSenha from "./pages/CriarSenha";
 
@@ -106,6 +108,16 @@ function App() {
               <SubscriptionRoute>
                 <Treinos />
               </SubscriptionRoute>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/usuarios"
+          element={
+            <ProtectedRoute>
+              <AdminRoute>
+                <AdminUsuarios />
+              </AdminRoute>
             </ProtectedRoute>
           }
         />
