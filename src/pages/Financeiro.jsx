@@ -18,6 +18,7 @@ import {
   excluirPagamentoSupabase,
 } from "../services/pagamentosService";
 import { buscarPlanosSupabase } from "../services/planosService";
+import { abrirWhatsApp } from "../services/whatsappService";
 
 const pagamentoInicial = {
   dataPagamento: dataHojeISO(),
@@ -243,20 +244,8 @@ function Financeiro() {
   }
 
   function enviarAvisoWhatsApp(registro) {
-    const telefone = normalizarTelefoneWhatsApp(registro.aluno.whatsapp);
     const mensagem = montarMensagemVencimento(registro);
-
-    if (!telefone) {
-      window.prompt(
-        "Este aluno nao tem WhatsApp cadastrado. Copie a mensagem abaixo:",
-        mensagem
-      );
-      return;
-    }
-
-    window.location.href = `whatsapp://send?phone=${telefone}&text=${encodeURIComponent(
-      mensagem
-    )}`;
+    abrirWhatsApp(registro.aluno.whatsapp, mensagem);
   }
 
   return (
@@ -600,16 +589,6 @@ function calcularDiasAte(data) {
   const alvo = new Date(`${data}T00:00:00`);
 
   return Math.ceil((alvo - hoje) / (1000 * 60 * 60 * 24));
-}
-
-function normalizarTelefoneWhatsApp(telefone) {
-  const digitos = String(telefone || "").replace(/\D/g, "");
-  const semZeroInicial = digitos.replace(/^0+/, "");
-
-  if (!semZeroInicial) return "";
-  if (semZeroInicial.startsWith("55")) return semZeroInicial;
-
-  return `55${semZeroInicial}`;
 }
 
 function Card({ titulo, valor, destaque }) {

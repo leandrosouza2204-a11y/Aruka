@@ -27,7 +27,11 @@ function EscolherPlano() {
       "Pode me enviar as informações para ativação da minha assinatura?",
     ].join("\n");
 
-    window.open(`whatsapp://send?text=${encodeURIComponent(mensagem)}`, "_self");
+    window.open(
+      `https://wa.me/?text=${encodeURIComponent(mensagem)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
   }
 
   return (

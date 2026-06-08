@@ -9,6 +9,7 @@ import {
   buscarTreinosSupabase,
   excluirTreinoSupabase,
 } from "../services/treinosService";
+import { abrirWhatsApp } from "../services/whatsappService";
 
 function Treinos() {
   const [treinos, setTreinos] = useState([]);
@@ -216,18 +217,7 @@ function Treinos() {
   function copiarTreinoWhatsApp() {
     if (!fichaTreino) return;
 
-    const telefone = normalizarTelefoneWhatsApp(treinoSelecionado.alunoWhatsapp);
-
-    if (!telefone) {
-      window.prompt(
-        "Este aluno nao tem WhatsApp cadastrado. Copie o treino abaixo:",
-        fichaTreino
-      );
-      return;
-    }
-
-    const texto = encodeURIComponent(fichaTreino);
-    window.location.href = `whatsapp://send?phone=${telefone}&text=${texto}`;
+    abrirWhatsApp(treinoSelecionado.alunoWhatsapp, fichaTreino);
   }
 
   return (
@@ -504,16 +494,6 @@ function Info({ label, valor }) {
 function formatarData(data) {
   if (!data) return "-";
   return new Date(`${data}T00:00:00`).toLocaleDateString("pt-BR");
-}
-
-function normalizarTelefoneWhatsApp(telefone) {
-  const digitos = String(telefone || "").replace(/\D/g, "");
-  const semZeroInicial = digitos.replace(/^0+/, "");
-
-  if (!semZeroInicial) return "";
-  if (semZeroInicial.startsWith("55")) return semZeroInicial;
-
-  return `55${semZeroInicial}`;
 }
 
 function criarModeloTreino(modelo) {

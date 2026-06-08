@@ -1,42 +1,26 @@
-const EMOJIS = {
-  wave: "\u{1F44B}",
-  muscle: "\u{1F4AA}",
-  check: "\u2705",
-  chart: "\u{1F4C8}",
-  fire: "\u{1F525}",
-};
-
-const NUMEROS = {
-  um: "1\uFE0F\u20E3",
-  dois: "2\uFE0F\u20E3",
-  tres: "3\uFE0F\u20E3",
-  quatro: "4\uFE0F\u20E3",
-  cinco: "5\uFE0F\u20E3",
-};
-
 export function normalizarTelefoneWhatsApp(telefone) {
   const numeros = String(telefone || "").replace(/\D/g, "");
+  const semZeroInicial = numeros.replace(/^0+/, "");
 
-  if (!numeros) return "";
-  if (numeros.startsWith("55")) return numeros;
+  if (!semZeroInicial) return "";
+  if (semZeroInicial.startsWith("55")) return semZeroInicial;
 
-  return `55${numeros}`;
+  return `55${semZeroInicial}`;
 }
 
 export function gerarLinkWhatsApp(telefone, mensagem) {
-  const telefoneNormalizado = normalizarTelefoneWhatsApp(telefone);
+  const telefoneLimpo = normalizarTelefoneWhatsApp(telefone);
 
-  if (!telefoneNormalizado) return "";
+  if (!telefoneLimpo) return "";
 
-  return `https://wa.me/${telefoneNormalizado}?text=${encodeURIComponent(
-    mensagem
-  )}`;
+  const textoCodificado = encodeURIComponent(mensagem);
+  return `https://wa.me/${telefoneLimpo}?text=${textoCodificado}`;
 }
 
 export function abrirWhatsApp(telefone, mensagem) {
-  const link = gerarLinkWhatsApp(telefone, mensagem);
+  const url = gerarLinkWhatsApp(telefone, mensagem);
 
-  if (!link) {
+  if (!url) {
     window.prompt(
       "WhatsApp nao cadastrado. Copie a mensagem abaixo:",
       mensagem
@@ -44,35 +28,26 @@ export function abrirWhatsApp(telefone, mensagem) {
     return;
   }
 
-  window.open(link, "_blank", "noopener,noreferrer");
+  window.open(url, "_blank", "noopener,noreferrer");
 }
 
-export function gerarMensagemCheckinSemanal(aluno, versao = "completa") {
+export function gerarMensagemCheckinSemanal(aluno) {
   const nome = primeiroNome(aluno?.nome);
 
-  if (versao === "curta") {
-    return [
-      `Ol\u00E1, ${nome}! Tudo bem? ${EMOJIS.wave}`,
-      "Passando para nosso check-in semanal: como foram os treinos, alimenta\u00E7\u00E3o e rotina essa semana?",
-      "Teve alguma dificuldade, dor ou algo que precise ajustar?",
-      `Me responde por aqui para eu acompanhar melhor sua evolu\u00E7\u00E3o. ${EMOJIS.muscle}`,
-    ].join("\n");
-  }
-
   return [
-    `Ol\u00E1, ${nome}! Tudo bem? ${EMOJIS.wave}`,
+    `Ola, ${nome}! Tudo bem?`,
     "",
     "Passando para fazer nosso check-in semanal da consultoria.",
     "",
     "Me conta rapidinho:",
     "",
-    `${NUMEROS.um} Como foi sua semana de treinos?`,
-    `${NUMEROS.dois} Conseguiu executar todos os treinos planejados? ${EMOJIS.check}`,
-    `${NUMEROS.tres} Sentiu alguma dor, desconforto ou dificuldade?`,
-    `${NUMEROS.quatro} Como foi sua alimenta\u00E7\u00E3o durante a semana? ${EMOJIS.chart}`,
-    `${NUMEROS.cinco} Teve alguma dificuldade com rotina, sono, disposi\u00E7\u00E3o ou motiva\u00E7\u00E3o?`,
+    "1. Como foi sua semana de treinos?",
+    "2. Conseguiu executar todos os treinos planejados?",
+    "3. Sentiu alguma dor, desconforto ou dificuldade?",
+    "4. Como foi sua alimentacao durante a semana?",
+    "5. Teve alguma dificuldade com rotina, sono, disposicao ou motivacao?",
     "",
-    `Sua resposta me ajuda a ajustar o acompanhamento e deixar o plano cada vez mais alinhado com sua realidade. ${EMOJIS.muscle}${EMOJIS.fire}`,
+    "Sua resposta me ajuda a ajustar o acompanhamento e deixar o plano cada vez mais alinhado com sua realidade.",
     "",
     "Pode me responder por aqui mesmo.",
   ].join("\n");

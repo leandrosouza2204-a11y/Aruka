@@ -43,7 +43,6 @@ function AceiteLegal() {
       <main style={card}>
         <div style={marca}>
           <BrandLogo variant="full" size="md" />
-          <strong style={slogan}>Organize. Guie. Transforme.</strong>
         </div>
 
         <div style={topo}>
@@ -134,13 +133,6 @@ const marca = {
   gap: "8px",
   justifyItems: "center",
   textAlign: "center",
-};
-
-const slogan = {
-  color: "#64748b",
-  fontSize: "12px",
-  letterSpacing: "0.12em",
-  textTransform: "uppercase",
 };
 
 const topo = {

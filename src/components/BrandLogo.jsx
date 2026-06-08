@@ -31,7 +31,7 @@ function BrandLogo({ variant = "full", showSlogan = false, size = "md" }) {
           maxWidth: "100%",
         }}
       />
-      {showSlogan && (
+      {variant === "icon" && showSlogan && (
         <span style={slogan}>Organize. Guie. Transforme.</span>
       )}
     </div>
