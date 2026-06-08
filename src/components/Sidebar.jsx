@@ -15,6 +15,7 @@ import {
   Sun,
 } from "lucide-react";
 import BrandLogo from "./BrandLogo";
+import FooterLegal from "./FooterLegal";
 import { supabase } from "../services/supabase";
 import { buscarPerfilUsuario } from "../services/perfisService";
 import { useTheme } from "../theme/useTheme";
@@ -225,6 +226,7 @@ function Sidebar() {
         <span className="app-sidebar-footer-role" style={styles.footerRole}>
           Organize. Guie. Transforme.
         </span>
+        <FooterLegal compact dark />
       </div>
     </div>
   );

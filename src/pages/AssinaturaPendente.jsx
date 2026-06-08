@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import BrandLogo from "../components/BrandLogo";
+import FooterLegal from "../components/FooterLegal";
 import { verificarAcessoUsuario } from "../services/perfisService";
 import { supabase } from "../services/supabase";
 import EscolherPlano from "./EscolherPlano";
@@ -74,6 +75,8 @@ function AssinaturaPendente() {
             Sair
           </button>
         </div>
+
+        <FooterLegal compact />
       </main>
     </div>
   );

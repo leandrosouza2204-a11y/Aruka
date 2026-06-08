@@ -1,5 +1,6 @@
 import BrandLogo from "../components/BrandLogo";
 import DefinirSenhaForm from "../components/DefinirSenhaForm";
+import FooterLegal from "../components/FooterLegal";
 
 function CriarSenha() {
   return (
@@ -18,6 +19,8 @@ function CriarSenha() {
         </div>
 
         <DefinirSenhaForm />
+
+        <FooterLegal compact />
       </main>
     </div>
   );

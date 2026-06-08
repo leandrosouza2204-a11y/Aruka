@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import BrandLogo from "../components/BrandLogo";
+import FooterLegal from "../components/FooterLegal";
 import { criarPerfilPadrao } from "../services/perfisService";
 import { supabase, supabaseConfigurado } from "../services/supabase";
 
@@ -148,6 +149,8 @@ function Login() {
         >
           {modoCadastro ? "Ja tenho conta" : "Criar nova conta"}
         </button>
+
+        <FooterLegal compact />
       </form>
     </div>
   );
