@@ -89,12 +89,10 @@ function Login() {
       <form onSubmit={modoCadastro ? cadastrar : entrar} style={card}>
         <div style={marca}>
           <img
-            src="/brand/coachflow-logo.png"
+            src="/brand/coachflow-logo-full.png"
             alt="CoachFlow"
             style={logo}
           />
-          <h1 style={titulo}>CoachFlow</h1>
-          <strong style={tagline}>Organize. Guie. Transforme.</strong>
           <p style={subtitulo}>
             {modoCadastro
               ? "Crie sua conta para solicitar a liberacao."
@@ -165,7 +163,7 @@ const pagina = {
 };
 
 const card = {
-  width: "min(430px, 100%)",
+  width: "min(460px, 100%)",
   background: "white",
   borderRadius: "8px",
   padding: "28px",
@@ -182,22 +180,10 @@ const marca = {
 };
 
 const logo = {
-  width: "min(240px, 82%)",
+  width: "min(340px, 100%)",
   height: "auto",
   display: "block",
-};
-
-const titulo = {
-  color: "#111827",
-  fontSize: "32px",
-  margin: 0,
-};
-
-const tagline = {
-  color: "#475569",
-  fontSize: "13px",
-  letterSpacing: "2px",
-  textTransform: "uppercase",
+  borderRadius: "8px",
 };
 
 const subtitulo = {

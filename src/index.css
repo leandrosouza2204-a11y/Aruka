@@ -166,15 +166,21 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
   .app-sidebar-header {
     min-height: 42px !important;
     margin-bottom: 8px !important;
-    padding-right: 104px !important;
   }
 
   .app-sidebar-toggle {
-    display: none !important;
+    display: inline-flex !important;
   }
 
   .app-sidebar-brand {
-    align-items: flex-start !important;
+    align-items: center !important;
+  }
+
+  .app-sidebar-account-menu {
+    left: 0 !important;
+    max-width: calc(100vw - 24px) !important;
+    top: 44px !important;
+    width: min(320px, calc(100vw - 24px)) !important;
   }
 
   .app-sidebar-nav {
@@ -203,30 +209,12 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
   }
 
   .app-sidebar-footer {
-    position: absolute !important;
-    top: 12px !important;
-    right: 12px !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: flex-end !important;
-    gap: 6px !important;
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-    border-top: none !important;
-  }
-
-  .app-sidebar-footer-name,
-  .app-sidebar-footer-role,
-  .app-sidebar-action-label {
     display: none !important;
   }
 
-  .app-sidebar-action {
-    margin-top: 0 !important;
-    min-height: 38px !important;
-    width: 38px !important;
-    justify-content: center !important;
-    padding: 9px !important;
+  .app-sidebar-footer-name,
+  .app-sidebar-footer-role {
+    display: none !important;
   }
 
   [style*="margin-left: 260px"] {

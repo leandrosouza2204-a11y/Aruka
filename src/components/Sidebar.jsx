@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -17,147 +17,213 @@ import { supabase } from "../services/supabase";
 import { useTheme } from "../theme/useTheme";
 
 function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [menuAberto, setMenuAberto] = useState(false);
+  const [usuario, setUsuario] = useState(null);
+  const menuRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
   const { isDark, toggleTheme } = useTheme();
 
   const isActive = (path) => location.pathname === path;
+  const nomeUsuario =
+    usuario?.user_metadata?.nome || usuario?.user_metadata?.name || "";
+  const emailUsuario = usuario?.email || "";
+
+  useEffect(() => {
+    let ativo = true;
+
+    async function buscarUsuario() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (ativo) setUsuario(user);
+    }
+
+    buscarUsuario();
+
+    return () => {
+      ativo = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setMenuAberto(false);
+    }, 0);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [location.pathname]);
+
+  useEffect(() => {
+    function fecharAoClicarFora(event) {
+      if (!menuRef.current?.contains(event.target)) {
+        setMenuAberto(false);
+      }
+    }
+
+    if (menuAberto) {
+      document.addEventListener("mousedown", fecharAoClicarFora);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", fecharAoClicarFora);
+    };
+  }, [menuAberto]);
 
   async function sair() {
     await supabase.auth.signOut();
+    setMenuAberto(false);
     navigate("/login", { replace: true });
   }
 
   function irParaAlterarSenha() {
+    setMenuAberto(false);
     navigate("/alterar-senha");
   }
 
-  return (
-    <div
-      className="app-sidebar"
-      style={{
-        ...styles.sidebar,
-        width: collapsed ? "80px" : "260px",
-      }}
-    >
-      <div className="app-sidebar-header" style={styles.header}>
-        <button
-          className="app-sidebar-toggle"
-          onClick={() => setCollapsed(!collapsed)}
-          style={styles.toggle}
-        >
-          <Menu size={18} />
-        </button>
+  function alternarTema() {
+    toggleTheme();
+    setMenuAberto(false);
+  }
 
-        {!collapsed && (
-          <div className="app-sidebar-brand" style={styles.brand}>
-            <img
-              src="/brand/coachflow-logo.png"
-              alt="CoachFlow"
-              style={styles.logo}
-            />
-            <div>
-              <h2 style={styles.title}>CoachFlow</h2>
-              <span style={styles.subtitle}>Organize. Guie. Transforme.</span>
+  return (
+    <div className="app-sidebar" style={styles.sidebar}>
+      <div className="app-sidebar-header" style={styles.header}>
+        <div ref={menuRef} style={styles.menuArea}>
+          <button
+            type="button"
+            className="app-sidebar-toggle"
+            onClick={() => setMenuAberto((aberto) => !aberto)}
+            style={styles.toggle}
+            aria-label="Abrir menu da conta"
+            aria-expanded={menuAberto}
+          >
+            <Menu size={18} />
+          </button>
+
+          {menuAberto && (
+            <div
+              className="app-sidebar-account-menu"
+              style={styles.accountMenu}
+              role="menu"
+            >
+              <div style={styles.userBox}>
+                <span style={styles.userLabel}>Usuario logado</span>
+                {nomeUsuario && <strong style={styles.userName}>{nomeUsuario}</strong>}
+                <span style={styles.userEmail}>{emailUsuario || "Email indisponivel"}</span>
+              </div>
+
+              <button
+                type="button"
+                className="app-sidebar-menu-item"
+                onClick={alternarTema}
+                style={styles.menuItem}
+              >
+                {isDark ? <Sun size={16} /> : <Moon size={16} />}
+                {isDark ? "Modo claro" : "Modo escuro"}
+              </button>
+
+              <button
+                type="button"
+                className="app-sidebar-menu-item"
+                onClick={irParaAlterarSenha}
+                style={styles.menuItem}
+              >
+                <KeyRound size={16} />
+                Alterar senha
+              </button>
+
+              <button
+                type="button"
+                className="app-sidebar-menu-item"
+                onClick={sair}
+                style={styles.menuItem}
+              >
+                <LogOut size={16} />
+                Sair
+              </button>
             </div>
+          )}
+        </div>
+
+        <div className="app-sidebar-brand" style={styles.brand}>
+          <img
+            src="/brand/coachflow-icon.png"
+            alt="CoachFlow"
+            style={styles.logo}
+          />
+          <div>
+            <h2 style={styles.title}>CoachFlow</h2>
+            <span style={styles.subtitle}>Organize. Guie. Transforme.</span>
           </div>
-        )}
+        </div>
       </div>
 
       <nav className="app-sidebar-nav" style={styles.nav}>
         <MenuLink
           to="/"
           active={isActive("/")}
-          collapsed={collapsed}
           icon={<LayoutDashboard size={18} />}
           label="Dashboard"
         />
         <MenuLink
           to="/alunos"
           active={isActive("/alunos")}
-          collapsed={collapsed}
           icon={<Users size={18} />}
           label="Alunos"
         />
         <MenuLink
           to="/financeiro"
           active={isActive("/financeiro")}
-          collapsed={collapsed}
           icon={<DollarSign size={18} />}
           label="Financeiro"
         />
         <MenuLink
           to="/planos"
           active={isActive("/planos")}
-          collapsed={collapsed}
           icon={<Tags size={18} />}
           label="Planos"
         />
         <MenuLink
           to="/avaliacoes"
           active={isActive("/avaliacoes")}
-          collapsed={collapsed}
           icon={<ClipboardCheck size={18} />}
           label="Avaliacoes"
         />
         <MenuLink
           to="/treinos"
           active={isActive("/treinos")}
-          collapsed={collapsed}
           icon={<Dumbbell size={18} />}
           label="Treinos"
         />
       </nav>
 
-      {!collapsed && (
-        <div className="app-sidebar-footer" style={styles.footer}>
-          <strong className="app-sidebar-footer-name" style={styles.footerName}>
-            CoachFlow
-          </strong>
-          <span className="app-sidebar-footer-role" style={styles.footerRole}>
-            Organize. Guie. Transforme.
-          </span>
-          <button
-            className="app-sidebar-action"
-            onClick={toggleTheme}
-            style={styles.themeButton}
-          >
-            {isDark ? <Sun size={16} /> : <Moon size={16} />}
-            <span className="app-sidebar-action-label">
-              {isDark ? "Modo claro" : "Modo escuro"}
-            </span>
-          </button>
-          <button
-            className="app-sidebar-action"
-            onClick={irParaAlterarSenha}
-            style={styles.themeButton}
-          >
-            <KeyRound size={16} />
-            <span className="app-sidebar-action-label">Alterar senha</span>
-          </button>
-          <button className="app-sidebar-action" onClick={sair} style={styles.logout}>
-            <LogOut size={16} />
-            <span className="app-sidebar-action-label">Sair</span>
-          </button>
-        </div>
-      )}
+      <div className="app-sidebar-footer" style={styles.footer}>
+        <strong className="app-sidebar-footer-name" style={styles.footerName}>
+          CoachFlow
+        </strong>
+        <span className="app-sidebar-footer-role" style={styles.footerRole}>
+          Organize. Guie. Transforme.
+        </span>
+      </div>
     </div>
   );
 }
 
-function MenuLink({ to, active, collapsed, icon, label }) {
+function MenuLink({ to, active, icon, label }) {
   return (
     <Link
       to={to}
       style={{
         ...styles.link,
         ...(active ? styles.active : {}),
-        justifyContent: collapsed ? "center" : "flex-start",
       }}
     >
       {icon}
-      {!collapsed && <span className="app-sidebar-label">{label}</span>}
+      <span className="app-sidebar-label">{label}</span>
     </Link>
   );
 }
@@ -168,6 +234,7 @@ const styles = {
     top: 0,
     left: 0,
     height: "100vh",
+    width: "260px",
     background: "linear-gradient(180deg, #0b1220, #111827)",
     color: "white",
     padding: "16px",
@@ -175,7 +242,7 @@ const styles = {
     flexDirection: "column",
     borderRight: "1px solid rgba(255,255,255,0.06)",
     transition: "all 0.25s ease",
-    overflow: "hidden",
+    overflow: "visible",
   },
 
   header: {
@@ -183,6 +250,12 @@ const styles = {
     alignItems: "center",
     gap: "10px",
     marginBottom: "30px",
+    position: "relative",
+  },
+
+  menuArea: {
+    position: "relative",
+    flex: "0 0 auto",
   },
 
   toggle: {
@@ -192,6 +265,69 @@ const styles = {
     padding: "8px",
     borderRadius: "8px",
     cursor: "pointer",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: "36px",
+    width: "36px",
+  },
+
+  accountMenu: {
+    position: "absolute",
+    top: "46px",
+    left: 0,
+    zIndex: 100,
+    width: "238px",
+    background: "#111827",
+    border: "1px solid rgba(255,255,255,0.12)",
+    borderRadius: "12px",
+    boxShadow: "0 18px 42px rgba(0,0,0,0.32)",
+    display: "grid",
+    gap: "8px",
+    padding: "10px",
+  },
+
+  userBox: {
+    borderBottom: "1px solid rgba(255,255,255,0.08)",
+    display: "grid",
+    gap: "4px",
+    padding: "4px 4px 10px",
+  },
+
+  userLabel: {
+    color: "rgba(255,255,255,0.5)",
+    fontSize: "11px",
+    fontWeight: "700",
+    textTransform: "uppercase",
+  },
+
+  userName: {
+    color: "white",
+    fontSize: "14px",
+  },
+
+  userEmail: {
+    color: "rgba(255,255,255,0.72)",
+    fontSize: "12px",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  },
+
+  menuItem: {
+    alignItems: "center",
+    background: "rgba(255,255,255,0.07)",
+    border: "none",
+    borderRadius: "8px",
+    color: "white",
+    cursor: "pointer",
+    display: "flex",
+    gap: "9px",
+    justifyContent: "flex-start",
+    minHeight: "40px",
+    padding: "10px 12px",
+    textAlign: "left",
+    width: "100%",
   },
 
   brand: {
@@ -207,7 +343,6 @@ const styles = {
     height: "42px",
     borderRadius: "10px",
     objectFit: "cover",
-    background: "white",
   },
 
   title: {
@@ -253,45 +388,21 @@ const styles = {
     borderTop: "1px solid rgba(255,255,255,0.08)",
     display: "flex",
     flexDirection: "column",
+    alignItems: "center",
     gap: "3px",
+    textAlign: "center",
   },
 
   footerName: {
     fontSize: "13px",
     fontWeight: "700",
+    width: "100%",
   },
 
   footerRole: {
     color: "rgba(255,255,255,0.55)",
     fontSize: "12px",
-  },
-
-  logout: {
-    marginTop: "12px",
-    background: "rgba(255,255,255,0.08)",
-    border: "none",
-    borderRadius: "8px",
-    color: "white",
-    cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    padding: "10px 12px",
-    fontSize: "13px",
-  },
-
-  themeButton: {
-    marginTop: "12px",
-    background: "rgba(255,255,255,0.08)",
-    border: "none",
-    borderRadius: "8px",
-    color: "white",
-    cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    padding: "10px 12px",
-    fontSize: "13px",
+    width: "100%",
   },
 };
 
