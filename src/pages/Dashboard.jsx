@@ -7,10 +7,16 @@ import {
 } from "../data/alunosUtils";
 import { buscarAlunosSupabase } from "../services/alunosService";
 import { buscarPagamentosSupabase } from "../services/pagamentosService";
+import {
+  abrirWhatsApp,
+  gerarMensagemCheckinSemanal,
+  normalizarTelefoneWhatsApp,
+} from "../services/whatsappService";
 
 function Dashboard() {
   const [alunos, setAlunos] = useState([]);
   const [pagamentos, setPagamentos] = useState([]);
+  const [modalCheckinAberto, setModalCheckinAberto] = useState(false);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
 
@@ -64,6 +70,19 @@ function Dashboard() {
       calcularStatus(aluno.vencimento, aluno.plano)
     )
   ).length;
+
+  const alunosAtivosCheckin = useMemo(
+    () =>
+      alunos
+        .map(normalizarAluno)
+        .filter(
+          (aluno) =>
+            !["Atrasado", "Parcela atrasada"].includes(
+              calcularStatus(aluno.vencimento, aluno.plano)
+            )
+        ),
+    [alunos]
+  );
 
   const receitaMensal = useMemo(() => gerarReceitaMensal(pagamentos), [pagamentos]);
   const maiorReceitaMensal = Math.max(
@@ -119,6 +138,21 @@ function Dashboard() {
             <p style={{ ...numero, color: "#dc2626" }}>
               {carregando ? "..." : alunosAtrasados}
             </p>
+          </div>
+
+          <div style={card}>
+            <h3>Check-in semanal</h3>
+            <p style={numero}>
+              {carregando ? "..." : alunosAtivosCheckin.length}
+            </p>
+            <button
+              type="button"
+              onClick={() => setModalCheckinAberto(true)}
+              style={botaoPrimario}
+              disabled={carregando || alunosAtivosCheckin.length === 0}
+            >
+              Enviar check-ins
+            </button>
           </div>
         </div>
 
@@ -207,6 +241,71 @@ function Dashboard() {
           </div>
         </section>
       </div>
+
+      {modalCheckinAberto && (
+        <CheckinModal
+          alunos={alunosAtivosCheckin}
+          onClose={() => setModalCheckinAberto(false)}
+        />
+      )}
+    </div>
+  );
+}
+
+function CheckinModal({ alunos, onClose }) {
+  function enviar(aluno) {
+    abrirWhatsApp(aluno.whatsapp, gerarMensagemCheckinSemanal(aluno));
+  }
+
+  return (
+    <div style={modalOverlay}>
+      <div style={modal}>
+        <div style={modalTopo}>
+          <div>
+            <h2 style={modalTitulo}>Check-in semanal</h2>
+            <p style={modalLegenda}>
+              Abra o WhatsApp aluno por aluno para manter o envio manual.
+            </p>
+          </div>
+
+          <button type="button" onClick={onClose} style={botaoSecundario}>
+            Fechar
+          </button>
+        </div>
+
+        <div style={listaCheckin}>
+          {alunos.map((aluno) => {
+            const possuiWhatsapp = Boolean(
+              normalizarTelefoneWhatsApp(aluno.whatsapp)
+            );
+
+            return (
+              <div key={aluno.id} style={itemCheckin}>
+                <div>
+                  <strong style={nomeCheckin}>{aluno.nome}</strong>
+                  <span style={whatsappCheckin}>
+                    {aluno.whatsapp || "WhatsApp não cadastrado"}
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => enviar(aluno)}
+                  style={possuiWhatsapp ? botaoWhatsApp : botaoDesabilitado}
+                  disabled={!possuiWhatsapp}
+                  title={
+                    possuiWhatsapp
+                      ? "Enviar check-in semanal"
+                      : "WhatsApp não cadastrado"
+                  }
+                >
+                  Enviar
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }
@@ -265,6 +364,18 @@ const card = {
   padding: "20px",
   borderRadius: "8px",
   boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
+};
+
+const botaoPrimario = {
+  background: "#111827",
+  color: "white",
+  border: "none",
+  borderRadius: "8px",
+  cursor: "pointer",
+  fontWeight: "800",
+  marginTop: "14px",
+  minHeight: "40px",
+  padding: "9px 12px",
 };
 
 const numero = {
@@ -412,6 +523,107 @@ const erroBox = {
   fontWeight: "700",
   marginTop: "16px",
   padding: "12px",
+};
+
+const modalOverlay = {
+  position: "fixed",
+  inset: 0,
+  zIndex: 40,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "24px",
+  background: "rgba(15, 23, 42, 0.58)",
+};
+
+const modal = {
+  width: "min(640px, 100%)",
+  maxHeight: "calc(100vh - 48px)",
+  overflowY: "auto",
+  background: "white",
+  borderRadius: "8px",
+  padding: "24px",
+  boxShadow: "0 24px 70px rgba(15, 23, 42, 0.3)",
+};
+
+const modalTopo = {
+  display: "flex",
+  justifyContent: "space-between",
+  gap: "16px",
+  alignItems: "flex-start",
+};
+
+const modalTitulo = {
+  color: "#111827",
+  fontSize: "22px",
+  margin: 0,
+};
+
+const modalLegenda = {
+  color: "#6b7280",
+  fontSize: "14px",
+  marginTop: "6px",
+};
+
+const listaCheckin = {
+  display: "grid",
+  gap: "10px",
+  marginTop: "18px",
+};
+
+const itemCheckin = {
+  alignItems: "center",
+  border: "1px solid #e5e7eb",
+  borderRadius: "8px",
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "12px",
+  justifyContent: "space-between",
+  padding: "12px",
+};
+
+const nomeCheckin = {
+  color: "#111827",
+  display: "block",
+};
+
+const whatsappCheckin = {
+  color: "#6b7280",
+  display: "block",
+  fontSize: "13px",
+  marginTop: "4px",
+};
+
+const botaoSecundario = {
+  background: "#e5e7eb",
+  color: "#111827",
+  border: "none",
+  borderRadius: "8px",
+  cursor: "pointer",
+  fontWeight: "700",
+  padding: "10px 14px",
+};
+
+const botaoWhatsApp = {
+  background: "#16a34a",
+  color: "white",
+  border: "none",
+  borderRadius: "8px",
+  cursor: "pointer",
+  fontWeight: "800",
+  minHeight: "38px",
+  padding: "8px 12px",
+};
+
+const botaoDesabilitado = {
+  background: "#e5e7eb",
+  color: "#9ca3af",
+  border: "none",
+  borderRadius: "8px",
+  cursor: "not-allowed",
+  fontWeight: "800",
+  minHeight: "38px",
+  padding: "8px 12px",
 };
 
 export default Dashboard;

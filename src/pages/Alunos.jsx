@@ -8,6 +8,11 @@ import {
 } from "../services/alunosService";
 import { buscarPlanosSupabase } from "../services/planosService";
 import {
+  abrirWhatsApp,
+  gerarMensagemCheckinSemanal,
+  normalizarTelefoneWhatsApp,
+} from "../services/whatsappService";
+import {
   calcularDatas,
   calcularStatus,
   corStatus,
@@ -267,6 +272,10 @@ function Alunos() {
     return planos.find((item) => item.id === plano)?.nome || plano || "-";
   }
 
+  function enviarCheckinSemanal(aluno) {
+    abrirWhatsApp(aluno.whatsapp, gerarMensagemCheckinSemanal(aluno));
+  }
+
   return (
     <div style={{ display: "flex" }}>
       <Sidebar />
@@ -473,6 +482,22 @@ function Alunos() {
                           style={botaoSecundario}
                         >
                           Editar
+                        </button>
+                        <button
+                          onClick={() => enviarCheckinSemanal(aluno)}
+                          style={
+                            normalizarTelefoneWhatsApp(aluno.whatsapp)
+                              ? botaoWhatsApp
+                              : botaoDesabilitado
+                          }
+                          disabled={!normalizarTelefoneWhatsApp(aluno.whatsapp)}
+                          title={
+                            normalizarTelefoneWhatsApp(aluno.whatsapp)
+                              ? "Enviar check-in semanal pelo WhatsApp"
+                              : "WhatsApp não cadastrado"
+                          }
+                        >
+                          Check-in semanal
                         </button>
                         <button
                           onClick={() => excluirAluno(aluno.id)}
@@ -739,6 +764,24 @@ const botaoExcluir = {
   padding: "8px 12px",
   borderRadius: "6px",
   cursor: "pointer",
+};
+
+const botaoWhatsApp = {
+  background: "#16a34a",
+  color: "white",
+  border: "none",
+  padding: "8px 12px",
+  borderRadius: "6px",
+  cursor: "pointer",
+};
+
+const botaoDesabilitado = {
+  background: "#e5e7eb",
+  color: "#9ca3af",
+  border: "none",
+  padding: "8px 12px",
+  borderRadius: "6px",
+  cursor: "not-allowed",
 };
 
 const erroBox = {

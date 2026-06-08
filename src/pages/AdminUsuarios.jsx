@@ -217,7 +217,7 @@ function AdminUsuarios() {
           </button>
         </div>
 
-        <div style={cards}>
+        <div className="admin-summary-grid" style={cards}>
           <CardResumo titulo="Total de usuários" valor={resumo.total} />
           <CardResumo titulo="Pendentes" valor={resumo.pendentes} destaque="#f59e0b" />
           <CardResumo titulo="Betas" valor={resumo.betas} destaque="#2563eb" />
@@ -241,7 +241,7 @@ function AdminUsuarios() {
               </p>
             </div>
 
-            <div style={filtros}>
+            <div className="admin-filters" style={filtros}>
               <input
                 value={busca}
                 onChange={(e) => setBusca(e.target.value)}
@@ -268,7 +268,7 @@ function AdminUsuarios() {
             </div>
           </div>
 
-          <div style={{ overflowX: "auto", marginTop: "18px" }}>
+          <div className="admin-table-scroll" style={tabelaScroll}>
             <table style={tabela}>
               <thead>
                 <tr style={linhaCabecalho}>
@@ -313,7 +313,7 @@ function AdminUsuarios() {
                       </td>
                       <td style={td}>{formatarData(usuario.dataVencimento)}</td>
                       <td style={td}>
-                        <div style={acoes}>
+                        <div className="admin-actions" style={acoes}>
                           <button
                             onClick={() => setUsuarioEditando(usuario)}
                             style={botaoAcao}
@@ -515,6 +515,12 @@ const tabela = {
   width: "100%",
   borderCollapse: "collapse",
   minWidth: "1080px",
+};
+
+const tabelaScroll = {
+  overflowX: "auto",
+  marginTop: "18px",
+  WebkitOverflowScrolling: "touch",
 };
 
 const linhaCabecalho = {

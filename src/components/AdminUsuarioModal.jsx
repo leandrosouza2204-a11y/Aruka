@@ -39,7 +39,7 @@ function AdminUsuarioModal({ usuario, onClose, onSave, salvando }) {
 
   return (
     <div style={overlay}>
-      <div style={modal}>
+      <div className="admin-user-modal" style={modal}>
         <div style={topo}>
           <div>
             <h2 style={titulo}>Editar Usuário</h2>
@@ -53,7 +53,7 @@ function AdminUsuarioModal({ usuario, onClose, onSave, salvando }) {
 
         <div style={secao}>
           <h3 style={secaoTitulo}>Perfil de acesso</h3>
-          <div style={grid}>
+          <div className="admin-modal-grid" style={grid}>
             <Campo label="Nome">
               <input
                 value={form.nome}
@@ -103,7 +103,7 @@ function AdminUsuarioModal({ usuario, onClose, onSave, salvando }) {
 
         <div style={secao}>
           <h3 style={secaoTitulo}>Assinatura</h3>
-          <div style={grid}>
+          <div className="admin-modal-grid" style={grid}>
             <Campo label="Plano">
               <input
                 value={form.assinaturaPlano}
@@ -147,7 +147,7 @@ function AdminUsuarioModal({ usuario, onClose, onSave, salvando }) {
           </div>
         </div>
 
-        <div style={rodape}>
+        <div className="admin-modal-footer" style={rodape}>
           <button type="button" onClick={onClose} style={botaoSecundario}>
             Cancelar
           </button>

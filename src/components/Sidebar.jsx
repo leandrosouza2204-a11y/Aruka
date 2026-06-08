@@ -14,6 +14,7 @@ import {
   Moon,
   Sun,
 } from "lucide-react";
+import BrandLogo from "./BrandLogo";
 import { supabase } from "../services/supabase";
 import { buscarPerfilUsuario } from "../services/perfisService";
 import { useTheme } from "../theme/useTheme";
@@ -162,11 +163,7 @@ function Sidebar() {
         </div>
 
         <div className="app-sidebar-brand" style={styles.brand}>
-          <img
-            src="/brand/coachflow-icon.png"
-            alt="CoachFlow"
-            style={styles.logo}
-          />
+          <BrandLogo variant="icon" size="sm" />
           <div>
             <h2 style={styles.title}>CoachFlow</h2>
             <span style={styles.subtitle}>Organize. Guie. Transforme.</span>
@@ -356,13 +353,6 @@ const styles = {
     alignItems: "center",
     gap: "10px",
     lineHeight: "1.15",
-  },
-
-  logo: {
-    width: "42px",
-    height: "42px",
-    borderRadius: "10px",
-    objectFit: "cover",
   },
 
   title: {

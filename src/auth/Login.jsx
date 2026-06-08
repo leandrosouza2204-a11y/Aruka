@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import BrandLogo from "../components/BrandLogo";
 import { criarPerfilPadrao } from "../services/perfisService";
 import { supabase, supabaseConfigurado } from "../services/supabase";
 
@@ -91,11 +92,7 @@ function Login() {
     <div style={pagina}>
       <form onSubmit={modoCadastro ? cadastrar : entrar} style={card}>
         <div style={marca}>
-          <img
-            src="/brand/coachflow-logo-full.png"
-            alt="CoachFlow"
-            style={logo}
-          />
+          <BrandLogo variant="full" size="lg" />
           <p style={subtitulo}>
             {modoCadastro
               ? "Crie sua conta para solicitar a liberacao."
@@ -180,13 +177,6 @@ const marca = {
   gap: "8px",
   justifyItems: "center",
   textAlign: "center",
-};
-
-const logo = {
-  width: "min(340px, 100%)",
-  height: "auto",
-  display: "block",
-  borderRadius: "8px",
 };
 
 const subtitulo = {

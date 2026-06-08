@@ -1,9 +1,12 @@
+import BrandLogo from "../components/BrandLogo";
 import DefinirSenhaForm from "../components/DefinirSenhaForm";
 
 function CriarSenha() {
   return (
     <div style={pagina}>
       <main style={card}>
+        <BrandLogo variant="full" size="md" />
+
         <div style={topo}>
           <span style={etiqueta}>Primeiro acesso</span>
           <h1 style={titulo}>Crie sua senha de acesso</h1>

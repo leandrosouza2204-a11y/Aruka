@@ -1,5 +1,6 @@
 import Sidebar from "../components/Sidebar";
 import AlterarSenhaForm from "../components/AlterarSenhaForm";
+import BrandLogo from "../components/BrandLogo";
 
 function AlterarSenha() {
   return (
@@ -8,6 +9,10 @@ function AlterarSenha() {
 
       <div style={conteudo}>
         <section style={card}>
+          <div style={marca}>
+            <BrandLogo variant="icon" size="md" />
+          </div>
+
           <div style={topo}>
             <span style={etiqueta}>Seguranca</span>
             <h1 style={titulo}>Alterar Senha</h1>
@@ -44,6 +49,11 @@ const card = {
 const topo = {
   display: "grid",
   gap: "8px",
+};
+
+const marca = {
+  display: "flex",
+  justifyContent: "flex-start",
 };
 
 const etiqueta = {
