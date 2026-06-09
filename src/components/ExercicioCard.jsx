@@ -1,11 +1,13 @@
+import { ExternalLink, Pencil, Trash2 } from "lucide-react";
+
 function ExercicioCard({ exercicio, onEdit, onDelete }) {
   return (
-    <div style={card}>
+    <div className="treino-exercise-card" style={card}>
       <div style={topo}>
         <div>
           <h4 style={titulo}>{exercicio.nome || "Exercicio sem nome"}</h4>
           <p style={meta}>
-            {exercicio.series || "-"} series · {exercicio.repeticoes || "-"} reps
+            {exercicio.series || "-"} series &bull; {exercicio.repeticoes || "-"} reps
           </p>
         </div>
 
@@ -13,11 +15,13 @@ function ExercicioCard({ exercicio, onEdit, onDelete }) {
           <div style={acoes}>
             {onEdit && (
               <button onClick={onEdit} style={botaoSecundario}>
+                <Pencil size={13} />
                 Editar
               </button>
             )}
             {onDelete && (
               <button onClick={onDelete} style={botaoExcluir}>
+                <Trash2 size={13} />
                 Excluir
               </button>
             )}
@@ -38,6 +42,7 @@ function ExercicioCard({ exercicio, onEdit, onDelete }) {
           rel="noreferrer"
           style={linkVideo}
         >
+          <ExternalLink size={13} />
           Ver video
         </a>
       )}
@@ -47,7 +52,7 @@ function ExercicioCard({ exercicio, onEdit, onDelete }) {
 
 function Info({ label, valor }) {
   return (
-    <div>
+    <div style={infoBox}>
       <span style={infoLabel}>{label}</span>
       <strong style={infoValor}>{valor || "-"}</strong>
     </div>
@@ -55,85 +60,98 @@ function Info({ label, valor }) {
 }
 
 const card = {
-  background: "#f9fafb",
-  border: "1px solid #eef2f7",
+  background: "linear-gradient(180deg, #ffffff, #f8fafc)",
   borderRadius: "8px",
+  boxShadow: "0 10px 24px rgba(15, 23, 42, 0.06)",
   padding: "14px",
+  transition: "transform 0.18s ease, box-shadow 0.18s ease",
 };
 
 const topo = {
-  display: "flex",
-  justifyContent: "space-between",
-  gap: "12px",
   alignItems: "flex-start",
+  display: "flex",
+  gap: "12px",
+  justifyContent: "space-between",
 };
 
 const titulo = {
-  margin: 0,
   color: "#111827",
   fontSize: "15px",
+  lineHeight: 1.25,
+  margin: 0,
 };
 
 const meta = {
-  color: "#6b7280",
+  color: "#2563eb",
   fontSize: "13px",
+  fontWeight: "800",
   marginTop: "4px",
 };
 
 const acoes = {
   display: "flex",
-  gap: "8px",
   flexWrap: "wrap",
+  gap: "8px",
 };
 
 const grid = {
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
-  gap: "10px",
-  marginTop: "12px",
+  gap: "8px",
+  gridTemplateColumns: "repeat(auto-fit, minmax(96px, 1fr))",
+  marginTop: "14px",
+};
+
+const infoBox = {
+  background: "rgba(239, 246, 255, 0.62)",
+  borderRadius: "8px",
+  minHeight: "58px",
+  padding: "9px",
 };
 
 const infoLabel = {
-  display: "block",
   color: "#6b7280",
+  display: "block",
   fontSize: "11px",
-  fontWeight: "700",
-  marginBottom: "3px",
+  fontWeight: "800",
+  marginBottom: "4px",
   textTransform: "uppercase",
 };
 
 const infoValor = {
   color: "#111827",
+  display: "block",
   fontSize: "13px",
+  lineHeight: 1.35,
 };
 
 const linkVideo = {
-  display: "inline-block",
-  marginTop: "12px",
+  alignItems: "center",
   color: "#2563eb",
+  display: "inline-flex",
   fontSize: "13px",
-  fontWeight: "700",
+  fontWeight: "800",
+  gap: "6px",
+  marginTop: "12px",
   textDecoration: "none",
 };
 
 const botaoSecundario = {
+  alignItems: "center",
   background: "#e5e7eb",
-  color: "#111827",
   border: "none",
-  padding: "7px 10px",
   borderRadius: "6px",
+  color: "#111827",
   cursor: "pointer",
+  display: "inline-flex",
   fontSize: "13px",
+  gap: "5px",
+  padding: "7px 10px",
 };
 
 const botaoExcluir = {
+  ...botaoSecundario,
   background: "#dc2626",
   color: "white",
-  border: "none",
-  padding: "7px 10px",
-  borderRadius: "6px",
-  cursor: "pointer",
-  fontSize: "13px",
 };
 
 export default ExercicioCard;

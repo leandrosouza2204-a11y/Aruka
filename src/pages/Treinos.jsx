@@ -1,4 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
+import {
+  CalendarClock,
+  Dumbbell,
+  Eye,
+  Layers3,
+  MessageCircle,
+  Target,
+  TimerReset,
+  X,
+} from "lucide-react";
 import Sidebar from "../components/Sidebar";
 import TableActions, { TableActionItem } from "../components/TableActions";
 import TreinoModal from "../components/TreinoModal";
@@ -240,18 +250,24 @@ function Treinos() {
             </button>
           </div>
 
-          <div style={modelosLinha}>
-            {["ABC", "ABCD", "ABCDE", "Full Body", "Upper/Lower"].map(
-              (modelo) => (
-                <button
-                  key={modelo}
-                  onClick={() => gerarTreinoBase(modelo)}
-                  style={botaoSecundario}
-                >
-                  Gerar {modelo}
-                </button>
-              )
-            )}
+          <div style={modelosRapidos}>
+            <div>
+              <span style={modelosTitulo}>Modelos rapidos</span>
+              <p style={modelosLegenda}>Comece por uma estrutura pronta e ajuste depois.</p>
+            </div>
+            <div style={modelosLinha}>
+              {["ABC", "ABCD", "ABCDE", "Full Body", "Upper/Lower"].map(
+                (modelo) => (
+                  <button
+                    key={modelo}
+                    onClick={() => gerarTreinoBase(modelo)}
+                    style={botaoPill}
+                  >
+                    Gerar {modelo}
+                  </button>
+                )
+              )}
+            </div>
           </div>
 
           <div style={filtros}>
@@ -400,68 +416,146 @@ function Treinos() {
 
         {treinoSelecionado && (
           <section style={detalhesCard}>
-            <div style={detalhesTopo}>
+            <div style={detalhesHero}>
               <div>
-                <h2 style={detalhesTitulo}>{treinoSelecionado.rotina}</h2>
-                <p style={resumoLista}>{treinoSelecionado.aluno}</p>
+                <span style={detalhesEyebrow}>Treino selecionado</span>
+                <h2 style={detalhesTitulo}>
+                  {treinoSelecionado.rotina || "Ficha de Treino"}
+                </h2>
+                <p style={detalhesSubtitulo}>
+                  {treinoSelecionado.aluno || "Aluno nao informado"}
+                </p>
+                <div style={heroBadges}>
+                  <span className={classeStatusTreino(treinoSelecionado.status || "Ativo")}>
+                    {treinoSelecionado.status || "Ativo"}
+                  </span>
+                  <span className="status-badge status-badge-info">
+                    {treinoSelecionado.nivel || "Nivel nao informado"}
+                  </span>
+                  <span className="status-badge status-badge-muted">
+                    {treinoSelecionado.objetivo || "Objetivo nao informado"}
+                  </span>
+                </div>
               </div>
 
               <div style={detalhesAcoes}>
-                <button onClick={copiarTreinoWhatsApp} style={botaoPrimario}>
+                <button onClick={copiarTreinoWhatsApp} style={botaoWhatsApp}>
+                  <MessageCircle size={16} />
                   Enviar pelo WhatsApp
                 </button>
                 <button
                   onClick={() => setTreinoSelecionadoId("")}
-                  style={botaoSecundario}
+                  style={botaoFechar}
                 >
+                  <X size={15} />
                   Fechar
                 </button>
               </div>
             </div>
 
             <div style={infoGrid}>
-              <Info label="Objetivo" valor={treinoSelecionado.objetivo} />
-              <Info label="Nivel" valor={treinoSelecionado.nivel} />
-              <Info label="Status" valor={treinoSelecionado.status || "Ativo"} />
-              <Info label="Inicio" valor={formatarData(treinoSelecionado.dataInicio)} />
-              <Info label="Revisao" valor={formatarData(treinoSelecionado.dataRevisao)} />
+              <Info
+                label="Objetivo"
+                valor={treinoSelecionado.objetivo}
+                icon={<Target size={17} />}
+              />
+              <Info
+                label="Nivel"
+                valor={treinoSelecionado.nivel}
+                icon={<Layers3 size={17} />}
+              />
+              <Info
+                label="Status"
+                valor={treinoSelecionado.status || "Ativo"}
+                icon={<Eye size={17} />}
+              />
+              <Info
+                label="Inicio"
+                valor={formatarData(treinoSelecionado.dataInicio)}
+                icon={<CalendarClock size={17} />}
+              />
+              <Info
+                label="Revisao"
+                valor={formatarData(treinoSelecionado.dataRevisao)}
+                icon={<TimerReset size={17} />}
+              />
               <Info
                 label="Dias por semana"
                 valor={treinoSelecionado.diasPorSemana}
+                icon={<Dumbbell size={17} />}
               />
               <Info
                 label="Observacoes"
                 valor={treinoSelecionado.observacoes || "-"}
+                destaque
               />
             </div>
 
-            <div style={fichaTopo}>
-              <h3 style={diaTitulo}>Ficha de treino</h3>
-            </div>
-
-            <pre style={fichaTexto}>{fichaTreino}</pre>
-
-            <div style={diasDetalhes}>
-              {(treinoSelecionado.dias || []).map((dia) => (
-                <div key={dia.id} style={diaDetalhe}>
-                  <div style={diaTopo}>
-                    <h3 style={diaTitulo}>{dia.nome}</h3>
-                    <span style={diaDescricao}>{dia.descricao}</span>
-                  </div>
-
-                  <div style={exerciciosGrid}>
-                    {(dia.exercicios || []).map((exercicio) => (
-                      <ExercicioCard key={exercicio.id} exercicio={exercicio} />
-                    ))}
-
-                    {(!dia.exercicios || dia.exercicios.length === 0) && (
-                      <p style={resumoLista}>
-                        Nenhum exercicio cadastrado neste dia.
-                      </p>
-                    )}
-                  </div>
+            <section style={diasBloco}>
+              <div style={diasHeader}>
+                <div>
+                  <h3 style={diasTitulo}>Dias do treino</h3>
+                  <p style={diasLegenda}>
+                    Organize a execucao por sessoes e acompanhe os exercicios de cada dia.
+                  </p>
                 </div>
-              ))}
+                <span style={diasContador}>
+                  {(treinoSelecionado.dias || []).length} dias
+                </span>
+              </div>
+
+              <div style={diasDetalhes}>
+                {(treinoSelecionado.dias || []).map((dia, index) => (
+                  <details
+                    key={dia.id}
+                    className="treino-day"
+                    open={index === 0}
+                    style={diaDetalhe}
+                  >
+                    <summary style={diaResumo}>
+                      <div>
+                        <h4 style={diaTitulo}>{dia.nome || `Dia ${index + 1}`}</h4>
+                        <p style={diaDescricao}>
+                          {dia.descricao || "Sem descricao"} - {dia.exercicios?.length || 0} exercicios
+                        </p>
+                      </div>
+                      <span style={diaBadge}>{dia.exercicios?.length || 0}</span>
+                    </summary>
+
+                    <div style={exerciciosGrid}>
+                      {(dia.exercicios || []).map((exercicio) => (
+                        <ExercicioCard key={exercicio.id} exercicio={exercicio} />
+                      ))}
+
+                      {(!dia.exercicios || dia.exercicios.length === 0) && (
+                        <div style={estadoDiaVazio}>
+                          Nenhum exercicio cadastrado para este dia.
+                        </div>
+                      )}
+                    </div>
+                  </details>
+                ))}
+
+                {(!treinoSelecionado.dias || treinoSelecionado.dias.length === 0) && (
+                  <div style={estadoTreinoVazio}>
+                    Nenhum dia cadastrado para este treino.
+                  </div>
+                )}
+              </div>
+            </section>
+          </section>
+        )}
+
+        {!treinoSelecionado && !carregando && (
+          <section style={semTreinoCard}>
+            <div style={semTreinoIcone}>
+              <Dumbbell size={22} />
+            </div>
+            <div>
+              <h2 style={semTreinoTitulo}>Nenhum treino selecionado.</h2>
+              <p style={semTreinoTexto}>
+                Selecione um treino na tabela para visualizar os detalhes organizados por dia.
+              </p>
             </div>
           </section>
         )}
@@ -483,20 +577,24 @@ function Treinos() {
   );
 }
 
-function Info({ label, valor }) {
+function Info({ label, valor, icon, destaque = false }) {
   return (
-    <div style={infoItem}>
-      <span style={infoLabel}>{label}</span>
-      <strong style={infoValor}>{valor || "-"}</strong>
+    <div
+      className="treino-info-card"
+      style={{ ...infoItem, ...(destaque ? infoItemDestaque : {}) }}
+    >
+      {icon && <span style={infoIcon}>{icon}</span>}
+      <div>
+        <span style={infoLabel}>{label}</span>
+        <strong style={infoValor}>{valor || "-"}</strong>
+      </div>
     </div>
   );
 }
 
 function classeStatusTreino(status) {
   if (status === "Ativo") return "status-badge status-badge-success";
-  if (status === "Em revisÃ£o" || status === "Em revisão") {
-    return "status-badge status-badge-warning";
-  }
+  if (String(status).toLowerCase().includes("revis")) return "status-badge status-badge-warning";
   if (status === "Finalizado") return "status-badge status-badge-muted";
 
   return "status-badge status-badge-info";
@@ -612,12 +710,16 @@ const conteudo = {
   padding: "30px",
   marginLeft: "260px",
   width: "calc(100% - 260px)",
+  background:
+    "linear-gradient(180deg, rgba(239, 246, 255, 0.72), rgba(245, 247, 251, 1) 260px)",
+  minHeight: "100vh",
 };
 
 const listaCard = {
   background: "white",
-  border: "1px solid #e5e7eb",
+  border: "1px solid rgba(226, 232, 240, 0.85)",
   borderRadius: "8px",
+  boxShadow: "0 18px 42px rgba(15, 23, 42, 0.07)",
   padding: "22px",
 };
 
@@ -630,11 +732,35 @@ const listaTopo = {
   marginBottom: "18px",
 };
 
+const modelosRapidos = {
+  alignItems: "center",
+  background: "linear-gradient(135deg, #f8fafc, #eef6ff)",
+  borderRadius: "8px",
+  display: "flex",
+  gap: "16px",
+  justifyContent: "space-between",
+  marginBottom: "16px",
+  padding: "14px",
+};
+
+const modelosTitulo = {
+  color: "#111827",
+  display: "block",
+  fontSize: "13px",
+  fontWeight: "850",
+};
+
+const modelosLegenda = {
+  color: "#6b7280",
+  fontSize: "12px",
+  marginTop: "3px",
+};
+
 const modelosLinha = {
   display: "flex",
   gap: "8px",
   flexWrap: "wrap",
-  marginBottom: "14px",
+  justifyContent: "flex-end",
 };
 
 const filtros = {
@@ -732,38 +858,104 @@ const botaoSecundario = {
   cursor: "pointer",
 };
 
+const botaoPill = {
+  background: "rgba(255, 255, 255, 0.82)",
+  border: "1px solid rgba(191, 219, 254, 0.9)",
+  borderRadius: "999px",
+  color: "#1d4ed8",
+  cursor: "pointer",
+  fontSize: "12px",
+  fontWeight: "850",
+  minHeight: "34px",
+  padding: "8px 12px",
+};
+
 const detalhesCard = {
   marginTop: "24px",
   background: "white",
-  border: "1px solid #e5e7eb",
+  border: "1px solid rgba(226, 232, 240, 0.78)",
   borderRadius: "8px",
-  padding: "20px",
+  boxShadow: "0 22px 54px rgba(15, 23, 42, 0.1)",
+  overflow: "hidden",
+  padding: "0",
 };
 
-const detalhesTopo = {
+const detalhesHero = {
+  background:
+    "linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(30, 64, 175, 0.92))",
+  color: "white",
   display: "flex",
   justifyContent: "space-between",
   alignItems: "flex-start",
-  gap: "16px",
-  marginBottom: "18px",
+  gap: "18px",
+  padding: "24px",
+  position: "relative",
+  flexWrap: "wrap",
 };
 
 const detalhesTitulo = {
   margin: 0,
-  fontSize: "22px",
+  fontSize: "28px",
+  lineHeight: 1.15,
+};
+
+const detalhesEyebrow = {
+  color: "#bfdbfe",
+  display: "block",
+  fontSize: "12px",
+  fontWeight: "850",
+  letterSpacing: "0.04em",
+  marginBottom: "8px",
+  textTransform: "uppercase",
+};
+
+const detalhesSubtitulo = {
+  color: "rgba(255, 255, 255, 0.76)",
+  fontSize: "15px",
+  marginTop: "8px",
+};
+
+const heroBadges = {
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "8px",
+  marginTop: "14px",
 };
 
 const infoGrid = {
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+  gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))",
   gap: "12px",
+  padding: "18px",
 };
 
 const infoItem = {
-  border: "1px solid #eef2f7",
+  alignItems: "center",
+  background: "linear-gradient(180deg, #f8fafc, #ffffff)",
   borderRadius: "8px",
+  boxShadow: "0 10px 24px rgba(15, 23, 42, 0.045)",
+  display: "flex",
+  gap: "10px",
+  minHeight: "74px",
   padding: "12px",
-  background: "#f9fafb",
+  transition: "transform 0.18s ease, box-shadow 0.18s ease",
+};
+
+const infoItemDestaque = {
+  gridColumn: "span 2",
+  alignItems: "flex-start",
+};
+
+const infoIcon = {
+  alignItems: "center",
+  background: "#eff6ff",
+  borderRadius: "8px",
+  color: "#2563eb",
+  display: "inline-flex",
+  flex: "0 0 auto",
+  height: "34px",
+  justifyContent: "center",
+  width: "34px",
 };
 
 const infoLabel = {
@@ -780,59 +972,176 @@ const infoValor = {
   fontSize: "14px",
 };
 
-const fichaTopo = {
-  marginTop: "22px",
+const botaoWhatsApp = {
+  alignItems: "center",
+  background: "#16a34a",
+  border: "none",
+  borderRadius: "8px",
+  color: "white",
+  cursor: "pointer",
+  display: "inline-flex",
+  gap: "8px",
+  fontWeight: "850",
+  minHeight: "38px",
+  padding: "9px 13px",
 };
 
-const fichaTexto = {
-  background: "#f9fafb",
-  border: "1px solid #e5e7eb",
+const botaoFechar = {
+  alignItems: "center",
+  background: "rgba(255,255,255,0.12)",
+  border: "1px solid rgba(255,255,255,0.16)",
   borderRadius: "8px",
+  color: "white",
+  cursor: "pointer",
+  display: "inline-flex",
+  gap: "7px",
+  fontWeight: "800",
+  minHeight: "38px",
+  padding: "9px 12px",
+};
+
+const diasBloco = {
+  background: "#f8fafc",
+  borderTop: "1px solid rgba(226, 232, 240, 0.7)",
+  padding: "18px",
+};
+
+const diasHeader = {
+  alignItems: "flex-start",
+  display: "flex",
+  gap: "14px",
+  justifyContent: "space-between",
+  marginBottom: "14px",
+};
+
+const diasTitulo = {
   color: "#111827",
-  fontFamily: "Consolas, monospace",
+  fontSize: "20px",
+  margin: 0,
+};
+
+const diasLegenda = {
+  color: "#6b7280",
   fontSize: "13px",
-  lineHeight: 1.6,
-  marginTop: "10px",
-  overflowX: "auto",
-  padding: "14px",
-  whiteSpace: "pre-wrap",
+  marginTop: "5px",
+};
+
+const diasContador = {
+  background: "#dbeafe",
+  borderRadius: "999px",
+  color: "#1d4ed8",
+  fontSize: "12px",
+  fontWeight: "850",
+  padding: "7px 10px",
 };
 
 const diasDetalhes = {
   display: "grid",
-  gap: "16px",
-  marginTop: "20px",
+  gap: "12px",
 };
 
 const diaDetalhe = {
-  border: "1px solid #e5e7eb",
+  background: "rgba(255, 255, 255, 0.9)",
   borderRadius: "8px",
+  boxShadow: "0 10px 26px rgba(15, 23, 42, 0.055)",
+  overflow: "hidden",
+};
+
+const diaResumo = {
+  alignItems: "center",
+  cursor: "pointer",
+  display: "flex",
+  gap: "12px",
+  justifyContent: "space-between",
+  listStyle: "none",
   padding: "16px",
 };
 
-const diaTopo = {
-  display: "flex",
-  justifyContent: "space-between",
-  gap: "12px",
-  alignItems: "baseline",
-  flexWrap: "wrap",
-};
-
 const diaTitulo = {
+  color: "#111827",
   margin: 0,
-  fontSize: "17px",
+  fontSize: "16px",
 };
 
 const diaDescricao = {
   color: "#6b7280",
-  fontSize: "14px",
+  fontSize: "13px",
+  marginTop: "4px",
+};
+
+const diaBadge = {
+  alignItems: "center",
+  background: "#eef2ff",
+  borderRadius: "999px",
+  color: "#1d4ed8",
+  display: "inline-flex",
+  fontSize: "12px",
+  fontWeight: "850",
+  height: "30px",
+  justifyContent: "center",
+  minWidth: "30px",
+  padding: "0 9px",
 };
 
 const exerciciosGrid = {
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+  gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
   gap: "12px",
-  marginTop: "14px",
+  padding: "0 16px 16px",
+};
+
+const estadoDiaVazio = {
+  background: "#f8fafc",
+  borderRadius: "8px",
+  color: "#6b7280",
+  fontSize: "13px",
+  fontWeight: "700",
+  padding: "14px",
+};
+
+const estadoTreinoVazio = {
+  background: "white",
+  borderRadius: "8px",
+  color: "#6b7280",
+  fontWeight: "750",
+  padding: "18px",
+  textAlign: "center",
+};
+
+const semTreinoCard = {
+  alignItems: "center",
+  background: "rgba(255, 255, 255, 0.86)",
+  border: "1px solid rgba(226, 232, 240, 0.72)",
+  borderRadius: "8px",
+  boxShadow: "0 16px 36px rgba(15, 23, 42, 0.06)",
+  display: "flex",
+  gap: "14px",
+  marginTop: "24px",
+  padding: "20px",
+};
+
+const semTreinoIcone = {
+  alignItems: "center",
+  background: "#eff6ff",
+  borderRadius: "8px",
+  color: "#2563eb",
+  display: "inline-flex",
+  flex: "0 0 auto",
+  height: "46px",
+  justifyContent: "center",
+  width: "46px",
+};
+
+const semTreinoTitulo = {
+  color: "#111827",
+  fontSize: "18px",
+  margin: 0,
+};
+
+const semTreinoTexto = {
+  color: "#6b7280",
+  fontSize: "14px",
+  marginTop: "5px",
 };
 
 export default Treinos;
