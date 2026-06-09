@@ -2,11 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import TableActions, { TableActionItem } from "../components/TableActions";
 import {
-  calcularDatas,
   calcularStatus,
   dataHojeISO,
   formatarData,
   formatarMoeda,
+  normalizarAluno,
 } from "../data/alunosUtils";
 import {
   atualizarAlunoSupabase,
@@ -163,6 +163,7 @@ function Financeiro() {
         ...modalPagamento.pagamentos,
         novoPagamento,
       ]);
+      setPagamentos((pagamentosAtuais) => [novoPagamento, ...pagamentosAtuais]);
       await carregarDados();
       fecharModalPagamento();
     } catch (error) {
@@ -199,8 +200,6 @@ function Financeiro() {
     const valorContrato = Number(aluno.valor || 0);
     const planoAluno = planos.find((plano) => plano.id === aluno.plano);
     const totalParcelas = calcularTotalParcelas(aluno, planoAluno);
-    const duracaoMeses =
-      planoAluno?.duracaoMeses || (aluno.plano === "trimestralParcelado" ? 3 : 1);
     const totalRecebido = pagamentosAluno.reduce(
       (total, pagamento) => total + Number(pagamento.valor || 0),
       0
@@ -209,27 +208,28 @@ function Financeiro() {
       String(b.dataPagamento).localeCompare(String(a.dataPagamento))
     )[0];
     const pagamentoRecebido = valorContrato > 0 && totalRecebido >= valorContrato - 0.01;
-    const maiorParcelaPaga = pagamentosAluno.reduce(
-      (maior, pagamento) => Math.max(maior, Number(pagamento.parcela || 1)),
-      0
-    );
-    const proximaParcela = Math.min(maiorParcelaPaga + 1, totalParcelas);
-    const datasProximaParcela =
-      totalParcelas > 1 && !pagamentoRecebido
-        ? calcularDatas(aluno.inicio, duracaoMeses, aluno.plano, proximaParcela)
-        : {};
-    const vencimentoAtualizado =
-      datasProximaParcela.vencimento || aluno.vencimento;
-
-    await atualizarAlunoSupabase(aluno.id, {
+    const datasRenovacao = calcularRenovacaoPagamento({
+      aluno,
+      plano: planoAluno,
+      pagamentosAluno,
+      totalParcelas,
+      pagamentoRecebido,
+      dataPagamento: ultimoPagamento?.dataPagamento,
+    });
+    const vencimentoAtualizado = datasRenovacao.vencimento || aluno.vencimento;
+    const alunoAtualizado = await atualizarAlunoSupabase(aluno.id, {
       ...aluno,
-      ...datasProximaParcela,
+      ...datasRenovacao,
       pagamentoRecebido,
       dataPagamento: ultimoPagamento?.dataPagamento || "",
-      status: ultimoPagamento
-        ? calcularStatus(vencimentoAtualizado, aluno.plano)
-        : aluno.status,
+      status: ultimoPagamento ? calcularStatus(vencimentoAtualizado, aluno.plano) : aluno.status,
     });
+
+    setAlunos((alunosAtuais) =>
+      alunosAtuais.map((item) =>
+        item.id === alunoAtualizado.id ? normalizarAluno(alunoAtualizado) : item
+      )
+    );
   }
 
   function fecharModalPagamento() {
@@ -453,6 +453,58 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
   };
 }
 
+function calcularRenovacaoPagamento({
+  aluno,
+  plano,
+  totalParcelas,
+  dataPagamento,
+}) {
+  const mesesRenovacao = totalParcelas > 1 ? 1 : calcularMesesRenovacao(aluno, plano);
+  const dataBase = aluno.vencimento || dataPagamento || aluno.inicio || dataHojeISO();
+  const vencimento = adicionarMesesISO(dataBase, mesesRenovacao);
+
+  return montarDatasAviso(vencimento);
+}
+
+function calcularMesesRenovacao(aluno, plano) {
+  if (aluno.plano === "trimestralParcelado") return 1;
+  if (plano?.duracaoMeses) return Math.max(Number(plano.duracaoMeses || 1), 1);
+
+  const textoPlano = `${aluno.plano || ""} ${plano?.nome || ""}`.toLowerCase();
+
+  if (textoPlano.includes("semestral")) return 6;
+  if (textoPlano.includes("trimestral")) return 3;
+
+  return 1;
+}
+
+function adicionarMesesISO(dataISO, meses) {
+  const data = new Date(`${dataISO}T00:00:00`);
+  const diaOriginal = data.getDate();
+
+  data.setMonth(data.getMonth() + Number(meses || 1));
+
+  if (data.getDate() !== diaOriginal) {
+    data.setDate(0);
+  }
+
+  return data.toISOString().split("T")[0];
+}
+
+function montarDatasAviso(vencimento) {
+  const aviso7 = new Date(`${vencimento}T00:00:00`);
+  aviso7.setDate(aviso7.getDate() - 7);
+
+  const aviso1 = new Date(`${vencimento}T00:00:00`);
+  aviso1.setDate(aviso1.getDate() - 1);
+
+  return {
+    vencimento,
+    aviso7: aviso7.toISOString().split("T")[0],
+    aviso1: aviso1.toISOString().split("T")[0],
+  };
+}
+
 function calcularTotalParcelas(aluno, plano) {
   if (aluno.plano === "trimestralParcelado") return 3;
   if (!plano) return 1;
@@ -467,12 +519,16 @@ function calcularParcelaAtual(inicio, totalParcelas) {
 
   const dataInicio = new Date(`${inicio}T00:00:00`);
   const hoje = new Date();
-  const diferencaMeses =
+  let mesesCompletos =
     (hoje.getFullYear() - dataInicio.getFullYear()) * 12 +
     hoje.getMonth() -
     dataInicio.getMonth();
 
-  return Math.min(Math.max(diferencaMeses + 1, 1), totalParcelas);
+  if (hoje.getDate() < dataInicio.getDate()) {
+    mesesCompletos -= 1;
+  }
+
+  return Math.min(Math.max(mesesCompletos, 1), totalParcelas);
 }
 
 function montarMensagemVencimentoWhatsApp(registro) {
