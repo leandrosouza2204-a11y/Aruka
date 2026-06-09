@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import Sidebar from "../components/Sidebar";
+import TableActions, { TableActionItem } from "../components/TableActions";
 import {
   calcularDatas,
   calcularStatus,
-  corStatus,
   dataHojeISO,
   formatarData,
   formatarMoeda,
@@ -310,8 +310,8 @@ function Financeiro() {
 
         {erro && <div style={erroBox}>{erro}</div>}
 
-        <div style={{ overflowX: "auto", marginTop: "20px" }}>
-          <table style={tabela}>
+        <div className="app-table-scroll">
+          <table className="app-table" style={tabela}>
             <thead>
               <tr style={linhaCabecalho}>
                 <th style={header}>Aluno</th>
@@ -339,7 +339,7 @@ function Financeiro() {
               {!carregando &&
                 registrosFiltrados.map((registro) => (
                   <tr key={registro.aluno.id}>
-                    <td style={celula}>{registro.aluno.nome}</td>
+                    <td className="cell-wide" style={celula}>{registro.aluno.nome}</td>
                     <td style={celula}>{registro.nomePlano}</td>
                     <td style={celula}>{formatarMoeda(registro.valorContrato)}</td>
                     <td style={celula}>
@@ -349,12 +349,7 @@ function Financeiro() {
                     <td style={celula}>{formatarMoeda(registro.totalRecebido)}</td>
                     <td style={celula}>{formatarData(registro.aluno.vencimento)}</td>
                     <td style={celula}>
-                      <span
-                        style={{
-                          color: corStatus(registro.aluno.status),
-                          fontWeight: "bold",
-                        }}
-                      >
+                      <span className={classeStatusAluno(registro.aluno.status)}>
                         {registro.aluno.status}
                       </span>
                     </td>
@@ -366,11 +361,11 @@ function Financeiro() {
                         : "Pendente"}
                     </td>
                     <td style={celula}>
-                      <div style={acoes}>
+                      <div className="table-actions-inline">
                         {!registro.recebidoNoCiclo ? (
                           <button
                             onClick={() => abrirRegistroPagamento(registro)}
-                            style={botaoReceber}
+                            className="table-button table-button-success"
                             disabled={atualizandoId === registro.aluno.id}
                           >
                             Receber
@@ -378,7 +373,7 @@ function Financeiro() {
                         ) : (
                           <button
                             onClick={() => desfazerPagamento(registro)}
-                            style={botaoNeutro}
+                            className="table-button table-button-secondary"
                             disabled={atualizandoId === registro.aluno.id}
                           >
                             {atualizandoId === registro.aluno.id
@@ -386,12 +381,14 @@ function Financeiro() {
                               : "Desfazer"}
                           </button>
                         )}
-                        <button
-                          onClick={() => enviarAvisoWhatsApp(registro)}
-                          style={botaoWhatsApp}
-                        >
-                          WhatsApp
-                        </button>
+                        <TableActions>
+                          <TableActionItem
+                            onClick={() => enviarAvisoWhatsApp(registro)}
+                            variant="success"
+                          >
+                            WhatsApp
+                          </TableActionItem>
+                        </TableActions>
                       </div>
                     </td>
                   </tr>
@@ -600,6 +597,18 @@ function Card({ titulo, valor, destaque }) {
   );
 }
 
+function classeStatusAluno(status) {
+  if (["Ativo"].includes(status)) return "status-badge status-badge-success";
+  if (["Vencendo", "Vencendo parcela"].includes(status)) {
+    return "status-badge status-badge-warning";
+  }
+  if (["Atrasado", "Parcela atrasada"].includes(status)) {
+    return "status-badge status-badge-danger";
+  }
+
+  return "status-badge status-badge-muted";
+}
+
 function PagamentoModal({ registro, form, atualizando, onChange, onClose, onSave }) {
   function atualizar(campo, valor) {
     onChange({ ...form, [campo]: valor });
@@ -797,23 +806,8 @@ const estadoVazio = {
   textAlign: "center",
 };
 
-const acoes = {
-  display: "flex",
-  gap: "8px",
-  flexWrap: "wrap",
-};
-
 const botaoReceber = {
   background: "#16a34a",
-  color: "white",
-  border: "none",
-  padding: "8px 12px",
-  borderRadius: "6px",
-  cursor: "pointer",
-};
-
-const botaoWhatsApp = {
-  background: "#22c55e",
   color: "white",
   border: "none",
   padding: "8px 12px",

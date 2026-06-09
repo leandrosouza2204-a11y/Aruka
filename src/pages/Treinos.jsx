@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import Sidebar from "../components/Sidebar";
+import TableActions, { TableActionItem } from "../components/TableActions";
 import TreinoModal from "../components/TreinoModal";
 import ExercicioCard from "../components/ExercicioCard";
 import { buscarAlunosSupabase } from "../services/alunosService";
@@ -321,8 +322,8 @@ function Treinos() {
 
         {erro && <div style={erroBox}>{erro}</div>}
 
-        <div style={{ overflowX: "auto", marginTop: "20px" }}>
-          <table style={tabela}>
+        <div className="app-table-scroll">
+          <table className="app-table" style={tabela}>
             <thead>
               <tr style={linhaCabecalho}>
                 <th style={tabelaHeader}>Aluno</th>
@@ -348,39 +349,39 @@ function Treinos() {
               {!carregando &&
                 treinosFiltrados.map((treino) => (
                   <tr key={treino.id}>
-                    <td style={tabelaCelula}>{treino.aluno || "-"}</td>
-                    <td style={tabelaCelula}>{treino.rotina || "-"}</td>
+                    <td className="cell-wide" style={tabelaCelula}>{treino.aluno || "-"}</td>
+                    <td className="cell-wide" style={tabelaCelula}>{treino.rotina || "-"}</td>
                     <td style={tabelaCelula}>{treino.objetivo || "-"}</td>
                     <td style={tabelaCelula}>{treino.nivel || "-"}</td>
-                    <td style={tabelaCelula}>{treino.status || "Ativo"}</td>
+                    <td style={tabelaCelula}>
+                      <span className={classeStatusTreino(treino.status || "Ativo")}>
+                        {treino.status || "Ativo"}
+                      </span>
+                    </td>
                     <td style={tabelaCelula}>{formatarData(treino.dataRevisao)}</td>
                     <td style={tabelaCelula}>{treino.dias?.length || 0}</td>
                     <td style={tabelaCelula}>
-                      <div style={acoes}>
+                      <div className="table-actions-inline">
                         <button
                           onClick={() => setTreinoSelecionadoId(treino.id)}
-                          style={botaoSecundario}
+                          className="table-button table-button-primary"
                         >
                           Visualizar
                         </button>
-                        <button
-                          onClick={() => abrirEdicao(treino)}
-                          style={botaoSecundario}
-                        >
-                          Editar
-                        </button>
-                        <button
-                          onClick={() => duplicarTreino(treino)}
-                          style={botaoSecundario}
-                        >
-                          Duplicar
-                        </button>
-                        <button
-                          onClick={() => removerTreino(treino.id)}
-                          style={botaoExcluir}
-                        >
-                          Excluir
-                        </button>
+                        <TableActions>
+                          <TableActionItem onClick={() => abrirEdicao(treino)}>
+                            Editar
+                          </TableActionItem>
+                          <TableActionItem onClick={() => duplicarTreino(treino)}>
+                            Duplicar
+                          </TableActionItem>
+                          <TableActionItem
+                            onClick={() => removerTreino(treino.id)}
+                            variant="danger"
+                          >
+                            Excluir
+                          </TableActionItem>
+                        </TableActions>
                       </div>
                     </td>
                   </tr>
@@ -405,7 +406,7 @@ function Treinos() {
                 <p style={resumoLista}>{treinoSelecionado.aluno}</p>
               </div>
 
-              <div style={acoes}>
+              <div style={detalhesAcoes}>
                 <button onClick={copiarTreinoWhatsApp} style={botaoPrimario}>
                   Enviar pelo WhatsApp
                 </button>
@@ -489,6 +490,16 @@ function Info({ label, valor }) {
       <strong style={infoValor}>{valor || "-"}</strong>
     </div>
   );
+}
+
+function classeStatusTreino(status) {
+  if (status === "Ativo") return "status-badge status-badge-success";
+  if (status === "Em revisÃ£o" || status === "Em revisão") {
+    return "status-badge status-badge-warning";
+  }
+  if (status === "Finalizado") return "status-badge status-badge-muted";
+
+  return "status-badge status-badge-info";
 }
 
 function formatarData(data) {
@@ -696,7 +707,7 @@ const estadoVazio = {
   textAlign: "center",
 };
 
-const acoes = {
+const detalhesAcoes = {
   display: "flex",
   gap: "8px",
   flexWrap: "wrap",
@@ -715,15 +726,6 @@ const botaoPrimario = {
 const botaoSecundario = {
   background: "#e5e7eb",
   color: "#111827",
-  border: "none",
-  padding: "8px 12px",
-  borderRadius: "6px",
-  cursor: "pointer",
-};
-
-const botaoExcluir = {
-  background: "#dc2626",
-  color: "white",
   border: "none",
   padding: "8px 12px",
   borderRadius: "6px",

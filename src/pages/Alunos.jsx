@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import Sidebar from "../components/Sidebar";
+import TableActions, { TableActionItem } from "../components/TableActions";
 import {
   adicionarAlunoSupabase,
   atualizarAlunoSupabase,
@@ -15,7 +16,6 @@ import {
 import {
   calcularDatas,
   calcularStatus,
-  corStatus,
   formatarData,
   formatarMoeda,
   normalizarAluno,
@@ -436,8 +436,8 @@ function Alunos() {
           </div>
         )}
 
-        <div style={{ overflowX: "auto", marginTop: "20px" }}>
-          <table style={tabela}>
+        <div className="app-table-scroll">
+          <table className="app-table" style={tabela}>
             <thead>
               <tr style={linhaCabecalho}>
                 <th style={tabelaHeader}>Nome</th>
@@ -454,42 +454,27 @@ function Alunos() {
               {!carregando &&
                 alunosFiltrados.map((aluno) => (
                   <tr key={aluno.id}>
-                    <td style={tabelaCelula}>{aluno.nome}</td>
+                    <td className="cell-wide" style={tabelaCelula}>{aluno.nome}</td>
                     <td style={tabelaCelula}>{aluno.whatsapp || "-"}</td>
                     <td style={tabelaCelula}>{nomePlano(aluno.plano)}</td>
                     <td style={tabelaCelula}>{formatarMoeda(aluno.valor)}</td>
                     <td style={tabelaCelula}>{formatarData(aluno.vencimento)}</td>
                     <td style={tabelaCelula}>
-                      <span
-                        style={{
-                          color: corStatus(aluno.status),
-                          fontWeight: "bold",
-                        }}
-                      >
+                      <span className={classeStatusAluno(aluno.status)}>
                         {aluno.status}
                       </span>
                     </td>
                     <td style={tabelaCelula}>
-                      <div style={acoes}>
+                      <div className="table-actions-inline">
                         <button
                           onClick={() => setAlunoSelecionadoId(aluno.id)}
-                          style={botaoSecundario}
+                          className="table-button table-button-secondary"
                         >
                           Detalhes
                         </button>
                         <button
-                          onClick={() => abrirEdicao(aluno)}
-                          style={botaoSecundario}
-                        >
-                          Editar
-                        </button>
-                        <button
                           onClick={() => enviarCheckinSemanal(aluno)}
-                          style={
-                            normalizarTelefoneWhatsApp(aluno.whatsapp)
-                              ? botaoWhatsApp
-                              : botaoDesabilitado
-                          }
+                          className="table-button table-button-success"
                           disabled={!normalizarTelefoneWhatsApp(aluno.whatsapp)}
                           title={
                             normalizarTelefoneWhatsApp(aluno.whatsapp)
@@ -497,14 +482,19 @@ function Alunos() {
                               : "WhatsApp não cadastrado"
                           }
                         >
-                          Check-in semanal
+                          Check-in
                         </button>
-                        <button
-                          onClick={() => excluirAluno(aluno.id)}
-                          style={botaoExcluir}
-                        >
-                          Excluir
-                        </button>
+                        <TableActions>
+                          <TableActionItem onClick={() => abrirEdicao(aluno)}>
+                            Editar
+                          </TableActionItem>
+                          <TableActionItem
+                            onClick={() => excluirAluno(aluno.id)}
+                            variant="danger"
+                          >
+                            Excluir
+                          </TableActionItem>
+                        </TableActions>
                       </div>
                     </td>
                   </tr>
@@ -624,6 +614,18 @@ function Info({ label, valor }) {
   );
 }
 
+function classeStatusAluno(status) {
+  if (["Ativo"].includes(status)) return "status-badge status-badge-success";
+  if (["Vencendo", "Vencendo parcela"].includes(status)) {
+    return "status-badge status-badge-warning";
+  }
+  if (["Atrasado", "Parcela atrasada"].includes(status)) {
+    return "status-badge status-badge-danger";
+  }
+
+  return "status-badge status-badge-muted";
+}
+
 const formGrid = {
   display: "grid",
   gap: "14px",
@@ -732,12 +734,6 @@ const estadoVazio = {
   textAlign: "center",
 };
 
-const acoes = {
-  display: "flex",
-  gap: "8px",
-  flexWrap: "wrap",
-};
-
 const botaoPrimario = {
   background: "#111827",
   color: "white",
@@ -755,33 +751,6 @@ const botaoSecundario = {
   padding: "8px 12px",
   borderRadius: "6px",
   cursor: "pointer",
-};
-
-const botaoExcluir = {
-  background: "#dc2626",
-  color: "white",
-  border: "none",
-  padding: "8px 12px",
-  borderRadius: "6px",
-  cursor: "pointer",
-};
-
-const botaoWhatsApp = {
-  background: "#16a34a",
-  color: "white",
-  border: "none",
-  padding: "8px 12px",
-  borderRadius: "6px",
-  cursor: "pointer",
-};
-
-const botaoDesabilitado = {
-  background: "#e5e7eb",
-  color: "#9ca3af",
-  border: "none",
-  padding: "8px 12px",
-  borderRadius: "6px",
-  cursor: "not-allowed",
 };
 
 const erroBox = {

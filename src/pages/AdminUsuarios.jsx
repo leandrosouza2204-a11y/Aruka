@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import AdminUsuarioModal from "../components/AdminUsuarioModal";
+import TableActions, { TableActionItem } from "../components/TableActions";
 import { formatarData } from "../data/alunosUtils";
 import {
   atualizarPerfilAdmin,
@@ -268,8 +269,8 @@ function AdminUsuarios() {
             </div>
           </div>
 
-          <div className="admin-table-scroll" style={tabelaScroll}>
-            <table style={tabela}>
+          <div className="admin-table-scroll app-table-scroll" style={tabelaScroll}>
+            <table className="app-table" style={tabela}>
               <thead>
                 <tr style={linhaCabecalho}>
                   <th style={th}>Usuário</th>
@@ -299,13 +300,25 @@ function AdminUsuarios() {
                 ) : (
                   usuariosFiltrados.map((usuario) => (
                     <tr key={usuario.userId}>
-                      <td style={td}>
+                      <td className="cell-wide" style={td}>
                         <strong>{usuario.nome || "Sem nome"}</strong>
                         <span style={email}>{usuario.email}</span>
                       </td>
-                      <td style={td}>{usuario.role}</td>
-                      <td style={td}>{usuario.tipoAcesso}</td>
-                      <td style={td}>{usuario.status}</td>
+                      <td style={td}>
+                        <span className={classeBadgeAcesso(usuario.role)}>
+                          {usuario.role}
+                        </span>
+                      </td>
+                      <td style={td}>
+                        <span className={classeBadgeAcesso(usuario.tipoAcesso)}>
+                          {usuario.tipoAcesso}
+                        </span>
+                      </td>
+                      <td style={td}>
+                        <span className={classeBadgeStatus(usuario.status)}>
+                          {usuario.status}
+                        </span>
+                      </td>
                       <td style={td}>{formatarData(usuario.createdAt?.split("T")[0])}</td>
                       <td style={td}>
                         <strong>{usuario.assinaturaStatus || "-"}</strong>
@@ -313,70 +326,71 @@ function AdminUsuarios() {
                       </td>
                       <td style={td}>{formatarData(usuario.dataVencimento)}</td>
                       <td style={td}>
-                        <div className="admin-actions" style={acoes}>
+                        <div className="table-actions-inline">
                           <button
                             onClick={() => setUsuarioEditando(usuario)}
-                            style={botaoAcao}
+                            className="table-button table-button-primary"
                           >
                             Editar
                           </button>
-                          <button
-                            onClick={() => liberarComoBeta(usuario)}
-                            style={botaoAcao}
-                            disabled={salvando}
-                          >
-                            Beta
-                          </button>
-                          <button
-                            onClick={() => liberarComoAssinante(usuario)}
-                            style={botaoAcao}
-                            disabled={salvando}
-                          >
-                            Assinante
-                          </button>
-                          {usuario.role === "admin" ||
-                          usuario.tipoAcesso === "admin" ? (
-                            <button
-                              onClick={() => removerAdmin(usuario)}
-                              style={botaoAcao}
+                          <TableActions>
+                            <TableActionItem
+                              onClick={() => liberarComoBeta(usuario)}
                               disabled={salvando}
+                              variant="primary"
                             >
-                              Remover admin
-                            </button>
-                          ) : (
-                            <button
-                              onClick={() => tornarAdmin(usuario)}
-                              style={botaoAcao}
+                              Beta
+                            </TableActionItem>
+                            <TableActionItem
+                              onClick={() => liberarComoAssinante(usuario)}
                               disabled={salvando}
+                              variant="primary"
                             >
-                              Admin
-                            </button>
-                          )}
-                          {usuario.status === "inativo" ||
-                          usuario.tipoAcesso === "bloqueado" ? (
-                            <button
-                              onClick={() => reativarUsuario(usuario)}
-                              style={botaoSucesso}
+                              Assinante
+                            </TableActionItem>
+                            {usuario.role === "admin" ||
+                            usuario.tipoAcesso === "admin" ? (
+                              <TableActionItem
+                                onClick={() => removerAdmin(usuario)}
+                                disabled={salvando}
+                              >
+                                Remover admin
+                              </TableActionItem>
+                            ) : (
+                              <TableActionItem
+                                onClick={() => tornarAdmin(usuario)}
+                                disabled={salvando}
+                                variant="primary"
+                              >
+                                Admin
+                              </TableActionItem>
+                            )}
+                            {usuario.status === "inativo" ||
+                            usuario.tipoAcesso === "bloqueado" ? (
+                              <TableActionItem
+                                onClick={() => reativarUsuario(usuario)}
+                                disabled={salvando}
+                                variant="success"
+                              >
+                                Reativar
+                              </TableActionItem>
+                            ) : (
+                              <TableActionItem
+                                onClick={() => bloquearUsuario(usuario)}
+                                disabled={salvando}
+                                variant="danger"
+                              >
+                                Bloquear
+                              </TableActionItem>
+                            )}
+                            <TableActionItem
+                              onClick={() => cancelarAssinatura(usuario)}
                               disabled={salvando}
+                              variant="danger"
                             >
-                              Reativar
-                            </button>
-                          ) : (
-                            <button
-                              onClick={() => bloquearUsuario(usuario)}
-                              style={botaoPerigo}
-                              disabled={salvando}
-                            >
-                              Bloquear
-                            </button>
-                          )}
-                          <button
-                            onClick={() => cancelarAssinatura(usuario)}
-                            style={botaoPerigo}
-                            disabled={salvando}
-                          >
-                            Cancelar assinatura
-                          </button>
+                              Cancelar assinatura
+                            </TableActionItem>
+                          </TableActions>
                         </div>
                       </td>
                     </tr>
@@ -407,6 +421,24 @@ function CardResumo({ titulo, valor, destaque = "#111827" }) {
       <strong style={{ ...cardValor, color: destaque }}>{valor}</strong>
     </div>
   );
+}
+
+function classeBadgeAcesso(valor) {
+  if (valor === "admin") return "status-badge status-badge-info";
+  if (valor === "assinante" || valor === "beta") {
+    return "status-badge status-badge-success";
+  }
+  if (valor === "pendente") return "status-badge status-badge-warning";
+  if (valor === "bloqueado") return "status-badge status-badge-danger";
+
+  return "status-badge status-badge-muted";
+}
+
+function classeBadgeStatus(status) {
+  if (status === "ativo") return "status-badge status-badge-success";
+  if (status === "inativo") return "status-badge status-badge-danger";
+
+  return "status-badge status-badge-muted";
 }
 
 const conteudo = {
@@ -514,11 +546,10 @@ const campoFiltro = {
 const tabela = {
   width: "100%",
   borderCollapse: "collapse",
-  minWidth: "1080px",
 };
 
 const tabelaScroll = {
-  overflowX: "auto",
+  overflowX: "visible",
   marginTop: "18px",
   WebkitOverflowScrolling: "touch",
 };
@@ -553,13 +584,6 @@ const estadoVazio = {
   textAlign: "center",
 };
 
-const acoes = {
-  display: "flex",
-  flexWrap: "wrap",
-  gap: "8px",
-  minWidth: "310px",
-};
-
 const botaoSecundario = {
   background: "#e5e7eb",
   color: "#111827",
@@ -568,27 +592,6 @@ const botaoSecundario = {
   cursor: "pointer",
   fontWeight: "700",
   padding: "10px 14px",
-};
-
-const botaoAcao = {
-  background: "#2563eb",
-  color: "white",
-  border: "none",
-  borderRadius: "8px",
-  cursor: "pointer",
-  fontSize: "12px",
-  fontWeight: "800",
-  padding: "8px 10px",
-};
-
-const botaoPerigo = {
-  ...botaoAcao,
-  background: "#dc2626",
-};
-
-const botaoSucesso = {
-  ...botaoAcao,
-  background: "#16a34a",
 };
 
 export default AdminUsuarios;

@@ -1,4 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
+import {
+  AlertTriangle,
+  CalendarClock,
+  CheckCircle2,
+  ClipboardCheck,
+  DollarSign,
+  TrendingUp,
+  Users,
+  WalletCards,
+} from "lucide-react";
 import Sidebar from "../components/Sidebar";
 import {
   calcularStatus,
@@ -89,62 +99,84 @@ function Dashboard() {
     ...receitaMensal.map((mes) => mes.total),
     0
   );
+  const alertasConsultoria = useMemo(
+    () =>
+      montarAlertasConsultoria({
+        alunosAtrasados,
+        alunosVencendo,
+        alunosAtivosCheckin,
+        receitaPendente,
+      }),
+    [alunosAtrasados, alunosAtivosCheckin, alunosVencendo, receitaPendente]
+  );
 
   return (
     <div style={{ display: "flex" }}>
       <Sidebar />
 
       <div style={conteudo}>
-        <h1>Dashboard da Consultoria</h1>
+        <header style={dashboardHeader}>
+          <div>
+            <h1 style={dashboardTitulo}>Dashboard da Consultoria</h1>
+            <p style={dashboardSubtitulo}>
+              Visao geral da sua operacao, alunos e receitas.
+            </p>
+          </div>
+        </header>
 
         {erro && <div style={erroBox}>{erro}</div>}
 
         <div style={cardsGrid}>
-          <div style={card}>
-            <h3>Total de Alunos</h3>
-            <p style={numero}>{carregando ? "..." : totalAlunos}</p>
-          </div>
+          <MetricCard
+            titulo="Total de Alunos"
+            valor={carregando ? "..." : totalAlunos}
+            legenda="Alunos cadastrados"
+            icon={<Users size={18} />}
+          />
+          <MetricCard
+            titulo="Receita Prevista"
+            valor={carregando ? "..." : formatarMoeda(receitaPrevista)}
+            legenda="Total previsto no periodo"
+            icon={<TrendingUp size={18} />}
+          />
+          <MetricCard
+            titulo="Receita Recebida"
+            valor={carregando ? "..." : formatarMoeda(receitaRecebida)}
+            legenda="Pagamentos ja confirmados"
+            icon={<WalletCards size={18} />}
+            destaque="#16a34a"
+          />
+          <MetricCard
+            titulo="Receita Pendente"
+            valor={carregando ? "..." : formatarMoeda(receitaPendente)}
+            legenda="Valores ainda pendentes"
+            icon={<DollarSign size={18} />}
+            destaque="#dc2626"
+          />
+          <MetricCard
+            titulo="Alunos Vencendo"
+            valor={carregando ? "..." : alunosVencendo}
+            legenda="Proximos do vencimento"
+            icon={<CalendarClock size={18} />}
+            destaque="#f59e0b"
+          />
+          <MetricCard
+            titulo="Alunos Atrasados"
+            valor={carregando ? "..." : alunosAtrasados}
+            legenda="Necessitam atencao"
+            icon={<AlertTriangle size={18} />}
+            destaque="#dc2626"
+          />
 
-          <div style={card}>
-            <h3>Receita Prevista</h3>
-            <p style={numero}>
-              {carregando ? "..." : formatarMoeda(receitaPrevista)}
-            </p>
-          </div>
-
-          <div style={card}>
-            <h3>Receita Recebida</h3>
-            <p style={numero}>
-              {carregando ? "..." : formatarMoeda(receitaRecebida)}
-            </p>
-          </div>
-
-          <div style={card}>
-            <h3>Receita Pendente</h3>
-            <p style={numero}>
-              {carregando ? "..." : formatarMoeda(receitaPendente)}
-            </p>
-          </div>
-
-          <div style={card}>
-            <h3>Alunos Vencendo</h3>
-            <p style={{ ...numero, color: "#f59e0b" }}>
-              {carregando ? "..." : alunosVencendo}
-            </p>
-          </div>
-
-          <div style={card}>
-            <h3>Alunos Atrasados</h3>
-            <p style={{ ...numero, color: "#dc2626" }}>
-              {carregando ? "..." : alunosAtrasados}
-            </p>
-          </div>
-
-          <div style={card}>
-            <h3>Check-in semanal</h3>
-            <p style={numero}>
-              {carregando ? "..." : alunosAtivosCheckin.length}
-            </p>
+          <div className="dashboard-metric-card" style={{ ...card, ...checkinCard }}>
+            <div style={metricHeader}>
+              <span style={metricIcon}>
+                <ClipboardCheck size={18} />
+              </span>
+              <span style={metricLabel}>Check-in semanal</span>
+            </div>
+            <p style={numero}>{carregando ? "..." : alunosAtivosCheckin.length}</p>
+            <span style={metricHint}>Alunos aptos para contato semanal</span>
             <button
               type="button"
               onClick={() => setModalCheckinAberto(true)}
@@ -158,8 +190,11 @@ function Dashboard() {
 
         <section style={graficoCard}>
           <div style={secaoTopo}>
-            <h2>Receita Mensal</h2>
-            <span style={secaoLegenda}>Historico de pagamentos</span>
+            <div>
+              <h2 style={secaoTitulo}>Receita Mensal</h2>
+              <p style={secaoLegenda}>Evolucao dos pagamentos confirmados nos ultimos 6 meses.</p>
+            </div>
+            <span style={historicoTag}>Historico de pagamentos</span>
           </div>
 
           {receitaMensal.some((mes) => mes.total > 0) ? (
@@ -215,30 +250,36 @@ function Dashboard() {
 
         <section style={resumoCard}>
           <div style={secaoTopo}>
-            <h2>Resumo da Consultoria</h2>
-            <span style={secaoLegenda}>Visao geral da carteira</span>
-          </div>
-
-          <div style={resumoGrid}>
-            <div style={resumoItem}>
-              <span style={resumoLabel}>Alunos cadastrados</span>
-              <strong style={resumoValor}>{carregando ? "..." : totalAlunos}</strong>
-            </div>
-
-            <div style={resumoItem}>
-              <span style={resumoLabel}>Cobrancas pendentes</span>
-              <strong style={{ ...resumoValor, color: "#dc2626" }}>
-                {carregando ? "..." : alunosAtrasados}
-              </strong>
-            </div>
-
-            <div style={resumoItem}>
-              <span style={resumoLabel}>Proximos do vencimento</span>
-              <strong style={{ ...resumoValor, color: "#f59e0b" }}>
-                {carregando ? "..." : alunosVencendo}
-              </strong>
+            <div>
+              <h2 style={secaoTitulo}>Alertas da consultoria</h2>
+              <p style={secaoLegenda}>
+                Pontos que merecem uma revisao rapida hoje.
+              </p>
             </div>
           </div>
+
+          {carregando ? (
+            <p style={estadoVazio}>Carregando alertas...</p>
+          ) : alertasConsultoria.length > 0 ? (
+            <div style={alertasGrid}>
+              {alertasConsultoria.map((alerta) => (
+                <div key={alerta.titulo} style={alertaItem}>
+                  <span className={`status-badge status-badge-${alerta.tom}`}>
+                    {alerta.rotulo}
+                  </span>
+                  <div>
+                    <strong style={alertaTitulo}>{alerta.titulo}</strong>
+                    <p style={alertaTexto}>{alerta.texto}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div style={estadoVazioPremium}>
+              <CheckCircle2 size={20} />
+              <span>Tudo certo por enquanto. Nenhuma acao critica encontrada.</span>
+            </div>
+          )}
         </section>
       </div>
 
@@ -250,6 +291,66 @@ function Dashboard() {
       )}
     </div>
   );
+}
+
+function MetricCard({ titulo, valor, legenda, icon, destaque = "#111827" }) {
+  return (
+    <div className="dashboard-metric-card" style={card}>
+      <div style={metricHeader}>
+        <span style={metricIcon}>{icon}</span>
+        <span style={metricLabel}>{titulo}</span>
+      </div>
+      <p style={{ ...numero, color: destaque }}>{valor}</p>
+      <span style={metricHint}>{legenda}</span>
+    </div>
+  );
+}
+
+function montarAlertasConsultoria({
+  alunosAtrasados,
+  alunosVencendo,
+  alunosAtivosCheckin,
+  receitaPendente,
+}) {
+  const alertas = [];
+
+  if (alunosAtrasados > 0) {
+    alertas.push({
+      titulo: "Regularizar alunos atrasados",
+      texto: "Priorize contato e renegociacao para evitar perda de acompanhamento.",
+      rotulo: "Atencao",
+      tom: "danger",
+    });
+  }
+
+  if (alunosVencendo > 0) {
+    alertas.push({
+      titulo: "Enviar lembretes de vencimento",
+      texto: "Ha contratos proximos da renovacao que podem ser tratados com antecedencia.",
+      rotulo: "Agenda",
+      tom: "warning",
+    });
+  }
+
+  if (receitaPendente > 0) {
+    alertas.push({
+      titulo: "Revisar pagamentos pendentes",
+      texto: "Confira o financeiro e registre recebimentos ja confirmados.",
+      rotulo: "Financeiro",
+      tom: "info",
+    });
+  }
+
+  if (alunosAtivosCheckin.length > 0) {
+    alertas.push({
+      titulo: "Rodar check-in semanal",
+      texto: "Use a rotina de contato para manter proximidade com alunos ativos.",
+      rotulo: "Check-in",
+      tom: "success",
+    });
+  }
+
+  return alertas;
 }
 
 function CheckinModal({ alunos, onClose }) {
@@ -345,29 +446,90 @@ function gerarReceitaMensal(pagamentos) {
 }
 
 const conteudo = {
-  padding: "30px",
+  padding: "32px",
   marginLeft: "260px",
   width: "calc(100% - 260px)",
-  background: "#f3f4f6",
+  background: "#f5f7fb",
   minHeight: "100vh",
+};
+
+const dashboardHeader = {
+  display: "flex",
+  justifyContent: "space-between",
+  gap: "18px",
+  alignItems: "flex-start",
+};
+
+const dashboardTitulo = {
+  color: "#111827",
+  fontSize: "32px",
+  lineHeight: 1.15,
+  margin: 0,
+};
+
+const dashboardSubtitulo = {
+  color: "#6b7280",
+  fontSize: "15px",
+  marginTop: "8px",
 };
 
 const cardsGrid = {
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-  gap: "20px",
-  marginTop: "30px",
+  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+  gap: "16px",
+  marginTop: "24px",
 };
 
 const card = {
   background: "white",
-  padding: "20px",
+  border: "1px solid #e5e7eb",
   borderRadius: "8px",
-  boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
+  boxShadow: "0 12px 30px rgba(15, 23, 42, 0.06)",
+  minHeight: "154px",
+  padding: "18px",
+};
+
+const checkinCard = {
+  display: "flex",
+  flexDirection: "column",
+  gridColumn: "span 2",
+  justifyContent: "space-between",
+  minHeight: "154px",
+};
+
+const metricHeader = {
+  alignItems: "center",
+  display: "flex",
+  gap: "10px",
+};
+
+const metricIcon = {
+  alignItems: "center",
+  background: "#eff6ff",
+  border: "1px solid #dbeafe",
+  borderRadius: "8px",
+  color: "#2563eb",
+  display: "inline-flex",
+  height: "34px",
+  justifyContent: "center",
+  width: "34px",
+};
+
+const metricLabel = {
+  color: "#6b7280",
+  fontSize: "13px",
+  fontWeight: "800",
+};
+
+const metricHint = {
+  color: "#6b7280",
+  display: "block",
+  fontSize: "13px",
+  marginTop: "6px",
 };
 
 const botaoPrimario = {
-  background: "#111827",
+  background: "#2563eb",
   color: "white",
   border: "none",
   borderRadius: "8px",
@@ -379,19 +541,22 @@ const botaoPrimario = {
 };
 
 const numero = {
-  fontSize: "28px",
-  fontWeight: "bold",
-  marginTop: "10px",
+  fontSize: "30px",
+  fontWeight: "850",
+  letterSpacing: "-0.01em",
+  marginTop: "14px",
 };
 
 const graficoCard = {
   ...card,
-  marginTop: "30px",
+  marginTop: "22px",
+  minHeight: "auto",
 };
 
 const resumoCard = {
   ...card,
-  marginTop: "30px",
+  marginTop: "22px",
+  minHeight: "auto",
 };
 
 const secaoTopo = {
@@ -405,6 +570,22 @@ const secaoTopo = {
 const secaoLegenda = {
   color: "#6b7280",
   fontSize: "14px",
+  marginTop: "5px",
+};
+
+const secaoTitulo = {
+  margin: 0,
+  fontSize: "22px",
+};
+
+const historicoTag = {
+  background: "#eef2ff",
+  border: "1px solid #dbeafe",
+  borderRadius: "999px",
+  color: "#1d4ed8",
+  fontSize: "12px",
+  fontWeight: "800",
+  padding: "7px 10px",
 };
 
 const grafico = {
@@ -412,8 +593,8 @@ const grafico = {
   gridTemplateColumns: "repeat(6, minmax(80px, 1fr))",
   gap: "14px",
   alignItems: "end",
-  minHeight: "260px",
-  marginTop: "24px",
+  minHeight: "230px",
+  marginTop: "20px",
   overflowX: "auto",
 };
 
@@ -434,14 +615,14 @@ const barraValor = {
 const barraTrilho = {
   display: "flex",
   alignItems: "end",
-  background: "#eef2f7",
+  background: "#eef2ff",
   borderRadius: "8px",
   overflow: "hidden",
 };
 
 const barra = {
   width: "100%",
-  background: "#2563eb",
+  background: "linear-gradient(180deg, #60a5fa, #2563eb)",
   borderRadius: "8px 8px 0 0",
 };
 
@@ -470,14 +651,14 @@ const linhaMobileTopo = {
 };
 
 const trilhoMobile = {
-  background: "#eef2f7",
+  background: "#eef2ff",
   borderRadius: "999px",
   height: "12px",
   overflow: "hidden",
 };
 
 const barraMobile = {
-  background: "#2563eb",
+  background: "linear-gradient(90deg, #60a5fa, #2563eb)",
   borderRadius: "999px",
   height: "100%",
 };
@@ -487,31 +668,48 @@ const estadoVazio = {
   marginTop: "18px",
 };
 
-const resumoGrid = {
+const alertasGrid = {
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
   gap: "12px",
   marginTop: "18px",
 };
 
-const resumoItem = {
+const alertaItem = {
+  alignItems: "flex-start",
   background: "#f9fafb",
   border: "1px solid #eef2f7",
   borderRadius: "8px",
+  display: "grid",
+  gap: "12px",
   padding: "14px",
 };
 
-const resumoLabel = {
+const alertaTitulo = {
+  color: "#111827",
   display: "block",
-  color: "#6b7280",
-  fontSize: "13px",
-  fontWeight: "700",
-  marginBottom: "8px",
+  fontSize: "14px",
 };
 
-const resumoValor = {
-  color: "#111827",
-  fontSize: "24px",
+const alertaTexto = {
+  color: "#6b7280",
+  fontSize: "13px",
+  lineHeight: 1.45,
+  marginTop: "5px",
+};
+
+const estadoVazioPremium = {
+  alignItems: "center",
+  background: "#f0fdf4",
+  border: "1px solid #bbf7d0",
+  borderRadius: "8px",
+  color: "#166534",
+  display: "flex",
+  gap: "10px",
+  fontSize: "14px",
+  fontWeight: "800",
+  marginTop: "18px",
+  padding: "14px",
 };
 
 const erroBox = {

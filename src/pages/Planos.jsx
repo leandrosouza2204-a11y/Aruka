@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import Sidebar from "../components/Sidebar";
+import TableActions, { TableActionItem } from "../components/TableActions";
 import PlanoModal from "../components/PlanoModal";
 import {
   adicionarPlanoSupabase,
@@ -166,8 +167,8 @@ function Planos() {
 
         {erro && <div style={erroBox}>{erro}</div>}
 
-        <div style={{ overflowX: "auto", marginTop: "20px" }}>
-          <table style={tabela}>
+        <div className="app-table-scroll">
+          <table className="app-table" style={tabela}>
             <thead>
               <tr style={linhaCabecalho}>
                 <th style={header}>Plano</th>
@@ -190,42 +191,40 @@ function Planos() {
               {!carregando &&
                 planosFiltrados.map((plano) => (
                   <tr key={plano.id}>
-                    <td style={celula}>{plano.nome}</td>
-                    <td style={celula}>{plano.descricao || "-"}</td>
+                    <td className="cell-wide" style={celula}>{plano.nome}</td>
+                    <td className="cell-wide" style={celula}>{plano.descricao || "-"}</td>
                     <td style={celula}>
                       {plano.duracaoMeses} {plano.duracaoMeses === 1 ? "mes" : "meses"}
                     </td>
                     <td style={celula}>{formatarMoeda(plano.valor)}</td>
                     <td style={celula}>
                       <span
-                        style={{
-                          color: plano.ativo ? "#16a34a" : "#6b7280",
-                          fontWeight: "700",
-                        }}
+                        className={`status-badge ${
+                          plano.ativo ? "status-badge-success" : "status-badge-muted"
+                        }`}
                       >
                         {plano.ativo ? "Ativo" : "Inativo"}
                       </span>
                     </td>
                     <td style={celula}>
-                      <div style={acoes}>
+                      <div className="table-actions-inline">
                         <button
                           onClick={() => abrirEdicao(plano)}
-                          style={botaoSecundario}
+                          className="table-button table-button-primary"
                         >
                           Editar
                         </button>
-                        <button
-                          onClick={() => alternarStatus(plano)}
-                          style={botaoSecundario}
-                        >
-                          {plano.ativo ? "Inativar" : "Ativar"}
-                        </button>
-                        <button
-                          onClick={() => removerPlano(plano.id)}
-                          style={botaoExcluir}
-                        >
-                          Excluir
-                        </button>
+                        <TableActions>
+                          <TableActionItem onClick={() => alternarStatus(plano)}>
+                            {plano.ativo ? "Inativar" : "Ativar"}
+                          </TableActionItem>
+                          <TableActionItem
+                            onClick={() => removerPlano(plano.id)}
+                            variant="danger"
+                          >
+                            Excluir
+                          </TableActionItem>
+                        </TableActions>
                       </div>
                     </td>
                   </tr>
@@ -336,12 +335,6 @@ const estadoVazio = {
   textAlign: "center",
 };
 
-const acoes = {
-  display: "flex",
-  gap: "8px",
-  flexWrap: "wrap",
-};
-
 const botaoPrimario = {
   background: "#111827",
   color: "white",
@@ -355,15 +348,6 @@ const botaoPrimario = {
 const botaoSecundario = {
   background: "#e5e7eb",
   color: "#111827",
-  border: "none",
-  padding: "8px 12px",
-  borderRadius: "6px",
-  cursor: "pointer",
-};
-
-const botaoExcluir = {
-  background: "#dc2626",
-  color: "white",
   border: "none",
   padding: "8px 12px",
   borderRadius: "6px",
