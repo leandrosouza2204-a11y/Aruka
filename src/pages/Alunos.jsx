@@ -385,7 +385,7 @@ function Alunos() {
                   />
                 </Campo>
 
-                <Campo label="Inicio do plano">
+                <Campo label="Início do plano">
                   <input
                     type="date"
                     value={form.inicio}
@@ -446,7 +446,7 @@ function Alunos() {
                 <th style={tabelaHeader}>Valor</th>
                 <th style={tabelaHeader}>Vencimento</th>
                 <th style={tabelaHeader}>Status</th>
-                <th style={tabelaHeader}>Acoes</th>
+                <th style={tabelaHeader}>Ações</th>
               </tr>
             </thead>
 
@@ -524,7 +524,7 @@ function Alunos() {
             <div style={detalhesTopo}>
               <div>
                 <h2 style={detalhesTitulo}>{alunoSelecionado.nome}</h2>
-                <p style={resumoLista}>Informacoes completas do cadastro</p>
+                <p style={resumoLista}>Informações completas do cadastro</p>
               </div>
 
               <button
@@ -542,7 +542,7 @@ function Alunos() {
                 valor={formatarData(alunoSelecionado.nascimento)}
               />
               <Info
-                label="Inicio"
+                label="Início"
                 valor={formatarData(alunoSelecionado.inicio)}
               />
               <Info label="Plano" valor={nomePlano(alunoSelecionado.plano)} />
@@ -562,14 +562,14 @@ function Alunos() {
               <Info label="Status" valor={alunoSelecionado.status} />
               <Info
                 label="Pagamento recebido"
-                valor={alunoSelecionado.pagamentoRecebido ? "Sim" : "Nao"}
+                valor={alunoSelecionado.pagamentoRecebido ? "Sim" : "Não"}
               />
               <Info
                 label="Data do pagamento"
                 valor={formatarData(alunoSelecionado.dataPagamento)}
               />
               <Info
-                label="Observacoes"
+                label="Observações"
                 valor={alunoSelecionado.observacoes || "-"}
               />
             </div>

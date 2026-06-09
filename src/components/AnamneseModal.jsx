@@ -223,8 +223,8 @@ function AnamneseModal({ alunos, anamnese, onClose, onSave }) {
                       <option value="">Selecione</option>
                       <option value="Sim">Sim</option>
                       <option value="Sim, socialmente">Sim, socialmente</option>
-                      <option value="Nao">Nao</option>
-                      <option value="Nao informado">Nao informado</option>
+                      <option value="Não">Não</option>
+                      <option value="Não informado">Não informado</option>
                     </select>
                   ) : camposSimNao.has(chave) ? (
                     <select
@@ -234,8 +234,8 @@ function AnamneseModal({ alunos, anamnese, onClose, onSave }) {
                     >
                       <option value="">Selecione</option>
                       <option value="Sim">Sim</option>
-                      <option value="Nao">Nao</option>
-                      <option value="Nao informado">Nao informado</option>
+                      <option value="Não">Não</option>
+                      <option value="Não informado">Não informado</option>
                     </select>
                   ) : (
                     <textarea

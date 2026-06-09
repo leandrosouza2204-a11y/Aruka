@@ -97,7 +97,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
     const exercicio = exercicioPorDia[diaId] || exercicioVazio;
 
     if (!exercicio.nome.trim()) {
-      alert("Informe o nome do exercicio.");
+      alert("Informe o nome do exercício.");
       return;
     }
 
@@ -134,7 +134,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
   }
 
   function excluirExercicio(diaId, exercicioId) {
-    if (!window.confirm("Deseja excluir este exercicio?")) return;
+    if (!window.confirm("Deseja excluir este exercício?")) return;
 
     setForm({
       ...form,
@@ -219,7 +219,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
             />
           </Campo>
 
-          <Campo label="Nivel">
+          <Campo label="Nível">
             <select
               value={form.nivel}
               onChange={(e) => atualizarCampo("nivel", e.target.value)}
@@ -273,7 +273,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
             />
           </Campo>
 
-          <Campo label="Observacoes gerais">
+          <Campo label="Observações gerais">
             <textarea
               rows="3"
               placeholder="Orientacoes, restricoes ou ajustes gerais"
@@ -310,7 +310,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
             {form.dias.map((dia) => {
               const exercicioAtual = exercicioPorDia[dia.id] || exercicioVazio;
               const editando =
-                edicaoExercicio?.diaId === dia.id ? "Salvar Exercicio" : "Adicionar Exercicio";
+                edicaoExercicio?.diaId === dia.id ? "Salvar Exercício" : "Adicionar Exercício";
 
               return (
                 <div key={dia.id} style={diaCard}>
@@ -326,7 +326,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
 
                   <div style={exercicioForm}>
                     <input
-                      placeholder="Nome do exercicio"
+                      placeholder="Nome do exercício"
                       value={exercicioAtual.nome}
                       onChange={(e) =>
                         atualizarExercicioTemporario(
@@ -386,7 +386,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
                       style={campo}
                     />
                     <input
-                      placeholder="Link de video"
+                      placeholder="Link de vídeo"
                       value={exercicioAtual.video}
                       onChange={(e) =>
                         atualizarExercicioTemporario(
@@ -399,7 +399,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
                     />
                     <textarea
                       rows="2"
-                      placeholder="Observacoes"
+                      placeholder="Observações"
                       value={exercicioAtual.observacoes}
                       onChange={(e) =>
                         atualizarExercicioTemporario(
@@ -429,7 +429,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
                     ))}
 
                     {dia.exercicios.length === 0 && (
-                      <p style={vazio}>Nenhum exercicio cadastrado neste dia.</p>
+                      <p style={vazio}>Nenhum exercício cadastrado neste dia.</p>
                     )}
                   </div>
                 </div>

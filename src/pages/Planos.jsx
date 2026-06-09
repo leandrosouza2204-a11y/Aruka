@@ -172,11 +172,11 @@ function Planos() {
             <thead>
               <tr style={linhaCabecalho}>
                 <th style={header}>Plano</th>
-                <th style={header}>Descricao</th>
-                <th style={header}>Duracao</th>
+                <th style={header}>Descrição</th>
+                <th style={header}>Duração</th>
                 <th style={header}>Valor</th>
                 <th style={header}>Status</th>
-                <th style={header}>Acoes</th>
+                <th style={header}>Ações</th>
               </tr>
             </thead>
             <tbody>

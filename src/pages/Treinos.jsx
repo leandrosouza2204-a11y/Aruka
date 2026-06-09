@@ -51,7 +51,7 @@ function Treinos() {
         setAlunos(alunosSupabase);
         setTreinos(treinosSupabase);
       } catch (error) {
-        setErro(error.message || "Nao foi possivel carregar os treinos.");
+        setErro(error.message || "Não foi possível carregar os treinos.");
       } finally {
         setCarregando(false);
       }
@@ -119,7 +119,7 @@ function Treinos() {
       setTreinos(treinosSupabase);
       return treinosSupabase;
     } catch (error) {
-      setErro(error.message || "Nao foi possivel carregar os treinos.");
+      setErro(error.message || "Não foi possível carregar os treinos.");
       return [];
     } finally {
       setCarregando(false);
@@ -170,7 +170,7 @@ function Treinos() {
       setTreinoEditando(null);
       setTreinoBase(null);
     } catch (error) {
-      setErro(error.message || "Nao foi possivel salvar o treino.");
+      setErro(error.message || "Não foi possível salvar o treino.");
     }
   }
 
@@ -197,7 +197,7 @@ function Treinos() {
       await carregarDados();
       setTreinoSelecionadoId(novoTreino.id);
     } catch (error) {
-      setErro(error.message || "Nao foi possivel duplicar o treino.");
+      setErro(error.message || "Não foi possível duplicar o treino.");
     }
   }
 
@@ -213,7 +213,7 @@ function Treinos() {
         setTreinoSelecionadoId("");
       }
     } catch (error) {
-      setErro(error.message || "Nao foi possivel excluir o treino.");
+      setErro(error.message || "Não foi possível excluir o treino.");
     }
   }
 
@@ -252,7 +252,7 @@ function Treinos() {
 
           <div style={modelosRapidos}>
             <div>
-              <span style={modelosTitulo}>Modelos rapidos</span>
+              <span style={modelosTitulo}>Modelos rápidos</span>
               <p style={modelosLegenda}>Comece por uma estrutura pronta e ajuste depois.</p>
             </div>
             <div style={modelosLinha}>
@@ -309,7 +309,7 @@ function Treinos() {
               onChange={(e) => setFiltroNivel(e.target.value)}
               style={campo}
             >
-              <option value="todos">Todos os niveis</option>
+              <option value="todos">Todos os níveis</option>
               {opcoesFiltro.niveis.map((nivel) => (
                 <option key={nivel} value={nivel}>
                   {nivel}
@@ -345,11 +345,11 @@ function Treinos() {
                 <th style={tabelaHeader}>Aluno</th>
                 <th style={tabelaHeader}>Rotina</th>
                 <th style={tabelaHeader}>Objetivo</th>
-                <th style={tabelaHeader}>Nivel</th>
+                <th style={tabelaHeader}>Nível</th>
                 <th style={tabelaHeader}>Status</th>
-                <th style={tabelaHeader}>Revisao</th>
+                <th style={tabelaHeader}>Revisão</th>
                 <th style={tabelaHeader}>Dias</th>
-                <th style={tabelaHeader}>Acoes</th>
+                <th style={tabelaHeader}>Ações</th>
               </tr>
             </thead>
 
@@ -423,14 +423,14 @@ function Treinos() {
                   {treinoSelecionado.rotina || "Ficha de Treino"}
                 </h2>
                 <p style={detalhesSubtitulo}>
-                  {treinoSelecionado.aluno || "Aluno nao informado"}
+                  {treinoSelecionado.aluno || "Aluno não informado"}
                 </p>
                 <div style={heroBadges}>
                   <span className={classeStatusTreino(treinoSelecionado.status || "Ativo")}>
                     {treinoSelecionado.status || "Ativo"}
                   </span>
                   <span className="status-badge status-badge-info">
-                    {treinoSelecionado.nivel || "Nivel nao informado"}
+                    {treinoSelecionado.nivel || "Nível não informado"}
                   </span>
                   <span className="status-badge status-badge-muted">
                     {treinoSelecionado.objetivo || "Objetivo nao informado"}
@@ -460,7 +460,7 @@ function Treinos() {
                 icon={<Target size={17} />}
               />
               <Info
-                label="Nivel"
+                label="Nível"
                 valor={treinoSelecionado.nivel}
                 icon={<Layers3 size={17} />}
               />
@@ -470,12 +470,12 @@ function Treinos() {
                 icon={<Eye size={17} />}
               />
               <Info
-                label="Inicio"
+                label="Início"
                 valor={formatarData(treinoSelecionado.dataInicio)}
                 icon={<CalendarClock size={17} />}
               />
               <Info
-                label="Revisao"
+                label="Revisão"
                 valor={formatarData(treinoSelecionado.dataRevisao)}
                 icon={<TimerReset size={17} />}
               />
@@ -485,7 +485,7 @@ function Treinos() {
                 icon={<Dumbbell size={17} />}
               />
               <Info
-                label="Observacoes"
+                label="Observações"
                 valor={treinoSelecionado.observacoes || "-"}
                 destaque
               />
@@ -496,7 +496,7 @@ function Treinos() {
                 <div>
                   <h3 style={diasTitulo}>Dias do treino</h3>
                   <p style={diasLegenda}>
-                    Organize a execucao por sessoes e acompanhe os exercicios de cada dia.
+                    Organize a execução por sessões e acompanhe os exercícios de cada dia.
                   </p>
                 </div>
                 <span style={diasContador}>
@@ -516,7 +516,7 @@ function Treinos() {
                       <div>
                         <h4 style={diaTitulo}>{dia.nome || `Dia ${index + 1}`}</h4>
                         <p style={diaDescricao}>
-                          {dia.descricao || "Sem descricao"} - {dia.exercicios?.length || 0} exercicios
+                          {dia.descricao || "Sem descrição"} - {dia.exercicios?.length || 0} exercícios
                         </p>
                       </div>
                       <span style={diaBadge}>{dia.exercicios?.length || 0}</span>
@@ -529,7 +529,7 @@ function Treinos() {
 
                       {(!dia.exercicios || dia.exercicios.length === 0) && (
                         <div style={estadoDiaVazio}>
-                          Nenhum exercicio cadastrado para este dia.
+                          Nenhum exercício cadastrado para este dia.
                         </div>
                       )}
                     </div>
@@ -664,10 +664,10 @@ function formatarTreinoWhatsApp(treino) {
     `*${treino.rotina || "Ficha de Treino"}*`,
     `Aluno: ${treino.aluno || "-"}`,
     `Objetivo: ${treino.objetivo || "-"}`,
-    `Nivel: ${treino.nivel || "-"}`,
+    `Nível: ${treino.nivel || "-"}`,
     `Status: ${treino.status || "Ativo"}`,
-    `Inicio: ${formatarData(treino.dataInicio)}`,
-    `Revisao: ${formatarData(treino.dataRevisao)}`,
+    `Início: ${formatarData(treino.dataInicio)}`,
+    `Revisão: ${formatarData(treino.dataRevisao)}`,
     "",
   ];
 
@@ -675,7 +675,7 @@ function formatarTreinoWhatsApp(treino) {
     linhas.push(`*${dia.nome} - ${dia.descricao || ""}*`.trim());
 
     if (!dia.exercicios?.length) {
-      linhas.push("- Exercicios a definir");
+      linhas.push("- Exercícios a definir");
     }
 
     (dia.exercicios || []).forEach((exercicio, index) => {
@@ -692,7 +692,7 @@ function formatarTreinoWhatsApp(treino) {
       }
 
       if (exercicio.video) {
-        linhas.push(`Video: ${exercicio.video}`);
+        linhas.push(`Vídeo: ${exercicio.video}`);
       }
     });
 
@@ -700,7 +700,7 @@ function formatarTreinoWhatsApp(treino) {
   });
 
   if (treino.observacoes) {
-    linhas.push(`Observacoes gerais: ${treino.observacoes}`);
+    linhas.push(`Observações gerais: ${treino.observacoes}`);
   }
 
   return linhas.join("\n");
@@ -711,15 +711,16 @@ const conteudo = {
   marginLeft: "260px",
   width: "calc(100% - 260px)",
   background:
-    "linear-gradient(180deg, rgba(239, 246, 255, 0.72), rgba(245, 247, 251, 1) 260px)",
+    "radial-gradient(circle at top right, rgba(37, 99, 235, 0.12), transparent 320px), linear-gradient(180deg, rgba(239, 246, 255, 0.84), rgba(245, 247, 251, 1) 300px)",
   minHeight: "100vh",
 };
 
 const listaCard = {
-  background: "white",
-  border: "1px solid rgba(226, 232, 240, 0.85)",
+  background: "rgba(255, 255, 255, 0.86)",
+  backdropFilter: "blur(14px)",
+  border: "1px solid rgba(255, 255, 255, 0.72)",
   borderRadius: "8px",
-  boxShadow: "0 18px 42px rgba(15, 23, 42, 0.07)",
+  boxShadow: "0 22px 52px rgba(15, 23, 42, 0.08)",
   padding: "22px",
 };
 
@@ -734,7 +735,8 @@ const listaTopo = {
 
 const modelosRapidos = {
   alignItems: "center",
-  background: "linear-gradient(135deg, #f8fafc, #eef6ff)",
+  background: "linear-gradient(135deg, rgba(248, 250, 252, 0.96), rgba(219, 234, 254, 0.58))",
+  boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.75)",
   borderRadius: "8px",
   display: "flex",
   gap: "16px",
@@ -872,23 +874,25 @@ const botaoPill = {
 
 const detalhesCard = {
   marginTop: "24px",
-  background: "white",
-  border: "1px solid rgba(226, 232, 240, 0.78)",
+  background: "rgba(255, 255, 255, 0.88)",
+  backdropFilter: "blur(16px)",
+  border: "1px solid rgba(255, 255, 255, 0.72)",
   borderRadius: "8px",
-  boxShadow: "0 22px 54px rgba(15, 23, 42, 0.1)",
+  boxShadow: "0 28px 70px rgba(15, 23, 42, 0.13)",
   overflow: "hidden",
   padding: "0",
 };
 
 const detalhesHero = {
   background:
-    "linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(30, 64, 175, 0.92))",
+    "linear-gradient(135deg, rgba(15, 23, 42, 0.99), rgba(29, 78, 216, 0.94))",
+  boxShadow: "0 18px 42px rgba(30, 64, 175, 0.22)",
   color: "white",
   display: "flex",
   justifyContent: "space-between",
   alignItems: "flex-start",
   gap: "18px",
-  padding: "24px",
+  padding: "28px",
   position: "relative",
   flexWrap: "wrap",
 };
@@ -926,14 +930,17 @@ const infoGrid = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))",
   gap: "12px",
-  padding: "18px",
+  background: "linear-gradient(180deg, rgba(248, 250, 252, 0.72), rgba(255, 255, 255, 0.88))",
+  padding: "20px",
 };
 
 const infoItem = {
   alignItems: "center",
-  background: "linear-gradient(180deg, #f8fafc, #ffffff)",
+  background: "rgba(255, 255, 255, 0.78)",
+  backdropFilter: "blur(10px)",
+  border: "1px solid rgba(226, 232, 240, 0.48)",
   borderRadius: "8px",
-  boxShadow: "0 10px 24px rgba(15, 23, 42, 0.045)",
+  boxShadow: "0 12px 28px rgba(15, 23, 42, 0.055)",
   display: "flex",
   gap: "10px",
   minHeight: "74px",
@@ -1001,9 +1008,9 @@ const botaoFechar = {
 };
 
 const diasBloco = {
-  background: "#f8fafc",
-  borderTop: "1px solid rgba(226, 232, 240, 0.7)",
-  padding: "18px",
+  background: "linear-gradient(180deg, rgba(241, 245, 249, 0.78), rgba(248, 250, 252, 0.96))",
+  borderTop: "1px solid rgba(226, 232, 240, 0.42)",
+  padding: "20px",
 };
 
 const diasHeader = {
@@ -1041,9 +1048,11 @@ const diasDetalhes = {
 };
 
 const diaDetalhe = {
-  background: "rgba(255, 255, 255, 0.9)",
+  background: "rgba(255, 255, 255, 0.82)",
+  backdropFilter: "blur(10px)",
+  border: "1px solid rgba(226, 232, 240, 0.42)",
   borderRadius: "8px",
-  boxShadow: "0 10px 26px rgba(15, 23, 42, 0.055)",
+  boxShadow: "0 14px 32px rgba(15, 23, 42, 0.06)",
   overflow: "hidden",
 };
 
@@ -1087,6 +1096,7 @@ const exerciciosGrid = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
   gap: "12px",
+  background: "rgba(248, 250, 252, 0.72)",
   padding: "0 16px 16px",
 };
 
@@ -1110,10 +1120,11 @@ const estadoTreinoVazio = {
 
 const semTreinoCard = {
   alignItems: "center",
-  background: "rgba(255, 255, 255, 0.86)",
-  border: "1px solid rgba(226, 232, 240, 0.72)",
+  background: "rgba(255, 255, 255, 0.78)",
+  backdropFilter: "blur(12px)",
+  border: "1px solid rgba(255, 255, 255, 0.72)",
   borderRadius: "8px",
-  boxShadow: "0 16px 36px rgba(15, 23, 42, 0.06)",
+  boxShadow: "0 18px 44px rgba(15, 23, 42, 0.075)",
   display: "flex",
   gap: "14px",
   marginTop: "24px",

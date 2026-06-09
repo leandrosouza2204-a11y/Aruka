@@ -119,7 +119,7 @@ function Dashboard() {
           <div>
             <h1 style={dashboardTitulo}>Dashboard da Consultoria</h1>
             <p style={dashboardSubtitulo}>
-              Visao geral da sua operacao, alunos e receitas.
+              Visão geral da sua operação, alunos e receitas.
             </p>
           </div>
         </header>
@@ -136,7 +136,7 @@ function Dashboard() {
           <MetricCard
             titulo="Receita Prevista"
             valor={carregando ? "..." : formatarMoeda(receitaPrevista)}
-            legenda="Total previsto no periodo"
+            legenda="Total previsto no período"
             icon={<TrendingUp size={18} />}
           />
           <MetricCard
@@ -156,14 +156,14 @@ function Dashboard() {
           <MetricCard
             titulo="Alunos Vencendo"
             valor={carregando ? "..." : alunosVencendo}
-            legenda="Proximos do vencimento"
+            legenda="Próximos do vencimento"
             icon={<CalendarClock size={18} />}
             destaque="#f59e0b"
           />
           <MetricCard
             titulo="Alunos Atrasados"
             valor={carregando ? "..." : alunosAtrasados}
-            legenda="Necessitam atencao"
+            legenda="Necessitam atenção"
             icon={<AlertTriangle size={18} />}
             destaque="#dc2626"
           />
@@ -194,7 +194,7 @@ function Dashboard() {
               <h2 style={secaoTitulo}>Receita Mensal</h2>
               <p style={secaoLegenda}>Evolucao dos pagamentos confirmados nos ultimos 6 meses.</p>
             </div>
-            <span style={historicoTag}>Historico de pagamentos</span>
+            <span style={historicoTag}>Histórico de pagamentos</span>
           </div>
 
           {receitaMensal.some((mes) => mes.total > 0) ? (
@@ -253,7 +253,7 @@ function Dashboard() {
             <div>
               <h2 style={secaoTitulo}>Alertas da consultoria</h2>
               <p style={secaoLegenda}>
-                Pontos que merecem uma revisao rapida hoje.
+                Pontos que merecem uma revisão rápida hoje.
               </p>
             </div>
           </div>
@@ -326,7 +326,7 @@ function montarAlertasConsultoria({
   if (alunosVencendo > 0) {
     alertas.push({
       titulo: "Enviar lembretes de vencimento",
-      texto: "Ha contratos proximos da renovacao que podem ser tratados com antecedencia.",
+      texto: "Há contratos próximos da renovação que podem ser tratados com antecedência.",
       rotulo: "Agenda",
       tom: "warning",
     });

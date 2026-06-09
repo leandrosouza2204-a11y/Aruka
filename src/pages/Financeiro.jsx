@@ -323,7 +323,7 @@ function Financeiro() {
                 <th style={header}>Vencimento</th>
                 <th style={header}>Status</th>
                 <th style={header}>Pagamento</th>
-                <th style={header}>Acoes</th>
+                <th style={header}>Ações</th>
               </tr>
             </thead>
 
@@ -737,7 +737,7 @@ function PagamentoModal({ registro, form, atualizando, onChange, onClose, onSave
           </label>
 
           <label style={{ ...campoGrupo, gridColumn: "1 / -1" }}>
-            <span style={labelCampo}>Observacoes</span>
+            <span style={labelCampo}>Observações</span>
             <textarea
               rows="3"
               value={form.observacoes}

@@ -34,7 +34,7 @@ function AdminUsuarios() {
       const lista = await listarUsuariosAdmin();
       setUsuarios(lista);
     } catch (error) {
-      setErro(error.message || "Nao foi possivel carregar usuarios.");
+      setErro(error.message || "Não foi possível carregar usuários.");
       setUsuarios([]);
     } finally {
       setCarregando(false);
@@ -90,7 +90,7 @@ function AdminUsuarios() {
       await carregarUsuarios();
       setMensagem(mensagemSucesso);
     } catch (error) {
-      setErro(error.message || "Nao foi possivel concluir a acao.");
+      setErro(error.message || "Não foi possível concluir a ação.");
     } finally {
       setSalvando(false);
     }
@@ -109,13 +109,13 @@ function AdminUsuarios() {
 
       await upsertAssinaturaAdmin(usuarioEditando.userId, dados.assinatura);
       setUsuarioEditando(null);
-    }, "Usuario atualizado com sucesso.");
+    }, "Usuário atualizado com sucesso.");
   }
 
   function liberarComoBeta(usuario) {
     executarAcao(
       () => liberarBetaAdmin(usuario.userId),
-      "Usuario liberado como beta."
+      "Usuário liberado como beta."
     );
   }
 
@@ -132,7 +132,7 @@ function AdminUsuarios() {
           hoje.toISOString().split("T")[0],
           vencimento.toISOString().split("T")[0]
         ),
-      "Usuario liberado como assinante."
+      "Usuário liberado como assinante."
     );
   }
 
@@ -145,7 +145,7 @@ function AdminUsuarios() {
           tipoAcesso: "admin",
           status: "ativo",
         }),
-      "Usuario promovido a admin."
+      "Usuário promovido a admin."
     );
   }
 
@@ -165,7 +165,7 @@ function AdminUsuarios() {
   function bloquearUsuario(usuario) {
     executarAcao(
       () => bloquearUsuarioAdmin(usuario.userId),
-      "Usuario bloqueado."
+      "Usuário bloqueado."
     );
   }
 
@@ -178,7 +178,7 @@ function AdminUsuarios() {
           tipoAcesso: usuario.tipoAcesso === "bloqueado" ? "pendente" : usuario.tipoAcesso,
           status: "ativo",
         }),
-      "Usuario reativado."
+      "Usuário reativado."
     );
   }
 

@@ -125,9 +125,9 @@ function Sidebar() {
               role="menu"
             >
               <div style={styles.userBox}>
-                <span style={styles.userLabel}>Usuario logado</span>
+                <span style={styles.userLabel}>Usuário logado</span>
                 {nomeUsuario && <strong style={styles.userName}>{nomeUsuario}</strong>}
-                <span style={styles.userEmail}>{emailUsuario || "Email indisponivel"}</span>
+                <span style={styles.userEmail}>{emailUsuario || "E-mail indisponível"}</span>
               </div>
 
               <button
@@ -221,7 +221,7 @@ function Sidebar() {
           to="/avaliacoes"
           active={isActive("/avaliacoes")}
           icon={<ClipboardCheck size={18} />}
-          label="Avaliacoes"
+          label="Avaliações"
         />
         <MenuLink
           to="/treinos"

@@ -60,7 +60,7 @@ function PlanoModal({ plano, onClose, onSave, salvando }) {
             />
           </Campo>
 
-          <Campo label="Duracao em meses">
+          <Campo label="Duração em meses">
             <input
               type="number"
               min="1"
@@ -92,7 +92,7 @@ function PlanoModal({ plano, onClose, onSave, salvando }) {
             </select>
           </Campo>
 
-          <Campo label="Descricao">
+          <Campo label="Descrição">
             <textarea
               rows="3"
               value={form.descricao}

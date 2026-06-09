@@ -22,7 +22,7 @@ function SubscriptionRoute({ children }) {
         setResultado(acesso);
       } catch (error) {
         if (!ativo) return;
-        setErro(error.message || "Nao foi possivel verificar o acesso.");
+        setErro(error.message || "Não foi possível verificar o acesso.");
         setResultado({
           liberado: false,
           motivo: "erro",

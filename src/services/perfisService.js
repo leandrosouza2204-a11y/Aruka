@@ -108,7 +108,7 @@ async function buscarUsuarioLogado() {
   } = await supabase.auth.getUser();
 
   if (error) throw error;
-  if (!user) throw new Error("Usuario nao autenticado.");
+  if (!user) throw new Error("Usuário não autenticado.");
 
   return user;
 }

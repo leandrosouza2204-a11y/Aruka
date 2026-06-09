@@ -75,7 +75,7 @@ function AlterarSenhaForm() {
       } = await supabase.auth.getUser();
 
       if (erroUsuario) throw erroUsuario;
-      if (!user?.email) throw new Error("Nao foi possivel identificar seu email.");
+      if (!user?.email) throw new Error("Não foi possível identificar seu e-mail.");
 
       const { error: erroLogin } = await supabase.auth.signInWithPassword({
         email: user.email,
@@ -97,7 +97,7 @@ function AlterarSenhaForm() {
       setConfirmacao("");
       setSucesso("Senha alterada com sucesso.");
     } catch (error) {
-      setErro(error.message || "Nao foi possivel alterar a senha.");
+      setErro(error.message || "Não foi possível alterar a senha.");
     } finally {
       setCarregando(false);
     }

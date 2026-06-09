@@ -90,7 +90,7 @@ function DefinirSenhaForm() {
         navigate("/", { replace: true });
       }, 1200);
     } catch (error) {
-      setErro(error.message || "Nao foi possivel criar a senha.");
+      setErro(error.message || "Não foi possível criar a senha.");
     } finally {
       setCarregando(false);
     }

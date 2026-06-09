@@ -18,13 +18,24 @@ function TableActions({ children, label = "Mais ações" }) {
 export function TableActionItem({
   children,
   className = "",
+  onClick,
   variant = "secondary",
   ...props
 }) {
+  function handleClick(event) {
+    event.stopPropagation();
+    onClick?.(event);
+
+    if (!event.defaultPrevented) {
+      event.currentTarget.closest("details")?.removeAttribute("open");
+    }
+  }
+
   return (
     <button
       type="button"
       className={`table-menu-item table-menu-item-${variant} ${className}`.trim()}
+      onClick={handleClick}
       {...props}
     >
       {children}

@@ -5,9 +5,9 @@ function ExercicioCard({ exercicio, onEdit, onDelete }) {
     <div className="treino-exercise-card" style={card}>
       <div style={topo}>
         <div>
-          <h4 style={titulo}>{exercicio.nome || "Exercicio sem nome"}</h4>
+          <h4 style={titulo}>{exercicio.nome || "Exercício sem nome"}</h4>
           <p style={meta}>
-            {exercicio.series || "-"} series &bull; {exercicio.repeticoes || "-"} reps
+            {exercicio.series || "-"} séries &bull; {exercicio.repeticoes || "-"} reps
           </p>
         </div>
 
@@ -32,7 +32,7 @@ function ExercicioCard({ exercicio, onEdit, onDelete }) {
       <div style={grid}>
         <Info label="Carga" valor={exercicio.carga} />
         <Info label="Descanso" valor={exercicio.descanso} />
-        <Info label="Observacoes" valor={exercicio.observacoes} />
+        <Info label="Observações" valor={exercicio.observacoes} />
       </div>
 
       {exercicio.video && (
@@ -43,7 +43,7 @@ function ExercicioCard({ exercicio, onEdit, onDelete }) {
           style={linkVideo}
         >
           <ExternalLink size={13} />
-          Ver video
+          Ver vídeo
         </a>
       )}
     </div>
@@ -60,9 +60,10 @@ function Info({ label, valor }) {
 }
 
 const card = {
-  background: "linear-gradient(180deg, #ffffff, #f8fafc)",
+  background: "linear-gradient(180deg, rgba(255,255,255,0.94), rgba(248,250,252,0.9))",
+  border: "1px solid rgba(226, 232, 240, 0.38)",
   borderRadius: "8px",
-  boxShadow: "0 10px 24px rgba(15, 23, 42, 0.06)",
+  boxShadow: "0 12px 30px rgba(15, 23, 42, 0.065)",
   padding: "14px",
   transition: "transform 0.18s ease, box-shadow 0.18s ease",
 };
@@ -102,7 +103,8 @@ const grid = {
 };
 
 const infoBox = {
-  background: "rgba(239, 246, 255, 0.62)",
+  background: "rgba(239, 246, 255, 0.68)",
+  border: "1px solid rgba(191, 219, 254, 0.32)",
   borderRadius: "8px",
   minHeight: "58px",
   padding: "9px",

@@ -232,7 +232,7 @@ function Avaliacoes() {
         <section style={listaCard}>
           <div style={listaTopo}>
             <div>
-              <h1 style={tituloPagina}>Avaliacoes</h1>
+              <h1 style={tituloPagina}>Avaliações</h1>
               <p style={resumoLista}>
                 {avaliacoesFiltradas.length} alunos com avaliacao exibidos
               </p>
@@ -240,7 +240,7 @@ function Avaliacoes() {
 
             <div style={acoes}>
               <button onClick={() => setModalAvaliacao(true)} style={botaoPrimario}>
-                + Nova Avaliacao
+                + Nova Avaliação
               </button>
               <button onClick={() => setModalAnamnese(true)} style={botaoSecundario}>
                 + Nova Anamnese
@@ -283,7 +283,7 @@ function Avaliacoes() {
                 <th style={tabelaHeader}>Cintura</th>
                 <th style={tabelaHeader}>% gordura</th>
                 <th style={tabelaHeader}>IMC</th>
-                <th style={tabelaHeader}>Acoes</th>
+                <th style={tabelaHeader}>Ações</th>
               </tr>
             </thead>
 
@@ -452,7 +452,7 @@ function Avaliacoes() {
               />
             )}
 
-            <h3 style={subtituloSecao}>Historico de evolucao</h3>
+            <h3 style={subtituloSecao}>Histórico de evolução</h3>
             <div style={{ overflowX: "auto" }}>
               <table style={tabela}>
                 <thead>
@@ -560,9 +560,9 @@ function RelatorioAvaliacao({ aluno, avaliacao, anterior, anamnese }) {
           ]}
         />
         <BlocoRelatorio
-          titulo="Observacoes e recomendacoes"
+          titulo="Observações e recomendações"
           itens={[
-            ["Observacoes", avaliacao.observacoes || "-"],
+            ["Observações", avaliacao.observacoes || "-"],
             ["Aderencia treino", avaliacao.aderenciaTreino || "-"],
             ["Aderencia dieta", avaliacao.aderenciaDieta || "-"],
             ["Recomendacoes", gerarRecomendacoes(avaliacao, anamnese)],

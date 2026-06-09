@@ -1,10 +1,28 @@
+import { useNavigate } from "react-router-dom";
 import BrandLogo from "../components/BrandLogo";
 import FooterLegal from "../components/FooterLegal";
 
 function TermosUso() {
+  const navigate = useNavigate();
+
+  function sairDaPagina() {
+    if (window.history.length > 1) {
+      navigate(-1);
+      return;
+    }
+
+    navigate("/");
+  }
+
   return (
     <div style={pagina}>
       <main style={documento}>
+        <div style={barraAcoes}>
+          <button type="button" onClick={sairDaPagina} style={botaoSair}>
+            Sair
+          </button>
+        </div>
+
         <div style={marca}>
           <BrandLogo variant="full" size="md" />
         </div>
@@ -106,6 +124,23 @@ const documento = {
   boxShadow: "0 20px 60px rgba(15, 23, 42, 0.1)",
   margin: "0 auto",
   padding: "30px",
+};
+
+const barraAcoes = {
+  display: "flex",
+  justifyContent: "flex-end",
+  marginBottom: "8px",
+};
+
+const botaoSair = {
+  background: "#e5e7eb",
+  border: "none",
+  borderRadius: "8px",
+  color: "#111827",
+  cursor: "pointer",
+  fontWeight: "800",
+  minHeight: "36px",
+  padding: "8px 13px",
 };
 
 const marca = {
