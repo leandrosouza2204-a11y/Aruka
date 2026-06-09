@@ -152,7 +152,7 @@ function Sidebar() {
 
               <Link
                 to="/politica-privacidade"
-                className="app-sidebar-menu-item"
+                className="app-sidebar-menu-item app-sidebar-legal-mobile"
                 style={styles.menuLink}
               >
                 <FileText size={16} />
@@ -161,7 +161,7 @@ function Sidebar() {
 
               <Link
                 to="/termos-de-uso"
-                className="app-sidebar-menu-item"
+                className="app-sidebar-menu-item app-sidebar-legal-mobile"
                 style={styles.menuLink}
               >
                 <FileText size={16} />
