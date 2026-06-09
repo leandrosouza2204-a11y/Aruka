@@ -1,11 +1,14 @@
 import { MoreHorizontal } from "lucide-react";
 
-function TableActions({ children, label = "Mais acoes" }) {
+function TableActions({ children, label = "Mais ações" }) {
   return (
     <details className="table-actions-menu">
-      <summary className="table-button table-button-secondary table-actions-trigger">
+      <summary
+        className="table-button table-button-secondary table-actions-trigger"
+        aria-label={label}
+        title={label}
+      >
         <MoreHorizontal size={16} aria-hidden="true" />
-        <span>{label}</span>
       </summary>
       <div className="table-actions-dropdown">{children}</div>
     </details>
