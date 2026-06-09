@@ -246,7 +246,7 @@ function AdminUsuarios() {
               <input
                 value={busca}
                 onChange={(e) => setBusca(e.target.value)}
-                placeholder="Buscar por nome ou email"
+                placeholder="Buscar por nome ou e-mail"
                 style={campoFiltro}
               />
 

@@ -72,7 +72,7 @@ function DefinirSenhaForm() {
       if (erroUsuario) throw erroUsuario;
       if (!user) {
         throw new Error(
-          "Sessao nao encontrada. Abra novamente o link do convite enviado por email."
+          "Sessão não encontrada. Abra novamente o link do convite enviado por e-mail."
         );
       }
 

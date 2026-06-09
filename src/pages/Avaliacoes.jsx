@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import Sidebar from "../components/Sidebar";
+import TableActions, { TableActionItem } from "../components/TableActions";
 import AvaliacaoModal from "../components/AvaliacaoModal";
 import AnamneseModal from "../components/AnamneseModal";
 import TabelaComposicaoCorporal from "../components/TabelaComposicaoCorporal";
@@ -272,12 +273,12 @@ function Avaliacoes() {
 
         {erro && <div style={erroBox}>{erro}</div>}
 
-        <div style={{ overflowX: "auto", marginTop: "20px" }}>
-          <table style={tabela}>
+        <div className="app-table-scroll">
+          <table className="app-table" style={tabela}>
             <thead>
               <tr style={linhaCabecalho}>
                 <th style={tabelaHeader}>Aluno</th>
-                <th style={tabelaHeader}>Ultima avaliacao</th>
+                <th style={tabelaHeader}>Última avaliação</th>
                 <th style={tabelaHeader}>Status</th>
                 <th style={tabelaHeader}>Peso</th>
                 <th style={tabelaHeader}>Cintura</th>
@@ -293,7 +294,7 @@ function Avaliacoes() {
 
                 return (
                   <tr key={avaliacao.id}>
-                    <td style={tabelaCelula}>{avaliacao.aluno}</td>
+                    <td className="cell-wide" style={tabelaCelula}>{avaliacao.aluno}</td>
                     <td style={tabelaCelula}>{formatarData(avaliacao.data)}</td>
                     <td style={tabelaCelula}>{formatarStatus(avaliacao.status)}</td>
                     <td style={tabelaCelula}>{formatarKg(avaliacao.peso)}</td>
@@ -305,37 +306,37 @@ function Avaliacoes() {
                     </td>
                     <td style={tabelaCelula}>{composicao.imc || "-"}</td>
                     <td style={tabelaCelula}>
-                      <div style={acoes}>
+                      <div className="table-actions-inline">
                         <button
                           onClick={() => {
                             setAlunoSelecionado(avaliacao.aluno);
                             setRelatorioAberto(false);
                           }}
-                          style={botaoSecundario}
+                          className="table-button table-button-secondary"
                         >
                           Perfil
                         </button>
-                        <button
-                          onClick={() => {
-                            setAvaliacaoEditando(avaliacao);
-                            setModalAvaliacao(true);
-                          }}
-                          style={botaoSecundario}
-                        >
-                          Editar
-                        </button>
-                        <button
-                          onClick={() => editarAnamneseAluno(avaliacao.aluno)}
-                          style={botaoSecundario}
-                        >
-                          Anamnese
-                        </button>
-                        <button
-                          onClick={() => removerAvaliacao(avaliacao.id)}
-                          style={botaoExcluir}
-                        >
-                          Excluir
-                        </button>
+                        <TableActions>
+                          <TableActionItem
+                            onClick={() => {
+                              setAvaliacaoEditando(avaliacao);
+                              setModalAvaliacao(true);
+                            }}
+                          >
+                            Editar
+                          </TableActionItem>
+                          <TableActionItem
+                            onClick={() => editarAnamneseAluno(avaliacao.aluno)}
+                          >
+                            Anamnese
+                          </TableActionItem>
+                          <TableActionItem
+                            onClick={() => removerAvaliacao(avaliacao.id)}
+                            variant="danger"
+                          >
+                            Excluir
+                          </TableActionItem>
+                        </TableActions>
                       </div>
                     </td>
                   </tr>
@@ -406,7 +407,7 @@ function Avaliacoes() {
               </div>
 
               <div style={painel}>
-                <h3 style={painelTitulo}>Ultima anamnese</h3>
+                <h3 style={painelTitulo}>Última anamnese</h3>
                 {anamneseAluno ? (
                   <>
                     <Info label="Objetivo principal" valor={anamneseAluno.objetivoPrincipal} />
@@ -426,12 +427,12 @@ function Avaliacoes() {
             <div style={detalhesGrid}>
               <TabelaComposicaoCorporal avaliacao={ultimaAvaliacao} />
               <div style={painel}>
-                <h3 style={painelTitulo}>Ultima avaliacao fisica</h3>
+                <h3 style={painelTitulo}>Última avaliação física</h3>
                 <Info label="Data" valor={formatarData(ultimaAvaliacao.data)} />
                 <Info label="Status" valor={formatarStatus(ultimaAvaliacao.status)} />
                 <Info label="Objetivo atual" valor={ultimaAvaliacao.objetivoAtual} />
-                <Info label="Aderencia treino" valor={ultimaAvaliacao.aderenciaTreino} />
-                <Info label="Aderencia dieta" valor={ultimaAvaliacao.aderenciaDieta} />
+                <Info label="Aderência treino" valor={ultimaAvaliacao.aderenciaTreino} />
+                <Info label="Aderência dieta" valor={ultimaAvaliacao.aderenciaDieta} />
               </div>
             </div>
 
@@ -563,8 +564,8 @@ function RelatorioAvaliacao({ aluno, avaliacao, anterior, anamnese }) {
           titulo="Observações e recomendações"
           itens={[
             ["Observações", avaliacao.observacoes || "-"],
-            ["Aderencia treino", avaliacao.aderenciaTreino || "-"],
-            ["Aderencia dieta", avaliacao.aderenciaDieta || "-"],
+            ["Aderência treino", avaliacao.aderenciaTreino || "-"],
+            ["Aderência dieta", avaliacao.aderenciaDieta || "-"],
             ["Recomendacoes", gerarRecomendacoes(avaliacao, anamnese)],
           ]}
         />
@@ -824,15 +825,6 @@ const botaoPrimario = {
 const botaoSecundario = {
   background: "#e5e7eb",
   color: "#111827",
-  border: "none",
-  padding: "8px 12px",
-  borderRadius: "6px",
-  cursor: "pointer",
-};
-
-const botaoExcluir = {
-  background: "#dc2626",
-  color: "white",
   border: "none",
   padding: "8px 12px",
   borderRadius: "6px",

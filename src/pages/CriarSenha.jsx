@@ -12,7 +12,7 @@ function CriarSenha() {
           <span style={etiqueta}>Primeiro acesso</span>
           <h1 style={titulo}>Crie sua senha de acesso</h1>
           <p style={descricao}>
-            Use esta tela quando acessar pelo convite enviado por email. Como o
+            Use esta tela quando acessar pelo convite enviado por e-mail. Como o
             convite ja autentica sua sessao, aqui voce cria uma senha sem
             precisar informar senha atual.
           </p>

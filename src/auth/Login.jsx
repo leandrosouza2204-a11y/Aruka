@@ -81,7 +81,7 @@ function Login() {
       return;
     }
 
-    setMensagem("Cadastro criado. Verifique seu email para confirmar o acesso.");
+    setMensagem("Cadastro criado. Verifique seu e-mail para confirmar o acesso.");
   }
 
   if (autenticado) {
@@ -95,8 +95,8 @@ function Login() {
           <BrandLogo variant="full" size="lg" />
           <p style={subtitulo}>
             {modoCadastro
-              ? "Crie sua conta para solicitar a liberacao."
-              : "Acesse sua area de gestao."}
+              ? "Crie sua conta para solicitar a liberação."
+              : "Acesse sua área de gestão."}
           </p>
         </div>
 
@@ -146,7 +146,7 @@ function Login() {
           }}
           style={botaoAlternar}
         >
-          {modoCadastro ? "Ja tenho conta" : "Criar nova conta"}
+          {modoCadastro ? "Já tenho conta" : "Criar nova conta"}
         </button>
 
         <FooterLegal compact />
