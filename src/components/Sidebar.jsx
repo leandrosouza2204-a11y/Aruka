@@ -12,10 +12,10 @@ import {
   KeyRound,
   Menu,
   Moon,
+  FileText,
   Sun,
 } from "lucide-react";
 import BrandLogo from "./BrandLogo";
-import FooterLegal from "./FooterLegal";
 import { supabase } from "../services/supabase";
 import { buscarPerfilUsuario } from "../services/perfisService";
 import { useTheme } from "../theme/useTheme";
@@ -150,6 +150,24 @@ function Sidebar() {
                 Alterar senha
               </button>
 
+              <Link
+                to="/politica-privacidade"
+                className="app-sidebar-menu-item"
+                style={styles.menuLink}
+              >
+                <FileText size={16} />
+                Política de Privacidade
+              </Link>
+
+              <Link
+                to="/termos-de-uso"
+                className="app-sidebar-menu-item"
+                style={styles.menuLink}
+              >
+                <FileText size={16} />
+                Termos de Uso
+              </Link>
+
               <button
                 type="button"
                 className="app-sidebar-menu-item"
@@ -164,10 +182,12 @@ function Sidebar() {
         </div>
 
         <div className="app-sidebar-brand" style={styles.brand}>
-          <BrandLogo variant="icon" size="sm" />
-          <div>
+          <div style={styles.logoWrap}>
+            <BrandLogo variant="icon" size="md" />
+          </div>
+          <div style={styles.brandCopy}>
             <h2 style={styles.title}>CoachFlow</h2>
-            <span style={styles.subtitle}>Organize. Guie. Transforme.</span>
+            <span style={styles.subtitle}>Painel Profissional</span>
           </div>
         </div>
       </div>
@@ -220,13 +240,15 @@ function Sidebar() {
       </nav>
 
       <div className="app-sidebar-footer" style={styles.footer}>
-        <strong className="app-sidebar-footer-name" style={styles.footerName}>
-          CoachFlow
-        </strong>
-        <span className="app-sidebar-footer-role" style={styles.footerRole}>
-          Organize. Guie. Transforme.
-        </span>
-        <FooterLegal compact dark />
+        <div style={styles.footerLinks}>
+          <Link to="/politica-privacidade" style={styles.footerLink}>
+            Privacidade
+          </Link>
+          <Link to="/termos-de-uso" style={styles.footerLink}>
+            Termos
+          </Link>
+        </div>
+        <span style={styles.footerVersion}>Versão 1.0</span>
       </div>
     </div>
   );
@@ -236,6 +258,7 @@ function MenuLink({ to, active, icon, label }) {
   return (
     <Link
       to={to}
+      className={`app-sidebar-link${active ? " app-sidebar-link-active" : ""}`}
       style={{
         ...styles.link,
         ...(active ? styles.active : {}),
@@ -256,7 +279,7 @@ const styles = {
     width: "260px",
     background: "linear-gradient(180deg, #0b1220, #111827)",
     color: "white",
-    padding: "16px",
+    padding: "18px 16px",
     display: "flex",
     flexDirection: "column",
     borderRight: "1px solid rgba(255,255,255,0.06)",
@@ -267,8 +290,8 @@ const styles = {
   header: {
     display: "flex",
     alignItems: "center",
-    gap: "10px",
-    marginBottom: "30px",
+    gap: "12px",
+    marginBottom: "28px",
     position: "relative",
   },
 
@@ -278,17 +301,18 @@ const styles = {
   },
 
   toggle: {
-    background: "rgba(255,255,255,0.06)",
-    border: "none",
+    background: "rgba(255,255,255,0.07)",
+    border: "1px solid rgba(255,255,255,0.08)",
     color: "white",
     padding: "8px",
-    borderRadius: "8px",
+    borderRadius: "10px",
     cursor: "pointer",
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    minHeight: "36px",
-    width: "36px",
+    minHeight: "40px",
+    transition: "all 0.2s ease",
+    width: "40px",
   },
 
   accountMenu: {
@@ -349,72 +373,125 @@ const styles = {
     width: "100%",
   },
 
+  menuLink: {
+    alignItems: "center",
+    background: "rgba(255,255,255,0.07)",
+    border: "none",
+    borderRadius: "8px",
+    color: "white",
+    cursor: "pointer",
+    display: "flex",
+    gap: "9px",
+    justifyContent: "flex-start",
+    minHeight: "40px",
+    padding: "10px 12px",
+    textAlign: "left",
+    textDecoration: "none",
+    width: "100%",
+  },
+
   brand: {
     display: "flex",
     flex: 1,
     alignItems: "center",
-    gap: "10px",
+    gap: "12px",
     lineHeight: "1.15",
+    minWidth: 0,
+    padding: "4px 0",
+  },
+
+  logoWrap: {
+    alignItems: "center",
+    background:
+      "linear-gradient(135deg, rgba(37,99,235,0.18), rgba(14,165,233,0.08))",
+    border: "1px solid rgba(147,197,253,0.2)",
+    borderRadius: "14px",
+    boxShadow: "0 14px 34px rgba(37, 99, 235, 0.14)",
+    display: "flex",
+    height: "54px",
+    justifyContent: "center",
+    overflow: "hidden",
+    width: "54px",
+  },
+
+  brandCopy: {
+    display: "grid",
+    gap: "4px",
+    minWidth: 0,
   },
 
   title: {
     margin: 0,
-    fontSize: "18px",
-    fontWeight: "800",
+    fontSize: "19px",
+    fontWeight: "900",
+    letterSpacing: "0",
   },
 
   subtitle: {
-    fontSize: "11px",
-    opacity: 0.65,
+    color: "rgba(255,255,255,0.52)",
+    fontSize: "12px",
+    fontWeight: "600",
     letterSpacing: "0",
   },
 
   nav: {
     display: "flex",
     flexDirection: "column",
-    gap: "8px",
+    gap: "7px",
   },
 
   link: {
     display: "flex",
     alignItems: "center",
-    gap: "10px",
-    padding: "12px",
-    borderRadius: "10px",
-    color: "rgba(255,255,255,0.7)",
+    gap: "11px",
+    padding: "12px 13px",
+    border: "1px solid transparent",
+    borderRadius: "12px",
+    color: "rgba(255,255,255,0.72)",
     textDecoration: "none",
     fontSize: "14px",
+    fontWeight: "600",
     transition: "all 0.2s ease",
   },
 
   active: {
-    background: "rgba(255,255,255,0.08)",
+    background: "rgba(37,99,235,0.16)",
+    borderColor: "rgba(147,197,253,0.18)",
+    boxShadow:
+      "inset 0 1px 0 rgba(255,255,255,0.05), 0 12px 26px rgba(37,99,235,0.12)",
     color: "#ffffff",
-    fontWeight: "600",
+    fontWeight: "800",
     transform: "translateX(2px)",
   },
 
   footer: {
     marginTop: "auto",
-    paddingTop: "18px",
+    paddingTop: "16px",
     borderTop: "1px solid rgba(255,255,255,0.08)",
-    display: "flex",
-    flexDirection: "column",
+    display: "grid",
     alignItems: "center",
-    gap: "3px",
+    gap: "8px",
     textAlign: "center",
   },
 
-  footerName: {
-    fontSize: "13px",
-    fontWeight: "700",
+  footerLinks: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "12px",
     width: "100%",
   },
 
-  footerRole: {
-    color: "rgba(255,255,255,0.55)",
+  footerLink: {
+    color: "rgba(255,255,255,0.58)",
     fontSize: "12px",
-    width: "100%",
+    fontWeight: "700",
+    textDecoration: "none",
+  },
+
+  footerVersion: {
+    color: "rgba(255,255,255,0.34)",
+    fontSize: "11px",
+    fontWeight: "700",
   },
 };
 

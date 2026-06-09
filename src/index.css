@@ -130,6 +130,37 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
   display: none;
 }
 
+.app-sidebar-toggle:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(147, 197, 253, 0.22) !important;
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.12) !important;
+  transform: translateY(-1px);
+}
+
+.app-sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(147, 197, 253, 0.14) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 12px 24px rgba(37, 99, 235, 0.09) !important;
+  color: #ffffff !important;
+  transform: translateX(2px);
+}
+
+.app-sidebar-link-active svg,
+.app-sidebar-link:hover svg {
+  color: #93c5fd;
+  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.28));
+}
+
+.app-sidebar-menu-item:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+.app-sidebar-footer a:hover {
+  color: #bfdbfe !important;
+}
+
 @media (max-width: 1100px), (pointer: coarse) {
   body {
     font-size: 14px;
@@ -168,8 +199,8 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
   }
 
   .app-sidebar-header {
-    min-height: 42px !important;
-    margin-bottom: 8px !important;
+    min-height: 58px !important;
+    margin-bottom: 10px !important;
   }
 
   .app-sidebar-toggle {
@@ -205,6 +236,10 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
     justify-content: center !important;
     min-width: 48px !important;
     padding: 10px 12px !important;
+    transform: none !important;
+  }
+
+  .app-sidebar-nav a:hover {
     transform: none !important;
   }
 
