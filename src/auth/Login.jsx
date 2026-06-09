@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import BrandLogo from "../components/BrandLogo";
 import FooterLegal from "../components/FooterLegal";
 import { criarPerfilPadrao } from "../services/perfisService";
@@ -7,7 +7,6 @@ import { supabase, supabaseConfigurado } from "../services/supabase";
 
 function Login() {
   const navigate = useNavigate();
-  const location = useLocation();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
@@ -16,7 +15,7 @@ function Login() {
   const [autenticado, setAutenticado] = useState(false);
   const [modoCadastro, setModoCadastro] = useState(false);
 
-  const destino = location.state?.from?.pathname || "/";
+  const destino = "/";
 
   async function entrar(e) {
     e.preventDefault();
