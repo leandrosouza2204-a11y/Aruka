@@ -1033,12 +1033,67 @@ body[data-theme="dark"] .admin-logs-panel select {
   margin-top: 16px;
 }
 
+.treinos-mobile-cards {
+  display: none;
+  margin-top: 16px;
+}
+
+.treino-mobile-card {
+  display: grid;
+  gap: 14px;
+}
+
+.mobile-card-header {
+  align-items: flex-start;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.mobile-card-header > div {
+  display: grid;
+  gap: 4px;
+}
+
+.mobile-card-header span,
+.mobile-card-grid small {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.mobile-card-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.mobile-card-grid span {
+  display: grid;
+  font-size: 13px;
+  font-weight: 750;
+  gap: 3px;
+}
+
+.mobile-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 @media (max-width: 768px) {
   .financeiro-table {
     display: none !important;
   }
 
   .financeiro-mobile-cards {
+    display: grid !important;
+  }
+
+  .treinos-table {
+    display: none !important;
+  }
+
+  .treinos-mobile-cards {
     display: grid !important;
   }
 }
