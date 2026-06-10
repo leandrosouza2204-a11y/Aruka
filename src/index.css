@@ -1023,3 +1023,141 @@ body[data-theme="dark"] .admin-logs-panel select {
   border-color: rgba(148, 163, 184, 0.28) !important;
   color: #f8fafc !important;
 }
+
+.admin-logs-panel form > div:last-child button {
+  flex: 1 1 0;
+}
+
+body[data-theme="dark"] .dashboard-page,
+body[data-theme="dark"] .treinos-page {
+  background: radial-gradient(circle at top right, rgba(37, 99, 235, 0.14), transparent 340px), #0b1220 !important;
+  color: #f8fafc !important;
+}
+
+body[data-theme="dark"] .dashboard-page h1,
+body[data-theme="dark"] .dashboard-page h2,
+body[data-theme="dark"] .dashboard-page p,
+body[data-theme="dark"] .dashboard-page span,
+body[data-theme="dark"] .treinos-page h1,
+body[data-theme="dark"] .treinos-page h2,
+body[data-theme="dark"] .treinos-page h3,
+body[data-theme="dark"] .treinos-page h4,
+body[data-theme="dark"] .treinos-page p,
+body[data-theme="dark"] .treinos-page span {
+  color: inherit;
+}
+
+body[data-theme="dark"] .dashboard-page h1,
+body[data-theme="dark"] .dashboard-page h2,
+body[data-theme="dark"] .treinos-page h1,
+body[data-theme="dark"] .treinos-page h2,
+body[data-theme="dark"] .treinos-page h3,
+body[data-theme="dark"] .treinos-page h4 {
+  color: #f8fafc !important;
+}
+
+body[data-theme="dark"] .dashboard-page p,
+body[data-theme="dark"] .dashboard-page .dashboard-metric-card span,
+body[data-theme="dark"] .treinos-page p {
+  color: #cbd5e1 !important;
+}
+
+body[data-theme="dark"] .dashboard-metric-card,
+body[data-theme="dark"] .dashboard-panel,
+body[data-theme="dark"] .treinos-list-card,
+body[data-theme="dark"] .treinos-details-card,
+body[data-theme="dark"] .treinos-empty-card {
+  background: #111827 !important;
+  border-color: rgba(148, 163, 184, 0.18) !important;
+  box-shadow: 0 22px 56px rgba(0, 0, 0, 0.28) !important;
+  color: #f8fafc !important;
+}
+
+body[data-theme="dark"] .dashboard-metric-card > p,
+body[data-theme="dark"] .dashboard-metric-card strong {
+  color: #f8fafc !important;
+}
+
+body[data-theme="dark"] .dashboard-metric-card [style*="color: rgb(22, 163, 74)"],
+body[data-theme="dark"] .dashboard-metric-card [style*="color: #16a34a"] {
+  color: #22c55e !important;
+}
+
+body[data-theme="dark"] .dashboard-metric-card [style*="color: rgb(220, 38, 38)"],
+body[data-theme="dark"] .dashboard-metric-card [style*="color: #dc2626"] {
+  color: #ef4444 !important;
+}
+
+body[data-theme="dark"] .dashboard-metric-card [style*="color: rgb(245, 158, 11)"],
+body[data-theme="dark"] .dashboard-metric-card [style*="color: #f59e0b"] {
+  color: #f59e0b !important;
+}
+
+body[data-theme="dark"] .dashboard-metric-card svg,
+body[data-theme="dark"] .treinos-page svg {
+  color: #60a5fa !important;
+}
+
+body[data-theme="dark"] .dashboard-panel [style*="background: #eef2ff"],
+body[data-theme="dark"] .dashboard-panel [style*="background: rgb(238, 242, 255)"],
+body[data-theme="dark"] .dashboard-panel [style*="background: #f9fafb"],
+body[data-theme="dark"] .dashboard-alert-item {
+  background: #0f172a !important;
+  border-color: rgba(148, 163, 184, 0.18) !important;
+}
+
+body[data-theme="dark"] .dashboard-panel [style*="color: #374151"],
+body[data-theme="dark"] .dashboard-panel [style*="color: #4b5563"],
+body[data-theme="dark"] .dashboard-panel [style*="color: #6b7280"] {
+  color: #cbd5e1 !important;
+}
+
+body[data-theme="dark"] .dashboard-empty-premium {
+  background: rgba(22, 101, 52, 0.18) !important;
+  border-color: rgba(74, 222, 128, 0.35) !important;
+  color: #bbf7d0 !important;
+}
+
+body[data-theme="dark"] .treinos-modelos,
+body[data-theme="dark"] .treinos-info-grid,
+body[data-theme="dark"] .treinos-days-block {
+  background: #0f172a !important;
+  border-color: rgba(148, 163, 184, 0.18) !important;
+}
+
+body[data-theme="dark"] .treinos-page input,
+body[data-theme="dark"] .treinos-page select {
+  background: #111827 !important;
+  border-color: rgba(148, 163, 184, 0.24) !important;
+  color: #f8fafc !important;
+}
+
+body[data-theme="dark"] .treinos-page input::placeholder {
+  color: #94a3b8 !important;
+}
+
+body[data-theme="dark"] .treinos-page table {
+  background: #111827 !important;
+  color: #f8fafc !important;
+}
+
+body[data-theme="dark"] .treinos-page td {
+  border-color: rgba(148, 163, 184, 0.16) !important;
+  color: #f8fafc !important;
+}
+
+body[data-theme="dark"] .treinos-page details,
+body[data-theme="dark"] .treinos-page [style*="background: rgba(255, 255, 255"],
+body[data-theme="dark"] .treinos-page [style*="background: white"] {
+  background: #111827 !important;
+  border-color: rgba(148, 163, 184, 0.18) !important;
+}
+
+body[data-theme="dark"] .treinos-page [style*="color: #111827"] {
+  color: #f8fafc !important;
+}
+
+body[data-theme="dark"] .treinos-page [style*="color: #6b7280"],
+body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
+  color: #cbd5e1 !important;
+}

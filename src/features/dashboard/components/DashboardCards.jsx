@@ -114,7 +114,7 @@ function Dashboard() {
     <div style={{ display: "flex" }}>
       <Sidebar />
 
-      <div style={conteudo}>
+      <div className="dashboard-page" style={conteudo}>
         <header style={dashboardHeader}>
           <div>
             <h1 style={dashboardTitulo}>Dashboard da Consultoria</h1>
@@ -142,7 +142,7 @@ function Dashboard() {
           <MetricCard
             titulo="Receita Recebida"
             valor={carregando ? "..." : formatarMoeda(receitaRecebida)}
-            legenda="Pagamentos ja confirmados"
+            legenda="Pagamentos já confirmados"
             icon={<WalletCards size={18} />}
             destaque="#16a34a"
           />
@@ -188,7 +188,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <section style={graficoCard}>
+        <section className="dashboard-panel" style={graficoCard}>
           <div style={secaoTopo}>
             <div>
               <h2 style={secaoTitulo}>Receita Mensal</h2>
@@ -248,7 +248,7 @@ function Dashboard() {
           )}
         </section>
 
-        <section style={resumoCard}>
+        <section className="dashboard-panel" style={resumoCard}>
           <div style={secaoTopo}>
             <div>
               <h2 style={secaoTitulo}>Alertas da consultoria</h2>
@@ -263,7 +263,7 @@ function Dashboard() {
           ) : alertasConsultoria.length > 0 ? (
             <div style={alertasGrid}>
               {alertasConsultoria.map((alerta) => (
-                <div key={alerta.titulo} style={alertaItem}>
+                <div key={alerta.titulo} className="dashboard-alert-item" style={alertaItem}>
                   <span className={`status-badge status-badge-${alerta.tom}`}>
                     {alerta.rotulo}
                   </span>
@@ -275,7 +275,7 @@ function Dashboard() {
               ))}
             </div>
           ) : (
-            <div style={estadoVazioPremium}>
+            <div className="dashboard-empty-premium" style={estadoVazioPremium}>
               <CheckCircle2 size={20} />
               <span>Tudo certo por enquanto. Nenhuma ação crítica encontrada.</span>
             </div>
@@ -335,7 +335,7 @@ function montarAlertasConsultoria({
   if (receitaPendente > 0) {
     alertas.push({
       titulo: "Revisar pagamentos pendentes",
-      texto: "Confira o financeiro e registre recebimentos ja confirmados.",
+      texto: "Confira o financeiro e registre recebimentos já confirmados.",
       rotulo: "Financeiro",
       tom: "info",
     });

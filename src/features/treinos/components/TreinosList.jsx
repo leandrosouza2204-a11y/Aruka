@@ -256,8 +256,8 @@ function Treinos() {
     <div style={{ display: "flex" }}>
       <Sidebar />
 
-      <div style={conteudo}>
-        <section style={listaCard}>
+      <div className="treinos-page" style={conteudo}>
+        <section className="treinos-list-card" style={listaCard}>
           <div style={listaTopo}>
             <div>
               <h1 style={tituloPagina}>Sistema de Treinos</h1>
@@ -271,7 +271,7 @@ function Treinos() {
             </button>
           </div>
 
-          <div style={modelosRapidos}>
+          <div className="treinos-modelos" style={modelosRapidos}>
             <div>
               <span style={modelosTitulo}>Modelos rápidos</span>
               <p style={modelosLegenda}>Comece por uma estrutura pronta e ajuste depois.</p>
@@ -291,7 +291,7 @@ function Treinos() {
             </div>
           </div>
 
-          <div style={filtros}>
+          <div className="treinos-filtros" style={filtros}>
             <input
               placeholder="Buscar por aluno ou rotina"
               value={busca}
@@ -441,7 +441,7 @@ function Treinos() {
         </div>
 
         {treinoSelecionado && (
-          <section style={detalhesCard}>
+          <section className="treinos-details-card" style={detalhesCard}>
             <div style={detalhesHero}>
               <div>
                 <span style={detalhesEyebrow}>Treino selecionado</span>
@@ -479,7 +479,7 @@ function Treinos() {
               </div>
             </div>
 
-            <div style={infoGrid}>
+            <div className="treinos-info-grid" style={infoGrid}>
               <Info
                 label="Objetivo"
                 valor={treinoSelecionado.objetivo}
@@ -517,7 +517,7 @@ function Treinos() {
               />
             </div>
 
-            <section style={diasBloco}>
+            <section className="treinos-days-block" style={diasBloco}>
               <div style={diasHeader}>
                 <div>
                   <h3 style={diasTitulo}>Dias do treino</h3>
@@ -573,7 +573,7 @@ function Treinos() {
         )}
 
         {!treinoSelecionado && !carregando && (
-          <section style={semTreinoCard}>
+          <section className="treinos-empty-card" style={semTreinoCard}>
             <div style={semTreinoIcone}>
               <Dumbbell size={22} />
             </div>

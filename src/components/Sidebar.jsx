@@ -126,9 +126,9 @@ function Sidebar() {
               role="menu"
             >
               <div style={styles.userBox}>
-                <span style={styles.userLabel}>UsuÃ¡rio logado</span>
+                <span style={styles.userLabel}>Usuário logado</span>
                 {nomeUsuario && <strong style={styles.userName}>{nomeUsuario}</strong>}
-                <span style={styles.userEmail}>{emailUsuario || "E-mail indisponÃ­vel"}</span>
+                <span style={styles.userEmail}>{emailUsuario || "E-mail indisponível"}</span>
               </div>
 
               <button
@@ -157,7 +157,7 @@ function Sidebar() {
                 style={styles.menuLink}
               >
                 <FileText size={16} />
-                PolÃ­tica de Privacidade
+                Política de Privacidade
               </Link>
 
               <Link
@@ -222,7 +222,7 @@ function Sidebar() {
           to="/avaliacoes"
           active={isActive("/avaliacoes")}
           icon={<ClipboardCheck size={18} />}
-          label="AvaliaÃ§Ãµes"
+          label="Avaliações"
         />
         <MenuLink
           to="/treinos"
@@ -258,7 +258,7 @@ function Sidebar() {
             Termos
           </Link>
         </div>
-        <span style={styles.footerVersion}>VersÃ£o 1.0</span>
+        <span style={styles.footerVersion}>Versão 1.0</span>
       </div>
     </div>
   );
@@ -515,3 +515,4 @@ const styles = {
 };
 
 export default Sidebar;
+

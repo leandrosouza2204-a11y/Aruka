@@ -337,7 +337,7 @@ const filtrosGrid = {
   alignItems: "end",
   display: "grid",
   gap: "12px",
-  gridTemplateColumns: "minmax(180px, 1.4fr) minmax(150px, 1fr) minmax(180px, 1.2fr) repeat(2, minmax(140px, 0.8fr)) auto",
+  gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
 };
 
 const campoGrupo = {
@@ -361,8 +361,10 @@ const campo = {
 };
 
 const acoesFiltro = {
+  alignSelf: "end",
   display: "flex",
   gap: "8px",
+  minWidth: "180px",
 };
 
 const botaoPrimario = {
