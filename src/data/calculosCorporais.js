@@ -93,15 +93,54 @@ export function calcularPercentualGorduraEstimado({
   );
 }
 
+export function calcularPercentualGorduraPorDobras({ sexo, idade, dobras }) {
+  const idadeAnos = numero(idade);
+  const sexoNormalizado = String(sexo || "").toLowerCase();
+
+  if (!idadeAnos || !dobras) return "";
+
+  const campos =
+    sexoNormalizado === "feminino"
+      ? ["triceps", "supraIliaca", "coxa"]
+      : ["peitoral", "abdominal", "coxa"];
+
+  const valores = campos.map((campo) => numero(dobras[campo]));
+
+  if (valores.some((valor) => !valor)) return "";
+
+  const soma3 = valores.reduce((total, valor) => total + valor, 0);
+  const densidade =
+    sexoNormalizado === "feminino"
+      ? 1.0994921 -
+        0.0009929 * soma3 +
+        0.0000023 * soma3 ** 2 -
+        0.0001392 * idadeAnos
+      : 1.10938 -
+        0.0008267 * soma3 +
+        0.0000016 * soma3 ** 2 -
+        0.0002574 * idadeAnos;
+
+  if (!Number.isFinite(densidade) || densidade <= 0) return "";
+
+  return arredondar(495 / densidade - 450);
+}
+
 export function calcularComposicaoCorporal(avaliacao) {
   const peso = numero(avaliacao?.peso);
-  const percentualGordura = calcularPercentualGorduraEstimado({
+  const percentualPorDobras = calcularPercentualGorduraPorDobras({
+    sexo: avaliacao?.sexo,
+    idade: avaliacao?.idade,
+    dobras: avaliacao?.dobras,
+  });
+  const percentualPorMedidas = calcularPercentualGorduraEstimado({
     sexo: avaliacao?.sexo,
     altura: avaliacao?.altura,
     cintura: avaliacao?.medidas?.cintura,
     pescoco: avaliacao?.medidas?.pescoco,
     quadril: avaliacao?.medidas?.quadril,
   });
+  const percentualGordura =
+    percentualPorDobras !== "" ? percentualPorDobras : percentualPorMedidas;
   const massaGorda = peso && percentualGordura ? peso * (percentualGordura / 100) : "";
   const massaMagra = peso && massaGorda !== "" ? peso - massaGorda : "";
   const percentualMassaMagra =
@@ -118,6 +157,12 @@ export function calcularComposicaoCorporal(avaliacao) {
     percentualMassaMagra: arredondar(percentualMassaMagra),
     massaGorda: arredondar(massaGorda),
     massaMagra: arredondar(massaMagra),
+    metodoPercentualGordura:
+      percentualPorDobras !== ""
+        ? "Jackson & Pollock 3 dobras"
+        : percentualPorMedidas !== ""
+          ? "Estimativa por medidas antropométricas"
+          : "Dados insuficientes",
     relacaoCinturaQuadril,
     classificacaoRelacaoCinturaQuadril: classificarRelacaoCinturaQuadril(
       relacaoCinturaQuadril,

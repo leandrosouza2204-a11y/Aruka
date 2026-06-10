@@ -19,16 +19,16 @@ const avaliacaoVazia = {
 };
 
 const medidasCampos = [
-  ["pescoco", "Pescoco"],
+  ["pescoco", "Pescoço"],
   ["ombro", "Ombro"],
   ["torax", "Tórax"],
   ["cintura", "Cintura"],
   ["abdomen", "Abdômen"],
   ["quadril", "Quadril"],
-  ["bracoDireito", "Braco direito"],
-  ["bracoEsquerdo", "Braco esquerdo"],
-  ["antebracoDireito", "Antebraco direito"],
-  ["antebracoEsquerdo", "Antebraco esquerdo"],
+  ["bracoDireito", "Braço direito"],
+  ["bracoEsquerdo", "Braço esquerdo"],
+  ["antebracoDireito", "Antebraço direito"],
+  ["antebracoEsquerdo", "Antebraço esquerdo"],
   ["coxaDireita", "Coxa direita"],
   ["coxaEsquerda", "Coxa esquerda"],
   ["panturrilhaDireita", "Panturrilha direita"],
@@ -41,8 +41,8 @@ const dobrasCampos = [
   ["coxa", "Coxa"],
   ["triceps", "Tríceps"],
   ["subescapular", "Subescapular"],
-  ["supraIliaca", "Supra-iliaca"],
-  ["axilarMedia", "Axilar media"],
+  ["supraIliaca", "Supra-ilíaca"],
+  ["axilarMedia", "Axilar média"],
 ];
 
 function AvaliacaoModal({ alunos, avaliacao, onClose, onSave }) {

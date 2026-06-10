@@ -25,6 +25,7 @@ export function useAvaliacoesPage() {
   const [anamneseEditando, setAnamneseEditando] = useState(null);
   const [alunoSelecionado, setAlunoSelecionado] = useState("");
   const [relatorioAberto, setRelatorioAberto] = useState(false);
+  const [relatorioAnamneseAberto, setRelatorioAnamneseAberto] = useState(false);
   const [busca, setBusca] = useState("");
   const [filtroAluno, setFiltroAluno] = useState("todos");
   const [carregando, setCarregando] = useState(true);
@@ -235,6 +236,7 @@ export function useAvaliacoesPage() {
   function selecionarPerfilAluno(aluno) {
     setAlunoSelecionado(aluno);
     setRelatorioAberto(false);
+    setRelatorioAnamneseAberto(false);
   }
 
   function fecharPerfilAluno() {
@@ -243,6 +245,10 @@ export function useAvaliacoesPage() {
 
   function alternarRelatorio() {
     setRelatorioAberto((valor) => !valor);
+  }
+
+  function alternarRelatorioAnamnese() {
+    setRelatorioAnamneseAberto((valor) => !valor);
   }
 
   function fecharModalAvaliacao() {
@@ -274,12 +280,14 @@ export function useAvaliacoesPage() {
     modalAnamnese,
     modalAvaliacao,
     primeiraAvaliacao,
+    relatorioAnamneseAberto,
     relatorioAberto,
     ultimaAvaliacao,
     abrirEdicaoAvaliacao,
     abrirNovaAnamnese,
     abrirNovaAvaliacao,
     alternarRelatorio,
+    alternarRelatorioAnamnese,
     copiarResumoWhatsApp,
     editarAnamneseAluno,
     fecharModalAnamnese,
@@ -403,12 +411,16 @@ export function comparar(atual, anterior, unidade) {
 
 export function formatarData(data) {
   if (!data) return "-";
-  return new Date(`${data}T00:00:00`).toLocaleDateString("pt-BR");
+  const texto = String(data);
+  const valor = texto.includes("T") ? texto : `${texto}T00:00:00`;
+  return new Date(valor).toLocaleDateString("pt-BR");
 }
 
 export function formatarDataCurta(data) {
   if (!data) return "-";
-  return new Date(`${data}T00:00:00`).toLocaleDateString("pt-BR", {
+  const texto = String(data);
+  const valor = texto.includes("T") ? texto : `${texto}T00:00:00`;
+  return new Date(valor).toLocaleDateString("pt-BR", {
     day: "2-digit",
     month: "2-digit",
   });

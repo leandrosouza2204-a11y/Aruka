@@ -5,7 +5,8 @@ function TabelaComposicaoCorporal({ avaliacao }) {
 
   const linhas = [
     ["Peso", formatarKg(composicao.peso)],
-    ["% gordura estimado", formatarPercentual(composicao.percentualGordura)],
+    ["Percentual de gordura", formatarPercentual(composicao.percentualGordura)],
+    ["Método", composicao.metodoPercentualGordura],
     ["Massa gorda", formatarKg(composicao.massaGorda)],
     ["% massa magra", formatarPercentual(composicao.percentualMassaMagra)],
     ["Massa magra", formatarKg(composicao.massaMagra)],
@@ -26,13 +27,14 @@ function TabelaComposicaoCorporal({ avaliacao }) {
           {linhas.map(([label, valor]) => (
             <tr key={label}>
               <td style={celulaLabel}>{label}</td>
-              <td style={celulaValor}>{valor}</td>
+              <td style={celulaValor}>{valor || "-"}</td>
             </tr>
           ))}
         </tbody>
       </table>
       <p style={nota}>
-        Calculos estimados por medidas antropometricas, apenas para acompanhamento.
+        Cálculos estimados para acompanhamento. Quando houver dobras cutâneas
+        suficientes, o protocolo de Jackson & Pollock é priorizado.
       </p>
     </div>
   );

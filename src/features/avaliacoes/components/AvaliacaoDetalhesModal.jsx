@@ -13,6 +13,16 @@ import {
 } from "../hooks/useAvaliacoesPage";
 import AnamneseResumoCard from "./AnamneseResumoCard";
 
+const dobrasRelatorio = [
+  ["Peitoral", "peitoral"],
+  ["Abdominal", "abdominal"],
+  ["Coxa", "coxa"],
+  ["Tríceps", "triceps"],
+  ["Subescapular", "subescapular"],
+  ["Supra-ilíaca", "supraIliaca"],
+  ["Axilar média", "axilarMedia"],
+];
+
 function AvaliacaoDetalhesModal({
   alertas,
   alunoCadastro,
@@ -21,8 +31,10 @@ function AvaliacaoDetalhesModal({
   avaliacaoAnterior,
   historicoAluno,
   primeiraAvaliacao,
+  relatorioAnamneseAberto,
   relatorioAberto,
   ultimaAvaliacao,
+  onAlternarRelatorioAnamnese,
   onAlternarRelatorio,
   onCopiarResumo,
   onFechar,
@@ -45,6 +57,12 @@ function AvaliacaoDetalhesModal({
           </button>
           <button onClick={onAlternarRelatorio} style={styles.botaoSecundario}>
             Gerar relatório da avaliação
+          </button>
+          <button
+            onClick={onAlternarRelatorioAnamnese}
+            style={styles.botaoSecundario}
+          >
+            Gerar relatório da anamnese
           </button>
           <button onClick={onFechar} style={styles.botaoSecundario}>
             Fechar
@@ -158,6 +176,15 @@ function AvaliacaoDetalhesModal({
         />
       )}
 
+      {relatorioAnamneseAberto && (
+        <RelatorioAnamnese
+          aluno={alunoCadastro}
+          alunoSelecionado={alunoSelecionado}
+          anamnese={anamneseAluno}
+          styles={styles}
+        />
+      )}
+
       <h3 style={styles.subtituloSecao}>Histórico de evolução</h3>
       <div className="responsive-table">
         <table style={styles.tabela}>
@@ -234,9 +261,18 @@ function RelatorioAvaliacao({ aluno, avaliacao, anterior, anamnese, styles }) {
           styles={styles}
         />
         <BlocoRelatorio
+          titulo="Dobras cutâneas"
+          itens={dobrasRelatorio.map(([label, chave]) => [
+            label,
+            formatarMm(avaliacao.dobras?.[chave]),
+          ])}
+          styles={styles}
+        />
+        <BlocoRelatorio
           titulo="Composição estimada"
           itens={[
-            ["% gordura", formatarPercentual(composicao.percentualGordura)],
+            ["Percentual de gordura", formatarPercentual(composicao.percentualGordura)],
+            ["Método", composicao.metodoPercentualGordura],
             ["Massa magra", formatarKg(composicao.massaMagra)],
             ["Massa gorda", formatarKg(composicao.massaGorda)],
             ["IMC", composicao.imc || "-"],
@@ -273,6 +309,119 @@ function RelatorioAvaliacao({ aluno, avaliacao, anterior, anamnese, styles }) {
             ["Aderência treino", avaliacao.aderenciaTreino || "-"],
             ["Aderência dieta", avaliacao.aderenciaDieta || "-"],
             ["Recomendações", gerarRecomendacoes(avaliacao, anamnese)],
+          ]}
+          styles={styles}
+        />
+      </div>
+    </section>
+  );
+}
+
+function RelatorioAnamnese({ aluno, alunoSelecionado, anamnese, styles }) {
+  if (!anamnese) {
+    return (
+      <section style={styles.relatorio}>
+        <h3 style={styles.subtituloSecao}>Relatório da anamnese</h3>
+        <p style={styles.resumoLista}>
+          Nenhuma anamnese cadastrada para este aluno.
+        </p>
+      </section>
+    );
+  }
+
+  return (
+    <section style={styles.relatorio}>
+      <h3 style={styles.subtituloSecao}>Relatório da anamnese</h3>
+      <div style={styles.relatorioGrid}>
+        <BlocoRelatorio
+          titulo="Aluno"
+          itens={[
+            ["Nome", aluno?.nome || alunoSelecionado || anamnese.aluno],
+            ["Data", formatarData(anamnese.createdAt)],
+            ["WhatsApp", aluno?.whatsapp || "-"],
+            ["Status", aluno?.status || "-"],
+          ]}
+          styles={styles}
+        />
+        <BlocoRelatorio
+          titulo="Escalas de acompanhamento"
+          itens={[
+            ["Sono", formatarEscala(anamnese.escalaSono)],
+            ["Estresse", formatarEscala(anamnese.escalaEstresse)],
+            ["Energia", formatarEscala(anamnese.escalaEnergia)],
+            ["Fome", formatarEscala(anamnese.escalaFome)],
+            ["Motivação", formatarEscala(anamnese.escalaMotivacao)],
+            ["Adesão à rotina", formatarEscala(anamnese.escalaAdesaoRotina)],
+          ]}
+          styles={styles}
+        />
+        <BlocoRelatorio
+          titulo="Dados pessoais"
+          itens={[
+            ["Profissão", anamnese.profissao],
+            ["Rotina de trabalho", anamnese.rotinaTrabalho],
+            ["Objetivo principal", anamnese.objetivoPrincipal],
+            ["Objetivo secundário", anamnese.objetivoSecundario],
+          ]}
+          styles={styles}
+        />
+        <BlocoRelatorio
+          titulo="Saúde geral"
+          itens={[
+            ["Doença diagnosticada", anamnese.doencaDiagnosticada],
+            ["Usa medicamento", anamnese.medicamento],
+            ["Dores ou lesões", anamnese.doresLesoes],
+            ["Cirurgia", anamnese.cirurgia],
+            ["Restrição médica", anamnese.restricaoMedica],
+            ["Liberado para exercícios", anamnese.liberadoExercicios],
+          ]}
+          styles={styles}
+        />
+        <BlocoRelatorio
+          titulo="Histórico de treino"
+          itens={[
+            ["Já treinou", anamnese.jaTreinou],
+            ["Tempo de experiência", anamnese.tempoExperiencia],
+            ["Frequência semanal", anamnese.frequenciaSemanal],
+            ["Dias disponíveis", anamnese.diasDisponiveis],
+            ["Tempo por treino", anamnese.tempoPorTreino],
+            ["Local de treino", anamnese.localTreino],
+            ["Equipamentos", anamnese.equipamentos],
+          ]}
+          styles={styles}
+        />
+        <BlocoRelatorio
+          titulo="Hábitos"
+          itens={[
+            ["Qualidade do sono", anamnese.qualidadeSono],
+            ["Horas de sono", anamnese.horasSono],
+            ["Nível de estresse", anamnese.nivelEstresse],
+            ["Ingestão de água", anamnese.ingestaoAgua],
+            ["Consumo de álcool", anamnese.consumoAlcool],
+            ["Tabagismo", anamnese.tabagismo],
+          ]}
+          styles={styles}
+        />
+        <BlocoRelatorio
+          titulo="Alimentação"
+          itens={[
+            ["Segue dieta", anamnese.segueDieta],
+            ["Nutricionista", anamnese.nutricionista],
+            ["Refeições por dia", anamnese.refeicoesDia],
+            ["Dificuldade alimentar", anamnese.dificuldadeAlimentacao],
+            ["Fome à noite", anamnese.fomeNoite],
+            ["Compulsão alimentar", anamnese.compulsaoAlimentar],
+          ]}
+          styles={styles}
+        />
+        <BlocoRelatorio
+          titulo="Preferências"
+          itens={[
+            ["Exercícios que gosta", anamnese.exerciciosGosta],
+            ["Exercícios que não gosta", anamnese.exerciciosNaoGosta],
+            ["Grupos prioritários", anamnese.gruposPrioritarios],
+            ["Limitações de horário", anamnese.limitacoesHorario],
+            ["Observações importantes", anamnese.observacoesImportantes],
           ]}
           styles={styles}
         />
@@ -331,6 +480,14 @@ function Info({ label, valor, styles }) {
       <strong style={styles.infoValor}>{valor || "-"}</strong>
     </div>
   );
+}
+
+function formatarMm(valor) {
+  return valor ? `${Number(valor).toFixed(1)} mm` : "-";
+}
+
+function formatarEscala(valor) {
+  return valor ? `${valor}/5` : "-";
 }
 
 export default AvaliacaoDetalhesModal;

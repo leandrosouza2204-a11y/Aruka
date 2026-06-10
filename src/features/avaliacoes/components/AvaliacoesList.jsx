@@ -71,8 +71,10 @@ function AvaliacoesList() {
           avaliacaoAnterior={avaliacoesPage.avaliacaoAnterior}
           historicoAluno={avaliacoesPage.historicoAluno}
           primeiraAvaliacao={avaliacoesPage.primeiraAvaliacao}
+          relatorioAnamneseAberto={avaliacoesPage.relatorioAnamneseAberto}
           relatorioAberto={avaliacoesPage.relatorioAberto}
           ultimaAvaliacao={avaliacoesPage.ultimaAvaliacao}
+          onAlternarRelatorioAnamnese={avaliacoesPage.alternarRelatorioAnamnese}
           onAlternarRelatorio={avaliacoesPage.alternarRelatorio}
           onCopiarResumo={avaliacoesPage.copiarResumoWhatsApp}
           onFechar={avaliacoesPage.fecharPerfilAluno}

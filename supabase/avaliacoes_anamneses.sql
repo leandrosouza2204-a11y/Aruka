@@ -23,6 +23,13 @@ create table if not exists public.avaliacoes (
   coxa_esquerda numeric(6, 2),
   panturrilha_direita numeric(6, 2),
   panturrilha_esquerda numeric(6, 2),
+  dobra_peitoral numeric(6, 2),
+  dobra_abdominal numeric(6, 2),
+  dobra_coxa numeric(6, 2),
+  dobra_triceps numeric(6, 2),
+  dobra_subescapular numeric(6, 2),
+  dobra_supra_iliaca numeric(6, 2),
+  dobra_axilar_media numeric(6, 2),
   percentual_gordura numeric(6, 2),
   percentual_massa_magra numeric(6, 2),
   massa_gorda numeric(6, 2),
@@ -31,6 +38,15 @@ create table if not exists public.avaliacoes (
   observacoes text not null default '',
   created_at timestamptz not null default now()
 );
+
+alter table public.avaliacoes
+  add column if not exists dobra_peitoral numeric(6, 2),
+  add column if not exists dobra_abdominal numeric(6, 2),
+  add column if not exists dobra_coxa numeric(6, 2),
+  add column if not exists dobra_triceps numeric(6, 2),
+  add column if not exists dobra_subescapular numeric(6, 2),
+  add column if not exists dobra_supra_iliaca numeric(6, 2),
+  add column if not exists dobra_axilar_media numeric(6, 2);
 
 create table if not exists public.anamneses (
   id uuid primary key default gen_random_uuid(),
@@ -52,6 +68,12 @@ create table if not exists public.anamneses (
   tempo_treino text not null default '',
   local_treino text not null default '',
   equipamentos text not null default '',
+  escala_sono text not null default '',
+  escala_estresse text not null default '',
+  escala_energia text not null default '',
+  escala_fome text not null default '',
+  escala_motivacao text not null default '',
+  escala_adesao_rotina text not null default '',
   sono text not null default '',
   horas_sono text not null default '',
   estresse text not null default '',
@@ -71,6 +93,14 @@ create table if not exists public.anamneses (
   observacoes text not null default '',
   created_at timestamptz not null default now()
 );
+
+alter table public.anamneses
+  add column if not exists escala_sono text not null default '',
+  add column if not exists escala_estresse text not null default '',
+  add column if not exists escala_energia text not null default '',
+  add column if not exists escala_fome text not null default '',
+  add column if not exists escala_motivacao text not null default '',
+  add column if not exists escala_adesao_rotina text not null default '';
 
 alter table public.avaliacoes enable row level security;
 alter table public.anamneses enable row level security;

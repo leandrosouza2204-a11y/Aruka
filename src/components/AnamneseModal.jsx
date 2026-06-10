@@ -67,7 +67,7 @@ const escalas = [
   ["escalaEnergia", "Energia"],
   ["escalaFome", "Fome"],
   ["escalaMotivacao", "Motivação"],
-  ["escalaAdesaoRotina", "Adesao a rotina"],
+  ["escalaAdesaoRotina", "Adesão à rotina"],
 ];
 
 const secoes = [
