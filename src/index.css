@@ -1028,6 +1028,21 @@ body[data-theme="dark"] .admin-logs-panel select {
   flex: 1 1 0;
 }
 
+.financeiro-mobile-cards {
+  display: none;
+  margin-top: 16px;
+}
+
+@media (max-width: 768px) {
+  .financeiro-table {
+    display: none !important;
+  }
+
+  .financeiro-mobile-cards {
+    display: grid !important;
+  }
+}
+
 body[data-theme="dark"] .dashboard-page,
 body[data-theme="dark"] .treinos-page {
   background: radial-gradient(circle at top right, rgba(37, 99, 235, 0.14), transparent 340px), #0b1220 !important;
