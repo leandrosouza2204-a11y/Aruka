@@ -92,7 +92,7 @@ function Login() {
     <div style={pagina}>
       <form onSubmit={modoCadastro ? cadastrar : entrar} style={card}>
         <div style={marca}>
-          <BrandLogo variant="full" size="lg" />
+          <BrandLogo variant="full" size="md" />
           <p style={subtitulo}>
             {modoCadastro
               ? "Crie sua conta para solicitar a liberação."
@@ -156,41 +156,45 @@ function Login() {
 }
 
 const pagina = {
-  minHeight: "100vh",
+  minHeight: "100dvh",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  background: "#0f172a",
-  padding: "24px",
+  background:
+    "radial-gradient(circle at 50% 18%, rgba(37, 99, 235, 0.28), transparent 300px), linear-gradient(180deg, #111827 0%, #0f172a 52%, #0b1120 100%)",
+  overflowY: "auto",
+  padding: "18px",
 };
 
 const card = {
-  width: "min(460px, 100%)",
-  background: "white",
+  width: "min(430px, 100%)",
+  background: "rgba(255, 255, 255, 0.96)",
+  border: "1px solid rgba(255, 255, 255, 0.72)",
   borderRadius: "8px",
-  padding: "28px",
+  padding: "22px",
   display: "grid",
-  gap: "16px",
-  boxShadow: "0 24px 70px rgba(0,0,0,0.28)",
+  gap: "12px",
+  boxShadow: "0 24px 70px rgba(0,0,0,0.32)",
 };
 
 const marca = {
   display: "grid",
-  gap: "8px",
+  gap: "6px",
   justifyItems: "center",
+  marginBottom: "2px",
   textAlign: "center",
 };
 
 const subtitulo = {
   color: "#6b7280",
   fontSize: "14px",
-  marginTop: "6px",
+  margin: 0,
 };
 
 const campoGrupo = {
   display: "flex",
   flexDirection: "column",
-  gap: "6px",
+  gap: "5px",
 };
 
 const label = {
@@ -200,10 +204,10 @@ const label = {
 };
 
 const campo = {
-  minHeight: "42px",
+  minHeight: "40px",
   border: "1px solid #d1d5db",
   borderRadius: "8px",
-  padding: "9px 11px",
+  padding: "8px 11px",
   outline: "none",
 };
 
@@ -214,7 +218,7 @@ const botao = {
   borderRadius: "8px",
   cursor: "pointer",
   fontWeight: "700",
-  minHeight: "44px",
+  minHeight: "42px",
 };
 
 const erroTexto = {
@@ -223,6 +227,7 @@ const erroTexto = {
   borderRadius: "8px",
   color: "#991b1b",
   fontSize: "14px",
+  margin: 0,
   padding: "10px",
 };
 
@@ -232,6 +237,7 @@ const sucessoTexto = {
   borderRadius: "8px",
   color: "#166534",
   fontSize: "14px",
+  margin: 0,
   padding: "10px",
 };
 
@@ -242,7 +248,7 @@ const botaoAlternar = {
   borderRadius: "8px",
   cursor: "pointer",
   fontWeight: "700",
-  minHeight: "42px",
+  minHeight: "40px",
 };
 
 export default Login;

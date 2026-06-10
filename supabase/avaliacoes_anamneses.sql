@@ -105,43 +105,51 @@ alter table public.anamneses
 alter table public.avaliacoes enable row level security;
 alter table public.anamneses enable row level security;
 
+drop policy if exists "Usuarios podem listar suas avaliacoes" on public.avaliacoes;
 create policy "Usuarios podem listar suas avaliacoes"
 on public.avaliacoes
 for select
 using (auth.uid() = user_id);
 
+drop policy if exists "Usuarios podem cadastrar suas avaliacoes" on public.avaliacoes;
 create policy "Usuarios podem cadastrar suas avaliacoes"
 on public.avaliacoes
 for insert
 with check (auth.uid() = user_id);
 
+drop policy if exists "Usuarios podem atualizar suas avaliacoes" on public.avaliacoes;
 create policy "Usuarios podem atualizar suas avaliacoes"
 on public.avaliacoes
 for update
 using (auth.uid() = user_id)
 with check (auth.uid() = user_id);
 
+drop policy if exists "Usuarios podem excluir suas avaliacoes" on public.avaliacoes;
 create policy "Usuarios podem excluir suas avaliacoes"
 on public.avaliacoes
 for delete
 using (auth.uid() = user_id);
 
+drop policy if exists "Usuarios podem listar suas anamneses" on public.anamneses;
 create policy "Usuarios podem listar suas anamneses"
 on public.anamneses
 for select
 using (auth.uid() = user_id);
 
+drop policy if exists "Usuarios podem cadastrar suas anamneses" on public.anamneses;
 create policy "Usuarios podem cadastrar suas anamneses"
 on public.anamneses
 for insert
 with check (auth.uid() = user_id);
 
+drop policy if exists "Usuarios podem atualizar suas anamneses" on public.anamneses;
 create policy "Usuarios podem atualizar suas anamneses"
 on public.anamneses
 for update
 using (auth.uid() = user_id)
 with check (auth.uid() = user_id);
 
+drop policy if exists "Usuarios podem excluir suas anamneses" on public.anamneses;
 create policy "Usuarios podem excluir suas anamneses"
 on public.anamneses
 for delete

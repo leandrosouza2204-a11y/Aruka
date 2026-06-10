@@ -28,14 +28,14 @@ const footer = {
   display: "flex",
   flexWrap: "wrap",
   fontSize: "12px",
-  gap: "10px",
+  gap: "8px",
   justifyContent: "center",
-  marginTop: "22px",
+  marginTop: "18px",
   textAlign: "center",
 };
 
 const footerCompacto = {
-  marginTop: "12px",
+  marginTop: "8px",
 };
 
 const footerEscuro = {
