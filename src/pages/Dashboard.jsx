@@ -1,5 +1,5 @@
-import DashboardCards from "../features/dashboard/components/DashboardCards";
+import DashboardPage from "../features/dashboard/components/DashboardPage";
 
 export default function Dashboard() {
-  return <DashboardCards />;
+  return <DashboardPage />;
 }
