@@ -1004,6 +1004,38 @@ body[data-theme="dark"] .empty-state strong {
   .admin-logs-panel form {
     grid-template-columns: 1fr !important;
   }
+
+  .admin-logs-period,
+  .admin-logs-filter-actions {
+    grid-column: auto !important;
+  }
+
+  .admin-logs-period {
+    grid-template-columns: 1fr !important;
+  }
+
+  .admin-logs-filter-actions {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .admin-logs-page header button {
+    width: 100%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1180px) {
+  .admin-logs-filters {
+    grid-template-columns: minmax(260px, 1fr) minmax(180px, 0.8fr) !important;
+  }
+
+  .admin-logs-filter-search {
+    grid-column: 1 / -1;
+  }
+
+  .admin-logs-period {
+    grid-column: 1 / -1 !important;
+  }
 }
 
 body[data-theme="dark"] .admin-logs-page h1,
@@ -1015,6 +1047,21 @@ body[data-theme="dark"] .admin-logs-page strong {
 body[data-theme="dark"] .admin-logs-panel {
   background: #111827 !important;
   border-color: rgba(148, 163, 184, 0.18) !important;
+}
+
+body[data-theme="dark"] .admin-log-modal {
+  background: #111827 !important;
+  color: #f8fafc !important;
+}
+
+body[data-theme="dark"] .admin-log-json-box {
+  background: #0f172a !important;
+  border-color: rgba(148, 163, 184, 0.2) !important;
+}
+
+body[data-theme="dark"] .admin-log-json-box pre,
+body[data-theme="dark"] .admin-log-json-box h3 {
+  color: #e5e7eb !important;
 }
 
 body[data-theme="dark"] .admin-logs-panel input,
