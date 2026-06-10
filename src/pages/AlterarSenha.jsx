@@ -17,7 +17,7 @@ function AlterarSenha() {
             <span style={etiqueta}>Seguranca</span>
             <h1 style={titulo}>Alterar Senha</h1>
             <p style={descricao}>
-              Atualize sua senha de acesso. Por seguranca, confirme sua senha
+              Atualize sua senha de acesso. Por segurança, confirme sua senha
               atual antes de definir uma nova senha forte.
             </p>
           </div>

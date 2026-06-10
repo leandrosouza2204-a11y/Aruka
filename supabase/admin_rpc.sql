@@ -82,7 +82,8 @@ create or replace function public.admin_atualizar_perfil(
   p_nome text,
   p_role text,
   p_tipo_acesso text,
-  p_status text
+  p_status text,
+  p_user_agent text default null
 )
 returns void
 language plpgsql
@@ -91,6 +92,9 @@ set search_path = public, auth
 as $$
 declare
   v_email text;
+  v_antes jsonb;
+  v_depois jsonb;
+  v_acao text := 'alterar_perfil';
 begin
   perform public.admin_validar_acesso();
 
@@ -113,6 +117,19 @@ begin
 
   if v_email is null then
     raise exception 'Usuario nao encontrado.';
+  end if;
+
+  select to_jsonb(perfis.*)
+  into v_antes
+  from public.perfis
+  where perfis.user_id = p_user_id;
+
+  if coalesce(v_antes->>'role', 'user') <> 'admin' and p_role = 'admin' then
+    v_acao := 'tornar_admin';
+  elsif coalesce(v_antes->>'role', 'user') = 'admin' and p_role <> 'admin' then
+    v_acao := 'remover_admin';
+  elsif coalesce(v_antes->>'status', 'ativo') = 'inativo' and p_status = 'ativo' then
+    v_acao := 'reativar_usuario';
   end if;
 
   insert into public.perfis (
@@ -138,6 +155,21 @@ begin
     role = excluded.role,
     tipo_acesso = excluded.tipo_acesso,
     status = excluded.status;
+
+  select to_jsonb(perfis.*)
+  into v_depois
+  from public.perfis
+  where perfis.user_id = p_user_id;
+
+  perform public.admin_registrar_log(
+    p_user_id,
+    v_acao,
+    'perfis',
+    (v_depois->>'id')::uuid,
+    v_antes,
+    v_depois,
+    p_user_agent
+  );
 end;
 $$;
 
@@ -146,7 +178,8 @@ create or replace function public.admin_upsert_assinatura(
   p_plano text,
   p_status text,
   p_data_inicio date,
-  p_data_vencimento date
+  p_data_vencimento date,
+  p_user_agent text default null
 )
 returns void
 language plpgsql
@@ -155,6 +188,9 @@ set search_path = public, auth
 as $$
 declare
   v_assinatura_id uuid;
+  v_antes jsonb;
+  v_depois jsonb;
+  v_acao text := 'alterar_assinatura';
 begin
   perform public.admin_validar_acesso();
 
@@ -166,12 +202,16 @@ begin
     raise exception 'Usuario nao encontrado.';
   end if;
 
-  select assinaturas.id
-  into v_assinatura_id
+  select assinaturas.id, to_jsonb(assinaturas.*)
+  into v_assinatura_id, v_antes
   from public.assinaturas
   where assinaturas.user_id = p_user_id
   order by assinaturas.created_at desc
   limit 1;
+
+  if p_status = 'cancelado' then
+    v_acao := 'cancelar_assinatura';
+  end if;
 
   if v_assinatura_id is null then
     insert into public.assinaturas (
@@ -187,7 +227,8 @@ begin
       p_status,
       p_data_inicio,
       p_data_vencimento
-    );
+    )
+    returning assinaturas.id into v_assinatura_id;
   else
     update public.assinaturas
     set
@@ -197,10 +238,28 @@ begin
       data_vencimento = p_data_vencimento
     where assinaturas.id = v_assinatura_id;
   end if;
+
+  select to_jsonb(assinaturas.*)
+  into v_depois
+  from public.assinaturas
+  where assinaturas.id = v_assinatura_id;
+
+  perform public.admin_registrar_log(
+    p_user_id,
+    v_acao,
+    'assinaturas',
+    v_assinatura_id,
+    v_antes,
+    v_depois,
+    p_user_agent
+  );
 end;
 $$;
 
-create or replace function public.admin_bloquear_usuario(p_user_id uuid)
+create or replace function public.admin_bloquear_usuario(
+  p_user_id uuid,
+  p_user_agent text default null
+)
 returns void
 language plpgsql
 security definer
@@ -208,6 +267,8 @@ set search_path = public, auth
 as $$
 declare
   v_email text;
+  v_antes jsonb;
+  v_depois jsonb;
 begin
   perform public.admin_validar_acesso();
 
@@ -223,6 +284,11 @@ begin
   if v_email is null then
     raise exception 'Usuario nao encontrado.';
   end if;
+
+  select to_jsonb(perfis.*)
+  into v_antes
+  from public.perfis
+  where perfis.user_id = p_user_id;
 
   insert into public.perfis (
     user_id,
@@ -243,10 +309,28 @@ begin
     email = excluded.email,
     tipo_acesso = 'bloqueado',
     status = 'inativo';
+
+  select to_jsonb(perfis.*)
+  into v_depois
+  from public.perfis
+  where perfis.user_id = p_user_id;
+
+  perform public.admin_registrar_log(
+    p_user_id,
+    'bloquear_usuario',
+    'perfis',
+    (v_depois->>'id')::uuid,
+    v_antes,
+    v_depois,
+    p_user_agent
+  );
 end;
 $$;
 
-create or replace function public.admin_liberar_beta(p_user_id uuid)
+create or replace function public.admin_liberar_beta(
+  p_user_id uuid,
+  p_user_agent text default null
+)
 returns void
 language plpgsql
 security definer
@@ -254,6 +338,8 @@ set search_path = public, auth
 as $$
 declare
   v_email text;
+  v_antes jsonb;
+  v_depois jsonb;
 begin
   perform public.admin_validar_acesso();
 
@@ -265,6 +351,11 @@ begin
   if v_email is null then
     raise exception 'Usuario nao encontrado.';
   end if;
+
+  select to_jsonb(perfis.*)
+  into v_antes
+  from public.perfis
+  where perfis.user_id = p_user_id;
 
   insert into public.perfis (
     user_id,
@@ -286,6 +377,21 @@ begin
     role = case when perfis.role = 'admin' then 'admin' else 'user' end,
     tipo_acesso = 'beta',
     status = 'ativo';
+
+  select to_jsonb(perfis.*)
+  into v_depois
+  from public.perfis
+  where perfis.user_id = p_user_id;
+
+  perform public.admin_registrar_log(
+    p_user_id,
+    'liberar_usuario_beta',
+    'perfis',
+    (v_depois->>'id')::uuid,
+    v_antes,
+    v_depois,
+    p_user_agent
+  );
 end;
 $$;
 
@@ -293,22 +399,43 @@ create or replace function public.admin_liberar_assinante(
   p_user_id uuid,
   p_plano text,
   p_data_inicio date,
-  p_data_vencimento date
+  p_data_vencimento date,
+  p_user_agent text default null
 )
 returns void
 language plpgsql
 security definer
 set search_path = public, auth
 as $$
+declare
+  v_antes jsonb;
+  v_depois jsonb;
 begin
   perform public.admin_validar_acesso();
+
+  select jsonb_build_object(
+    'perfil', to_jsonb(perfis.*),
+    'assinatura', to_jsonb(assinaturas.*)
+  )
+  into v_antes
+  from auth.users
+  left join public.perfis on perfis.user_id = users.id
+  left join lateral (
+    select *
+    from public.assinaturas
+    where assinaturas.user_id = users.id
+    order by assinaturas.created_at desc
+    limit 1
+  ) assinaturas on true
+  where users.id = p_user_id;
 
   perform public.admin_atualizar_perfil(
     p_user_id,
     coalesce((select perfis.nome from public.perfis where perfis.user_id = p_user_id), ''),
     'user',
     'assinante',
-    'ativo'
+    'ativo',
+    p_user_agent
   );
 
   perform public.admin_upsert_assinatura(
@@ -316,7 +443,34 @@ begin
     p_plano,
     'ativo',
     p_data_inicio,
-    p_data_vencimento
+    p_data_vencimento,
+    p_user_agent
+  );
+
+  select jsonb_build_object(
+    'perfil', to_jsonb(perfis.*),
+    'assinatura', to_jsonb(assinaturas.*)
+  )
+  into v_depois
+  from auth.users
+  left join public.perfis on perfis.user_id = users.id
+  left join lateral (
+    select *
+    from public.assinaturas
+    where assinaturas.user_id = users.id
+    order by assinaturas.created_at desc
+    limit 1
+  ) assinaturas on true
+  where users.id = p_user_id;
+
+  perform public.admin_registrar_log(
+    p_user_id,
+    'liberar_assinante',
+    'assinaturas',
+    null,
+    v_antes,
+    v_depois,
+    p_user_agent
   );
 end;
 $$;
@@ -324,17 +478,17 @@ $$;
 revoke all on function public.admin_eh_admin() from public;
 revoke all on function public.admin_validar_acesso() from public;
 revoke all on function public.admin_listar_usuarios() from public;
-revoke all on function public.admin_atualizar_perfil(uuid, text, text, text, text) from public;
-revoke all on function public.admin_upsert_assinatura(uuid, text, text, date, date) from public;
-revoke all on function public.admin_bloquear_usuario(uuid) from public;
-revoke all on function public.admin_liberar_beta(uuid) from public;
-revoke all on function public.admin_liberar_assinante(uuid, text, date, date) from public;
+revoke all on function public.admin_atualizar_perfil(uuid, text, text, text, text, text) from public;
+revoke all on function public.admin_upsert_assinatura(uuid, text, text, date, date, text) from public;
+revoke all on function public.admin_bloquear_usuario(uuid, text) from public;
+revoke all on function public.admin_liberar_beta(uuid, text) from public;
+revoke all on function public.admin_liberar_assinante(uuid, text, date, date, text) from public;
 
 grant execute on function public.admin_eh_admin() to authenticated;
 grant execute on function public.admin_validar_acesso() to authenticated;
 grant execute on function public.admin_listar_usuarios() to authenticated;
-grant execute on function public.admin_atualizar_perfil(uuid, text, text, text, text) to authenticated;
-grant execute on function public.admin_upsert_assinatura(uuid, text, text, date, date) to authenticated;
-grant execute on function public.admin_bloquear_usuario(uuid) to authenticated;
-grant execute on function public.admin_liberar_beta(uuid) to authenticated;
-grant execute on function public.admin_liberar_assinante(uuid, text, date, date) to authenticated;
+grant execute on function public.admin_atualizar_perfil(uuid, text, text, text, text, text) to authenticated;
+grant execute on function public.admin_upsert_assinatura(uuid, text, text, date, date, text) to authenticated;
+grant execute on function public.admin_bloquear_usuario(uuid, text) to authenticated;
+grant execute on function public.admin_liberar_beta(uuid, text) to authenticated;
+grant execute on function public.admin_liberar_assinante(uuid, text, date, date, text) to authenticated;

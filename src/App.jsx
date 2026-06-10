@@ -6,6 +6,7 @@ import Treinos from "./pages/Treinos";
 import Avaliacoes from "./pages/Avaliacoes";
 import Planos from "./pages/Planos";
 import AdminUsuarios from "./pages/AdminUsuarios";
+import AdminLogs from "./pages/AdminLogs";
 import AlterarSenha from "./pages/AlterarSenha";
 import Login from "./auth/Login";
 import ProtectedRoute from "./auth/ProtectedRoute";
@@ -149,6 +150,20 @@ function App() {
                 <LegalRoute>
                   <AdminRoute>
                     <AdminUsuarios />
+                  </AdminRoute>
+                </LegalRoute>
+              </SubscriptionRoute>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/logs"
+          element={
+            <ProtectedRoute>
+              <SubscriptionRoute>
+                <LegalRoute>
+                  <AdminRoute>
+                    <AdminLogs />
                   </AdminRoute>
                 </LegalRoute>
               </SubscriptionRoute>

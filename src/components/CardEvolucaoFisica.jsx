@@ -4,7 +4,7 @@ function CardEvolucaoFisica({ primeira, ultima }) {
   if (!primeira || !ultima) {
     return (
       <div style={grid}>
-        <Card titulo="Evolucao" valor="-" detalhe="Cadastre ao menos duas avaliacoes." />
+        <Card titulo="Evolução" valor="-" detalhe="Cadastre ao menos duas avaliações." />
       </div>
     );
   }

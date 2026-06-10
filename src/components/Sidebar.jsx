@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -13,6 +13,7 @@ import {
   Menu,
   Moon,
   FileText,
+  ListChecks,
   Sun,
 } from "lucide-react";
 import BrandLogo from "./BrandLogo";
@@ -125,9 +126,9 @@ function Sidebar() {
               role="menu"
             >
               <div style={styles.userBox}>
-                <span style={styles.userLabel}>Usuário logado</span>
+                <span style={styles.userLabel}>UsuÃ¡rio logado</span>
                 {nomeUsuario && <strong style={styles.userName}>{nomeUsuario}</strong>}
-                <span style={styles.userEmail}>{emailUsuario || "E-mail indisponível"}</span>
+                <span style={styles.userEmail}>{emailUsuario || "E-mail indisponÃ­vel"}</span>
               </div>
 
               <button
@@ -156,7 +157,7 @@ function Sidebar() {
                 style={styles.menuLink}
               >
                 <FileText size={16} />
-                Política de Privacidade
+                PolÃ­tica de Privacidade
               </Link>
 
               <Link
@@ -221,7 +222,7 @@ function Sidebar() {
           to="/avaliacoes"
           active={isActive("/avaliacoes")}
           icon={<ClipboardCheck size={18} />}
-          label="Avaliações"
+          label="AvaliaÃ§Ãµes"
         />
         <MenuLink
           to="/treinos"
@@ -230,12 +231,21 @@ function Sidebar() {
           label="Treinos"
         />
         {usuarioAdmin && (
-          <MenuLink
-            to="/admin/usuarios"
-            active={isActive("/admin/usuarios")}
-            icon={<ShieldCheck size={18} />}
-            label="Administração"
-          />
+          <>
+            <div style={styles.navSection}>Administração</div>
+            <MenuLink
+              to="/admin/usuarios"
+              active={isActive("/admin/usuarios")}
+              icon={<ShieldCheck size={18} />}
+              label="Usuários"
+            />
+            <MenuLink
+              to="/admin/logs"
+              active={isActive("/admin/logs")}
+              icon={<ListChecks size={18} />}
+              label="Logs"
+            />
+          </>
         )}
       </nav>
 
@@ -248,7 +258,7 @@ function Sidebar() {
             Termos
           </Link>
         </div>
-        <span style={styles.footerVersion}>Versão 1.0</span>
+        <span style={styles.footerVersion}>VersÃ£o 1.0</span>
       </div>
     </div>
   );
@@ -438,6 +448,15 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     gap: "7px",
+  },
+
+  navSection: {
+    color: "rgba(255,255,255,0.42)",
+    fontSize: "11px",
+    fontWeight: "900",
+    letterSpacing: "0.06em",
+    margin: "10px 4px 2px",
+    textTransform: "uppercase",
   },
 
   link: {

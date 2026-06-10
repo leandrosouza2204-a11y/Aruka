@@ -57,12 +57,12 @@ function AlterarSenhaForm() {
     }
 
     if (!senhaValida) {
-      setErro("A nova senha ainda nao atende aos requisitos de seguranca.");
+      setErro("A nova senha ainda não atende aos requisitos de segurança.");
       return;
     }
 
     if (!confirmacaoValida) {
-      setErro("A confirmacao da nova senha nao confere.");
+      setErro("A confirmação da nova senha não confere.");
       return;
     }
 
@@ -147,12 +147,12 @@ function AlterarSenhaForm() {
       />
 
       {senhasDiferentes && (
-        <div style={alertaValidacao}>A confirmacao da nova senha nao confere.</div>
+        <div style={alertaValidacao}>A confirmação da nova senha não confere.</div>
       )}
 
       {mostrarAvisoSenhaFraca && (
         <div style={alertaValidacao}>
-          A nova senha ainda nao atende todos os requisitos de seguranca.
+          A nova senha ainda não atende todos os requisitos de segurança.
         </div>
       )}
 

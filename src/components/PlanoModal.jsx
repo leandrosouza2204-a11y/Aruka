@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useToast } from "../hooks/useToast";
 
 const planoVazio = {
   nome: "",
@@ -10,6 +11,7 @@ const planoVazio = {
 
 function PlanoModal({ plano, onClose, onSave, salvando }) {
   const [form, setForm] = useState(() => ({ ...planoVazio, ...plano }));
+  const toast = useToast();
 
   function atualizar(campo, valor) {
     setForm({ ...form, [campo]: valor });
@@ -17,12 +19,12 @@ function PlanoModal({ plano, onClose, onSave, salvando }) {
 
   function salvar() {
     if (!form.nome.trim()) {
-      alert("Informe o nome do plano.");
+      toast.aviso("Nome obrigatório", "Informe o nome do plano.");
       return;
     }
 
     if (Number(form.duracaoMeses || 0) <= 0) {
-      alert("Informe uma duracao valida.");
+      toast.aviso("Duração inválida", "Informe uma duração válida.");
       return;
     }
 
@@ -42,7 +44,7 @@ function PlanoModal({ plano, onClose, onSave, salvando }) {
         <div style={modalTopo}>
           <div>
             <h2 style={titulo}>{plano?.id ? "Editar Plano" : "Novo Plano"}</h2>
-            <p style={subtitulo}>Defina preco, duracao e disponibilidade.</p>
+            <p style={subtitulo}>Defina preço, duração e disponibilidade.</p>
           </div>
 
           <button onClick={onClose} style={botaoSecundario}>

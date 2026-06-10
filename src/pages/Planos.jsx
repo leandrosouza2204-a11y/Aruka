@@ -1,7 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import TableActions, { TableActionItem } from "../components/TableActions";
+import EmptyState from "../components/EmptyState";
+import LoadingState from "../components/LoadingState";
 import PlanoModal from "../components/PlanoModal";
+import { useConfirm } from "../hooks/useConfirm";
+import { useToast } from "../hooks/useToast";
 import {
   adicionarPlanoSupabase,
   atualizarPlanoSupabase,
@@ -19,6 +23,8 @@ function Planos() {
   const [carregando, setCarregando] = useState(true);
   const [salvando, setSalvando] = useState(false);
   const [erro, setErro] = useState("");
+  const toast = useToast();
+  const { confirmar } = useConfirm();
 
   useEffect(() => {
     carregarPlanos();
@@ -82,9 +88,12 @@ function Planos() {
       }
 
       await carregarPlanos();
+      toast.sucesso("Plano salvo", "As informações do plano foram atualizadas.");
       fecharModal();
     } catch (error) {
+      console.error(error);
       setErro(`Erro ao salvar plano: ${error.message}`);
+      toast.erro("Não foi possível salvar o plano", "Tente novamente em alguns instantes.");
     } finally {
       setSalvando(false);
     }
@@ -99,21 +108,33 @@ function Planos() {
         ativo: !plano.ativo,
       });
       await carregarPlanos();
+      toast.sucesso("Status atualizado", "O status do plano foi alterado.");
     } catch (error) {
+      console.error(error);
       setErro(`Erro ao alterar status: ${error.message}`);
+      toast.erro("Não foi possível alterar o status", "Tente novamente em alguns instantes.");
     }
   }
 
   async function removerPlano(id) {
-    if (!window.confirm("Deseja excluir este plano?")) return;
+    const confirmado = await confirmar({
+      titulo: "Excluir plano?",
+      descricao: "Esta ação remove o plano selecionado. Deseja continuar?",
+      textoConfirmar: "Excluir",
+    });
+
+    if (!confirmado) return;
 
     setErro("");
 
     try {
       await excluirPlanoSupabase(id);
       await carregarPlanos();
+      toast.sucesso("Plano excluído", "O plano foi removido com sucesso.");
     } catch (error) {
+      console.error(error);
       setErro(`Erro ao excluir plano: ${error.message}`);
+      toast.erro("Não foi possível excluir o plano", "Tente novamente em alguns instantes.");
     }
   }
 
@@ -183,7 +204,7 @@ function Planos() {
               {carregando && (
                 <tr>
                   <td style={estadoVazio} colSpan="6">
-                    Carregando planos...
+                    <LoadingState texto="Carregando planos..." />
                   </td>
                 </tr>
               )}
@@ -194,7 +215,7 @@ function Planos() {
                     <td className="cell-wide" style={celula}>{plano.nome}</td>
                     <td className="cell-wide" style={celula}>{plano.descricao || "-"}</td>
                     <td style={celula}>
-                      {plano.duracaoMeses} {plano.duracaoMeses === 1 ? "mes" : "meses"}
+                      {plano.duracaoMeses} {plano.duracaoMeses === 1 ? "mês" : "meses"}
                     </td>
                     <td style={celula}>{formatarMoeda(plano.valor)}</td>
                     <td style={celula}>
@@ -233,7 +254,12 @@ function Planos() {
               {!carregando && planosFiltrados.length === 0 && (
                 <tr>
                   <td style={estadoVazio} colSpan="6">
-                    Nenhum plano encontrado.
+                    <EmptyState
+                      titulo="Nenhum plano criado."
+                      descricao="Crie planos para padronizar duração, valor e disponibilidade."
+                      acaoLabel="Novo plano"
+                      onAcao={() => setModalAberto(true)}
+                    />
                   </td>
                 </tr>
               )}

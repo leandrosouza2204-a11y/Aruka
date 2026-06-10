@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useToast } from "../hooks/useToast";
 
 const anamneseVazia = {
   aluno: "",
@@ -65,7 +66,7 @@ const escalas = [
   ["escalaEstresse", "Estresse"],
   ["escalaEnergia", "Energia"],
   ["escalaFome", "Fome"],
-  ["escalaMotivacao", "Motivacao"],
+  ["escalaMotivacao", "Motivação"],
   ["escalaAdesaoRotina", "Adesao a rotina"],
 ];
 
@@ -137,6 +138,7 @@ const secoes = [
 
 function AnamneseModal({ alunos, anamnese, onClose, onSave }) {
   const [form, setForm] = useState(() => ({ ...anamneseVazia, ...anamnese }));
+  const toast = useToast();
   const alunosOptions = useMemo(
     () => alunos.map((aluno) => aluno.nome).filter(Boolean),
     [alunos]
@@ -148,7 +150,7 @@ function AnamneseModal({ alunos, anamnese, onClose, onSave }) {
 
   function salvar() {
     if (!form.aluno.trim()) {
-      alert("Informe o aluno da anamnese.");
+      toast.aviso("Aluno obrigatório", "Informe o aluno da anamnese.");
       return;
     }
 

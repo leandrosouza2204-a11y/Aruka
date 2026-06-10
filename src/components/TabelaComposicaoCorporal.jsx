@@ -9,18 +9,18 @@ function TabelaComposicaoCorporal({ avaliacao }) {
     ["Massa gorda", formatarKg(composicao.massaGorda)],
     ["% massa magra", formatarPercentual(composicao.percentualMassaMagra)],
     ["Massa magra", formatarKg(composicao.massaMagra)],
-    ["Relacao cintura/quadril", composicao.relacaoCinturaQuadril || "-"],
+    ["Relação cintura/quadril", composicao.relacaoCinturaQuadril || "-"],
     [
-      "Classificacao cintura/quadril",
+      "Classificação cintura/quadril",
       composicao.classificacaoRelacaoCinturaQuadril,
     ],
     ["IMC", composicao.imc || "-"],
-    ["Classificacao IMC", composicao.classificacaoIMC],
+    ["Classificação IMC", composicao.classificacaoIMC],
   ];
 
   return (
     <div style={container}>
-      <h3 style={titulo}>Composicao corporal</h3>
+      <h3 style={titulo}>Composição corporal</h3>
       <table style={tabela}>
         <tbody>
           {linhas.map(([label, valor]) => (

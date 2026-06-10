@@ -15,6 +15,7 @@ export async function atualizarPerfilAdmin(userId, perfil) {
     p_role: perfil.role,
     p_tipo_acesso: perfil.tipoAcesso,
     p_status: perfil.status,
+    p_user_agent: obterUserAgent(),
   });
 
   if (error) throw error;
@@ -27,6 +28,7 @@ export async function upsertAssinaturaAdmin(userId, assinatura) {
     p_status: assinatura.status || "pendente",
     p_data_inicio: assinatura.dataInicio || null,
     p_data_vencimento: assinatura.dataVencimento || null,
+    p_user_agent: obterUserAgent(),
   });
 
   if (error) throw error;
@@ -35,6 +37,7 @@ export async function upsertAssinaturaAdmin(userId, assinatura) {
 export async function bloquearUsuarioAdmin(userId) {
   const { error } = await supabase.rpc("admin_bloquear_usuario", {
     p_user_id: userId,
+    p_user_agent: obterUserAgent(),
   });
 
   if (error) throw error;
@@ -43,6 +46,7 @@ export async function bloquearUsuarioAdmin(userId) {
 export async function liberarBetaAdmin(userId) {
   const { error } = await supabase.rpc("admin_liberar_beta", {
     p_user_id: userId,
+    p_user_agent: obterUserAgent(),
   });
 
   if (error) throw error;
@@ -59,9 +63,14 @@ export async function liberarAssinanteAdmin(
     p_plano: plano || "Mensal",
     p_data_inicio: dataInicio || null,
     p_data_vencimento: dataVencimento || null,
+    p_user_agent: obterUserAgent(),
   });
 
   if (error) throw error;
+}
+
+function obterUserAgent() {
+  return typeof navigator === "undefined" ? "" : navigator.userAgent || "";
 }
 
 function rowParaUsuarioAdmin(row) {

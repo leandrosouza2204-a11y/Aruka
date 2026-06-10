@@ -1,5 +1,7 @@
-import { useMemo, useState } from "react";
+﻿import { useMemo, useState } from "react";
 import ExercicioCard from "./ExercicioCard";
+import { useConfirm } from "../hooks/useConfirm";
+import { useToast } from "../hooks/useToast";
 
 const treinoVazio = {
   aluno: "",
@@ -39,6 +41,8 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
   const [novoDia, setNovoDia] = useState(diaVazio);
   const [exercicioPorDia, setExercicioPorDia] = useState({});
   const [edicaoExercicio, setEdicaoExercicio] = useState(null);
+  const toast = useToast();
+  const { confirmar } = useConfirm();
 
   const titulo = treino?.id ? "Editar Treino" : "Cadastro de Treino";
 
@@ -53,7 +57,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
 
   function adicionarDia() {
     if (!novoDia.nome.trim()) {
-      alert("Informe o nome do dia de treino.");
+      toast.aviso("Nome obrigatório", "Informe o nome do dia de treino.");
       return;
     }
 
@@ -73,8 +77,14 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
     setNovoDia(diaVazio);
   }
 
-  function removerDia(id) {
-    if (!window.confirm("Deseja excluir este dia de treino?")) return;
+  async function removerDia(id) {
+    const confirmado = await confirmar({
+      titulo: "Excluir dia de treino?",
+      descricao: "Os exercícios deste dia também serão removidos.",
+      textoConfirmar: "Excluir",
+    });
+
+    if (!confirmado) return;
 
     setForm({
       ...form,
@@ -97,7 +107,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
     const exercicio = exercicioPorDia[diaId] || exercicioVazio;
 
     if (!exercicio.nome.trim()) {
-      alert("Informe o nome do exercício.");
+      toast.aviso("Nome obrigatório", "Informe o nome do exercício.");
       return;
     }
 
@@ -133,8 +143,10 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
     setEdicaoExercicio({ diaId, exercicioId: exercicio.id });
   }
 
-  function excluirExercicio(diaId, exercicioId) {
-    if (!window.confirm("Deseja excluir este exercício?")) return;
+  async function excluirExercicio(diaId, exercicioId) {
+    const confirmado = await confirmar({ titulo: "Excluir exercício?", descricao: "Esta ação remove o exercício do dia selecionado.", textoConfirmar: "Excluir" });
+
+    if (!confirmado) return;
 
     setForm({
       ...form,
@@ -153,7 +165,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
 
   function salvarTreino() {
     if (!form.aluno.trim() || !form.rotina.trim()) {
-      alert("Informe o aluno e o nome da rotina.");
+      toast.aviso("Treino incompleto", "Informe o aluno e o nome da rotina.");
       return;
     }
 
@@ -177,7 +189,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
         <div style={modalTopo}>
           <div>
             <h2 style={tituloModal}>{titulo}</h2>
-            <p style={subtitulo}>Monte a rotina, os dias e os exercicios.</p>
+            <p style={subtitulo}>Monte a rotina, os dias e os exercícios.</p>
           </div>
 
           <button onClick={onClose} style={botaoSecundario}>
@@ -227,8 +239,8 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
             >
               <option value="">Selecione</option>
               <option value="Iniciante">Iniciante</option>
-              <option value="Intermediario">Intermediario</option>
-              <option value="Avancado">Avancado</option>
+              <option value="Intermediário">Intermediário</option>
+              <option value="Avançado">Avançado</option>
             </select>
           </Campo>
 
@@ -244,7 +256,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
             </select>
           </Campo>
 
-          <Campo label="Data de inicio">
+          <Campo label="Data de início">
             <input
               type="date"
               value={form.dataInicio}
@@ -276,7 +288,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
           <Campo label="Observações gerais">
             <textarea
               rows="3"
-              placeholder="Orientacoes, restricoes ou ajustes gerais"
+              placeholder="Orientações, restrições ou ajustes gerais"
               value={form.observacoes}
               onChange={(e) => atualizarCampo("observacoes", e.target.value)}
               style={{ ...campo, minHeight: "84px", resize: "vertical" }}
@@ -294,7 +306,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
               style={campo}
             />
             <input
-              placeholder="Ex: Peito, Ombro e Triceps"
+              placeholder="Ex: Peito, Ombro e Tríceps"
               value={novoDia.descricao}
               onChange={(e) =>
                 setNovoDia({ ...novoDia, descricao: e.target.value })
@@ -310,14 +322,14 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
             {form.dias.map((dia) => {
               const exercicioAtual = exercicioPorDia[dia.id] || exercicioVazio;
               const editando =
-                edicaoExercicio?.diaId === dia.id ? "Salvar Exercício" : "Adicionar Exercício";
+                edicaoExercicio?.diaId === dia.id ? "Salvar exercício" : "Adicionar exercício";
 
               return (
                 <div key={dia.id} style={diaCard}>
                   <div style={diaTopo}>
                     <div>
                       <h4 style={diaTitulo}>{dia.nome}</h4>
-                      <p style={subtitulo}>{dia.descricao || "Sem descricao"}</p>
+                      <p style={subtitulo}>{dia.descricao || "Sem descrição"}</p>
                     </div>
                     <button onClick={() => removerDia(dia.id)} style={botaoExcluir}>
                       Excluir Dia
@@ -338,7 +350,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
                       style={campo}
                     />
                     <input
-                      placeholder="Series"
+                      placeholder="Séries"
                       value={exercicioAtual.series}
                       onChange={(e) =>
                         atualizarExercicioTemporario(
@@ -350,7 +362,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
                       style={campo}
                     />
                     <input
-                      placeholder="Repeticoes"
+                      placeholder="Repetições"
                       value={exercicioAtual.repeticoes}
                       onChange={(e) =>
                         atualizarExercicioTemporario(
@@ -630,3 +642,4 @@ const botaoExcluir = {
 };
 
 export default TreinoModal;
+

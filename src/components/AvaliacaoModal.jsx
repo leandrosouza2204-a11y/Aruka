@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useToast } from "../hooks/useToast";
 
 const avaliacaoVazia = {
   aluno: "",
@@ -20,9 +21,9 @@ const avaliacaoVazia = {
 const medidasCampos = [
   ["pescoco", "Pescoco"],
   ["ombro", "Ombro"],
-  ["torax", "Torax"],
+  ["torax", "Tórax"],
   ["cintura", "Cintura"],
-  ["abdomen", "Abdomen"],
+  ["abdomen", "Abdômen"],
   ["quadril", "Quadril"],
   ["bracoDireito", "Braco direito"],
   ["bracoEsquerdo", "Braco esquerdo"],
@@ -38,7 +39,7 @@ const dobrasCampos = [
   ["peitoral", "Peitoral"],
   ["abdominal", "Abdominal"],
   ["coxa", "Coxa"],
-  ["triceps", "Triceps"],
+  ["triceps", "Tríceps"],
   ["subescapular", "Subescapular"],
   ["supraIliaca", "Supra-iliaca"],
   ["axilarMedia", "Axilar media"],
@@ -52,6 +53,7 @@ function AvaliacaoModal({ alunos, avaliacao, onClose, onSave }) {
     dobras: { ...avaliacaoVazia.dobras, ...avaliacao?.dobras },
     fotos: { ...avaliacaoVazia.fotos, ...avaliacao?.fotos },
   }));
+  const toast = useToast();
 
   const alunosOptions = useMemo(
     () => alunos.map((aluno) => aluno.nome).filter(Boolean),
@@ -74,7 +76,7 @@ function AvaliacaoModal({ alunos, avaliacao, onClose, onSave }) {
 
   function salvar() {
     if (!form.aluno.trim() || !form.data) {
-      alert("Informe o aluno e a data da avaliacao.");
+      toast.aviso("Avaliação incompleta", "Informe o aluno e a data da avaliação.");
       return;
     }
 
@@ -118,7 +120,7 @@ function AvaliacaoModal({ alunos, avaliacao, onClose, onSave }) {
               <option value="Feminino">Feminino</option>
             </select>
           </Campo>
-          <Campo label="Status da avaliacao">
+          <Campo label="Status da avaliação">
             <select value={form.status} onChange={(e) => atualizar("status", e.target.value)} style={campo}>
               <option value="inicial">Inicial</option>
               <option value="acompanhamento">Acompanhamento</option>

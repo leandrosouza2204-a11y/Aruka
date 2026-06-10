@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import AdminUsuarioModal from "../components/AdminUsuarioModal";
+import EmptyState from "../components/EmptyState";
+import LoadingState from "../components/LoadingState";
 import TableActions, { TableActionItem } from "../components/TableActions";
+import { useConfirm } from "../hooks/useConfirm";
 import { formatarData } from "../data/alunosUtils";
 import {
   atualizarPerfilAdmin,
@@ -11,6 +14,7 @@ import {
   listarUsuariosAdmin,
   upsertAssinaturaAdmin,
 } from "../services/adminService";
+import { useToast } from "../hooks/useToast";
 
 function AdminUsuarios() {
   const [usuarios, setUsuarios] = useState([]);
@@ -21,6 +25,8 @@ function AdminUsuarios() {
   const [erro, setErro] = useState("");
   const [mensagem, setMensagem] = useState("");
   const [usuarioEditando, setUsuarioEditando] = useState(null);
+  const toast = useToast();
+  const { confirmar } = useConfirm();
 
   useEffect(() => {
     carregarUsuarios();
@@ -89,8 +95,11 @@ function AdminUsuarios() {
       await acao();
       await carregarUsuarios();
       setMensagem(mensagemSucesso);
+      toast.sucesso("Ação concluída", mensagemSucesso);
     } catch (error) {
+      console.error(error);
       setErro(error.message || "Não foi possível concluir a ação.");
+      toast.erro("Não foi possível concluir a ação", "Tente novamente em alguns instantes.");
     } finally {
       setSalvando(false);
     }
@@ -162,7 +171,15 @@ function AdminUsuarios() {
     );
   }
 
-  function bloquearUsuario(usuario) {
+  async function bloquearUsuario(usuario) {
+    const confirmado = await confirmar({
+      titulo: "Bloquear usuário?",
+      descricao: "O usuário perderá o acesso ao sistema até ser reativado.",
+      textoConfirmar: "Bloquear",
+    });
+
+    if (!confirmado) return;
+
     executarAcao(
       () => bloquearUsuarioAdmin(usuario.userId),
       "Usuário bloqueado."
@@ -288,13 +305,16 @@ function AdminUsuarios() {
                 {carregando ? (
                   <tr>
                     <td style={estadoVazio} colSpan="8">
-                      Carregando usuários...
+                      <LoadingState texto="Carregando usuários..." />
                     </td>
                   </tr>
                 ) : usuariosFiltrados.length === 0 ? (
                   <tr>
                     <td style={estadoVazio} colSpan="8">
-                      Nenhum usuário encontrado.
+                      <EmptyState
+                        titulo="Nenhum usuário encontrado."
+                        descricao="Ajuste a busca ou o filtro para localizar usuários cadastrados."
+                      />
                     </td>
                   </tr>
                 ) : (

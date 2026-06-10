@@ -722,3 +722,304 @@ body[data-theme="dark"] .treino-day > summary::after {
     justify-content: flex-start;
   }
 }
+
+.app-toast-stack {
+  display: grid;
+  gap: 10px;
+  max-width: min(420px, calc(100vw - 24px));
+  position: fixed;
+  right: 18px;
+  top: 18px;
+  z-index: 10000;
+}
+
+.app-toast {
+  align-items: flex-start;
+  background: white;
+  border-left: 4px solid #2563eb;
+  border-radius: 8px;
+  box-shadow: 0 18px 46px rgba(15, 23, 42, 0.2);
+  color: #111827;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 12px 12px 12px 14px;
+}
+
+.app-toast strong {
+  display: block;
+  font-size: 14px;
+}
+
+.app-toast p {
+  color: #4b5563;
+  font-size: 13px;
+  line-height: 1.4;
+  margin-top: 3px;
+}
+
+.app-toast button {
+  background: transparent;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.app-toast-sucesso {
+  border-left-color: #16a34a;
+}
+
+.app-toast-erro {
+  border-left-color: #dc2626;
+}
+
+.app-toast-aviso {
+  border-left-color: #f59e0b;
+}
+
+.confirm-overlay {
+  align-items: center;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 18px;
+  position: fixed;
+  z-index: 10001;
+}
+
+.confirm-dialog {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 28px 80px rgba(15, 23, 42, 0.28);
+  max-width: 430px;
+  padding: 22px;
+  width: 100%;
+}
+
+.confirm-dialog h2 {
+  color: #111827;
+  font-size: 20px;
+  margin: 0;
+}
+
+.confirm-dialog p {
+  color: #4b5563;
+  line-height: 1.5;
+  margin-top: 8px;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.btn {
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 800;
+  min-height: 38px;
+  padding: 9px 13px;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-secondary {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.btn-danger {
+  background: #dc2626;
+  color: white;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: #111827;
+}
+
+.loading-spinner {
+  animation: app-spin 0.8s linear infinite;
+  border: 3px solid #dbeafe;
+  border-radius: 999px;
+  border-top-color: #2563eb;
+  height: 28px;
+  margin: 0 auto;
+  width: 28px;
+}
+
+@keyframes app-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.empty-state {
+  align-items: center;
+  background: linear-gradient(135deg, rgba(248, 250, 252, 0.96), rgba(239, 246, 255, 0.72));
+  border: 1px solid rgba(226, 232, 240, 0.78);
+  border-radius: 12px;
+  color: #64748b;
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.empty-state strong {
+  color: #0f172a;
+  font-size: 16px;
+}
+
+.empty-state p {
+  margin: 0;
+}
+
+.loading-state {
+  align-items: center;
+  color: #64748b;
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 700;
+  gap: 10px;
+  justify-content: center;
+  min-height: 72px;
+  width: 100%;
+}
+
+.responsive-table {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobile-card-list {
+  display: grid;
+  gap: 12px;
+}
+
+.mobile-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+  padding: 14px;
+}
+
+.modal-mobile {
+  max-width: min(720px, 100%);
+}
+
+.sticky-modal-actions {
+  background: inherit;
+  bottom: 0;
+  position: sticky;
+  z-index: 2;
+}
+
+body[data-theme="dark"] .app-toast,
+body[data-theme="dark"] .confirm-dialog,
+body[data-theme="dark"] .empty-state,
+body[data-theme="dark"] .mobile-card {
+  background: #182235;
+  color: #f8fafc;
+}
+
+body[data-theme="dark"] .app-toast p,
+body[data-theme="dark"] .confirm-dialog p,
+body[data-theme="dark"] .empty-state p {
+  color: #cbd5e1;
+}
+
+body[data-theme="dark"] .empty-state strong {
+  color: #f8fafc;
+}
+
+@media (max-width: 768px) {
+  .app-toast-stack {
+    left: 12px;
+    right: 12px;
+    top: 12px;
+  }
+
+  .confirm-actions {
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+
+  .confirm-actions button,
+  .btn {
+    width: 100%;
+  }
+
+  .app-table-scroll,
+  .responsive-table {
+    overflow-x: auto !important;
+  }
+
+  .app-table {
+    min-width: 680px !important;
+  }
+
+  .modal-mobile,
+  [style*="width: min(620px, 100%)"],
+  [style*="width: min(640px, 100%)"],
+  [style*="width: min(680px, 100%)"],
+  [style*="width: min(980px, 100%)"] {
+    width: calc(100vw - 24px) !important;
+    max-height: calc(100vh - 96px) !important;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font-size: 16px;
+  }
+
+  .admin-logs-page {
+    margin-left: 0 !important;
+    padding: 18px !important;
+    width: 100% !important;
+  }
+
+  .admin-logs-table {
+    display: none !important;
+  }
+
+  .admin-logs-mobile-list {
+    display: grid !important;
+    gap: 12px;
+  }
+
+  .admin-logs-panel form {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+body[data-theme="dark"] .admin-logs-page h1,
+body[data-theme="dark"] .admin-logs-page h2,
+body[data-theme="dark"] .admin-logs-page strong {
+  color: #f8fafc !important;
+}
+
+body[data-theme="dark"] .admin-logs-panel {
+  background: #111827 !important;
+  border-color: rgba(148, 163, 184, 0.18) !important;
+}
+
+body[data-theme="dark"] .admin-logs-panel input,
+body[data-theme="dark"] .admin-logs-panel select {
+  background: #0f172a !important;
+  border-color: rgba(148, 163, 184, 0.28) !important;
+  color: #f8fafc !important;
+}

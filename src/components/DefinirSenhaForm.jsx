@@ -52,12 +52,12 @@ function DefinirSenhaForm() {
     setSucesso("");
 
     if (!senhaValida) {
-      setErro("A senha ainda nao atende aos requisitos de seguranca.");
+      setErro("A senha ainda não atende aos requisitos de segurança.");
       return;
     }
 
     if (!confirmacaoValida) {
-      setErro("A confirmacao da senha nao confere.");
+      setErro("A confirmação da senha não confere.");
       return;
     }
 
@@ -132,12 +132,12 @@ function DefinirSenhaForm() {
       />
 
       {senhasDiferentes && (
-        <div style={alertaValidacao}>A confirmacao da senha nao confere.</div>
+        <div style={alertaValidacao}>A confirmação da senha não confere.</div>
       )}
 
       {mostrarAvisoSenhaFraca && (
         <div style={alertaValidacao}>
-          A senha ainda nao atende todos os requisitos de seguranca.
+          A senha ainda não atende todos os requisitos de segurança.
         </div>
       )}
 

@@ -6,6 +6,7 @@ import {
   obterVersoesLegaisAtuais,
   registrarAceiteLegal,
 } from "../services/legalService";
+import { useToast } from "../hooks/useToast";
 
 function AceiteLegal() {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ function AceiteLegal() {
   const [termosAceitos, setTermosAceitos] = useState(false);
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState("");
+  const toast = useToast();
   const { politicaVersao, termosVersao } = obterVersoesLegaisAtuais();
   const destino = location.state?.from?.pathname || "/";
   const podeContinuar = politicaAceita && termosAceitos && !carregando;
@@ -30,9 +32,18 @@ function AceiteLegal() {
       await registrarAceiteLegal({
         userAgent: navigator.userAgent,
       });
+      toast.sucesso(
+        "Aceite registrado",
+        "Obrigado por confirmar os documentos legais."
+      );
       navigate(destino, { replace: true });
     } catch (error) {
-      setErro(error.message || "Não foi possível registrar o aceite.");
+      console.error(error);
+      setErro("Não foi possível registrar o aceite. Tente novamente em instantes.");
+      toast.erro(
+        "Não foi possível registrar o aceite",
+        "Tente novamente em instantes."
+      );
     } finally {
       setCarregando(false);
     }
