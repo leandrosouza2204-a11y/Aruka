@@ -1,5 +1,5 @@
-import AlunosTable from "../features/alunos/components/AlunosTable";
+import AlunosList from "../features/alunos/components/AlunosList";
 
 export default function Alunos() {
-  return <AlunosTable />;
+  return <AlunosList />;
 }
