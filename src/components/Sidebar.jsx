@@ -258,7 +258,7 @@ function Sidebar() {
             Termos
           </Link>
         </div>
-        <span style={styles.footerVersion}>Versão 1.0</span>
+        <span style={styles.footerVersion}>Versão 1.7</span>
       </div>
     </div>
   );
