@@ -1038,7 +1038,17 @@ body[data-theme="dark"] .admin-logs-panel select {
   margin-top: 16px;
 }
 
+.avaliacoes-mobile-cards {
+  display: none;
+  margin-top: 16px;
+}
+
 .treino-mobile-card {
+  display: grid;
+  gap: 14px;
+}
+
+.avaliacao-mobile-card {
   display: grid;
   gap: 14px;
 }
@@ -1095,6 +1105,18 @@ body[data-theme="dark"] .admin-logs-panel select {
 
   .treinos-mobile-cards {
     display: grid !important;
+  }
+
+  .avaliacoes-table {
+    display: none !important;
+  }
+
+  .avaliacoes-mobile-cards {
+    display: grid !important;
+  }
+
+  .avaliacoes-filtros {
+    grid-template-columns: 1fr !important;
   }
 }
 

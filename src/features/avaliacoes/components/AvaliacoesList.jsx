@@ -1,778 +1,104 @@
-﻿import { useEffect, useMemo, useState } from "react";
 import Sidebar from "../../../components/Sidebar";
-import TableActions, { TableActionItem } from "../../../components/TableActions";
-import EmptyState from "../../../components/EmptyState";
-import LoadingState from "../../../components/LoadingState";
-import { useConfirm } from "../../../hooks/useConfirm";
-import AvaliacaoModal from "../../../components/AvaliacaoModal";
 import AnamneseModal from "../../../components/AnamneseModal";
-import TabelaComposicaoCorporal from "../../../components/TabelaComposicaoCorporal";
-import CardEvolucaoFisica from "../../../components/CardEvolucaoFisica";
-import { buscarAlunosSupabase } from "../../../services/alunosService";
-import { calcularComposicaoCorporal } from "../../../data/calculosCorporais";
-import {
-  adicionarAvaliacaoSupabase,
-  atualizarAvaliacaoSupabase,
-  buscarAvaliacoesSupabase,
-  excluirAvaliacaoSupabase,
-} from "../../../services/avaliacoesService";
-import {
-  adicionarAnamneseSupabase,
-  atualizarAnamneseSupabase,
-  buscarAnamnesesSupabase,
-} from "../../../services/anamnesesService";
-import { useToast } from "../../../hooks/useToast";
+import AvaliacaoModal from "../../../components/AvaliacaoModal";
+import { useAvaliacoesPage } from "../hooks/useAvaliacoesPage";
+import AvaliacaoCardMobile from "./AvaliacaoCardMobile";
+import AvaliacaoDetalhesModal from "./AvaliacaoDetalhesModal";
+import AvaliacoesFilters from "./AvaliacoesFilters";
+import AvaliacoesHeader from "./AvaliacoesHeader";
+import AvaliacoesTable from "./AvaliacoesTable";
 
-function Avaliacoes() {
-  const [alunos, setAlunos] = useState([]);
-  const [avaliacoes, setAvaliacoes] = useState([]);
-  const [anamneses, setAnamneses] = useState([]);
-  const [modalAvaliacao, setModalAvaliacao] = useState(false);
-  const [modalAnamnese, setModalAnamnese] = useState(false);
-  const [avaliacaoEditando, setAvaliacaoEditando] = useState(null);
-  const [anamneseEditando, setAnamneseEditando] = useState(null);
-  const [alunoSelecionado, setAlunoSelecionado] = useState("");
-  const [relatorioAberto, setRelatorioAberto] = useState(false);
-  const [busca, setBusca] = useState("");
-  const [filtroAluno, setFiltroAluno] = useState("todos");
-  const [carregando, setCarregando] = useState(true);
-  const [erro, setErro] = useState("");
-  const toast = useToast();
-  const { confirmar } = useConfirm();
-
-  async function carregarDados() {
-    setCarregando(true);
-    setErro("");
-
-    try {
-      const [alunosSupabase, avaliacoesSupabase, anamnesesSupabase] =
-        await Promise.all([
-          buscarAlunosSupabase(),
-          buscarAvaliacoesSupabase(),
-          buscarAnamnesesSupabase(),
-        ]);
-
-      setAlunos(alunosSupabase);
-      setAvaliacoes(vincularAlunos(avaliacoesSupabase, alunosSupabase));
-      setAnamneses(vincularAlunos(anamnesesSupabase, alunosSupabase));
-    } catch (error) {
-      setErro(`Erro ao carregar avaliações: ${error.message}`);
-      setAlunos([]);
-      setAvaliacoes([]);
-      setAnamneses([]);
-    } finally {
-      setCarregando(false);
-    }
-  }
-
-  useEffect(() => {
-    async function carregarDadosInicial() {
-      setCarregando(true);
-      setErro("");
-
-      try {
-        const [alunosSupabase, avaliacoesSupabase, anamnesesSupabase] =
-          await Promise.all([
-            buscarAlunosSupabase(),
-            buscarAvaliacoesSupabase(),
-            buscarAnamnesesSupabase(),
-          ]);
-
-        setAlunos(alunosSupabase);
-        setAvaliacoes(vincularAlunos(avaliacoesSupabase, alunosSupabase));
-        setAnamneses(vincularAlunos(anamnesesSupabase, alunosSupabase));
-      } catch (error) {
-        setErro(`Erro ao carregar avaliações: ${error.message}`);
-        setAlunos([]);
-        setAvaliacoes([]);
-        setAnamneses([]);
-      } finally {
-        setCarregando(false);
-      }
-    }
-
-    carregarDadosInicial();
-  }, []);
-
-  const ultimasAvaliacoes = useMemo(() => {
-    const porAluno = new Map();
-
-    avaliacoes.forEach((avaliacao) => {
-      const atual = porAluno.get(avaliacao.aluno);
-      if (!atual || String(avaliacao.data).localeCompare(String(atual.data)) > 0) {
-        porAluno.set(avaliacao.aluno, avaliacao);
-      }
-    });
-
-    return [...porAluno.values()].sort((a, b) =>
-      String(b.data).localeCompare(String(a.data))
-    );
-  }, [avaliacoes]);
-
-  const avaliacoesFiltradas = useMemo(() => {
-    const termo = busca.trim().toLowerCase();
-
-    return ultimasAvaliacoes.filter((avaliacao) => {
-      const combinaBusca = avaliacao.aluno.toLowerCase().includes(termo);
-      const combinaAluno =
-        filtroAluno === "todos" || avaliacao.aluno === filtroAluno;
-
-      return combinaBusca && combinaAluno;
-    });
-  }, [busca, filtroAluno, ultimasAvaliacoes]);
-
-  const historicoAluno = useMemo(
-    () =>
-      avaliacoes
-        .filter((avaliacao) => avaliacao.aluno === alunoSelecionado)
-        .sort((a, b) => String(a.data).localeCompare(String(b.data))),
-    [alunoSelecionado, avaliacoes]
-  );
-
-  const ultimaAvaliacao = historicoAluno[historicoAluno.length - 1] || null;
-  const avaliacaoAnterior =
-    historicoAluno.length > 1 ? historicoAluno[historicoAluno.length - 2] : null;
-  const primeiraAvaliacao = historicoAluno[0] || null;
-  const alunoCadastro = alunos.find((aluno) => aluno.nome === alunoSelecionado);
-  const anamneseAluno =
-    anamneses.find((anamnese) => anamnese.aluno === alunoSelecionado) || null;
-  const alertas = useMemo(
-    () => gerarAlertas(avaliacaoAnterior, ultimaAvaliacao, anamneseAluno),
-    [avaliacaoAnterior, ultimaAvaliacao, anamneseAluno]
-  );
-
-  async function salvarAvaliacao(avaliacao) {
-    const aluno = alunos.find((item) => item.nome === avaliacao.aluno);
-
-    if (!aluno) {
-      toast.aviso("Aluno obrigatório", "Selecione um aluno cadastrado.");
-      return;
-    }
-
-    try {
-      const payload = { ...avaliacao, alunoId: aluno.id };
-
-      if (avaliacaoEditando) {
-        await atualizarAvaliacaoSupabase(avaliacaoEditando.id, payload);
-      } else {
-        await adicionarAvaliacaoSupabase(payload);
-      }
-
-      await carregarDados();
-      setAlunoSelecionado(avaliacao.aluno);
-      setModalAvaliacao(false);
-      setAvaliacaoEditando(null);
-      toast.sucesso("Avaliação salva", "Os dados da avaliação foram atualizados.");
-    } catch (error) {
-      console.error(error);
-      setErro(`Erro ao salvar avaliação: ${error.message}`);
-      toast.erro("Não foi possível salvar a avaliação", "Tente novamente em alguns instantes.");
-    }
-  }
-
-  async function salvarAnamnese(anamnese) {
-    const aluno = alunos.find((item) => item.nome === anamnese.aluno);
-
-    if (!aluno) {
-      toast.aviso("Aluno obrigatório", "Selecione um aluno cadastrado.");
-      return;
-    }
-
-    try {
-      const payload = { ...anamnese, alunoId: aluno.id };
-
-      if (anamneseEditando) {
-        await atualizarAnamneseSupabase(anamneseEditando.id, payload);
-      } else {
-        await adicionarAnamneseSupabase(payload);
-      }
-
-      await carregarDados();
-      setAlunoSelecionado(anamnese.aluno);
-      setModalAnamnese(false);
-      setAnamneseEditando(null);
-      toast.sucesso("Anamnese salva", "As informações foram atualizadas.");
-    } catch (error) {
-      console.error(error);
-      setErro(`Erro ao salvar anamnese: ${error.message}`);
-      toast.erro("Não foi possível salvar a anamnese", "Tente novamente em alguns instantes.");
-    }
-  }
-
-  function editarAnamneseAluno(aluno) {
-    setAnamneseEditando(
-      anamneses.find((anamnese) => anamnese.aluno === aluno) || null
-    );
-    setModalAnamnese(true);
-  }
-
-  async function removerAvaliacao(id) {
-    const confirmado = await confirmar({
-      titulo: "Excluir avaliação?",
-      descricao: "Esta ação remove a avaliação selecionada.",
-      textoConfirmar: "Excluir",
-    });
-
-    if (!confirmado) return;
-
-    try {
-      await excluirAvaliacaoSupabase(id);
-      await carregarDados();
-      toast.sucesso("Avaliação excluída", "O registro foi removido com sucesso.");
-    } catch (error) {
-      console.error(error);
-      setErro(`Erro ao excluir avaliação: ${error.message}`);
-      toast.erro("Não foi possível excluir a avaliação", "Tente novamente em alguns instantes.");
-    }
-  }
-
-  async function copiarResumoWhatsApp() {
-    if (!ultimaAvaliacao) return;
-
-    const texto = gerarResumoWhatsApp(
-      ultimaAvaliacao,
-      avaliacaoAnterior,
-      anamneseAluno
-    );
-
-    try {
-      await navigator.clipboard.writeText(texto);
-      toast.sucesso("Resumo copiado", "Agora você pode enviar pelo WhatsApp.");
-    } catch {
-      window.prompt("Copie o resumo abaixo:", texto);
-    }
-  }
+function AvaliacoesList() {
+  const avaliacoesPage = useAvaliacoesPage();
 
   return (
     <div style={{ display: "flex" }}>
       <Sidebar />
 
-      <div style={conteudo}>
-        <section style={listaCard}>
-          <div style={listaTopo}>
-            <div>
-              <h1 style={tituloPagina}>Avaliações</h1>
-              <p style={resumoLista}>
-                {avaliacoesFiltradas.length} alunos com avaliação exibidos
-              </p>
-            </div>
+      <div className="avaliacoes-page" style={styles.conteudo}>
+        <AvaliacoesHeader
+          quantidadeExibida={avaliacoesPage.avaliacoesFiltradas.length}
+          onNovaAvaliacao={avaliacoesPage.abrirNovaAvaliacao}
+          onNovaAnamnese={avaliacoesPage.abrirNovaAnamnese}
+          styles={styles}
+        >
+          <AvaliacoesFilters
+            alunos={avaliacoesPage.alunos}
+            busca={avaliacoesPage.busca}
+            filtroAluno={avaliacoesPage.filtroAluno}
+            onBuscaChange={avaliacoesPage.setBusca}
+            onFiltroAlunoChange={avaliacoesPage.setFiltroAluno}
+            styles={styles}
+          />
+        </AvaliacoesHeader>
 
-            <div style={acoes}>
-              <button onClick={() => setModalAvaliacao(true)} style={botaoPrimario}>
-                + Nova Avaliação
-              </button>
-              <button onClick={() => setModalAnamnese(true)} style={botaoSecundario}>
-                + Nova Anamnese
-              </button>
-            </div>
-          </div>
+        {avaliacoesPage.erro && (
+          <div style={styles.erroBox}>{avaliacoesPage.erro}</div>
+        )}
 
-          <div style={filtros}>
-            <input
-              placeholder="Buscar por nome do aluno"
-              value={busca}
-              onChange={(e) => setBusca(e.target.value)}
-              style={campo}
-            />
-            <select
-              value={filtroAluno}
-              onChange={(e) => setFiltroAluno(e.target.value)}
-              style={campo}
-            >
-              <option value="todos">Todos os alunos</option>
-              {alunos.map((aluno) => (
-                <option key={aluno.id} value={aluno.nome}>
-                  {aluno.nome}
-                </option>
+        <AvaliacoesTable
+          avaliacoes={avaliacoesPage.avaliacoesFiltradas}
+          carregando={avaliacoesPage.carregando}
+          onPerfil={avaliacoesPage.selecionarPerfilAluno}
+          onEditar={avaliacoesPage.abrirEdicaoAvaliacao}
+          onAnamnese={avaliacoesPage.editarAnamneseAluno}
+          onExcluir={avaliacoesPage.removerAvaliacao}
+          onNovaAvaliacao={avaliacoesPage.abrirNovaAvaliacao}
+          styles={styles}
+        />
+
+        {!avaliacoesPage.carregando &&
+          avaliacoesPage.avaliacoesFiltradas.length > 0 && (
+            <div className="mobile-card-list avaliacoes-mobile-cards">
+              {avaliacoesPage.avaliacoesFiltradas.map((avaliacao) => (
+                <AvaliacaoCardMobile
+                  key={avaliacao.id}
+                  avaliacao={avaliacao}
+                  onPerfil={avaliacoesPage.selecionarPerfilAluno}
+                  onEditar={avaliacoesPage.abrirEdicaoAvaliacao}
+                  onAnamnese={avaliacoesPage.editarAnamneseAluno}
+                  onExcluir={avaliacoesPage.removerAvaliacao}
+                />
               ))}
-            </select>
-          </div>
-        </section>
-
-        {erro && <div style={erroBox}>{erro}</div>}
-
-        <div className="app-table-scroll">
-          <table className="app-table" style={tabela}>
-            <thead>
-              <tr style={linhaCabecalho}>
-                <th style={tabelaHeader}>Aluno</th>
-                <th style={tabelaHeader}>Última avaliação</th>
-                <th style={tabelaHeader}>Status</th>
-                <th style={tabelaHeader}>Peso</th>
-                <th style={tabelaHeader}>Cintura</th>
-                <th style={tabelaHeader}>% gordura</th>
-                <th style={tabelaHeader}>IMC</th>
-                <th style={tabelaHeader}>Ações</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {!carregando && avaliacoesFiltradas.map((avaliacao) => {
-                const composicao = calcularComposicaoCorporal(avaliacao);
-
-                return (
-                  <tr key={avaliacao.id}>
-                    <td className="cell-wide" style={tabelaCelula}>{avaliacao.aluno}</td>
-                    <td style={tabelaCelula}>{formatarData(avaliacao.data)}</td>
-                    <td style={tabelaCelula}>{formatarStatus(avaliacao.status)}</td>
-                    <td style={tabelaCelula}>{formatarKg(avaliacao.peso)}</td>
-                    <td style={tabelaCelula}>
-                      {formatarCm(avaliacao.medidas?.cintura)}
-                    </td>
-                    <td style={tabelaCelula}>
-                      {formatarPercentual(composicao.percentualGordura)}
-                    </td>
-                    <td style={tabelaCelula}>{composicao.imc || "-"}</td>
-                    <td style={tabelaCelula}>
-                      <div className="table-actions-inline">
-                        <button
-                          onClick={() => {
-                            setAlunoSelecionado(avaliacao.aluno);
-                            setRelatorioAberto(false);
-                          }}
-                          className="table-button table-button-secondary"
-                        >
-                          Perfil
-                        </button>
-                        <TableActions>
-                          <TableActionItem
-                            onClick={() => {
-                              setAvaliacaoEditando(avaliacao);
-                              setModalAvaliacao(true);
-                            }}
-                          >
-                            Editar
-                          </TableActionItem>
-                          <TableActionItem
-                            onClick={() => editarAnamneseAluno(avaliacao.aluno)}
-                          >
-                            Anamnese
-                          </TableActionItem>
-                          <TableActionItem
-                            onClick={() => removerAvaliacao(avaliacao.id)}
-                            variant="danger"
-                          >
-                            Excluir
-                          </TableActionItem>
-                        </TableActions>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-
-              {carregando && (
-                <tr>
-                  <td style={estadoVazio} colSpan="8">
-                    <LoadingState texto="Carregando avaliações..." />
-                  </td>
-                </tr>
-              )}
-
-              {!carregando && avaliacoesFiltradas.length === 0 && (
-                <tr>
-                  <td style={estadoVazio} colSpan="8">
-                    <EmptyState
-                      titulo="Nenhuma avaliação registrada."
-                      descricao="Registre a primeira avaliação para acompanhar evolução e histórico do aluno."
-                      acaoLabel="Nova avaliação"
-                      onAcao={() => setModalAvaliacao(true)}
-                    />
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-
-        {ultimaAvaliacao && (
-          <section style={detalhesCard}>
-            <div style={detalhesTopo}>
-              <div>
-                <h2 style={detalhesTitulo}>Perfil do Aluno</h2>
-                <p style={resumoLista}>
-                  {alunoSelecionado} · {historicoAluno.length} avaliação(ões)
-                </p>
-              </div>
-              <div style={acoes}>
-                <button onClick={copiarResumoWhatsApp} style={botaoPrimario}>
-                  Copiar resumo para WhatsApp
-                </button>
-                <button
-                  onClick={() => setRelatorioAberto(!relatorioAberto)}
-                  style={botaoSecundario}
-                >
-                  Gerar relatório da avaliação
-                </button>
-                <button onClick={() => setAlunoSelecionado("")} style={botaoSecundario}>
-                  Fechar
-                </button>
-              </div>
             </div>
+          )}
 
-            {alertas.length > 0 && (
-              <div style={alertasGrid}>
-                {alertas.map((alerta) => (
-                  <div key={alerta} style={alertaCard}>
-                    {alerta}
-                  </div>
-                ))}
-              </div>
-            )}
+        <AvaliacaoDetalhesModal
+          alertas={avaliacoesPage.alertas}
+          alunoCadastro={avaliacoesPage.alunoCadastro}
+          alunoSelecionado={avaliacoesPage.alunoSelecionado}
+          anamneseAluno={avaliacoesPage.anamneseAluno}
+          avaliacaoAnterior={avaliacoesPage.avaliacaoAnterior}
+          historicoAluno={avaliacoesPage.historicoAluno}
+          primeiraAvaliacao={avaliacoesPage.primeiraAvaliacao}
+          relatorioAberto={avaliacoesPage.relatorioAberto}
+          ultimaAvaliacao={avaliacoesPage.ultimaAvaliacao}
+          onAlternarRelatorio={avaliacoesPage.alternarRelatorio}
+          onCopiarResumo={avaliacoesPage.copiarResumoWhatsApp}
+          onFechar={avaliacoesPage.fecharPerfilAluno}
+          styles={styles}
+        />
 
-            <div style={perfilGrid}>
-              <div style={painel}>
-                <h3 style={painelTitulo}>Dados cadastrais</h3>
-                <Info label="Nome" valor={alunoCadastro?.nome || alunoSelecionado} />
-                <Info label="WhatsApp" valor={alunoCadastro?.whatsapp} />
-                <Info label="Plano" valor={alunoCadastro?.plano} />
-                <Info label="Status" valor={alunoCadastro?.status} />
-              </div>
-
-              <div style={painel}>
-                <h3 style={painelTitulo}>Última anamnese</h3>
-                {anamneseAluno ? (
-                  <>
-                    <Info label="Objetivo principal" valor={anamneseAluno.objetivoPrincipal} />
-                    <Info label="Dores ou lesoes" valor={anamneseAluno.doresLesoes} />
-                    <Info label="Sono" valor={formatarEscala(anamneseAluno.escalaSono)} />
-                    <Info label="Estresse" valor={formatarEscala(anamneseAluno.escalaEstresse)} />
-                    <Info label="Adesao rotina" valor={formatarEscala(anamneseAluno.escalaAdesaoRotina)} />
-                  </>
-                ) : (
-                  <p style={resumoLista}>Nenhuma anamnese cadastrada.</p>
-                )}
-              </div>
-            </div>
-
-            <CardEvolucaoFisica primeira={primeiraAvaliacao} ultima={ultimaAvaliacao} />
-
-            <div style={detalhesGrid}>
-              <TabelaComposicaoCorporal avaliacao={ultimaAvaliacao} />
-              <div style={painel}>
-                <h3 style={painelTitulo}>Última avaliação física</h3>
-                <Info label="Data" valor={formatarData(ultimaAvaliacao.data)} />
-                <Info label="Status" valor={formatarStatus(ultimaAvaliacao.status)} />
-                <Info label="Objetivo atual" valor={ultimaAvaliacao.objetivoAtual} />
-                <Info label="Aderência treino" valor={ultimaAvaliacao.aderenciaTreino} />
-                <Info label="Aderência dieta" valor={ultimaAvaliacao.aderenciaDieta} />
-              </div>
-            </div>
-
-            <h3 style={subtituloSecao}>Graficos de evolucao</h3>
-            <div style={graficosGrid}>
-              <GraficoEvolucao titulo="Peso" historico={historicoAluno} obterValor={(a) => a.peso} unidade="kg" />
-              <GraficoEvolucao titulo="Cintura" historico={historicoAluno} obterValor={(a) => a.medidas?.cintura} unidade="cm" />
-              <GraficoEvolucao titulo="% gordura" historico={historicoAluno} obterValor={(a) => calcularComposicaoCorporal(a).percentualGordura} unidade="%" />
-              <GraficoEvolucao titulo="Massa magra" historico={historicoAluno} obterValor={(a) => calcularComposicaoCorporal(a).massaMagra} unidade="kg" />
-            </div>
-
-            {relatorioAberto && (
-              <RelatorioAvaliacao
-                aluno={alunoCadastro}
-                avaliacao={ultimaAvaliacao}
-                anterior={avaliacaoAnterior}
-                anamnese={anamneseAluno}
-              />
-            )}
-
-            <h3 style={subtituloSecao}>Histórico de evolução</h3>
-            <div style={{ overflowX: "auto" }}>
-              <table style={tabela}>
-                <thead>
-                  <tr style={linhaCabecalho}>
-                    <th style={tabelaHeader}>Data</th>
-                    <th style={tabelaHeader}>Peso</th>
-                    <th style={tabelaHeader}>Cintura</th>
-                    <th style={tabelaHeader}>Quadril</th>
-                    <th style={tabelaHeader}>% gordura</th>
-                    <th style={tabelaHeader}>Massa magra</th>
-                    <th style={tabelaHeader}>IMC</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {historicoAluno.map((avaliacao) => {
-                    const composicao = calcularComposicaoCorporal(avaliacao);
-
-                    return (
-                      <tr key={avaliacao.id}>
-                        <td style={tabelaCelula}>{formatarData(avaliacao.data)}</td>
-                        <td style={tabelaCelula}>{formatarKg(avaliacao.peso)}</td>
-                        <td style={tabelaCelula}>{formatarCm(avaliacao.medidas?.cintura)}</td>
-                        <td style={tabelaCelula}>{formatarCm(avaliacao.medidas?.quadril)}</td>
-                        <td style={tabelaCelula}>{formatarPercentual(composicao.percentualGordura)}</td>
-                        <td style={tabelaCelula}>{formatarKg(composicao.massaMagra)}</td>
-                        <td style={tabelaCelula}>{composicao.imc || "-"}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </section>
-        )}
-
-        {modalAvaliacao && (
+        {avaliacoesPage.modalAvaliacao && (
           <AvaliacaoModal
-            alunos={alunos}
-            avaliacao={avaliacaoEditando}
-            onClose={() => {
-              setModalAvaliacao(false);
-              setAvaliacaoEditando(null);
-            }}
-            onSave={salvarAvaliacao}
+            alunos={avaliacoesPage.alunos}
+            avaliacao={avaliacoesPage.avaliacaoEditando}
+            onClose={avaliacoesPage.fecharModalAvaliacao}
+            onSave={avaliacoesPage.salvarAvaliacao}
           />
         )}
 
-        {modalAnamnese && (
+        {avaliacoesPage.modalAnamnese && (
           <AnamneseModal
-            alunos={alunos}
-            anamnese={anamneseEditando}
-            onClose={() => {
-              setModalAnamnese(false);
-              setAnamneseEditando(null);
-            }}
-            onSave={salvarAnamnese}
+            alunos={avaliacoesPage.alunos}
+            anamnese={avaliacoesPage.anamneseEditando}
+            onClose={avaliacoesPage.fecharModalAnamnese}
+            onSave={avaliacoesPage.salvarAnamnese}
           />
         )}
       </div>
     </div>
   );
-}
-
-function RelatorioAvaliacao({ aluno, avaliacao, anterior, anamnese }) {
-  const composicao = calcularComposicaoCorporal(avaliacao);
-
-  return (
-    <section style={relatorio}>
-      <h3 style={subtituloSecao}>Relatório da avaliação</h3>
-      <div style={relatorioGrid}>
-        <BlocoRelatorio
-          titulo="Dados do aluno"
-          itens={[
-            ["Nome", aluno?.nome || avaliacao.aluno],
-            ["WhatsApp", aluno?.whatsapp || "-"],
-            ["Data", formatarData(avaliacao.data)],
-            ["Status", formatarStatus(avaliacao.status)],
-          ]}
-        />
-        <BlocoRelatorio
-          titulo="Medidas corporais"
-          itens={[
-            ["Peso", formatarKg(avaliacao.peso)],
-            ["Cintura", formatarCm(avaliacao.medidas?.cintura)],
-            ["Abdômen", formatarCm(avaliacao.medidas?.abdomen)],
-            ["Quadril", formatarCm(avaliacao.medidas?.quadril)],
-            ["Tórax", formatarCm(avaliacao.medidas?.torax)],
-          ]}
-        />
-        <BlocoRelatorio
-          titulo="Composição estimada"
-          itens={[
-            ["% gordura", formatarPercentual(composicao.percentualGordura)],
-            ["Massa magra", formatarKg(composicao.massaMagra)],
-            ["Massa gorda", formatarKg(composicao.massaGorda)],
-            ["IMC", composicao.imc || "-"],
-          ]}
-        />
-        <BlocoRelatorio
-          titulo="Evolução comparativa"
-          itens={[
-            ["Peso", comparar(avaliacao?.peso, anterior?.peso, "kg")],
-            ["Cintura", comparar(avaliacao?.medidas?.cintura, anterior?.medidas?.cintura, "cm")],
-            ["Quadril", comparar(avaliacao?.medidas?.quadril, anterior?.medidas?.quadril, "cm")],
-          ]}
-        />
-        <BlocoRelatorio
-          titulo="Observações e recomendações"
-          itens={[
-            ["Observações", avaliacao.observacoes || "-"],
-            ["Aderência treino", avaliacao.aderenciaTreino || "-"],
-            ["Aderência dieta", avaliacao.aderenciaDieta || "-"],
-            ["Recomendações", gerarRecomendacoes(avaliacao, anamnese)],
-          ]}
-        />
-      </div>
-    </section>
-  );
-}
-
-function BlocoRelatorio({ titulo, itens }) {
-  return (
-    <div style={painel}>
-      <h4 style={painelTitulo}>{titulo}</h4>
-      {itens.map(([label, valor]) => (
-        <Info key={label} label={label} valor={valor} />
-      ))}
-    </div>
-  );
-}
-
-function GraficoEvolucao({ titulo, historico, obterValor, unidade }) {
-  const pontos = historico
-    .map((item) => ({ data: item.data, valor: Number(obterValor(item) || 0) }))
-    .filter((item) => item.valor > 0);
-  const maior = Math.max(...pontos.map((item) => item.valor), 0);
-
-  return (
-    <div style={graficoCard}>
-      <h4 style={painelTitulo}>{titulo}</h4>
-      <div style={grafico}>
-        {pontos.map((item) => {
-          const altura = maior ? Math.max((item.valor / maior) * 100, 8) : 0;
-          return (
-            <div key={`${titulo}-${item.data}`} style={barraItem}>
-              <span style={barraValor}>{item.valor.toFixed(1)} {unidade}</span>
-              <div style={barraTrilho}>
-                <div style={{ ...barra, height: `${altura}%` }} />
-              </div>
-              <span style={barraLabel}>{formatarDataCurta(item.data)}</span>
-            </div>
-          );
-        })}
-        {pontos.length === 0 && <p style={resumoLista}>Sem dados suficientes.</p>}
-      </div>
-    </div>
-  );
-}
-
-function Info({ label, valor }) {
-  return (
-    <div style={infoItem}>
-      <span style={infoLabel}>{label}</span>
-      <strong style={infoValor}>{valor || "-"}</strong>
-    </div>
-  );
-}
-
-function vincularAlunos(registros, alunos) {
-  const nomesPorId = new Map(alunos.map((aluno) => [aluno.id, aluno.nome]));
-
-  return registros.map((registro) => ({
-    ...registro,
-    aluno: nomesPorId.get(registro.alunoId) || registro.aluno || "",
-  }));
-}
-
-function gerarResumoWhatsApp(avaliacao, anterior, anamnese) {
-  const composicao = calcularComposicaoCorporal(avaliacao);
-  return [
-    `Resumo da avaliação - ${avaliacao.aluno}`,
-    `Data: ${formatarData(avaliacao.data)}`,
-    `Peso atual: ${formatarKg(avaliacao.peso)}`,
-    `% gordura estimado: ${formatarPercentual(composicao.percentualGordura)}`,
-    `Massa magra: ${formatarKg(composicao.massaMagra)}`,
-    `IMC: ${composicao.imc || "-"}`,
-    `Evolução desde a avaliação anterior: ${gerarLinhaEvolucao(avaliacao, anterior)}`,
-    `Mensagem: ${mensagemMotivacional(anamnese)}`,
-  ].join("\n");
-}
-
-function gerarLinhaEvolucao(atual, anterior) {
-  if (!anterior) return "primeira avaliação registrada.";
-  const composicaoAtual = calcularComposicaoCorporal(atual);
-  const composicaoAnterior = calcularComposicaoCorporal(anterior);
-  return `peso ${comparar(atual.peso, anterior.peso, "kg")}, cintura ${comparar(
-    atual.medidas?.cintura,
-    anterior.medidas?.cintura,
-    "cm"
-  )}, massa magra ${comparar(composicaoAtual.massaMagra, composicaoAnterior.massaMagra, "kg")}.`;
-}
-
-function mensagemMotivacional(anamnese) {
-  if (Number(anamnese?.escalaAdesaoRotina || 0) <= 2) {
-    return "Vamos focar em consistência nesta fase. Pequenas entregas bem feitas toda semana geram progresso real.";
-  }
-  return "Você está construindo resultado com consistência. Mantenha o plano, ajuste o necessário e siga evoluindo.";
-}
-
-function gerarAlertas(anterior, atual, anamnese) {
-  if (!atual) return [];
-  const alertas = [];
-  const cinturaAtual = Number(atual.medidas?.cintura || 0);
-  const cinturaAnterior = Number(anterior?.medidas?.cintura || 0);
-  const pesoAtual = Number(atual.peso || 0);
-  const pesoAnterior = Number(anterior?.peso || 0);
-  const adesaoBaixa =
-    Number(anamnese?.escalaAdesaoRotina || 0) > 0 &&
-    Number(anamnese?.escalaAdesaoRotina || 0) <= 2;
-  const dorLesao = String(anamnese?.doresLesoes || "").toLowerCase() === "sim";
-
-  if (cinturaAnterior && cinturaAtual > cinturaAnterior) {
-    alertas.push("Alerta: cintura aumentou desde a avaliação anterior.");
-  }
-  if (pesoAnterior && cinturaAnterior && pesoAtual > pesoAnterior && cinturaAtual > cinturaAnterior) {
-    alertas.push("Alerta: peso e cintura subiram juntos.");
-  }
-  if (adesaoBaixa) {
-    alertas.push("Alerta: adesão à rotina está baixa.");
-  }
-  if (dorLesao) {
-    alertas.push("Alerta: aluno relatou dor ou lesão na anamnese.");
-  }
-
-  return alertas;
-}
-
-function gerarRecomendacoes(avaliacao, anamnese) {
-  const itens = [];
-  if (Number(anamnese?.escalaSono || 0) <= 2) itens.push("priorizar ajuste de sono");
-  if (Number(anamnese?.escalaEstresse || 0) >= 4) itens.push("monitorar estresse e recuperação");
-  if (String(anamnese?.doresLesoes || "").toLowerCase() === "sim") {
-    itens.push("adaptar exercícios conforme dor ou lesão relatada");
-  }
-  if (String(avaliacao?.aderenciaTreino || "").toLowerCase().includes("baixa")) {
-    itens.push("simplificar rotina para aumentar aderência");
-  }
-  return itens.length ? itens.join("; ") : "manter acompanhamento regular e revisar medidas no próximo ciclo.";
-}
-
-function comparar(atual, anterior, unidade) {
-  const valorAtual = Number(atual || 0);
-  const valorAnterior = Number(anterior || 0);
-  if (!valorAtual || !valorAnterior) return "-";
-  const diferenca = valorAtual - valorAnterior;
-  const sinal = diferenca > 0 ? "+" : "";
-  return `${sinal}${diferenca.toFixed(1)} ${unidade}`;
-}
-
-function formatarData(data) {
-  if (!data) return "-";
-  return new Date(`${data}T00:00:00`).toLocaleDateString("pt-BR");
-}
-
-function formatarDataCurta(data) {
-  if (!data) return "-";
-  return new Date(`${data}T00:00:00`).toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-  });
-}
-
-function formatarKg(valor) {
-  return valor ? `${Number(valor).toFixed(1)} kg` : "-";
-}
-
-function formatarCm(valor) {
-  return valor ? `${Number(valor).toFixed(1)} cm` : "-";
-}
-
-function formatarPercentual(valor) {
-  return valor !== "" ? `${Number(valor).toFixed(1)}%` : "-";
-}
-
-function formatarStatus(status) {
-  const mapa = {
-    inicial: "Inicial",
-    acompanhamento: "Acompanhamento",
-    retorno: "Retorno",
-    final: "Final",
-  };
-  return mapa[status] || "Inicial";
-}
-
-function formatarEscala(valor) {
-  return valor ? `${valor}/5` : "-";
 }
 
 const conteudo = {
@@ -804,6 +130,7 @@ const filtros = {
   display: "grid",
   gridTemplateColumns: "minmax(220px, 1fr) minmax(180px, 240px)",
   gap: "10px",
+  marginTop: "14px",
 };
 
 const campo = {
@@ -993,6 +320,46 @@ const infoLabel = {
 
 const infoValor = { color: "#111827", fontSize: "14px" };
 
-export default Avaliacoes;
+const styles = {
+  acoes,
+  alertaCard,
+  alertasGrid,
+  barra,
+  barraItem,
+  barraLabel,
+  barraTrilho,
+  barraValor,
+  botaoPrimario,
+  botaoSecundario,
+  campo,
+  conteudo,
+  detalhesCard,
+  detalhesGrid,
+  detalhesTitulo,
+  detalhesTopo,
+  erroBox,
+  estadoVazio,
+  filtros,
+  grafico,
+  graficoCard,
+  graficosGrid,
+  infoItem,
+  infoLabel,
+  infoValor,
+  linhaCabecalho,
+  listaCard,
+  listaTopo,
+  painel,
+  painelTitulo,
+  perfilGrid,
+  relatorio,
+  relatorioGrid,
+  resumoLista,
+  subtituloSecao,
+  tabela,
+  tabelaCelula,
+  tabelaHeader,
+  tituloPagina,
+};
 
-
+export default AvaliacoesList;
