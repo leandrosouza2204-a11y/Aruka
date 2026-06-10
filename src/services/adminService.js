@@ -69,6 +69,23 @@ export async function liberarAssinanteAdmin(
   if (error) throw error;
 }
 
+export async function transferirAcessoAdmin(userId, novoEmail) {
+  const { data, error } = await supabase.functions.invoke("transfer-user-access", {
+    body: {
+      userId,
+      novoEmail,
+    },
+  });
+
+  if (error) throw error;
+
+  if (data?.error) {
+    throw new Error(data.error);
+  }
+
+  return data;
+}
+
 function obterUserAgent() {
   return typeof navigator === "undefined" ? "" : navigator.userAgent || "";
 }

@@ -23,6 +23,7 @@ const acoesAuditadas = [
   "tornar_admin",
   "remover_admin",
   "cancelar_assinatura",
+  "transfer_access",
 ];
 
 function AdminLogs() {
@@ -365,6 +366,12 @@ function Info({ label, valor }) {
 }
 
 function formatarAcao(acao) {
+  const mapa = {
+    transfer_access: "Transferir acesso",
+  };
+
+  if (mapa[acao]) return mapa[acao];
+
   return String(acao || "-")
     .replaceAll("_", " ")
     .replace(/\b\w/g, (letra) => letra.toUpperCase());

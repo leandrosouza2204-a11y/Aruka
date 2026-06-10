@@ -12,6 +12,7 @@ import {
   liberarAssinanteAdmin,
   liberarBetaAdmin,
   listarUsuariosAdmin,
+  transferirAcessoAdmin,
   upsertAssinaturaAdmin,
 } from "../services/adminService";
 import { useToast } from "../hooks/useToast";
@@ -25,6 +26,7 @@ function AdminUsuarios() {
   const [erro, setErro] = useState("");
   const [mensagem, setMensagem] = useState("");
   const [usuarioEditando, setUsuarioEditando] = useState(null);
+  const [usuarioTransferindo, setUsuarioTransferindo] = useState(null);
   const toast = useToast();
   const { confirmar } = useConfirm();
 
@@ -215,6 +217,15 @@ function AdminUsuarios() {
   function limparFiltros() {
     setBusca("");
     setFiltro("todos");
+  }
+
+  async function transferirAcesso({ novoEmail }) {
+    if (!usuarioTransferindo) return;
+
+    await executarAcao(async () => {
+      await transferirAcessoAdmin(usuarioTransferindo.userId, novoEmail);
+      setUsuarioTransferindo(null);
+    }, "Acesso transferido com sucesso. O usuário deverá acessar usando o novo e-mail.");
   }
 
   return (
@@ -410,6 +421,12 @@ function AdminUsuarios() {
                             >
                               Cancelar assinatura
                             </TableActionItem>
+                            <TableActionItem
+                              onClick={() => setUsuarioTransferindo(usuario)}
+                              disabled={salvando}
+                            >
+                              Transferir acesso
+                            </TableActionItem>
                           </TableActions>
                         </div>
                       </td>
@@ -430,6 +447,135 @@ function AdminUsuarios() {
           salvando={salvando}
         />
       )}
+
+      {usuarioTransferindo && (
+        <TransferirAcessoModal
+          usuario={usuarioTransferindo}
+          onClose={() => setUsuarioTransferindo(null)}
+          onSave={transferirAcesso}
+          salvando={salvando}
+        />
+      )}
+    </div>
+  );
+}
+
+function TransferirAcessoModal({ usuario, onClose, onSave, salvando }) {
+  const [novoEmail, setNovoEmail] = useState("");
+  const [identidadeValidada, setIdentidadeValidada] = useState(false);
+  const [confirmacao, setConfirmacao] = useState("");
+  const [erro, setErro] = useState("");
+
+  async function enviar(event) {
+    event.preventDefault();
+    setErro("");
+
+    const emailNormalizado = novoEmail.trim().toLowerCase();
+    const emailAtual = String(usuario.email || "").trim().toLowerCase();
+
+    if (!emailNormalizado) {
+      setErro("Informe o novo e-mail.");
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailNormalizado)) {
+      setErro("Informe um e-mail válido.");
+      return;
+    }
+
+    if (emailNormalizado === emailAtual) {
+      setErro("O novo e-mail precisa ser diferente do e-mail atual.");
+      return;
+    }
+
+    if (!identidadeValidada) {
+      setErro("Confirme que a identidade do usuário foi validada.");
+      return;
+    }
+
+    if (confirmacao !== "TRANSFERIR") {
+      setErro("Digite TRANSFERIR para confirmar a operação.");
+      return;
+    }
+
+    await onSave({ novoEmail: emailNormalizado });
+  }
+
+  return (
+    <div style={modalOverlay}>
+      <form onSubmit={enviar} style={modalTransferencia}>
+        <div style={modalTopo}>
+          <div>
+            <h2 style={modalTitulo}>Transferir acesso da conta</h2>
+            <p style={modalTexto}>
+              Altere o e-mail de login mantendo o mesmo user_id e todos os dados vinculados.
+            </p>
+          </div>
+          <button type="button" onClick={onClose} style={botaoSecundario}>
+            Cancelar
+          </button>
+        </div>
+
+        <div style={resumoTransferencia}>
+          <InfoTransferencia label="Nome do usuário" valor={usuario.nome || "Sem nome"} />
+          <InfoTransferencia label="E-mail atual" valor={usuario.email} />
+          <InfoTransferencia label="User ID" valor={usuario.userId} />
+        </div>
+
+        <label style={campoTransferencia}>
+          <span style={labelTransferencia}>Novo e-mail</span>
+          <input
+            type="email"
+            value={novoEmail}
+            onChange={(event) => setNovoEmail(event.target.value)}
+            placeholder="novo@email.com"
+            style={inputTransferencia}
+            disabled={salvando}
+          />
+        </label>
+
+        <label style={checkboxLinha}>
+          <input
+            type="checkbox"
+            checked={identidadeValidada}
+            onChange={(event) => setIdentidadeValidada(event.target.checked)}
+            disabled={salvando}
+          />
+          <span>
+            Confirmo que validei a identidade do usuário antes de transferir o acesso.
+          </span>
+        </label>
+
+        <label style={campoTransferencia}>
+          <span style={labelTransferencia}>Digite TRANSFERIR para confirmar.</span>
+          <input
+            value={confirmacao}
+            onChange={(event) => setConfirmacao(event.target.value)}
+            style={inputTransferencia}
+            disabled={salvando}
+          />
+        </label>
+
+        {erro && <div style={erroBox}>{erro}</div>}
+
+        <div style={modalAcoes}>
+          <button type="button" onClick={onClose} style={botaoSecundario} disabled={salvando}>
+            Cancelar
+          </button>
+          <button type="submit" style={botaoPerigo} disabled={salvando}>
+            {salvando ? "Transferindo..." : "Transferir acesso"}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+function InfoTransferencia({ label, valor }) {
+  return (
+    <div style={infoTransferencia}>
+      <span style={labelTransferencia}>{label}</span>
+      <strong style={valorTransferencia}>{valor || "-"}</strong>
     </div>
   );
 }
@@ -611,6 +757,116 @@ const botaoSecundario = {
   borderRadius: "8px",
   cursor: "pointer",
   fontWeight: "700",
+  padding: "10px 14px",
+};
+
+const modalOverlay = {
+  alignItems: "center",
+  background: "rgba(15, 23, 42, 0.58)",
+  display: "flex",
+  inset: 0,
+  justifyContent: "center",
+  padding: "20px",
+  position: "fixed",
+  zIndex: 60,
+};
+
+const modalTransferencia = {
+  background: "white",
+  borderRadius: "12px",
+  boxShadow: "0 24px 70px rgba(15, 23, 42, 0.3)",
+  display: "grid",
+  gap: "16px",
+  maxHeight: "calc(100vh - 40px)",
+  overflowY: "auto",
+  padding: "22px",
+  width: "min(620px, 100%)",
+};
+
+const modalTopo = {
+  alignItems: "flex-start",
+  display: "flex",
+  gap: "16px",
+  justifyContent: "space-between",
+};
+
+const modalTitulo = {
+  color: "#111827",
+  fontSize: "22px",
+  margin: 0,
+};
+
+const modalTexto = {
+  color: "#6b7280",
+  fontSize: "14px",
+  lineHeight: 1.45,
+  marginTop: "6px",
+};
+
+const resumoTransferencia = {
+  background: "#f8fafc",
+  border: "1px solid #e5e7eb",
+  borderRadius: "8px",
+  display: "grid",
+  gap: "10px",
+  padding: "14px",
+};
+
+const infoTransferencia = {
+  display: "grid",
+  gap: "3px",
+};
+
+const labelTransferencia = {
+  color: "#374151",
+  fontSize: "12px",
+  fontWeight: "800",
+};
+
+const valorTransferencia = {
+  color: "#111827",
+  fontSize: "14px",
+  overflowWrap: "anywhere",
+};
+
+const campoTransferencia = {
+  display: "grid",
+  gap: "7px",
+};
+
+const inputTransferencia = {
+  background: "white",
+  border: "1px solid #d1d5db",
+  borderRadius: "8px",
+  color: "#111827",
+  minHeight: "42px",
+  padding: "9px 11px",
+};
+
+const checkboxLinha = {
+  alignItems: "flex-start",
+  color: "#374151",
+  display: "flex",
+  fontSize: "14px",
+  fontWeight: "700",
+  gap: "10px",
+  lineHeight: 1.4,
+};
+
+const modalAcoes = {
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "10px",
+  justifyContent: "flex-end",
+};
+
+const botaoPerigo = {
+  background: "#dc2626",
+  border: "none",
+  borderRadius: "8px",
+  color: "white",
+  cursor: "pointer",
+  fontWeight: "800",
   padding: "10px 14px",
 };
 
