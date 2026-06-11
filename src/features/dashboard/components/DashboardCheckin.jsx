@@ -16,7 +16,7 @@ function DashboardCheckin({
   return (
     <>
       <div
-        className="dashboard-metric-card"
+        className="dashboard-metric-card dashboard-stat-card checkin-card"
         style={{ ...styles.card, ...styles.checkinCard }}
       >
         <div style={styles.metricHeader}>
@@ -25,7 +25,9 @@ function DashboardCheckin({
           </span>
           <span style={styles.metricLabel}>Check-in semanal</span>
         </div>
-        <p style={styles.numero}>{carregando ? "..." : alunos.length}</p>
+        <p className="dashboard-stat-value" style={styles.numero}>
+          {carregando ? "..." : alunos.length}
+        </p>
         <span style={styles.metricHint}>Alunos aptos para contato semanal</span>
         <button
           type="button"

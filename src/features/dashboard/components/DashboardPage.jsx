@@ -18,7 +18,7 @@ function DashboardPage() {
 
         {dashboard.erro && <div style={styles.erroBox}>{dashboard.erro}</div>}
 
-        <div style={styles.cardsGrid}>
+        <div className="dashboard-stats-grid" style={styles.cardsGrid}>
           <DashboardCards metricas={dashboard.metricas} styles={styles} />
           <DashboardCheckin
             alunos={dashboard.alunosAtivosCheckin}

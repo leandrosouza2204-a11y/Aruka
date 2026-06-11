@@ -2074,3 +2074,116 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
     grid-template-columns: 1fr !important;
   }
 }
+
+/* Dashboard mobile final polish */
+.dashboard-page {
+  max-width: 100%;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.dashboard-stats-grid,
+.dashboard-panel {
+  max-width: 100%;
+  min-width: 0;
+  width: 100%;
+}
+
+.dashboard-metric-card,
+.dashboard-stat-card,
+.dashboard-panel,
+.dashboard-panel > *,
+.dashboard-panel [style*="grid-template-columns"],
+.dashboard-panel [style*="display: grid"] {
+  min-width: 0;
+}
+
+.dashboard-metric-card,
+.dashboard-stat-card {
+  max-width: 100%;
+  overflow: hidden;
+  width: 100%;
+}
+
+.dashboard-stat-value {
+  font-size: clamp(1.45rem, 5vw, 1.9rem) !important;
+  line-height: 1.1 !important;
+  max-width: 100%;
+  overflow-wrap: normal;
+  white-space: nowrap;
+  word-break: normal;
+}
+
+.checkin-card button {
+  max-width: 100%;
+  width: 100%;
+}
+
+.dashboard-panel [style*="overflow-x: auto"],
+.dashboard-panel [style*="overflowX"] {
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .nav-section-label {
+    display: none !important;
+  }
+
+  .dashboard-page {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .dashboard-stats-grid {
+    gap: 12px !important;
+    margin-top: 16px !important;
+  }
+
+  .dashboard-metric-card,
+  .dashboard-panel {
+    padding: 14px !important;
+  }
+
+  .dashboard-panel {
+    margin-top: 16px !important;
+    overflow: hidden;
+  }
+
+  .dashboard-panel [style*="grid-template-columns"] {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dashboard-stat-value {
+    font-size: clamp(1.35rem, 7vw, 1.85rem) !important;
+  }
+
+  .checkin-card {
+    grid-column: auto !important;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .dashboard-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .checkin-card {
+    grid-column: span 2 !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .dashboard-stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dashboard-stat-value {
+    font-size: clamp(1.25rem, 6.7vw, 1.7rem) !important;
+  }
+}

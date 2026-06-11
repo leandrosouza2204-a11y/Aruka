@@ -234,7 +234,9 @@ function Sidebar() {
         />
         {usuarioAdmin && (
           <>
-            <div style={styles.navSection}>Administração</div>
+            <div className="nav-section-label" style={styles.navSection}>
+              Administração
+            </div>
             <MenuLink
               to="/admin/usuarios"
               active={isActive("/admin/usuarios")}

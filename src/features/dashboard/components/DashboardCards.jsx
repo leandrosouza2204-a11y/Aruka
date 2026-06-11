@@ -30,14 +30,17 @@ function MetricCard({ metrica, styles }) {
   const Icone = iconesPorTipo[metrica.tipo] || Users;
 
   return (
-    <div className="dashboard-metric-card" style={styles.card}>
+    <div className="dashboard-metric-card dashboard-stat-card" style={styles.card}>
       <div style={styles.metricHeader}>
         <span style={styles.metricIcon}>
           <Icone size={18} />
         </span>
         <span style={styles.metricLabel}>{metrica.titulo}</span>
       </div>
-      <p style={{ ...styles.numero, color: metrica.destaque || "#111827" }}>
+      <p
+        className="dashboard-stat-value"
+        style={{ ...styles.numero, color: metrica.destaque || "#111827" }}
+      >
         {metrica.valor}
       </p>
       <span style={styles.metricHint}>{metrica.legenda}</span>
