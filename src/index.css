@@ -2187,3 +2187,82 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
     font-size: clamp(1.25rem, 6.7vw, 1.7rem) !important;
   }
 }
+
+/* Inline details pattern */
+.inline-details {
+  animation: inlineDetailsEnter 0.18s ease;
+  margin-top: 12px;
+  max-width: 100%;
+  min-width: 0;
+  width: 100%;
+}
+
+.mobile-inline-details {
+  display: none;
+}
+
+.mobile-list-card-expanded,
+.mobile-card.mobile-list-card-expanded {
+  border-color: rgba(37, 99, 235, 0.35) !important;
+  box-shadow: 0 18px 42px rgba(37, 99, 235, 0.12) !important;
+}
+
+.mobile-inline-details > section {
+  margin-top: 0 !important;
+}
+
+.mobile-inline-details .avaliacoes-details-card,
+.mobile-inline-details .treinos-details-card {
+  border-color: rgba(191, 219, 254, 0.85) !important;
+}
+
+@keyframes inlineDetailsEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .desktop-detail-panel {
+    display: none !important;
+  }
+
+  .mobile-inline-details {
+    display: block;
+  }
+
+  .mobile-inline-details > section {
+    padding: 14px !important;
+  }
+
+  .mobile-inline-details .avaliacoes-profile-header,
+  .mobile-inline-details .treino-details-hero {
+    margin: -14px -14px 14px !important;
+  }
+
+  .mobile-inline-details .treino-details-hero {
+    border-radius: 8px 8px 0 0;
+  }
+
+  .mobile-inline-details .treinos-info-grid,
+  .mobile-inline-details .treinos-days-block {
+    margin-left: -14px;
+    margin-right: -14px;
+  }
+
+  .mobile-inline-details .treinos-days-block {
+    margin-bottom: -14px;
+  }
+}
+
+@media (min-width: 769px) {
+  .desktop-detail-panel {
+    display: block;
+  }
+}

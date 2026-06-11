@@ -9,6 +9,8 @@ import {
 
 function AvaliacaoCardMobile({
   avaliacao,
+  children,
+  isExpanded = false,
   onPerfil,
   onEditar,
   onAnamnese,
@@ -17,7 +19,7 @@ function AvaliacaoCardMobile({
   const composicao = calcularComposicaoCorporal(avaliacao);
 
   return (
-    <article className="mobile-card avaliacao-mobile-card">
+    <article className={`mobile-card avaliacao-mobile-card${isExpanded ? " mobile-list-card-expanded" : ""}`}>
       <div className="mobile-card-header">
         <div>
           <strong>{avaliacao.aluno}</strong>
@@ -51,8 +53,9 @@ function AvaliacaoCardMobile({
         <button
           onClick={() => onPerfil(avaliacao.aluno)}
           className="table-button table-button-secondary"
+          aria-expanded={isExpanded}
         >
-          Perfil
+          {isExpanded ? "Ocultar" : "Perfil"}
         </button>
         <button
           onClick={() => onEditar(avaliacao)}
@@ -73,6 +76,8 @@ function AvaliacaoCardMobile({
           Excluir
         </button>
       </div>
+
+      {children}
     </article>
   );
 }

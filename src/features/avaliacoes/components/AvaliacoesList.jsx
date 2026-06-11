@@ -1,6 +1,7 @@
 import Sidebar from "../../../components/Sidebar";
 import AnamneseModal from "../../../components/AnamneseModal";
 import AvaliacaoModal from "../../../components/AvaliacaoModal";
+import InlineDetails from "../../../components/InlineDetails";
 import { useAvaliacoesPage } from "../hooks/useAvaliacoesPage";
 import AvaliacaoCardMobile from "./AvaliacaoCardMobile";
 import AvaliacaoDetalhesModal from "./AvaliacaoDetalhesModal";
@@ -10,6 +11,14 @@ import AvaliacoesTable from "./AvaliacoesTable";
 
 function AvaliacoesList() {
   const avaliacoesPage = useAvaliacoesPage();
+  const alternarPerfilAluno = (aluno) => {
+    if (avaliacoesPage.alunoSelecionado === aluno) {
+      avaliacoesPage.fecharPerfilAluno();
+      return;
+    }
+
+    avaliacoesPage.selecionarPerfilAluno(aluno);
+  };
 
   return (
     <div className="app-shell" style={{ display: "flex" }}>
@@ -39,7 +48,7 @@ function AvaliacoesList() {
         <AvaliacoesTable
           avaliacoes={avaliacoesPage.avaliacoesFiltradas}
           carregando={avaliacoesPage.carregando}
-          onPerfil={avaliacoesPage.selecionarPerfilAluno}
+          onPerfil={alternarPerfilAluno}
           onEditar={avaliacoesPage.abrirEdicaoAvaliacao}
           onAnamnese={avaliacoesPage.editarAnamneseAluno}
           onExcluir={avaliacoesPage.removerAvaliacao}
@@ -54,32 +63,59 @@ function AvaliacoesList() {
                 <AvaliacaoCardMobile
                   key={avaliacao.id}
                   avaliacao={avaliacao}
-                  onPerfil={avaliacoesPage.selecionarPerfilAluno}
+                  isExpanded={avaliacoesPage.alunoSelecionado === avaliacao.aluno}
+                  onPerfil={alternarPerfilAluno}
                   onEditar={avaliacoesPage.abrirEdicaoAvaliacao}
                   onAnamnese={avaliacoesPage.editarAnamneseAluno}
                   onExcluir={avaliacoesPage.removerAvaliacao}
-                />
+                >
+                  <InlineDetails
+                    className="mobile-inline-details"
+                    itemId={avaliacao.aluno}
+                    selectedItemId={avaliacoesPage.alunoSelecionado}
+                  >
+                    <AvaliacaoDetalhesModal
+                      alertas={avaliacoesPage.alertas}
+                      alunoCadastro={avaliacoesPage.alunoCadastro}
+                      alunoSelecionado={avaliacoesPage.alunoSelecionado}
+                      anamneseAluno={avaliacoesPage.anamneseAluno}
+                      avaliacaoAnterior={avaliacoesPage.avaliacaoAnterior}
+                      historicoAluno={avaliacoesPage.historicoAluno}
+                      primeiraAvaliacao={avaliacoesPage.primeiraAvaliacao}
+                      relatorioAnamneseAberto={avaliacoesPage.relatorioAnamneseAberto}
+                      relatorioAberto={avaliacoesPage.relatorioAberto}
+                      ultimaAvaliacao={avaliacoesPage.ultimaAvaliacao}
+                      onAlternarRelatorioAnamnese={avaliacoesPage.alternarRelatorioAnamnese}
+                      onAlternarRelatorio={avaliacoesPage.alternarRelatorio}
+                      onCopiarResumo={avaliacoesPage.copiarResumoWhatsApp}
+                      onFechar={avaliacoesPage.fecharPerfilAluno}
+                      styles={styles}
+                    />
+                  </InlineDetails>
+                </AvaliacaoCardMobile>
               ))}
             </div>
           )}
 
-        <AvaliacaoDetalhesModal
-          alertas={avaliacoesPage.alertas}
-          alunoCadastro={avaliacoesPage.alunoCadastro}
-          alunoSelecionado={avaliacoesPage.alunoSelecionado}
-          anamneseAluno={avaliacoesPage.anamneseAluno}
-          avaliacaoAnterior={avaliacoesPage.avaliacaoAnterior}
-          historicoAluno={avaliacoesPage.historicoAluno}
-          primeiraAvaliacao={avaliacoesPage.primeiraAvaliacao}
-          relatorioAnamneseAberto={avaliacoesPage.relatorioAnamneseAberto}
-          relatorioAberto={avaliacoesPage.relatorioAberto}
-          ultimaAvaliacao={avaliacoesPage.ultimaAvaliacao}
-          onAlternarRelatorioAnamnese={avaliacoesPage.alternarRelatorioAnamnese}
-          onAlternarRelatorio={avaliacoesPage.alternarRelatorio}
-          onCopiarResumo={avaliacoesPage.copiarResumoWhatsApp}
-          onFechar={avaliacoesPage.fecharPerfilAluno}
-          styles={styles}
-        />
+        <div className="desktop-detail-panel">
+          <AvaliacaoDetalhesModal
+            alertas={avaliacoesPage.alertas}
+            alunoCadastro={avaliacoesPage.alunoCadastro}
+            alunoSelecionado={avaliacoesPage.alunoSelecionado}
+            anamneseAluno={avaliacoesPage.anamneseAluno}
+            avaliacaoAnterior={avaliacoesPage.avaliacaoAnterior}
+            historicoAluno={avaliacoesPage.historicoAluno}
+            primeiraAvaliacao={avaliacoesPage.primeiraAvaliacao}
+            relatorioAnamneseAberto={avaliacoesPage.relatorioAnamneseAberto}
+            relatorioAberto={avaliacoesPage.relatorioAberto}
+            ultimaAvaliacao={avaliacoesPage.ultimaAvaliacao}
+            onAlternarRelatorioAnamnese={avaliacoesPage.alternarRelatorioAnamnese}
+            onAlternarRelatorio={avaliacoesPage.alternarRelatorio}
+            onCopiarResumo={avaliacoesPage.copiarResumoWhatsApp}
+            onFechar={avaliacoesPage.fecharPerfilAluno}
+            styles={styles}
+          />
+        </div>
 
         {avaliacoesPage.modalAvaliacao && (
           <AvaliacaoModal

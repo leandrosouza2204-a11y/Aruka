@@ -1,4 +1,5 @@
 import { Dumbbell } from "lucide-react";
+import InlineDetails from "../../../components/InlineDetails";
 import Sidebar from "../../../components/Sidebar";
 import TreinoModal from "../../../components/TreinoModal";
 import { useTreinosPage } from "../hooks/useTreinosPage";
@@ -10,6 +11,15 @@ import TreinosTable from "./TreinosTable";
 
 function TreinosList() {
   const treinosPage = useTreinosPage();
+  const treinoSelecionadoId = treinosPage.treinoSelecionado?.id || "";
+  const alternarTreino = (id) => {
+    if (treinoSelecionadoId === id) {
+      treinosPage.fecharDetalhes();
+      return;
+    }
+
+    treinosPage.visualizarTreino(id);
+  };
 
   return (
     <div className="app-shell" style={{ display: "flex" }}>
@@ -45,7 +55,7 @@ function TreinosList() {
         <TreinosTable
           carregando={treinosPage.carregando}
           treinos={treinosPage.treinosFiltrados}
-          onVisualizar={treinosPage.visualizarTreino}
+          onVisualizar={alternarTreino}
           onEditar={treinosPage.abrirEdicao}
           onDuplicar={treinosPage.duplicarTreino}
           onExcluir={treinosPage.removerTreino}
@@ -59,21 +69,37 @@ function TreinosList() {
               <TreinoCardMobile
                 key={treino.id}
                 treino={treino}
-                onVisualizar={treinosPage.visualizarTreino}
+                isExpanded={treinoSelecionadoId === treino.id}
+                onVisualizar={alternarTreino}
                 onEditar={treinosPage.abrirEdicao}
                 onDuplicar={treinosPage.duplicarTreino}
                 onExcluir={treinosPage.removerTreino}
-              />
+              >
+                <InlineDetails
+                  className="mobile-inline-details"
+                  itemId={treino.id}
+                  selectedItemId={treinoSelecionadoId}
+                >
+                  <TreinoDetalhesModal
+                    treino={treinosPage.treinoSelecionado}
+                    onEnviarWhatsApp={treinosPage.copiarTreinoWhatsApp}
+                    onFechar={treinosPage.fecharDetalhes}
+                    styles={styles}
+                  />
+                </InlineDetails>
+              </TreinoCardMobile>
             ))}
           </div>
         )}
 
-        <TreinoDetalhesModal
-          treino={treinosPage.treinoSelecionado}
-          onEnviarWhatsApp={treinosPage.copiarTreinoWhatsApp}
-          onFechar={treinosPage.fecharDetalhes}
-          styles={styles}
-        />
+        <div className="desktop-detail-panel">
+          <TreinoDetalhesModal
+            treino={treinosPage.treinoSelecionado}
+            onEnviarWhatsApp={treinosPage.copiarTreinoWhatsApp}
+            onFechar={treinosPage.fecharDetalhes}
+            styles={styles}
+          />
+        </div>
 
         {!treinosPage.treinoSelecionado && !treinosPage.carregando && (
           <section className="treinos-empty-card" style={styles.semTreinoCard}>

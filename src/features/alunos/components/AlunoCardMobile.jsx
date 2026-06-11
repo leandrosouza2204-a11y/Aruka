@@ -3,6 +3,8 @@ import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
 
 function AlunoCardMobile({
   aluno,
+  children,
+  isExpanded = false,
   nomePlano,
   onDetalhes,
   onEditar,
@@ -10,7 +12,7 @@ function AlunoCardMobile({
   onCheckin,
 }) {
   return (
-    <article className="mobile-list-card aluno-mobile-card">
+    <article className={`mobile-list-card aluno-mobile-card${isExpanded ? " mobile-list-card-expanded" : ""}`}>
       <div className="mobile-card-header">
         <div>
           <span className="card-label">Nome</span>
@@ -37,8 +39,12 @@ function AlunoCardMobile({
       </div>
 
       <div className="card-actions">
-        <button onClick={() => onDetalhes(aluno.id)} className="table-button table-button-secondary">
-          Detalhes
+        <button
+          aria-expanded={isExpanded}
+          onClick={() => onDetalhes(aluno.id)}
+          className="table-button table-button-secondary"
+        >
+          {isExpanded ? "Ocultar" : "Detalhes"}
         </button>
         <button
           onClick={() => onCheckin(aluno)}
@@ -54,6 +60,8 @@ function AlunoCardMobile({
           Excluir
         </button>
       </div>
+
+      {children}
     </article>
   );
 }

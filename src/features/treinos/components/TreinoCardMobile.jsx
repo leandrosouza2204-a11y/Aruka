@@ -2,13 +2,15 @@ import { classeStatusTreino, formatarData } from "../hooks/useTreinosPage";
 
 function TreinoCardMobile({
   treino,
+  children,
+  isExpanded = false,
   onVisualizar,
   onEditar,
   onDuplicar,
   onExcluir,
 }) {
   return (
-    <article className="mobile-card treino-mobile-card">
+    <article className={`mobile-card treino-mobile-card${isExpanded ? " mobile-list-card-expanded" : ""}`}>
       <div className="mobile-card-header">
         <div>
           <strong>{treino.rotina || "-"}</strong>
@@ -42,8 +44,9 @@ function TreinoCardMobile({
         <button
           onClick={() => onVisualizar(treino.id)}
           className="table-button table-button-primary"
+          aria-expanded={isExpanded}
         >
-          Visualizar
+          {isExpanded ? "Ocultar" : "Visualizar"}
         </button>
         <button
           onClick={() => onEditar(treino)}
@@ -64,6 +67,8 @@ function TreinoCardMobile({
           Excluir
         </button>
       </div>
+
+      {children}
     </article>
   );
 }

@@ -1,4 +1,5 @@
 import Sidebar from "../../../components/Sidebar";
+import InlineDetails from "../../../components/InlineDetails";
 import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
 import { useAlunosPage } from "../hooks/useAlunosPage";
 import AlunoCardMobile from "./AlunoCardMobile";
@@ -8,6 +9,9 @@ import AlunosTable from "./AlunosTable";
 
 function AlunosList() {
   const page = useAlunosPage();
+  const alternarDetalhesAluno = (id) => {
+    page.setAlunoSelecionadoId(page.alunoSelecionadoId === id ? "" : id);
+  };
 
   return (
     <div className="app-shell" style={{ display: "flex" }}>
@@ -46,7 +50,7 @@ function AlunosList() {
           carregando={page.carregando}
           nomePlano={page.nomePlano}
           onCheckin={page.enviarCheckinSemanal}
-          onDetalhes={page.setAlunoSelecionadoId}
+          onDetalhes={alternarDetalhesAluno}
           onEditar={page.abrirEdicao}
           onExcluir={page.excluirAluno}
           onNovoAluno={page.abrirCadastro}
@@ -67,12 +71,26 @@ function AlunosList() {
               <AlunoCardMobile
                 key={aluno.id}
                 aluno={aluno}
+                isExpanded={page.alunoSelecionadoId === aluno.id}
                 nomePlano={page.nomePlano}
                 onCheckin={page.enviarCheckinSemanal}
-                onDetalhes={page.setAlunoSelecionadoId}
+                onDetalhes={alternarDetalhesAluno}
                 onEditar={page.abrirEdicao}
                 onExcluir={page.excluirAluno}
-              />
+              >
+                <InlineDetails
+                  className="mobile-inline-details"
+                  itemId={aluno.id}
+                  selectedItemId={page.alunoSelecionadoId}
+                >
+                  <AlunoDetalhes
+                    aluno={aluno}
+                    nomePlano={page.nomePlano}
+                    onFechar={() => page.setAlunoSelecionadoId("")}
+                    styles={styles}
+                  />
+                </InlineDetails>
+              </AlunoCardMobile>
             ))
           )}
         </div>
@@ -80,6 +98,7 @@ function AlunosList() {
         {page.alunoSelecionado && (
           <AlunoDetalhes
             aluno={page.alunoSelecionado}
+            className="desktop-detail-panel"
             nomePlano={page.nomePlano}
             onFechar={() => page.setAlunoSelecionadoId("")}
             styles={styles}
@@ -187,9 +206,9 @@ function AlunoModal({ page, styles }) {
   );
 }
 
-function AlunoDetalhes({ aluno, nomePlano, onFechar, styles }) {
+function AlunoDetalhes({ aluno, className = "", nomePlano, onFechar, styles }) {
   return (
-    <section style={styles.detalhesAluno}>
+    <section className={className} style={styles.detalhesAluno}>
       <div style={styles.detalhesTopo}>
         <div>
           <h2 style={styles.detalhesTitulo}>{aluno.nome}</h2>
