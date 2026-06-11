@@ -95,6 +95,19 @@ export function formatarMoeda(valor) {
   });
 }
 
+export function formatarNomePlano(plano) {
+  const mapa = {
+    trimestralVista: "Trimestral à vista",
+    trimestralParcelado: "Trimestral parcelado",
+    semestral: "Semestral",
+    mensal: "Mensal",
+  };
+
+  if (!plano) return "-";
+
+  return mapa[plano] || plano;
+}
+
 export function corStatus(status) {
   switch (status) {
     case "Ativo":

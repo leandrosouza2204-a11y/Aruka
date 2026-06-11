@@ -33,6 +33,7 @@ function FinanceiroList() {
 
         <FinanceiroMobileCards
           atualizandoId={page.atualizandoId}
+          carregando={page.carregando}
           onDesfazer={page.desfazerPagamento}
           onReceber={page.abrirRegistroPagamento}
           onWhatsApp={page.enviarAvisoWhatsApp}

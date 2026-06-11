@@ -297,7 +297,7 @@ function AdminUsuarios() {
             </div>
           </div>
 
-          <div className="admin-table-scroll app-table-scroll" style={tabelaScroll}>
+          <div className="admin-table-scroll app-table-scroll desktop-table" style={tabelaScroll}>
             <table className="app-table" style={tabela}>
               <thead>
                 <tr style={linhaCabecalho}>
@@ -436,6 +436,38 @@ function AdminUsuarios() {
               </tbody>
             </table>
           </div>
+
+          <div className="mobile-card-list admin-users-mobile-list">
+            {carregando ? (
+              <div className="mobile-list-card">
+                <LoadingState texto="Carregando usuários..." />
+              </div>
+            ) : usuariosFiltrados.length === 0 ? (
+              <div className="mobile-list-card">
+                <EmptyState
+                  titulo="Nenhum usuário encontrado."
+                  descricao="Ajuste a busca ou o filtro para localizar usuários cadastrados."
+                />
+              </div>
+            ) : (
+              usuariosFiltrados.map((usuario) => (
+                <UsuarioCard
+                  key={usuario.userId}
+                  salvando={salvando}
+                  usuario={usuario}
+                  onAssinante={liberarComoAssinante}
+                  onBeta={liberarComoBeta}
+                  onBloquear={bloquearUsuario}
+                  onCancelarAssinatura={cancelarAssinatura}
+                  onEditar={setUsuarioEditando}
+                  onReativar={reativarUsuario}
+                  onRemoverAdmin={removerAdmin}
+                  onTornarAdmin={tornarAdmin}
+                  onTransferir={setUsuarioTransferindo}
+                />
+              ))
+            )}
+          </div>
         </section>
       </main>
 
@@ -457,6 +489,118 @@ function AdminUsuarios() {
         />
       )}
     </div>
+  );
+}
+
+function UsuarioCard({
+  salvando,
+  usuario,
+  onAssinante,
+  onBeta,
+  onBloquear,
+  onCancelarAssinatura,
+  onEditar,
+  onReativar,
+  onRemoverAdmin,
+  onTornarAdmin,
+  onTransferir,
+}) {
+  const admin = usuario.role === "admin" || usuario.tipoAcesso === "admin";
+  const bloqueado = usuario.status === "inativo" || usuario.tipoAcesso === "bloqueado";
+
+  return (
+    <article className="mobile-list-card admin-user-card">
+      <div className="mobile-card-header">
+        <div>
+          <span className="card-label">Nome</span>
+          <strong className="card-value card-title">{usuario.nome || "Sem nome"}</strong>
+        </div>
+        <span className={classeBadgeStatus(usuario.status)}>{usuario.status}</span>
+      </div>
+
+      <div className="card-row card-row-block">
+        <span className="card-label">E-mail</span>
+        <strong className="card-value card-break">{usuario.email || "-"}</strong>
+      </div>
+      <div className="card-row">
+        <span className="card-label">Role</span>
+        <span className={classeBadgeAcesso(usuario.role)}>{usuario.role}</span>
+      </div>
+      <div className="card-row">
+        <span className="card-label">Acesso</span>
+        <span className={classeBadgeAcesso(usuario.tipoAcesso)}>
+          {usuario.tipoAcesso}
+        </span>
+      </div>
+      <div className="card-row">
+        <span className="card-label">Assinatura</span>
+        <strong className="card-value">
+          {usuario.assinaturaStatus || "-"} / {usuario.assinaturaPlano || "-"}
+        </strong>
+      </div>
+
+      <div className="card-actions">
+        <button
+          type="button"
+          onClick={() => onEditar(usuario)}
+          className="table-button table-button-primary"
+        >
+          Editar
+        </button>
+        <TableActions label="Ações administrativas">
+          <TableActionItem onClick={() => onBeta(usuario)} disabled={salvando} variant="primary">
+            Beta
+          </TableActionItem>
+          <TableActionItem
+            onClick={() => onAssinante(usuario)}
+            disabled={salvando}
+            variant="primary"
+          >
+            Assinante
+          </TableActionItem>
+          {admin ? (
+            <TableActionItem onClick={() => onRemoverAdmin(usuario)} disabled={salvando}>
+              Remover admin
+            </TableActionItem>
+          ) : (
+            <TableActionItem
+              onClick={() => onTornarAdmin(usuario)}
+              disabled={salvando}
+              variant="primary"
+            >
+              Admin
+            </TableActionItem>
+          )}
+          {bloqueado ? (
+            <TableActionItem
+              onClick={() => onReativar(usuario)}
+              disabled={salvando}
+              variant="success"
+            >
+              Reativar
+            </TableActionItem>
+          ) : (
+            <TableActionItem
+              onClick={() => onBloquear(usuario)}
+              disabled={salvando}
+              variant="danger"
+            >
+              Bloquear
+            </TableActionItem>
+          )}
+          <TableActionItem
+            onClick={() => onCancelarAssinatura(usuario)}
+            disabled={salvando}
+            variant="danger"
+          >
+            Cancelar assinatura
+          </TableActionItem>
+          <TableActionItem onClick={() => onTransferir(usuario)} disabled={salvando}>
+            Transferir acesso
+          </TableActionItem>
+        </TableActions>
+      </div>
+    </article>
   );
 }
 

@@ -16,6 +16,7 @@ import {
   calcularStatus,
   dataHojeISO,
   formatarData,
+  formatarNomePlano,
   normalizarAluno,
 } from "../../../data/alunosUtils";
 
@@ -307,7 +308,7 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
   return {
     aluno,
     plano,
-    nomePlano: plano?.nome || aluno.plano || "-",
+    nomePlano: plano?.nome || formatarNomePlano(aluno.plano),
     pagamentos: pagamentosAluno,
     valorContrato,
     totalParcelas,

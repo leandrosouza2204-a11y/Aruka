@@ -188,7 +188,7 @@ function AdminLogs() {
             </div>
           </div>
 
-          <div className="admin-logs-mobile-list" style={mobileList}>
+          <div className="mobile-card-list admin-logs-mobile-list" style={mobileList}>
             {carregando ? (
               <LoadingState texto="Carregando logs..." />
             ) : logs.length === 0 ? (
@@ -207,7 +207,7 @@ function AdminLogs() {
             )}
           </div>
 
-          <div className="admin-logs-table app-table-scroll" style={tabelaScroll}>
+          <div className="admin-logs-table app-table-scroll desktop-table" style={tabelaScroll}>
             <table className="app-table" style={tabela}>
               <thead>
                 <tr style={linhaCabecalho}>
@@ -294,21 +294,38 @@ function AdminLogs() {
 
 function LogCard({ log, onDetalhes }) {
   return (
-    <article className="mobile-card" style={cardMobile}>
-      <div style={cardTopo}>
+    <article className="mobile-list-card admin-log-card" style={cardMobile}>
+      <div className="admin-log-card-top" style={cardTopo}>
         <span className="status-badge status-badge-info">{formatarAcao(log.acao)}</span>
-        <span style={muted}>{formatarDataHora(log.createdAt)}</span>
+        <strong className="card-value">{formatarDataHora(log.createdAt)}</strong>
       </div>
-      <Info label="Admin" valor={log.adminNome || log.adminEmail || log.adminUserId} />
-      <Info
+      <CardInfo label="Admin" valor={log.adminNome || log.adminEmail || abreviarUUID(log.adminUserId)} />
+      <CardInfo
         label="Usuário alvo"
-        valor={log.targetNome || log.targetEmail || log.targetUserId || "-"}
+        valor={log.targetNome || log.targetEmail || abreviarUUID(log.targetUserId) || "-"}
       />
-      <Info label="Entidade" valor={`${log.entidade || "-"} ${log.entidadeId || ""}`.trim()} />
-      <button type="button" onClick={onDetalhes} style={botaoDetalhes}>
+      <CardInfo
+        label="Entidade"
+        valor={`${log.entidade || "-"} ${abreviarUUID(log.entidadeId) || ""}`.trim()}
+      />
+      <button
+        type="button"
+        className="admin-log-details-button"
+        onClick={onDetalhes}
+        style={botaoDetalhes}
+      >
         Ver detalhes
       </button>
     </article>
+  );
+}
+
+function CardInfo({ label, valor }) {
+  return (
+    <div className="card-row card-row-block">
+      <span className="card-label">{label}</span>
+      <strong className="card-value card-break">{valor || "-"}</strong>
+    </div>
   );
 }
 
@@ -384,6 +401,15 @@ function formatarDataHora(valor) {
     dateStyle: "short",
     timeStyle: "short",
   }).format(new Date(valor));
+}
+
+function abreviarUUID(valor) {
+  if (!valor) return "";
+
+  const texto = String(valor);
+  if (texto.length <= 18) return texto;
+
+  return `${texto.slice(0, 8)}...${texto.slice(-7)}`;
 }
 
 const conteudo = {

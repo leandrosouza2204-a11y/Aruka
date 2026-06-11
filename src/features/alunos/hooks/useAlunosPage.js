@@ -15,6 +15,7 @@ import {
 import {
   calcularDatas,
   calcularStatus,
+  formatarNomePlano,
   normalizarAluno,
   ordenarPorVencimento,
 } from "../../../data/alunosUtils";
@@ -282,7 +283,7 @@ export function useAlunosPage() {
   }
 
   function nomePlano(plano) {
-    return planos.find((item) => item.id === plano)?.nome || plano || "-";
+    return planos.find((item) => item.id === plano)?.nome || formatarNomePlano(plano);
   }
 
   function enviarCheckinSemanal(aluno) {

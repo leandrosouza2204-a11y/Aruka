@@ -16,7 +16,7 @@ function AlunosTable({
   styles,
 }) {
   return (
-    <div className="app-table-scroll">
+    <div className="app-table-scroll desktop-table alunos-table">
       <table className="app-table" style={styles.tabela}>
         <thead>
           <tr style={styles.linhaCabecalho}>

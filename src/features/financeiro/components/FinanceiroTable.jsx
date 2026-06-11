@@ -13,7 +13,7 @@ function FinanceiroTable({
   styles,
 }) {
   return (
-    <div className="app-table-scroll financeiro-table">
+    <div className="app-table-scroll desktop-table financeiro-table">
       <table className="app-table" style={styles.tabela}>
         <thead>
           <tr style={styles.linhaCabecalho}>

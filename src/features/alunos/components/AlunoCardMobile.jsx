@@ -10,13 +10,33 @@ function AlunoCardMobile({
   onCheckin,
 }) {
   return (
-    <article className="mobile-card">
-      <strong>{aluno.nome}</strong>
-      <span>{aluno.whatsapp || "-"}</span>
-      <span>{nomePlano(aluno.plano)}</span>
-      <span>{formatarMoeda(aluno.valor)}</span>
-      <span>{formatarData(aluno.vencimento)}</span>
-      <div className="table-actions-inline">
+    <article className="mobile-list-card aluno-mobile-card">
+      <div className="mobile-card-header">
+        <div>
+          <span className="card-label">Nome</span>
+          <strong className="card-value card-title">{aluno.nome || "-"}</strong>
+        </div>
+        <span className={classeStatusAluno(aluno.status)}>{aluno.status}</span>
+      </div>
+
+      <div className="card-row">
+        <span className="card-label">WhatsApp</span>
+        <strong className="card-value">{aluno.whatsapp || "-"}</strong>
+      </div>
+      <div className="card-row">
+        <span className="card-label">Plano</span>
+        <strong className="card-value">{nomePlano(aluno.plano)}</strong>
+      </div>
+      <div className="card-row">
+        <span className="card-label">Valor</span>
+        <strong className="card-value card-money">{formatarMoeda(aluno.valor)}</strong>
+      </div>
+      <div className="card-row">
+        <span className="card-label">Vencimento</span>
+        <strong className="card-value">{formatarData(aluno.vencimento)}</strong>
+      </div>
+
+      <div className="card-actions">
         <button onClick={() => onDetalhes(aluno.id)} className="table-button table-button-secondary">
           Detalhes
         </button>
@@ -36,6 +56,18 @@ function AlunoCardMobile({
       </div>
     </article>
   );
+}
+
+function classeStatusAluno(status) {
+  if (["Ativo"].includes(status)) return "status-badge status-badge-success";
+  if (["Vencendo", "Vencendo parcela"].includes(status)) {
+    return "status-badge status-badge-warning";
+  }
+  if (["Atrasado", "Parcela atrasada"].includes(status)) {
+    return "status-badge status-badge-danger";
+  }
+
+  return "status-badge status-badge-muted";
 }
 
 export default AlunoCardMobile;

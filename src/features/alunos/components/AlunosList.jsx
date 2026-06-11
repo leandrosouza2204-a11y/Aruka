@@ -1,6 +1,7 @@
 import Sidebar from "../../../components/Sidebar";
 import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
 import { useAlunosPage } from "../hooks/useAlunosPage";
+import AlunoCardMobile from "./AlunoCardMobile";
 import AlunosFilters from "./AlunosFilters";
 import AlunosHeader from "./AlunosHeader";
 import AlunosTable from "./AlunosTable";
@@ -51,6 +52,30 @@ function AlunosList() {
           onNovoAluno={page.abrirCadastro}
           styles={styles}
         />
+
+        <div className="mobile-card-list alunos-mobile-cards">
+          {page.carregando ? (
+            <div className="mobile-list-card">
+              Carregando alunos...
+            </div>
+          ) : page.alunosFiltrados.length === 0 ? (
+            <div className="mobile-list-card">
+              Nenhum aluno encontrado.
+            </div>
+          ) : (
+            page.alunosFiltrados.map((aluno) => (
+              <AlunoCardMobile
+                key={aluno.id}
+                aluno={aluno}
+                nomePlano={page.nomePlano}
+                onCheckin={page.enviarCheckinSemanal}
+                onDetalhes={page.setAlunoSelecionadoId}
+                onEditar={page.abrirEdicao}
+                onExcluir={page.excluirAluno}
+              />
+            ))
+          )}
+        </div>
 
         {page.alunoSelecionado && (
           <AlunoDetalhes

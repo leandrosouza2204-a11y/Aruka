@@ -188,7 +188,7 @@ function Planos() {
 
         {erro && <div style={erroBox}>{erro}</div>}
 
-        <div className="app-table-scroll">
+        <div className="app-table-scroll desktop-table planos-table">
           <table className="app-table" style={tabela}>
             <thead>
               <tr style={linhaCabecalho}>
@@ -267,6 +267,33 @@ function Planos() {
           </table>
         </div>
 
+        <div className="mobile-card-list planos-mobile-cards">
+          {carregando ? (
+            <div className="mobile-list-card">
+              <LoadingState texto="Carregando planos..." />
+            </div>
+          ) : planosFiltrados.length === 0 ? (
+            <div className="mobile-list-card">
+              <EmptyState
+                titulo="Nenhum plano criado."
+                descricao="Crie planos para padronizar duração, valor e disponibilidade."
+                acaoLabel="Novo plano"
+                onAcao={() => setModalAberto(true)}
+              />
+            </div>
+          ) : (
+            planosFiltrados.map((plano) => (
+              <PlanoCard
+                key={plano.id}
+                plano={plano}
+                onEditar={abrirEdicao}
+                onAlternarStatus={alternarStatus}
+                onExcluir={removerPlano}
+              />
+            ))
+          )}
+        </div>
+
         {modalAberto && (
           <PlanoModal
             plano={planoEditando}
@@ -277,6 +304,65 @@ function Planos() {
         )}
       </div>
     </div>
+  );
+}
+
+function PlanoCard({ plano, onEditar, onAlternarStatus, onExcluir }) {
+  return (
+    <article className="mobile-list-card plano-mobile-card">
+      <div className="mobile-card-header">
+        <div>
+          <span className="card-label">Nome do plano</span>
+          <strong className="card-value card-title">{plano.nome || "-"}</strong>
+        </div>
+        <span
+          className={`status-badge ${
+            plano.ativo ? "status-badge-success" : "status-badge-muted"
+          }`}
+        >
+          {plano.ativo ? "Ativo" : "Inativo"}
+        </span>
+      </div>
+
+      <div className="card-row card-row-block">
+        <span className="card-label">Descrição</span>
+        <strong className="card-value">{plano.descricao || "-"}</strong>
+      </div>
+      <div className="card-row">
+        <span className="card-label">Duração</span>
+        <strong className="card-value">
+          {plano.duracaoMeses} {plano.duracaoMeses === 1 ? "mês" : "meses"}
+        </strong>
+      </div>
+      <div className="card-row">
+        <span className="card-label">Valor</span>
+        <strong className="card-value card-money">{formatarMoeda(plano.valor)}</strong>
+      </div>
+
+      <div className="card-actions">
+        <button
+          type="button"
+          onClick={() => onEditar(plano)}
+          className="table-button table-button-primary"
+        >
+          Editar
+        </button>
+        <button
+          type="button"
+          onClick={() => onAlternarStatus(plano)}
+          className="table-button table-button-secondary"
+        >
+          {plano.ativo ? "Inativar" : "Ativar"}
+        </button>
+        <button
+          type="button"
+          onClick={() => onExcluir(plano.id)}
+          className="table-button table-button-danger"
+        >
+          Excluir
+        </button>
+      </div>
+    </article>
   );
 }
 
