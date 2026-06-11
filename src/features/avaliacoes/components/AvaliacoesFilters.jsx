@@ -7,7 +7,7 @@ function AvaliacoesFilters({
   styles,
 }) {
   return (
-    <div className="avaliacoes-filtros" style={styles.filtros}>
+    <div className="app-filter-grid avaliacoes-filtros" style={styles.filtros}>
       <input
         placeholder="Buscar por nome do aluno"
         value={busca}

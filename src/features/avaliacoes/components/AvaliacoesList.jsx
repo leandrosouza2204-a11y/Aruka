@@ -12,10 +12,10 @@ function AvaliacoesList() {
   const avaliacoesPage = useAvaliacoesPage();
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className="app-shell" style={{ display: "flex" }}>
       <Sidebar />
 
-      <div className="avaliacoes-page" style={styles.conteudo}>
+      <div className="avaliacoes-page app-main page-container" style={styles.conteudo}>
         <AvaliacoesHeader
           quantidadeExibida={avaliacoesPage.avaliacoesFiltradas.length}
           onNovaAvaliacao={avaliacoesPage.abrirNovaAvaliacao}
@@ -104,7 +104,7 @@ function AvaliacoesList() {
 }
 
 const conteudo = {
-  padding: "30px",
+  padding: "24px",
   marginLeft: "260px",
   width: "calc(100% - 260px)",
 };

@@ -79,10 +79,10 @@ function AdminLogs() {
   }
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className="app-shell" style={{ display: "flex" }}>
       <Sidebar />
 
-      <main className="admin-logs-page" style={conteudo}>
+      <main className="admin-logs-page app-main page-container" style={conteudo}>
         <header style={topo}>
           <div>
             <span style={eyebrow}>Administração</span>
@@ -387,7 +387,7 @@ function formatarDataHora(valor) {
 }
 
 const conteudo = {
-  padding: "30px",
+  padding: "24px",
   marginLeft: "260px",
   width: "calc(100% - 260px)",
 };

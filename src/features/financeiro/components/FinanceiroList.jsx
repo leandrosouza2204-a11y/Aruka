@@ -10,10 +10,10 @@ function FinanceiroList() {
   const page = useFinanceiroPage();
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className="app-shell" style={{ display: "flex" }}>
       <Sidebar />
 
-      <div style={styles.conteudo}>
+      <div className="app-main page-container" style={styles.conteudo}>
         <FinanceiroHeader />
 
         <FinanceiroCards resumo={page.resumo} styles={styles} />
@@ -175,7 +175,7 @@ const styles = {
     marginTop: "25px",
   },
   conteudo: {
-    padding: "30px",
+    padding: "24px",
     marginLeft: "260px",
     width: "calc(100% - 260px)",
   },

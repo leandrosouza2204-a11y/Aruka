@@ -144,11 +144,11 @@ function Planos() {
   }
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className="app-shell" style={{ display: "flex" }}>
       <Sidebar />
 
-      <div style={conteudo}>
-        <section style={listaCard}>
+      <div className="app-main page-container" style={conteudo}>
+        <section className="app-card" style={listaCard}>
           <div style={listaTopo}>
             <div>
               <h1 style={tituloPagina}>Planos</h1>
@@ -162,7 +162,7 @@ function Planos() {
             </button>
           </div>
 
-          <div style={filtros}>
+          <div className="app-filter-grid planos-filtros" style={filtros}>
             <input
               placeholder="Buscar por plano"
               value={busca}
@@ -281,7 +281,7 @@ function Planos() {
 }
 
 const conteudo = {
-  padding: "30px",
+  padding: "24px",
   marginLeft: "260px",
   width: "calc(100% - 260px)",
 };

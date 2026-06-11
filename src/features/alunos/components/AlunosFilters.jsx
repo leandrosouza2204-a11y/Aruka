@@ -10,7 +10,7 @@ function AlunosFilters({
   styles,
 }) {
   return (
-    <div style={styles.filtros}>
+    <div className="app-filter-grid alunos-filtros" style={styles.filtros}>
       <input
         placeholder="Buscar por nome"
         value={busca}

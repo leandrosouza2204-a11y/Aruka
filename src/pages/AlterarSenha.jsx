@@ -4,11 +4,11 @@ import BrandLogo from "../components/BrandLogo";
 
 function AlterarSenha() {
   return (
-    <div style={{ display: "flex" }}>
+    <div className="app-shell" style={{ display: "flex" }}>
       <Sidebar />
 
-      <div style={conteudo}>
-        <section style={card}>
+      <div className="app-main page-container" style={conteudo}>
+        <section className="app-card" style={card}>
           <div style={marca}>
             <BrandLogo variant="icon" size="md" />
           </div>
@@ -30,7 +30,7 @@ function AlterarSenha() {
 }
 
 const conteudo = {
-  padding: "30px",
+  padding: "24px",
   marginLeft: "260px",
   width: "calc(100% - 260px)",
 };

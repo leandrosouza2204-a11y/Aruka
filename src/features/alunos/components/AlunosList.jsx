@@ -9,11 +9,11 @@ function AlunosList() {
   const page = useAlunosPage();
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className="app-shell" style={{ display: "flex" }}>
       <Sidebar />
 
-      <div style={styles.conteudo}>
-        <section style={styles.listaCard}>
+      <div className="app-main page-container" style={styles.conteudo}>
+        <section className="app-card" style={styles.listaCard}>
           <AlunosHeader
             alunosFiltradosTotal={page.alunosFiltrados.length}
             alunosTotal={page.alunos.length}
@@ -220,7 +220,7 @@ const styles = {
     marginTop: "20px",
   },
   conteudo: {
-    padding: "30px",
+    padding: "24px",
     marginLeft: "260px",
     width: "calc(100% - 260px)",
   },

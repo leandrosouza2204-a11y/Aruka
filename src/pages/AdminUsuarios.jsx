@@ -229,10 +229,10 @@ function AdminUsuarios() {
   }
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className="app-shell" style={{ display: "flex" }}>
       <Sidebar />
 
-      <main style={conteudo}>
+      <main className="app-main page-container" style={conteudo}>
         <div style={topo}>
           <div>
             <h1>Administração de Usuários</h1>
@@ -270,7 +270,7 @@ function AdminUsuarios() {
               </p>
             </div>
 
-            <div className="admin-filters" style={filtros}>
+            <div className="app-filter-grid admin-filters" style={filtros}>
               <input
                 value={busca}
                 onChange={(e) => setBusca(e.target.value)}
@@ -608,7 +608,7 @@ function classeBadgeStatus(status) {
 }
 
 const conteudo = {
-  padding: "30px",
+  padding: "24px",
   marginLeft: "260px",
   width: "calc(100% - 260px)",
 };

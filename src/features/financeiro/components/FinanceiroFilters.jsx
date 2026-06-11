@@ -9,7 +9,7 @@ function FinanceiroFilters({
   styles,
 }) {
   return (
-    <section style={styles.filtrosCard}>
+    <section className="app-card" style={styles.filtrosCard}>
       <div>
         <h2 style={styles.secaoTitulo}>Controle de Pagamentos</h2>
         <p style={styles.secaoLegenda}>
@@ -17,7 +17,7 @@ function FinanceiroFilters({
         </p>
       </div>
 
-      <div style={styles.filtros}>
+      <div className="app-filter-grid financeiro-filtros" style={styles.filtros}>
         <input
           placeholder="Buscar por aluno"
           value={busca}

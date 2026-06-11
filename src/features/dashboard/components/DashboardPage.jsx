@@ -10,10 +10,10 @@ function DashboardPage() {
   const dashboard = useDashboardPage();
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className="app-shell" style={{ display: "flex" }}>
       <Sidebar />
 
-      <div className="dashboard-page" style={styles.conteudo}>
+      <div className="dashboard-page app-main page-container" style={styles.conteudo}>
         <DashboardHeader styles={styles} />
 
         {dashboard.erro && <div style={styles.erroBox}>{dashboard.erro}</div>}
@@ -48,7 +48,7 @@ function DashboardPage() {
 }
 
 const conteudo = {
-  padding: "32px",
+  padding: "24px",
   marginLeft: "260px",
   width: "calc(100% - 260px)",
   background: "#f5f7fb",

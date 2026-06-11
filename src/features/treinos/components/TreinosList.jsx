@@ -12,10 +12,10 @@ function TreinosList() {
   const treinosPage = useTreinosPage();
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className="app-shell" style={{ display: "flex" }}>
       <Sidebar />
 
-      <div className="treinos-page" style={styles.conteudo}>
+      <div className="treinos-page app-main page-container" style={styles.conteudo}>
         <TreinosHeader
           quantidadeFiltrada={treinosPage.treinosFiltrados.length}
           quantidadeTotal={treinosPage.treinos.length}
@@ -103,7 +103,7 @@ function TreinosList() {
 }
 
 const conteudo = {
-  padding: "30px",
+  padding: "24px",
   marginLeft: "260px",
   width: "calc(100% - 260px)",
   background:

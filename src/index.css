@@ -1,7 +1,18 @@
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
 }
 
 body {
@@ -10,6 +21,55 @@ body {
   font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  min-width: 0;
+}
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.app-main {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.page-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.app-card,
+.mobile-card,
+.admin-logs-panel {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+}
+
+.app-filter-grid {
+  width: 100%;
+  max-width: 100%;
 }
 
 body[data-theme="dark"] {
@@ -175,14 +235,31 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
   body,
   #root {
     width: 100%;
+    max-width: 100%;
     min-width: 0;
+    overflow-x: hidden;
   }
 
+  .app-shell,
   #root > div[style*="display: flex"] {
     flex-direction: column !important;
     align-items: stretch !important;
     width: 100% !important;
+    max-width: 100% !important;
     min-width: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  .app-main,
+  .page-container {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .page-container {
+    padding: 18px 14px 18px !important;
   }
 
   .app-sidebar {
@@ -195,7 +272,7 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
     right: 0 !important;
     bottom: auto !important;
     z-index: 50 !important;
-    padding: 10px 12px !important;
+    padding: 10px 0 10px 12px !important;
     border-right: none !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
     overflow: visible !important;
@@ -204,7 +281,8 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
 
   .app-sidebar-header {
     min-height: 58px !important;
-    margin-bottom: 10px !important;
+    margin-bottom: 8px !important;
+    padding-right: 12px !important;
   }
 
   .app-sidebar-toggle {
@@ -213,6 +291,23 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
 
   .app-sidebar-brand {
     align-items: center !important;
+    gap: 8px !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+  }
+
+  .app-sidebar-brand > div:first-child {
+    border-radius: 10px !important;
+    height: 42px !important;
+    width: 42px !important;
+  }
+
+  .app-sidebar-brand h2,
+  .app-sidebar-brand span {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
   }
 
   .app-sidebar-account-menu {
@@ -231,8 +326,12 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
     flex-direction: row !important;
     gap: 8px !important;
     overflow-x: auto !important;
-    padding: 2px 0 4px !important;
+    overflow-y: hidden !important;
+    padding: 2px 12px 6px 0 !important;
+    scroll-padding-inline: 12px !important;
     scrollbar-width: none;
+    white-space: nowrap !important;
+    -webkit-overflow-scrolling: touch;
   }
 
   .app-sidebar-nav::-webkit-scrollbar {
@@ -240,11 +339,17 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
   }
 
   .app-sidebar-nav a {
+    align-items: center !important;
     flex: 0 0 auto !important;
     justify-content: center !important;
+    min-height: 40px !important;
     min-width: 48px !important;
-    padding: 10px 12px !important;
+    padding: 10px 13px !important;
     transform: none !important;
+  }
+
+  .app-sidebar-nav a svg {
+    flex: 0 0 auto !important;
   }
 
   .app-sidebar-nav a:hover {
@@ -273,7 +378,8 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
     max-width: 100% !important;
   }
 
-  [style*="padding: 30px"] {
+  [style*="padding: 30px"],
+  [style*="padding: 32px"] {
     padding: 18px 14px 18px !important;
   }
 
@@ -378,6 +484,13 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
 
   button {
     min-height: 40px;
+    max-width: 100%;
+  }
+
+  input,
+  select,
+  textarea {
+    max-width: 100%;
   }
 
   [style*="position: fixed"][style*="inset: 0"] {
@@ -945,6 +1058,61 @@ body[data-theme="dark"] .empty-state strong {
 }
 
 @media (max-width: 768px) {
+  .page-container {
+    padding: 12px !important;
+  }
+
+  .app-card,
+  .mobile-card,
+  .admin-logs-panel,
+  [style*="borderRadius: \"8px\""],
+  [style*="border-radius: 8px"] {
+    max-width: 100% !important;
+  }
+
+  .app-card,
+  .mobile-card,
+  .admin-logs-panel {
+    padding: 14px !important;
+  }
+
+  .app-filter-grid,
+  .alunos-filtros,
+  .financeiro-filtros,
+  .treinos-filtros,
+  .avaliacoes-filtros,
+  .planos-filtros,
+  .admin-filters,
+  .admin-logs-filters {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .app-filter-grid input,
+  .app-filter-grid select,
+  .app-filter-grid button,
+  .admin-logs-filters input,
+  .admin-logs-filters select,
+  .admin-logs-filters button {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .mobile-card-actions,
+  [style*="gap: \"8px\""][style*="flexWrap"],
+  [style*="gap: \"10px\""][style*="justifyContent"] {
+    gap: 8px !important;
+  }
+
+  .mobile-card-actions button,
+  .mobile-card-actions a {
+    flex: 1 1 auto;
+    min-height: 40px;
+  }
+
   .app-toast-stack {
     left: 12px;
     right: 12px;
@@ -1021,6 +1189,75 @@ body[data-theme="dark"] .empty-state strong {
 
   .admin-logs-page header button {
     width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container {
+    padding: 12px !important;
+  }
+
+  .app-sidebar {
+    padding-top: 8px !important;
+  }
+
+  .app-sidebar-header {
+    min-height: 50px !important;
+  }
+
+  .app-sidebar-brand h2 {
+    font-size: 17px !important;
+  }
+
+  .app-sidebar-brand span {
+    font-size: 11px !important;
+  }
+
+  .app-sidebar-nav {
+    gap: 7px !important;
+  }
+
+  h1 {
+    font-size: 23px !important;
+  }
+
+  h2 {
+    font-size: 19px !important;
+  }
+
+  .mobile-card-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .page-container {
+    padding: 10px !important;
+  }
+
+  .app-sidebar {
+    padding-left: 10px !important;
+  }
+
+  .app-sidebar-nav {
+    padding-right: 10px !important;
+  }
+
+  .app-sidebar-nav a {
+    min-width: 44px !important;
+    padding-left: 11px !important;
+    padding-right: 11px !important;
+  }
+
+  .app-sidebar-toggle {
+    min-height: 38px !important;
+    width: 38px !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .app-main {
+    overflow-x: clip;
   }
 }
 

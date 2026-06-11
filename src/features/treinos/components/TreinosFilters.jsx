@@ -14,7 +14,7 @@ function TreinosFilters({
   styles,
 }) {
   return (
-    <div className="treinos-filtros" style={styles.filtros}>
+    <div className="app-filter-grid treinos-filtros" style={styles.filtros}>
       <input
         placeholder="Buscar por aluno ou rotina"
         value={busca}
