@@ -56,14 +56,22 @@ function Card({ titulo, valor, detalhe }) {
 }
 
 function diferenca(atual, anterior, unidade) {
-  const valorAtual = Number(atual || 0);
-  const valorAnterior = Number(anterior || 0);
+  if (!temValor(atual) || !temValor(anterior)) return "Sem registro anterior";
 
-  if (!valorAtual || !valorAnterior) return "-";
+  const valorAtual = Number(String(atual).replace(",", "."));
+  const valorAnterior = Number(String(anterior).replace(",", "."));
+
+  if (!Number.isFinite(valorAtual) || !Number.isFinite(valorAnterior)) {
+    return "Sem registro anterior";
+  }
 
   const diferencaValor = valorAtual - valorAnterior;
   const sinal = diferencaValor > 0 ? "+" : "";
   return `${sinal}${diferencaValor.toFixed(1)} ${unidade}`;
+}
+
+function temValor(valor) {
+  return valor !== "" && valor !== null && valor !== undefined;
 }
 
 const grid = {

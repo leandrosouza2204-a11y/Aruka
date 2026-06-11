@@ -16,14 +16,14 @@ function TreinoDetalhesModal({ treino, onEnviarWhatsApp, onFechar, styles }) {
 
   return (
     <section className="treinos-details-card" style={styles.detalhesCard}>
-      <div style={styles.detalhesHero}>
-        <div>
+      <div className="treino-details-hero" style={styles.detalhesHero}>
+        <div className="treino-details-copy">
           <span style={styles.detalhesEyebrow}>Treino selecionado</span>
           <h2 style={styles.detalhesTitulo}>{treino.rotina || "Ficha de Treino"}</h2>
           <p style={styles.detalhesSubtitulo}>
             {treino.aluno || "Aluno não informado"}
           </p>
-          <div style={styles.heroBadges}>
+          <div className="treino-details-badges" style={styles.heroBadges}>
             <span className={classeStatusTreino(treino.status || "Ativo")}>
               {treino.status || "Ativo"}
             </span>
@@ -36,12 +36,20 @@ function TreinoDetalhesModal({ treino, onEnviarWhatsApp, onFechar, styles }) {
           </div>
         </div>
 
-        <div style={styles.detalhesAcoes}>
-          <button onClick={onEnviarWhatsApp} style={styles.botaoWhatsApp}>
+        <div className="treino-details-actions" style={styles.detalhesAcoes}>
+          <button
+            className="treino-whatsapp-button"
+            onClick={onEnviarWhatsApp}
+            style={styles.botaoWhatsApp}
+          >
             <MessageCircle size={16} />
             Enviar pelo WhatsApp
           </button>
-          <button onClick={onFechar} style={styles.botaoFechar}>
+          <button
+            className="treino-close-button"
+            onClick={onFechar}
+            style={styles.botaoFechar}
+          >
             <X size={15} />
             Fechar
           </button>
@@ -104,7 +112,7 @@ function TreinoDetalhesModal({ treino, onEnviarWhatsApp, onFechar, styles }) {
           <span style={styles.diasContador}>{(treino.dias || []).length} dias</span>
         </div>
 
-        <div style={styles.diasDetalhes}>
+        <div className="treino-days-list" style={styles.diasDetalhes}>
           {(treino.dias || []).map((dia, index) => (
             <details
               key={dia.id}
@@ -123,7 +131,7 @@ function TreinoDetalhesModal({ treino, onEnviarWhatsApp, onFechar, styles }) {
                 <span style={styles.diaBadge}>{dia.exercicios?.length || 0}</span>
               </summary>
 
-              <div style={styles.exerciciosGrid}>
+              <div className="treino-exercises-grid" style={styles.exerciciosGrid}>
                 {(dia.exercicios || []).map((exercicio) => (
                   <ExercicioCard key={exercicio.id} exercicio={exercicio} />
                 ))}

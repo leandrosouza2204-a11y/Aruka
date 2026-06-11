@@ -44,27 +44,49 @@ function AvaliacaoDetalhesModal({
 
   return (
     <section className="avaliacoes-details-card" style={styles.detalhesCard}>
-      <div style={styles.detalhesTopo}>
-        <div>
+      <div className="avaliacoes-profile-header" style={styles.detalhesTopo}>
+        <div className="avaliacoes-profile-summary">
           <h2 style={styles.detalhesTitulo}>Perfil do Aluno</h2>
           <p style={styles.resumoLista}>
             {alunoSelecionado} · {historicoAluno.length} avaliação(ões)
           </p>
+          <span className="status-badge status-badge-info">
+            {anamneseAluno ? "Anamnese registrada" : "Sem anamnese"}
+          </span>
         </div>
-        <div style={styles.acoes}>
-          <button onClick={onCopiarResumo} style={styles.botaoPrimario}>
+        <div className="avaliacoes-profile-actions" style={styles.acoes}>
+          <button
+            className="avaliacoes-action-primary"
+            onClick={onCopiarResumo}
+            style={styles.botaoPrimario}
+          >
             Copiar resumo para WhatsApp
           </button>
-          <button onClick={onAlternarRelatorio} style={styles.botaoSecundario}>
+          <button
+            className="avaliacoes-action-secondary"
+            onClick={onAlternarRelatorio}
+            style={styles.botaoSecundario}
+          >
             Gerar relatório da avaliação
           </button>
           <button
+            className="avaliacoes-action-secondary"
             onClick={onAlternarRelatorioAnamnese}
+            disabled={!anamneseAluno}
             style={styles.botaoSecundario}
+            title={
+              anamneseAluno
+                ? "Gerar relatorio da anamnese"
+                : "Nenhuma anamnese registrada para este aluno."
+            }
           >
             Gerar relatório da anamnese
           </button>
-          <button onClick={onFechar} style={styles.botaoSecundario}>
+          <button
+            className="avaliacoes-action-secondary"
+            onClick={onFechar}
+            style={styles.botaoSecundario}
+          >
             Fechar
           </button>
         </div>
@@ -186,7 +208,7 @@ function AvaliacaoDetalhesModal({
       )}
 
       <h3 style={styles.subtituloSecao}>Histórico de evolução</h3>
-      <div className="responsive-table">
+      <div className="responsive-table avaliacoes-history-table">
         <table style={styles.tabela}>
           <thead>
             <tr style={styles.linhaCabecalho}>
@@ -483,7 +505,9 @@ function Info({ label, valor, styles }) {
 }
 
 function formatarMm(valor) {
-  return valor ? `${Number(valor).toFixed(1)} mm` : "-";
+  if (valor === "" || valor === null || valor === undefined) return "-";
+  const numero = Number(String(valor).replace(",", "."));
+  return Number.isFinite(numero) ? `${numero.toFixed(1)} mm` : "-";
 }
 
 function formatarEscala(valor) {

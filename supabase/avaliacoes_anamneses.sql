@@ -35,6 +35,10 @@ create table if not exists public.avaliacoes (
   massa_gorda numeric(6, 2),
   massa_magra numeric(6, 2),
   imc numeric(6, 2),
+  status text not null default 'inicial',
+  objetivo_atual text not null default '',
+  aderencia_treino text not null default '',
+  aderencia_dieta text not null default '',
   observacoes text not null default '',
   created_at timestamptz not null default now()
 );
@@ -46,7 +50,11 @@ alter table public.avaliacoes
   add column if not exists dobra_triceps numeric(6, 2),
   add column if not exists dobra_subescapular numeric(6, 2),
   add column if not exists dobra_supra_iliaca numeric(6, 2),
-  add column if not exists dobra_axilar_media numeric(6, 2);
+  add column if not exists dobra_axilar_media numeric(6, 2),
+  add column if not exists status text not null default 'inicial',
+  add column if not exists objetivo_atual text not null default '',
+  add column if not exists aderencia_treino text not null default '',
+  add column if not exists aderencia_dieta text not null default '';
 
 create table if not exists public.anamneses (
   id uuid primary key default gen_random_uuid(),

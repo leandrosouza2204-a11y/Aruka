@@ -29,7 +29,7 @@ function TreinosHeader({
             Comece por uma estrutura pronta e ajuste depois.
           </p>
         </div>
-        <div style={styles.modelosLinha}>
+        <div className="treinos-modelos-actions" style={styles.modelosLinha}>
           {modelosDisponiveis.map((modelo) => (
             <button
               key={modelo}

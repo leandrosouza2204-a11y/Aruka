@@ -19,7 +19,9 @@ function AnamneseResumoCard({ anamnese, styles, Info }) {
           />
         </>
       ) : (
-        <p style={styles.resumoLista}>Nenhuma anamnese cadastrada.</p>
+        <p style={styles.resumoLista}>
+          Nenhuma anamnese registrada para este aluno.
+        </p>
       )}
     </div>
   );

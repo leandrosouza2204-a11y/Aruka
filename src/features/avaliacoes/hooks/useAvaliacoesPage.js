@@ -103,7 +103,10 @@ export function useAvaliacoesPage() {
   const primeiraAvaliacao = historicoAluno[0] || null;
   const alunoCadastro = alunos.find((aluno) => aluno.nome === alunoSelecionado);
   const anamneseAluno =
-    anamneses.find((anamnese) => anamnese.aluno === alunoSelecionado) || null;
+    [...anamneses]
+      .filter((anamnese) => anamnese.aluno === alunoSelecionado)
+      .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)))[0] ||
+    null;
   const alertas = useMemo(
     () => gerarAlertas(avaliacaoAnterior, ultimaAvaliacao, anamneseAluno),
     [avaliacaoAnterior, ultimaAvaliacao, anamneseAluno]
@@ -248,6 +251,7 @@ export function useAvaliacoesPage() {
   }
 
   function alternarRelatorioAnamnese() {
+    if (!anamneseAluno) return;
     setRelatorioAnamneseAberto((valor) => !valor);
   }
 
@@ -329,7 +333,7 @@ export function gerarResumoWhatsApp(avaliacao, anterior, anamnese) {
 }
 
 export function gerarLinhaEvolucao(atual, anterior) {
-  if (!anterior) return "primeira avaliação registrada.";
+  if (!anterior) return "Sem registro anterior.";
   const composicaoAtual = calcularComposicaoCorporal(atual);
   const composicaoAnterior = calcularComposicaoCorporal(anterior);
   return `peso ${comparar(atual.peso, anterior.peso, "kg")}, cintura ${comparar(
@@ -401,9 +405,12 @@ export function gerarRecomendacoes(avaliacao, anamnese) {
 }
 
 export function comparar(atual, anterior, unidade) {
-  const valorAtual = Number(atual || 0);
-  const valorAnterior = Number(anterior || 0);
-  if (!valorAtual || !valorAnterior) return "-";
+  if (!temValor(atual) || !temValor(anterior)) return "Sem registro anterior";
+  const valorAtual = Number(String(atual).replace(",", "."));
+  const valorAnterior = Number(String(anterior).replace(",", "."));
+  if (!Number.isFinite(valorAtual) || !Number.isFinite(valorAnterior)) {
+    return "Sem registro anterior";
+  }
   const diferenca = valorAtual - valorAnterior;
   const sinal = diferenca > 0 ? "+" : "";
   return `${sinal}${diferenca.toFixed(1)} ${unidade}`;
@@ -427,15 +434,21 @@ export function formatarDataCurta(data) {
 }
 
 export function formatarKg(valor) {
-  return valor ? `${Number(valor).toFixed(1)} kg` : "-";
+  if (!temValor(valor)) return "-";
+  const numero = Number(String(valor).replace(",", "."));
+  return Number.isFinite(numero) ? `${numero.toFixed(1)} kg` : "-";
 }
 
 export function formatarCm(valor) {
-  return valor ? `${Number(valor).toFixed(1)} cm` : "-";
+  if (!temValor(valor)) return "-";
+  const numero = Number(String(valor).replace(",", "."));
+  return Number.isFinite(numero) ? `${numero.toFixed(1)} cm` : "-";
 }
 
 export function formatarPercentual(valor) {
-  return valor !== "" ? `${Number(valor).toFixed(1)}%` : "-";
+  if (!temValor(valor)) return "-";
+  const numero = Number(String(valor).replace(",", "."));
+  return Number.isFinite(numero) ? `${numero.toFixed(1)}%` : "-";
 }
 
 export function formatarStatus(status) {
@@ -450,4 +463,8 @@ export function formatarStatus(status) {
 
 export function formatarEscala(valor) {
   return valor ? `${valor}/5` : "-";
+}
+
+function temValor(valor) {
+  return valor !== "" && valor !== null && valor !== undefined;
 }

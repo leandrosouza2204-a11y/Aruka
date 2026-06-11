@@ -1668,3 +1668,178 @@ body[data-theme="dark"] .treinos-page [style*="color: #6b7280"],
 body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
   color: #cbd5e1 !important;
 }
+
+@media (max-width: 768px) {
+  .avaliacoes-profile-header {
+    align-items: stretch !important;
+    display: grid !important;
+    gap: 14px !important;
+  }
+
+  .avaliacoes-profile-summary {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .avaliacoes-profile-actions {
+    display: grid !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+
+  .avaliacoes-profile-actions button,
+  .avaliacoes-action-primary,
+  .avaliacoes-action-secondary {
+    justify-content: center !important;
+    min-height: 42px !important;
+    width: 100% !important;
+  }
+
+  .avaliacoes-profile-actions button:disabled {
+    cursor: not-allowed !important;
+    opacity: 0.55 !important;
+  }
+
+  .avaliacoes-details-card {
+    padding: 14px !important;
+  }
+
+  .avaliacoes-details-card [style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  .avaliacoes-history-table {
+    overflow-x: auto !important;
+  }
+
+  .avaliacoes-history-table table {
+    min-width: 680px !important;
+  }
+
+  .treinos-modelos {
+    align-items: stretch !important;
+    display: grid !important;
+    gap: 12px !important;
+  }
+
+  .treinos-modelos-actions {
+    display: grid !important;
+    gap: 8px !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    justify-content: stretch !important;
+    width: 100% !important;
+  }
+
+  .treinos-modelos-actions button {
+    min-height: 40px !important;
+    width: 100% !important;
+    white-space: normal !important;
+  }
+
+  .treino-details-hero {
+    display: grid !important;
+    gap: 16px !important;
+    padding: 18px !important;
+  }
+
+  .treino-details-copy,
+  .treino-details-copy h2,
+  .treino-details-copy p {
+    min-width: 0 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .treino-details-badges {
+    justify-content: flex-start !important;
+  }
+
+  .treino-details-badges .status-badge {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .treino-details-actions {
+    display: grid !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+
+  .treino-details-actions button {
+    justify-content: center !important;
+    min-height: 42px !important;
+    width: 100% !important;
+  }
+
+  .treinos-info-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    padding: 14px !important;
+  }
+
+  .treino-info-card {
+    align-items: flex-start !important;
+    min-width: 0 !important;
+  }
+
+  .treino-info-card strong {
+    overflow-wrap: anywhere !important;
+  }
+
+  .treinos-days-block {
+    padding: 14px !important;
+  }
+
+  .treino-day summary {
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+
+  .treino-day summary h4,
+  .treino-day summary p {
+    overflow-wrap: anywhere !important;
+  }
+
+  .treino-exercises-grid {
+    grid-template-columns: 1fr !important;
+    padding: 0 12px 12px !important;
+  }
+
+  .treino-exercise-card,
+  .exercise-card-title,
+  .exercise-card-title h4,
+  .exercise-card-title p {
+    min-width: 0 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .exercise-card-top {
+    display: grid !important;
+    gap: 10px !important;
+  }
+
+  .exercise-card-actions {
+    display: grid !important;
+    gap: 8px !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .exercise-card-actions button {
+    justify-content: center !important;
+    min-height: 38px !important;
+    width: 100% !important;
+  }
+
+  .exercise-card-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .treinos-info-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .treinos-modelos-actions {
+    grid-template-columns: 1fr !important;
+  }
+}

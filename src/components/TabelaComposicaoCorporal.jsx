@@ -41,11 +41,19 @@ function TabelaComposicaoCorporal({ avaliacao }) {
 }
 
 function formatarKg(valor) {
-  return valor !== "" ? `${Number(valor).toFixed(1)} kg` : "-";
+  if (!temValor(valor)) return "-";
+  const numero = Number(String(valor).replace(",", "."));
+  return Number.isFinite(numero) ? `${numero.toFixed(1)} kg` : "-";
 }
 
 function formatarPercentual(valor) {
-  return valor !== "" ? `${Number(valor).toFixed(1)}%` : "-";
+  if (!temValor(valor)) return "-";
+  const numero = Number(String(valor).replace(",", "."));
+  return Number.isFinite(numero) ? `${numero.toFixed(1)}%` : "-";
+}
+
+function temValor(valor) {
+  return valor !== "" && valor !== null && valor !== undefined;
 }
 
 const container = {

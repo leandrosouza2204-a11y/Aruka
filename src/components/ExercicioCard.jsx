@@ -3,8 +3,8 @@ import { ExternalLink, Pencil, Trash2 } from "lucide-react";
 function ExercicioCard({ exercicio, onEdit, onDelete }) {
   return (
     <div className="treino-exercise-card" style={card}>
-      <div style={topo}>
-        <div>
+      <div className="exercise-card-top" style={topo}>
+        <div className="exercise-card-title">
           <h4 style={titulo}>{exercicio.nome || "Exercício sem nome"}</h4>
           <p style={meta}>
             {exercicio.series || "-"} séries &bull; {exercicio.repeticoes || "-"} reps
@@ -12,7 +12,7 @@ function ExercicioCard({ exercicio, onEdit, onDelete }) {
         </div>
 
         {(onEdit || onDelete) && (
-          <div style={acoes}>
+          <div className="exercise-card-actions" style={acoes}>
             {onEdit && (
               <button onClick={onEdit} style={botaoSecundario}>
                 <Pencil size={13} />
@@ -29,7 +29,7 @@ function ExercicioCard({ exercicio, onEdit, onDelete }) {
         )}
       </div>
 
-      <div style={grid}>
+      <div className="exercise-card-grid" style={grid}>
         <Info label="Carga" valor={exercicio.carga} />
         <Info label="Descanso" valor={exercicio.descanso} />
         <Info label="Observações" valor={exercicio.observacoes} />
