@@ -83,9 +83,12 @@ textarea {
   box-shadow: 0 22px 56px rgba(15, 23, 42, 0.16);
   color: white;
   display: flex;
+  flex-direction: row;
   gap: 24px;
   justify-content: space-between;
   margin-bottom: 22px;
+  max-width: 100%;
+  min-height: 154px;
   overflow: hidden;
   padding: 26px;
   position: relative;

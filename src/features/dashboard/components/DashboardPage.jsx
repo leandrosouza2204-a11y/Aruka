@@ -55,26 +55,6 @@ const conteudo = {
   minHeight: "100vh",
 };
 
-const dashboardHeader = {
-  display: "flex",
-  justifyContent: "space-between",
-  gap: "18px",
-  alignItems: "flex-start",
-};
-
-const dashboardTitulo = {
-  color: "#111827",
-  fontSize: "32px",
-  lineHeight: 1.15,
-  margin: 0,
-};
-
-const dashboardSubtitulo = {
-  color: "#6b7280",
-  fontSize: "15px",
-  marginTop: "8px",
-};
-
 const cardsGrid = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
@@ -445,9 +425,6 @@ const styles = {
   cardsGrid,
   checkinCard,
   conteudo,
-  dashboardHeader,
-  dashboardSubtitulo,
-  dashboardTitulo,
   erroBox,
   estadoVazio,
   estadoVazioPremium,

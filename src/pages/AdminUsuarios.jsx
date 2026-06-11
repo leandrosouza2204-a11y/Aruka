@@ -245,19 +245,6 @@ function AdminUsuarios() {
           }
         />
 
-        <div style={{ ...topo, display: "none" }}>
-          <div>
-            <h1>Administração de Usuários</h1>
-            <p style={subtitulo}>
-              Gerencie perfis, liberações beta, assinaturas e bloqueios.
-            </p>
-          </div>
-
-          <button onClick={carregarUsuarios} style={botaoSecundario}>
-            Atualizar lista
-          </button>
-        </div>
-
         <div className="admin-summary-grid" style={cards}>
           <CardResumo titulo="Total de usuários" valor={resumo.total} />
           <CardResumo titulo="Pendentes" valor={resumo.pendentes} destaque="#f59e0b" />
@@ -767,19 +754,6 @@ const conteudo = {
   padding: "24px",
   marginLeft: "260px",
   width: "calc(100% - 260px)",
-};
-
-const topo = {
-  display: "flex",
-  justifyContent: "space-between",
-  gap: "16px",
-  alignItems: "flex-start",
-  flexWrap: "wrap",
-};
-
-const subtitulo = {
-  color: "#6b7280",
-  marginTop: "6px",
 };
 
 const cards = {

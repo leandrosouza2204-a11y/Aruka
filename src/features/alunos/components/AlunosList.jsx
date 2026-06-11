@@ -268,10 +268,6 @@ const styles = {
     marginLeft: "260px",
     width: "calc(100% - 260px)",
   },
-  tituloPagina: {
-    fontSize: "30px",
-    letterSpacing: 0,
-  },
   listaCard: {
     background: "white",
     border: "1px solid #e5e7eb",

@@ -99,24 +99,6 @@ function AdminLogs() {
           }
         />
 
-        <header style={{ ...topo, display: "none" }}>
-          <div>
-            <span style={eyebrow}>Administração</span>
-            <h1 style={titulo}>Logs administrativos</h1>
-            <p style={subtitulo}>
-              Acompanhe ações sensíveis realizadas por administradores no CoachFlow.
-            </p>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => carregarLogs(filtros)}
-            style={botaoSecundario}
-          >
-            Atualizar
-          </button>
-        </header>
-
         {erro && <div style={erroBox}>{erro}</div>}
 
         <section className="admin-logs-panel" style={painel}>
@@ -434,25 +416,11 @@ const conteudo = {
   width: "calc(100% - 260px)",
 };
 
-const topo = {
-  alignItems: "flex-start",
-  display: "flex",
-  flexWrap: "wrap",
-  gap: "16px",
-  justifyContent: "space-between",
-};
-
 const eyebrow = {
   color: "#2563eb",
   fontSize: "12px",
   fontWeight: "900",
   textTransform: "uppercase",
-};
-
-const titulo = {
-  color: "#111827",
-  fontSize: "30px",
-  margin: "4px 0 0",
 };
 
 const subtitulo = {

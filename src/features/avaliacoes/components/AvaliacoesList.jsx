@@ -161,7 +161,6 @@ const listaTopo = {
   marginBottom: "18px",
 };
 
-const tituloPagina = { fontSize: "30px", letterSpacing: 0 };
 const resumoLista = { color: "#6b7280", fontSize: "14px", marginTop: "6px" };
 
 const filtros = {
@@ -397,7 +396,6 @@ const styles = {
   tabela,
   tabelaCelula,
   tabelaHeader,
-  tituloPagina,
 };
 
 export default AvaliacoesList;

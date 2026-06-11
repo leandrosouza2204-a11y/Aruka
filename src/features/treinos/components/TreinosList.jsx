@@ -196,11 +196,6 @@ const filtros = {
   alignItems: "center",
 };
 
-const tituloPagina = {
-  fontSize: "30px",
-  letterSpacing: 0,
-};
-
 const resumoLista = {
   color: "#6b7280",
   fontSize: "14px",
@@ -633,7 +628,6 @@ const styles = {
   tabela,
   tabelaCelula,
   tabelaHeader,
-  tituloPagina,
 };
 
 export default TreinosList;
