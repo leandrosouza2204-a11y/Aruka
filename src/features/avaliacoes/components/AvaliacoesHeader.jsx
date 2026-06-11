@@ -1,3 +1,5 @@
+import PageHero from "../../../components/PageHero";
+
 function AvaliacoesHeader({
   children,
   quantidadeExibida,
@@ -6,27 +8,28 @@ function AvaliacoesHeader({
   styles,
 }) {
   return (
-    <section className="avaliacoes-list-card" style={styles.listaCard}>
-      <div style={styles.listaTopo}>
-        <div>
-          <h1 style={styles.tituloPagina}>Avaliações</h1>
-          <p style={styles.resumoLista}>
-            {quantidadeExibida} alunos com avaliação exibidos
-          </p>
-        </div>
+    <>
+      <PageHero
+        eyebrow="AVALIAÇÕES"
+        title="Avaliações físicas"
+        description="Registre medidas, anamnese e evolução corporal dos alunos."
+        meta={`${quantidadeExibida} alunos com avaliação exibidos`}
+        actions={
+          <>
+            <button onClick={onNovaAvaliacao} style={styles.botaoPrimario}>
+              + Nova Avaliação
+            </button>
+            <button onClick={onNovaAnamnese} style={styles.botaoSecundario}>
+              + Nova Anamnese
+            </button>
+          </>
+        }
+      />
 
-        <div style={styles.acoes}>
-          <button onClick={onNovaAvaliacao} style={styles.botaoPrimario}>
-            + Nova Avaliação
-          </button>
-          <button onClick={onNovaAnamnese} style={styles.botaoSecundario}>
-            + Nova Anamnese
-          </button>
-        </div>
-      </div>
-
-      {children}
-    </section>
+      <section className="avaliacoes-list-card app-card" style={styles.listaCard}>
+        {children}
+      </section>
+    </>
   );
 }
 

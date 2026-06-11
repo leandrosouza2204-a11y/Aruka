@@ -3,6 +3,7 @@ import Sidebar from "../components/Sidebar";
 import TableActions, { TableActionItem } from "../components/TableActions";
 import EmptyState from "../components/EmptyState";
 import LoadingState from "../components/LoadingState";
+import PageHero from "../components/PageHero";
 import PlanoModal from "../components/PlanoModal";
 import { useConfirm } from "../hooks/useConfirm";
 import { useToast } from "../hooks/useToast";
@@ -148,20 +149,19 @@ function Planos() {
       <Sidebar />
 
       <div className="app-main page-container" style={conteudo}>
-        <section className="app-card" style={listaCard}>
-          <div style={listaTopo}>
-            <div>
-              <h1 style={tituloPagina}>Planos</h1>
-              <p style={resumoLista}>
-                {planosFiltrados.length} de {planos.length} planos exibidos
-              </p>
-            </div>
-
+        <PageHero
+          eyebrow="PLANOS"
+          title="Planos personalizados"
+          description="Cadastre e gerencie os planos e valores da sua consultoria."
+          meta={`${planosFiltrados.length} de ${planos.length} planos exibidos`}
+          actions={
             <button onClick={abrirNovoPlano} style={botaoPrimario}>
               + Novo Plano
             </button>
-          </div>
+          }
+        />
 
+        <section className="app-card" style={listaCard}>
           <div className="app-filter-grid planos-filtros" style={filtros}>
             <input
               placeholder="Buscar por plano"
@@ -377,26 +377,6 @@ const listaCard = {
   border: "1px solid #e5e7eb",
   borderRadius: "8px",
   padding: "22px",
-};
-
-const listaTopo = {
-  display: "flex",
-  justifyContent: "space-between",
-  gap: "20px",
-  alignItems: "end",
-  flexWrap: "wrap",
-  marginBottom: "18px",
-};
-
-const tituloPagina = {
-  fontSize: "30px",
-  letterSpacing: 0,
-};
-
-const resumoLista = {
-  color: "#6b7280",
-  fontSize: "14px",
-  marginTop: "6px",
 };
 
 const filtros = {

@@ -3,6 +3,7 @@ import Sidebar from "../components/Sidebar";
 import AdminUsuarioModal from "../components/AdminUsuarioModal";
 import EmptyState from "../components/EmptyState";
 import LoadingState from "../components/LoadingState";
+import PageHero from "../components/PageHero";
 import TableActions, { TableActionItem } from "../components/TableActions";
 import { useConfirm } from "../hooks/useConfirm";
 import { formatarData } from "../data/alunosUtils";
@@ -233,7 +234,18 @@ function AdminUsuarios() {
       <Sidebar />
 
       <main className="app-main page-container" style={conteudo}>
-        <div style={topo}>
+        <PageHero
+          eyebrow="ADMINISTRAÇÃO"
+          title="Usuários"
+          description="Gerencie acessos, perfis, assinaturas e permissões do sistema."
+          actions={
+            <button onClick={carregarUsuarios} style={botaoSecundario}>
+              Atualizar lista
+            </button>
+          }
+        />
+
+        <div style={{ ...topo, display: "none" }}>
           <div>
             <h1>Administração de Usuários</h1>
             <p style={subtitulo}>

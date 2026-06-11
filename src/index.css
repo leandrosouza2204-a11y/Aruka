@@ -73,6 +73,91 @@ textarea {
   max-width: 100%;
 }
 
+.page-hero {
+  align-items: flex-start;
+  background:
+    radial-gradient(circle at top right, rgba(96, 165, 250, 0.34), transparent 340px),
+    linear-gradient(135deg, #0f172a, #1d4ed8);
+  border: 1px solid rgba(147, 197, 253, 0.24);
+  border-radius: 8px;
+  box-shadow: 0 22px 56px rgba(15, 23, 42, 0.16);
+  color: white;
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  overflow: hidden;
+  padding: 26px;
+  position: relative;
+  width: 100%;
+}
+
+.page-hero::before {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.12), transparent);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.page-hero-content,
+.page-hero-actions {
+  position: relative;
+  z-index: 1;
+}
+
+.page-hero-content {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.page-hero-eyebrow {
+  color: #bfdbfe;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.page-hero h1 {
+  color: white;
+  font-size: 30px;
+  line-height: 1.12;
+  margin: 0;
+}
+
+.page-hero p {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 720px;
+}
+
+.page-hero-meta,
+.page-hero-extra {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.page-hero-actions {
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+  max-width: 44%;
+}
+
+.page-hero-actions button,
+.page-hero-actions a {
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
+  min-height: 40px;
+}
+
 body[data-theme="dark"] {
   background-color: #0f172a;
   color: #e5e7eb;
@@ -1247,6 +1332,38 @@ body[data-theme="dark"] .session-timeout-secondary {
 }
 
 @media (max-width: 768px) {
+  .page-hero {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding: 18px;
+  }
+
+  .page-hero h1 {
+    font-size: 24px !important;
+    overflow-wrap: anywhere;
+  }
+
+  .page-hero p {
+    font-size: 14px;
+    overflow-wrap: anywhere;
+  }
+
+  .page-hero-actions {
+    display: grid;
+    gap: 10px;
+    justify-content: stretch;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .page-hero-actions button,
+  .page-hero-actions a {
+    justify-content: center !important;
+    min-height: 42px;
+    width: 100%;
+  }
+
   .desktop-table {
     display: none !important;
   }

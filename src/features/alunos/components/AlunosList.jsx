@@ -14,14 +14,14 @@ function AlunosList() {
       <Sidebar />
 
       <div className="app-main page-container" style={styles.conteudo}>
-        <section className="app-card" style={styles.listaCard}>
-          <AlunosHeader
-            alunosFiltradosTotal={page.alunosFiltrados.length}
-            alunosTotal={page.alunos.length}
-            onNovoAluno={page.abrirCadastro}
-            styles={styles}
-          />
+        <AlunosHeader
+          alunosFiltradosTotal={page.alunosFiltrados.length}
+          alunosTotal={page.alunos.length}
+          onNovoAluno={page.abrirCadastro}
+          styles={styles}
+        />
 
+        <section className="app-card" style={styles.listaCard}>
           <AlunosFilters
             busca={page.busca}
             filtroPlano={page.filtroPlano}

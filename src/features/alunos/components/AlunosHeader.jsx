@@ -1,17 +1,18 @@
+import PageHero from "../../../components/PageHero";
+
 function AlunosHeader({ alunosFiltradosTotal, alunosTotal, onNovoAluno, styles }) {
   return (
-    <div style={styles.listaTopo}>
-      <div>
-        <h1 style={styles.tituloPagina}>Lista de Alunos</h1>
-        <p style={styles.resumoLista}>
-          {alunosFiltradosTotal} de {alunosTotal} alunos exibidos
-        </p>
-      </div>
-
-      <button onClick={onNovoAluno} style={styles.botaoPrimario}>
-        + Novo Aluno
-      </button>
-    </div>
+    <PageHero
+      eyebrow="GESTÃO DE ALUNOS"
+      title="Alunos"
+      description="Gerencie cadastros, planos, status e acompanhamento dos seus alunos."
+      meta={`${alunosFiltradosTotal} de ${alunosTotal} alunos exibidos`}
+      actions={
+        <button onClick={onNovoAluno} style={styles.botaoPrimario}>
+          + Novo Aluno
+        </button>
+      }
+    />
   );
 }
 

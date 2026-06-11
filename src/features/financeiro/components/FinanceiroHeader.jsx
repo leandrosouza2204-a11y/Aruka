@@ -1,5 +1,13 @@
+import PageHero from "../../../components/PageHero";
+
 function FinanceiroHeader() {
-  return <h1>Financeiro</h1>;
+  return (
+    <PageHero
+      eyebrow="FINANCEIRO"
+      title="Controle financeiro"
+      description="Acompanhe pagamentos, vencimentos, pendências e receita prevista."
+    />
+  );
 }
 
 export default FinanceiroHeader;

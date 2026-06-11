@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import EmptyState from "../components/EmptyState";
 import LoadingState from "../components/LoadingState";
+import PageHero from "../components/PageHero";
 import { useToast } from "../hooks/useToast";
 import { filtrarAdminLogs } from "../services/adminLogsService";
 
@@ -83,7 +84,22 @@ function AdminLogs() {
       <Sidebar />
 
       <main className="admin-logs-page app-main page-container" style={conteudo}>
-        <header style={topo}>
+        <PageHero
+          eyebrow="ADMINISTRAÇÃO"
+          title="Logs administrativos"
+          description="Acompanhe ações sensíveis realizadas por administradores no CoachFlow."
+          actions={
+            <button
+              type="button"
+              onClick={() => carregarLogs(filtros)}
+              style={botaoSecundario}
+            >
+              Atualizar
+            </button>
+          }
+        />
+
+        <header style={{ ...topo, display: "none" }}>
           <div>
             <span style={eyebrow}>Administração</span>
             <h1 style={titulo}>Logs administrativos</h1>
