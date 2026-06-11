@@ -1011,6 +1011,86 @@ body[data-theme="dark"] .treino-day > summary::after {
   width: 100%;
 }
 
+.session-timeout-overlay {
+  align-items: center;
+  background: rgba(15, 23, 42, 0.64);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 18px;
+  position: fixed;
+  z-index: 20000;
+}
+
+.session-timeout-modal {
+  background: white;
+  border: 1px solid rgba(226, 232, 240, 0.92);
+  border-radius: 8px;
+  box-shadow: 0 28px 90px rgba(15, 23, 42, 0.34);
+  color: #111827;
+  display: grid;
+  gap: 16px;
+  max-width: 440px;
+  padding: 22px;
+  width: 100%;
+}
+
+.session-timeout-eyebrow {
+  color: #2563eb;
+  display: block;
+  font-size: 12px;
+  font-weight: 900;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.session-timeout-modal h2 {
+  font-size: 22px;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.session-timeout-modal p {
+  color: #4b5563;
+  line-height: 1.5;
+  margin-top: 8px;
+}
+
+.session-timeout-counter {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  color: #1d4ed8;
+  display: block;
+  font-size: 14px;
+  padding: 12px;
+}
+
+.session-timeout-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.session-timeout-actions button {
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 800;
+  min-height: 42px;
+  padding: 10px 14px;
+}
+
+.session-timeout-primary {
+  background: #111827;
+  color: white;
+}
+
+.session-timeout-secondary {
+  background: #e5e7eb;
+  color: #111827;
+}
+
 .responsive-table {
   max-width: 100%;
   overflow-x: auto;
@@ -1142,6 +1222,27 @@ body[data-theme="dark"] .card-label {
 }
 
 body[data-theme="dark"] .card-value {
+  color: #f8fafc;
+}
+
+body[data-theme="dark"] .session-timeout-modal {
+  background: #182235;
+  border-color: #334155;
+  color: #f8fafc;
+}
+
+body[data-theme="dark"] .session-timeout-modal p {
+  color: #cbd5e1;
+}
+
+body[data-theme="dark"] .session-timeout-counter {
+  background: rgba(37, 99, 235, 0.2);
+  border-color: rgba(147, 197, 253, 0.28);
+  color: #bfdbfe;
+}
+
+body[data-theme="dark"] .session-timeout-secondary {
+  background: #334155;
   color: #f8fafc;
 }
 
@@ -1314,6 +1415,19 @@ body[data-theme="dark"] .card-value {
 
   .admin-log-details-button {
     width: 100% !important;
+  }
+
+  .session-timeout-modal {
+    padding: 18px;
+  }
+
+  .session-timeout-actions {
+    display: grid;
+  }
+
+  .session-timeout-actions button {
+    min-height: 44px;
+    width: 100%;
   }
 }
 

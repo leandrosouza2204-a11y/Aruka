@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import BrandLogo from "../components/BrandLogo";
 import FooterLegal from "../components/FooterLegal";
+import { markSessionLoggedOut } from "../hooks/useAutoLogout";
 import { verificarAcessoUsuario } from "../services/perfisService";
 import { supabase } from "../services/supabase";
 import EscolherPlano from "./EscolherPlano";
@@ -36,6 +37,7 @@ function AssinaturaPendente() {
   }, [navigate]);
 
   async function sair() {
+    markSessionLoggedOut();
     await supabase.auth.signOut();
     window.location.href = "/login";
   }

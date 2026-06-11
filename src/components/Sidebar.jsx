@@ -17,6 +17,7 @@ import {
   Sun,
 } from "lucide-react";
 import BrandLogo from "./BrandLogo";
+import { markSessionLoggedOut } from "../hooks/useAutoLogout";
 import { supabase } from "../services/supabase";
 import { buscarPerfilUsuario } from "../services/perfisService";
 import { useTheme } from "../theme/useTheme";
@@ -89,6 +90,7 @@ function Sidebar() {
   }, [menuAberto]);
 
   async function sair() {
+    markSessionLoggedOut();
     await supabase.auth.signOut();
     setMenuAberto(false);
     navigate("/login", { replace: true });

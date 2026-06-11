@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
+import AutoLogoutProvider from "../components/AutoLogoutProvider";
 import { supabase } from "../services/supabase";
 
 function ProtectedRoute({ children }) {
@@ -38,7 +39,7 @@ function ProtectedRoute({ children }) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
-  return children;
+  return <AutoLogoutProvider user={usuario}>{children}</AutoLogoutProvider>;
 }
 
 const carregandoTela = {
