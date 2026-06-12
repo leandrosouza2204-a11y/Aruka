@@ -1682,6 +1682,14 @@ body[data-theme="dark"] .admin-logs-panel select {
   margin-top: 16px;
 }
 
+.financeiro-history-mobile {
+  display: none;
+}
+
+.financeiro-card-actions .financeiro-action-main {
+  flex-basis: 100%;
+}
+
 .treinos-mobile-cards {
   display: none;
   margin-top: 16px;
@@ -1744,8 +1752,66 @@ body[data-theme="dark"] .admin-logs-panel select {
     display: none !important;
   }
 
+  .financeiro-history-table {
+    display: none !important;
+  }
+
+  .financeiro-history-mobile {
+    display: flex !important;
+  }
+
   .financeiro-mobile-cards {
     display: flex !important;
+  }
+
+  .financeiro-card-actions {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .financeiro-card-actions .table-button {
+    width: 100%;
+  }
+
+  .financeiro-card-actions .financeiro-action-main,
+  .financeiro-card-actions .table-button-danger {
+    grid-column: 1 / -1;
+  }
+
+  .financeiro-modal {
+    padding: 16px !important;
+  }
+
+  .financeiro-modal-topo,
+  .financeiro-modal-footer,
+  .financeiro-modal-actions {
+    align-items: stretch !important;
+    display: grid !important;
+    gap: 10px !important;
+  }
+
+  .financeiro-modal-topo button,
+  .financeiro-modal-footer button,
+  .financeiro-modal-actions button {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .financeiro-history-filter {
+    grid-template-columns: 1fr !important;
+  }
+
+  .financeiro-history-mobile {
+    gap: 12px;
+  }
+
+  .financeiro-history-mobile .mobile-list-card {
+    display: grid;
+    gap: 10px;
+  }
+
+  .financeiro-modal [style*="justify-content: space-between"] {
+    align-items: stretch !important;
   }
 
   .treinos-table {

@@ -4,6 +4,8 @@ function FinanceiroMobileCards({
   atualizandoId,
   carregando,
   onDesfazer,
+  onHistorico,
+  onRelatorioAluno,
   onReceber,
   onWhatsApp,
   registros,
@@ -38,6 +40,12 @@ function FinanceiroMobileCards({
               </strong>
             </div>
             <div className="card-row">
+              <span className="card-label">Total recebido</span>
+              <strong className="card-value card-money">
+                {formatarMoeda(registro.totalRecebido)}
+              </strong>
+            </div>
+            <div className="card-row">
               <span className="card-label">Parcela</span>
               <strong className="card-value">
                 {registro.parcelaAtual}/{registro.totalParcelas} -{" "}
@@ -56,24 +64,48 @@ function FinanceiroMobileCards({
                   : "Pendente"}
               </strong>
             </div>
+            {registro.ultimoPagamento && (
+              <div className="card-row">
+                <span className="card-label">Ultimo pagamento</span>
+                <strong className="card-value">
+                  {formatarData(registro.ultimoPagamento.dataPagamento)} -{" "}
+                  <span className="card-money">{formatarMoeda(registro.ultimoPagamento.valor)}</span>
+                </strong>
+              </div>
+            )}
 
-            <div className="card-actions">
-              {!registro.recebidoNoCiclo ? (
-                <button
-                  onClick={() => onReceber(registro)}
-                  className="table-button table-button-success"
-                  disabled={atualizandoId === registro.aluno.id}
-                >
-                  Receber
-                </button>
-              ) : (
-                <button
-                  onClick={() => onDesfazer(registro)}
-                  className="table-button table-button-secondary"
-                  disabled={atualizandoId === registro.aluno.id}
-                >
-                  {atualizandoId === registro.aluno.id ? "Salvando..." : "Desfazer"}
-                </button>
+            <div className="card-actions financeiro-card-actions">
+              <button
+                onClick={() => onReceber(registro)}
+                className="table-button table-button-success financeiro-action-main"
+                disabled={atualizandoId === registro.aluno.id}
+              >
+                Receber
+              </button>
+              {registro.pagamentos.length > 0 && (
+                <>
+                  <button
+                    onClick={() => onHistorico(registro)}
+                    className="table-button table-button-secondary"
+                    disabled={atualizandoId === registro.aluno.id}
+                  >
+                    Historico
+                  </button>
+                  <button
+                    onClick={() => onRelatorioAluno(registro)}
+                    className="table-button table-button-primary"
+                    disabled={atualizandoId === registro.aluno.id}
+                  >
+                    Relatorio
+                  </button>
+                  <button
+                    onClick={() => onDesfazer(registro)}
+                    className="table-button table-button-danger"
+                    disabled={atualizandoId === registro.aluno.id}
+                  >
+                    Desfazer ultimo
+                  </button>
+                </>
               )}
               <button
                 onClick={() => onWhatsApp(registro)}

@@ -7,6 +7,8 @@ function FinanceiroTable({
   atualizandoId,
   carregando,
   onDesfazer,
+  onHistorico,
+  onRelatorioAluno,
   onReceber,
   onWhatsApp,
   registros,
@@ -65,26 +67,36 @@ function FinanceiroTable({
                 </td>
                 <td style={styles.celula}>
                   <div className="table-actions-inline">
-                    {!registro.recebidoNoCiclo ? (
+                    <button
+                      onClick={() => onReceber(registro)}
+                      className="table-button table-button-success"
+                      disabled={atualizandoId === registro.aluno.id}
+                    >
+                      Receber
+                    </button>
+                    {registro.pagamentos.length > 0 && (
                       <button
-                        onClick={() => onReceber(registro)}
-                        className="table-button table-button-success"
-                        disabled={atualizandoId === registro.aluno.id}
-                      >
-                        Receber
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => onDesfazer(registro)}
+                        onClick={() => onHistorico(registro)}
                         className="table-button table-button-secondary"
                         disabled={atualizandoId === registro.aluno.id}
                       >
-                        {atualizandoId === registro.aluno.id
-                          ? "Salvando..."
-                          : "Desfazer"}
+                        Histórico
                       </button>
                     )}
                     <TableActions>
+                      {registro.pagamentos.length > 0 && (
+                        <>
+                          <TableActionItem onClick={() => onHistorico(registro)} variant="primary">
+                            Ver histórico
+                          </TableActionItem>
+                          <TableActionItem onClick={() => onDesfazer(registro)} variant="danger">
+                            Desfazer último pagamento
+                          </TableActionItem>
+                          <TableActionItem onClick={() => onRelatorioAluno(registro)} variant="primary">
+                            Relatório do aluno
+                          </TableActionItem>
+                        </>
+                      )}
                       <TableActionItem
                         onClick={() => onWhatsApp(registro)}
                         variant="success"

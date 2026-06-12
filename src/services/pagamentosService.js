@@ -1,13 +1,37 @@
+import { calcularStatus, dataHojeISO } from "../data/alunosUtils";
+import { atualizarAlunoSupabase, buscarAlunosSupabase } from "./alunosService";
+import { buscarPlanosSupabase } from "./planosService";
 import { supabase } from "./supabase";
 
 export async function buscarPagamentosSupabase() {
+  return buscarPagamentosDoUsuario();
+}
+
+export async function buscarPagamentosDoUsuario() {
   const user = await buscarUsuarioLogado();
 
   const { data, error } = await supabase
     .from("pagamentos")
     .select("*")
     .eq("user_id", user.id)
-    .order("data_pagamento", { ascending: false });
+    .order("data_pagamento", { ascending: false })
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+
+  return (data || []).map(rowParaPagamento);
+}
+
+export async function buscarPagamentosPorAluno(alunoId) {
+  const user = await buscarUsuarioLogado();
+
+  const { data, error } = await supabase
+    .from("pagamentos")
+    .select("*")
+    .eq("user_id", user.id)
+    .eq("aluno_id", alunoId)
+    .order("data_pagamento", { ascending: false })
+    .order("created_at", { ascending: false });
 
   if (error) throw error;
 
@@ -28,6 +52,73 @@ export async function adicionarPagamentoSupabase(pagamento) {
   return rowParaPagamento(data);
 }
 
+export async function registrarPagamento(aluno, dadosPagamento, plano = null) {
+  const vencimentoAnterior = aluno.vencimento || "";
+  const renovacao = calcularRenovacaoPagamento({
+    aluno,
+    plano,
+    totalParcelas: Number(dadosPagamento.totalParcelas || 1),
+    dataPagamento: dadosPagamento.dataPagamento,
+  });
+
+  const pagamento = await adicionarPagamentoSupabase({
+    ...dadosPagamento,
+    alunoId: aluno.id,
+    plano: dadosPagamento.plano || plano?.nome || aluno.plano || "",
+    vencimentoAnterior,
+    vencimentoNovo: renovacao.vencimento,
+  });
+
+  const alunoAtualizado = await atualizarAlunoSupabase(aluno.id, {
+    ...aluno,
+    ...renovacao,
+    pagamentoRecebido: true,
+    dataPagamento: dadosPagamento.dataPagamento,
+    status: calcularStatus(renovacao.vencimento, aluno.plano),
+  });
+
+  return { pagamento, aluno: alunoAtualizado };
+}
+
+export async function desfazerUltimoPagamento(alunoId) {
+  const [alunos, pagamentos] = await Promise.all([
+    buscarAlunosSupabase(),
+    buscarPagamentosPorAluno(alunoId),
+  ]);
+  const aluno = alunos.find((item) => item.id === alunoId);
+  const pagamentosPorRegistro = ordenarPorRegistro(pagamentos);
+  const ultimoPagamento = pagamentosPorRegistro[0];
+
+  if (!aluno) throw new Error("Aluno nao encontrado.");
+  if (!ultimoPagamento) throw new Error("Nenhum pagamento encontrado para desfazer.");
+
+  await excluirPagamentoSupabase(ultimoPagamento.id);
+
+  const pagamentosRestantes = pagamentos.filter(
+    (pagamento) => pagamento.id !== ultimoPagamento.id
+  );
+  const pagamentoAnterior = ordenarPorRegistro(pagamentosRestantes)[0] || null;
+  const vencimentoRestaurado =
+    ultimoPagamento.vencimentoAnterior || pagamentoAnterior?.vencimentoNovo || aluno.vencimento;
+  const datasRestauradas = vencimentoRestaurado
+    ? montarDatasAviso(vencimentoRestaurado)
+    : { vencimento: "", aviso7: "", aviso1: "" };
+
+  const alunoAtualizado = await atualizarAlunoSupabase(aluno.id, {
+    ...aluno,
+    ...datasRestauradas,
+    pagamentoRecebido: Boolean(pagamentoAnterior),
+    dataPagamento: pagamentoAnterior?.dataPagamento || "",
+    status: calcularStatus(datasRestauradas.vencimento, aluno.plano),
+  });
+
+  return {
+    aluno: alunoAtualizado,
+    pagamentoDesfeito: ultimoPagamento,
+    pagamentosRestantes,
+  };
+}
+
 export async function excluirPagamentoSupabase(id) {
   const user = await buscarUsuarioLogado();
 
@@ -42,6 +133,79 @@ export async function excluirPagamentoSupabase(id) {
   return id;
 }
 
+export async function calcularResumoFinanceiroAluno(alunoId) {
+  const [alunos, pagamentos, planos] = await Promise.all([
+    buscarAlunosSupabase(),
+    buscarPagamentosPorAluno(alunoId),
+    buscarPlanosSupabase(),
+  ]);
+  const aluno = alunos.find((item) => item.id === alunoId);
+
+  if (!aluno) throw new Error("Aluno nao encontrado.");
+
+  return montarResumoFinanceiroAluno(
+    aluno,
+    pagamentos,
+    planos.find((plano) => plano.id === aluno.plano)
+  );
+}
+
+export async function calcularRankingFinanceiroAlunos() {
+  const [alunos, pagamentos, planos] = await Promise.all([
+    buscarAlunosSupabase(),
+    buscarPagamentosDoUsuario(),
+    buscarPlanosSupabase(),
+  ]);
+
+  return montarRankingFinanceiroAlunos(alunos, pagamentos, planos);
+}
+
+export function montarResumoFinanceiroAluno(aluno, pagamentos = [], plano = null) {
+  const pagamentosOrdenados = ordenarPagamentos(pagamentos);
+  const totalPago = pagamentosOrdenados.reduce(
+    (total, pagamento) => total + Number(pagamento.valor || 0),
+    0
+  );
+  const quantidadePagamentos = pagamentosOrdenados.length;
+  const ultimoPagamento = pagamentosOrdenados[0] || null;
+
+  return {
+    aluno,
+    nomeAluno: aluno.nome,
+    dataInicio: aluno.inicio || "",
+    tempoConsultoriaMeses: calcularMesesEntre(aluno.inicio, dataHojeISO()),
+    totalPago,
+    quantidadePagamentos,
+    ticketMedio: quantidadePagamentos ? totalPago / quantidadePagamentos : 0,
+    planoAtual: plano?.nome || aluno.plano || "-",
+    ultimoPagamento,
+    proximoVencimento: aluno.vencimento || "",
+    recorrenteEmDia: quantidadePagamentos >= 2 && !["Atrasado", "Parcela atrasada"].includes(aluno.status),
+  };
+}
+
+export function montarRankingFinanceiroAlunos(alunos = [], pagamentos = [], planos = []) {
+  const resumos = alunos.map((aluno) =>
+    montarResumoFinanceiroAluno(
+      aluno,
+      pagamentos.filter((pagamento) => pagamento.alunoId === aluno.id),
+      planos.find((plano) => plano.id === aluno.plano)
+    )
+  );
+
+  return {
+    porTotalPago: [...resumos].sort((a, b) => b.totalPago - a.totalPago),
+    porTempoConsultoria: [...resumos].sort(
+      (a, b) => b.tempoConsultoriaMeses - a.tempoConsultoriaMeses
+    ),
+    porQuantidadePagamentos: [...resumos].sort(
+      (a, b) => b.quantidadePagamentos - a.quantidadePagamentos
+    ),
+    recorrentesEmDia: resumos.filter((resumo) => resumo.recorrenteEmDia),
+    resumos,
+  };
+}
+
 async function buscarUsuarioLogado() {
   const {
     data: { user },
@@ -49,7 +213,7 @@ async function buscarUsuarioLogado() {
   } = await supabase.auth.getUser();
 
   if (error) throw error;
-  if (!user) throw new Error("Usuário não autenticado.");
+  if (!user) throw new Error("Usuario nao autenticado.");
 
   return user;
 }
@@ -59,25 +223,121 @@ function rowParaPagamento(row) {
     id: row.id,
     userId: row.user_id,
     alunoId: row.aluno_id,
+    plano: row.plano || "",
     dataPagamento: row.data_pagamento || "",
     valor: Number(row.valor || 0),
     formaPagamento: row.forma_pagamento || "",
-    parcela: Number(row.parcela || 1),
+    parcela: String(row.parcela || "1"),
     totalParcelas: Number(row.total_parcelas || 1),
-    observacoes: row.observacoes || "",
+    vencimentoAnterior: row.vencimento_anterior || "",
+    vencimentoNovo: row.vencimento_novo || "",
+    observacao: row.observacao || row.observacoes || "",
+    observacoes: row.observacao || row.observacoes || "",
     createdAt: row.created_at || "",
   };
 }
 
 function pagamentoParaPayload(pagamento, userId) {
+  const observacao = pagamento.observacao ?? pagamento.observacoes ?? "";
+
   return {
     user_id: userId,
     aluno_id: pagamento.alunoId,
+    plano: pagamento.plano || "",
     data_pagamento: pagamento.dataPagamento,
     valor: Number(pagamento.valor || 0),
     forma_pagamento: pagamento.formaPagamento || "",
-    parcela: Number(pagamento.parcela || 1),
+    parcela: String(pagamento.parcela || "1"),
     total_parcelas: Number(pagamento.totalParcelas || 1),
-    observacoes: pagamento.observacoes || "",
+    vencimento_anterior: dataOuNull(pagamento.vencimentoAnterior),
+    vencimento_novo: dataOuNull(pagamento.vencimentoNovo),
+    observacao,
+    observacoes: observacao,
   };
+}
+
+function calcularRenovacaoPagamento({ aluno, plano, totalParcelas, dataPagamento }) {
+  const mesesRenovacao = totalParcelas > 1 ? 1 : calcularMesesRenovacao(aluno, plano);
+  const dataBase = aluno.vencimento || dataPagamento || aluno.inicio || dataHojeISO();
+  const vencimento = adicionarMesesISO(dataBase, mesesRenovacao);
+
+  return montarDatasAviso(vencimento);
+}
+
+function calcularMesesRenovacao(aluno, plano) {
+  if (aluno.plano === "trimestralParcelado") return 1;
+  if (plano?.duracaoMeses) return Math.max(Number(plano.duracaoMeses || 1), 1);
+
+  const textoPlano = `${aluno.plano || ""} ${plano?.nome || ""}`.toLowerCase();
+
+  if (textoPlano.includes("semestral")) return 6;
+  if (textoPlano.includes("trimestral")) return 3;
+
+  return 1;
+}
+
+function adicionarMesesISO(dataISO, meses) {
+  const data = new Date(`${dataISO}T00:00:00`);
+  const diaOriginal = data.getDate();
+
+  data.setMonth(data.getMonth() + Number(meses || 1));
+
+  if (data.getDate() !== diaOriginal) {
+    data.setDate(0);
+  }
+
+  return data.toISOString().split("T")[0];
+}
+
+function montarDatasAviso(vencimento) {
+  const aviso7 = new Date(`${vencimento}T00:00:00`);
+  aviso7.setDate(aviso7.getDate() - 7);
+
+  const aviso1 = new Date(`${vencimento}T00:00:00`);
+  aviso1.setDate(aviso1.getDate() - 1);
+
+  return {
+    vencimento,
+    aviso7: aviso7.toISOString().split("T")[0],
+    aviso1: aviso1.toISOString().split("T")[0],
+  };
+}
+
+function ordenarPagamentos(pagamentos) {
+  return [...pagamentos].sort((a, b) => {
+    const data = String(b.dataPagamento).localeCompare(String(a.dataPagamento));
+    if (data !== 0) return data;
+
+    return String(b.createdAt).localeCompare(String(a.createdAt));
+  });
+}
+
+function ordenarPorRegistro(pagamentos) {
+  return [...pagamentos].sort((a, b) => {
+    const criado = String(b.createdAt).localeCompare(String(a.createdAt));
+    if (criado !== 0) return criado;
+
+    return String(b.dataPagamento).localeCompare(String(a.dataPagamento));
+  });
+}
+
+function calcularMesesEntre(inicio, fim) {
+  if (!inicio || !fim) return 0;
+
+  const dataInicio = new Date(`${inicio}T00:00:00`);
+  const dataFim = new Date(`${fim}T00:00:00`);
+  let meses =
+    (dataFim.getFullYear() - dataInicio.getFullYear()) * 12 +
+    dataFim.getMonth() -
+    dataInicio.getMonth();
+
+  if (dataFim.getDate() < dataInicio.getDate()) {
+    meses -= 1;
+  }
+
+  return Math.max(meses, 0);
+}
+
+function dataOuNull(data) {
+  return data || null;
 }

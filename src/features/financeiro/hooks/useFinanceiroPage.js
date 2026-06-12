@@ -1,23 +1,20 @@
 import { useEffect, useMemo, useState } from "react";
 import { useConfirm } from "../../../hooks/useConfirm";
 import { useToast } from "../../../hooks/useToast";
+import { buscarAlunosSupabase } from "../../../services/alunosService";
 import {
-  atualizarAlunoSupabase,
-  buscarAlunosSupabase,
-} from "../../../services/alunosService";
-import {
-  adicionarPagamentoSupabase,
   buscarPagamentosSupabase,
-  excluirPagamentoSupabase,
+  desfazerUltimoPagamento,
+  montarRankingFinanceiroAlunos,
+  montarResumoFinanceiroAluno,
+  registrarPagamento as registrarPagamentoService,
 } from "../../../services/pagamentosService";
 import { buscarPlanosSupabase } from "../../../services/planosService";
 import { abrirWhatsApp } from "../../../services/whatsappService";
 import {
-  calcularStatus,
   dataHojeISO,
   formatarData,
   formatarNomePlano,
-  normalizarAluno,
 } from "../../../data/alunosUtils";
 
 export const pagamentoInicial = {
@@ -26,6 +23,7 @@ export const pagamentoInicial = {
   formaPagamento: "Pix",
   parcela: 1,
   totalParcelas: 1,
+  observacao: "",
   observacoes: "",
 };
 
@@ -40,6 +38,9 @@ export function useFinanceiroPage() {
   const [erro, setErro] = useState("");
   const [atualizandoId, setAtualizandoId] = useState("");
   const [modalPagamento, setModalPagamento] = useState(null);
+  const [modalHistorico, setModalHistorico] = useState(null);
+  const [modalRelatorioAluno, setModalRelatorioAluno] = useState(null);
+  const [modalRelatorioGeral, setModalRelatorioGeral] = useState(false);
   const [formPagamento, setFormPagamento] = useState(pagamentoInicial);
   const toast = useToast();
   const { confirmar } = useConfirm();
@@ -127,16 +128,30 @@ export function useFinanceiroPage() {
     };
   }, [alunos, registrosFinanceiros]);
 
+  const rankingFinanceiro = useMemo(
+    () => montarRankingFinanceiroAlunos(alunos, pagamentos, planos),
+    [alunos, pagamentos, planos]
+  );
+
   function abrirRegistroPagamento(registro) {
     setModalPagamento(registro);
     setFormPagamento({
       dataPagamento: dataHojeISO(),
       valor: registro.valorParcela.toFixed(2),
       formaPagamento: "Pix",
-      parcela: registro.parcelaAtual,
+      parcela: proximaParcela(registro),
       totalParcelas: registro.totalParcelas,
+      observacao: "",
       observacoes: "",
     });
+  }
+
+  function abrirHistorico(registro) {
+    setModalHistorico(registro);
+  }
+
+  function abrirRelatorioAluno(registro) {
+    setModalRelatorioAluno(registro);
   }
 
   async function registrarPagamento() {
@@ -145,50 +160,51 @@ export function useFinanceiroPage() {
     const valor = Number(formPagamento.valor || 0);
 
     if (!formPagamento.dataPagamento || valor <= 0) {
-      toast.aviso("Pagamento incompleto", "Informe a data e um valor válido para o pagamento.");
+      toast.aviso("Pagamento incompleto", "Informe a data e um valor valido para o pagamento.");
       return;
     }
 
     const aluno = modalPagamento.aluno;
+    const plano = planos.find((item) => item.id === aluno.plano);
     setAtualizandoId(aluno.id);
     setErro("");
 
     try {
-      const novoPagamento = await adicionarPagamentoSupabase({
-        alunoId: aluno.id,
-        dataPagamento: formPagamento.dataPagamento,
-        valor,
-        formaPagamento: formPagamento.formaPagamento,
-        parcela: formPagamento.parcela,
-        totalParcelas: formPagamento.totalParcelas,
-        observacoes: formPagamento.observacoes,
-      });
+      await registrarPagamentoService(
+        aluno,
+        {
+          dataPagamento: formPagamento.dataPagamento,
+          valor,
+          formaPagamento: formPagamento.formaPagamento,
+          parcela: formPagamento.parcela,
+          totalParcelas: formPagamento.totalParcelas,
+          observacao: formPagamento.observacao ?? formPagamento.observacoes ?? "",
+          plano: plano?.nome || modalPagamento.nomePlano,
+        },
+        plano
+      );
 
-      await sincronizarStatusPagamento(aluno, [
-        ...modalPagamento.pagamentos,
-        novoPagamento,
-      ]);
-      setPagamentos((pagamentosAtuais) => [novoPagamento, ...pagamentosAtuais]);
       await carregarDados();
       fecharModalPagamento();
-      toast.sucesso("Pagamento registrado", "O aluno foi atualizado automaticamente.");
+      toast.sucesso("Pagamento registrado", "Historico e vencimento foram atualizados.");
     } catch (error) {
       console.error(error);
       setErro(`Erro ao registrar pagamento: ${error.message}`);
-      toast.erro("Não foi possível registrar o pagamento", "Tente novamente em alguns instantes.");
+      toast.erro("Nao foi possivel registrar o pagamento", "Tente novamente em alguns instantes.");
     } finally {
       setAtualizandoId("");
     }
   }
 
   async function desfazerPagamento(registro) {
-    const pagamento = registro.pagamentoCiclo || registro.ultimoPagamento;
+    const pagamento = registro.ultimoPagamento;
 
     if (!pagamento) return;
+
     const confirmado = await confirmar({
-      titulo: "Desfazer pagamento?",
-      descricao: "O pagamento selecionado será removido do histórico financeiro.",
-      textoConfirmar: "Desfazer",
+      titulo: "Desfazer ultimo pagamento?",
+      descricao: `Apenas o ultimo pagamento de ${registro.aluno.nome} sera removido. Os pagamentos anteriores permanecem no historico.`,
+      textoConfirmar: "Desfazer ultimo",
     });
 
     if (!confirmado) return;
@@ -197,56 +213,16 @@ export function useFinanceiroPage() {
     setErro("");
 
     try {
-      await excluirPagamentoSupabase(pagamento.id);
-      await sincronizarStatusPagamento(
-        registro.aluno,
-        registro.pagamentos.filter((item) => item.id !== pagamento.id)
-      );
+      await desfazerUltimoPagamento(registro.aluno.id);
       await carregarDados();
-      toast.sucesso("Pagamento desfeito", "O registro foi removido com sucesso.");
+      toast.sucesso("Pagamento desfeito", "O ultimo pagamento foi removido com seguranca.");
     } catch (error) {
       console.error(error);
       setErro(`Erro ao desfazer pagamento: ${error.message}`);
-      toast.erro("Não foi possível desfazer o pagamento", "Tente novamente em alguns instantes.");
+      toast.erro("Nao foi possivel desfazer o pagamento", "Tente novamente em alguns instantes.");
     } finally {
       setAtualizandoId("");
     }
-  }
-
-  async function sincronizarStatusPagamento(aluno, pagamentosAluno) {
-    const valorContrato = Number(aluno.valor || 0);
-    const planoAluno = planos.find((plano) => plano.id === aluno.plano);
-    const totalParcelas = calcularTotalParcelas(aluno, planoAluno);
-    const totalRecebido = pagamentosAluno.reduce(
-      (total, pagamento) => total + Number(pagamento.valor || 0),
-      0
-    );
-    const ultimoPagamento = [...pagamentosAluno].sort((a, b) =>
-      String(b.dataPagamento).localeCompare(String(a.dataPagamento))
-    )[0];
-    const pagamentoRecebido = valorContrato > 0 && totalRecebido >= valorContrato - 0.01;
-    const datasRenovacao = calcularRenovacaoPagamento({
-      aluno,
-      plano: planoAluno,
-      pagamentosAluno,
-      totalParcelas,
-      pagamentoRecebido,
-      dataPagamento: ultimoPagamento?.dataPagamento,
-    });
-    const vencimentoAtualizado = datasRenovacao.vencimento || aluno.vencimento;
-    const alunoAtualizado = await atualizarAlunoSupabase(aluno.id, {
-      ...aluno,
-      ...datasRenovacao,
-      pagamentoRecebido,
-      dataPagamento: ultimoPagamento?.dataPagamento || "",
-      status: ultimoPagamento ? calcularStatus(vencimentoAtualizado, aluno.plano) : aluno.status,
-    });
-
-    setAlunos((alunosAtuais) =>
-      alunosAtuais.map((item) =>
-        item.id === alunoAtualizado.id ? normalizarAluno(alunoAtualizado) : item
-      )
-    );
   }
 
   function fecharModalPagamento() {
@@ -266,22 +242,32 @@ export function useFinanceiroPage() {
   }
 
   return {
+    abrirHistorico,
+    abrirRegistroPagamento,
+    abrirRelatorioAluno,
+    abrirRelatorioGeral: () => setModalRelatorioGeral(true),
     atualizandoId,
     busca,
     carregando,
     desfazerPagamento,
+    enviarAvisoWhatsApp,
     erro,
+    fecharHistorico: () => setModalHistorico(null),
     fecharModalPagamento,
+    fecharRelatorioAluno: () => setModalRelatorioAluno(null),
+    fecharRelatorioGeral: () => setModalRelatorioGeral(false),
     filtroPagamento,
     filtroStatus,
     formPagamento,
     limparFiltros,
+    modalHistorico,
     modalPagamento,
+    modalRelatorioAluno,
+    modalRelatorioGeral,
+    rankingFinanceiro,
     registrarPagamento,
     registrosFiltrados,
     resumo,
-    abrirRegistroPagamento,
-    enviarAvisoWhatsApp,
     setBusca,
     setFiltroPagamento,
     setFiltroStatus,
@@ -294,11 +280,9 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
   const totalParcelas = calcularTotalParcelas(aluno, plano);
   const parcelaAtual = calcularParcelaAtual(aluno.inicio, totalParcelas);
   const valorParcela = totalParcelas > 1 ? valorContrato / totalParcelas : valorContrato;
-  const pagamentosOrdenados = [...pagamentosAluno].sort((a, b) =>
-    String(b.dataPagamento).localeCompare(String(a.dataPagamento))
-  );
+  const pagamentosOrdenados = ordenarPagamentos(pagamentosAluno);
   const pagamentoCiclo = pagamentosOrdenados.find(
-    (pagamento) => Number(pagamento.parcela) === parcelaAtual
+    (pagamento) => String(pagamento.parcela) === String(parcelaAtual)
   );
   const totalRecebido = pagamentosAluno.reduce(
     (total, pagamento) => total + Number(pagamento.valor || 0),
@@ -309,7 +293,7 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
     aluno,
     plano,
     nomePlano: plano?.nome || formatarNomePlano(aluno.plano),
-    pagamentos: pagamentosAluno,
+    pagamentos: pagamentosOrdenados,
     valorContrato,
     totalParcelas,
     parcelaAtual,
@@ -319,58 +303,7 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
     recebidoNoCiclo: Boolean(pagamentoCiclo),
     totalRecebido,
     valorPendente: Math.max(valorContrato - totalRecebido, 0),
-  };
-}
-
-function calcularRenovacaoPagamento({
-  aluno,
-  plano,
-  totalParcelas,
-  dataPagamento,
-}) {
-  const mesesRenovacao = totalParcelas > 1 ? 1 : calcularMesesRenovacao(aluno, plano);
-  const dataBase = aluno.vencimento || dataPagamento || aluno.inicio || dataHojeISO();
-  const vencimento = adicionarMesesISO(dataBase, mesesRenovacao);
-
-  return montarDatasAviso(vencimento);
-}
-
-function calcularMesesRenovacao(aluno, plano) {
-  if (aluno.plano === "trimestralParcelado") return 1;
-  if (plano?.duracaoMeses) return Math.max(Number(plano.duracaoMeses || 1), 1);
-
-  const textoPlano = `${aluno.plano || ""} ${plano?.nome || ""}`.toLowerCase();
-
-  if (textoPlano.includes("semestral")) return 6;
-  if (textoPlano.includes("trimestral")) return 3;
-
-  return 1;
-}
-
-function adicionarMesesISO(dataISO, meses) {
-  const data = new Date(`${dataISO}T00:00:00`);
-  const diaOriginal = data.getDate();
-
-  data.setMonth(data.getMonth() + Number(meses || 1));
-
-  if (data.getDate() !== diaOriginal) {
-    data.setDate(0);
-  }
-
-  return data.toISOString().split("T")[0];
-}
-
-function montarDatasAviso(vencimento) {
-  const aviso7 = new Date(`${vencimento}T00:00:00`);
-  aviso7.setDate(aviso7.getDate() - 7);
-
-  const aviso1 = new Date(`${vencimento}T00:00:00`);
-  aviso1.setDate(aviso1.getDate() - 1);
-
-  return {
-    vencimento,
-    aviso7: aviso7.toISOString().split("T")[0],
-    aviso1: aviso1.toISOString().split("T")[0],
+    resumoAluno: montarResumoFinanceiroAluno(aluno, pagamentosAluno, plano),
   };
 }
 
@@ -397,23 +330,43 @@ function calcularParcelaAtual(inicio, totalParcelas) {
     mesesCompletos -= 1;
   }
 
-  return Math.min(Math.max(mesesCompletos, 1), totalParcelas);
+  return Math.min(Math.max(mesesCompletos + 1, 1), totalParcelas);
 }
 
-function montarMensagemVencimentoWhatsApp(registro) {
+function proximaParcela(registro) {
+  if (registro.totalParcelas <= 1) return 1;
+
+  const parcelasPagas = registro.pagamentos.length;
+  const proxima = (parcelasPagas % registro.totalParcelas) + 1;
+
+  return proxima;
+}
+
+function ordenarPagamentos(pagamentos) {
+  return [...pagamentos].sort((a, b) => {
+    const data = String(b.dataPagamento).localeCompare(String(a.dataPagamento));
+    if (data !== 0) return data;
+
+    return String(b.createdAt).localeCompare(String(a.createdAt));
+  });
+}
+
+function montarMensagemVencimento(registro) {
   const dataVencimento = formatarData(registro.aluno.vencimento);
   const dias = calcularDiasAte(registro.aluno.vencimento);
   const nomeAluno = registro.aluno.nome || "aluno";
+  const tipoCobranca =
+    registro.totalParcelas > 1 ? "proxima parcela da sua assessoria" : "seu plano";
 
   if (dias < 0) {
     return [
-      "Oi, tudo bem? 😊",
+      "Oi, tudo bem?",
       "",
-      "Passando para informar que o seu plano de acompanhamento já está vencido.",
+      `Passando para informar que ${tipoCobranca} ja esta vencido desde ${dataVencimento}.`,
       "",
-      "Caso tenha interesse em continuar com a assessoria, suporte e atualizações dos treinos, me avise para que possamos dar continuidade ao seu acompanhamento e manter sua evolução da melhor forma possível 💪🏼",
+      "Caso tenha interesse em continuar com a assessoria, me avise para darmos continuidade ao seu acompanhamento.",
       "",
-      "Qualquer dúvida ou necessidade de ajuste, estou à disposição!",
+      "Qualquer duvida, estou a disposicao!",
       "",
       "CoachFlow - Organize. Guie. Transforme.",
     ].join("\n");
@@ -421,84 +374,38 @@ function montarMensagemVencimentoWhatsApp(registro) {
 
   if (dias === 0) {
     return [
-      "🚨 *Vencimento da consultoria hoje*",
+      "Vencimento da consultoria hoje",
       "",
-      `Olá, *${nomeAluno}*! Tudo bem? 😊`,
+      `Ola, ${nomeAluno}! Tudo bem?`,
       "",
-      `Hoje é a data de vencimento do seu plano de consultoria (*${dataVencimento}*).`,
+      `Hoje e a data de vencimento de ${tipoCobranca}: ${dataVencimento}.`,
       "",
-      "Para manter seu acompanhamento ativo, atualizações de treino e suporte normalmente, peço que realize o pagamento referente à renovação do plano.",
+      "Para manter seu acompanhamento ativo, peco que realize o pagamento referente a renovacao.",
       "",
-      "Qualquer dúvida pode me chamar por aqui. 👊",
-      "Obrigado pela confiança no meu trabalho!",
+      "Qualquer duvida pode me chamar por aqui.",
     ].join("\n");
   }
 
   if (dias === 1) {
     return [
-      "⏰ *Seu plano vence amanhã*",
+      "Seu plano vence amanha",
       "",
-      `Olá, *${nomeAluno}*! Tudo certo? 😊`,
+      `Ola, ${nomeAluno}! Tudo certo?`,
       "",
-      `Passando para lembrar que o vencimento do seu plano de consultoria será *amanhã*, dia *${dataVencimento}*.`,
+      `Passando para lembrar que ${tipoCobranca} vence amanha, dia ${dataVencimento}.`,
       "",
-      "Caso já tenha realizado o pagamento, pode desconsiderar esta mensagem. 🙏",
-      "",
-      "Se precisar de qualquer suporte ou tiver alguma dúvida, estou à disposição! 👊",
+      "Caso ja tenha realizado o pagamento, pode desconsiderar esta mensagem.",
     ].join("\n");
   }
 
   return [
-    "📅 *Lembrete de vencimento da sua consultoria*",
+    "Lembrete de vencimento da sua consultoria",
     "",
-    `Olá, *${nomeAluno}*! Tudo bem? 😊`,
-    "",
-    `Passando para lembrar que o vencimento do seu plano de consultoria acontece daqui a *7 dias*, no dia *${dataVencimento}*.`,
-    "",
-    "Seu acompanhamento continua normalmente com:",
-    "✅ Treino personalizado no aplicativo",
-    "✅ Ajustes sempre que necessário",
-    "✅ Suporte direto comigo",
-    "✅ Acompanhamento da sua evolução",
-    "",
-    "Qualquer dúvida estou à disposição! 👊",
-  ].join("\n");
-}
-
-function montarMensagemVencimento(registro) {
-  if (registro) return montarMensagemVencimentoWhatsApp(registro);
-
-  const dataVencimento = formatarData(registro.aluno.vencimento);
-  const dias = calcularDiasAte(registro.aluno.vencimento);
-  const tipoCobranca =
-    registro.totalParcelas > 1 ? "próxima parcela da sua assessoria" : "seu plano";
-
-  if (dias === 0) {
-    return [
-      "Olá, tudo bem?",
-      "",
-      `Passando para lembrar que ${tipoCobranca} vence hoje, dia ${dataVencimento}.`,
-      "",
-      "Qualquer dúvida estou à disposição. 💪🏽",
-    ].join("\n");
-  }
-
-  if (dias === 1) {
-    return [
-      "Olá, tudo bem?",
-      "",
-      `Passando para lembrar que ${tipoCobranca} vence amanhã, dia ${dataVencimento}.`,
-      "",
-      "Qualquer dúvida estou à disposição. 💪🏽",
-    ].join("\n");
-  }
-
-  return [
-    "Olá, tudo bem?",
+    `Ola, ${nomeAluno}! Tudo bem?`,
     "",
     `Passando para lembrar que ${tipoCobranca} vence no dia ${dataVencimento}.`,
     "",
-    "Qualquer dúvida estou à disposição. 💪🏽",
+    "Qualquer duvida estou a disposicao.",
   ].join("\n");
 }
 
