@@ -298,11 +298,19 @@ export function useFinanceiroPage() {
 function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
   const valorContrato = Number(aluno.valor || 0);
   const totalParcelas = calcularTotalParcelas(aluno, plano);
-  const resumoParcelas = calcularResumoParcelasAluno(aluno, pagamentosAluno, totalParcelas);
+  const resumoParcelas = calcularResumoParcelasAluno(
+    aluno,
+    pagamentosAluno,
+    totalParcelas,
+    plano?.intervaloParcelasMeses || 1
+  );
   const parcelaAtual = resumoParcelas.parcelado
     ? resumoParcelas.parcelaAtual
     : calcularParcelaAtual(aluno.inicio, totalParcelas);
-  const valorParcela = totalParcelas > 1 ? valorContrato / totalParcelas : valorContrato;
+  const valorParcela =
+    totalParcelas > 1
+      ? Number(plano?.valorParcela || 0) || valorContrato / totalParcelas
+      : valorContrato;
   const pagamentosOrdenados = ordenarPagamentos(pagamentosAluno);
   const vencimentoParcelaAtual = resumoParcelas.vencimentoParcelaAtual;
   const avisosParcela = vencimentoParcelaAtual
@@ -341,12 +349,11 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
 }
 
 function calcularTotalParcelas(aluno, plano) {
+  if (plano?.permiteParcelamento) return Math.max(Number(plano.quantidadeParcelas || 1), 1);
   if (aluno.plano === "trimestralParcelado") return 3;
   if (!plano) return 1;
 
-  const nome = plano.nome.toLowerCase();
-
-  return nome.includes("parcelado") ? Math.max(Number(plano.duracaoMeses || 1), 1) : 1;
+  return 1;
 }
 
 function inferirTipoMovimentoRegistro(aluno, plano, totalParcelas) {
@@ -356,8 +363,8 @@ function inferirTipoMovimentoRegistro(aluno, plano, totalParcelas) {
 }
 
 function calcularMesesRenovacao(aluno, plano) {
-  if (aluno.plano === "trimestralParcelado") return 1;
   if (plano?.duracaoMeses) return Math.max(Number(plano.duracaoMeses || 1), 1);
+  if (aluno.plano === "trimestralParcelado") return 3;
 
   const textoPlano = `${aluno.plano || ""} ${plano?.nome || ""}`.toLowerCase();
 

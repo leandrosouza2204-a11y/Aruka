@@ -1,16 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 import {
-  calcularStatus,
   calcularResumoParcelasAluno,
+  calcularStatus,
   formatarMoeda,
   normalizarAluno,
 } from "../../../data/alunosUtils";
 import { buscarAlunosSupabase } from "../../../services/alunosService";
 import { buscarPagamentosSupabase } from "../../../services/pagamentosService";
+import { buscarPlanosSupabase } from "../../../services/planosService";
 
 export function useDashboardPage() {
   const [alunos, setAlunos] = useState([]);
   const [pagamentos, setPagamentos] = useState([]);
+  const [planos, setPlanos] = useState([]);
   const [modalCheckinAberto, setModalCheckinAberto] = useState(false);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
@@ -21,17 +23,20 @@ export function useDashboardPage() {
       setErro("");
 
       try {
-        const [alunosSupabase, pagamentosSupabase] = await Promise.all([
+        const [alunosSupabase, pagamentosSupabase, planosSupabase] = await Promise.all([
           buscarAlunosSupabase(),
           buscarPagamentosSupabase(),
+          buscarPlanosSupabase(),
         ]);
 
         setAlunos(alunosSupabase.map(normalizarAluno));
         setPagamentos(pagamentosSupabase);
+        setPlanos(planosSupabase);
       } catch (error) {
         setErro(`Erro ao carregar dashboard: ${error.message}`);
         setAlunos([]);
         setPagamentos([]);
+        setPlanos([]);
       } finally {
         setCarregando(false);
       }
@@ -62,20 +67,20 @@ export function useDashboardPage() {
     () =>
       alunos.filter((aluno) =>
         ["Vencendo", "Vencendo parcela"].includes(
-          calcularStatusDashboard(aluno, pagamentos)
+          calcularStatusDashboard(aluno, pagamentos, planos)
         )
       ).length,
-    [alunos, pagamentos]
+    [alunos, pagamentos, planos]
   );
 
   const alunosAtrasados = useMemo(
     () =>
       alunos.filter((aluno) =>
         ["Atrasado", "Parcela atrasada"].includes(
-          calcularStatusDashboard(aluno, pagamentos)
+          calcularStatusDashboard(aluno, pagamentos, planos)
         )
       ).length,
-    [alunos, pagamentos]
+    [alunos, pagamentos, planos]
   );
 
   const alunosAtivosCheckin = useMemo(
@@ -85,10 +90,10 @@ export function useDashboardPage() {
         .filter(
           (aluno) =>
             !["Atrasado", "Parcela atrasada"].includes(
-              calcularStatusDashboard(aluno, pagamentos)
+              calcularStatusDashboard(aluno, pagamentos, planos)
             )
         ),
-    [alunos, pagamentos]
+    [alunos, pagamentos, planos]
   );
 
   const receitaMensal = useMemo(() => gerarReceitaMensal(pagamentos), [pagamentos]);
@@ -184,10 +189,20 @@ export function useDashboardPage() {
   };
 }
 
-function calcularStatusDashboard(aluno, pagamentos) {
+function calcularStatusDashboard(aluno, pagamentos, planos) {
+  const plano = planos.find((item) => item.id === aluno.plano);
   const pagamentosAluno = pagamentos.filter((pagamento) => pagamento.alunoId === aluno.id);
-  const totalParcelas = aluno.plano === "trimestralParcelado" ? 3 : 1;
-  const resumoParcelas = calcularResumoParcelasAluno(aluno, pagamentosAluno, totalParcelas);
+  const totalParcelas = plano?.permiteParcelamento
+    ? plano.quantidadeParcelas
+    : aluno.plano === "trimestralParcelado"
+      ? 3
+      : 1;
+  const resumoParcelas = calcularResumoParcelasAluno(
+    aluno,
+    pagamentosAluno,
+    totalParcelas,
+    plano?.intervaloParcelasMeses || 1
+  );
 
   return resumoParcelas.statusParcela || calcularStatus(aluno.vencimento, aluno.plano);
 }
@@ -212,7 +227,7 @@ export function montarAlertasConsultoria({
   if (alunosVencendo > 0) {
     alertas.push({
       titulo: "Enviar lembretes de vencimento",
-      texto: "Há contratos próximos da renovação que podem ser tratados com antecedência.",
+      texto: "Há contratos ou parcelas próximos do vencimento que podem ser tratados com antecedência.",
       rotulo: "Agenda",
       tom: "warning",
     });

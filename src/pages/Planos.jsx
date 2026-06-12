@@ -152,7 +152,7 @@ function Planos() {
         <PageHero
           eyebrow="PLANOS"
           title="Planos personalizados"
-          description="Cadastre e gerencie os planos e valores da sua consultoria."
+          description="Cadastre e gerencie planos, valores e parcelamentos da sua consultoria."
           meta={`${planosFiltrados.length} de ${planos.length} planos exibidos`}
           actions={
             <button onClick={abrirNovoPlano} style={botaoPrimario}>
@@ -196,6 +196,7 @@ function Planos() {
                 <th style={header}>Descrição</th>
                 <th style={header}>Duração</th>
                 <th style={header}>Valor</th>
+                <th style={header}>Parcelamento</th>
                 <th style={header}>Status</th>
                 <th style={header}>Ações</th>
               </tr>
@@ -203,7 +204,7 @@ function Planos() {
             <tbody>
               {carregando && (
                 <tr>
-                  <td style={estadoVazio} colSpan="6">
+                  <td style={estadoVazio} colSpan="7">
                     <LoadingState texto="Carregando planos..." />
                   </td>
                 </tr>
@@ -218,6 +219,7 @@ function Planos() {
                       {plano.duracaoMeses} {plano.duracaoMeses === 1 ? "mês" : "meses"}
                     </td>
                     <td style={celula}>{formatarMoeda(plano.valor)}</td>
+                    <td style={celula}>{formatarParcelamento(plano)}</td>
                     <td style={celula}>
                       <span
                         className={`status-badge ${
@@ -253,7 +255,7 @@ function Planos() {
 
               {!carregando && planosFiltrados.length === 0 && (
                 <tr>
-                  <td style={estadoVazio} colSpan="6">
+                  <td style={estadoVazio} colSpan="7">
                     <EmptyState
                       titulo="Nenhum plano criado."
                       descricao="Crie planos para padronizar duração, valor e disponibilidade."
@@ -338,6 +340,10 @@ function PlanoCard({ plano, onEditar, onAlternarStatus, onExcluir }) {
         <span className="card-label">Valor</span>
         <strong className="card-value card-money">{formatarMoeda(plano.valor)}</strong>
       </div>
+      <div className="card-row">
+        <span className="card-label">Parcelamento</span>
+        <strong className="card-value">{formatarParcelamento(plano)}</strong>
+      </div>
 
       <div className="card-actions">
         <button
@@ -364,6 +370,12 @@ function PlanoCard({ plano, onEditar, onAlternarStatus, onExcluir }) {
       </div>
     </article>
   );
+}
+
+function formatarParcelamento(plano) {
+  if (!plano.permiteParcelamento) return "Não permitido";
+
+  return `${plano.quantidadeParcelas}x de ${formatarMoeda(plano.valorParcela)} (${plano.intervaloParcelasMeses} mês${plano.intervaloParcelasMeses === 1 ? "" : "es"})`;
 }
 
 const conteudo = {

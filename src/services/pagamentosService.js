@@ -337,12 +337,11 @@ function inferirTipoMovimento(aluno, pagamento, plano) {
 }
 
 function ehPlanoParcelado(aluno, plano, totalParcelas = 1) {
+  if (plano?.permiteParcelamento) return true;
   if (Number(totalParcelas || 1) > 1) return true;
   if (aluno.plano === "trimestralParcelado") return true;
 
-  return String(plano?.nome || aluno.plano || "")
-    .toLowerCase()
-    .includes("parcelado");
+  return false;
 }
 
 function calcularVencimentoParcela(aluno, parcela, totalParcelas) {
@@ -364,8 +363,8 @@ function pagamentoAlteraVencimento(pagamento) {
 }
 
 function calcularMesesRenovacao(aluno, plano) {
-  if (aluno.plano === "trimestralParcelado") return 1;
   if (plano?.duracaoMeses) return Math.max(Number(plano.duracaoMeses || 1), 1);
+  if (aluno.plano === "trimestralParcelado") return 3;
 
   const textoPlano = `${aluno.plano || ""} ${plano?.nome || ""}`.toLowerCase();
 

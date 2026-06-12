@@ -16,12 +16,24 @@ export async function buscarPlanosSupabase() {
 
 export async function adicionarPlanoSupabase(plano) {
   const user = await buscarUsuarioLogado();
+  const payload = planoParaPayload(plano, user.id);
 
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from("planos")
-    .insert(planoParaPayload(plano, user.id))
+    .insert(payload)
     .select()
     .single();
+
+  if (erroSchemaCache(error)) {
+    const resultado = await supabase
+      .from("planos")
+      .insert(planoParaPayloadLegado(payload))
+      .select()
+      .single();
+
+    data = resultado.data;
+    error = resultado.error;
+  }
 
   if (error) throw error;
 
@@ -30,14 +42,28 @@ export async function adicionarPlanoSupabase(plano) {
 
 export async function atualizarPlanoSupabase(id, plano) {
   const user = await buscarUsuarioLogado();
+  const payload = planoParaPayload(plano, user.id);
 
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from("planos")
-    .update(planoParaPayload(plano, user.id))
+    .update(payload)
     .eq("id", id)
     .eq("user_id", user.id)
     .select()
     .single();
+
+  if (erroSchemaCache(error)) {
+    const resultado = await supabase
+      .from("planos")
+      .update(planoParaPayloadLegado(payload))
+      .eq("id", id)
+      .eq("user_id", user.id)
+      .select()
+      .single();
+
+    data = resultado.data;
+    error = resultado.error;
+  }
 
   if (error) throw error;
 
@@ -71,25 +97,66 @@ async function buscarUsuarioLogado() {
 }
 
 function rowParaPlano(row) {
+  const permiteParcelamento = row.permite_parcelamento ?? false;
+  const quantidadeParcelas = Number(row.quantidade_parcelas || 1);
+  const valor = Number(row.valor || 0);
+
   return {
     id: row.id,
     userId: row.user_id,
     nome: row.nome || "",
     descricao: row.descricao || "",
     duracaoMeses: Number(row.duracao_meses || 1),
-    valor: Number(row.valor || 0),
+    valor,
+    permiteParcelamento,
+    quantidadeParcelas,
+    valorParcela: Number(
+      row.valor_parcela || (permiteParcelamento && quantidadeParcelas > 0
+        ? valor / quantidadeParcelas
+        : 0)
+    ),
+    intervaloParcelasMeses: Number(row.intervalo_parcelas_meses || 1),
     ativo: row.ativo ?? true,
     createdAt: row.created_at || "",
   };
 }
 
 function planoParaPayload(plano, userId) {
+  const permiteParcelamento = Boolean(plano.permiteParcelamento);
+  const quantidadeParcelas = permiteParcelamento
+    ? Math.max(Number(plano.quantidadeParcelas || 1), 1)
+    : 1;
+
   return {
     user_id: userId,
     nome: plano.nome || "",
     descricao: plano.descricao || "",
     duracao_meses: Number(plano.duracaoMeses || 1),
     valor: Number(plano.valor || 0),
+    permite_parcelamento: permiteParcelamento,
+    quantidade_parcelas: quantidadeParcelas,
+    valor_parcela: permiteParcelamento ? Number(plano.valorParcela || 0) : 0,
+    intervalo_parcelas_meses: permiteParcelamento
+      ? Number(plano.intervaloParcelasMeses || 1)
+      : 1,
     ativo: Boolean(plano.ativo),
   };
+}
+
+function planoParaPayloadLegado(payload) {
+  const legado = { ...payload };
+
+  delete legado.permite_parcelamento;
+  delete legado.quantidade_parcelas;
+  delete legado.valor_parcela;
+  delete legado.intervalo_parcelas_meses;
+
+  return legado;
+}
+
+function erroSchemaCache(error) {
+  return (
+    error?.code === "PGRST204" ||
+    String(error?.message || "").includes("schema cache")
+  );
 }

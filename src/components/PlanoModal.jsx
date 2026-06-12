@@ -7,14 +7,51 @@ const planoVazio = {
   duracaoMeses: 1,
   valor: "",
   ativo: true,
+  permiteParcelamento: false,
+  quantidadeParcelas: 1,
+  valorParcela: "",
+  intervaloParcelasMeses: 1,
+  valorParcelaManual: false,
 };
 
 function PlanoModal({ plano, onClose, onSave, salvando }) {
-  const [form, setForm] = useState(() => ({ ...planoVazio, ...plano }));
+  const [form, setForm] = useState(() => normalizarForm({ ...planoVazio, ...plano }));
   const toast = useToast();
 
   function atualizar(campo, valor) {
-    setForm({ ...form, [campo]: valor });
+    const proximoForm = { ...form, [campo]: valor };
+
+    if (
+      form.permiteParcelamento &&
+      !form.valorParcelaManual &&
+      ["valor", "quantidadeParcelas"].includes(campo)
+    ) {
+      proximoForm.valorParcela = calcularValorParcela(
+        proximoForm.valor,
+        proximoForm.quantidadeParcelas
+      );
+    }
+
+    setForm(proximoForm);
+  }
+
+  function alternarParcelamento(ativo) {
+    const quantidadeParcelas = ativo
+      ? Math.max(Number(form.quantidadeParcelas || form.duracaoMeses || 2), 2)
+      : 1;
+
+    setForm({
+      ...form,
+      permiteParcelamento: ativo,
+      quantidadeParcelas,
+      intervaloParcelasMeses: ativo ? Number(form.intervaloParcelasMeses || 1) : 1,
+      valorParcela: ativo ? calcularValorParcela(form.valor, quantidadeParcelas) : "",
+      valorParcelaManual: false,
+    });
+  }
+
+  function atualizarValorParcela(valor) {
+    setForm({ ...form, valorParcela: valor, valorParcelaManual: true });
   }
 
   function salvar() {
@@ -28,6 +65,11 @@ function PlanoModal({ plano, onClose, onSave, salvando }) {
       return;
     }
 
+    if (form.permiteParcelamento && Number(form.quantidadeParcelas || 0) <= 1) {
+      toast.aviso("Parcelamento inválido", "Informe pelo menos 2 parcelas.");
+      return;
+    }
+
     onSave({
       ...form,
       nome: form.nome.trim(),
@@ -35,6 +77,16 @@ function PlanoModal({ plano, onClose, onSave, salvando }) {
       duracaoMeses: Number(form.duracaoMeses || 1),
       valor: Number(form.valor || 0),
       ativo: Boolean(form.ativo),
+      permiteParcelamento: Boolean(form.permiteParcelamento),
+      quantidadeParcelas: form.permiteParcelamento
+        ? Number(form.quantidadeParcelas || 1)
+        : 1,
+      valorParcela: form.permiteParcelamento
+        ? Number(form.valorParcela || 0)
+        : 0,
+      intervaloParcelasMeses: form.permiteParcelamento
+        ? Number(form.intervaloParcelasMeses || 1)
+        : 1,
     });
   }
 
@@ -44,7 +96,7 @@ function PlanoModal({ plano, onClose, onSave, salvando }) {
         <div style={modalTopo}>
           <div>
             <h2 style={titulo}>{plano?.id ? "Editar Plano" : "Novo Plano"}</h2>
-            <p style={subtitulo}>Defina preço, duração e disponibilidade.</p>
+            <p style={subtitulo}>Defina preço, duração, parcelamento e disponibilidade.</p>
           </div>
 
           <button onClick={onClose} style={botaoSecundario}>
@@ -72,7 +124,7 @@ function PlanoModal({ plano, onClose, onSave, salvando }) {
             />
           </Campo>
 
-          <Campo label="Valor">
+          <Campo label="Valor total do plano">
             <input
               type="number"
               min="0"
@@ -94,12 +146,61 @@ function PlanoModal({ plano, onClose, onSave, salvando }) {
             </select>
           </Campo>
 
+          <label style={switchCard}>
+            <input
+              type="checkbox"
+              checked={form.permiteParcelamento}
+              onChange={(e) => alternarParcelamento(e.target.checked)}
+            />
+            <span>
+              <strong>Permitir parcelamento</strong>
+              <small>Quando ativo, o Financeiro acompanha parcelas separadas do vencimento final do plano.</small>
+            </span>
+          </label>
+
+          {form.permiteParcelamento && (
+            <>
+              <Campo label="Quantidade de parcelas">
+                <input
+                  type="number"
+                  min="2"
+                  value={form.quantidadeParcelas}
+                  onChange={(e) => atualizar("quantidadeParcelas", e.target.value)}
+                  style={campo}
+                />
+              </Campo>
+
+              <Campo label="Valor por parcela">
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={form.valorParcela}
+                  onChange={(e) => atualizarValorParcela(e.target.value)}
+                  style={campo}
+                />
+              </Campo>
+
+              <Campo label="Intervalo entre parcelas">
+                <select
+                  value={form.intervaloParcelasMeses}
+                  onChange={(e) => atualizar("intervaloParcelasMeses", e.target.value)}
+                  style={campo}
+                >
+                  <option value="1">Mensal</option>
+                  <option value="2">A cada 2 meses</option>
+                  <option value="3">A cada 3 meses</option>
+                </select>
+              </Campo>
+            </>
+          )}
+
           <Campo label="Descrição">
             <textarea
               rows="3"
               value={form.descricao}
               onChange={(e) => atualizar("descricao", e.target.value)}
-              placeholder="Detalhes, condicoes ou observacoes do plano"
+              placeholder="Detalhes, condições ou observações do plano"
               style={{ ...campo, minHeight: "84px", resize: "vertical" }}
             />
           </Campo>
@@ -127,6 +228,31 @@ function Campo({ label, children }) {
   );
 }
 
+function normalizarForm(plano) {
+  const permiteParcelamento = Boolean(plano.permiteParcelamento);
+  const quantidadeParcelas = permiteParcelamento
+    ? Math.max(Number(plano.quantidadeParcelas || plano.duracaoMeses || 2), 2)
+    : 1;
+
+  return {
+    ...plano,
+    permiteParcelamento,
+    quantidadeParcelas,
+    valorParcela: permiteParcelamento
+      ? plano.valorParcela || calcularValorParcela(plano.valor, quantidadeParcelas)
+      : "",
+    intervaloParcelasMeses: Number(plano.intervaloParcelasMeses || 1),
+    valorParcelaManual: Boolean(plano.valorParcela),
+  };
+}
+
+function calcularValorParcela(valor, quantidadeParcelas) {
+  const parcelas = Math.max(Number(quantidadeParcelas || 1), 1);
+  const total = Number(valor || 0);
+
+  return parcelas > 0 ? (total / parcelas).toFixed(2) : "";
+}
+
 const overlay = {
   position: "fixed",
   inset: 0,
@@ -139,7 +265,7 @@ const overlay = {
 };
 
 const modal = {
-  width: "min(640px, 100%)",
+  width: "min(720px, 100%)",
   maxHeight: "calc(100vh - 48px)",
   overflowY: "auto",
   background: "white",
@@ -177,6 +303,17 @@ const campo = {
   background: "white",
   color: "#111827",
   outline: "none",
+};
+
+const switchCard = {
+  alignItems: "flex-start",
+  background: "#f9fafb",
+  border: "1px solid #e5e7eb",
+  borderRadius: "8px",
+  display: "flex",
+  gap: "10px",
+  gridColumn: "1 / -1",
+  padding: "12px",
 };
 
 const rodape = {
