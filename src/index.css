@@ -12,7 +12,7 @@ body,
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -43,12 +43,13 @@ textarea {
   min-height: 100vh;
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .app-main {
   min-width: 0;
   max-width: 100%;
+  width: 100%;
 }
 
 .page-container {
@@ -56,6 +57,7 @@ textarea {
   max-width: 1280px;
   margin: 0 auto;
   padding: 24px;
+  min-width: 0;
 }
 
 .app-card,
@@ -790,11 +792,16 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
   align-items: center;
   border-radius: 999px;
   display: inline-flex;
+  flex-wrap: wrap;
   font-size: 12px;
   font-weight: 800;
-  line-height: 1;
+  justify-content: center;
+  line-height: 1.12;
+  max-width: 100%;
   padding: 6px 9px;
-  white-space: nowrap;
+  text-align: center;
+  white-space: normal;
+  word-break: normal;
 }
 
 .status-badge-success {
@@ -1197,11 +1204,12 @@ body[data-theme="dark"] .treino-day > summary::after {
   box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
   display: grid;
   gap: 12px;
+  min-width: 0;
   padding: 16px;
 }
 
 .card-row {
-  align-items: center;
+  align-items: flex-start;
   border-top: 1px solid #eef2f7;
   display: flex;
   gap: 12px;
@@ -1218,9 +1226,10 @@ body[data-theme="dark"] .treino-day > summary::after {
 
 .card-label {
   color: #64748b;
-  flex: 0 0 auto;
+  flex: 0 1 auto;
   font-size: 12px;
   font-weight: 850;
+  min-width: 0;
   text-transform: uppercase;
 }
 
@@ -1229,21 +1238,23 @@ body[data-theme="dark"] .treino-day > summary::after {
   font-size: 14px;
   font-weight: 800;
   min-width: 0;
-  overflow-wrap: normal;
+  overflow-wrap: break-word;
   text-align: right;
+  word-break: normal;
 }
 
 .card-title {
   display: block;
   font-size: 16px;
   line-height: 1.25;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   text-align: left;
+  word-break: normal;
 }
 
 .card-break {
-  overflow-wrap: anywhere;
-  word-break: break-word;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 .card-money {
@@ -1344,12 +1355,14 @@ body[data-theme="dark"] .session-timeout-secondary {
 
   .page-hero h1 {
     font-size: 24px !important;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
+    word-break: normal;
   }
 
   .page-hero p {
     font-size: 14px;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
+    word-break: normal;
   }
 
   .page-hero-actions {
@@ -1452,7 +1465,8 @@ body[data-theme="dark"] .session-timeout-secondary {
   }
 
   .mobile-card-header .status-badge {
-    flex: 0 0 auto;
+    flex: 0 1 auto;
+    max-width: 46%;
   }
 
   .app-toast-stack {
@@ -1868,11 +1882,18 @@ body[data-theme="dark"] .admin-logs-panel select {
   display: flex;
   gap: 12px;
   justify-content: space-between;
+  min-width: 0;
 }
 
 .mobile-card-header > div {
   display: grid;
   gap: 4px;
+  min-width: 0;
+}
+
+.mobile-card-header .status-badge {
+  flex: 0 1 auto;
+  max-width: 46%;
 }
 
 .mobile-card-header > div span,
@@ -2230,7 +2251,8 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
   .treino-details-copy h2,
   .treino-details-copy p {
     min-width: 0 !important;
-    overflow-wrap: anywhere !important;
+    overflow-wrap: break-word !important;
+    word-break: normal !important;
   }
 
   .treino-details-badges {
@@ -2265,7 +2287,8 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
   }
 
   .treino-info-card strong {
-    overflow-wrap: anywhere !important;
+    overflow-wrap: break-word !important;
+    word-break: normal !important;
   }
 
   .treinos-days-block {
@@ -2279,7 +2302,8 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
 
   .treino-day summary h4,
   .treino-day summary p {
-    overflow-wrap: anywhere !important;
+    overflow-wrap: break-word !important;
+    word-break: normal !important;
   }
 
   .treino-exercises-grid {
@@ -2292,7 +2316,8 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
   .exercise-card-title h4,
   .exercise-card-title p {
     min-width: 0 !important;
-    overflow-wrap: anywhere !important;
+    overflow-wrap: break-word !important;
+    word-break: normal !important;
   }
 
   .exercise-card-top {
@@ -2398,7 +2423,7 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
 
   .dashboard-panel {
     margin-top: 16px !important;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .dashboard-panel [style*="grid-template-columns"] {
