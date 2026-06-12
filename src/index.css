@@ -1694,14 +1694,68 @@ body[data-theme="dark"] .admin-logs-panel select {
   white-space: nowrap !important;
 }
 
-.financeiro-actions-col,
-.financeiro-actions-cell {
-  width: 1%;
+.financeiro-table {
+  overflow-x: auto !important;
+  overflow-y: visible;
+}
+
+.financeiro-desktop-table {
+  min-width: 1120px;
+  table-layout: fixed;
+}
+
+.financeiro-desktop-table th,
+.financeiro-desktop-table td {
+  max-width: none !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+.financeiro-col-aluno {
+  width: 17%;
+}
+
+.financeiro-col-plano {
+  width: 12%;
+}
+
+.financeiro-col-contrato,
+.financeiro-col-valor,
+.financeiro-col-recebido {
+  width: 9%;
+}
+
+.financeiro-col-parcela,
+.financeiro-col-status {
+  width: 8%;
+}
+
+.financeiro-col-vencimento {
+  width: 13%;
+}
+
+.financeiro-col-pagamento {
+  width: 13%;
+}
+
+.financeiro-col-acoes {
+  width: 11%;
+}
+
+.financeiro-desktop-table th:nth-child(1),
+.financeiro-desktop-table td:nth-child(1),
+.financeiro-desktop-table th:nth-child(2),
+.financeiro-desktop-table td:nth-child(2) {
+  white-space: normal !important;
+}
+
+.financeiro-desktop-table th {
+  white-space: nowrap !important;
 }
 
 .financeiro-actions-inline {
   justify-content: flex-start;
-  min-width: 0;
+  min-width: max-content;
   white-space: nowrap;
 }
 

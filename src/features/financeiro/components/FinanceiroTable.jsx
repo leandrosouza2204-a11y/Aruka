@@ -18,6 +18,18 @@ function FinanceiroTable({
   return (
     <div className="app-table-scroll desktop-table financeiro-table">
       <table className="app-table financeiro-desktop-table" style={styles.tabela}>
+        <colgroup>
+          <col className="financeiro-col-aluno" />
+          <col className="financeiro-col-plano" />
+          <col className="financeiro-col-contrato" />
+          <col className="financeiro-col-parcela" />
+          <col className="financeiro-col-valor" />
+          <col className="financeiro-col-recebido" />
+          <col className="financeiro-col-vencimento" />
+          <col className="financeiro-col-status" />
+          <col className="financeiro-col-pagamento" />
+          <col className="financeiro-col-acoes" />
+        </colgroup>
         <thead>
           <tr style={styles.linhaCabecalho}>
             <th style={styles.header}>Aluno</th>
