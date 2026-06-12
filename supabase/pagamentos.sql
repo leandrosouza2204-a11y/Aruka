@@ -10,6 +10,8 @@ create table if not exists public.pagamentos (
   forma_pagamento text not null default '',
   parcela text not null default '1',
   total_parcelas integer not null default 1,
+  tipo_movimento text not null default 'pagamento_avulso',
+  vencimento_parcela date,
   vencimento_anterior date,
   vencimento_novo date,
   observacao text not null default '',
@@ -24,6 +26,8 @@ alter table public.pagamentos
   add column if not exists forma_pagamento text not null default '',
   add column if not exists parcela text not null default '1',
   add column if not exists total_parcelas integer not null default 1,
+  add column if not exists tipo_movimento text not null default 'pagamento_avulso',
+  add column if not exists vencimento_parcela date,
   add column if not exists vencimento_anterior date,
   add column if not exists vencimento_novo date,
   add column if not exists observacao text not null default '',
@@ -50,12 +54,41 @@ set observacao = observacoes
 where coalesce(observacao, '') = ''
   and coalesce(observacoes, '') <> '';
 
+update public.pagamentos
+set tipo_movimento = case
+  when total_parcelas > 1 then 'pagamento_parcela'
+  when vencimento_novo is not null
+    and vencimento_anterior is not null
+    and vencimento_novo <> vencimento_anterior then 'renovacao_plano'
+  else 'pagamento_avulso'
+end
+where coalesce(tipo_movimento, '') = '';
+
+update public.pagamentos
+set tipo_movimento = case
+  when total_parcelas > 1 then 'pagamento_parcela'
+  when vencimento_novo is not null
+    and vencimento_anterior is not null
+    and vencimento_novo <> vencimento_anterior then 'renovacao_plano'
+  else tipo_movimento
+end
+where tipo_movimento = 'pagamento_avulso'
+  and (
+    total_parcelas > 1
+    or (
+      vencimento_novo is not null
+      and vencimento_anterior is not null
+      and vencimento_novo <> vencimento_anterior
+    )
+  );
+
 alter table public.pagamentos
   alter column data_pagamento set not null,
   alter column plano set default '',
   alter column forma_pagamento set default '',
   alter column parcela set default '1',
   alter column total_parcelas set default 1,
+  alter column tipo_movimento set default 'pagamento_avulso',
   alter column observacao set default '',
   alter column observacoes set default '';
 

@@ -54,20 +54,33 @@ export async function adicionarPagamentoSupabase(pagamento) {
 
 export async function registrarPagamento(aluno, dadosPagamento, plano = null) {
   const vencimentoAnterior = aluno.vencimento || "";
-  const renovacao = calcularRenovacaoPagamento({
-    aluno,
-    plano,
-    totalParcelas: Number(dadosPagamento.totalParcelas || 1),
-    dataPagamento: dadosPagamento.dataPagamento,
-  });
+  const tipoMovimento =
+    dadosPagamento.tipoMovimento || inferirTipoMovimento(aluno, dadosPagamento, plano);
+  const vencimentoParcela =
+    dadosPagamento.vencimentoParcela ||
+    calcularVencimentoParcela(aluno, dadosPagamento.parcela, dadosPagamento.totalParcelas);
+  const renovacao =
+    tipoMovimento === "renovacao_plano"
+      ? calcularRenovacaoPagamento({
+          aluno,
+          plano,
+          dataPagamento: dadosPagamento.dataPagamento,
+        })
+      : null;
 
   const pagamento = await adicionarPagamentoSupabase({
     ...dadosPagamento,
     alunoId: aluno.id,
     plano: dadosPagamento.plano || plano?.nome || aluno.plano || "",
+    tipoMovimento,
+    vencimentoParcela,
     vencimentoAnterior,
-    vencimentoNovo: renovacao.vencimento,
+    vencimentoNovo: renovacao?.vencimento || vencimentoAnterior,
   });
+
+  if (tipoMovimento !== "renovacao_plano") {
+    return { pagamento, aluno };
+  }
 
   const alunoAtualizado = await atualizarAlunoSupabase(aluno.id, {
     ...aluno,
@@ -93,6 +106,16 @@ export async function desfazerUltimoPagamento(alunoId) {
   if (!ultimoPagamento) throw new Error("Nenhum pagamento encontrado para desfazer.");
 
   await excluirPagamentoSupabase(ultimoPagamento.id);
+
+  if (!pagamentoAlteraVencimento(ultimoPagamento)) {
+    return {
+      aluno,
+      pagamentoDesfeito: ultimoPagamento,
+      pagamentosRestantes: pagamentos.filter(
+        (pagamento) => pagamento.id !== ultimoPagamento.id
+      ),
+    };
+  }
 
   const pagamentosRestantes = pagamentos.filter(
     (pagamento) => pagamento.id !== ultimoPagamento.id
@@ -229,6 +252,8 @@ function rowParaPagamento(row) {
     formaPagamento: row.forma_pagamento || "",
     parcela: String(row.parcela || "1"),
     totalParcelas: Number(row.total_parcelas || 1),
+    tipoMovimento: row.tipo_movimento || "",
+    vencimentoParcela: row.vencimento_parcela || "",
     vencimentoAnterior: row.vencimento_anterior || "",
     vencimentoNovo: row.vencimento_novo || "",
     observacao: row.observacao || row.observacoes || "",
@@ -249,6 +274,8 @@ function pagamentoParaPayload(pagamento, userId) {
     forma_pagamento: pagamento.formaPagamento || "",
     parcela: String(pagamento.parcela || "1"),
     total_parcelas: Number(pagamento.totalParcelas || 1),
+    tipo_movimento: pagamento.tipoMovimento || "pagamento_avulso",
+    vencimento_parcela: dataOuNull(pagamento.vencimentoParcela),
     vencimento_anterior: dataOuNull(pagamento.vencimentoAnterior),
     vencimento_novo: dataOuNull(pagamento.vencimentoNovo),
     observacao,
@@ -256,12 +283,51 @@ function pagamentoParaPayload(pagamento, userId) {
   };
 }
 
-function calcularRenovacaoPagamento({ aluno, plano, totalParcelas, dataPagamento }) {
-  const mesesRenovacao = totalParcelas > 1 ? 1 : calcularMesesRenovacao(aluno, plano);
+function calcularRenovacaoPagamento({ aluno, plano, dataPagamento }) {
+  const mesesRenovacao = calcularMesesRenovacao(aluno, plano);
   const dataBase = aluno.vencimento || dataPagamento || aluno.inicio || dataHojeISO();
   const vencimento = adicionarMesesISO(dataBase, mesesRenovacao);
 
   return montarDatasAviso(vencimento);
+}
+
+function inferirTipoMovimento(aluno, pagamento, plano) {
+  if (ehPlanoParcelado(aluno, plano, pagamento.totalParcelas)) {
+    return "pagamento_parcela";
+  }
+
+  if (calcularMesesRenovacao(aluno, plano) <= 1) {
+    return "renovacao_plano";
+  }
+
+  return "pagamento_avulso";
+}
+
+function ehPlanoParcelado(aluno, plano, totalParcelas = 1) {
+  if (Number(totalParcelas || 1) > 1) return true;
+  if (aluno.plano === "trimestralParcelado") return true;
+
+  return String(plano?.nome || aluno.plano || "")
+    .toLowerCase()
+    .includes("parcelado");
+}
+
+function calcularVencimentoParcela(aluno, parcela, totalParcelas) {
+  if (!ehPlanoParcelado(aluno, null, totalParcelas) || !aluno.inicio) return "";
+
+  const numeroParcela = Math.max(Number(parcela || 1), 1);
+
+  return adicionarMesesISO(aluno.inicio, numeroParcela - 1);
+}
+
+function pagamentoAlteraVencimento(pagamento) {
+  if (pagamento.tipoMovimento) return pagamento.tipoMovimento === "renovacao_plano";
+
+  return (
+    pagamento.vencimentoNovo &&
+    pagamento.vencimentoAnterior &&
+    pagamento.vencimentoNovo !== pagamento.vencimentoAnterior
+  );
 }
 
 function calcularMesesRenovacao(aluno, plano) {

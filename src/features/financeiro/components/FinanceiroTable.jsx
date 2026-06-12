@@ -9,6 +9,7 @@ function FinanceiroTable({
   onDesfazer,
   onHistorico,
   onRelatorioAluno,
+  onRenovarPlano,
   onReceber,
   onWhatsApp,
   registros,
@@ -25,7 +26,7 @@ function FinanceiroTable({
             <th style={styles.header}>Parcela atual</th>
             <th style={styles.header}>Valor parcela</th>
             <th style={styles.header}>Recebido</th>
-            <th style={styles.header}>Vencimento</th>
+            <th style={styles.header}>Vencimento do plano</th>
             <th style={styles.header}>Status</th>
             <th style={styles.header}>Pagamento</th>
             <th style={styles.header}>Ações</th>
@@ -84,6 +85,9 @@ function FinanceiroTable({
                       </button>
                     )}
                     <TableActions>
+                      <TableActionItem onClick={() => onRenovarPlano(registro)} variant="primary">
+                        Renovar plano
+                      </TableActionItem>
                       {registro.pagamentos.length > 0 && (
                         <>
                           <TableActionItem onClick={() => onHistorico(registro)} variant="primary">

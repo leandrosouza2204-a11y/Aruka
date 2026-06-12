@@ -23,6 +23,8 @@ export const pagamentoInicial = {
   formaPagamento: "Pix",
   parcela: 1,
   totalParcelas: 1,
+  tipoMovimento: "pagamento_avulso",
+  vencimentoParcela: "",
   observacao: "",
   observacoes: "",
 };
@@ -141,6 +143,8 @@ export function useFinanceiroPage() {
       formaPagamento: "Pix",
       parcela: proximaParcela(registro),
       totalParcelas: registro.totalParcelas,
+      tipoMovimento: registro.tipoMovimentoSugerido,
+      vencimentoParcela: registro.vencimentoParcelaAtual,
       observacao: "",
       observacoes: "",
     });
@@ -152,6 +156,13 @@ export function useFinanceiroPage() {
 
   function abrirRelatorioAluno(registro) {
     setModalRelatorioAluno(registro);
+  }
+
+  function abrirRenovacaoPlano() {
+    toast.aviso(
+      "Renovacao em etapa futura",
+      "O recebimento agora nao renova planos parcelados. Use esta acao futuramente para renovar o plano separado do pagamento."
+    );
   }
 
   async function registrarPagamento() {
@@ -178,6 +189,8 @@ export function useFinanceiroPage() {
           formaPagamento: formPagamento.formaPagamento,
           parcela: formPagamento.parcela,
           totalParcelas: formPagamento.totalParcelas,
+          tipoMovimento: formPagamento.tipoMovimento,
+          vencimentoParcela: formPagamento.vencimentoParcela,
           observacao: formPagamento.observacao ?? formPagamento.observacoes ?? "",
           plano: plano?.nome || modalPagamento.nomePlano,
         },
@@ -186,7 +199,7 @@ export function useFinanceiroPage() {
 
       await carregarDados();
       fecharModalPagamento();
-      toast.sucesso("Pagamento registrado", "Historico e vencimento foram atualizados.");
+      toast.sucesso("Pagamento registrado", "Historico financeiro atualizado.");
     } catch (error) {
       console.error(error);
       setErro(`Erro ao registrar pagamento: ${error.message}`);
@@ -245,6 +258,7 @@ export function useFinanceiroPage() {
     abrirHistorico,
     abrirRegistroPagamento,
     abrirRelatorioAluno,
+    abrirRenovacaoPlano,
     abrirRelatorioGeral: () => setModalRelatorioGeral(true),
     atualizandoId,
     busca,
@@ -281,6 +295,7 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
   const parcelaAtual = calcularParcelaAtual(aluno.inicio, totalParcelas);
   const valorParcela = totalParcelas > 1 ? valorContrato / totalParcelas : valorContrato;
   const pagamentosOrdenados = ordenarPagamentos(pagamentosAluno);
+  const vencimentoParcelaAtual = calcularVencimentoParcela(aluno.inicio, parcelaAtual, totalParcelas);
   const pagamentoCiclo = pagamentosOrdenados.find(
     (pagamento) => String(pagamento.parcela) === String(parcelaAtual)
   );
@@ -298,6 +313,8 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
     totalParcelas,
     parcelaAtual,
     valorParcela,
+    vencimentoParcelaAtual,
+    tipoMovimentoSugerido: inferirTipoMovimentoRegistro(aluno, plano, totalParcelas),
     pagamentoCiclo,
     ultimoPagamento: pagamentosOrdenados[0] || null,
     recebidoNoCiclo: Boolean(pagamentoCiclo),
@@ -314,6 +331,24 @@ function calcularTotalParcelas(aluno, plano) {
   const nome = plano.nome.toLowerCase();
 
   return nome.includes("parcelado") ? Math.max(Number(plano.duracaoMeses || 1), 1) : 1;
+}
+
+function inferirTipoMovimentoRegistro(aluno, plano, totalParcelas) {
+  if (totalParcelas > 1) return "pagamento_parcela";
+
+  return calcularMesesRenovacao(aluno, plano) <= 1 ? "renovacao_plano" : "pagamento_avulso";
+}
+
+function calcularMesesRenovacao(aluno, plano) {
+  if (aluno.plano === "trimestralParcelado") return 1;
+  if (plano?.duracaoMeses) return Math.max(Number(plano.duracaoMeses || 1), 1);
+
+  const textoPlano = `${aluno.plano || ""} ${plano?.nome || ""}`.toLowerCase();
+
+  if (textoPlano.includes("semestral")) return 6;
+  if (textoPlano.includes("trimestral")) return 3;
+
+  return 1;
 }
 
 function calcularParcelaAtual(inicio, totalParcelas) {
@@ -340,6 +375,15 @@ function proximaParcela(registro) {
   const proxima = (parcelasPagas % registro.totalParcelas) + 1;
 
   return proxima;
+}
+
+function calcularVencimentoParcela(inicio, parcela, totalParcelas) {
+  if (totalParcelas <= 1 || !inicio) return "";
+
+  const data = new Date(`${inicio}T00:00:00`);
+  data.setMonth(data.getMonth() + Math.max(Number(parcela || 1) - 1, 0));
+
+  return data.toISOString().split("T")[0];
 }
 
 function ordenarPagamentos(pagamentos) {

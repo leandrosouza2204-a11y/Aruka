@@ -40,6 +40,7 @@ function FinanceiroList() {
           onHistorico={page.abrirHistorico}
           onReceber={page.abrirRegistroPagamento}
           onRelatorioAluno={page.abrirRelatorioAluno}
+          onRenovarPlano={page.abrirRenovacaoPlano}
           onWhatsApp={page.enviarAvisoWhatsApp}
           registros={page.registrosFiltrados}
         />
@@ -51,6 +52,7 @@ function FinanceiroList() {
           onHistorico={page.abrirHistorico}
           onReceber={page.abrirRegistroPagamento}
           onRelatorioAluno={page.abrirRelatorioAluno}
+          onRenovarPlano={page.abrirRenovacaoPlano}
           onWhatsApp={page.enviarAvisoWhatsApp}
           registros={page.registrosFiltrados}
           styles={styles}
@@ -154,12 +156,36 @@ function PagamentoModal({ registro, form, atualizando, onChange, onClose, onSave
         </label>
 
         <label style={styles.campoGrupo}>
+          <span style={styles.labelCampo}>Tipo do movimento</span>
+          <select
+            value={form.tipoMovimento}
+            onChange={(e) => atualizar("tipoMovimento", e.target.value)}
+            style={styles.campo}
+          >
+            <option value="pagamento_parcela">Pagamento de parcela</option>
+            <option value="renovacao_plano">Renovacao de plano</option>
+            <option value="pagamento_avulso">Pagamento avulso</option>
+          </select>
+        </label>
+
+        <label style={styles.campoGrupo}>
           <span style={styles.labelCampo}>Parcela</span>
           <input
             type="text"
             value={form.parcela}
             onChange={(e) => atualizar("parcela", e.target.value)}
             style={styles.campo}
+          />
+        </label>
+
+        <label style={styles.campoGrupo}>
+          <span style={styles.labelCampo}>Vencimento da parcela</span>
+          <input
+            type="date"
+            value={form.vencimentoParcela || ""}
+            onChange={(e) => atualizar("vencimentoParcela", e.target.value)}
+            style={styles.campo}
+            disabled={form.tipoMovimento !== "pagamento_parcela"}
           />
         </label>
 
@@ -226,17 +252,19 @@ function HistoricoFinanceiroModal({ registro, onClose, onRelatorio, styles }) {
               <th style={styles.header}>Data</th>
               <th style={styles.header}>Valor</th>
               <th style={styles.header}>Plano</th>
+              <th style={styles.header}>Tipo</th>
               <th style={styles.header}>Parcela</th>
+              <th style={styles.header}>Vencimento da parcela</th>
               <th style={styles.header}>Forma</th>
-              <th style={styles.header}>Vencimento anterior</th>
-              <th style={styles.header}>Novo vencimento</th>
+              <th style={styles.header}>Vencimento do plano antes</th>
+              <th style={styles.header}>Vencimento do plano depois</th>
               <th style={styles.header}>Observacao</th>
             </tr>
           </thead>
           <tbody>
             {pagamentos.length === 0 ? (
               <tr>
-                <td colSpan="8" style={styles.estadoVazio}>Nenhum pagamento registrado.</td>
+                <td colSpan="10" style={styles.estadoVazio}>Nenhum pagamento registrado.</td>
               </tr>
             ) : (
               pagamentos.map((pagamento) => (
@@ -244,7 +272,9 @@ function HistoricoFinanceiroModal({ registro, onClose, onRelatorio, styles }) {
                   <td style={styles.celula}>{formatarData(pagamento.dataPagamento)}</td>
                   <td style={styles.celula}>{formatarMoeda(pagamento.valor)}</td>
                   <td style={styles.celula}>{pagamento.plano || registro.nomePlano}</td>
+                  <td style={styles.celula}>{formatarTipoMovimento(pagamento.tipoMovimento)}</td>
                   <td style={styles.celula}>{pagamento.parcela}</td>
+                  <td style={styles.celula}>{formatarData(pagamento.vencimentoParcela)}</td>
                   <td style={styles.celula}>{pagamento.formaPagamento || "-"}</td>
                   <td style={styles.celula}>{formatarData(pagamento.vencimentoAnterior)}</td>
                   <td style={styles.celula}>{formatarData(pagamento.vencimentoNovo)}</td>
@@ -262,10 +292,12 @@ function HistoricoFinanceiroModal({ registro, onClose, onRelatorio, styles }) {
             <Info label="Data" valor={formatarData(pagamento.dataPagamento)} />
             <Info label="Valor" valor={formatarMoeda(pagamento.valor)} />
             <Info label="Plano" valor={pagamento.plano || registro.nomePlano} />
+            <Info label="Tipo" valor={formatarTipoMovimento(pagamento.tipoMovimento)} />
             <Info label="Parcela" valor={pagamento.parcela} />
+            <Info label="Vencimento da parcela" valor={formatarData(pagamento.vencimentoParcela)} />
             <Info label="Forma" valor={pagamento.formaPagamento || "-"} />
-            <Info label="Vencimento anterior" valor={formatarData(pagamento.vencimentoAnterior)} />
-            <Info label="Novo vencimento" valor={formatarData(pagamento.vencimentoNovo)} />
+            <Info label="Vencimento do plano antes" valor={formatarData(pagamento.vencimentoAnterior)} />
+            <Info label="Vencimento do plano depois" valor={formatarData(pagamento.vencimentoNovo)} />
             <Info label="Observacao" valor={pagamento.observacao || pagamento.observacoes || "-"} />
           </article>
         ))}
@@ -378,6 +410,16 @@ function Info({ label, valor }) {
       <strong className="card-value">{valor}</strong>
     </div>
   );
+}
+
+function formatarTipoMovimento(tipo) {
+  const mapa = {
+    pagamento_parcela: "Pagamento de parcela",
+    renovacao_plano: "Renovacao de plano",
+    pagamento_avulso: "Pagamento avulso",
+  };
+
+  return mapa[tipo] || "Pagamento";
 }
 
 function ModalBase({ children, onClose, styles, largura }) {

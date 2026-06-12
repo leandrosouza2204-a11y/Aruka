@@ -6,6 +6,7 @@ function FinanceiroMobileCards({
   onDesfazer,
   onHistorico,
   onRelatorioAluno,
+  onRenovarPlano,
   onReceber,
   onWhatsApp,
   registros,
@@ -53,9 +54,17 @@ function FinanceiroMobileCards({
               </strong>
             </div>
             <div className="card-row">
-              <span className="card-label">Vencimento</span>
+              <span className="card-label">Vencimento do plano</span>
               <strong className="card-value">{formatarData(registro.aluno.vencimento)}</strong>
             </div>
+            {registro.vencimentoParcelaAtual && (
+              <div className="card-row">
+                <span className="card-label">Vencimento da parcela</span>
+                <strong className="card-value">
+                  {formatarData(registro.vencimentoParcelaAtual)}
+                </strong>
+              </div>
+            )}
             <div className="card-row">
               <span className="card-label">Status</span>
               <strong className="card-value">
@@ -107,6 +116,13 @@ function FinanceiroMobileCards({
                   </button>
                 </>
               )}
+              <button
+                onClick={() => onRenovarPlano(registro)}
+                className="table-button table-button-primary"
+                disabled={atualizandoId === registro.aluno.id}
+              >
+                Renovar plano
+              </button>
               <button
                 onClick={() => onWhatsApp(registro)}
                 className="table-button table-button-success"
