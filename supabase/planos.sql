@@ -16,22 +16,33 @@ create table if not exists public.planos (
 );
 
 alter table public.planos
-  add column if not exists permite_parcelamento boolean not null default false,
-  add column if not exists quantidade_parcelas integer not null default 1,
-  add column if not exists valor_parcela numeric(10, 2) not null default 0,
-  add column if not exists intervalo_parcelas_meses integer not null default 1;
+  add column if not exists permite_parcelamento boolean default false,
+  add column if not exists quantidade_parcelas integer default 1,
+  add column if not exists valor_parcela numeric(10, 2) default 0,
+  add column if not exists intervalo_parcelas_meses integer default 1;
 
 update public.planos
 set
+  permite_parcelamento = coalesce(permite_parcelamento, false),
   quantidade_parcelas = greatest(coalesce(quantidade_parcelas, 1), 1),
   intervalo_parcelas_meses = greatest(coalesce(intervalo_parcelas_meses, 1), 1),
   valor_parcela = case
-    when permite_parcelamento
+    when coalesce(permite_parcelamento, false)
       and coalesce(valor_parcela, 0) = 0
       and greatest(coalesce(quantidade_parcelas, 1), 1) > 0
     then round((valor / greatest(coalesce(quantidade_parcelas, 1), 1))::numeric, 2)
     else coalesce(valor_parcela, 0)
   end;
+
+alter table public.planos
+  alter column permite_parcelamento set default false,
+  alter column permite_parcelamento set not null,
+  alter column quantidade_parcelas set default 1,
+  alter column quantidade_parcelas set not null,
+  alter column valor_parcela set default 0,
+  alter column valor_parcela set not null,
+  alter column intervalo_parcelas_meses set default 1,
+  alter column intervalo_parcelas_meses set not null;
 
 alter table public.planos enable row level security;
 

@@ -25,14 +25,7 @@ export async function adicionarPlanoSupabase(plano) {
     .single();
 
   if (erroSchemaCache(error)) {
-    const resultado = await supabase
-      .from("planos")
-      .insert(planoParaPayloadLegado(payload))
-      .select()
-      .single();
-
-    data = resultado.data;
-    error = resultado.error;
+    throw erroColunasParcelamento();
   }
 
   if (error) throw error;
@@ -53,16 +46,7 @@ export async function atualizarPlanoSupabase(id, plano) {
     .single();
 
   if (erroSchemaCache(error)) {
-    const resultado = await supabase
-      .from("planos")
-      .update(planoParaPayloadLegado(payload))
-      .eq("id", id)
-      .eq("user_id", user.id)
-      .select()
-      .single();
-
-    data = resultado.data;
-    error = resultado.error;
+    throw erroColunasParcelamento();
   }
 
   if (error) throw error;
@@ -97,9 +81,16 @@ async function buscarUsuarioLogado() {
 }
 
 function rowParaPlano(row) {
-  const permiteParcelamento = row.permite_parcelamento ?? false;
-  const quantidadeParcelas = Number(row.quantidade_parcelas || 1);
+  const permiteParcelamento = normalizarBoolean(
+    row.permite_parcelamento ?? row.permiteParcelamento ?? false
+  );
+  const quantidadeParcelas = permiteParcelamento
+    ? Math.max(Number(row.quantidade_parcelas ?? row.quantidadeParcelas ?? 1), 2)
+    : 1;
   const valor = Number(row.valor || 0);
+  const valorParcelaSalvo = Number(row.valor_parcela ?? row.valorParcela ?? 0);
+  const valorParcelaCalculado =
+    permiteParcelamento && quantidadeParcelas > 0 ? valor / quantidadeParcelas : 0;
 
   return {
     id: row.id,
@@ -110,48 +101,47 @@ function rowParaPlano(row) {
     valor,
     permiteParcelamento,
     quantidadeParcelas,
-    valorParcela: Number(
-      row.valor_parcela || (permiteParcelamento && quantidadeParcelas > 0
-        ? valor / quantidadeParcelas
-        : 0)
-    ),
-    intervaloParcelasMeses: Number(row.intervalo_parcelas_meses || 1),
+    valorParcela: permiteParcelamento
+      ? valorParcelaSalvo || valorParcelaCalculado
+      : 0,
+    intervaloParcelasMeses: permiteParcelamento
+      ? Math.max(Number(row.intervalo_parcelas_meses ?? row.intervaloParcelasMeses ?? 1), 1)
+      : 1,
     ativo: row.ativo ?? true,
     createdAt: row.created_at || "",
   };
 }
 
 function planoParaPayload(plano, userId) {
-  const permiteParcelamento = Boolean(plano.permiteParcelamento);
+  const permiteParcelamento = normalizarBoolean(
+    plano.permiteParcelamento ?? plano.permite_parcelamento ?? false
+  );
+  const valor = Number(plano.valor || 0);
   const quantidadeParcelas = permiteParcelamento
-    ? Math.max(Number(plano.quantidadeParcelas || 1), 1)
+    ? Math.max(Number(plano.quantidadeParcelas ?? plano.quantidade_parcelas ?? 2), 2)
     : 1;
+  const valorParcelaInformado = Number(plano.valorParcela ?? plano.valor_parcela ?? 0);
+  const valorParcela =
+    permiteParcelamento && valorParcelaInformado > 0
+      ? valorParcelaInformado
+      : permiteParcelamento
+        ? valor / quantidadeParcelas
+        : 0;
 
   return {
     user_id: userId,
     nome: plano.nome || "",
     descricao: plano.descricao || "",
     duracao_meses: Number(plano.duracaoMeses || 1),
-    valor: Number(plano.valor || 0),
+    valor,
     permite_parcelamento: permiteParcelamento,
     quantidade_parcelas: quantidadeParcelas,
-    valor_parcela: permiteParcelamento ? Number(plano.valorParcela || 0) : 0,
+    valor_parcela: Number(valorParcela.toFixed(2)),
     intervalo_parcelas_meses: permiteParcelamento
-      ? Number(plano.intervaloParcelasMeses || 1)
+      ? Math.max(Number(plano.intervaloParcelasMeses ?? plano.intervalo_parcelas_meses ?? 1), 1)
       : 1,
     ativo: Boolean(plano.ativo),
   };
-}
-
-function planoParaPayloadLegado(payload) {
-  const legado = { ...payload };
-
-  delete legado.permite_parcelamento;
-  delete legado.quantidade_parcelas;
-  delete legado.valor_parcela;
-  delete legado.intervalo_parcelas_meses;
-
-  return legado;
 }
 
 function erroSchemaCache(error) {
@@ -159,4 +149,20 @@ function erroSchemaCache(error) {
     error?.code === "PGRST204" ||
     String(error?.message || "").includes("schema cache")
   );
+}
+
+function erroColunasParcelamento() {
+  return new Error(
+    "As colunas de parcelamento ainda não estão disponíveis no Supabase. Aplique o SQL de supabase/planos.sql e recarregue o schema cache antes de salvar planos parcelados."
+  );
+}
+
+function normalizarBoolean(valor) {
+  if (typeof valor === "boolean") return valor;
+  if (typeof valor === "number") return valor === 1;
+  if (typeof valor === "string") {
+    return ["true", "1", "sim", "s", "yes"].includes(valor.trim().toLowerCase());
+  }
+
+  return Boolean(valor);
 }
