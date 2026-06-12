@@ -35,13 +35,13 @@ function FinanceiroTable({
             <th style={styles.header}>Aluno</th>
             <th style={styles.header}>Plano</th>
             <th className="cell-nowrap" style={styles.header}>Contrato</th>
-            <th className="cell-nowrap" style={styles.header}>Parcela atual</th>
+            <th className="cell-nowrap" style={styles.header}>Parcela</th>
             <th className="cell-nowrap" style={styles.header}>Valor parcela</th>
             <th className="cell-nowrap" style={styles.header}>Recebido</th>
-            <th className="cell-nowrap" style={styles.header}>Vencimento do plano</th>
-            <th className="cell-nowrap" style={styles.header}>Status</th>
-            <th className="cell-nowrap" style={styles.header}>Pagamento</th>
-            <th className="cell-nowrap financeiro-actions-col" style={styles.header}>Ações</th>
+            <th className="cell-nowrap" style={styles.header}>Vencimento</th>
+            <th style={styles.header}>Status</th>
+            <th style={styles.header}>Pagamento</th>
+            <th className="financeiro-actions-col" style={styles.header}>Ações</th>
           </tr>
         </thead>
 
@@ -57,8 +57,12 @@ function FinanceiroTable({
           {!carregando &&
             registros.map((registro) => (
               <tr key={registro.aluno.id}>
-                <td className="cell-wide" style={styles.celula}>{registro.aluno.nome}</td>
-                <td style={styles.celula}>{registro.nomePlano}</td>
+                <td className="financeiro-text-cell" style={styles.celula}>
+                  {registro.aluno.nome}
+                </td>
+                <td className="financeiro-text-cell" style={styles.celula}>
+                  {registro.nomePlano}
+                </td>
                 <td className="cell-nowrap" style={styles.celula}>{formatarMoeda(registro.valorContrato)}</td>
                 <td className="cell-nowrap" style={styles.celula}>
                   {registro.parcelaAtual}/{registro.totalParcelas}
@@ -66,20 +70,14 @@ function FinanceiroTable({
                 <td className="cell-nowrap" style={styles.celula}>{formatarMoeda(registro.valorParcela)}</td>
                 <td className="cell-nowrap" style={styles.celula}>{formatarMoeda(registro.totalRecebido)}</td>
                 <td className="cell-nowrap" style={styles.celula}>{formatarData(registro.aluno.vencimento)}</td>
-                <td className="cell-nowrap" style={styles.celula}>
-                  <span className={classeStatusAluno(registro.statusFinanceiro)}>
-                    {registro.statusFinanceiro}
-                  </span>
+                <td className="financeiro-status-cell" style={styles.celula}>
+                  <StatusFinanceiro status={registro.statusFinanceiro} />
                 </td>
-                <td className="cell-nowrap" style={styles.celula}>
-                  {registro.recebidoNoCiclo
-                    ? `Recebido em ${formatarData(
-                        registro.pagamentoCiclo?.dataPagamento
-                      )}`
-                    : "Pendente"}
+                <td className="financeiro-pagamento-cell" style={styles.celula}>
+                  <PagamentoInfo registro={registro} />
                 </td>
-                <td className="cell-nowrap financeiro-actions-cell" style={styles.celula}>
-                  <div className="table-actions-inline financeiro-actions-inline">
+                <td className="financeiro-actions-cell" style={styles.celula}>
+                  <div className="financeiro-actions-inline">
                     <button
                       onClick={() => onReceber(registro)}
                       className="table-button table-button-success"
@@ -104,10 +102,7 @@ function FinanceiroTable({
                           </TableActionItem>
                         </>
                       )}
-                      <TableActionItem
-                        onClick={() => onWhatsApp(registro)}
-                        variant="success"
-                      >
+                      <TableActionItem onClick={() => onWhatsApp(registro)} variant="success">
                         WhatsApp
                       </TableActionItem>
                     </TableActions>
@@ -129,16 +124,41 @@ function FinanceiroTable({
   );
 }
 
-function classeStatusAluno(status) {
-  if (["Ativo"].includes(status)) return "status-badge status-badge-success";
-  if (["Vencendo", "Vencendo parcela"].includes(status)) {
-    return "status-badge status-badge-warning";
-  }
-  if (["Atrasado", "Parcela atrasada"].includes(status)) {
-    return "status-badge status-badge-danger";
+function StatusFinanceiro({ status }) {
+  const partes = String(status || "-").split(" ");
+
+  return (
+    <span className={`financeiro-status-badge ${classeStatusAluno(status)}`}>
+      {partes.map((parte) => (
+        <span key={parte}>{parte}</span>
+      ))}
+    </span>
+  );
+}
+
+function PagamentoInfo({ registro }) {
+  if (!registro.recebidoNoCiclo) {
+    return <span className="financeiro-pagamento-info">Pendente</span>;
   }
 
-  return "status-badge status-badge-muted";
+  return (
+    <span className="financeiro-pagamento-info">
+      <span>Recebido em</span>
+      <strong>{formatarData(registro.pagamentoCiclo?.dataPagamento)}</strong>
+    </span>
+  );
+}
+
+function classeStatusAluno(status) {
+  if (["Ativo"].includes(status)) return "status-badge-success";
+  if (["Vencendo", "Vencendo parcela"].includes(status)) {
+    return "status-badge-warning";
+  }
+  if (["Atrasado", "Parcela atrasada"].includes(status)) {
+    return "status-badge-danger";
+  }
+
+  return "status-badge-muted";
 }
 
 export default FinanceiroTable;

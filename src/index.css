@@ -1698,7 +1698,7 @@ body[data-theme="dark"] .admin-logs-panel select {
 }
 
 .financeiro-desktop-table {
-  min-width: 977px;
+  min-width: 1040px;
   table-layout: fixed;
   width: 100%;
 }
@@ -1708,7 +1708,7 @@ body[data-theme="dark"] .admin-logs-panel select {
   max-width: none !important;
   overflow: visible;
   overflow-wrap: normal !important;
-  padding: 9px 8px !important;
+  padding: 9px 7px !important;
   vertical-align: middle;
   word-break: normal !important;
 }
@@ -1720,7 +1720,7 @@ body[data-theme="dark"] .admin-logs-panel select {
 }
 
 .financeiro-desktop-table td {
-  font-size: 12px !important;
+  font-size: 11.5px !important;
   line-height: 1.28;
 }
 
@@ -1729,56 +1729,65 @@ body[data-theme="dark"] .admin-logs-panel select {
 }
 
 .financeiro-desktop-table th:nth-child(1),
-.financeiro-desktop-table td:nth-child(1),
 .financeiro-desktop-table th:nth-child(2),
-.financeiro-desktop-table td:nth-child(2),
+.financeiro-desktop-table th:nth-child(8),
 .financeiro-desktop-table th:nth-child(9),
+.financeiro-desktop-table td:nth-child(1),
+.financeiro-desktop-table td:nth-child(2),
+.financeiro-desktop-table td:nth-child(8),
 .financeiro-desktop-table td:nth-child(9) {
   white-space: normal !important;
 }
 
 .financeiro-col-aluno {
-  width: 145px;
+  width: 138px;
 }
 
 .financeiro-col-plano {
-  width: 90px;
+  width: 88px;
 }
 
 .financeiro-col-contrato {
-  width: 80px;
+  width: 82px;
 }
 
 .financeiro-col-parcela {
-  width: 76px;
+  width: 64px;
 }
 
 .financeiro-col-valor {
-  width: 90px;
+  width: 88px;
 }
 
 .financeiro-col-recebido {
-  width: 86px;
+  width: 84px;
 }
 
 .financeiro-col-vencimento {
-  width: 112px;
+  width: 94px;
 }
 
 .financeiro-col-status {
-  width: 70px;
+  width: 116px;
 }
 
 .financeiro-col-pagamento {
-  width: 124px;
+  width: 112px;
 }
 
 .financeiro-col-acoes {
-  width: 104px;
+  width: 136px;
 }
 
+.financeiro-text-cell {
+  line-height: 1.25;
+}
+
+.financeiro-status-cell,
+.financeiro-pagamento-cell,
 .financeiro-actions-cell {
   overflow: visible !important;
+  white-space: normal !important;
 }
 
 .financeiro-actions-inline {
@@ -1800,6 +1809,38 @@ body[data-theme="dark"] .admin-logs-panel select {
 .financeiro-actions-inline .table-actions-menu,
 .financeiro-actions-inline .table-actions-trigger {
   flex: 0 0 34px;
+}
+
+.financeiro-status-badge {
+  align-items: center;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-wrap: wrap;
+  font-size: 11.5px;
+  font-weight: 800;
+  gap: 2px 4px;
+  justify-content: center;
+  line-height: 1.05;
+  max-width: 100%;
+  min-height: 24px;
+  padding: 5px 8px;
+  text-align: center;
+  white-space: normal;
+}
+
+.financeiro-status-badge span {
+  display: inline-block;
+}
+
+.financeiro-pagamento-info {
+  display: grid;
+  gap: 2px;
+  line-height: 1.15;
+  white-space: normal;
+}
+
+.financeiro-pagamento-info strong {
+  font-size: 11.5px;
 }
 
 .treinos-mobile-cards {
