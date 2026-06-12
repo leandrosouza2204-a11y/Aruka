@@ -1742,6 +1742,87 @@ body[data-theme="dark"] .admin-logs-panel select {
   white-space: nowrap !important;
 }
 
+.financeiro-history-table {
+  overflow-x: auto !important;
+  overflow-y: visible;
+  max-width: 100%;
+  width: 100%;
+}
+
+.financeiro-history-table .financeiro-history-data-table {
+  min-width: 1260px !important;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.financeiro-history-data-table th,
+.financeiro-history-data-table td {
+  max-width: none !important;
+  overflow-wrap: normal !important;
+  padding: 9px 8px !important;
+  word-break: normal !important;
+}
+
+.financeiro-history-data-table th {
+  font-size: 10.5px !important;
+  line-height: 1.15;
+}
+
+.financeiro-history-data-table td {
+  font-size: 12px !important;
+  line-height: 1.28;
+}
+
+.financeiro-history-date,
+.financeiro-history-money,
+.financeiro-history-short {
+  overflow-wrap: normal !important;
+  white-space: nowrap !important;
+  word-break: normal !important;
+}
+
+.financeiro-history-type,
+.financeiro-history-text {
+  overflow-wrap: break-word !important;
+  white-space: normal !important;
+  word-break: normal !important;
+}
+
+.financeiro-history-observation {
+  overflow-wrap: break-word !important;
+  white-space: normal !important;
+  word-break: normal !important;
+}
+
+.financeiro-history-data-table .financeiro-history-date {
+  width: 150px;
+}
+
+.financeiro-history-data-table .financeiro-history-money {
+  width: 86px;
+}
+
+.financeiro-history-data-table .financeiro-history-short {
+  width: 84px;
+}
+
+.financeiro-history-data-table .financeiro-history-type {
+  width: 102px;
+}
+
+.financeiro-history-data-table .financeiro-history-text {
+  width: 124px;
+}
+
+.financeiro-history-data-table .financeiro-history-observation {
+  width: 176px;
+}
+
+body[data-theme="dark"] .financeiro-history-table {
+  background: #182235;
+  border-color: #334155;
+}
+
 .financeiro-desktop-table th:nth-child(1),
 .financeiro-desktop-table th:nth-child(2),
 .financeiro-desktop-table th:nth-child(8),

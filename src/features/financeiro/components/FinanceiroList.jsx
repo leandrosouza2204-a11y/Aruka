@@ -246,19 +246,19 @@ function HistoricoFinanceiroModal({ registro, onClose, onRelatorio, styles }) {
       </div>
 
       <div className="app-table-scroll financeiro-history-table" style={styles.tabelaModal}>
-        <table className="app-table" style={styles.tabela}>
+        <table className="app-table financeiro-history-data-table" style={styles.tabela}>
           <thead>
             <tr style={styles.linhaCabecalho}>
-              <th style={styles.header}>Data</th>
-              <th style={styles.header}>Valor</th>
-              <th style={styles.header}>Plano</th>
-              <th style={styles.header}>Tipo</th>
-              <th style={styles.header}>Parcela</th>
-              <th style={styles.header}>Vencimento da parcela</th>
-              <th style={styles.header}>Forma</th>
-              <th style={styles.header}>Vencimento do plano antes</th>
-              <th style={styles.header}>Vencimento do plano depois</th>
-              <th style={styles.header}>Observação</th>
+              <th className="financeiro-history-date" style={styles.header}>Data</th>
+              <th className="financeiro-history-money" style={styles.header}>Valor</th>
+              <th className="financeiro-history-text" style={styles.header}>Plano</th>
+              <th className="financeiro-history-type" style={styles.header}>Tipo</th>
+              <th className="financeiro-history-short" style={styles.header}>Parcela</th>
+              <th className="financeiro-history-date" style={styles.header}>Vencimento da parcela</th>
+              <th className="financeiro-history-short" style={styles.header}>Forma</th>
+              <th className="financeiro-history-date" style={styles.header}>Vencimento do plano antes</th>
+              <th className="financeiro-history-date" style={styles.header}>Vencimento do plano depois</th>
+              <th className="financeiro-history-observation" style={styles.header}>Observação</th>
             </tr>
           </thead>
           <tbody>
@@ -269,16 +269,16 @@ function HistoricoFinanceiroModal({ registro, onClose, onRelatorio, styles }) {
             ) : (
               pagamentos.map((pagamento) => (
                 <tr key={pagamento.id}>
-                  <td style={styles.celula}>{formatarData(pagamento.dataPagamento)}</td>
-                  <td style={styles.celula}>{formatarMoeda(pagamento.valor)}</td>
-                  <td style={styles.celula}>{pagamento.plano || registro.nomePlano}</td>
-                  <td style={styles.celula}>{formatarTipoMovimento(pagamento.tipoMovimento)}</td>
-                  <td style={styles.celula}>{pagamento.parcela}</td>
-                  <td style={styles.celula}>{formatarData(pagamento.vencimentoParcela)}</td>
-                  <td style={styles.celula}>{pagamento.formaPagamento || "-"}</td>
-                  <td style={styles.celula}>{formatarData(pagamento.vencimentoAnterior)}</td>
-                  <td style={styles.celula}>{formatarData(pagamento.vencimentoNovo)}</td>
-                  <td style={styles.celula}>{pagamento.observacao || pagamento.observacoes || "-"}</td>
+                  <td className="financeiro-history-date" style={styles.celula}>{formatarData(pagamento.dataPagamento)}</td>
+                  <td className="financeiro-history-money" style={styles.celula}>{formatarMoeda(pagamento.valor)}</td>
+                  <td className="financeiro-history-text" style={styles.celula}>{pagamento.plano || registro.nomePlano}</td>
+                  <td className="financeiro-history-type" style={styles.celula}>{formatarTipoMovimento(pagamento.tipoMovimento)}</td>
+                  <td className="financeiro-history-short" style={styles.celula}>{pagamento.parcela}</td>
+                  <td className="financeiro-history-date" style={styles.celula}>{formatarData(pagamento.vencimentoParcela)}</td>
+                  <td className="financeiro-history-short" style={styles.celula}>{pagamento.formaPagamento || "-"}</td>
+                  <td className="financeiro-history-date" style={styles.celula}>{formatarData(pagamento.vencimentoAnterior)}</td>
+                  <td className="financeiro-history-date" style={styles.celula}>{formatarData(pagamento.vencimentoNovo)}</td>
+                  <td className="financeiro-history-observation" style={styles.celula}>{pagamento.observacao || pagamento.observacoes || "-"}</td>
                 </tr>
               ))
             )}
