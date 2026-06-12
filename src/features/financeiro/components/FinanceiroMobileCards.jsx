@@ -26,8 +26,8 @@ function FinanceiroMobileCards({
                 <span className="card-label">Nome do aluno</span>
                 <strong className="card-value card-title">{registro.aluno.nome}</strong>
               </div>
-              <span className={classeStatusAluno(registro.aluno.status)}>
-                {registro.aluno.status}
+              <span className={classeStatusAluno(registro.statusFinanceiro)}>
+                {registro.statusFinanceiro}
               </span>
             </div>
 
@@ -59,12 +59,21 @@ function FinanceiroMobileCards({
               <strong className="card-value">{formatarData(registro.aluno.vencimento)}</strong>
             </div>
             {registro.vencimentoParcelaAtual && (
-              <div className="card-row">
-                <span className="card-label">Vencimento da parcela</span>
-                <strong className="card-value">
-                  {formatarData(registro.vencimentoParcelaAtual)}
-                </strong>
-              </div>
+              <>
+                <div className="card-row">
+                  <span className="card-label">Vencimento da parcela</span>
+                  <strong className="card-value">
+                    {formatarData(registro.vencimentoParcelaAtual)}
+                  </strong>
+                </div>
+                <div className="card-row">
+                  <span className="card-label">Aviso da parcela</span>
+                  <strong className="card-value">
+                    7 dias: {formatarData(registro.aviso7Parcela)} | 1 dia:{" "}
+                    {formatarData(registro.aviso1Parcela)}
+                  </strong>
+                </div>
+              </>
             )}
             <div className="card-row">
               <span className="card-label">Status</span>

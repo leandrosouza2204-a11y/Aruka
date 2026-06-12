@@ -13,6 +13,8 @@ import { buscarPlanosSupabase } from "../../../services/planosService";
 import { abrirWhatsApp } from "../../../services/whatsappService";
 import {
   dataHojeISO,
+  calcularAvisosVencimento,
+  calcularResumoParcelasAluno,
   formatarData,
   formatarNomePlano,
 } from "../../../data/alunosUtils";
@@ -94,7 +96,7 @@ export function useFinanceiroPage() {
       .filter((registro) => {
         const combinaBusca = registro.aluno.nome.toLowerCase().includes(termo);
         const combinaStatus =
-          filtroStatus === "todos" || registro.aluno.status === filtroStatus;
+          filtroStatus === "todos" || registro.statusFinanceiro === filtroStatus;
         const combinaPagamento =
           filtroPagamento === "todos" ||
           (filtroPagamento === "recebidos" && registro.recebidoNoCiclo) ||
@@ -125,10 +127,14 @@ export function useFinanceiroPage() {
       receitaPrevista,
       receitaRecebida,
       receitaPendente,
-      alunosAtivos: alunos.filter((aluno) => aluno.status === "Ativo").length,
-      alunosVencidos: alunos.filter((aluno) => aluno.status === "Atrasado").length,
+      alunosAtivos: registrosFinanceiros.filter(
+        (registro) => registro.statusFinanceiro === "Ativo"
+      ).length,
+      alunosVencidos: registrosFinanceiros.filter((registro) =>
+        ["Atrasado", "Parcela atrasada"].includes(registro.statusFinanceiro)
+      ).length,
     };
-  }, [alunos, registrosFinanceiros]);
+  }, [registrosFinanceiros]);
 
   const rankingFinanceiro = useMemo(
     () => montarRankingFinanceiroAlunos(alunos, pagamentos, planos),
@@ -292,10 +298,16 @@ export function useFinanceiroPage() {
 function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
   const valorContrato = Number(aluno.valor || 0);
   const totalParcelas = calcularTotalParcelas(aluno, plano);
-  const parcelaAtual = calcularParcelaAtual(aluno.inicio, totalParcelas);
+  const resumoParcelas = calcularResumoParcelasAluno(aluno, pagamentosAluno, totalParcelas);
+  const parcelaAtual = resumoParcelas.parcelado
+    ? resumoParcelas.parcelaAtual
+    : calcularParcelaAtual(aluno.inicio, totalParcelas);
   const valorParcela = totalParcelas > 1 ? valorContrato / totalParcelas : valorContrato;
   const pagamentosOrdenados = ordenarPagamentos(pagamentosAluno);
-  const vencimentoParcelaAtual = calcularVencimentoParcela(aluno.inicio, parcelaAtual, totalParcelas);
+  const vencimentoParcelaAtual = resumoParcelas.vencimentoParcelaAtual;
+  const avisosParcela = vencimentoParcelaAtual
+    ? calcularAvisosVencimento(vencimentoParcelaAtual)
+    : { aviso7: "", aviso1: "" };
   const pagamentoCiclo = pagamentosOrdenados.find(
     (pagamento) => String(pagamento.parcela) === String(parcelaAtual)
   );
@@ -314,6 +326,10 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
     parcelaAtual,
     valorParcela,
     vencimentoParcelaAtual,
+    aviso7Parcela: avisosParcela.aviso7,
+    aviso1Parcela: avisosParcela.aviso1,
+    statusParcela: resumoParcelas.statusParcela,
+    statusFinanceiro: resumoParcelas.statusParcela || aluno.status,
     tipoMovimentoSugerido: inferirTipoMovimentoRegistro(aluno, plano, totalParcelas),
     pagamentoCiclo,
     ultimoPagamento: pagamentosOrdenados[0] || null,
@@ -377,15 +393,6 @@ function proximaParcela(registro) {
   return proxima;
 }
 
-function calcularVencimentoParcela(inicio, parcela, totalParcelas) {
-  if (totalParcelas <= 1 || !inicio) return "";
-
-  const data = new Date(`${inicio}T00:00:00`);
-  data.setMonth(data.getMonth() + Math.max(Number(parcela || 1) - 1, 0));
-
-  return data.toISOString().split("T")[0];
-}
-
 function ordenarPagamentos(pagamentos) {
   return [...pagamentos].sort((a, b) => {
     const data = String(b.dataPagamento).localeCompare(String(a.dataPagamento));
@@ -396,11 +403,16 @@ function ordenarPagamentos(pagamentos) {
 }
 
 function montarMensagemVencimento(registro) {
-  const dataVencimento = formatarData(registro.aluno.vencimento);
-  const dias = calcularDiasAte(registro.aluno.vencimento);
+  const cobrancaParcela = registro.totalParcelas > 1 && registro.vencimentoParcelaAtual;
+  const dataReferencia = cobrancaParcela
+    ? registro.vencimentoParcelaAtual
+    : registro.aluno.vencimento;
+  const dataVencimento = formatarData(dataReferencia);
+  const dias = calcularDiasAte(dataReferencia);
   const nomeAluno = registro.aluno.nome || "aluno";
-  const tipoCobranca =
-    registro.totalParcelas > 1 ? "próxima parcela da sua assessoria" : "seu plano";
+  const tipoCobranca = cobrancaParcela
+    ? `parcela ${registro.parcelaAtual}/${registro.totalParcelas} da sua assessoria`
+    : "seu plano";
 
   if (dias < 0) {
     return [

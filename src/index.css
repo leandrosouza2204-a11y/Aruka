@@ -606,7 +606,7 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
   border-radius: 8px;
   margin-top: 20px;
   max-width: 100%;
-  overflow-x: visible;
+  overflow-x: auto;
   overflow-y: visible;
   -webkit-overflow-scrolling: touch;
 }
@@ -1698,7 +1698,7 @@ body[data-theme="dark"] .admin-logs-panel select {
 }
 
 .financeiro-desktop-table {
-  min-width: 1128px;
+  min-width: 977px;
   table-layout: fixed;
   width: 100%;
 }
@@ -1738,43 +1738,43 @@ body[data-theme="dark"] .admin-logs-panel select {
 }
 
 .financeiro-col-aluno {
-  width: 175px;
-}
-
-.financeiro-col-plano {
-  width: 110px;
-}
-
-.financeiro-col-contrato {
-  width: 92px;
-}
-
-.financeiro-col-parcela {
-  width: 88px;
-}
-
-.financeiro-col-valor {
-  width: 106px;
-}
-
-.financeiro-col-recebido {
-  width: 98px;
-}
-
-.financeiro-col-vencimento {
-  width: 130px;
-}
-
-.financeiro-col-status {
-  width: 76px;
-}
-
-.financeiro-col-pagamento {
   width: 145px;
 }
 
+.financeiro-col-plano {
+  width: 90px;
+}
+
+.financeiro-col-contrato {
+  width: 80px;
+}
+
+.financeiro-col-parcela {
+  width: 76px;
+}
+
+.financeiro-col-valor {
+  width: 90px;
+}
+
+.financeiro-col-recebido {
+  width: 86px;
+}
+
+.financeiro-col-vencimento {
+  width: 112px;
+}
+
+.financeiro-col-status {
+  width: 70px;
+}
+
+.financeiro-col-pagamento {
+  width: 124px;
+}
+
 .financeiro-col-acoes {
-  width: 108px;
+  width: 104px;
 }
 
 .financeiro-actions-cell {

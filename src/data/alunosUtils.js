@@ -10,7 +10,6 @@ export function calcularStatus(vencimento, plano = "") {
 
   const dataVencimento = new Date(`${vencimento}T00:00:00`);
   const parcelado = plano === "trimestralParcelado";
-
   const diferencaDias = Math.ceil(
     (dataVencimento - hoje) / (1000 * 60 * 60 * 24)
   );
@@ -21,28 +20,88 @@ export function calcularStatus(vencimento, plano = "") {
   return "Ativo";
 }
 
-export function calcularDatas(dataInicio, meses, plano = "", parcela = 1) {
+export function calcularVencimentoParcela(inicio, parcela = 1) {
+  if (!inicio) return "";
+
+  const data = new Date(`${inicio}T00:00:00`);
+  data.setMonth(data.getMonth() + Math.max(Number(parcela || 1) - 1, 0));
+
+  return data.toISOString().split("T")[0];
+}
+
+export function calcularAvisosVencimento(vencimento) {
+  if (!vencimento) return { aviso7: "", aviso1: "" };
+
+  const aviso7 = new Date(`${vencimento}T00:00:00`);
+  aviso7.setDate(aviso7.getDate() - 7);
+
+  const aviso1 = new Date(`${vencimento}T00:00:00`);
+  aviso1.setDate(aviso1.getDate() - 1);
+
+  return {
+    aviso7: aviso7.toISOString().split("T")[0],
+    aviso1: aviso1.toISOString().split("T")[0],
+  };
+}
+
+export function calcularResumoParcelasAluno(aluno, pagamentos = [], totalParcelas = 1) {
+  const quantidadeParcelas = Math.max(Number(totalParcelas || 1), 1);
+  const parcelado = quantidadeParcelas > 1 || aluno.plano === "trimestralParcelado";
+
+  if (!parcelado) {
+    return {
+      parcelado: false,
+      parcelaAtual: 1,
+      totalParcelas: 1,
+      vencimentoParcelaAtual: "",
+      aviso7Parcela: "",
+      aviso1Parcela: "",
+      statusParcela: "",
+      parcelaRecebida: false,
+    };
+  }
+
+  const parcelasPagas = new Set(
+    pagamentos
+      .filter((pagamento) => Number(pagamento.valor || 0) > 0)
+      .map((pagamento) => Number(pagamento.parcela || 0))
+      .filter((parcela) => parcela > 0)
+  );
+  const parcelaAtual =
+    Array.from({ length: quantidadeParcelas }, (_, index) => index + 1).find(
+      (parcela) => !parcelasPagas.has(parcela)
+    ) || quantidadeParcelas;
+  const parcelaRecebida = parcelasPagas.has(parcelaAtual);
+  const vencimentoParcelaAtual = calcularVencimentoParcela(aluno.inicio, parcelaAtual);
+  const avisos = calcularAvisosVencimento(vencimentoParcelaAtual);
+
+  return {
+    parcelado: true,
+    parcelaAtual,
+    totalParcelas: quantidadeParcelas,
+    vencimentoParcelaAtual,
+    aviso7Parcela: avisos.aviso7,
+    aviso1Parcela: avisos.aviso1,
+    statusParcela: parcelaRecebida
+      ? "Parcela recebida"
+      : calcularStatus(vencimentoParcelaAtual, "trimestralParcelado"),
+    parcelaRecebida,
+  };
+}
+
+export function calcularDatas(dataInicio, meses) {
   if (!dataInicio) return {};
 
   const inicio = new Date(`${dataInicio}T00:00:00`);
   const vencimento = new Date(inicio);
-  const mesesAteVencimento =
-    plano === "trimestralParcelado"
-      ? Math.min(Math.max(Number(parcela || 1), 1), meses)
-      : meses;
 
-  vencimento.setMonth(vencimento.getMonth() + mesesAteVencimento);
-
-  const aviso7 = new Date(vencimento);
-  aviso7.setDate(aviso7.getDate() - 7);
-
-  const aviso1 = new Date(vencimento);
-  aviso1.setDate(aviso1.getDate() - 1);
+  vencimento.setMonth(vencimento.getMonth() + Number(meses || 1));
+  const avisos = calcularAvisosVencimento(vencimento.toISOString().split("T")[0]);
 
   return {
     vencimento: vencimento.toISOString().split("T")[0],
-    aviso7: aviso7.toISOString().split("T")[0],
-    aviso1: aviso1.toISOString().split("T")[0],
+    aviso7: avisos.aviso7,
+    aviso1: avisos.aviso1,
   };
 }
 

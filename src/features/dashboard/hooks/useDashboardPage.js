@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   calcularStatus,
+  calcularResumoParcelasAluno,
   formatarMoeda,
   normalizarAluno,
 } from "../../../data/alunosUtils";
@@ -61,20 +62,20 @@ export function useDashboardPage() {
     () =>
       alunos.filter((aluno) =>
         ["Vencendo", "Vencendo parcela"].includes(
-          calcularStatus(aluno.vencimento, aluno.plano)
+          calcularStatusDashboard(aluno, pagamentos)
         )
       ).length,
-    [alunos]
+    [alunos, pagamentos]
   );
 
   const alunosAtrasados = useMemo(
     () =>
       alunos.filter((aluno) =>
         ["Atrasado", "Parcela atrasada"].includes(
-          calcularStatus(aluno.vencimento, aluno.plano)
+          calcularStatusDashboard(aluno, pagamentos)
         )
       ).length,
-    [alunos]
+    [alunos, pagamentos]
   );
 
   const alunosAtivosCheckin = useMemo(
@@ -84,10 +85,10 @@ export function useDashboardPage() {
         .filter(
           (aluno) =>
             !["Atrasado", "Parcela atrasada"].includes(
-              calcularStatus(aluno.vencimento, aluno.plano)
+              calcularStatusDashboard(aluno, pagamentos)
             )
         ),
-    [alunos]
+    [alunos, pagamentos]
   );
 
   const receitaMensal = useMemo(() => gerarReceitaMensal(pagamentos), [pagamentos]);
@@ -181,6 +182,14 @@ export function useDashboardPage() {
     abrirModalCheckin,
     fecharModalCheckin,
   };
+}
+
+function calcularStatusDashboard(aluno, pagamentos) {
+  const pagamentosAluno = pagamentos.filter((pagamento) => pagamento.alunoId === aluno.id);
+  const totalParcelas = aluno.plano === "trimestralParcelado" ? 3 : 1;
+  const resumoParcelas = calcularResumoParcelasAluno(aluno, pagamentosAluno, totalParcelas);
+
+  return resumoParcelas.statusParcela || calcularStatus(aluno.vencimento, aluno.plano);
 }
 
 export function montarAlertasConsultoria({

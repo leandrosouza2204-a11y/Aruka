@@ -67,8 +67,8 @@ function FinanceiroTable({
                 <td className="cell-nowrap" style={styles.celula}>{formatarMoeda(registro.totalRecebido)}</td>
                 <td className="cell-nowrap" style={styles.celula}>{formatarData(registro.aluno.vencimento)}</td>
                 <td className="cell-nowrap" style={styles.celula}>
-                  <span className={classeStatusAluno(registro.aluno.status)}>
-                    {registro.aluno.status}
+                  <span className={classeStatusAluno(registro.statusFinanceiro)}>
+                    {registro.statusFinanceiro}
                   </span>
                 </td>
                 <td className="cell-nowrap" style={styles.celula}>
