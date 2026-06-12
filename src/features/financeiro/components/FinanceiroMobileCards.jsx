@@ -76,7 +76,7 @@ function FinanceiroMobileCards({
             </div>
             {registro.ultimoPagamento && (
               <div className="card-row">
-                <span className="card-label">Ultimo pagamento</span>
+                <span className="card-label">Último pagamento</span>
                 <strong className="card-value">
                   {formatarData(registro.ultimoPagamento.dataPagamento)} -{" "}
                   <span className="card-money">{formatarMoeda(registro.ultimoPagamento.valor)}</span>
@@ -105,13 +105,13 @@ function FinanceiroMobileCards({
                 {registro.pagamentos.length > 0 && (
                   <>
                     <TableActionItem onClick={() => onHistorico(registro)} variant="primary">
-                      Ver historico
+                      Ver histórico
                     </TableActionItem>
                     <TableActionItem onClick={() => onRelatorioAluno(registro)} variant="primary">
-                      Relatorio do aluno
+                      Relatório do aluno
                     </TableActionItem>
                     <TableActionItem onClick={() => onDesfazer(registro)} variant="danger">
-                      Desfazer ultimo pagamento
+                      Desfazer último pagamento
                     </TableActionItem>
                   </>
                 )}

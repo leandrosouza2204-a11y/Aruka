@@ -41,7 +41,7 @@ function FinanceiroTable({
             <th className="cell-nowrap" style={styles.header}>Vencimento do plano</th>
             <th className="cell-nowrap" style={styles.header}>Status</th>
             <th className="cell-nowrap" style={styles.header}>Pagamento</th>
-            <th className="cell-nowrap financeiro-actions-col" style={styles.header}>Acoes</th>
+            <th className="cell-nowrap financeiro-actions-col" style={styles.header}>Ações</th>
           </tr>
         </thead>
 
@@ -94,13 +94,13 @@ function FinanceiroTable({
                       {registro.pagamentos.length > 0 && (
                         <>
                           <TableActionItem onClick={() => onHistorico(registro)} variant="primary">
-                            Ver historico
+                            Ver histórico
                           </TableActionItem>
                           <TableActionItem onClick={() => onDesfazer(registro)} variant="danger">
-                            Desfazer ultimo pagamento
+                            Desfazer último pagamento
                           </TableActionItem>
                           <TableActionItem onClick={() => onRelatorioAluno(registro)} variant="primary">
-                            Relatorio do aluno
+                            Relatório do aluno
                           </TableActionItem>
                         </>
                       )}

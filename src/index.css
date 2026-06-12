@@ -1691,14 +1691,14 @@ body[data-theme="dark"] .admin-logs-panel select {
 }
 
 .financeiro-table {
-  overflow-x: hidden !important;
+  overflow-x: auto !important;
   overflow-y: visible;
-  width: 100%;
   max-width: 100%;
+  width: 100%;
 }
 
 .financeiro-desktop-table {
-  min-width: 0 !important;
+  min-width: 1128px;
   table-layout: fixed;
   width: 100%;
 }
@@ -1706,18 +1706,17 @@ body[data-theme="dark"] .admin-logs-panel select {
 .financeiro-desktop-table th,
 .financeiro-desktop-table td {
   max-width: none !important;
-  overflow: hidden;
-  overflow-wrap: anywhere !important;
-  padding: 8px 6px !important;
-  text-overflow: clip;
+  overflow: visible;
+  overflow-wrap: normal !important;
+  padding: 9px 8px !important;
   vertical-align: middle;
   word-break: normal !important;
 }
 
 .financeiro-desktop-table th {
-  font-size: 10px !important;
+  font-size: 10.5px !important;
   line-height: 1.15;
-  white-space: normal !important;
+  white-space: nowrap !important;
 }
 
 .financeiro-desktop-table td {
@@ -1739,43 +1738,43 @@ body[data-theme="dark"] .admin-logs-panel select {
 }
 
 .financeiro-col-aluno {
-  width: 14%;
+  width: 175px;
 }
 
 .financeiro-col-plano {
-  width: 10%;
+  width: 110px;
 }
 
 .financeiro-col-contrato {
-  width: 8%;
+  width: 92px;
 }
 
 .financeiro-col-parcela {
-  width: 8.5%;
+  width: 88px;
 }
 
 .financeiro-col-valor {
-  width: 8.5%;
+  width: 106px;
 }
 
 .financeiro-col-recebido {
-  width: 8%;
+  width: 98px;
 }
 
 .financeiro-col-vencimento {
-  width: 12%;
+  width: 130px;
 }
 
 .financeiro-col-status {
-  width: 7%;
+  width: 76px;
 }
 
 .financeiro-col-pagamento {
-  width: 12%;
+  width: 145px;
 }
 
 .financeiro-col-acoes {
-  width: 12%;
+  width: 108px;
 }
 
 .financeiro-actions-cell {
@@ -1787,12 +1786,12 @@ body[data-theme="dark"] .admin-logs-panel select {
   display: flex;
   gap: 6px;
   justify-content: flex-start;
-  min-width: 0;
+  min-width: max-content;
   white-space: nowrap;
 }
 
 .financeiro-actions-inline .table-button {
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   min-width: 62px;
   padding-left: 8px;
   padding-right: 8px;

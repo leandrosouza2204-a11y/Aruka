@@ -160,8 +160,8 @@ export function useFinanceiroPage() {
 
   function abrirRenovacaoPlano() {
     toast.aviso(
-      "Renovacao em etapa futura",
-      "O recebimento agora nao renova planos parcelados. Use esta acao futuramente para renovar o plano separado do pagamento."
+      "Renovação em etapa futura",
+      "O recebimento agora não renova planos parcelados. Use esta ação futuramente para renovar o plano separado do pagamento."
     );
   }
 
@@ -171,7 +171,7 @@ export function useFinanceiroPage() {
     const valor = Number(formPagamento.valor || 0);
 
     if (!formPagamento.dataPagamento || valor <= 0) {
-      toast.aviso("Pagamento incompleto", "Informe a data e um valor valido para o pagamento.");
+      toast.aviso("Pagamento incompleto", "Informe a data e um valor válido para o pagamento.");
       return;
     }
 
@@ -199,11 +199,11 @@ export function useFinanceiroPage() {
 
       await carregarDados();
       fecharModalPagamento();
-      toast.sucesso("Pagamento registrado", "Historico financeiro atualizado.");
+      toast.sucesso("Pagamento registrado", "Histórico financeiro atualizado.");
     } catch (error) {
       console.error(error);
       setErro(`Erro ao registrar pagamento: ${error.message}`);
-      toast.erro("Nao foi possivel registrar o pagamento", "Tente novamente em alguns instantes.");
+      toast.erro("Não foi possível registrar o pagamento", "Tente novamente em alguns instantes.");
     } finally {
       setAtualizandoId("");
     }
@@ -216,8 +216,8 @@ export function useFinanceiroPage() {
 
     const confirmado = await confirmar({
       titulo: "Desfazer ultimo pagamento?",
-      descricao: `Apenas o ultimo pagamento de ${registro.aluno.nome} sera removido. Os pagamentos anteriores permanecem no historico.`,
-      textoConfirmar: "Desfazer ultimo",
+      descricao: `Apenas o último pagamento de ${registro.aluno.nome} será removido. Os pagamentos anteriores permanecem no histórico.`,
+      textoConfirmar: "Desfazer último",
     });
 
     if (!confirmado) return;
@@ -228,11 +228,11 @@ export function useFinanceiroPage() {
     try {
       await desfazerUltimoPagamento(registro.aluno.id);
       await carregarDados();
-      toast.sucesso("Pagamento desfeito", "O ultimo pagamento foi removido com seguranca.");
+      toast.sucesso("Pagamento desfeito", "O último pagamento foi removido com segurança.");
     } catch (error) {
       console.error(error);
       setErro(`Erro ao desfazer pagamento: ${error.message}`);
-      toast.erro("Nao foi possivel desfazer o pagamento", "Tente novamente em alguns instantes.");
+      toast.erro("Não foi possível desfazer o pagamento", "Tente novamente em alguns instantes.");
     } finally {
       setAtualizandoId("");
     }
@@ -400,17 +400,17 @@ function montarMensagemVencimento(registro) {
   const dias = calcularDiasAte(registro.aluno.vencimento);
   const nomeAluno = registro.aluno.nome || "aluno";
   const tipoCobranca =
-    registro.totalParcelas > 1 ? "proxima parcela da sua assessoria" : "seu plano";
+    registro.totalParcelas > 1 ? "próxima parcela da sua assessoria" : "seu plano";
 
   if (dias < 0) {
     return [
       "Oi, tudo bem?",
       "",
-      `Passando para informar que ${tipoCobranca} ja esta vencido desde ${dataVencimento}.`,
+      `Passando para informar que ${tipoCobranca} já está vencido desde ${dataVencimento}.`,
       "",
       "Caso tenha interesse em continuar com a assessoria, me avise para darmos continuidade ao seu acompanhamento.",
       "",
-      "Qualquer duvida, estou a disposicao!",
+      "Qualquer dúvida, estou à disposição!",
       "",
       "CoachFlow - Organize. Guie. Transforme.",
     ].join("\n");
@@ -420,36 +420,36 @@ function montarMensagemVencimento(registro) {
     return [
       "Vencimento da consultoria hoje",
       "",
-      `Ola, ${nomeAluno}! Tudo bem?`,
+      `Olá, ${nomeAluno}! Tudo bem?`,
       "",
-      `Hoje e a data de vencimento de ${tipoCobranca}: ${dataVencimento}.`,
+      `Hoje é a data de vencimento de ${tipoCobranca}: ${dataVencimento}.`,
       "",
-      "Para manter seu acompanhamento ativo, peco que realize o pagamento referente a renovacao.",
+      "Para manter seu acompanhamento ativo, peço que realize o pagamento referente à renovação.",
       "",
-      "Qualquer duvida pode me chamar por aqui.",
+      "Qualquer dúvida pode me chamar por aqui.",
     ].join("\n");
   }
 
   if (dias === 1) {
     return [
-      "Seu plano vence amanha",
+      "Seu plano vence amanhã",
       "",
-      `Ola, ${nomeAluno}! Tudo certo?`,
+      `Olá, ${nomeAluno}! Tudo certo?`,
       "",
-      `Passando para lembrar que ${tipoCobranca} vence amanha, dia ${dataVencimento}.`,
+      `Passando para lembrar que ${tipoCobranca} vence amanhã, dia ${dataVencimento}.`,
       "",
-      "Caso ja tenha realizado o pagamento, pode desconsiderar esta mensagem.",
+      "Caso já tenha realizado o pagamento, pode desconsiderar esta mensagem.",
     ].join("\n");
   }
 
   return [
     "Lembrete de vencimento da sua consultoria",
     "",
-    `Ola, ${nomeAluno}! Tudo bem?`,
+    `Olá, ${nomeAluno}! Tudo bem?`,
     "",
     `Passando para lembrar que ${tipoCobranca} vence no dia ${dataVencimento}.`,
     "",
-    "Qualquer duvida estou a disposicao.",
+    "Qualquer dúvida estou à disposição.",
   ].join("\n");
 }
 

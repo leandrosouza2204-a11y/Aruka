@@ -40,12 +40,25 @@ export async function buscarPagamentosPorAluno(alunoId) {
 
 export async function adicionarPagamentoSupabase(pagamento) {
   const user = await buscarUsuarioLogado();
+  const payload = pagamentoParaPayload(pagamento, user.id);
 
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from("pagamentos")
-    .insert(pagamentoParaPayload(pagamento, user.id))
+    .insert(payload)
     .select()
     .single();
+
+  if (erroSchemaCache(error)) {
+    const payloadCompativel = pagamentoParaPayloadLegado(payload);
+    const resultado = await supabase
+      .from("pagamentos")
+      .insert(payloadCompativel)
+      .select()
+      .single();
+
+    data = resultado.data;
+    error = resultado.error;
+  }
 
   if (error) throw error;
 
@@ -102,7 +115,7 @@ export async function desfazerUltimoPagamento(alunoId) {
   const pagamentosPorRegistro = ordenarPorRegistro(pagamentos);
   const ultimoPagamento = pagamentosPorRegistro[0];
 
-  if (!aluno) throw new Error("Aluno nao encontrado.");
+  if (!aluno) throw new Error("Aluno não encontrado.");
   if (!ultimoPagamento) throw new Error("Nenhum pagamento encontrado para desfazer.");
 
   await excluirPagamentoSupabase(ultimoPagamento.id);
@@ -164,7 +177,7 @@ export async function calcularResumoFinanceiroAluno(alunoId) {
   ]);
   const aluno = alunos.find((item) => item.id === alunoId);
 
-  if (!aluno) throw new Error("Aluno nao encontrado.");
+  if (!aluno) throw new Error("Aluno não encontrado.");
 
   return montarResumoFinanceiroAluno(
     aluno,
@@ -236,7 +249,7 @@ async function buscarUsuarioLogado() {
   } = await supabase.auth.getUser();
 
   if (error) throw error;
-  if (!user) throw new Error("Usuario nao autenticado.");
+  if (!user) throw new Error("Usuário não autenticado.");
 
   return user;
 }
@@ -281,6 +294,26 @@ function pagamentoParaPayload(pagamento, userId) {
     observacao,
     observacoes: observacao,
   };
+}
+
+function pagamentoParaPayloadLegado(payload) {
+  const legado = { ...payload };
+
+  delete legado.plano;
+  delete legado.tipo_movimento;
+  delete legado.vencimento_parcela;
+  delete legado.vencimento_anterior;
+  delete legado.vencimento_novo;
+  delete legado.observacao;
+
+  return legado;
+}
+
+function erroSchemaCache(error) {
+  return (
+    error?.code === "PGRST204" ||
+    String(error?.message || "").includes("schema cache")
+  );
 }
 
 function calcularRenovacaoPagamento({ aluno, plano, dataPagamento }) {

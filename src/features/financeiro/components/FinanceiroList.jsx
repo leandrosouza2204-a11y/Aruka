@@ -147,9 +147,9 @@ function PagamentoModal({ registro, form, atualizando, onChange, onClose, onSave
             style={styles.campo}
           >
             <option value="Pix">Pix</option>
-            <option value="Cartao">Cartao</option>
+            <option value="Cartao">Cartão</option>
             <option value="Dinheiro">Dinheiro</option>
-            <option value="Transferencia">Transferencia</option>
+            <option value="Transferencia">Transferência</option>
             <option value="Boleto">Boleto</option>
             <option value="Outro">Outro</option>
           </select>
@@ -163,7 +163,7 @@ function PagamentoModal({ registro, form, atualizando, onChange, onClose, onSave
             style={styles.campo}
           >
             <option value="pagamento_parcela">Pagamento de parcela</option>
-            <option value="renovacao_plano">Renovacao de plano</option>
+            <option value="renovacao_plano">Renovação de plano</option>
             <option value="pagamento_avulso">Pagamento avulso</option>
           </select>
         </label>
@@ -190,7 +190,7 @@ function PagamentoModal({ registro, form, atualizando, onChange, onClose, onSave
         </label>
 
         <label style={{ ...styles.campoGrupo, gridColumn: "1 / -1" }}>
-          <span style={styles.labelCampo}>Observacao</span>
+          <span style={styles.labelCampo}>Observação</span>
           <textarea
             rows="3"
             value={form.observacao ?? form.observacoes ?? ""}
@@ -224,13 +224,13 @@ function HistoricoFinanceiroModal({ registro, onClose, onRelatorio, styles }) {
     <ModalBase onClose={onClose} styles={styles} largura="min(980px, 100%)">
       <div className="financeiro-modal-topo" style={styles.modalTopo}>
         <div>
-          <h2 style={styles.modalTitulo}>Historico financeiro do aluno</h2>
+          <h2 style={styles.modalTitulo}>Histórico financeiro do aluno</h2>
           <p style={styles.secaoLegenda}>
             {registro.aluno.nome} - total pago {formatarMoeda(totalPago)}
           </p>
         </div>
         <div className="financeiro-modal-actions" style={styles.modalAcoes}>
-          <button onClick={onRelatorio} className="table-button table-button-primary">Relatorio</button>
+          <button onClick={onRelatorio} className="table-button table-button-primary">Relatório</button>
           <button onClick={onClose} style={styles.botaoNeutro}>Fechar</button>
         </div>
       </div>
@@ -258,7 +258,7 @@ function HistoricoFinanceiroModal({ registro, onClose, onRelatorio, styles }) {
               <th style={styles.header}>Forma</th>
               <th style={styles.header}>Vencimento do plano antes</th>
               <th style={styles.header}>Vencimento do plano depois</th>
-              <th style={styles.header}>Observacao</th>
+              <th style={styles.header}>Observação</th>
             </tr>
           </thead>
           <tbody>
@@ -298,7 +298,7 @@ function HistoricoFinanceiroModal({ registro, onClose, onRelatorio, styles }) {
             <Info label="Forma" valor={pagamento.formaPagamento || "-"} />
             <Info label="Vencimento do plano antes" valor={formatarData(pagamento.vencimentoAnterior)} />
             <Info label="Vencimento do plano depois" valor={formatarData(pagamento.vencimentoNovo)} />
-            <Info label="Observacao" valor={pagamento.observacao || pagamento.observacoes || "-"} />
+            <Info label="Observação" valor={pagamento.observacao || pagamento.observacoes || "-"} />
           </article>
         ))}
       </div>
@@ -313,29 +313,29 @@ function RelatorioAlunoModal({ registro, onClose, styles }) {
     <ModalBase onClose={onClose} styles={styles} largura="min(720px, 100%)">
       <div className="financeiro-modal-topo" style={styles.modalTopo}>
         <div>
-          <h2 style={styles.modalTitulo}>Relatorio financeiro do aluno</h2>
+          <h2 style={styles.modalTitulo}>Relatório financeiro do aluno</h2>
           <p style={styles.secaoLegenda}>{resumo.nomeAluno}</p>
         </div>
         <button onClick={onClose} style={styles.botaoNeutro}>Fechar</button>
       </div>
 
       <div style={styles.resumoGrid}>
-        <ResumoItem label="Data de inicio" valor={formatarData(resumo.dataInicio)} styles={styles} />
+        <ResumoItem label="Data de início" valor={formatarData(resumo.dataInicio)} styles={styles} />
         <ResumoItem label="Tempo na consultoria" valor={`${resumo.tempoConsultoriaMeses} meses`} styles={styles} />
         <ResumoItem label="Total pago" valor={formatarMoeda(resumo.totalPago)} styles={styles} />
         <ResumoItem label="Pagamentos" valor={resumo.quantidadePagamentos} styles={styles} />
-        <ResumoItem label="Ticket medio" valor={formatarMoeda(resumo.ticketMedio)} styles={styles} />
+        <ResumoItem label="Ticket médio" valor={formatarMoeda(resumo.ticketMedio)} styles={styles} />
         <ResumoItem label="Plano atual" valor={resumo.planoAtual} styles={styles} />
-        <ResumoItem label="Ultimo pagamento" valor={formatarData(resumo.ultimoPagamento?.dataPagamento)} styles={styles} />
-        <ResumoItem label="Proximo vencimento" valor={formatarData(resumo.proximoVencimento)} styles={styles} />
+        <ResumoItem label="Último pagamento" valor={formatarData(resumo.ultimoPagamento?.dataPagamento)} styles={styles} />
+        <ResumoItem label="Próximo vencimento" valor={formatarData(resumo.proximoVencimento)} styles={styles} />
       </div>
 
       <section style={styles.relatorioBox}>
-        <h3 style={styles.subtituloModal}>Resumo para promocoes</h3>
+        <h3 style={styles.subtituloModal}>Resumo para promoções</h3>
         <p style={styles.secaoLegenda}>
           {resumo.recorrenteEmDia
-            ? "Aluno com pagamentos recorrentes em dia, bom candidato para bonus, renovacao antecipada ou campanha de fidelidade."
-            : "Use o historico para avaliar campanhas de reativacao, renovacao ou acompanhamento individual."}
+            ? "Aluno com pagamentos recorrentes em dia, bom candidato para bônus, renovação antecipada ou campanha de fidelidade."
+            : "Use o histórico para avaliar campanhas de reativação, renovação ou acompanhamento individual."}
         </p>
       </section>
     </ModalBase>
@@ -347,7 +347,7 @@ function RelatorioGeralModal({ ranking, onClose, styles }) {
     <ModalBase onClose={onClose} styles={styles} largura="min(980px, 100%)">
       <div className="financeiro-modal-topo" style={styles.modalTopo}>
         <div>
-          <h2 style={styles.modalTitulo}>Relatorios financeiros</h2>
+          <h2 style={styles.modalTitulo}>Relatórios financeiros</h2>
           <p style={styles.secaoLegenda}>Rankings para identificar alunos antigos, recorrentes e com maior valor acumulado.</p>
         </div>
         <button onClick={onClose} style={styles.botaoNeutro}>Fechar</button>
@@ -415,7 +415,7 @@ function Info({ label, valor }) {
 function formatarTipoMovimento(tipo) {
   const mapa = {
     pagamento_parcela: "Pagamento de parcela",
-    renovacao_plano: "Renovacao de plano",
+    renovacao_plano: "Renovação de plano",
     pagamento_avulso: "Pagamento avulso",
   };
 
