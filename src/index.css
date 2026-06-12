@@ -1690,6 +1690,25 @@ body[data-theme="dark"] .admin-logs-panel select {
   flex-basis: 100%;
 }
 
+.financeiro-desktop-table .cell-nowrap {
+  white-space: nowrap !important;
+}
+
+.financeiro-actions-col,
+.financeiro-actions-cell {
+  width: 1%;
+}
+
+.financeiro-actions-inline {
+  justify-content: flex-start;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.financeiro-actions-inline .table-actions-trigger {
+  flex: 0 0 auto;
+}
+
 .treinos-mobile-cards {
   display: none;
   margin-top: 16px;
@@ -1766,15 +1785,19 @@ body[data-theme="dark"] .admin-logs-panel select {
 
   .financeiro-card-actions {
     display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 44px;
   }
 
   .financeiro-card-actions .table-button {
     width: 100%;
   }
 
-  .financeiro-card-actions .financeiro-action-main,
-  .financeiro-card-actions .table-button-danger {
+  .financeiro-card-actions .table-actions-menu,
+  .financeiro-card-actions .table-actions-trigger {
+    width: 100%;
+  }
+
+  .financeiro-card-actions .financeiro-action-main {
     grid-column: 1 / -1;
   }
 

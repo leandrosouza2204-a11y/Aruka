@@ -1,3 +1,4 @@
+import TableActions, { TableActionItem } from "../../../components/TableActions";
 import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
 
 function FinanceiroMobileCards({
@@ -91,44 +92,30 @@ function FinanceiroMobileCards({
               >
                 Receber
               </button>
-              {registro.pagamentos.length > 0 && (
-                <>
-                  <button
-                    onClick={() => onHistorico(registro)}
-                    className="table-button table-button-secondary"
-                    disabled={atualizandoId === registro.aluno.id}
-                  >
-                    Historico
-                  </button>
-                  <button
-                    onClick={() => onRelatorioAluno(registro)}
-                    className="table-button table-button-primary"
-                    disabled={atualizandoId === registro.aluno.id}
-                  >
-                    Relatorio
-                  </button>
-                  <button
-                    onClick={() => onDesfazer(registro)}
-                    className="table-button table-button-danger"
-                    disabled={atualizandoId === registro.aluno.id}
-                  >
-                    Desfazer ultimo
-                  </button>
-                </>
-              )}
-              <button
-                onClick={() => onRenovarPlano(registro)}
-                className="table-button table-button-primary"
-                disabled={atualizandoId === registro.aluno.id}
-              >
-                Renovar plano
-              </button>
               <button
                 onClick={() => onWhatsApp(registro)}
                 className="table-button table-button-success"
               >
                 WhatsApp
               </button>
+              <TableActions>
+                <TableActionItem onClick={() => onRenovarPlano(registro)} variant="primary">
+                  Renovar plano
+                </TableActionItem>
+                {registro.pagamentos.length > 0 && (
+                  <>
+                    <TableActionItem onClick={() => onHistorico(registro)} variant="primary">
+                      Ver historico
+                    </TableActionItem>
+                    <TableActionItem onClick={() => onRelatorioAluno(registro)} variant="primary">
+                      Relatorio do aluno
+                    </TableActionItem>
+                    <TableActionItem onClick={() => onDesfazer(registro)} variant="danger">
+                      Desfazer ultimo pagamento
+                    </TableActionItem>
+                  </>
+                )}
+              </TableActions>
             </div>
           </article>
         ))

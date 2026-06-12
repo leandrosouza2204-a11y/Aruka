@@ -17,19 +17,19 @@ function FinanceiroTable({
 }) {
   return (
     <div className="app-table-scroll desktop-table financeiro-table">
-      <table className="app-table" style={styles.tabela}>
+      <table className="app-table financeiro-desktop-table" style={styles.tabela}>
         <thead>
           <tr style={styles.linhaCabecalho}>
             <th style={styles.header}>Aluno</th>
             <th style={styles.header}>Plano</th>
-            <th style={styles.header}>Contrato</th>
-            <th style={styles.header}>Parcela atual</th>
-            <th style={styles.header}>Valor parcela</th>
-            <th style={styles.header}>Recebido</th>
-            <th style={styles.header}>Vencimento do plano</th>
-            <th style={styles.header}>Status</th>
-            <th style={styles.header}>Pagamento</th>
-            <th style={styles.header}>Ações</th>
+            <th className="cell-nowrap" style={styles.header}>Contrato</th>
+            <th className="cell-nowrap" style={styles.header}>Parcela atual</th>
+            <th className="cell-nowrap" style={styles.header}>Valor parcela</th>
+            <th className="cell-nowrap" style={styles.header}>Recebido</th>
+            <th className="cell-nowrap" style={styles.header}>Vencimento do plano</th>
+            <th className="cell-nowrap" style={styles.header}>Status</th>
+            <th className="cell-nowrap" style={styles.header}>Pagamento</th>
+            <th className="cell-nowrap financeiro-actions-col" style={styles.header}>Acoes</th>
           </tr>
         </thead>
 
@@ -47,27 +47,27 @@ function FinanceiroTable({
               <tr key={registro.aluno.id}>
                 <td className="cell-wide" style={styles.celula}>{registro.aluno.nome}</td>
                 <td style={styles.celula}>{registro.nomePlano}</td>
-                <td style={styles.celula}>{formatarMoeda(registro.valorContrato)}</td>
-                <td style={styles.celula}>
+                <td className="cell-nowrap" style={styles.celula}>{formatarMoeda(registro.valorContrato)}</td>
+                <td className="cell-nowrap" style={styles.celula}>
                   {registro.parcelaAtual}/{registro.totalParcelas}
                 </td>
-                <td style={styles.celula}>{formatarMoeda(registro.valorParcela)}</td>
-                <td style={styles.celula}>{formatarMoeda(registro.totalRecebido)}</td>
-                <td style={styles.celula}>{formatarData(registro.aluno.vencimento)}</td>
-                <td style={styles.celula}>
+                <td className="cell-nowrap" style={styles.celula}>{formatarMoeda(registro.valorParcela)}</td>
+                <td className="cell-nowrap" style={styles.celula}>{formatarMoeda(registro.totalRecebido)}</td>
+                <td className="cell-nowrap" style={styles.celula}>{formatarData(registro.aluno.vencimento)}</td>
+                <td className="cell-nowrap" style={styles.celula}>
                   <span className={classeStatusAluno(registro.aluno.status)}>
                     {registro.aluno.status}
                   </span>
                 </td>
-                <td style={styles.celula}>
+                <td className="cell-nowrap" style={styles.celula}>
                   {registro.recebidoNoCiclo
                     ? `Recebido em ${formatarData(
                         registro.pagamentoCiclo?.dataPagamento
                       )}`
                     : "Pendente"}
                 </td>
-                <td style={styles.celula}>
-                  <div className="table-actions-inline">
+                <td className="cell-nowrap financeiro-actions-cell" style={styles.celula}>
+                  <div className="table-actions-inline financeiro-actions-inline">
                     <button
                       onClick={() => onReceber(registro)}
                       className="table-button table-button-success"
@@ -75,15 +75,6 @@ function FinanceiroTable({
                     >
                       Receber
                     </button>
-                    {registro.pagamentos.length > 0 && (
-                      <button
-                        onClick={() => onHistorico(registro)}
-                        className="table-button table-button-secondary"
-                        disabled={atualizandoId === registro.aluno.id}
-                      >
-                        Histórico
-                      </button>
-                    )}
                     <TableActions>
                       <TableActionItem onClick={() => onRenovarPlano(registro)} variant="primary">
                         Renovar plano
@@ -91,13 +82,13 @@ function FinanceiroTable({
                       {registro.pagamentos.length > 0 && (
                         <>
                           <TableActionItem onClick={() => onHistorico(registro)} variant="primary">
-                            Ver histórico
+                            Ver historico
                           </TableActionItem>
                           <TableActionItem onClick={() => onDesfazer(registro)} variant="danger">
-                            Desfazer último pagamento
+                            Desfazer ultimo pagamento
                           </TableActionItem>
                           <TableActionItem onClick={() => onRelatorioAluno(registro)} variant="primary">
-                            Relatório do aluno
+                            Relatorio do aluno
                           </TableActionItem>
                         </>
                       )}
