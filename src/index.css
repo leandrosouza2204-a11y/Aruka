@@ -662,6 +662,54 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
   max-width: 340px;
 }
 
+.plan-installment-toggle {
+  align-items: flex-start;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  width: 100%;
+}
+
+.plan-installment-toggle input {
+  flex: 0 0 auto;
+  margin-top: 4px;
+}
+
+.plan-installment-content {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.plan-installment-content strong {
+  color: #111827;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.plan-installment-content small {
+  color: #4b5563;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+body[data-theme="dark"] .plan-installment-toggle {
+  background: #182235;
+  border-color: #334155;
+}
+
+body[data-theme="dark"] .plan-installment-content strong {
+  color: #f8fafc;
+}
+
+body[data-theme="dark"] .plan-installment-content small {
+  color: #cbd5e1;
+}
+
 .table-actions-inline {
   align-items: center;
   display: flex;
@@ -1378,6 +1426,21 @@ body[data-theme="dark"] .session-timeout-secondary {
     justify-content: center !important;
     min-height: 42px;
     width: 100%;
+  }
+
+  .plan-installment-toggle {
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px;
+    width: 100%;
+  }
+
+  .plan-installment-content strong {
+    font-size: 14px;
+  }
+
+  .plan-installment-content small {
+    font-size: 12px;
   }
 
   .desktop-table {

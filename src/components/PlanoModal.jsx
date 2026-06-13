@@ -146,13 +146,13 @@ function PlanoModal({ plano, onClose, onSave, salvando }) {
             </select>
           </Campo>
 
-          <label style={switchCard}>
+          <label className="plan-installment-toggle" style={switchCard}>
             <input
               type="checkbox"
               checked={form.permiteParcelamento}
               onChange={(e) => alternarParcelamento(e.target.checked)}
             />
-            <span>
+            <span className="plan-installment-content">
               <strong>Permitir parcelamento</strong>
               <small>Quando ativo, o Financeiro acompanha parcelas separadas do vencimento final do plano.</small>
             </span>
@@ -306,14 +306,7 @@ const campo = {
 };
 
 const switchCard = {
-  alignItems: "flex-start",
-  background: "#f9fafb",
-  border: "1px solid #e5e7eb",
-  borderRadius: "8px",
-  display: "flex",
-  gap: "10px",
   gridColumn: "1 / -1",
-  padding: "12px",
 };
 
 const rodape = {
