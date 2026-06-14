@@ -906,6 +906,31 @@ body[data-theme="dark"] .plan-installment-content small {
   content: "-";
 }
 
+.treinos-info-grid {
+  width: 100%;
+}
+
+.treino-info-card {
+  min-width: 0;
+  width: 100%;
+}
+
+.treino-info-card-icon {
+  flex: 0 0 auto;
+}
+
+.treino-info-card-content {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  width: 100%;
+}
+
+.treino-info-card-value {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
 .treino-day:hover,
 .treino-info-card:hover,
 .treino-exercise-card:hover {
@@ -2421,13 +2446,26 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
   }
 
   .treinos-info-grid {
+    display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
     padding: 14px !important;
+    width: 100% !important;
   }
 
   .treino-info-card {
     align-items: flex-start !important;
+    display: flex !important;
+    gap: 12px !important;
+    min-height: 118px !important;
     min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  .treino-info-card-content {
+    align-content: start;
+    min-width: 0 !important;
+    width: 100% !important;
   }
 
   .treino-info-card strong {
@@ -2486,11 +2524,17 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
   }
 }
 
-@media (max-width: 390px) {
+@media (max-width: 360px) {
   .treinos-info-grid {
     grid-template-columns: 1fr !important;
   }
 
+  .treino-info-card-highlight {
+    grid-column: auto !important;
+  }
+}
+
+@media (max-width: 390px) {
   .treinos-modelos-actions {
     grid-template-columns: 1fr !important;
   }

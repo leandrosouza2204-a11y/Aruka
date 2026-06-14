@@ -159,16 +159,16 @@ function TreinoDetalhesModal({ treino, onEnviarWhatsApp, onFechar, styles }) {
 function Info({ label, valor, icon, destaque = false, styles }) {
   return (
     <div
-      className="treino-info-card"
+      className={`treino-info-card${destaque ? " treino-info-card-highlight" : ""}`}
       style={{
         ...styles.infoItem,
         ...(destaque ? styles.infoItemDestaque : {}),
       }}
     >
-      {icon && <span style={styles.infoIcon}>{icon}</span>}
-      <div>
+      {icon && <span className="treino-info-card-icon" style={styles.infoIcon}>{icon}</span>}
+      <div className="treino-info-card-content">
         <span style={styles.infoLabel}>{label}</span>
-        <strong style={styles.infoValor}>{valor || "-"}</strong>
+        <strong className="treino-info-card-value" style={styles.infoValor}>{valor || "-"}</strong>
       </div>
     </div>
   );
