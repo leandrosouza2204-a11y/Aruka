@@ -423,56 +423,74 @@ export function montarMensagemVencimento(registro) {
 
   if (dias < 0) {
     return [
-      "⚠️ Consultoria com vencimento pendente",
+      "⚠️ *Consultoria com vencimento pendente*",
       "",
-      `Olá, ${primeiroNome}. Tudo bem?`,
+      `Olá, *${primeiroNome}*! Tudo bem? 😊`,
       "",
-      `Identifiquei que o vencimento do seu plano de consultoria estava previsto para o dia ${dataVencimento} e consta como pendente.`,
+      `Identifiquei que o vencimento do seu plano de consultoria estava previsto para o dia *${dataVencimento}* e consta como *pendente*.`,
       "",
       "Para regularizar seu acompanhamento e manter o suporte ativo normalmente, peço que realize o pagamento assim que possível.",
       "",
-      "Qualquer dúvida, estou à disposição.",
+      "📲 Qualquer dúvida, estou à disposição.",
     ].join("\n");
   }
 
   if (dias === 0) {
     return [
-      "📅 Vencimento da consultoria hoje",
+      "🚨 *Vencimento da consultoria hoje*",
       "",
-      `Olá, ${primeiroNome}. Tudo bem?`,
+      `Olá, *${primeiroNome}*! Tudo bem? 😊`,
       "",
       "Hoje é a data de vencimento do seu plano de consultoria.",
       "",
-      "Para manter seu acompanhamento ativo, com treino atualizado, ajustes quando necessário e suporte normalmente, peço que realize o pagamento referente à renovação do plano.",
+      "💪 Para manter seu acompanhamento ativo, com:",
+      "✅ Treino atualizado",
+      "✅ Ajustes sempre que necessário",
+      "✅ Suporte direto",
+      "✅ Acompanhamento da sua evolução",
       "",
-      "Qualquer dúvida, estou à disposição.",
+      "Peço que realize o pagamento referente à renovação do plano.",
+      "",
+      "📲 Qualquer dúvida, estou à disposição.",
     ].join("\n");
   }
 
   if (dias === 1) {
     return [
-      "📅 Lembrete de vencimento da consultoria",
+      "⏰ *Lembrete de vencimento da consultoria*",
       "",
-      `Olá, ${primeiroNome}. Tudo bem?`,
+      `Olá, *${primeiroNome}*! Tudo bem? 😊`,
       "",
-      `Passando para lembrar que o vencimento do seu plano de consultoria será amanhã, dia ${dataVencimento}.`,
+      `Passando para lembrar que o vencimento do seu plano de consultoria será *amanhã*, dia *${dataVencimento}*.`,
       "",
-      "Para manter seu acompanhamento ativo, com treino atualizado, ajustes quando necessário e suporte normalmente, peço que realize o pagamento até a data de vencimento.",
+      "💪 Para manter seu acompanhamento ativo, com:",
+      "✅ Treino atualizado",
+      "✅ Ajustes sempre que necessário",
+      "✅ Suporte direto",
+      "✅ Acompanhamento da sua evolução",
       "",
-      "Qualquer dúvida, estou à disposição.",
+      "Peço que realize o pagamento até a data de vencimento.",
+      "",
+      "📲 Qualquer dúvida, estou à disposição.",
     ].join("\n");
   }
 
   return [
-    "📅 Lembrete de vencimento da consultoria",
+    "📅 *Lembrete de vencimento da consultoria*",
     "",
-    `Olá, ${primeiroNome}. Tudo bem?`,
+    `Olá, *${primeiroNome}*! Tudo bem? 😊`,
     "",
-    `Passando para lembrar que o vencimento do seu plano de consultoria será daqui a ${dias} dias, no dia ${dataVencimento}.`,
+    `Passando para lembrar que o vencimento do seu plano de consultoria será em *${dias} dias*, no dia *${dataVencimento}*.`,
     "",
-    "Para manter seu acompanhamento ativo, com treino atualizado, ajustes quando necessário e suporte normalmente, peço que se programe para realizar o pagamento até a data de vencimento.",
+    "💪 Para manter seu acompanhamento ativo, com:",
+    "✅ Treino atualizado",
+    "✅ Ajustes sempre que necessário",
+    "✅ Suporte direto",
+    "✅ Acompanhamento da sua evolução",
     "",
-    "Qualquer dúvida, estou à disposição.",
+    "Peço que se programe para realizar o pagamento até a data de vencimento.",
+    "",
+    "📲 Qualquer dúvida, estou à disposição.",
   ].join("\n");
 }
 
