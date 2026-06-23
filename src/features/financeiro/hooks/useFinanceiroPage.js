@@ -10,7 +10,10 @@ import {
   registrarPagamento as registrarPagamentoService,
 } from "../../../services/pagamentosService";
 import { buscarPlanosSupabase } from "../../../services/planosService";
-import { abrirWhatsApp } from "../../../services/whatsappService";
+import {
+  abrirWhatsApp,
+  obterPrimeiroNome,
+} from "../../../services/whatsappService";
 import {
   dataHojeISO,
   calcularAvisosVencimento,
@@ -409,76 +412,101 @@ function ordenarPagamentos(pagamentos) {
   });
 }
 
-function montarMensagemVencimento(registro) {
+export function montarMensagemVencimento(registro) {
   const cobrancaParcela = registro.totalParcelas > 1 && registro.vencimentoParcelaAtual;
   const dataReferencia = cobrancaParcela
     ? registro.vencimentoParcelaAtual
     : registro.aluno.vencimento;
   const dataVencimento = formatarData(dataReferencia);
   const dias = calcularDiasAte(dataReferencia);
-  const nomeAluno = registro.aluno.nome || "aluno";
-  const tipoCobranca = cobrancaParcela
-    ? `parcela ${registro.parcelaAtual}/${registro.totalParcelas} da sua assessoria`
-    : "seu plano";
+  const primeiroNome = obterPrimeiroNome(registro.aluno.nome);
 
   if (dias < 0) {
     return [
-      "Oi, tudo bem?",
+      "⚠️ Consultoria com vencimento pendente",
       "",
-      `Passando para informar que ${tipoCobranca} já está vencido desde ${dataVencimento}.`,
+      `Olá, ${primeiroNome}. Tudo bem?`,
       "",
-      "Caso tenha interesse em continuar com a assessoria, me avise para darmos continuidade ao seu acompanhamento.",
+      `Identifiquei que o vencimento do seu plano de consultoria estava previsto para o dia ${dataVencimento} e consta como pendente.`,
       "",
-      "Qualquer dúvida, estou à disposição!",
+      "Para regularizar seu acompanhamento e manter o suporte ativo normalmente, peço que realize o pagamento assim que possível.",
       "",
-      "CoachFlow - Organize. Guie. Transforme.",
+      "Qualquer dúvida, estou à disposição.",
     ].join("\n");
   }
 
   if (dias === 0) {
     return [
-      "Vencimento da consultoria hoje",
+      "📅 Vencimento da consultoria hoje",
       "",
-      `Olá, ${nomeAluno}! Tudo bem?`,
+      `Olá, ${primeiroNome}. Tudo bem?`,
       "",
-      `Hoje é a data de vencimento de ${tipoCobranca}: ${dataVencimento}.`,
+      "Hoje é a data de vencimento do seu plano de consultoria.",
       "",
-      "Para manter seu acompanhamento ativo, peço que realize o pagamento referente à renovação.",
+      "Para manter seu acompanhamento ativo, com treino atualizado, ajustes quando necessário e suporte normalmente, peço que realize o pagamento referente à renovação do plano.",
       "",
-      "Qualquer dúvida pode me chamar por aqui.",
+      "Qualquer dúvida, estou à disposição.",
     ].join("\n");
   }
 
   if (dias === 1) {
     return [
-      "Seu plano vence amanhã",
+      "📅 Lembrete de vencimento da consultoria",
       "",
-      `Olá, ${nomeAluno}! Tudo certo?`,
+      `Olá, ${primeiroNome}. Tudo bem?`,
       "",
-      `Passando para lembrar que ${tipoCobranca} vence amanhã, dia ${dataVencimento}.`,
+      `Passando para lembrar que o vencimento do seu plano de consultoria será amanhã, dia ${dataVencimento}.`,
       "",
-      "Caso já tenha realizado o pagamento, pode desconsiderar esta mensagem.",
+      "Para manter seu acompanhamento ativo, com treino atualizado, ajustes quando necessário e suporte normalmente, peço que realize o pagamento até a data de vencimento.",
+      "",
+      "Qualquer dúvida, estou à disposição.",
     ].join("\n");
   }
 
   return [
-    "Lembrete de vencimento da sua consultoria",
+    "📅 Lembrete de vencimento da consultoria",
     "",
-    `Olá, ${nomeAluno}! Tudo bem?`,
+    `Olá, ${primeiroNome}. Tudo bem?`,
     "",
-    `Passando para lembrar que ${tipoCobranca} vence no dia ${dataVencimento}.`,
+    `Passando para lembrar que o vencimento do seu plano de consultoria será daqui a ${dias} dias, no dia ${dataVencimento}.`,
     "",
-    "Qualquer dúvida estou à disposição.",
+    "Para manter seu acompanhamento ativo, com treino atualizado, ajustes quando necessário e suporte normalmente, peço que se programe para realizar o pagamento até a data de vencimento.",
+    "",
+    "Qualquer dúvida, estou à disposição.",
   ].join("\n");
 }
 
-function calcularDiasAte(data) {
+export function calcularDiasAte(data, hoje = new Date()) {
   if (!data) return null;
 
-  const hoje = new Date();
-  hoje.setHours(0, 0, 0, 0);
+  const dataAlvo = extrairPartesData(data);
+  const dataAtual = extrairPartesData(hoje);
 
-  const alvo = new Date(`${data}T00:00:00`);
+  if (!dataAlvo || !dataAtual) return null;
 
-  return Math.ceil((alvo - hoje) / (1000 * 60 * 60 * 24));
+  const alvoUtc = Date.UTC(dataAlvo.ano, dataAlvo.mes - 1, dataAlvo.dia);
+  const hojeUtc = Date.UTC(dataAtual.ano, dataAtual.mes - 1, dataAtual.dia);
+
+  return Math.round((alvoUtc - hojeUtc) / (1000 * 60 * 60 * 24));
+}
+
+function extrairPartesData(data) {
+  if (data instanceof Date) {
+    if (Number.isNaN(data.getTime())) return null;
+
+    return {
+      ano: data.getFullYear(),
+      mes: data.getMonth() + 1,
+      dia: data.getDate(),
+    };
+  }
+
+  const correspondencia = String(data).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!correspondencia) return null;
+
+  return {
+    ano: Number(correspondencia[1]),
+    mes: Number(correspondencia[2]),
+    dia: Number(correspondencia[3]),
+  };
 }

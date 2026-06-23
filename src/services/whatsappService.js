@@ -48,7 +48,7 @@ export function abrirWhatsApp(telefone, mensagem) {
 }
 
 export function gerarMensagemCheckinSemanal(aluno) {
-  const nome = primeiroNome(aluno?.nome);
+  const nome = obterPrimeiroNome(aluno?.nome);
 
   return [
     `Ol\u00E1, ${nome}! Tudo bem? ${EMOJIS.wave}`,
@@ -69,7 +69,7 @@ export function gerarMensagemCheckinSemanal(aluno) {
   ].join("\n");
 }
 
-function primeiroNome(nome) {
+export function obterPrimeiroNome(nome) {
   const primeiro = String(nome || "").trim().split(/\s+/)[0];
   return primeiro || "aluno";
 }
