@@ -34,8 +34,8 @@ function FinanceiroFilters({
           <option value="Ativo">Ativo</option>
           <option value="Vencendo">Vencendo</option>
           <option value="Vencendo parcela">Vencendo parcela</option>
-          <option value="Atrasado">Atrasado</option>
-          <option value="Parcela atrasada">Parcela atrasada</option>
+          <option value="Vencido">Vencido</option>
+          <option value="Parcela vencida">Parcela vencida</option>
         </select>
 
         <select

@@ -4,6 +4,8 @@ import {
   calcularStatus,
   formatarMoeda,
   normalizarAluno,
+  statusEstaVencido,
+  statusEstaVencendo,
 } from "../../../data/alunosUtils";
 import { buscarAlunosSupabase } from "../../../services/alunosService";
 import { buscarPagamentosSupabase } from "../../../services/pagamentosService";
@@ -66,19 +68,15 @@ export function useDashboardPage() {
   const alunosVencendo = useMemo(
     () =>
       alunos.filter((aluno) =>
-        ["Vencendo", "Vencendo parcela"].includes(
-          calcularStatusDashboard(aluno, pagamentos, planos)
-        )
+        statusEstaVencendo(calcularStatusDashboard(aluno, pagamentos, planos))
       ).length,
     [alunos, pagamentos, planos]
   );
 
-  const alunosAtrasados = useMemo(
+  const alunosVencidos = useMemo(
     () =>
       alunos.filter((aluno) =>
-        ["Atrasado", "Parcela atrasada"].includes(
-          calcularStatusDashboard(aluno, pagamentos, planos)
-        )
+        statusEstaVencido(calcularStatusDashboard(aluno, pagamentos, planos))
       ).length,
     [alunos, pagamentos, planos]
   );
@@ -89,9 +87,7 @@ export function useDashboardPage() {
         .map(normalizarAluno)
         .filter(
           (aluno) =>
-            !["Atrasado", "Parcela atrasada"].includes(
-              calcularStatusDashboard(aluno, pagamentos, planos)
-            )
+            !statusEstaVencido(calcularStatusDashboard(aluno, pagamentos, planos))
         ),
     [alunos, pagamentos, planos]
   );
@@ -105,12 +101,12 @@ export function useDashboardPage() {
   const alertasConsultoria = useMemo(
     () =>
       montarAlertasConsultoria({
-        alunosAtrasados,
+        alunosVencidos,
         alunosVencendo,
         alunosAtivosCheckin,
         receitaPendente,
       }),
-    [alunosAtrasados, alunosAtivosCheckin, alunosVencendo, receitaPendente]
+    [alunosVencidos, alunosAtivosCheckin, alunosVencendo, receitaPendente]
   );
 
   const metricas = useMemo(
@@ -149,15 +145,15 @@ export function useDashboardPage() {
         destaque: "#f59e0b",
       },
       {
-        titulo: "Alunos Atrasados",
-        valor: carregando ? "..." : alunosAtrasados,
+        titulo: "Alunos Vencidos",
+        valor: carregando ? "..." : alunosVencidos,
         legenda: "Necessitam atenção",
         tipo: "atrasados",
         destaque: "#dc2626",
       },
     ],
     [
-      alunosAtrasados,
+      alunosVencidos,
       alunosVencendo,
       carregando,
       receitaPendente,
@@ -204,20 +200,20 @@ function calcularStatusDashboard(aluno, pagamentos, planos) {
     plano?.intervaloParcelasMeses || 1
   );
 
-  return resumoParcelas.statusParcela || calcularStatus(aluno.vencimento, aluno.plano);
+  return resumoParcelas.statusParcela || calcularStatus(aluno.vencimento);
 }
 
 export function montarAlertasConsultoria({
-  alunosAtrasados,
+  alunosVencidos,
   alunosVencendo,
   alunosAtivosCheckin,
   receitaPendente,
 }) {
   const alertas = [];
 
-  if (alunosAtrasados > 0) {
+  if (alunosVencidos > 0) {
     alertas.push({
-      titulo: "Regularizar alunos atrasados",
+      titulo: "Regularizar alunos vencidos",
       texto: "Priorize contato e renegociação para evitar perda de acompanhamento.",
       rotulo: "Atenção",
       tom: "danger",

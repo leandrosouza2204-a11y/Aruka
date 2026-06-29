@@ -1,23 +1,77 @@
 export function dataHojeISO() {
-  return new Date().toISOString().split("T")[0];
+  const hoje = new Date();
+  const ano = hoje.getFullYear();
+  const mes = String(hoje.getMonth() + 1).padStart(2, "0");
+  const dia = String(hoje.getDate()).padStart(2, "0");
+
+  return `${ano}-${mes}-${dia}`;
 }
 
-export function calcularStatus(vencimento, plano = "") {
+export function calcularStatus(vencimento, plano = "", hoje = new Date()) {
   if (!vencimento) return "Ativo";
 
-  const hoje = new Date();
-  hoje.setHours(0, 0, 0, 0);
+  const diferencaDias = calcularDiferencaDias(vencimento, hoje);
+  if (diferencaDias === null) return "Ativo";
 
-  const dataVencimento = new Date(`${vencimento}T00:00:00`);
   const parcelado = plano === "trimestralParcelado";
-  const diferencaDias = Math.ceil(
-    (dataVencimento - hoje) / (1000 * 60 * 60 * 24)
-  );
 
-  if (diferencaDias < 0) return parcelado ? "Parcela atrasada" : "Atrasado";
+  if (diferencaDias < 0) return parcelado ? "Parcela vencida" : "Vencido";
   if (diferencaDias <= 7) return parcelado ? "Vencendo parcela" : "Vencendo";
 
   return "Ativo";
+}
+
+export function statusEstaVencido(status) {
+  return ["Vencido", "Parcela vencida", "Atrasado", "Parcela atrasada"].includes(status);
+}
+
+export function statusEstaVencendo(status) {
+  return ["Vencendo", "Vencendo parcela"].includes(status);
+}
+
+function calcularDiferencaDias(dataAlvo, dataAtual) {
+  const alvo = extrairPartesData(dataAlvo);
+  const hoje = extrairPartesData(dataAtual);
+
+  if (!alvo || !hoje) return null;
+
+  const alvoUtc = Date.UTC(alvo.ano, alvo.mes - 1, alvo.dia);
+  const hojeUtc = Date.UTC(hoje.ano, hoje.mes - 1, hoje.dia);
+
+  return Math.round((alvoUtc - hojeUtc) / (1000 * 60 * 60 * 24));
+}
+
+function extrairPartesData(data) {
+  if (data instanceof Date) {
+    if (Number.isNaN(data.getTime())) return null;
+
+    return {
+      ano: data.getFullYear(),
+      mes: data.getMonth() + 1,
+      dia: data.getDate(),
+    };
+  }
+
+  const texto = String(data || "").trim();
+  const iso = texto.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (iso) {
+    return {
+      ano: Number(iso[1]),
+      mes: Number(iso[2]),
+      dia: Number(iso[3]),
+    };
+  }
+
+  const br = texto.match(/^(\d{2})\/(\d{2})\/(\d{4})/);
+  if (br) {
+    return {
+      ano: Number(br[3]),
+      mes: Number(br[2]),
+      dia: Number(br[1]),
+    };
+  }
+
+  return null;
 }
 
 export function calcularVencimentoParcela(inicio, parcela = 1, intervaloMeses = 1) {
@@ -80,6 +134,7 @@ export function calcularResumoParcelasAluno(
       (parcela) => !parcelasPagas.has(parcela)
     ) || quantidadeParcelas;
   const parcelaRecebida = parcelasPagas.has(parcelaAtual);
+  const todasParcelasRecebidas = parcelasPagas.size >= quantidadeParcelas;
   const vencimentoParcelaAtual = calcularVencimentoParcela(
     aluno.inicio,
     parcelaAtual,
@@ -94,8 +149,8 @@ export function calcularResumoParcelasAluno(
     vencimentoParcelaAtual,
     aviso7Parcela: avisos.aviso7,
     aviso1Parcela: avisos.aviso1,
-    statusParcela: parcelaRecebida
-      ? "Parcela recebida"
+    statusParcela: todasParcelasRecebidas
+      ? ""
       : calcularStatus(vencimentoParcelaAtual, "trimestralParcelado"),
     parcelaRecebida,
   };
@@ -134,12 +189,12 @@ export function ordenarPorVencimento(alunos) {
     const statusA = calcularStatus(a.vencimento, a.plano);
     const statusB = calcularStatus(b.vencimento, b.plano);
 
-    if (statusA.includes("atrasada") || statusA === "Atrasado") {
-      if (!statusB.includes("atrasada") && statusB !== "Atrasado") return -1;
+    if (statusEstaVencido(statusA)) {
+      if (!statusEstaVencido(statusB)) return -1;
     }
 
-    if (statusB.includes("atrasada") || statusB === "Atrasado") {
-      if (!statusA.includes("atrasada") && statusA !== "Atrasado") return 1;
+    if (statusEstaVencido(statusB)) {
+      if (!statusEstaVencido(statusA)) return 1;
     }
 
     const dataA = a.vencimento ? new Date(`${a.vencimento}T00:00:00`) : null;
@@ -186,6 +241,8 @@ export function corStatus(status) {
     case "Vencendo":
     case "Vencendo parcela":
       return "#f59e0b";
+    case "Vencido":
+    case "Parcela vencida":
     case "Atrasado":
     case "Parcela atrasada":
       return "#dc2626";

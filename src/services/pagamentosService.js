@@ -1,4 +1,4 @@
-import { calcularStatus, dataHojeISO } from "../data/alunosUtils";
+import { calcularStatus, dataHojeISO, statusEstaVencido } from "../data/alunosUtils";
 import { atualizarAlunoSupabase, buscarAlunosSupabase } from "./alunosService";
 import { buscarPlanosSupabase } from "./planosService";
 import { supabase } from "./supabase";
@@ -216,7 +216,8 @@ export function montarResumoFinanceiroAluno(aluno, pagamentos = [], plano = null
     planoAtual: plano?.nome || aluno.plano || "-",
     ultimoPagamento,
     proximoVencimento: aluno.vencimento || "",
-    recorrenteEmDia: quantidadePagamentos >= 2 && !["Atrasado", "Parcela atrasada"].includes(aluno.status),
+    recorrenteEmDia:
+      quantidadePagamentos >= 2 && !statusEstaVencido(calcularStatus(aluno.vencimento, aluno.plano)),
   };
 }
 

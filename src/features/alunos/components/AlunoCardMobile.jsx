@@ -71,7 +71,7 @@ function classeStatusAluno(status) {
   if (["Vencendo", "Vencendo parcela"].includes(status)) {
     return "status-badge status-badge-warning";
   }
-  if (["Atrasado", "Parcela atrasada"].includes(status)) {
+  if (["Vencido", "Parcela vencida", "Atrasado", "Parcela atrasada"].includes(status)) {
     return "status-badge status-badge-danger";
   }
 

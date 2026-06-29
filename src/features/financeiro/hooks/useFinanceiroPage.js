@@ -18,8 +18,10 @@ import {
   dataHojeISO,
   calcularAvisosVencimento,
   calcularResumoParcelasAluno,
+  calcularStatus,
   formatarData,
   formatarNomePlano,
+  statusEstaVencido,
 } from "../../../data/alunosUtils";
 
 export const pagamentoInicial = {
@@ -134,7 +136,7 @@ export function useFinanceiroPage() {
         (registro) => registro.statusFinanceiro === "Ativo"
       ).length,
       alunosVencidos: registrosFinanceiros.filter((registro) =>
-        ["Atrasado", "Parcela atrasada"].includes(registro.statusFinanceiro)
+        statusEstaVencido(registro.statusFinanceiro)
       ).length,
     };
   }, [registrosFinanceiros]);
@@ -319,9 +321,12 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
   const avisosParcela = vencimentoParcelaAtual
     ? calcularAvisosVencimento(vencimentoParcelaAtual)
     : { aviso7: "", aviso1: "" };
-  const pagamentoCiclo = pagamentosOrdenados.find(
-    (pagamento) => String(pagamento.parcela) === String(parcelaAtual)
-  );
+  const statusFinanceiro =
+    resumoParcelas.statusParcela || calcularStatus(aluno.vencimento);
+  const pagamentoCiclo = resumoParcelas.parcelado
+    ? pagamentosOrdenados.find((pagamento) => String(pagamento.parcela) === String(parcelaAtual))
+    : encontrarPagamentoContratoAtual(aluno, pagamentosOrdenados);
+  const recebidoNoCiclo = Boolean(pagamentoCiclo) && !statusEstaVencido(statusFinanceiro);
   const totalRecebido = pagamentosAluno.reduce(
     (total, pagamento) => total + Number(pagamento.valor || 0),
     0
@@ -340,11 +345,11 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
     aviso7Parcela: avisosParcela.aviso7,
     aviso1Parcela: avisosParcela.aviso1,
     statusParcela: resumoParcelas.statusParcela,
-    statusFinanceiro: resumoParcelas.statusParcela || aluno.status,
+    statusFinanceiro,
     tipoMovimentoSugerido: inferirTipoMovimentoRegistro(aluno, plano, totalParcelas),
     pagamentoCiclo,
     ultimoPagamento: pagamentosOrdenados[0] || null,
-    recebidoNoCiclo: Boolean(pagamentoCiclo),
+    recebidoNoCiclo,
     totalRecebido,
     valorPendente: Math.max(valorContrato - totalRecebido, 0),
     resumoAluno: montarResumoFinanceiroAluno(aluno, pagamentosAluno, plano),
@@ -410,6 +415,16 @@ function ordenarPagamentos(pagamentos) {
 
     return String(b.createdAt).localeCompare(String(a.createdAt));
   });
+}
+
+function encontrarPagamentoContratoAtual(aluno, pagamentosOrdenados) {
+  if (!aluno.vencimento) return null;
+
+  return pagamentosOrdenados.find(
+    (pagamento) =>
+      pagamento.vencimentoNovo === aluno.vencimento ||
+      pagamento.vencimentoParcela === aluno.vencimento
+  );
 }
 
 export function montarMensagemVencimento(registro) {
