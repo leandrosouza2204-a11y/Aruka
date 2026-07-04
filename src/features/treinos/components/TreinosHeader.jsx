@@ -1,3 +1,4 @@
+import { Dumbbell, Layers3, Sparkles } from "lucide-react";
 import PageHero from "../../../components/PageHero";
 
 const modelosDisponiveis = ["ABC", "ABCD", "ABCDE", "Full Body", "Upper/Lower"];
@@ -18,12 +19,16 @@ function TreinosHeader({
         meta={`${quantidadeFiltrada} de ${quantidadeTotal} treinos exibidos`}
         actions={
           <button onClick={onNovoTreino} style={styles.botaoPrimario}>
-            + Novo Treino
+            + Novo treino
           </button>
         }
       />
 
-      <section className="treinos-list-card app-card" style={styles.listaCard}>
+      <section
+        id="treinos-modelos-rapidos"
+        className="treinos-list-card app-card"
+        style={styles.listaCard}
+      >
         <div className="treinos-modelos" style={styles.modelosRapidos}>
           <div>
             <span style={styles.modelosTitulo}>Modelos rápidos</span>
@@ -38,6 +43,7 @@ function TreinosHeader({
                 onClick={() => onGerarModelo(modelo)}
                 style={styles.botaoPill}
               >
+                {iconeModelo(modelo)}
                 Gerar {modelo}
               </button>
             ))}
@@ -46,6 +52,13 @@ function TreinosHeader({
       </section>
     </>
   );
+}
+
+function iconeModelo(modelo) {
+  if (modelo === "Full Body") return <Dumbbell size={14} />;
+  if (modelo === "Upper/Lower") return <Layers3 size={14} />;
+
+  return <Sparkles size={14} />;
 }
 
 export default TreinosHeader;

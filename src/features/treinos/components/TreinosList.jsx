@@ -1,13 +1,11 @@
 import { Dumbbell } from "lucide-react";
-import InlineDetails from "../../../components/InlineDetails";
 import Sidebar from "../../../components/Sidebar";
 import TreinoModal from "../../../components/TreinoModal";
 import { useTreinosPage } from "../hooks/useTreinosPage";
-import TreinoCardMobile from "./TreinoCardMobile";
+import TreinosCards from "./TreinosCards";
 import TreinoDetalhesModal from "./TreinoDetalhesModal";
 import TreinosFilters from "./TreinosFilters";
 import TreinosHeader from "./TreinosHeader";
-import TreinosTable from "./TreinosTable";
 
 function TreinosList() {
   const treinosPage = useTreinosPage();
@@ -19,6 +17,12 @@ function TreinosList() {
     }
 
     treinosPage.visualizarTreino(id);
+  };
+  const focarModelos = () => {
+    document.getElementById("treinos-modelos-rapidos")?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
   };
 
   return (
@@ -34,65 +38,55 @@ function TreinosList() {
           styles={styles}
         />
 
-        <TreinosFilters
-          busca={treinosPage.busca}
-          filtroAluno={treinosPage.filtroAluno}
-          filtroObjetivo={treinosPage.filtroObjetivo}
-          filtroNivel={treinosPage.filtroNivel}
-          filtroStatus={treinosPage.filtroStatus}
-          opcoesFiltro={treinosPage.opcoesFiltro}
-          onBuscaChange={treinosPage.setBusca}
-          onFiltroAlunoChange={treinosPage.setFiltroAluno}
-          onFiltroObjetivoChange={treinosPage.setFiltroObjetivo}
-          onFiltroNivelChange={treinosPage.setFiltroNivel}
-          onFiltroStatusChange={treinosPage.setFiltroStatus}
-          onLimparFiltros={treinosPage.limparFiltros}
-          styles={styles}
-        />
-
         {treinosPage.erro && <div style={styles.erroBox}>{treinosPage.erro}</div>}
 
-        <TreinosTable
-          carregando={treinosPage.carregando}
-          treinos={treinosPage.treinosFiltrados}
-          onVisualizar={alternarTreino}
-          onEditar={treinosPage.abrirEdicao}
-          onDuplicar={treinosPage.duplicarTreino}
-          onExcluir={treinosPage.removerTreino}
-          onNovoTreino={treinosPage.abrirNovoTreino}
-          styles={styles}
-        />
-
-        {!treinosPage.carregando && treinosPage.treinosFiltrados.length > 0 && (
-          <div className="mobile-card-list treinos-mobile-cards">
-            {treinosPage.treinosFiltrados.map((treino) => (
-              <TreinoCardMobile
-                key={treino.id}
-                treino={treino}
-                isExpanded={treinoSelecionadoId === treino.id}
-                onVisualizar={alternarTreino}
-                onEditar={treinosPage.abrirEdicao}
-                onDuplicar={treinosPage.duplicarTreino}
-                onExcluir={treinosPage.removerTreino}
-              >
-                <InlineDetails
-                  className="mobile-inline-details"
-                  itemId={treino.id}
-                  selectedItemId={treinoSelecionadoId}
-                >
-                  <TreinoDetalhesModal
-                    treino={treinosPage.treinoSelecionado}
-                    onEnviarWhatsApp={treinosPage.copiarTreinoWhatsApp}
-                    onFechar={treinosPage.fecharDetalhes}
-                    styles={styles}
-                  />
-                </InlineDetails>
-              </TreinoCardMobile>
-            ))}
+        <section className="treinos-library-section" style={styles.librarySection}>
+          <div style={styles.libraryHeader}>
+            <div>
+              <span style={styles.libraryEyebrow}>Biblioteca</span>
+              <h2 style={styles.libraryTitle}>Biblioteca de treinos</h2>
+              <p style={styles.librarySubtitle}>
+                Gerencie as rotinas criadas para seus alunos.
+              </p>
+            </div>
+            <span style={styles.libraryCounter}>
+              {treinosPage.treinosFiltrados.length} rotinas
+            </span>
           </div>
-        )}
 
-        <div className="desktop-detail-panel">
+          <div style={styles.filterCard}>
+            <TreinosFilters
+              busca={treinosPage.busca}
+              filtroAluno={treinosPage.filtroAluno}
+              filtroObjetivo={treinosPage.filtroObjetivo}
+              filtroNivel={treinosPage.filtroNivel}
+              filtroStatus={treinosPage.filtroStatus}
+              opcoesFiltro={treinosPage.opcoesFiltro}
+              onBuscaChange={treinosPage.setBusca}
+              onFiltroAlunoChange={treinosPage.setFiltroAluno}
+              onFiltroObjetivoChange={treinosPage.setFiltroObjetivo}
+              onFiltroNivelChange={treinosPage.setFiltroNivel}
+              onFiltroStatusChange={treinosPage.setFiltroStatus}
+              onLimparFiltros={treinosPage.limparFiltros}
+              styles={styles}
+            />
+          </div>
+
+          <TreinosCards
+            carregando={treinosPage.carregando}
+            selectedId={treinoSelecionadoId}
+            treinos={treinosPage.treinosFiltrados}
+            onVisualizar={alternarTreino}
+            onEditar={treinosPage.abrirEdicao}
+            onDuplicar={treinosPage.duplicarTreino}
+            onExcluir={treinosPage.removerTreino}
+            onNovoTreino={treinosPage.abrirNovoTreino}
+            onUsarModelo={focarModelos}
+            styles={styles}
+          />
+        </section>
+
+        <div className="treinos-detail-panel">
           <TreinoDetalhesModal
             treino={treinosPage.treinoSelecionado}
             onEnviarWhatsApp={treinosPage.copiarTreinoWhatsApp}
@@ -109,8 +103,16 @@ function TreinosList() {
             <div>
               <h2 style={styles.semTreinoTitulo}>Nenhum treino selecionado.</h2>
               <p style={styles.semTreinoTexto}>
-                Selecione um treino na tabela para visualizar os detalhes organizados por dia.
+                Selecione uma rotina na biblioteca ou crie um novo treino para visualizar os detalhes.
               </p>
+              <div style={styles.semTreinoAcoes}>
+                <button onClick={treinosPage.abrirNovoTreino} style={styles.botaoPrimario}>
+                  Novo treino
+                </button>
+                <button onClick={focarModelos} style={styles.botaoSecundario}>
+                  Usar modelo rápido
+                </button>
+              </div>
             </div>
           </section>
         )}
@@ -186,6 +188,189 @@ const modelosLinha = {
   gap: "8px",
   flexWrap: "wrap",
   justifyContent: "flex-end",
+};
+
+const librarySection = {
+  background: "rgba(255, 255, 255, 0.9)",
+  backdropFilter: "blur(16px)",
+  border: "1px solid rgba(255, 255, 255, 0.76)",
+  borderRadius: "8px",
+  boxShadow: "0 24px 58px rgba(15, 23, 42, 0.09)",
+  marginTop: "18px",
+  padding: "22px",
+};
+
+const libraryHeader = {
+  alignItems: "flex-start",
+  display: "flex",
+  gap: "16px",
+  justifyContent: "space-between",
+  marginBottom: "16px",
+};
+
+const libraryEyebrow = {
+  color: "#2563eb",
+  display: "block",
+  fontSize: "12px",
+  fontWeight: "850",
+  marginBottom: "6px",
+  textTransform: "uppercase",
+};
+
+const libraryTitle = {
+  color: "#111827",
+  fontSize: "24px",
+  lineHeight: 1.15,
+  margin: 0,
+};
+
+const librarySubtitle = {
+  color: "#64748b",
+  fontSize: "14px",
+  marginTop: "7px",
+};
+
+const libraryCounter = {
+  background: "#eff6ff",
+  border: "1px solid #bfdbfe",
+  borderRadius: "999px",
+  color: "#1d4ed8",
+  flex: "0 0 auto",
+  fontSize: "12px",
+  fontWeight: "850",
+  padding: "8px 11px",
+};
+
+const filterCard = {
+  background: "linear-gradient(180deg, rgba(248, 250, 252, 0.92), rgba(255, 255, 255, 0.94))",
+  border: "1px solid rgba(226, 232, 240, 0.7)",
+  borderRadius: "8px",
+  boxShadow: "0 12px 28px rgba(15, 23, 42, 0.045)",
+  marginBottom: "18px",
+  padding: "14px",
+};
+
+const libraryGrid = {
+  display: "grid",
+  gap: "16px",
+  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+};
+
+const libraryLoading = {
+  background: "rgba(248, 250, 252, 0.9)",
+  border: "1px solid rgba(226, 232, 240, 0.7)",
+  borderRadius: "8px",
+  padding: "28px",
+};
+
+const treinoCard = {
+  background: "linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,250,252,0.95))",
+  border: "1px solid rgba(226, 232, 240, 0.7)",
+  borderRadius: "8px",
+  boxShadow: "0 18px 42px rgba(15, 23, 42, 0.075)",
+  display: "grid",
+  gap: "14px",
+  minWidth: 0,
+  padding: "16px",
+  transition: "transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease",
+};
+
+const treinoCardSelecionado = {
+  borderColor: "rgba(37, 99, 235, 0.55)",
+  boxShadow: "0 24px 56px rgba(37, 99, 235, 0.16)",
+};
+
+const treinoCardTop = {
+  alignItems: "center",
+  display: "flex",
+  gap: "12px",
+  justifyContent: "space-between",
+};
+
+const treinoCardIcon = {
+  alignItems: "center",
+  background: "#eff6ff",
+  borderRadius: "8px",
+  color: "#2563eb",
+  display: "inline-flex",
+  height: "38px",
+  justifyContent: "center",
+  width: "38px",
+};
+
+const treinoCardTitulo = {
+  color: "#0f172a",
+  fontSize: "18px",
+  lineHeight: 1.25,
+  margin: 0,
+};
+
+const treinoCardAluno = {
+  color: "#64748b",
+  fontSize: "14px",
+  marginTop: "5px",
+};
+
+const treinoBadges = {
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "8px",
+};
+
+const treinoMetaGrid = {
+  display: "grid",
+  gap: "10px",
+  gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+};
+
+const treinoMetaItem = {
+  alignItems: "center",
+  background: "rgba(239, 246, 255, 0.62)",
+  border: "1px solid rgba(191, 219, 254, 0.42)",
+  borderRadius: "8px",
+  display: "flex",
+  gap: "9px",
+  minHeight: "62px",
+  minWidth: 0,
+  padding: "10px",
+};
+
+const treinoMetaIcon = {
+  color: "#2563eb",
+  display: "inline-flex",
+  flex: "0 0 auto",
+};
+
+const treinoMetaLabel = {
+  color: "#64748b",
+  display: "block",
+  fontSize: "11px",
+  fontWeight: "850",
+  marginBottom: "3px",
+  textTransform: "uppercase",
+};
+
+const treinoMetaValor = {
+  color: "#111827",
+  display: "block",
+  fontSize: "13px",
+  lineHeight: 1.25,
+};
+
+const treinoCardActions = {
+  alignItems: "center",
+  borderTop: "1px solid rgba(226, 232, 240, 0.72)",
+  display: "flex",
+  gap: "8px",
+  justifyContent: "space-between",
+  paddingTop: "14px",
+};
+
+const treinoVisualizar = {
+  alignItems: "center",
+  display: "inline-flex",
+  gap: "7px",
+  justifyContent: "center",
 };
 
 const filtros = {
@@ -279,12 +464,15 @@ const botaoSecundario = {
 };
 
 const botaoPill = {
+  alignItems: "center",
   background: "rgba(255, 255, 255, 0.82)",
   border: "1px solid rgba(191, 219, 254, 0.9)",
   borderRadius: "999px",
   color: "#1d4ed8",
   cursor: "pointer",
+  display: "inline-flex",
   fontSize: "12px",
+  gap: "6px",
   fontWeight: "850",
   minHeight: "34px",
   padding: "8px 12px",
@@ -575,6 +763,13 @@ const semTreinoTexto = {
   marginTop: "5px",
 };
 
+const semTreinoAcoes = {
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "8px",
+  marginTop: "12px",
+};
+
 const styles = {
   botaoFechar,
   botaoPill,
@@ -613,21 +808,45 @@ const styles = {
   infoItemDestaque,
   infoLabel,
   infoValor,
+  filterCard,
   linhaCabecalho,
   listaCard,
   listaTopo,
+  libraryCounter,
+  libraryEyebrow,
+  libraryGrid,
+  libraryHeader,
+  libraryLoading,
+  librarySection,
+  librarySubtitle,
+  libraryTitle,
   modelosLegenda,
   modelosLinha,
   modelosRapidos,
   modelosTitulo,
   resumoLista,
   semTreinoCard,
+  semTreinoAcoes,
   semTreinoIcone,
   semTreinoTexto,
   semTreinoTitulo,
   tabela,
   tabelaCelula,
   tabelaHeader,
+  treinoBadges,
+  treinoCard,
+  treinoCardActions,
+  treinoCardAluno,
+  treinoCardIcon,
+  treinoCardSelecionado,
+  treinoCardTitulo,
+  treinoCardTop,
+  treinoMetaGrid,
+  treinoMetaIcon,
+  treinoMetaItem,
+  treinoMetaLabel,
+  treinoMetaValor,
+  treinoVisualizar,
 };
 
 export default TreinosList;
