@@ -31,7 +31,7 @@ function AdminRoute({ children }) {
   }, []);
 
   if (carregando) {
-    return <div style={carregandoTela}>Verificando permissao...</div>;
+    return <div style={carregandoTela}>Verificando permissão...</div>;
   }
 
   if (!admin) {

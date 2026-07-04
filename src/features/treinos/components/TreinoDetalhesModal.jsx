@@ -165,10 +165,16 @@ function Info({ label, valor, icon, destaque = false, styles }) {
         ...(destaque ? styles.infoItemDestaque : {}),
       }}
     >
-      {icon && <span className="treino-info-card-icon" style={styles.infoIcon}>{icon}</span>}
+      {icon && (
+        <span className="treino-info-card-icon" style={styles.infoIcon}>
+          {icon}
+        </span>
+      )}
       <div className="treino-info-card-content">
         <span className="treino-info-card-label" style={styles.infoLabel}>{label}</span>
-        <strong className="treino-info-card-value" style={styles.infoValor}>{valor || "-"}</strong>
+        <strong className="treino-info-card-value" style={styles.infoValor}>
+          {valor || "-"}
+        </strong>
       </div>
     </div>
   );

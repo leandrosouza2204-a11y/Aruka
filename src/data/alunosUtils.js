@@ -233,20 +233,3 @@ export function formatarNomePlano(plano) {
 
   return mapa[plano] || plano;
 }
-
-export function corStatus(status) {
-  switch (status) {
-    case "Ativo":
-      return "#16a34a";
-    case "Vencendo":
-    case "Vencendo parcela":
-      return "#f59e0b";
-    case "Vencido":
-    case "Parcela vencida":
-    case "Atrasado":
-    case "Parcela atrasada":
-      return "#dc2626";
-    default:
-      return "#6b7280";
-  }
-}
