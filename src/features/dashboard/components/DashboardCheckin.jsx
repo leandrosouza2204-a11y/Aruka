@@ -1,4 +1,5 @@
 import { ClipboardCheck } from "lucide-react";
+import AccessibleModal from "../../../components/AccessibleModal";
 import {
   abrirWhatsApp,
   gerarMensagemCheckinSemanal,
@@ -52,22 +53,14 @@ function CheckinModal({ alunos, onClose, styles }) {
   }
 
   return (
-    <div style={styles.modalOverlay}>
-      <div style={styles.modal}>
-        <div style={styles.modalTopo}>
-          <div>
-            <h2 style={styles.modalTitulo}>Check-in semanal</h2>
-            <p style={styles.modalLegenda}>
-              Abra o WhatsApp aluno por aluno para manter o envio manual.
-            </p>
-          </div>
-
-          <button type="button" onClick={onClose} style={styles.botaoSecundario}>
-            Fechar
-          </button>
-        </div>
-
-        <div style={styles.listaCheckin}>
+    <AccessibleModal
+      isOpen
+      onClose={onClose}
+      title="Check-in semanal"
+      description="Abra o WhatsApp aluno por aluno para manter o envio manual."
+      size="lg"
+    >
+      <div style={styles.listaCheckin}>
           {alunos.map((aluno) => {
             const possuiWhatsapp = Boolean(
               normalizarTelefoneWhatsApp(aluno.whatsapp)
@@ -102,9 +95,8 @@ function CheckinModal({ alunos, onClose, styles }) {
               </div>
             );
           })}
-        </div>
       </div>
-    </div>
+    </AccessibleModal>
   );
 }
 

@@ -974,6 +974,137 @@ body[data-theme="dark"] .table-menu-item:hover {
   background: #223049;
 }
 
+.accessible-modal-overlay {
+  align-items: center;
+  backdrop-filter: blur(4px);
+  background: rgba(15, 23, 42, 0.58);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 24px;
+  position: fixed;
+  z-index: 20000;
+}
+
+.accessible-modal {
+  animation: modal-enter 0.16s ease-out;
+  background: #fff;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.3);
+  color: #111827;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  padding: 22px;
+  width: min(560px, 100%);
+}
+
+.accessible-modal:focus {
+  outline: none;
+}
+
+.accessible-modal-sm {
+  width: min(420px, 100%);
+}
+
+.accessible-modal-md {
+  width: min(560px, 100%);
+}
+
+.accessible-modal-lg {
+  width: min(720px, 100%);
+}
+
+.accessible-modal-xl {
+  width: min(980px, 100%);
+}
+
+.accessible-modal-full {
+  width: min(1180px, 100%);
+}
+
+.accessible-modal-header {
+  align-items: flex-start;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.accessible-modal-title-block {
+  display: grid;
+  gap: 6px;
+}
+
+.accessible-modal-title-block h2 {
+  color: #111827;
+  font-size: 22px;
+  margin: 0;
+}
+
+.accessible-modal-title-block p {
+  color: #6b7280;
+  font-size: 14px;
+  margin: 0;
+}
+
+.accessible-modal-close {
+  align-items: center;
+  background: #e5e7eb;
+  border: none;
+  border-radius: 8px;
+  color: #111827;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: 38px;
+  justify-content: center;
+  width: 38px;
+}
+
+.accessible-modal-body {
+  min-width: 0;
+}
+
+.accessible-modal-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 22px;
+}
+
+@keyframes modal-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+body[data-theme="dark"] .accessible-modal {
+  background: #182235;
+  border-color: #334155;
+  color: #f8fafc;
+}
+
+body[data-theme="dark"] .accessible-modal-title-block h2 {
+  color: #f8fafc;
+}
+
+body[data-theme="dark"] .accessible-modal-title-block p {
+  color: #cbd5e1;
+}
+
+body[data-theme="dark"] .accessible-modal-close {
+  background: #223049;
+  color: #f8fafc;
+}
+
 body[data-theme="dark"] .status-badge-success {
   background: rgba(22, 163, 74, 0.18);
   color: #86efac;
@@ -1668,6 +1799,25 @@ body[data-theme="dark"] .session-timeout-secondary {
 
   .session-timeout-actions button {
     min-height: 44px;
+    width: 100%;
+  }
+
+  .accessible-modal-overlay {
+    align-items: stretch;
+    padding: 12px;
+  }
+
+  .accessible-modal {
+    max-height: calc(100vh - 24px);
+    padding: 18px;
+    width: 100%;
+  }
+
+  .accessible-modal-footer {
+    flex-direction: column-reverse;
+  }
+
+  .accessible-modal-footer button {
     width: 100%;
   }
 }

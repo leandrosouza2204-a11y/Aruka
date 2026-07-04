@@ -1,25 +1,17 @@
+import AccessibleModal from "./AccessibleModal";
+
 function SessionTimeoutModal({ remainingSeconds, onContinue, onLogout }) {
   return (
-    <div className="session-timeout-overlay" role="presentation">
-      <section
-        aria-labelledby="session-timeout-title"
-        aria-modal="true"
-        className="session-timeout-modal"
-        role="dialog"
-      >
-        <div>
-          <span className="session-timeout-eyebrow">Segurança</span>
-          <h2 id="session-timeout-title">Sessão prestes a expirar</h2>
-          <p>
-            Por segurança, sua sessão será encerrada automaticamente por
-            inatividade.
-          </p>
-        </div>
-
-        <strong className="session-timeout-counter">
-          Sua sessão será encerrada em {remainingSeconds} segundos.
-        </strong>
-
+    <AccessibleModal
+      isOpen
+      title="Sessão prestes a expirar"
+      description="Por segurança, sua sessão será encerrada automaticamente por inatividade."
+      size="sm"
+      closeOnEscape={false}
+      closeOnOverlayClick={false}
+      showCloseButton={false}
+      contentClassName="session-timeout-modal"
+      footer={
         <div className="session-timeout-actions">
           <button
             className="session-timeout-primary"
@@ -36,8 +28,13 @@ function SessionTimeoutModal({ remainingSeconds, onContinue, onLogout }) {
             Sair agora
           </button>
         </div>
-      </section>
-    </div>
+      }
+    >
+      <span className="session-timeout-eyebrow">Segurança</span>
+      <strong className="session-timeout-counter">
+        Sua sessão será encerrada em {remainingSeconds} segundos.
+      </strong>
+    </AccessibleModal>
   );
 }
 

@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import AccessibleModal from "../../../components/AccessibleModal";
 import Sidebar from "../../../components/Sidebar";
 import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
 import { useFinanceiroPage } from "../hooks/useFinanceiroPage";
@@ -422,13 +423,21 @@ function formatarTipoMovimento(tipo) {
   return mapa[tipo] || "Pagamento";
 }
 
-function ModalBase({ children, onClose, styles, largura }) {
+function ModalBase({ children, onClose, largura }) {
   return (
-    <div style={styles.overlay} onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
-      <div className="financeiro-modal" style={{ ...styles.modal, width: largura }}>
+    <AccessibleModal
+      isOpen
+      onClose={onClose}
+      ariaLabel="Modal financeiro"
+      size="full"
+      showCloseButton={false}
+      contentClassName="financeiro-modal"
+      className="financeiro-modal-overlay"
+    >
+      <div style={{ width: largura }}>
         {children}
       </div>
-    </div>
+    </AccessibleModal>
   );
 }
 

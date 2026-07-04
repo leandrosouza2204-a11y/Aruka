@@ -1,8 +1,10 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import AccessibleModal from "./AccessibleModal";
 import { ConfirmContext } from "../contexts/ConfirmContext";
 
 export function ConfirmProvider({ children }) {
   const [dialog, setDialog] = useState(null);
+  const cancelarRef = useRef(null);
 
   const confirmar = useCallback((opcoes) => {
     return new Promise((resolve) => {
@@ -28,12 +30,22 @@ export function ConfirmProvider({ children }) {
     <ConfirmContext.Provider value={value}>
       {children}
       {dialog && (
-        <div className="confirm-overlay" role="presentation">
-          <section className="confirm-dialog" role="dialog" aria-modal="true">
-            <h2>{dialog.titulo}</h2>
-            <p>{dialog.descricao}</p>
-            <div className="confirm-actions">
-              <button type="button" className="btn btn-secondary" onClick={() => fechar(false)}>
+        <AccessibleModal
+          isOpen={Boolean(dialog)}
+          onClose={() => fechar(false)}
+          title={dialog.titulo}
+          description={dialog.descricao}
+          size="sm"
+          initialFocusRef={cancelarRef}
+          closeOnOverlayClick={false}
+          footer={
+            <>
+              <button
+                ref={cancelarRef}
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => fechar(false)}
+              >
                 {dialog.textoCancelar}
               </button>
               <button
@@ -43,9 +55,9 @@ export function ConfirmProvider({ children }) {
               >
                 {dialog.textoConfirmar}
               </button>
-            </div>
-          </section>
-        </div>
+            </>
+          }
+        />
       )}
     </ConfirmContext.Provider>
   );

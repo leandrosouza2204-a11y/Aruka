@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
+import AccessibleModal from "../components/AccessibleModal";
 import EmptyState from "../components/EmptyState";
 import LoadingState from "../components/LoadingState";
 import PageHero from "../components/PageHero";
@@ -329,19 +330,15 @@ function CardInfo({ label, valor }) {
 
 function AdminLogDetailsModal({ log, onClose }) {
   return (
-    <div style={modalOverlay}>
-      <div className="admin-log-modal" style={modalCard}>
-        <div style={modalTopo}>
-          <div>
-            <span style={eyebrow}>Auditoria</span>
-            <h2 style={modalTitulo}>Detalhes do log</h2>
-            <p style={subtitulo}>{formatarAcao(log.acao)}</p>
-          </div>
-          <button type="button" onClick={onClose} style={botaoSecundario}>
-            Fechar
-          </button>
-        </div>
-
+    <AccessibleModal
+      isOpen
+      onClose={onClose}
+      title="Detalhes do log"
+      description={formatarAcao(log.acao)}
+      size="xl"
+      contentClassName="admin-log-modal"
+    >
+        <span style={eyebrow}>Auditoria</span>
         <div style={detalhesGrid}>
           <Info label="Data" valor={formatarDataHora(log.createdAt)} />
           <Info label="Admin" valor={log.adminNome || log.adminEmail || log.adminUserId} />
@@ -357,8 +354,7 @@ function AdminLogDetailsModal({ log, onClose }) {
           <JsonBox titulo="Dados anteriores" valor={log.dadosAnteriores} />
           <JsonBox titulo="Dados novos" valor={log.dadosNovos} />
         </div>
-      </div>
-    </div>
+    </AccessibleModal>
   );
 }
 
@@ -421,11 +417,6 @@ const eyebrow = {
   fontSize: "12px",
   fontWeight: "900",
   textTransform: "uppercase",
-};
-
-const subtitulo = {
-  color: "#6b7280",
-  marginTop: "6px",
 };
 
 const painel = {
@@ -616,41 +607,6 @@ const infoItem = {
 const infoValor = {
   color: "#111827",
   overflowWrap: "anywhere",
-};
-
-const modalOverlay = {
-  alignItems: "center",
-  background: "rgba(15, 23, 42, 0.58)",
-  display: "flex",
-  inset: 0,
-  justifyContent: "center",
-  padding: "20px",
-  position: "fixed",
-  zIndex: 60,
-};
-
-const modalCard = {
-  background: "white",
-  borderRadius: "12px",
-  boxShadow: "0 24px 70px rgba(15, 23, 42, 0.3)",
-  maxHeight: "calc(100vh - 40px)",
-  overflowY: "auto",
-  padding: "22px",
-  width: "min(920px, 100%)",
-};
-
-const modalTopo = {
-  alignItems: "flex-start",
-  display: "flex",
-  gap: "16px",
-  justifyContent: "space-between",
-  marginBottom: "16px",
-};
-
-const modalTitulo = {
-  color: "#111827",
-  fontSize: "22px",
-  margin: "4px 0 0",
 };
 
 const detalhesGrid = {
