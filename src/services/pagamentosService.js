@@ -1,6 +1,8 @@
 import { calcularStatus, dataHojeISO, statusEstaVencido } from "../data/alunosUtils";
+import { dataOuNull } from "../data/formatters";
 import { atualizarAlunoSupabase, buscarAlunosSupabase } from "./alunosService";
 import { buscarPlanosSupabase } from "./planosService";
+import { buscarUsuarioLogado } from "./authSessionService";
 import { supabase } from "./supabase";
 
 export async function buscarPagamentosSupabase() {
@@ -243,18 +245,6 @@ export function montarRankingFinanceiroAlunos(alunos = [], pagamentos = [], plan
   };
 }
 
-async function buscarUsuarioLogado() {
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-
-  if (error) throw error;
-  if (!user) throw new Error("Usuário não autenticado.");
-
-  return user;
-}
-
 function rowParaPagamento(row) {
   return {
     id: row.id,
@@ -435,8 +425,4 @@ function calcularMesesEntre(inicio, fim) {
   }
 
   return Math.max(meses, 0);
-}
-
-function dataOuNull(data) {
-  return data || null;
 }

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { calcularComposicaoCorporal } from "../../../data/calculosCorporais";
+import { formatarData, formatarDataCurta } from "../../../data/formatters";
 import { useConfirm } from "../../../hooks/useConfirm";
 import { useToast } from "../../../hooks/useToast";
 import { buscarAlunosSupabase } from "../../../services/alunosService";
@@ -14,6 +15,8 @@ import {
   buscarAvaliacoesSupabase,
   excluirAvaliacaoSupabase,
 } from "../../../services/avaliacoesService";
+
+export { formatarData, formatarDataCurta };
 
 export function useAvaliacoesPage() {
   const [alunos, setAlunos] = useState([]);
@@ -451,23 +454,6 @@ export function comparar(atual, anterior, unidade) {
   const diferenca = valorAtual - valorAnterior;
   const sinal = diferenca > 0 ? "+" : "";
   return `${sinal}${diferenca.toFixed(1)} ${unidade}`;
-}
-
-export function formatarData(data) {
-  if (!data) return "-";
-  const texto = String(data);
-  const valor = texto.includes("T") ? texto : `${texto}T00:00:00`;
-  return new Date(valor).toLocaleDateString("pt-BR");
-}
-
-export function formatarDataCurta(data) {
-  if (!data) return "-";
-  const texto = String(data);
-  const valor = texto.includes("T") ? texto : `${texto}T00:00:00`;
-  return new Date(valor).toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-  });
 }
 
 export function formatarKg(valor) {

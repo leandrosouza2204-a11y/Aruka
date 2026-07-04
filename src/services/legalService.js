@@ -1,3 +1,4 @@
+import { buscarUsuarioLogado } from "./authSessionService";
 import { supabase } from "./supabase";
 
 const VERSAO_POLITICA = "1.0";
@@ -58,18 +59,6 @@ export async function registrarAceiteLegal({ userAgent } = {}) {
   if (error) throw error;
 
   return rowParaAceite(data);
-}
-
-async function buscarUsuarioLogado() {
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-
-  if (error) throw error;
-  if (!user) throw new Error("Usuário não autenticado.");
-
-  return user;
 }
 
 function rowParaAceite(row) {

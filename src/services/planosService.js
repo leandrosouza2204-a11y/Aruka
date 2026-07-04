@@ -1,3 +1,4 @@
+import { buscarUsuarioLogado } from "./authSessionService";
 import { supabase } from "./supabase";
 
 export async function buscarPlanosSupabase() {
@@ -66,18 +67,6 @@ export async function excluirPlanoSupabase(id) {
   if (error) throw error;
 
   return id;
-}
-
-async function buscarUsuarioLogado() {
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-
-  if (error) throw error;
-  if (!user) throw new Error("Usuário não autenticado.");
-
-  return user;
 }
 
 function rowParaPlano(row) {

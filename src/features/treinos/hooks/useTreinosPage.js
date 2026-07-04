@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { formatarData } from "../../../data/formatters";
 import { useConfirm } from "../../../hooks/useConfirm";
 import { useToast } from "../../../hooks/useToast";
 import { buscarAlunosSupabase } from "../../../services/alunosService";
@@ -9,6 +10,8 @@ import {
   excluirTreinoSupabase,
 } from "../../../services/treinosService";
 import { abrirWhatsApp } from "../../../services/whatsappService";
+
+export { formatarData };
 
 export function useTreinosPage() {
   const [treinos, setTreinos] = useState([]);
@@ -285,11 +288,6 @@ export function classeStatusTreino(status) {
   if (status === "Finalizado") return "status-badge status-badge-muted";
 
   return "status-badge status-badge-info";
-}
-
-export function formatarData(data) {
-  if (!data) return "-";
-  return new Date(`${data}T00:00:00`).toLocaleDateString("pt-BR");
 }
 
 function criarModeloTreino(modelo) {

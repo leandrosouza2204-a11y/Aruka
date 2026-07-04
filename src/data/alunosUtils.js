@@ -1,3 +1,5 @@
+export { formatarData, formatarMoeda } from "./formatters";
+
 export function dataHojeISO() {
   const hoje = new Date();
   const ano = hoje.getFullYear();
@@ -205,19 +207,6 @@ export function ordenarPorVencimento(alunos) {
     if (!dataB) return -1;
 
     return dataA - dataB;
-  });
-}
-
-export function formatarData(data) {
-  if (!data) return "-";
-
-  return new Date(`${data}T00:00:00`).toLocaleDateString("pt-BR");
-}
-
-export function formatarMoeda(valor) {
-  return Number(valor || 0).toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL",
   });
 }
 

@@ -1,3 +1,4 @@
+import { buscarUsuarioLogado } from "./authSessionService";
 import { supabase } from "./supabase";
 
 const STATUS_COM_ACESSO = new Set(["ativo"]);
@@ -69,18 +70,6 @@ async function buscarAssinaturaUsuarioSemCriar(userId) {
   if (error) throw error;
 
   return data;
-}
-
-async function buscarUsuarioLogado() {
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-
-  if (error) throw error;
-  if (!user) throw new Error("Usuário não autenticado.");
-
-  return user;
 }
 
 function rowParaAssinatura(row) {

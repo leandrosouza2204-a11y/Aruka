@@ -1,4 +1,5 @@
 import { verificarAssinaturaAtiva } from "./assinaturasService";
+import { buscarUsuarioLogado } from "./authSessionService";
 import { supabase } from "./supabase";
 
 export async function buscarPerfilUsuario() {
@@ -99,18 +100,6 @@ async function buscarPerfilPorUserId(userId) {
   if (error) throw error;
 
   return data;
-}
-
-async function buscarUsuarioLogado() {
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-
-  if (error) throw error;
-  if (!user) throw new Error("Usuário não autenticado.");
-
-  return user;
 }
 
 function rowParaPerfil(row) {

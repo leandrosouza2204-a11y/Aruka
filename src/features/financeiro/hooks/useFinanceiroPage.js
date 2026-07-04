@@ -82,16 +82,33 @@ export function useFinanceiroPage() {
     }
   }
 
+  const planosPorId = useMemo(
+    () => new Map(planos.map((plano) => [plano.id, plano])),
+    [planos]
+  );
+
+  const pagamentosPorAluno = useMemo(() => {
+    const mapa = new Map();
+
+    pagamentos.forEach((pagamento) => {
+      const pagamentosAluno = mapa.get(pagamento.alunoId) || [];
+      pagamentosAluno.push(pagamento);
+      mapa.set(pagamento.alunoId, pagamentosAluno);
+    });
+
+    return mapa;
+  }, [pagamentos]);
+
   const registrosFinanceiros = useMemo(
     () =>
       alunos.map((aluno) =>
         montarRegistroFinanceiro(
           aluno,
-          planos.find((plano) => plano.id === aluno.plano),
-          pagamentos.filter((pagamento) => pagamento.alunoId === aluno.id)
+          planosPorId.get(aluno.plano),
+          pagamentosPorAluno.get(aluno.id) || []
         )
       ),
-    [alunos, pagamentos, planos]
+    [alunos, pagamentosPorAluno, planosPorId]
   );
 
   const registrosFiltrados = useMemo(() => {

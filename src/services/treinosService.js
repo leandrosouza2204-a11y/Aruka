@@ -1,3 +1,5 @@
+import { dataOuNull } from "../data/formatters";
+import { buscarUsuarioLogado } from "./authSessionService";
 import { supabase } from "./supabase";
 
 export async function buscarTreinosSupabase() {
@@ -137,18 +139,6 @@ async function inserirDiasEExercicios(treinoId, dias) {
   }
 }
 
-async function buscarUsuarioLogado() {
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-
-  if (error) throw error;
-  if (!user) throw new Error("Usuário não autenticado.");
-
-  return user;
-}
-
 function rowParaTreino(row) {
   const dias = ordenarPorOrdem(row.dias || row.treino_dias || []).map((dia) => ({
     id: dia.id,
@@ -204,8 +194,4 @@ function treinoParaPayload(treino, userId) {
 
 function ordenarPorOrdem(lista) {
   return [...lista].sort((a, b) => Number(a.ordem || 0) - Number(b.ordem || 0));
-}
-
-function dataOuNull(data) {
-  return data || null;
 }

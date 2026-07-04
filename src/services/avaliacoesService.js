@@ -1,4 +1,6 @@
 import { calcularComposicaoCorporal } from "../data/calculosCorporais";
+import { dataOuNull } from "../data/formatters";
+import { buscarUsuarioLogado } from "./authSessionService";
 import { supabase } from "./supabase";
 
 export async function buscarAvaliacoesSupabase() {
@@ -57,18 +59,6 @@ export async function excluirAvaliacaoSupabase(id) {
   if (error) throw error;
 
   return id;
-}
-
-async function buscarUsuarioLogado() {
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-
-  if (error) throw error;
-  if (!user) throw new Error("Usuário não autenticado.");
-
-  return user;
 }
 
 function avaliacaoParaPayload(avaliacao, userId) {
@@ -166,10 +156,6 @@ function numeroOuNull(valor) {
   if (valor === "" || valor === null || valor === undefined) return null;
   const numero = Number(String(valor).replace(",", "."));
   return Number.isFinite(numero) ? numero : null;
-}
-
-function dataOuNull(data) {
-  return data || null;
 }
 
 function valorOuVazio(valor) {

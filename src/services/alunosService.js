@@ -1,3 +1,5 @@
+import { dataOuNull } from "../data/formatters";
+import { buscarUsuarioLogado } from "./authSessionService";
 import { supabase } from "./supabase";
 
 export async function buscarAlunosSupabase() {
@@ -58,18 +60,6 @@ export async function excluirAlunoSupabase(id) {
   return id;
 }
 
-async function buscarUsuarioLogado() {
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-
-  if (error) throw error;
-  if (!user) throw new Error("Usuário não autenticado.");
-
-  return user;
-}
-
 function rowParaAluno(row) {
   return {
     id: row.id,
@@ -108,8 +98,4 @@ function alunoParaPayload(aluno, userId) {
     data_pagamento: dataOuNull(aluno.dataPagamento),
     observacoes: aluno.observacoes || "",
   };
-}
-
-function dataOuNull(data) {
-  return data || null;
 }
