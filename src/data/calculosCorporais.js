@@ -61,7 +61,7 @@ export function calcularPercentualGorduraEstimado({
   pescoco,
   quadril,
 }) {
-  // Estimativa baseada em formula antropometrica simples; nao substitui avaliacao clinica.
+  // Estimativa baseada em fórmula antropométrica simples; não substitui avaliação clínica.
   const alturaCm = numero(altura);
   const cinturaCm = numero(cintura);
   const pescocoCm = numero(pescoco);

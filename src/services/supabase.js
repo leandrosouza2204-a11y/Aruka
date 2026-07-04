@@ -7,7 +7,7 @@ export const supabaseConfigurado = Boolean(supabaseUrl && supabaseAnonKey);
 
 if (!supabaseConfigurado) {
   console.warn(
-    "Supabase nao configurado. Defina VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY no arquivo .env."
+    "Supabase não configurado. Defina VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY no arquivo .env."
   );
 }
 

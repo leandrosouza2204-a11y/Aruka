@@ -38,7 +38,7 @@ export function abrirWhatsApp(telefone, mensagem) {
 
   if (!url) {
     window.prompt(
-      "WhatsApp nao cadastrado. Copie a mensagem abaixo:",
+      "WhatsApp não cadastrado. Copie a mensagem abaixo:",
       mensagem
     );
     return;

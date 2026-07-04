@@ -243,7 +243,7 @@ export function useFinanceiroPage() {
     if (!pagamento) return;
 
     const confirmado = await confirmar({
-      titulo: "Desfazer ultimo pagamento?",
+      titulo: "Desfazer último pagamento?",
       descricao: `Apenas o último pagamento de ${registro.aluno.nome} será removido. Os pagamentos anteriores permanecem no histórico.`,
       textoConfirmar: "Desfazer último",
     });
