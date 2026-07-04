@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { MoreHorizontal } from "lucide-react";
 
@@ -9,6 +9,7 @@ const MENU_OFFSET = 6;
 function TableActions({ children, label = "Mais ações" }) {
   const [aberto, setAberto] = useState(false);
   const [posicao, setPosicao] = useState({ left: 0, top: 0, abrirParaCima: false });
+  const menuId = useId();
   const triggerRef = useRef(null);
   const menuRef = useRef(null);
 
@@ -37,6 +38,14 @@ function TableActions({ children, label = "Mais ações" }) {
 
   function fecharMenu() {
     setAberto(false);
+  }
+
+  function fecharComTeclado(event) {
+    if (event.key === "Escape") {
+      event.stopPropagation();
+      fecharMenu();
+      triggerRef.current?.focus();
+    }
   }
 
   useEffect(() => {
@@ -77,6 +86,8 @@ function TableActions({ children, label = "Mais ações" }) {
           className="table-button table-button-secondary table-actions-trigger"
           aria-label={label}
           aria-expanded={aberto}
+          aria-controls={aberto ? menuId : undefined}
+          aria-haspopup="menu"
           title={label}
           onClick={alternarMenu}
         >
@@ -86,8 +97,12 @@ function TableActions({ children, label = "Mais ações" }) {
         {aberto &&
           createPortal(
             <div
+              id={menuId}
               ref={menuRef}
+              role="menu"
+              aria-label={label}
               className="table-actions-dropdown"
+              onKeyDown={fecharComTeclado}
               style={{
                 left: posicao.left,
                 top: posicao.abrirParaCima ? "auto" : posicao.top,
@@ -126,6 +141,7 @@ export function TableActionItem({
   return (
     <button
       type="button"
+      role="menuitem"
       className={`table-menu-item table-menu-item-${variant} ${className}`.trim()}
       onClick={handleClick}
       {...props}

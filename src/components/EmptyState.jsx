@@ -1,6 +1,6 @@
 function EmptyState({ titulo, descricao, acaoLabel, onAcao }) {
   return (
-    <div className="empty-state">
+    <div className="empty-state" role="status" aria-live="polite">
       <strong>{titulo}</strong>
       {descricao && <p>{descricao}</p>}
       {acaoLabel && onAcao && (

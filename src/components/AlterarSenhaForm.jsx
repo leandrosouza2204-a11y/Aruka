@@ -18,19 +18,19 @@ function AlterarSenhaForm() {
   const requisitos = useMemo(
     () => [
       {
-        texto: "Minimo de 12 caracteres",
+        texto: "Mínimo de 12 caracteres",
         ok: novaSenha.length >= 12,
       },
       {
-        texto: "Pelo menos 1 letra maiuscula",
+        texto: "Pelo menos 1 letra maiúscula",
         ok: /[A-Z]/.test(novaSenha),
       },
       {
-        texto: "Pelo menos 1 letra minuscula",
+        texto: "Pelo menos 1 letra minúscula",
         ok: /[a-z]/.test(novaSenha),
       },
       {
-        texto: "Pelo menos 1 numero",
+        texto: "Pelo menos 1 número",
         ok: /\d/.test(novaSenha),
       },
       {
@@ -175,6 +175,7 @@ function CampoSenha({ label, value, onChange, mostrar, onToggle, erro = false })
           type={mostrar ? "text" : "password"}
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          aria-invalid={erro || undefined}
           style={{
             ...campo,
             borderColor: erro ? "#dc2626" : campo.border,
@@ -182,8 +183,13 @@ function CampoSenha({ label, value, onChange, mostrar, onToggle, erro = false })
           }}
           autoComplete="new-password"
         />
-        <button type="button" onClick={onToggle} style={botaoIcone}>
-          {mostrar ? <EyeOff size={18} /> : <Eye size={18} />}
+        <button
+          type="button"
+          onClick={onToggle}
+          style={botaoIcone}
+          aria-label={`${mostrar ? "Ocultar" : "Mostrar"} ${label.toLowerCase()}`}
+        >
+          {mostrar ? <EyeOff size={18} aria-hidden="true" /> : <Eye size={18} aria-hidden="true" />}
         </button>
       </div>
     </label>
