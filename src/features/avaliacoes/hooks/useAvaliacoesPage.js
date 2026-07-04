@@ -15,8 +15,9 @@ import {
   buscarAvaliacoesSupabase,
   excluirAvaliacaoSupabase,
 } from "../../../services/avaliacoesService";
+import { formatarEscala } from "../utils/formatters";
 
-export { formatarData, formatarDataCurta };
+export { formatarData, formatarDataCurta, formatarEscala };
 
 export function useAvaliacoesPage() {
   const [alunos, setAlunos] = useState([]);
@@ -482,10 +483,6 @@ export function formatarStatus(status) {
     final: "Final",
   };
   return mapa[status] || "Inicial";
-}
-
-export function formatarEscala(valor) {
-  return valor ? `${valor}/5` : "-";
 }
 
 function temValor(valor) {

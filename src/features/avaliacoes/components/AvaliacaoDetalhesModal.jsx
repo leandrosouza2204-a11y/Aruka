@@ -8,6 +8,7 @@ import {
   formatarDataCurta,
   formatarKg,
   formatarPercentual,
+  formatarEscala,
   formatarStatus,
   gerarRecomendacoes,
 } from "../hooks/useAvaliacoesPage";
@@ -521,10 +522,6 @@ function formatarMm(valor) {
   if (valor === "" || valor === null || valor === undefined) return "-";
   const numero = Number(String(valor).replace(",", "."));
   return Number.isFinite(numero) ? `${numero.toFixed(1)} mm` : "-";
-}
-
-function formatarEscala(valor) {
-  return valor ? `${valor}/5` : "-";
 }
 
 export default AvaliacaoDetalhesModal;

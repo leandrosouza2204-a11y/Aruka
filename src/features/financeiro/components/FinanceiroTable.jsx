@@ -1,6 +1,7 @@
 import TableActions, { TableActionItem } from "../../../components/TableActions";
 import LoadingState from "../../../components/LoadingState";
 import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
+import { classeStatusAluno } from "../../../data/statusHelpers";
 import FinanceiroEmptyState from "./FinanceiroEmptyState";
 
 function FinanceiroTable({
@@ -128,7 +129,7 @@ function StatusFinanceiro({ status }) {
   const partes = String(status || "-").split(" ");
 
   return (
-    <span className={`financeiro-status-badge ${classeStatusAluno(status)}`}>
+    <span className={`financeiro-status-badge ${classeStatusAluno(status, { incluirBase: false })}`}>
       {partes.map((parte) => (
         <span key={parte}>{parte}</span>
       ))}
@@ -147,18 +148,6 @@ function PagamentoInfo({ registro }) {
       <strong>{formatarData(registro.pagamentoCiclo?.dataPagamento)}</strong>
     </span>
   );
-}
-
-function classeStatusAluno(status) {
-  if (["Ativo"].includes(status)) return "status-badge-success";
-  if (["Vencendo", "Vencendo parcela"].includes(status)) {
-    return "status-badge-warning";
-  }
-  if (["Vencido", "Parcela vencida", "Atrasado", "Parcela atrasada"].includes(status)) {
-    return "status-badge-danger";
-  }
-
-  return "status-badge-muted";
 }
 
 export default FinanceiroTable;

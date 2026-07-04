@@ -65,20 +65,52 @@ export function useDashboardPage() {
 
   const receitaPendente = Math.max(receitaPrevista - receitaRecebida, 0);
 
+  const planosPorId = useMemo(
+    () => new Map(planos.map((plano) => [plano.id, plano])),
+    [planos]
+  );
+
+  const pagamentosPorAluno = useMemo(() => {
+    const mapa = new Map();
+
+    pagamentos.forEach((pagamento) => {
+      const pagamentosAluno = mapa.get(pagamento.alunoId) || [];
+      pagamentosAluno.push(pagamento);
+      mapa.set(pagamento.alunoId, pagamentosAluno);
+    });
+
+    return mapa;
+  }, [pagamentos]);
+
+  const statusPorAluno = useMemo(
+    () =>
+      new Map(
+        alunos.map((aluno) => [
+          aluno.id,
+          calcularStatusDashboard(
+            aluno,
+            pagamentosPorAluno.get(aluno.id) || [],
+            planosPorId.get(aluno.plano)
+          ),
+        ])
+      ),
+    [alunos, pagamentosPorAluno, planosPorId]
+  );
+
   const alunosVencendo = useMemo(
     () =>
       alunos.filter((aluno) =>
-        statusEstaVencendo(calcularStatusDashboard(aluno, pagamentos, planos))
+        statusEstaVencendo(statusPorAluno.get(aluno.id))
       ).length,
-    [alunos, pagamentos, planos]
+    [alunos, statusPorAluno]
   );
 
   const alunosVencidos = useMemo(
     () =>
       alunos.filter((aluno) =>
-        statusEstaVencido(calcularStatusDashboard(aluno, pagamentos, planos))
+        statusEstaVencido(statusPorAluno.get(aluno.id))
       ).length,
-    [alunos, pagamentos, planos]
+    [alunos, statusPorAluno]
   );
 
   const alunosAtivosCheckin = useMemo(
@@ -87,9 +119,9 @@ export function useDashboardPage() {
         .map(normalizarAluno)
         .filter(
           (aluno) =>
-            !statusEstaVencido(calcularStatusDashboard(aluno, pagamentos, planos))
+            !statusEstaVencido(statusPorAluno.get(aluno.id))
         ),
-    [alunos, pagamentos, planos]
+    [alunos, statusPorAluno]
   );
 
   const receitaMensal = useMemo(() => gerarReceitaMensal(pagamentos), [pagamentos]);
@@ -185,9 +217,7 @@ export function useDashboardPage() {
   };
 }
 
-function calcularStatusDashboard(aluno, pagamentos, planos) {
-  const plano = planos.find((item) => item.id === aluno.plano);
-  const pagamentosAluno = pagamentos.filter((pagamento) => pagamento.alunoId === aluno.id);
+function calcularStatusDashboard(aluno, pagamentosAluno, plano) {
   const totalParcelas = plano?.permiteParcelamento
     ? plano.quantidadeParcelas
     : aluno.plano === "trimestralParcelado"

@@ -1,7 +1,6 @@
 import { Dumbbell, Layers3, Sparkles } from "lucide-react";
 import PageHero from "../../../components/PageHero";
-
-const modelosDisponiveis = ["ABC", "ABCD", "ABCDE", "Full Body", "Upper/Lower"];
+import { modelosTreinoDisponiveis } from "../../../data/treinosModelos";
 
 function TreinosHeader({
   quantidadeFiltrada,
@@ -37,7 +36,7 @@ function TreinosHeader({
             </p>
           </div>
           <div className="treinos-modelos-actions" style={styles.modelosLinha}>
-            {modelosDisponiveis.map((modelo) => (
+            {modelosTreinoDisponiveis.map((modelo) => (
               <button
                 key={modelo}
                 onClick={() => onGerarModelo(modelo)}

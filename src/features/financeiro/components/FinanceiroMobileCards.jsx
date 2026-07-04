@@ -1,5 +1,6 @@
 import TableActions, { TableActionItem } from "../../../components/TableActions";
 import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
+import { classeStatusAluno } from "../../../data/statusHelpers";
 
 function FinanceiroMobileCards({
   atualizandoId,
@@ -131,18 +132,6 @@ function FinanceiroMobileCards({
       )}
     </div>
   );
-}
-
-function classeStatusAluno(status) {
-  if (["Ativo"].includes(status)) return "status-badge status-badge-success";
-  if (["Vencendo", "Vencendo parcela"].includes(status)) {
-    return "status-badge status-badge-warning";
-  }
-  if (["Vencido", "Parcela vencida", "Atrasado", "Parcela atrasada"].includes(status)) {
-    return "status-badge status-badge-danger";
-  }
-
-  return "status-badge status-badge-muted";
 }
 
 export default FinanceiroMobileCards;

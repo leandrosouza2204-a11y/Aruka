@@ -1,5 +1,6 @@
-import { normalizarTelefoneWhatsApp } from "../../../services/whatsappService";
 import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
+import { classeStatusAluno } from "../../../data/statusHelpers";
+import { normalizarTelefoneWhatsApp } from "../../../services/whatsappService";
 
 function AlunoCardMobile({
   aluno,
@@ -64,18 +65,6 @@ function AlunoCardMobile({
       {children}
     </article>
   );
-}
-
-function classeStatusAluno(status) {
-  if (["Ativo"].includes(status)) return "status-badge status-badge-success";
-  if (["Vencendo", "Vencendo parcela"].includes(status)) {
-    return "status-badge status-badge-warning";
-  }
-  if (["Vencido", "Parcela vencida", "Atrasado", "Parcela atrasada"].includes(status)) {
-    return "status-badge status-badge-danger";
-  }
-
-  return "status-badge status-badge-muted";
 }
 
 export default AlunoCardMobile;
