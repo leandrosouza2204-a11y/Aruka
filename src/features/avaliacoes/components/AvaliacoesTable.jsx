@@ -18,6 +18,7 @@ function AvaliacoesTable({
   onAnamnese,
   onExcluir,
   onNovaAvaliacao,
+  onNovaAnamnese,
   styles,
 }) {
   return (
@@ -97,7 +98,10 @@ function AvaliacoesTable({
           {!carregando && avaliacoes.length === 0 && (
             <tr>
               <td style={styles.estadoVazio} colSpan="8">
-                <AvaliacoesEmptyState onNovaAvaliacao={onNovaAvaliacao} />
+                <AvaliacoesEmptyState
+                  onNovaAvaliacao={onNovaAvaliacao}
+                  onNovaAnamnese={onNovaAnamnese}
+                />
               </td>
             </tr>
           )}

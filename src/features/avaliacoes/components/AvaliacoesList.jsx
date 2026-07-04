@@ -3,6 +3,8 @@ import AnamneseModal from "../../../components/AnamneseModal";
 import AvaliacaoModal from "../../../components/AvaliacaoModal";
 import InlineDetails from "../../../components/InlineDetails";
 import { useAvaliacoesPage } from "../hooks/useAvaliacoesPage";
+import AnamneseCardMobile from "./AnamneseCardMobile";
+import AnamnesesTable from "./AnamnesesTable";
 import AvaliacaoCardMobile from "./AvaliacaoCardMobile";
 import AvaliacaoDetalhesModal from "./AvaliacaoDetalhesModal";
 import AvaliacoesFilters from "./AvaliacoesFilters";
@@ -26,7 +28,15 @@ function AvaliacoesList() {
 
       <div className="avaliacoes-page app-main page-container" style={styles.conteudo}>
         <AvaliacoesHeader
-          quantidadeExibida={avaliacoesPage.avaliacoesFiltradas.length}
+          abaAtiva={avaliacoesPage.abaAtiva}
+          quantidadeAnamneses={avaliacoesPage.anamnesesFiltradas.length}
+          quantidadeAvaliacoes={avaliacoesPage.avaliacoesFiltradas.length}
+          quantidadeExibida={
+            avaliacoesPage.abaAtiva === "anamneses"
+              ? avaliacoesPage.anamnesesFiltradas.length
+              : avaliacoesPage.avaliacoesFiltradas.length
+          }
+          onAbaChange={avaliacoesPage.setAbaAtiva}
           onNovaAvaliacao={avaliacoesPage.abrirNovaAvaliacao}
           onNovaAnamnese={avaliacoesPage.abrirNovaAnamnese}
           styles={styles}
@@ -45,18 +55,33 @@ function AvaliacoesList() {
           <div style={styles.erroBox}>{avaliacoesPage.erro}</div>
         )}
 
-        <AvaliacoesTable
-          avaliacoes={avaliacoesPage.avaliacoesFiltradas}
-          carregando={avaliacoesPage.carregando}
-          onPerfil={alternarPerfilAluno}
-          onEditar={avaliacoesPage.abrirEdicaoAvaliacao}
-          onAnamnese={avaliacoesPage.editarAnamneseAluno}
-          onExcluir={avaliacoesPage.removerAvaliacao}
-          onNovaAvaliacao={avaliacoesPage.abrirNovaAvaliacao}
-          styles={styles}
-        />
+        {avaliacoesPage.abaAtiva === "avaliacoes" ? (
+          <AvaliacoesTable
+            avaliacoes={avaliacoesPage.avaliacoesFiltradas}
+            carregando={avaliacoesPage.carregando}
+            onPerfil={alternarPerfilAluno}
+            onEditar={avaliacoesPage.abrirEdicaoAvaliacao}
+            onAnamnese={avaliacoesPage.editarAnamneseAluno}
+            onExcluir={avaliacoesPage.removerAvaliacao}
+            onNovaAvaliacao={avaliacoesPage.abrirNovaAvaliacao}
+            onNovaAnamnese={avaliacoesPage.abrirNovaAnamnese}
+            styles={styles}
+          />
+        ) : (
+          <AnamnesesTable
+            anamneses={avaliacoesPage.anamnesesFiltradas}
+            carregando={avaliacoesPage.carregando}
+            onEditar={avaliacoesPage.abrirEdicaoAnamnese}
+            onPerfil={alternarPerfilAluno}
+            onRelatorio={avaliacoesPage.abrirRelatorioAnamnese}
+            onNovaAvaliacao={avaliacoesPage.abrirNovaAvaliacao}
+            onNovaAnamnese={avaliacoesPage.abrirNovaAnamnese}
+            styles={styles}
+          />
+        )}
 
         {!avaliacoesPage.carregando &&
+          avaliacoesPage.abaAtiva === "avaliacoes" &&
           avaliacoesPage.avaliacoesFiltradas.length > 0 && (
             <div className="mobile-card-list avaliacoes-mobile-cards">
               {avaliacoesPage.avaliacoesFiltradas.map((avaliacao) => (
@@ -93,6 +118,47 @@ function AvaliacoesList() {
                     />
                   </InlineDetails>
                 </AvaliacaoCardMobile>
+              ))}
+            </div>
+          )}
+
+        {!avaliacoesPage.carregando &&
+          avaliacoesPage.abaAtiva === "anamneses" &&
+          avaliacoesPage.anamnesesFiltradas.length > 0 && (
+            <div className="mobile-card-list avaliacoes-mobile-cards">
+              {avaliacoesPage.anamnesesFiltradas.map((anamnese) => (
+                <AnamneseCardMobile
+                  key={anamnese.id}
+                  anamnese={anamnese}
+                  isExpanded={avaliacoesPage.alunoSelecionado === anamnese.aluno}
+                  onEditar={avaliacoesPage.abrirEdicaoAnamnese}
+                  onPerfil={alternarPerfilAluno}
+                  onRelatorio={avaliacoesPage.abrirRelatorioAnamnese}
+                >
+                  <InlineDetails
+                    className="mobile-inline-details"
+                    itemId={anamnese.aluno}
+                    selectedItemId={avaliacoesPage.alunoSelecionado}
+                  >
+                    <AvaliacaoDetalhesModal
+                      alertas={avaliacoesPage.alertas}
+                      alunoCadastro={avaliacoesPage.alunoCadastro}
+                      alunoSelecionado={avaliacoesPage.alunoSelecionado}
+                      anamneseAluno={avaliacoesPage.anamneseAluno}
+                      avaliacaoAnterior={avaliacoesPage.avaliacaoAnterior}
+                      historicoAluno={avaliacoesPage.historicoAluno}
+                      primeiraAvaliacao={avaliacoesPage.primeiraAvaliacao}
+                      relatorioAnamneseAberto={avaliacoesPage.relatorioAnamneseAberto}
+                      relatorioAberto={avaliacoesPage.relatorioAberto}
+                      ultimaAvaliacao={avaliacoesPage.ultimaAvaliacao}
+                      onAlternarRelatorioAnamnese={avaliacoesPage.alternarRelatorioAnamnese}
+                      onAlternarRelatorio={avaliacoesPage.alternarRelatorio}
+                      onCopiarResumo={avaliacoesPage.copiarResumoWhatsApp}
+                      onFechar={avaliacoesPage.fecharPerfilAluno}
+                      styles={styles}
+                    />
+                  </InlineDetails>
+                </AnamneseCardMobile>
               ))}
             </div>
           )}
@@ -162,6 +228,55 @@ const listaTopo = {
 };
 
 const resumoLista = { color: "#6b7280", fontSize: "14px", marginTop: "6px" };
+
+const moduloCards = {
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+  gap: "14px",
+  marginBottom: "16px",
+};
+
+const moduloCard = {
+  border: "1px solid #e5e7eb",
+  borderRadius: "8px",
+  padding: "16px",
+  background: "#f9fafb",
+};
+
+const moduloBadge = {
+  color: "#2563eb",
+  display: "block",
+  fontSize: "12px",
+  fontWeight: "800",
+  marginBottom: "8px",
+  textTransform: "uppercase",
+};
+
+const moduloTitulo = { fontSize: "18px", margin: "0 0 8px" };
+const moduloTexto = { color: "#4b5563", fontSize: "14px", lineHeight: 1.5, margin: "0 0 14px" };
+
+const tabs = {
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "8px",
+  marginBottom: "14px",
+};
+
+const tabButton = {
+  background: "#eef2ff",
+  border: "1px solid #dbeafe",
+  borderRadius: "8px",
+  color: "#1f2937",
+  cursor: "pointer",
+  fontWeight: "800",
+  padding: "10px 12px",
+};
+
+const tabButtonActive = {
+  background: "#111827",
+  borderColor: "#111827",
+  color: "white",
+};
 
 const filtros = {
   display: "grid",
@@ -386,6 +501,11 @@ const styles = {
   linhaCabecalho,
   listaCard,
   listaTopo,
+  moduloBadge,
+  moduloCard,
+  moduloCards,
+  moduloTexto,
+  moduloTitulo,
   painel,
   painelTitulo,
   perfilGrid,
@@ -393,6 +513,9 @@ const styles = {
   relatorioGrid,
   resumoLista,
   subtituloSecao,
+  tabButton,
+  tabButtonActive,
+  tabs,
   tabela,
   tabelaCelula,
   tabelaHeader,

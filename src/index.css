@@ -2063,6 +2063,33 @@ body[data-theme="dark"] .financeiro-history-table {
   gap: 14px;
 }
 
+.avaliacoes-empty-state {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  padding: 18px;
+  text-align: center;
+}
+
+.avaliacoes-empty-state h3 {
+  color: #111827;
+  font-size: 16px;
+  margin: 0;
+}
+
+.avaliacoes-empty-state p {
+  color: #64748b;
+  font-size: 14px;
+  margin: 0;
+}
+
+.avaliacoes-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
 .mobile-card-header {
   align-items: flex-start;
   display: flex;

@@ -40,7 +40,7 @@ function AvaliacaoDetalhesModal({
   onFechar,
   styles,
 }) {
-  if (!ultimaAvaliacao) return null;
+  if (!ultimaAvaliacao && !anamneseAluno) return null;
 
   return (
     <section className="avaliacoes-details-card" style={styles.detalhesCard}>
@@ -59,6 +59,7 @@ function AvaliacaoDetalhesModal({
             className="avaliacoes-action-primary"
             onClick={onCopiarResumo}
             style={styles.botaoPrimario}
+            disabled={!ultimaAvaliacao}
           >
             Copiar resumo para WhatsApp
           </button>
@@ -66,6 +67,7 @@ function AvaliacaoDetalhesModal({
             className="avaliacoes-action-secondary"
             onClick={onAlternarRelatorio}
             style={styles.botaoSecundario}
+            disabled={!ultimaAvaliacao}
           >
             Gerar relatório da avaliação
           </button>
@@ -122,7 +124,9 @@ function AvaliacaoDetalhesModal({
         />
       </div>
 
-      <CardEvolucaoFisica primeira={primeiraAvaliacao} ultima={ultimaAvaliacao} />
+      {ultimaAvaliacao ? (
+        <>
+          <CardEvolucaoFisica primeira={primeiraAvaliacao} ultima={ultimaAvaliacao} />
 
       <div style={styles.detalhesGrid}>
         <TabelaComposicaoCorporal avaliacao={ultimaAvaliacao} />
@@ -186,7 +190,16 @@ function AvaliacaoDetalhesModal({
           unidade="kg"
           styles={styles}
         />
-      </div>
+          </div>
+        </>
+      ) : (
+        <div style={styles.painel}>
+          <h3 style={styles.painelTitulo}>Avaliação física</h3>
+          <p style={styles.resumoLista}>
+            Nenhuma avaliação física registrada para este aluno.
+          </p>
+        </div>
+      )}
 
       {relatorioAberto && (
         <RelatorioAvaliacao

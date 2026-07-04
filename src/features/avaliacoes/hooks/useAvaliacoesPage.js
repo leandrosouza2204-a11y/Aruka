@@ -28,6 +28,7 @@ export function useAvaliacoesPage() {
   const [relatorioAnamneseAberto, setRelatorioAnamneseAberto] = useState(false);
   const [busca, setBusca] = useState("");
   const [filtroAluno, setFiltroAluno] = useState("todos");
+  const [abaAtiva, setAbaAtiva] = useState("avaliacoes");
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
   const toast = useToast();
@@ -89,6 +90,20 @@ export function useAvaliacoesPage() {
     });
   }, [busca, filtroAluno, ultimasAvaliacoes]);
 
+  const anamnesesFiltradas = useMemo(() => {
+    const termo = busca.trim().toLowerCase();
+
+    return [...anamneses]
+      .filter((anamnese) => {
+        const combinaBusca = anamnese.aluno.toLowerCase().includes(termo);
+        const combinaAluno =
+          filtroAluno === "todos" || anamnese.aluno === filtroAluno;
+
+        return combinaBusca && combinaAluno;
+      })
+      .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+  }, [anamneses, busca, filtroAluno]);
+
   const historicoAluno = useMemo(
     () =>
       avaliacoes
@@ -131,6 +146,7 @@ export function useAvaliacoesPage() {
 
       await carregarDados();
       setAlunoSelecionado(avaliacao.aluno);
+      setAbaAtiva("avaliacoes");
       fecharModalAvaliacao();
       toast.sucesso("Avaliação salva", "Os dados da avaliação foram atualizados.");
     } catch (error) {
@@ -162,6 +178,7 @@ export function useAvaliacoesPage() {
 
       await carregarDados();
       setAlunoSelecionado(anamnese.aluno);
+      setAbaAtiva("anamneses");
       fecharModalAnamnese();
       toast.sucesso("Anamnese salva", "As informações foram atualizadas.");
     } catch (error) {
@@ -191,8 +208,16 @@ export function useAvaliacoesPage() {
 
   function editarAnamneseAluno(aluno) {
     setAnamneseEditando(
-      anamneses.find((anamnese) => anamnese.aluno === aluno) || null
+      [...anamneses]
+        .filter((anamnese) => anamnese.aluno === aluno)
+        .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)))[0] ||
+        null
     );
+    setModalAnamnese(true);
+  }
+
+  function abrirEdicaoAnamnese(anamnese) {
+    setAnamneseEditando(anamnese);
     setModalAnamnese(true);
   }
 
@@ -242,6 +267,12 @@ export function useAvaliacoesPage() {
     setRelatorioAnamneseAberto(false);
   }
 
+  function abrirRelatorioAnamnese(anamnese) {
+    setAlunoSelecionado(anamnese.aluno);
+    setRelatorioAberto(false);
+    setRelatorioAnamneseAberto(true);
+  }
+
   function fecharPerfilAluno() {
     setAlunoSelecionado("");
   }
@@ -267,11 +298,14 @@ export function useAvaliacoesPage() {
 
   return {
     alunos,
+    abaAtiva,
     alertas,
     alunoCadastro,
     alunoSelecionado,
     anamneseAluno,
     anamneseEditando,
+    anamneses,
+    anamnesesFiltradas,
     avaliacaoAnterior,
     avaliacaoEditando,
     avaliacoes,
@@ -288,8 +322,10 @@ export function useAvaliacoesPage() {
     relatorioAberto,
     ultimaAvaliacao,
     abrirEdicaoAvaliacao,
+    abrirEdicaoAnamnese,
     abrirNovaAnamnese,
     abrirNovaAvaliacao,
+    abrirRelatorioAnamnese,
     alternarRelatorio,
     alternarRelatorioAnamnese,
     copiarResumoWhatsApp,
@@ -301,6 +337,7 @@ export function useAvaliacoesPage() {
     salvarAnamnese,
     salvarAvaliacao,
     selecionarPerfilAluno,
+    setAbaAtiva,
     setBusca,
     setFiltroAluno,
   };

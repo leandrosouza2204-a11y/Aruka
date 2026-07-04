@@ -1,8 +1,12 @@
 import PageHero from "../../../components/PageHero";
 
 function AvaliacoesHeader({
+  abaAtiva,
   children,
+  quantidadeAnamneses,
+  quantidadeAvaliacoes,
   quantidadeExibida,
+  onAbaChange,
   onNovaAvaliacao,
   onNovaAnamnese,
   styles,
@@ -11,22 +15,69 @@ function AvaliacoesHeader({
     <>
       <PageHero
         eyebrow="AVALIAÇÕES"
-        title="Avaliações físicas"
-        description="Registre medidas, anamnese e evolução corporal dos alunos."
-        meta={`${quantidadeExibida} alunos com avaliação exibidos`}
+        title="Avaliações e anamneses"
+        description="Registre medidas, histórico, hábitos e evolução corporal dos alunos."
+        meta={`${quantidadeExibida} registros exibidos`}
         actions={
           <>
             <button onClick={onNovaAvaliacao} style={styles.botaoPrimario}>
-              + Nova Avaliação
+              + Nova avaliação
             </button>
             <button onClick={onNovaAnamnese} style={styles.botaoSecundario}>
-              + Nova Anamnese
+              + Nova anamnese
             </button>
           </>
         }
       />
 
       <section className="avaliacoes-list-card app-card" style={styles.listaCard}>
+        <div style={styles.moduloCards}>
+          <div style={styles.moduloCard}>
+            <span style={styles.moduloBadge}>Avaliação física</span>
+            <h2 style={styles.moduloTitulo}>Avaliação física</h2>
+            <p style={styles.moduloTexto}>
+              Registre medidas, fotos, indicadores corporais e acompanhe a evolução do aluno.
+            </p>
+            <button onClick={onNovaAvaliacao} style={styles.botaoPrimario}>
+              Nova avaliação
+            </button>
+          </div>
+
+          <div style={styles.moduloCard}>
+            <span style={styles.moduloBadge}>Anamnese</span>
+            <h2 style={styles.moduloTitulo}>Anamnese</h2>
+            <p style={styles.moduloTexto}>
+              Registre histórico, rotina, saúde, hábitos, preferências e informações importantes.
+            </p>
+            <button onClick={onNovaAnamnese} style={styles.botaoSecundario}>
+              Nova anamnese
+            </button>
+          </div>
+        </div>
+
+        <div className="avaliacoes-tabs" style={styles.tabs}>
+          <button
+            type="button"
+            onClick={() => onAbaChange("avaliacoes")}
+            style={{
+              ...styles.tabButton,
+              ...(abaAtiva === "avaliacoes" ? styles.tabButtonActive : {}),
+            }}
+          >
+            Avaliações físicas ({quantidadeAvaliacoes})
+          </button>
+          <button
+            type="button"
+            onClick={() => onAbaChange("anamneses")}
+            style={{
+              ...styles.tabButton,
+              ...(abaAtiva === "anamneses" ? styles.tabButtonActive : {}),
+            }}
+          >
+            Anamneses ({quantidadeAnamneses})
+          </button>
+        </div>
+
         {children}
       </section>
     </>
