@@ -1,13 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 import { useConfirm } from "../../../hooks/useConfirm";
 import { useToast } from "../../../hooks/useToast";
-import { buscarAlunosSupabase } from "../../../services/alunosService";
+import {
+  atualizarAlunoSupabase,
+  buscarAlunosSupabase,
+} from "../../../services/alunosService";
 import {
   buscarPagamentosSupabase,
   desfazerUltimoPagamento,
   montarRankingFinanceiroAlunos,
   montarResumoFinanceiroAluno,
   registrarPagamento as registrarPagamentoService,
+  registrarPagamentoRenovacao,
 } from "../../../services/pagamentosService";
 import { buscarPlanosSupabase } from "../../../services/planosService";
 import {
@@ -36,6 +40,14 @@ export const pagamentoInicial = {
   observacoes: "",
 };
 
+export const renovacaoInicial = {
+  novoPlanoId: "",
+  dataInicio: "",
+  registrarPagamentoAgora: true,
+  formaPagamento: "Pix",
+  observacao: "",
+};
+
 export function useFinanceiroPage() {
   const [alunos, setAlunos] = useState([]);
   const [pagamentos, setPagamentos] = useState([]);
@@ -48,9 +60,11 @@ export function useFinanceiroPage() {
   const [atualizandoId, setAtualizandoId] = useState("");
   const [modalPagamento, setModalPagamento] = useState(null);
   const [modalHistorico, setModalHistorico] = useState(null);
+  const [modalRenovacao, setModalRenovacao] = useState(null);
   const [modalRelatorioAluno, setModalRelatorioAluno] = useState(null);
   const [modalRelatorioGeral, setModalRelatorioGeral] = useState(false);
   const [formPagamento, setFormPagamento] = useState(pagamentoInicial);
+  const [formRenovacao, setFormRenovacao] = useState(renovacaoInicial);
   const toast = useToast();
   const { confirmar } = useConfirm();
 
@@ -163,6 +177,39 @@ export function useFinanceiroPage() {
     [alunos, pagamentos, planos]
   );
 
+  const planosAtivos = useMemo(
+    () => planos.filter((plano) => plano.ativo !== false),
+    [planos]
+  );
+
+  const planoRenovacaoSelecionado = useMemo(
+    () => planos.find((plano) => plano.id === formRenovacao.novoPlanoId) || null,
+    [formRenovacao.novoPlanoId, planos]
+  );
+
+  const dadosRenovacaoCalculados = useMemo(() => {
+    if (!modalRenovacao || !planoRenovacaoSelecionado || !formRenovacao.dataInicio) {
+      return {
+        novoVencimento: "",
+        aviso7: "",
+        aviso1: "",
+        valor: 0,
+      };
+    }
+
+    const datas = calcularDatasRenovacao(
+      formRenovacao.dataInicio,
+      obterDuracaoPlanoMeses(planoRenovacaoSelecionado)
+    );
+
+    return {
+      novoVencimento: datas.vencimento,
+      aviso7: datas.aviso7,
+      aviso1: datas.aviso1,
+      valor: Number(planoRenovacaoSelecionado.valor || 0),
+    };
+  }, [formRenovacao.dataInicio, modalRenovacao, planoRenovacaoSelecionado]);
+
   function abrirRegistroPagamento(registro) {
     setModalPagamento(registro);
     setFormPagamento({
@@ -186,11 +233,98 @@ export function useFinanceiroPage() {
     setModalRelatorioAluno(registro);
   }
 
-  function abrirRenovacaoPlano() {
-    toast.aviso(
-      "Renovação em etapa futura",
-      "O recebimento agora não renova planos parcelados. Use esta ação futuramente para renovar o plano separado do pagamento."
+  function abrirRenovacaoPlano(registro) {
+    const planosDisponiveis = planosAtivos;
+    const planoPadrao =
+      planosDisponiveis.find((item) => item.id === registro.aluno.plano) ||
+      planosDisponiveis[0] ||
+      null;
+
+    if (!planoPadrao) {
+      toast.aviso(
+        "Nenhum plano disponivel",
+        "Cadastre ou ative um plano antes de renovar o aluno."
+      );
+      return;
+    }
+
+    setModalRenovacao(registro);
+    setFormRenovacao({
+      novoPlanoId: planoPadrao.id,
+      dataInicio: statusEstaVencido(registro.statusFinanceiro)
+        ? dataHojeISO()
+        : registro.aluno.vencimento || dataHojeISO(),
+      registrarPagamentoAgora: true,
+      formaPagamento: "Pix",
+      observacao: "",
+    });
+  }
+
+  async function confirmarRenovacaoPlano() {
+    if (!modalRenovacao) return;
+
+    const aluno = modalRenovacao.aluno;
+    const novoPlano = planos.find((plano) => plano.id === formRenovacao.novoPlanoId);
+    const valor = Number(novoPlano?.valor || 0);
+
+    if (!novoPlano || !formRenovacao.dataInicio) {
+      toast.aviso("Renovacao incompleta", "Informe o novo plano e a data de inicio.");
+      return;
+    }
+
+    if (valor <= 0) {
+      toast.aviso("Valor invalido", "O novo plano precisa ter um valor valido.");
+      return;
+    }
+
+    const datasRenovacao = calcularDatasRenovacao(
+      formRenovacao.dataInicio,
+      obterDuracaoPlanoMeses(novoPlano)
     );
+
+    setAtualizandoId(aluno.id);
+    setErro("");
+
+    try {
+      await atualizarAlunoSupabase(aluno.id, {
+        ...aluno,
+        plano: novoPlano.id,
+        valor,
+        inicio: formRenovacao.dataInicio,
+        vencimento: datasRenovacao.vencimento,
+        aviso7: datasRenovacao.aviso7,
+        aviso1: datasRenovacao.aviso1,
+        pagamentoRecebido: Boolean(formRenovacao.registrarPagamentoAgora),
+        dataPagamento: formRenovacao.registrarPagamentoAgora ? dataHojeISO() : "",
+        status: "Ativo",
+      });
+
+      if (formRenovacao.registrarPagamentoAgora) {
+        await registrarPagamentoRenovacao(
+          aluno,
+          {
+            dataPagamento: dataHojeISO(),
+            valor,
+            formaPagamento: formRenovacao.formaPagamento,
+            plano: novoPlano.nome,
+            vencimentoAnterior: aluno.vencimento || "",
+            vencimentoNovo: datasRenovacao.vencimento,
+            observacao: formRenovacao.observacao,
+          },
+          novoPlano
+        );
+      }
+
+      await carregarDados();
+      fecharRenovacaoPlano();
+      toast.sucesso("Plano renovado", "O aluno foi atualizado com o novo vencimento.");
+    } catch (error) {
+      console.error(error);
+      setErro(`Erro ao renovar plano: ${error.message}`);
+      toast.erro("Nao foi possivel renovar o plano", "Tente novamente em alguns instantes.");
+    } finally {
+      setAtualizandoId("");
+    }
   }
 
   async function registrarPagamento() {
@@ -271,6 +405,11 @@ export function useFinanceiroPage() {
     setFormPagamento(pagamentoInicial);
   }
 
+  function fecharRenovacaoPlano() {
+    setModalRenovacao(null);
+    setFormRenovacao(renovacaoInicial);
+  }
+
   function limparFiltros() {
     setBusca("");
     setFiltroStatus("todos");
@@ -291,21 +430,27 @@ export function useFinanceiroPage() {
     atualizandoId,
     busca,
     carregando,
+    confirmarRenovacaoPlano,
+    dadosRenovacaoCalculados,
     desfazerPagamento,
     enviarAvisoWhatsApp,
     erro,
     fecharHistorico: () => setModalHistorico(null),
     fecharModalPagamento,
+    fecharRenovacaoPlano,
     fecharRelatorioAluno: () => setModalRelatorioAluno(null),
     fecharRelatorioGeral: () => setModalRelatorioGeral(false),
     filtroPagamento,
     filtroStatus,
     formPagamento,
+    formRenovacao,
     limparFiltros,
     modalHistorico,
     modalPagamento,
+    modalRenovacao,
     modalRelatorioAluno,
     modalRelatorioGeral,
+    planosAtivos,
     rankingFinanceiro,
     registrarPagamento,
     registrosFiltrados,
@@ -314,6 +459,7 @@ export function useFinanceiroPage() {
     setFiltroPagamento,
     setFiltroStatus,
     setFormPagamento,
+    setFormRenovacao,
   };
 }
 
@@ -381,22 +527,46 @@ function calcularTotalParcelas(aluno, plano) {
   return 1;
 }
 
-function inferirTipoMovimentoRegistro(aluno, plano, totalParcelas) {
-  if (totalParcelas > 1) return "pagamento_parcela";
+function calcularDatasRenovacao(dataInicio, duracaoMeses) {
+  const vencimento = adicionarMesesISO(dataInicio, duracaoMeses);
+  const avisos = calcularAvisosVencimento(vencimento);
 
-  return calcularMesesRenovacao(aluno, plano) <= 1 ? "renovacao_plano" : "pagamento_avulso";
+  return {
+    vencimento,
+    aviso7: avisos.aviso7,
+    aviso1: avisos.aviso1,
+  };
 }
 
-function calcularMesesRenovacao(aluno, plano) {
+function obterDuracaoPlanoMeses(plano) {
   if (plano?.duracaoMeses) return Math.max(Number(plano.duracaoMeses || 1), 1);
-  if (aluno.plano === "trimestralParcelado") return 3;
 
-  const textoPlano = `${aluno.plano || ""} ${plano?.nome || ""}`.toLowerCase();
+  const textoPlano = `${plano?.id || ""} ${plano?.nome || ""}`.toLowerCase();
 
+  if (textoPlano.includes("anual")) return 12;
   if (textoPlano.includes("semestral")) return 6;
   if (textoPlano.includes("trimestral")) return 3;
 
   return 1;
+}
+
+function adicionarMesesISO(dataISO, meses) {
+  const data = new Date(`${dataISO}T00:00:00`);
+  const diaOriginal = data.getDate();
+
+  data.setMonth(data.getMonth() + Number(meses || 1));
+
+  if (data.getDate() !== diaOriginal) {
+    data.setDate(0);
+  }
+
+  return data.toISOString().split("T")[0];
+}
+
+function inferirTipoMovimentoRegistro(aluno, plano, totalParcelas) {
+  if (totalParcelas > 1) return "pagamento_parcela";
+
+  return "pagamento_avulso";
 }
 
 function calcularParcelaAtual(inicio, totalParcelas) {
