@@ -63,8 +63,6 @@ export function useDashboardPage() {
     [pagamentos]
   );
 
-  const receitaPendente = Math.max(receitaPrevista - receitaRecebida, 0);
-
   const planosPorId = useMemo(
     () => new Map(planos.map((plano) => [plano.id, plano])),
     [planos]
@@ -82,6 +80,23 @@ export function useDashboardPage() {
     return mapa;
   }, [pagamentos]);
 
+  const receitaPendente = useMemo(
+    () =>
+      alunos.reduce((total, aluno) => {
+        const pagamentosContratoAtual = filtrarPagamentosContratoAtual(
+          aluno,
+          pagamentosPorAluno.get(aluno.id) || []
+        );
+        const totalRecebidoContratoAtual = pagamentosContratoAtual.reduce(
+          (subtotal, pagamento) => subtotal + Number(pagamento.valor || 0),
+          0
+        );
+
+        return total + Math.max(Number(aluno.valor || 0) - totalRecebidoContratoAtual, 0);
+      }, 0),
+    [alunos, pagamentosPorAluno]
+  );
+
   const statusPorAluno = useMemo(
     () =>
       new Map(
@@ -89,7 +104,7 @@ export function useDashboardPage() {
           aluno.id,
           calcularStatusDashboard(
             aluno,
-            pagamentosPorAluno.get(aluno.id) || [],
+            filtrarPagamentosContratoAtual(aluno, pagamentosPorAluno.get(aluno.id) || []),
             planosPorId.get(aluno.plano)
           ),
         ])
@@ -231,6 +246,32 @@ function calcularStatusDashboard(aluno, pagamentosAluno, plano) {
   );
 
   return resumoParcelas.statusParcela || calcularStatus(aluno.vencimento);
+}
+
+function filtrarPagamentosContratoAtual(aluno, pagamentosAluno) {
+  if (!aluno.inicio && !aluno.vencimento) return pagamentosAluno;
+
+  return pagamentosAluno.filter((pagamento) => {
+    if (pagamento.vencimentoNovo && pagamento.vencimentoNovo === aluno.vencimento) {
+      return true;
+    }
+
+    if (
+      pagamento.vencimentoParcela &&
+      aluno.inicio &&
+      aluno.vencimento &&
+      pagamento.vencimentoParcela >= aluno.inicio &&
+      pagamento.vencimentoParcela <= aluno.vencimento
+    ) {
+      return true;
+    }
+
+    if (!pagamento.dataPagamento || !aluno.inicio) return false;
+    if (pagamento.dataPagamento < aluno.inicio) return false;
+    if (aluno.vencimento && pagamento.dataPagamento > aluno.vencimento) return false;
+
+    return true;
+  });
 }
 
 export function montarAlertasConsultoria({

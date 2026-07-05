@@ -466,9 +466,10 @@ export function useFinanceiroPage() {
 function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
   const valorContrato = Number(aluno.valor || 0);
   const totalParcelas = calcularTotalParcelas(aluno, plano);
+  const pagamentosContratoAtual = filtrarPagamentosContratoAtual(aluno, pagamentosAluno);
   const resumoParcelas = calcularResumoParcelasAluno(
     aluno,
-    pagamentosAluno,
+    pagamentosContratoAtual,
     totalParcelas,
     plano?.intervaloParcelasMeses || 1
   );
@@ -480,6 +481,7 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
       ? Number(plano?.valorParcela || 0) || valorContrato / totalParcelas
       : valorContrato;
   const pagamentosOrdenados = ordenarPagamentos(pagamentosAluno);
+  const pagamentosContratoAtualOrdenados = ordenarPagamentos(pagamentosContratoAtual);
   const vencimentoParcelaAtual = resumoParcelas.vencimentoParcelaAtual;
   const avisosParcela = vencimentoParcelaAtual
     ? calcularAvisosVencimento(vencimentoParcelaAtual)
@@ -487,10 +489,16 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
   const statusFinanceiro =
     resumoParcelas.statusParcela || calcularStatus(aluno.vencimento);
   const pagamentoCiclo = resumoParcelas.parcelado
-    ? pagamentosOrdenados.find((pagamento) => String(pagamento.parcela) === String(parcelaAtual))
-    : encontrarPagamentoContratoAtual(aluno, pagamentosOrdenados);
+    ? pagamentosContratoAtualOrdenados.find(
+        (pagamento) => String(pagamento.parcela) === String(parcelaAtual)
+      )
+    : encontrarPagamentoContratoAtual(aluno, pagamentosContratoAtualOrdenados);
   const recebidoNoCiclo = Boolean(pagamentoCiclo) && !statusEstaVencido(statusFinanceiro);
   const totalRecebido = pagamentosAluno.reduce(
+    (total, pagamento) => total + Number(pagamento.valor || 0),
+    0
+  );
+  const totalRecebidoContratoAtual = pagamentosContratoAtual.reduce(
     (total, pagamento) => total + Number(pagamento.valor || 0),
     0
   );
@@ -514,9 +522,35 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
     ultimoPagamento: pagamentosOrdenados[0] || null,
     recebidoNoCiclo,
     totalRecebido,
-    valorPendente: Math.max(valorContrato - totalRecebido, 0),
+    valorPendente: Math.max(valorContrato - totalRecebidoContratoAtual, 0),
     resumoAluno: montarResumoFinanceiroAluno(aluno, pagamentosAluno, plano),
   };
+}
+
+function filtrarPagamentosContratoAtual(aluno, pagamentosAluno) {
+  if (!aluno.inicio && !aluno.vencimento) return pagamentosAluno;
+
+  return pagamentosAluno.filter((pagamento) => {
+    if (pagamento.vencimentoNovo && pagamento.vencimentoNovo === aluno.vencimento) {
+      return true;
+    }
+
+    if (
+      pagamento.vencimentoParcela &&
+      aluno.inicio &&
+      aluno.vencimento &&
+      pagamento.vencimentoParcela >= aluno.inicio &&
+      pagamento.vencimentoParcela <= aluno.vencimento
+    ) {
+      return true;
+    }
+
+    if (!pagamento.dataPagamento || !aluno.inicio) return false;
+    if (pagamento.dataPagamento < aluno.inicio) return false;
+    if (aluno.vencimento && pagamento.dataPagamento > aluno.vencimento) return false;
+
+    return true;
+  });
 }
 
 function calcularTotalParcelas(aluno, plano) {
