@@ -1,6 +1,8 @@
-# CoachFlow
+# Aruka
 
-CoachFlow e um SaaS para profissionais de consultoria fitness gerenciarem alunos, planos, financeiro, treinos, avaliacoes fisicas, anamnese, administracao de usuarios e logs operacionais.
+Aruka e um SaaS para profissionais de consultoria fitness gerenciarem alunos, planos, financeiro, treinos, avaliacoes fisicas, anamnese, administracao de usuarios e logs operacionais.
+
+O projeto anteriormente conhecido como CoachFlow agora adota oficialmente a marca Aruka.
 
 O projeto usa React com Vite no frontend e Supabase como camada de autenticacao, banco de dados PostgreSQL, RLS, RPCs administrativas e Edge Functions.
 
@@ -93,7 +95,7 @@ Nunca exponha service role key no frontend. Chaves administrativas devem ficar r
 
 ## Banco de Dados
 
-O banco de dados do CoachFlow utiliza Supabase/PostgreSQL.
+O banco de dados da Aruka utiliza Supabase/PostgreSQL.
 
 Alteracoes estruturais do banco sao versionadas em:
 

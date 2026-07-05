@@ -10,7 +10,7 @@ function FooterLegal({ compact = false, dark = false }) {
         ...(dark ? footerEscuro : {}),
       }}
     >
-      <span>CoachFlow</span>
+      <span>Aruka</span>
       <span style={separador}>•</span>
       <Link style={{ ...link, ...(dark ? linkEscuro : {}) }} to="/politica-privacidade">
         Política de Privacidade

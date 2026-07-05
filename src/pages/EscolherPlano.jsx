@@ -22,7 +22,7 @@ function EscolherPlano() {
     const mensagem = [
       "Olá, tudo bem?",
       "",
-      `Quero solicitar a liberação de acesso ao sistema CoachFlow no plano *${plano.nome}*.`,
+      `Quero solicitar a liberação de acesso ao sistema Aruka no plano *${plano.nome}*.`,
       "",
       "Pode me enviar as informações para ativação da minha assinatura?",
     ].join("\n");

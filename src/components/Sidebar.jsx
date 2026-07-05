@@ -189,7 +189,7 @@ function Sidebar() {
             <BrandLogo variant="icon" size="md" />
           </div>
           <div style={styles.brandCopy}>
-            <h2 style={styles.title}>CoachFlow</h2>
+            <h2 style={styles.title}>Aruka</h2>
             <span style={styles.subtitle}>Painel Profissional</span>
           </div>
         </div>

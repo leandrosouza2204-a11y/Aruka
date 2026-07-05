@@ -88,7 +88,7 @@ function AdminLogs() {
         <PageHero
           eyebrow="ADMINISTRAÇÃO"
           title="Logs administrativos"
-          description="Acompanhe ações sensíveis realizadas por administradores no CoachFlow."
+          description="Acompanhe ações sensíveis realizadas por administradores na Aruka."
           actions={
             <button
               type="button"

@@ -16,15 +16,15 @@ const tamanhos = {
 function BrandLogo({ variant = "full", showSlogan = false, size = "md" }) {
   const imagem =
     variant === "icon"
-      ? "/brand/coachflow-icon.png"
-      : "/brand/coachflow-logo-full.png";
+      ? "/brand/aruka-symbol-gradient.png"
+      : "/brand/aruka-logo-primary.png";
   const largura = tamanhos[size]?.[variant] || tamanhos.md[variant];
 
   return (
     <div style={container}>
       <img
         src={imagem}
-        alt="CoachFlow"
+        alt="Aruka"
         style={{
           ...logo,
           width: largura,

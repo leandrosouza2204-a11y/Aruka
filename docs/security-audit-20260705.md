@@ -1,4 +1,4 @@
-# Auditoria de Seguranca CoachFlow - 2026-07-05
+# Auditoria de Seguranca Aruka - 2026-07-05
 
 ## Escopo
 

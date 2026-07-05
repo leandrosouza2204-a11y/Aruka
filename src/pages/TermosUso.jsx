@@ -32,8 +32,8 @@ function TermosUso() {
 
         <Aviso />
 
-        <Secao titulo="1. Finalidade do CoachFlow">
-          O CoachFlow é um SaaS criado para auxiliar personal trainers na
+        <Secao titulo="1. Finalidade da Aruka">
+          A Aruka é um SaaS criado para auxiliar personal trainers na
           gestão de alunos, planos, financeiro, avaliações, treinos e
           comunicação manual de acompanhamento.
         </Secao>
@@ -51,13 +51,13 @@ function TermosUso() {
         </Secao>
 
         <Secao titulo="4. Uso adequado da plataforma">
-          É proibido usar o CoachFlow para fins ilícitos, abusivos,
+          É proibido usar a Aruka para fins ilícitos, abusivos,
           discriminatórios, envio de spam, violação de direitos de terceiros ou
           tentativa de acesso não autorizado a dados e funcionalidades.
         </Secao>
 
         <Secao titulo="5. Limites do serviço">
-          O CoachFlow é uma ferramenta de organização e gestão. Ele não
+          A Aruka é uma ferramenta de organização e gestão. Ela não
           substitui julgamento profissional, avaliação médica, orientação
           nutricional ou responsabilidade técnica do usuário.
         </Secao>
@@ -70,14 +70,14 @@ function TermosUso() {
         </Secao>
 
         <Secao titulo="7. Propriedade intelectual">
-          A marca CoachFlow, layout, código, fluxos, textos e demais elementos
+          A marca Aruka, layout, código, fluxos, textos e demais elementos
           da plataforma pertencem aos seus responsáveis ou licenciadores. O uso
           do sistema não transfere propriedade intelectual ao usuário.
         </Secao>
 
         <Secao titulo="8. Disponibilidade">
           O serviço poderá passar por manutenções, indisponibilidades
-          temporárias ou alterações técnicas. O CoachFlow buscará manter a
+          temporárias ou alterações técnicas. A Aruka buscará manter a
           plataforma estável, mas não garante disponibilidade ininterrupta.
         </Secao>
 

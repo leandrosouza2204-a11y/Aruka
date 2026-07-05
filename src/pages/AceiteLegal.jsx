@@ -60,7 +60,7 @@ function AceiteLegal() {
           <span style={badge}>Documentos legais</span>
           <h1 style={titulo}>Aceite obrigatório</h1>
           <p style={texto}>
-            Para continuar usando o CoachFlow, leia e aceite a Política de
+            Para continuar usando a Aruka, leia e aceite a Política de
             Privacidade e os Termos de Uso vigentes.
           </p>
           <p style={versao}>

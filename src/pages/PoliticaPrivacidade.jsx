@@ -33,7 +33,7 @@ function PoliticaPrivacidade() {
         <Aviso />
 
         <Secao titulo="1. Sobre esta política">
-          Esta Política de Privacidade explica como o CoachFlow trata dados
+          Esta Política de Privacidade explica como a Aruka trata dados
           pessoais no contexto de um SaaS para personal trainers gerenciarem
           alunos, planos, financeiro, avaliações, treinos e comunicação manual
           via WhatsApp.
@@ -55,13 +55,13 @@ function PoliticaPrivacidade() {
         </Secao>
 
         <Secao titulo="4. Armazenamento e segurança">
-          O CoachFlow utiliza infraestrutura Supabase para autenticação e banco
+          A Aruka utiliza infraestrutura Supabase para autenticação e banco
           de dados. O acesso aos registros é protegido por autenticação e
           políticas de segurança por usuário sempre que aplicável.
         </Secao>
 
         <Secao titulo="5. WhatsApp">
-          O CoachFlow não envia mensagens automaticamente pelo WhatsApp. A
+          A Aruka não envia mensagens automaticamente pelo WhatsApp. A
           plataforma apenas monta mensagens e abre o WhatsApp para envio manual
           pelo usuário responsável.
         </Secao>
@@ -80,7 +80,7 @@ function PoliticaPrivacidade() {
 
         <Secao titulo="8. Contato">
           Solicitações relacionadas à privacidade podem ser encaminhadas ao
-          responsável pelo CoachFlow pelo canal de contato informado ao usuário
+          responsável pela Aruka pelo canal de contato informado ao usuário
           contratante.
         </Secao>
 

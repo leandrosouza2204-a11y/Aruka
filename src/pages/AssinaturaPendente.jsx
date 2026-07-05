@@ -167,7 +167,7 @@ const mensagensPorMotivo = {
     badge: "Acesso aguardando liberação",
     titulo: "Seu acesso ainda está aguardando liberação.",
     texto:
-      "Seu cadastro foi criado com sucesso. O acesso ao CoachFlow será liberado após aprovação. Escolha uma opção abaixo e solicite a ativação pelo WhatsApp.",
+      "Seu cadastro foi criado com sucesso. O acesso à Aruka será liberado após aprovação. Escolha uma opção abaixo e solicite a ativação pelo WhatsApp.",
   },
   bloqueado: {
     badge: "Acesso bloqueado",
