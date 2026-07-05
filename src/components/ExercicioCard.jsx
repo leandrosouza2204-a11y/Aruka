@@ -1,6 +1,8 @@
 import { ExternalLink, Pencil, Trash2 } from "lucide-react";
 
 function ExercicioCard({ exercicio, onEdit, onDelete }) {
+  const videoSeguro = obterUrlVideoSegura(exercicio.video);
+
   return (
     <div className="treino-exercise-card" style={card}>
       <div className="exercise-card-top" style={topo}>
@@ -35,9 +37,9 @@ function ExercicioCard({ exercicio, onEdit, onDelete }) {
         <Info label="Observações" valor={exercicio.observacoes} />
       </div>
 
-      {exercicio.video && (
+      {videoSeguro && (
         <a
-          href={exercicio.video}
+          href={videoSeguro}
           target="_blank"
           rel="noreferrer"
           style={linkVideo}
@@ -48,6 +50,17 @@ function ExercicioCard({ exercicio, onEdit, onDelete }) {
       )}
     </div>
   );
+}
+
+function obterUrlVideoSegura(url) {
+  if (!url) return "";
+
+  try {
+    const parsed = new URL(String(url));
+    return ["http:", "https:"].includes(parsed.protocol) ? parsed.href : "";
+  } catch {
+    return "";
+  }
 }
 
 function Info({ label, valor }) {
