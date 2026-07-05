@@ -1,8 +1,6 @@
 import { buscarUsuarioLogado } from "./authSessionService";
 import { supabase } from "./supabase";
 
-const STATUS_COM_ACESSO = new Set(["ativo"]);
-
 export async function buscarAssinaturaUsuario() {
   const user = await buscarUsuarioLogado();
 
@@ -28,13 +26,10 @@ export async function verificarAssinaturaAtiva() {
 
   if (!assinatura) return false;
 
-  if (STATUS_COM_ACESSO.has(assinatura.status)) return true;
-
-  if (assinatura.status === "teste") {
-    return dataEhHojeOuFutura(assinatura.dataVencimento);
-  }
-
-  return false;
+  return (
+    String(assinatura.status || "").toLowerCase() === "ativo" &&
+    dataEhHojeOuFutura(assinatura.dataVencimento)
+  );
 }
 
 export async function criarAssinaturaPendente(plano = "pendente") {
@@ -91,7 +86,14 @@ function dataEhHojeOuFutura(data) {
   const hoje = new Date();
   hoje.setHours(0, 0, 0, 0);
 
-  const alvo = new Date(`${data}T00:00:00`);
+  const partes = String(data).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!partes) return false;
+
+  const alvo = new Date(
+    Number(partes[1]),
+    Number(partes[2]) - 1,
+    Number(partes[3])
+  );
 
   return alvo >= hoje;
 }
