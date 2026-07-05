@@ -4,6 +4,7 @@ import { useConfirm } from "../hooks/useConfirm";
 import { useToast } from "../hooks/useToast";
 
 const treinoVazio = {
+  alunoId: "",
   aluno: "",
   rotina: "",
   objetivo: "",
@@ -46,8 +47,8 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
 
   const titulo = treino?.id ? "Editar Treino" : "Cadastro de Treino";
 
-  const alunosOptions = useMemo(
-    () => alunos.map((aluno) => aluno.nome).filter(Boolean),
+  const alunosPorId = useMemo(
+    () => new Map(alunos.map((aluno) => [aluno.id, aluno])),
     [alunos]
   );
 
@@ -164,14 +165,18 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
   }
 
   function salvarTreino() {
-    if (!form.aluno.trim() || !form.rotina.trim()) {
+    const alunoSelecionado = alunosPorId.get(form.alunoId);
+
+    if (!alunoSelecionado || !form.rotina.trim()) {
       toast.aviso("Treino incompleto", "Informe o aluno e o nome da rotina.");
       return;
     }
 
     onSave({
       ...form,
-      aluno: form.aluno.trim(),
+      alunoId: alunoSelecionado.id,
+      aluno: alunoSelecionado.nome,
+      nomeAluno: alunoSelecionado.nome,
       rotina: form.rotina.trim(),
       objetivo: form.objetivo.trim(),
       nivel: form.nivel.trim(),
@@ -199,18 +204,18 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
 
         <div style={formGrid}>
           <Campo label="Aluno">
-            <input
-              list="alunos-treino"
-              placeholder="Selecione ou digite o aluno"
-              value={form.aluno}
-              onChange={(e) => atualizarCampo("aluno", e.target.value)}
+            <select
+              value={form.alunoId || ""}
+              onChange={(e) => atualizarCampo("alunoId", e.target.value)}
               style={campo}
-            />
-            <datalist id="alunos-treino">
-              {alunosOptions.map((nome) => (
-                <option key={nome} value={nome} />
+            >
+              <option value="">Selecione</option>
+              {alunos.map((aluno) => (
+                <option key={aluno.id} value={aluno.id}>
+                  {aluno.nome}
+                </option>
               ))}
-            </datalist>
+            </select>
           </Campo>
 
           <Campo label="Nome da rotina">

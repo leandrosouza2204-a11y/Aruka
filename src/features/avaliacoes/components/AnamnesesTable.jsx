@@ -45,8 +45,9 @@ function AnamnesesTable({
                 <td style={styles.tabelaCelula}>
                   <div className="table-actions-inline">
                     <button
-                      onClick={() => onPerfil(anamnese.aluno)}
+                      onClick={() => onPerfil(anamnese.alunoId)}
                       className="table-button table-button-secondary"
+                      disabled={!anamnese.alunoId}
                     >
                       Perfil
                     </button>
@@ -54,7 +55,10 @@ function AnamnesesTable({
                       <TableActionItem onClick={() => onEditar(anamnese)}>
                         Editar
                       </TableActionItem>
-                      <TableActionItem onClick={() => onRelatorio(anamnese)}>
+                      <TableActionItem
+                        onClick={() => onRelatorio(anamnese)}
+                        disabled={!anamnese.alunoId}
+                      >
                         Relatório
                       </TableActionItem>
                     </TableActions>

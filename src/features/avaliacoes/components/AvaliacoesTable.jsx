@@ -62,8 +62,9 @@ function AvaliacoesTable({
                   <td style={styles.tabelaCelula}>
                     <div className="table-actions-inline">
                       <button
-                        onClick={() => onPerfil(avaliacao.aluno)}
+                        onClick={() => onPerfil(avaliacao.alunoId)}
                         className="table-button table-button-secondary"
+                        disabled={!avaliacao.alunoId}
                       >
                         Perfil
                       </button>
@@ -71,7 +72,10 @@ function AvaliacoesTable({
                         <TableActionItem onClick={() => onEditar(avaliacao)}>
                           Editar
                         </TableActionItem>
-                        <TableActionItem onClick={() => onAnamnese(avaliacao.aluno)}>
+                        <TableActionItem
+                          onClick={() => onAnamnese(avaliacao.alunoId)}
+                          disabled={!avaliacao.alunoId}
+                        >
                           Anamnese
                         </TableActionItem>
                         <TableActionItem

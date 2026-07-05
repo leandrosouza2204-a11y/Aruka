@@ -51,9 +51,10 @@ function AvaliacaoCardMobile({
 
       <div className="mobile-card-actions">
         <button
-          onClick={() => onPerfil(avaliacao.aluno)}
+          onClick={() => onPerfil(avaliacao.alunoId)}
           className="table-button table-button-secondary"
           aria-expanded={isExpanded}
+          disabled={!avaliacao.alunoId}
         >
           {isExpanded ? "Ocultar" : "Perfil"}
         </button>
@@ -64,8 +65,9 @@ function AvaliacaoCardMobile({
           Editar
         </button>
         <button
-          onClick={() => onAnamnese(avaliacao.aluno)}
+          onClick={() => onAnamnese(avaliacao.alunoId)}
           className="table-button table-button-secondary"
+          disabled={!avaliacao.alunoId}
         >
           Anamnese
         </button>

@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useToast } from "../hooks/useToast";
 
 const anamneseVazia = {
+  alunoId: "",
   aluno: "",
   profissao: "",
   rotinaTrabalho: "",
@@ -139,8 +140,8 @@ const secoes = [
 function AnamneseModal({ alunos, anamnese, onClose, onSave }) {
   const [form, setForm] = useState(() => ({ ...anamneseVazia, ...anamnese }));
   const toast = useToast();
-  const alunosOptions = useMemo(
-    () => alunos.map((aluno) => aluno.nome).filter(Boolean),
+  const alunosPorId = useMemo(
+    () => new Map(alunos.map((aluno) => [aluno.id, aluno])),
     [alunos]
   );
 
@@ -149,12 +150,19 @@ function AnamneseModal({ alunos, anamnese, onClose, onSave }) {
   }
 
   function salvar() {
-    if (!form.aluno.trim()) {
+    const alunoSelecionado = alunosPorId.get(form.alunoId);
+
+    if (!alunoSelecionado) {
       toast.aviso("Aluno obrigatório", "Informe o aluno da anamnese.");
       return;
     }
 
-    onSave({ ...form, aluno: form.aluno.trim() });
+    onSave({
+      ...form,
+      alunoId: alunoSelecionado.id,
+      aluno: alunoSelecionado.nome,
+      nomeAluno: alunoSelecionado.nome,
+    });
   }
 
   return (
@@ -172,17 +180,18 @@ function AnamneseModal({ alunos, anamnese, onClose, onSave }) {
           <h3 style={secaoTitulo}>Aluno</h3>
           <label style={campoGrupo}>
             <span style={labelCampo}>Aluno</span>
-            <input
-              list="alunos-anamnese"
-              value={form.aluno}
-              onChange={(e) => atualizar("aluno", e.target.value)}
+            <select
+              value={form.alunoId || ""}
+              onChange={(e) => atualizar("alunoId", e.target.value)}
               style={campo}
-            />
-            <datalist id="alunos-anamnese">
-              {alunosOptions.map((nome) => (
-                <option key={nome} value={nome} />
+            >
+              <option value="">Selecione</option>
+              {alunos.map((aluno) => (
+                <option key={aluno.id} value={aluno.id}>
+                  {aluno.nome}
+                </option>
               ))}
-            </datalist>
+            </select>
           </label>
         </section>
 

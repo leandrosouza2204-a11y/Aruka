@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useToast } from "../hooks/useToast";
 
 const avaliacaoVazia = {
+  alunoId: "",
   aluno: "",
   data: "",
   idade: "",
@@ -55,8 +56,8 @@ function AvaliacaoModal({ alunos, avaliacao, onClose, onSave }) {
   }));
   const toast = useToast();
 
-  const alunosOptions = useMemo(
-    () => alunos.map((aluno) => aluno.nome).filter(Boolean),
+  const alunosPorId = useMemo(
+    () => new Map(alunos.map((aluno) => [aluno.id, aluno])),
     [alunos]
   );
 
@@ -75,14 +76,18 @@ function AvaliacaoModal({ alunos, avaliacao, onClose, onSave }) {
   }
 
   function salvar() {
-    if (!form.aluno.trim() || !form.data) {
+    const alunoSelecionado = alunosPorId.get(form.alunoId);
+
+    if (!alunoSelecionado || !form.data) {
       toast.aviso("Avaliação incompleta", "Informe o aluno e a data da avaliação.");
       return;
     }
 
     onSave({
       ...form,
-      aluno: form.aluno.trim(),
+      alunoId: alunoSelecionado.id,
+      aluno: alunoSelecionado.nome,
+      nomeAluno: alunoSelecionado.nome,
     });
   }
 
@@ -99,17 +104,18 @@ function AvaliacaoModal({ alunos, avaliacao, onClose, onSave }) {
 
         <Secao titulo="Dados básicos">
           <Campo label="Aluno">
-            <input
-              list="alunos-avaliacao"
-              value={form.aluno}
-              onChange={(e) => atualizar("aluno", e.target.value)}
+            <select
+              value={form.alunoId || ""}
+              onChange={(e) => atualizar("alunoId", e.target.value)}
               style={campo}
-            />
-            <datalist id="alunos-avaliacao">
-              {alunosOptions.map((nome) => (
-                <option key={nome} value={nome} />
+            >
+              <option value="">Selecione</option>
+              {alunos.map((aluno) => (
+                <option key={aluno.id} value={aluno.id}>
+                  {aluno.nome}
+                </option>
               ))}
-            </datalist>
+            </select>
           </Campo>
           <Input label="Data da avaliação" type="date" value={form.data} onChange={(valor) => atualizar("data", valor)} />
           <Input label="Idade" value={form.idade} onChange={(valor) => atualizar("idade", valor)} />

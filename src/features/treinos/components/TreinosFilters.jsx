@@ -29,8 +29,8 @@ function TreinosFilters({
       >
         <option value="todos">Todos os alunos</option>
         {opcoesFiltro.alunos.map((aluno) => (
-          <option key={aluno} value={aluno}>
-            {aluno}
+          <option key={aluno.id} value={aluno.id}>
+            {aluno.nome}
           </option>
         ))}
       </select>

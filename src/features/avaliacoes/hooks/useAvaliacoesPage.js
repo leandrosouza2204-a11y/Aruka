@@ -27,7 +27,7 @@ export function useAvaliacoesPage() {
   const [modalAnamnese, setModalAnamnese] = useState(false);
   const [avaliacaoEditando, setAvaliacaoEditando] = useState(null);
   const [anamneseEditando, setAnamneseEditando] = useState(null);
-  const [alunoSelecionado, setAlunoSelecionado] = useState("");
+  const [alunoSelecionadoId, setAlunoSelecionadoId] = useState("");
   const [relatorioAberto, setRelatorioAberto] = useState(false);
   const [relatorioAnamneseAberto, setRelatorioAnamneseAberto] = useState(false);
   const [busca, setBusca] = useState("");
@@ -71,9 +71,10 @@ export function useAvaliacoesPage() {
     const porAluno = new Map();
 
     avaliacoes.forEach((avaliacao) => {
-      const atual = porAluno.get(avaliacao.aluno);
+      const chaveAluno = avaliacao.alunoId || `nome:${avaliacao.aluno}`;
+      const atual = porAluno.get(chaveAluno);
       if (!atual || String(avaliacao.data).localeCompare(String(atual.data)) > 0) {
-        porAluno.set(avaliacao.aluno, avaliacao);
+        porAluno.set(chaveAluno, avaliacao);
       }
     });
 
@@ -88,7 +89,7 @@ export function useAvaliacoesPage() {
     return ultimasAvaliacoes.filter((avaliacao) => {
       const combinaBusca = avaliacao.aluno.toLowerCase().includes(termo);
       const combinaAluno =
-        filtroAluno === "todos" || avaliacao.aluno === filtroAluno;
+        filtroAluno === "todos" || avaliacao.alunoId === filtroAluno;
 
       return combinaBusca && combinaAluno;
     });
@@ -101,7 +102,7 @@ export function useAvaliacoesPage() {
       .filter((anamnese) => {
         const combinaBusca = anamnese.aluno.toLowerCase().includes(termo);
         const combinaAluno =
-          filtroAluno === "todos" || anamnese.aluno === filtroAluno;
+          filtroAluno === "todos" || anamnese.alunoId === filtroAluno;
 
         return combinaBusca && combinaAluno;
       })
@@ -111,19 +112,20 @@ export function useAvaliacoesPage() {
   const historicoAluno = useMemo(
     () =>
       avaliacoes
-        .filter((avaliacao) => avaliacao.aluno === alunoSelecionado)
+        .filter((avaliacao) => avaliacao.alunoId === alunoSelecionadoId)
         .sort((a, b) => String(a.data).localeCompare(String(b.data))),
-    [alunoSelecionado, avaliacoes]
+    [alunoSelecionadoId, avaliacoes]
   );
 
   const ultimaAvaliacao = historicoAluno[historicoAluno.length - 1] || null;
   const avaliacaoAnterior =
     historicoAluno.length > 1 ? historicoAluno[historicoAluno.length - 2] : null;
   const primeiraAvaliacao = historicoAluno[0] || null;
-  const alunoCadastro = alunos.find((aluno) => aluno.nome === alunoSelecionado);
+  const alunoCadastro = alunos.find((aluno) => aluno.id === alunoSelecionadoId);
+  const alunoSelecionado = alunoCadastro?.nome || ultimaAvaliacao?.aluno || "";
   const anamneseAluno =
     [...anamneses]
-      .filter((anamnese) => anamnese.aluno === alunoSelecionado)
+      .filter((anamnese) => anamnese.alunoId === alunoSelecionadoId)
       .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)))[0] ||
     null;
   const alertas = useMemo(
@@ -132,7 +134,7 @@ export function useAvaliacoesPage() {
   );
 
   async function salvarAvaliacao(avaliacao) {
-    const aluno = alunos.find((item) => item.nome === avaliacao.aluno);
+    const aluno = alunos.find((item) => item.id === avaliacao.alunoId);
 
     if (!aluno) {
       toast.aviso("Aluno obrigatório", "Selecione um aluno cadastrado.");
@@ -140,7 +142,12 @@ export function useAvaliacoesPage() {
     }
 
     try {
-      const payload = { ...avaliacao, alunoId: aluno.id };
+      const payload = {
+        ...avaliacao,
+        alunoId: aluno.id,
+        aluno: aluno.nome,
+        nomeAluno: aluno.nome,
+      };
 
       if (avaliacaoEditando) {
         await atualizarAvaliacaoSupabase(avaliacaoEditando.id, payload);
@@ -149,7 +156,7 @@ export function useAvaliacoesPage() {
       }
 
       await carregarDados();
-      setAlunoSelecionado(avaliacao.aluno);
+      setAlunoSelecionadoId(aluno.id);
       setAbaAtiva("avaliacoes");
       fecharModalAvaliacao();
       toast.sucesso("Avaliação salva", "Os dados da avaliação foram atualizados.");
@@ -164,7 +171,7 @@ export function useAvaliacoesPage() {
   }
 
   async function salvarAnamnese(anamnese) {
-    const aluno = alunos.find((item) => item.nome === anamnese.aluno);
+    const aluno = alunos.find((item) => item.id === anamnese.alunoId);
 
     if (!aluno) {
       toast.aviso("Aluno obrigatório", "Selecione um aluno cadastrado.");
@@ -172,7 +179,12 @@ export function useAvaliacoesPage() {
     }
 
     try {
-      const payload = { ...anamnese, alunoId: aluno.id };
+      const payload = {
+        ...anamnese,
+        alunoId: aluno.id,
+        aluno: aluno.nome,
+        nomeAluno: aluno.nome,
+      };
 
       if (anamneseEditando) {
         await atualizarAnamneseSupabase(anamneseEditando.id, payload);
@@ -181,7 +193,7 @@ export function useAvaliacoesPage() {
       }
 
       await carregarDados();
-      setAlunoSelecionado(anamnese.aluno);
+      setAlunoSelecionadoId(aluno.id);
       setAbaAtiva("anamneses");
       fecharModalAnamnese();
       toast.sucesso("Anamnese salva", "As informações foram atualizadas.");
@@ -210,10 +222,10 @@ export function useAvaliacoesPage() {
     setModalAvaliacao(true);
   }
 
-  function editarAnamneseAluno(aluno) {
+  function editarAnamneseAluno(alunoId) {
     setAnamneseEditando(
       [...anamneses]
-        .filter((anamnese) => anamnese.aluno === aluno)
+        .filter((anamnese) => anamnese.alunoId === alunoId)
         .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)))[0] ||
         null
     );
@@ -265,20 +277,20 @@ export function useAvaliacoesPage() {
     }
   }
 
-  function selecionarPerfilAluno(aluno) {
-    setAlunoSelecionado(aluno);
+  function selecionarPerfilAluno(alunoId) {
+    setAlunoSelecionadoId(alunoId);
     setRelatorioAberto(false);
     setRelatorioAnamneseAberto(false);
   }
 
   function abrirRelatorioAnamnese(anamnese) {
-    setAlunoSelecionado(anamnese.aluno);
+    setAlunoSelecionadoId(anamnese.alunoId || "");
     setRelatorioAberto(false);
     setRelatorioAnamneseAberto(true);
   }
 
   function fecharPerfilAluno() {
-    setAlunoSelecionado("");
+    setAlunoSelecionadoId("");
   }
 
   function alternarRelatorio() {
@@ -306,6 +318,7 @@ export function useAvaliacoesPage() {
     alertas,
     alunoCadastro,
     alunoSelecionado,
+    alunoSelecionadoId,
     anamneseAluno,
     anamneseEditando,
     anamneses,
@@ -348,12 +361,48 @@ export function useAvaliacoesPage() {
 }
 
 export function vincularAlunos(registros, alunos) {
-  const nomesPorId = new Map(alunos.map((aluno) => [aluno.id, aluno.nome]));
+  const alunosPorId = new Map(alunos.map((aluno) => [aluno.id, aluno]));
+  const alunosPorNome = agruparAlunosPorNome(alunos);
 
-  return registros.map((registro) => ({
-    ...registro,
-    aluno: nomesPorId.get(registro.alunoId) || registro.aluno || "",
-  }));
+  return registros.map((registro) => {
+    const alunoPorId = registro.alunoId ? alunosPorId.get(registro.alunoId) : null;
+    const alunoUnicoPorNome = !registro.alunoId
+      ? obterAlunoUnicoPorNome(registro.aluno, alunosPorNome)
+      : null;
+    const alunoResolvido = alunoPorId || alunoUnicoPorNome;
+    const nomeAluno = alunoResolvido?.nome || registro.aluno || "Aluno nao identificado";
+
+    return {
+      ...registro,
+      alunoId: alunoResolvido?.id || registro.alunoId || "",
+      aluno: nomeAluno,
+      nomeAluno,
+      alunoIdentificado: Boolean(alunoResolvido),
+    };
+  });
+}
+
+function agruparAlunosPorNome(alunos) {
+  const grupos = new Map();
+
+  alunos.forEach((aluno) => {
+    const chave = normalizarNome(aluno.nome);
+    if (!chave) return;
+
+    grupos.set(chave, [...(grupos.get(chave) || []), aluno]);
+  });
+
+  return grupos;
+}
+
+function obterAlunoUnicoPorNome(nome, alunosPorNome) {
+  const candidatos = alunosPorNome.get(normalizarNome(nome)) || [];
+
+  return candidatos.length === 1 ? candidatos[0] : null;
+}
+
+function normalizarNome(nome) {
+  return String(nome || "").trim().toLowerCase();
 }
 
 export function gerarResumoWhatsApp(avaliacao, anterior, anamnese) {

@@ -13,13 +13,13 @@ import AvaliacoesTable from "./AvaliacoesTable";
 
 function AvaliacoesList() {
   const avaliacoesPage = useAvaliacoesPage();
-  const alternarPerfilAluno = (aluno) => {
-    if (avaliacoesPage.alunoSelecionado === aluno) {
+  const alternarPerfilAluno = (alunoId) => {
+    if (avaliacoesPage.alunoSelecionadoId === alunoId) {
       avaliacoesPage.fecharPerfilAluno();
       return;
     }
 
-    avaliacoesPage.selecionarPerfilAluno(aluno);
+    avaliacoesPage.selecionarPerfilAluno(alunoId);
   };
 
   return (
@@ -88,7 +88,7 @@ function AvaliacoesList() {
                 <AvaliacaoCardMobile
                   key={avaliacao.id}
                   avaliacao={avaliacao}
-                  isExpanded={avaliacoesPage.alunoSelecionado === avaliacao.aluno}
+                  isExpanded={avaliacoesPage.alunoSelecionadoId === avaliacao.alunoId}
                   onPerfil={alternarPerfilAluno}
                   onEditar={avaliacoesPage.abrirEdicaoAvaliacao}
                   onAnamnese={avaliacoesPage.editarAnamneseAluno}
@@ -96,8 +96,8 @@ function AvaliacoesList() {
                 >
                   <InlineDetails
                     className="mobile-inline-details"
-                    itemId={avaliacao.aluno}
-                    selectedItemId={avaliacoesPage.alunoSelecionado}
+                    itemId={avaliacao.alunoId}
+                    selectedItemId={avaliacoesPage.alunoSelecionadoId}
                   >
                     <AvaliacaoDetalhesModal
                       alertas={avaliacoesPage.alertas}
@@ -130,15 +130,15 @@ function AvaliacoesList() {
                 <AnamneseCardMobile
                   key={anamnese.id}
                   anamnese={anamnese}
-                  isExpanded={avaliacoesPage.alunoSelecionado === anamnese.aluno}
+                  isExpanded={avaliacoesPage.alunoSelecionadoId === anamnese.alunoId}
                   onEditar={avaliacoesPage.abrirEdicaoAnamnese}
                   onPerfil={alternarPerfilAluno}
                   onRelatorio={avaliacoesPage.abrirRelatorioAnamnese}
                 >
                   <InlineDetails
                     className="mobile-inline-details"
-                    itemId={anamnese.aluno}
-                    selectedItemId={avaliacoesPage.alunoSelecionado}
+                    itemId={anamnese.alunoId}
+                    selectedItemId={avaliacoesPage.alunoSelecionadoId}
                   >
                     <AvaliacaoDetalhesModal
                       alertas={avaliacoesPage.alertas}

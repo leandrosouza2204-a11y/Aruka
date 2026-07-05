@@ -40,12 +40,12 @@ export function useTreinosPage() {
       [...new Set(treinos.map((treino) => treino[campo]).filter(Boolean))].sort();
 
     return {
-      alunos: unicos("aluno"),
+      alunos: alunos.map((aluno) => ({ id: aluno.id, nome: aluno.nome })),
       objetivos: unicos("objetivo"),
       niveis: unicos("nivel"),
       status: ["Ativo", "Em revisão", "Finalizado"],
     };
-  }, [treinos]);
+  }, [alunos, treinos]);
 
   const treinosFiltrados = useMemo(() => {
     const termo = busca.trim().toLowerCase();
@@ -53,7 +53,7 @@ export function useTreinosPage() {
     return treinos.filter((treino) => {
       const textoBusca = [treino.aluno, treino.rotina].join(" ").toLowerCase();
       const combinaBusca = textoBusca.includes(termo);
-      const combinaAluno = filtroAluno === "todos" || treino.aluno === filtroAluno;
+      const combinaAluno = filtroAluno === "todos" || treino.alunoId === filtroAluno;
       const combinaObjetivo =
         filtroObjetivo === "todos" || treino.objetivo === filtroObjetivo;
       const combinaNivel = filtroNivel === "todos" || treino.nivel === filtroNivel;
@@ -90,9 +90,11 @@ export function useTreinosPage() {
         buscarTreinosSupabase(),
       ]);
 
+      const treinosNormalizados = normalizarRegistrosAluno(treinosSupabase, alunosSupabase);
+
       setAlunos(alunosSupabase);
-      setTreinos(treinosSupabase);
-      return treinosSupabase;
+      setTreinos(treinosNormalizados);
+      return treinosNormalizados;
     } catch (error) {
       setErro(error.message || "Não foi possível carregar os treinos.");
       return [];
@@ -120,7 +122,7 @@ export function useTreinosPage() {
   }
 
   async function salvarTreino(treino) {
-    const alunoSelecionado = alunos.find((aluno) => aluno.nome === treino.aluno);
+    const alunoSelecionado = alunos.find((aluno) => aluno.id === treino.alunoId);
 
     if (!alunoSelecionado) {
       toast.aviso(
@@ -136,6 +138,8 @@ export function useTreinosPage() {
       const payload = {
         ...treino,
         alunoId: alunoSelecionado.id,
+        aluno: alunoSelecionado.nome,
+        nomeAluno: alunoSelecionado.nome,
       };
 
       const treinoSalvo = treinoEditando
@@ -336,4 +340,50 @@ function formatarTreinoWhatsApp(treino) {
   }
 
   return linhas.join("\n");
+}
+
+function normalizarRegistrosAluno(registros, alunos) {
+  const alunosPorId = new Map(alunos.map((aluno) => [aluno.id, aluno]));
+  const alunosPorNome = agruparAlunosPorNome(alunos);
+
+  return registros.map((registro) => {
+    const alunoPorId = registro.alunoId ? alunosPorId.get(registro.alunoId) : null;
+    const alunoUnicoPorNome = !registro.alunoId
+      ? obterAlunoUnicoPorNome(registro.aluno, alunosPorNome)
+      : null;
+    const alunoResolvido = alunoPorId || alunoUnicoPorNome;
+    const nomeAluno = alunoResolvido?.nome || registro.aluno || "Aluno nao identificado";
+
+    return {
+      ...registro,
+      alunoId: alunoResolvido?.id || registro.alunoId || "",
+      aluno: nomeAluno,
+      nomeAluno,
+      alunoWhatsapp: alunoResolvido?.whatsapp || registro.alunoWhatsapp || "",
+      alunoIdentificado: Boolean(alunoResolvido),
+    };
+  });
+}
+
+function agruparAlunosPorNome(alunos) {
+  const grupos = new Map();
+
+  alunos.forEach((aluno) => {
+    const chave = normalizarNome(aluno.nome);
+    if (!chave) return;
+
+    grupos.set(chave, [...(grupos.get(chave) || []), aluno]);
+  });
+
+  return grupos;
+}
+
+function obterAlunoUnicoPorNome(nome, alunosPorNome) {
+  const candidatos = alunosPorNome.get(normalizarNome(nome)) || [];
+
+  return candidatos.length === 1 ? candidatos[0] : null;
+}
+
+function normalizarNome(nome) {
+  return String(nome || "").trim().toLowerCase();
 }

@@ -21,7 +21,7 @@ function AvaliacoesFilters({
       >
         <option value="todos">Todos os alunos</option>
         {alunos.map((aluno) => (
-          <option key={aluno.id} value={aluno.nome}>
+          <option key={aluno.id} value={aluno.id}>
             {aluno.nome}
           </option>
         ))}
