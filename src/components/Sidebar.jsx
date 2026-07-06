@@ -290,7 +290,7 @@ const styles = {
     width: "260px",
     background: "linear-gradient(180deg, #08111f 0%, #0f172a 52%, #111827 100%)",
     color: "white",
-    padding: "20px 16px 24px",
+    padding: "16px 16px 22px",
     display: "flex",
     flexDirection: "column",
     borderRight: "1px solid rgba(255,255,255,0.06)",
@@ -301,9 +301,9 @@ const styles = {
   header: {
     borderBottom: "1px solid rgba(255,255,255,0.08)",
     display: "block",
-    marginBottom: "16px",
-    minHeight: "60px",
-    padding: "2px 0 16px",
+    marginBottom: "12px",
+    minHeight: "48px",
+    padding: "0 0 10px",
     position: "relative",
   },
 
@@ -410,7 +410,7 @@ const styles = {
     justifyContent: "center",
     lineHeight: "1.15",
     minWidth: 0,
-    padding: "3px 0 0 48px",
+    padding: "0 0 0 46px",
   },
 
   brandCopy: {
@@ -436,8 +436,8 @@ const styles = {
   nav: {
     display: "flex",
     flexDirection: "column",
-    gap: "6px",
-    paddingTop: "2px",
+    gap: "5px",
+    paddingTop: 0,
   },
 
   navSection: {

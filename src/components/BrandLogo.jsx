@@ -8,7 +8,7 @@ const tamanhos = {
     icon: "34px",
   },
   sidebar: {
-    full: "184px",
+    full: "176px",
     icon: "34px",
   },
   login: {
@@ -34,6 +34,8 @@ function BrandLogo({
   const imagem =
     variant === "icon"
       ? "/brand/aruka-symbol-gradient.png"
+      : size === "sidebar"
+        ? "/brand/aruka-logo-sidebar.png"
       : tone === "white"
         ? "/brand/aruka-logo-white.png"
         : "/brand/aruka-logo-primary.png";

@@ -378,8 +378,8 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
 
   .app-sidebar-header {
     align-items: flex-start !important;
-    min-height: 64px !important;
-    margin-bottom: 16px !important;
+    min-height: 48px !important;
+    margin-bottom: 10px !important;
     padding-right: 16px !important;
   }
 
@@ -388,7 +388,7 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
   }
 
   .app-sidebar-brand {
-    align-items: flex-start !important;
+    align-items: center !important;
     gap: 8px !important;
     min-width: 0 !important;
     overflow: hidden !important;
@@ -423,7 +423,7 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
     gap: 8px !important;
     overflow-x: auto !important;
     overflow-y: hidden !important;
-    padding: 2px 12px 6px 0 !important;
+    padding: 0 12px 6px 0 !important;
     scroll-padding-inline: 12px !important;
     scrollbar-width: none;
     white-space: nowrap !important;
