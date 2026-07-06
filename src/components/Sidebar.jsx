@@ -22,6 +22,7 @@ import { supabase } from "../services/supabase";
 import { buscarPerfilUsuario } from "../services/perfisService";
 import { useTheme } from "../theme/useTheme";
 
+// Sidebar visual aprovada no rebranding Aruka. Evitar alterações visuais sem nova validação.
 function Sidebar() {
   const [menuAberto, setMenuAberto] = useState(false);
   const [usuario, setUsuario] = useState(null);
