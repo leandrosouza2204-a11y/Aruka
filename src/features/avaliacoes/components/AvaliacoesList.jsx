@@ -54,7 +54,7 @@ function AvaliacoesList() {
         </AvaliacoesHeader>
 
         {avaliacoesPage.erro && (
-          <div style={styles.erroBox}>{avaliacoesPage.erro}</div>
+          <div className="app-error">{avaliacoesPage.erro}</div>
         )}
 
         {avaliacoesPage.abaAtiva === "avaliacoes" ? (

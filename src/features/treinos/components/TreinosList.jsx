@@ -40,7 +40,7 @@ function TreinosList() {
           styles={styles}
         />
 
-        {treinosPage.erro && <div style={styles.erroBox}>{treinosPage.erro}</div>}
+        {treinosPage.erro && <div className="app-error">{treinosPage.erro}</div>}
 
         <section className="treinos-library-section" style={styles.librarySection}>
           <div className="app-card-header" style={styles.libraryHeader}>
@@ -98,7 +98,7 @@ function TreinosList() {
         </div>
 
         {!treinosPage.treinoSelecionado && !treinosPage.carregando && (
-          <section className="treinos-empty-card app-card" style={styles.semTreinoCard}>
+          <section className="app-empty-state treinos-empty-card app-card" style={styles.semTreinoCard}>
             <div style={styles.semTreinoIcone}>
               <Dumbbell size={22} />
             </div>

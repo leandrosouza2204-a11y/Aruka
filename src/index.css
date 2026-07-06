@@ -1441,6 +1441,7 @@ body[data-theme="dark"] .treino-day > summary::after {
   }
 }
 
+.app-empty-state,
 .empty-state {
   align-items: center;
   background: linear-gradient(135deg, rgba(248, 250, 252, 0.96), rgba(239, 246, 255, 0.72));
@@ -1454,15 +1455,19 @@ body[data-theme="dark"] .treino-day > summary::after {
   text-align: center;
 }
 
+.app-empty-state h3,
+.app-empty-state strong,
 .empty-state strong {
   color: #0f172a;
   font-size: 16px;
 }
 
+.app-empty-state p,
 .empty-state p {
   margin: 0;
 }
 
+.app-loading,
 .loading-state {
   align-items: center;
   color: #64748b;
@@ -1473,6 +1478,35 @@ body[data-theme="dark"] .treino-day > summary::after {
   justify-content: center;
   min-height: 72px;
   width: 100%;
+}
+
+.app-error,
+.app-success,
+.app-alert {
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.45;
+  margin-top: 16px;
+  padding: 12px 14px;
+}
+
+.app-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.app-success {
+  background: #ecfdf5;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+}
+
+.app-alert {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #92400e;
 }
 
 .session-timeout-overlay {
@@ -1662,6 +1696,7 @@ body[data-theme="dark"] .treino-day > summary::after {
 
 body[data-theme="dark"] .app-toast,
 body[data-theme="dark"] .confirm-dialog,
+body[data-theme="dark"] .app-empty-state,
 body[data-theme="dark"] .empty-state,
 body[data-theme="dark"] .mobile-card,
 body[data-theme="dark"] .mobile-list-card {
@@ -1672,12 +1707,33 @@ body[data-theme="dark"] .mobile-list-card {
 
 body[data-theme="dark"] .app-toast p,
 body[data-theme="dark"] .confirm-dialog p,
+body[data-theme="dark"] .app-empty-state p,
 body[data-theme="dark"] .empty-state p {
   color: #cbd5e1;
 }
 
+body[data-theme="dark"] .app-empty-state h3,
+body[data-theme="dark"] .app-empty-state strong,
 body[data-theme="dark"] .empty-state strong {
   color: #f8fafc;
+}
+
+body[data-theme="dark"] .app-error {
+  background: #451a1a;
+  border-color: #7f1d1d;
+  color: #fecaca;
+}
+
+body[data-theme="dark"] .app-success {
+  background: rgba(22, 101, 52, 0.22);
+  border-color: rgba(74, 222, 128, 0.38);
+  color: #bbf7d0;
+}
+
+body[data-theme="dark"] .app-alert {
+  background: rgba(120, 53, 15, 0.28);
+  border-color: rgba(251, 191, 36, 0.38);
+  color: #fde68a;
 }
 
 body[data-theme="dark"] .card-row,

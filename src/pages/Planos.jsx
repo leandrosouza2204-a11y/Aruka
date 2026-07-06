@@ -187,7 +187,7 @@ function Planos() {
           </div>
         </section>
 
-        {erro && <div style={erroBox}>{erro}</div>}
+        {erro && <div className="app-error">{erro}</div>}
 
         <div className="app-table-scroll desktop-table planos-table">
           <table className="app-table" style={tabela}>
@@ -459,17 +459,6 @@ const botaoSecundario = {
   padding: "8px 12px",
   borderRadius: "6px",
   cursor: "pointer",
-};
-
-const erroBox = {
-  background: "#fef2f2",
-  border: "1px solid #fecaca",
-  borderRadius: "8px",
-  color: "#991b1b",
-  fontSize: "14px",
-  fontWeight: "700",
-  marginTop: "16px",
-  padding: "12px",
 };
 
 export default Planos;

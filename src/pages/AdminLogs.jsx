@@ -100,7 +100,7 @@ function AdminLogs() {
           }
         />
 
-        {erro && <div style={erroBox}>{erro}</div>}
+        {erro && <div className="app-error">{erro}</div>}
 
         <section className="admin-logs-panel" style={painel}>
           <form
@@ -504,16 +504,6 @@ const botaoDetalhes = {
   fontWeight: "800",
   minHeight: "34px",
   padding: "7px 10px",
-};
-
-const erroBox = {
-  background: "#fef2f2",
-  border: "1px solid #fecaca",
-  borderRadius: "8px",
-  color: "#991b1b",
-  fontWeight: "700",
-  marginTop: "16px",
-  padding: "12px",
 };
 
 const listaTopo = {

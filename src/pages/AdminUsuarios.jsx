@@ -258,8 +258,8 @@ function AdminUsuarios() {
           <CardResumo titulo="Bloqueados" valor={resumo.bloqueados} destaque="#dc2626" />
         </div>
 
-        {erro && <div style={erroBox}>{erro}</div>}
-        {mensagem && <div style={sucessoBox}>{mensagem}</div>}
+        {erro && <div className="app-error">{erro}</div>}
+        {mensagem && <div className="app-success">{mensagem}</div>}
 
         <section style={painel}>
           <div style={listaTopo}>
@@ -791,16 +791,6 @@ const erroBox = {
   border: "1px solid #fecaca",
   borderRadius: "8px",
   color: "#991b1b",
-  fontWeight: "700",
-  marginTop: "16px",
-  padding: "12px",
-};
-
-const sucessoBox = {
-  background: "#ecfdf5",
-  border: "1px solid #bbf7d0",
-  borderRadius: "8px",
-  color: "#166534",
   fontWeight: "700",
   marginTop: "16px",
   padding: "12px",

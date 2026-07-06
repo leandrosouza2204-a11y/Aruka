@@ -2,7 +2,7 @@ import { Dumbbell } from "lucide-react";
 
 function TreinosEmptyState({ onNovoTreino, onUsarModelo }) {
   return (
-    <div className="treinos-library-empty app-card app-section">
+    <div className="app-empty-state treinos-library-empty app-card app-section">
       <div className="treinos-library-empty-icon">
         <Dumbbell size={24} />
       </div>

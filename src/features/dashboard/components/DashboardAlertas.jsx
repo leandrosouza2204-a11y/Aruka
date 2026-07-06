@@ -14,13 +14,13 @@ function DashboardAlertas({ alertas, carregando, styles }) {
       </div>
 
       {carregando ? (
-        <p style={styles.estadoVazio}>Carregando alertas...</p>
+        <p className="app-loading" style={styles.estadoVazio}>Carregando alertas...</p>
       ) : alertas.length > 0 ? (
         <div style={styles.alertasGrid}>
           {alertas.map((alerta) => (
             <div
               key={alerta.titulo}
-              className="dashboard-alert-item"
+              className="app-alert dashboard-alert-item"
               style={styles.alertaItem}
             >
               <span className={`status-badge status-badge-${alerta.tom}`}>

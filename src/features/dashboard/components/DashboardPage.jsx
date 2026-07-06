@@ -16,7 +16,7 @@ function DashboardPage() {
       <div className="dashboard-page app-main page-container" style={styles.conteudo}>
         <DashboardHeader styles={styles} />
 
-        {dashboard.erro && <div style={styles.erroBox}>{dashboard.erro}</div>}
+        {dashboard.erro && <div className="app-error">{dashboard.erro}</div>}
 
         <div className="dashboard-stats-grid" style={styles.cardsGrid}>
           <DashboardCards metricas={dashboard.metricas} styles={styles} />
@@ -259,9 +259,6 @@ const alertasGrid = {
 
 const alertaItem = {
   alignItems: "flex-start",
-  background: "#f9fafb",
-  border: "1px solid #eef2f7",
-  borderRadius: "8px",
   display: "grid",
   gap: "12px",
   padding: "14px",

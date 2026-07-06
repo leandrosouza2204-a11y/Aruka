@@ -39,7 +39,7 @@ function AlunosList() {
           />
         </section>
 
-        {page.erro && <div style={styles.erroBox}>{page.erro}</div>}
+        {page.erro && <div className="app-error">{page.erro}</div>}
 
         {page.modalCadastroAberto && (
           <AlunoModal page={page} styles={styles} />
@@ -59,11 +59,11 @@ function AlunosList() {
 
         <div className="mobile-card-list alunos-mobile-cards">
           {page.carregando ? (
-            <div className="mobile-list-card">
+            <div className="app-loading mobile-list-card">
               Carregando alunos...
             </div>
           ) : page.alunosFiltrados.length === 0 ? (
-            <div className="mobile-list-card">
+            <div className="app-empty-state mobile-list-card">
               Nenhum aluno encontrado.
             </div>
           ) : (
