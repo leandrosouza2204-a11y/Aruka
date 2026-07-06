@@ -1,6 +1,5 @@
+import { lazy, Suspense } from "react";
 import Sidebar from "../../../components/Sidebar";
-import AnamneseModal from "../../../components/AnamneseModal";
-import AvaliacaoModal from "../../../components/AvaliacaoModal";
 import InlineDetails from "../../../components/InlineDetails";
 import { useAvaliacoesPage } from "../hooks/useAvaliacoesPage";
 import AnamneseCardMobile from "./AnamneseCardMobile";
@@ -10,6 +9,9 @@ import AvaliacaoDetalhesModal from "./AvaliacaoDetalhesModal";
 import AvaliacoesFilters from "./AvaliacoesFilters";
 import AvaliacoesHeader from "./AvaliacoesHeader";
 import AvaliacoesTable from "./AvaliacoesTable";
+
+const AnamneseModal = lazy(() => import("../../../components/AnamneseModal"));
+const AvaliacaoModal = lazy(() => import("../../../components/AvaliacaoModal"));
 
 function AvaliacoesList() {
   const avaliacoesPage = useAvaliacoesPage();
@@ -184,21 +186,25 @@ function AvaliacoesList() {
         </div>
 
         {avaliacoesPage.modalAvaliacao && (
-          <AvaliacaoModal
-            alunos={avaliacoesPage.alunos}
-            avaliacao={avaliacoesPage.avaliacaoEditando}
-            onClose={avaliacoesPage.fecharModalAvaliacao}
-            onSave={avaliacoesPage.salvarAvaliacao}
-          />
+          <Suspense fallback={null}>
+            <AvaliacaoModal
+              alunos={avaliacoesPage.alunos}
+              avaliacao={avaliacoesPage.avaliacaoEditando}
+              onClose={avaliacoesPage.fecharModalAvaliacao}
+              onSave={avaliacoesPage.salvarAvaliacao}
+            />
+          </Suspense>
         )}
 
         {avaliacoesPage.modalAnamnese && (
-          <AnamneseModal
-            alunos={avaliacoesPage.alunos}
-            anamnese={avaliacoesPage.anamneseEditando}
-            onClose={avaliacoesPage.fecharModalAnamnese}
-            onSave={avaliacoesPage.salvarAnamnese}
-          />
+          <Suspense fallback={null}>
+            <AnamneseModal
+              alunos={avaliacoesPage.alunos}
+              anamnese={avaliacoesPage.anamneseEditando}
+              onClose={avaliacoesPage.fecharModalAnamnese}
+              onSave={avaliacoesPage.salvarAnamnese}
+            />
+          </Suspense>
         )}
       </div>
     </div>

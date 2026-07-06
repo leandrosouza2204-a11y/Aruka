@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import Sidebar from "../components/Sidebar";
-import AdminUsuarioModal from "../components/AdminUsuarioModal";
 import EmptyState from "../components/EmptyState";
 import LoadingState from "../components/LoadingState";
 import PageHero from "../components/PageHero";
@@ -17,6 +16,8 @@ import {
   upsertAssinaturaAdmin,
 } from "../services/adminService";
 import { useToast } from "../hooks/useToast";
+
+const AdminUsuarioModal = lazy(() => import("../components/AdminUsuarioModal"));
 
 function AdminUsuarios() {
   const [usuarios, setUsuarios] = useState([]);
@@ -471,12 +472,14 @@ function AdminUsuarios() {
       </main>
 
       {usuarioEditando && (
-        <AdminUsuarioModal
-          usuario={usuarioEditando}
-          onClose={() => setUsuarioEditando(null)}
-          onSave={salvarEdicao}
-          salvando={salvando}
-        />
+        <Suspense fallback={null}>
+          <AdminUsuarioModal
+            usuario={usuarioEditando}
+            onClose={() => setUsuarioEditando(null)}
+            onSave={salvarEdicao}
+            salvando={salvando}
+          />
+        </Suspense>
       )}
 
       {usuarioTransferindo && (

@@ -1,10 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import TableActions, { TableActionItem } from "../components/TableActions";
 import EmptyState from "../components/EmptyState";
 import LoadingState from "../components/LoadingState";
 import PageHero from "../components/PageHero";
-import PlanoModal from "../components/PlanoModal";
 import { useConfirm } from "../hooks/useConfirm";
 import { useToast } from "../hooks/useToast";
 import {
@@ -14,6 +13,8 @@ import {
   excluirPlanoSupabase,
 } from "../services/planosService";
 import { formatarMoeda } from "../data/alunosUtils";
+
+const PlanoModal = lazy(() => import("../components/PlanoModal"));
 
 function Planos() {
   const [planos, setPlanos] = useState([]);
@@ -297,12 +298,14 @@ function Planos() {
         </div>
 
         {modalAberto && (
-          <PlanoModal
-            plano={planoEditando}
-            salvando={salvando}
-            onClose={fecharModal}
-            onSave={salvarPlano}
-          />
+          <Suspense fallback={null}>
+            <PlanoModal
+              plano={planoEditando}
+              salvando={salvando}
+              onClose={fecharModal}
+              onSave={salvarPlano}
+            />
+          </Suspense>
         )}
       </div>
     </div>

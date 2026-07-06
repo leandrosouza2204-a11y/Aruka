@@ -1,11 +1,13 @@
+import { lazy, Suspense } from "react";
 import { Dumbbell } from "lucide-react";
 import Sidebar from "../../../components/Sidebar";
-import TreinoModal from "../../../components/TreinoModal";
 import { useTreinosPage } from "../hooks/useTreinosPage";
 import TreinosCards from "./TreinosCards";
 import TreinoDetalhesModal from "./TreinoDetalhesModal";
 import TreinosFilters from "./TreinosFilters";
 import TreinosHeader from "./TreinosHeader";
+
+const TreinoModal = lazy(() => import("../../../components/TreinoModal"));
 
 function TreinosList() {
   const treinosPage = useTreinosPage();
@@ -118,12 +120,14 @@ function TreinosList() {
         )}
 
         {treinosPage.modalAberto && (
-          <TreinoModal
-            alunos={treinosPage.alunos}
-            treino={treinosPage.treinoEditando || treinosPage.treinoBase}
-            onClose={treinosPage.fecharModal}
-            onSave={treinosPage.salvarTreino}
-          />
+          <Suspense fallback={null}>
+            <TreinoModal
+              alunos={treinosPage.alunos}
+              treino={treinosPage.treinoEditando || treinosPage.treinoBase}
+              onClose={treinosPage.fecharModal}
+              onSave={treinosPage.salvarTreino}
+            />
+          </Suspense>
         )}
       </div>
     </div>
