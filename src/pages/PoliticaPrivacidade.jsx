@@ -24,12 +24,12 @@ function PoliticaPrivacidade() {
         </div>
 
         <header style={cabecalho}>
-          <div style={headerCopy}>
-            <span style={badge}>Versão 1.0 • Última atualização: 08/06/2026</span>
-            <h1 style={titulo}>Política de Privacidade</h1>
-          </div>
           <div style={marca}>
             <BrandLogo variant="full" size="legal" />
+          </div>
+          <div style={headerCopy}>
+            <h1 style={titulo}>Política de Privacidade</h1>
+            <span style={badge}>Versão 1.0 • Última atualização: 08/06/2026</span>
           </div>
         </header>
 
@@ -150,12 +150,10 @@ const botaoSair = {
 };
 
 const cabecalho = {
-  alignItems: "flex-start",
   borderBottom: "1px solid #e5e7eb",
-  display: "flex",
-  flexWrap: "wrap-reverse",
-  gap: "24px",
-  justifyContent: "space-between",
+  display: "grid",
+  gap: "16px",
+  justifyItems: "start",
   marginBottom: "24px",
   paddingBottom: "24px",
 };
@@ -166,9 +164,8 @@ const headerCopy = {
 };
 
 const marca = {
-  flex: "0 0 auto",
   display: "grid",
-  justifyItems: "end",
+  justifyItems: "start",
   opacity: 0.86,
 };
 

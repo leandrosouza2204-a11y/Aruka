@@ -57,14 +57,13 @@ function AceiteLegal() {
         </div>
 
         <div style={topo}>
-          <span style={badge}>Documentos legais</span>
           <h1 style={titulo}>Aceite obrigatório</h1>
+          <p style={versao}>
+            Política versão {politicaVersao} • Termos versão {termosVersao}
+          </p>
           <p style={texto}>
             Para continuar usando a Aruka, leia e aceite a Política de
             Privacidade e os Termos de Uso vigentes.
-          </p>
-          <p style={versao}>
-            Política versão {politicaVersao} • Termos versão {termosVersao}
           </p>
         </div>
 
@@ -143,19 +142,11 @@ const marca = {
   display: "grid",
   justifyItems: "start",
   opacity: 0.86,
-  textAlign: "center",
 };
 
 const topo = {
   display: "grid",
   gap: "8px",
-};
-
-const badge = {
-  color: "#2563eb",
-  fontSize: "13px",
-  fontWeight: "800",
-  textTransform: "uppercase",
 };
 
 const titulo = {

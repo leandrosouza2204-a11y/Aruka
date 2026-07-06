@@ -93,7 +93,7 @@ textarea {
   max-width: 100%;
   min-height: 154px;
   overflow: hidden;
-  padding: 32px;
+  padding: 34px;
   position: relative;
   width: 100%;
 }
@@ -297,6 +297,11 @@ body[data-theme="dark"] [style*="background: rgb(254, 242, 242)"] {
     0 12px 24px rgba(37, 99, 235, 0.09) !important;
   color: #ffffff !important;
   transform: translateX(2px);
+}
+
+.app-sidebar-link:focus-visible {
+  outline: 2px solid rgba(147, 197, 253, 0.55);
+  outline-offset: 2px;
 }
 
 .app-sidebar-link-active svg,
@@ -1573,7 +1578,7 @@ body[data-theme="dark"] .session-timeout-secondary {
     display: grid;
     gap: 16px;
     margin-bottom: 16px;
-    padding: 18px;
+    padding: 20px;
   }
 
   .page-hero h1 {

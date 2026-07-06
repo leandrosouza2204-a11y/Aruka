@@ -8,11 +8,11 @@ const tamanhos = {
     icon: "34px",
   },
   sidebar: {
-    full: "152px",
+    full: "184px",
     icon: "34px",
   },
   login: {
-    full: "232px",
+    full: "256px",
     icon: "58px",
   },
   md: {

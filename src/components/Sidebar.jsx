@@ -187,7 +187,6 @@ function Sidebar() {
         <div className="app-sidebar-brand" style={styles.brand}>
           <div style={styles.brandCopy}>
             <BrandLogo variant="full" size="sidebar" tone="white" />
-            <span style={styles.subtitle}>Painel Profissional</span>
           </div>
         </div>
       </div>
@@ -196,37 +195,37 @@ function Sidebar() {
         <MenuLink
           to="/"
           active={isActive("/")}
-          icon={<LayoutDashboard size={18} />}
+          icon={<LayoutDashboard size={21} />}
           label="Dashboard"
         />
         <MenuLink
           to="/alunos"
           active={isActive("/alunos")}
-          icon={<Users size={18} />}
+          icon={<Users size={21} />}
           label="Alunos"
         />
         <MenuLink
           to="/financeiro"
           active={isActive("/financeiro")}
-          icon={<DollarSign size={18} />}
+          icon={<DollarSign size={21} />}
           label="Financeiro"
         />
         <MenuLink
           to="/planos"
           active={isActive("/planos")}
-          icon={<Tags size={18} />}
+          icon={<Tags size={21} />}
           label="Planos"
         />
         <MenuLink
           to="/avaliacoes"
           active={isActive("/avaliacoes")}
-          icon={<ClipboardCheck size={18} />}
+          icon={<ClipboardCheck size={21} />}
           label="Avaliações"
         />
         <MenuLink
           to="/treinos"
           active={isActive("/treinos")}
-          icon={<Dumbbell size={18} />}
+          icon={<Dumbbell size={21} />}
           label="Treinos"
         />
         {usuarioAdmin && (
@@ -237,13 +236,13 @@ function Sidebar() {
             <MenuLink
               to="/admin/usuarios"
               active={isActive("/admin/usuarios")}
-              icon={<ShieldCheck size={18} />}
+              icon={<ShieldCheck size={21} />}
               label="Usuários"
             />
             <MenuLink
               to="/admin/logs"
               active={isActive("/admin/logs")}
-              icon={<ListChecks size={18} />}
+              icon={<ListChecks size={21} />}
               label="Logs"
             />
           </>
@@ -255,6 +254,7 @@ function Sidebar() {
           <Link to="/politica-privacidade" style={styles.footerLink}>
             Privacidade
           </Link>
+          <span style={styles.footerSeparator}>•</span>
           <Link to="/termos-de-uso" style={styles.footerLink}>
             Termos
           </Link>
@@ -290,7 +290,7 @@ const styles = {
     width: "260px",
     background: "linear-gradient(180deg, #08111f 0%, #0f172a 52%, #111827 100%)",
     color: "white",
-    padding: "24px 16px",
+    padding: "20px 16px 24px",
     display: "flex",
     flexDirection: "column",
     borderRight: "1px solid rgba(255,255,255,0.06)",
@@ -299,16 +299,19 @@ const styles = {
   },
 
   header: {
-    display: "flex",
-    alignItems: "flex-start",
-    gap: "16px",
-    marginBottom: "32px",
+    borderBottom: "1px solid rgba(255,255,255,0.08)",
+    display: "block",
+    marginBottom: "16px",
+    minHeight: "60px",
+    padding: "2px 0 16px",
     position: "relative",
   },
 
   menuArea: {
-    position: "relative",
-    flex: "0 0 auto",
+    left: 0,
+    position: "absolute",
+    top: 0,
+    zIndex: 2,
   },
 
   toggle: {
@@ -403,18 +406,16 @@ const styles = {
 
   brand: {
     display: "flex",
-    flex: 1,
-    alignItems: "flex-start",
-    gap: "16px",
+    alignItems: "center",
+    justifyContent: "center",
     lineHeight: "1.15",
     minWidth: 0,
-    padding: "2px 0 0",
+    padding: "3px 0 0 48px",
   },
 
   brandCopy: {
     display: "grid",
-    gap: "10px",
-    justifyItems: "start",
+    justifyItems: "center",
     minWidth: 0,
   },
 
@@ -435,7 +436,8 @@ const styles = {
   nav: {
     display: "flex",
     flexDirection: "column",
-    gap: "8px",
+    gap: "6px",
+    paddingTop: "2px",
   },
 
   navSection: {
@@ -450,8 +452,9 @@ const styles = {
   link: {
     display: "flex",
     alignItems: "center",
-    gap: "11px",
-    padding: "12px 13px",
+    gap: "12px",
+    minHeight: "42px",
+    padding: "10px 12px",
     border: "1px solid transparent",
     borderRadius: "12px",
     color: "rgba(255,255,255,0.72)",
@@ -473,18 +476,19 @@ const styles = {
 
   footer: {
     marginTop: "auto",
-    paddingTop: "16px",
+    paddingTop: "18px",
     borderTop: "1px solid rgba(255,255,255,0.08)",
     display: "grid",
     alignItems: "center",
-    gap: "8px",
+    gap: "10px",
     textAlign: "center",
   },
 
   footerLinks: {
     display: "flex",
+    alignItems: "center",
     justifyContent: "center",
-    gap: "12px",
+    gap: "8px",
     width: "100%",
   },
 
@@ -493,6 +497,12 @@ const styles = {
     fontSize: "12px",
     fontWeight: "700",
     textDecoration: "none",
+  },
+
+  footerSeparator: {
+    color: "rgba(255,255,255,0.28)",
+    fontSize: "12px",
+    lineHeight: 1,
   },
 
   footerVersion: {
