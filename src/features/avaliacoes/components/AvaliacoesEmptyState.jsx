@@ -1,15 +1,15 @@
 function AvaliacoesEmptyState({ onNovaAvaliacao, onNovaAnamnese }) {
   return (
-    <div className="avaliacoes-empty-state">
+    <div className="avaliacoes-empty-state app-section">
       <h3>Nenhum registro encontrado.</h3>
-      <p>
+      <p className="app-muted">
         Crie uma avaliação física ou uma anamnese para iniciar o acompanhamento do aluno.
       </p>
       <div className="avaliacoes-empty-actions">
-        <button className="table-button table-button-primary" onClick={onNovaAvaliacao}>
+        <button className="app-button app-button-primary table-button table-button-primary" onClick={onNovaAvaliacao}>
           Nova avaliação
         </button>
-        <button className="table-button table-button-secondary" onClick={onNovaAnamnese}>
+        <button className="app-button app-button-secondary table-button table-button-secondary" onClick={onNovaAnamnese}>
           Nova anamnese
         </button>
       </div>

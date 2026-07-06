@@ -4,10 +4,10 @@ import DashboardEmptyState from "./DashboardEmptyState";
 function DashboardAlertas({ alertas, carregando, styles }) {
   return (
     <section className="dashboard-panel" style={styles.resumoCard}>
-      <div style={styles.secaoTopo}>
+      <div className="app-card-header" style={styles.secaoTopo}>
         <div>
           <h2 style={styles.secaoTitulo}>Alertas da consultoria</h2>
-          <p style={styles.secaoLegenda}>
+          <p className="app-muted" style={styles.secaoLegenda}>
             Pontos que merecem uma revisão rápida hoje.
           </p>
         </div>

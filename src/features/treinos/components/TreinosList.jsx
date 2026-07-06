@@ -41,7 +41,7 @@ function TreinosList() {
         {treinosPage.erro && <div style={styles.erroBox}>{treinosPage.erro}</div>}
 
         <section className="treinos-library-section" style={styles.librarySection}>
-          <div style={styles.libraryHeader}>
+          <div className="app-card-header" style={styles.libraryHeader}>
             <div>
               <span style={styles.libraryEyebrow}>Biblioteca</span>
               <h2 style={styles.libraryTitle}>Biblioteca de treinos</h2>
@@ -96,20 +96,20 @@ function TreinosList() {
         </div>
 
         {!treinosPage.treinoSelecionado && !treinosPage.carregando && (
-          <section className="treinos-empty-card" style={styles.semTreinoCard}>
+          <section className="treinos-empty-card app-card" style={styles.semTreinoCard}>
             <div style={styles.semTreinoIcone}>
               <Dumbbell size={22} />
             </div>
             <div>
               <h2 style={styles.semTreinoTitulo}>Nenhum treino selecionado.</h2>
-              <p style={styles.semTreinoTexto}>
+              <p className="app-muted" style={styles.semTreinoTexto}>
                 Selecione uma rotina na biblioteca ou crie um novo treino para visualizar os detalhes.
               </p>
               <div style={styles.semTreinoAcoes}>
-                <button onClick={treinosPage.abrirNovoTreino} style={styles.botaoPrimario}>
+                <button className="app-button app-button-primary" onClick={treinosPage.abrirNovoTreino} style={styles.botaoPrimario}>
                   Novo treino
                 </button>
-                <button onClick={focarModelos} style={styles.botaoSecundario}>
+                <button className="app-button app-button-secondary" onClick={focarModelos} style={styles.botaoSecundario}>
                   Usar modelo rápido
                 </button>
               </div>

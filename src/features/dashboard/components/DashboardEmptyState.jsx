@@ -1,8 +1,8 @@
 function DashboardEmptyState({ icon, texto, styles }) {
   return (
-    <div className="dashboard-empty-premium" style={styles.estadoVazioPremium}>
+    <div className="dashboard-empty-premium app-section" style={styles.estadoVazioPremium}>
       {icon}
-      <span>{texto}</span>
+      <span className="app-muted">{texto}</span>
     </div>
   );
 }
