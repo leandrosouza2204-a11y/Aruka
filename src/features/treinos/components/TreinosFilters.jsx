@@ -16,6 +16,7 @@ function TreinosFilters({
   return (
     <div className="app-filter-grid treinos-filtros" style={styles.filtros}>
       <input
+        className="app-input"
         placeholder="Buscar por aluno ou rotina"
         value={busca}
         onChange={(event) => onBuscaChange(event.target.value)}
@@ -23,6 +24,7 @@ function TreinosFilters({
       />
 
       <select
+        className="app-select"
         value={filtroAluno}
         onChange={(event) => onFiltroAlunoChange(event.target.value)}
         style={styles.campo}
@@ -36,6 +38,7 @@ function TreinosFilters({
       </select>
 
       <select
+        className="app-select"
         value={filtroObjetivo}
         onChange={(event) => onFiltroObjetivoChange(event.target.value)}
         style={styles.campo}
@@ -49,6 +52,7 @@ function TreinosFilters({
       </select>
 
       <select
+        className="app-select"
         value={filtroNivel}
         onChange={(event) => onFiltroNivelChange(event.target.value)}
         style={styles.campo}
@@ -62,6 +66,7 @@ function TreinosFilters({
       </select>
 
       <select
+        className="app-select"
         value={filtroStatus}
         onChange={(event) => onFiltroStatusChange(event.target.value)}
         style={styles.campo}
@@ -74,7 +79,7 @@ function TreinosFilters({
         ))}
       </select>
 
-      <button onClick={onLimparFiltros} style={styles.botaoSecundario}>
+      <button className="app-button app-button-neutral" onClick={onLimparFiltros} style={styles.botaoSecundario}>
         Limpar
       </button>
     </div>

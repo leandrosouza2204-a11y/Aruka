@@ -12,6 +12,7 @@ function AlunosFilters({
   return (
     <div className="app-filter-grid alunos-filtros" style={styles.filtros}>
       <input
+        className="app-input"
         placeholder="Buscar por nome"
         value={busca}
         onChange={(e) => onBuscaChange(e.target.value)}
@@ -19,6 +20,7 @@ function AlunosFilters({
       />
 
       <select
+        className="app-select"
         value={filtroStatus}
         onChange={(e) => onFiltroStatusChange(e.target.value)}
         style={{ ...styles.campo, ...styles.campoFiltro }}
@@ -32,6 +34,7 @@ function AlunosFilters({
       </select>
 
       <select
+        className="app-select"
         value={filtroPlano}
         onChange={(e) => onFiltroPlanoChange(e.target.value)}
         style={{ ...styles.campo, ...styles.campoFiltro }}
@@ -44,7 +47,7 @@ function AlunosFilters({
         ))}
       </select>
 
-      <button onClick={onLimpar} style={styles.botaoSecundario}>
+      <button className="app-button app-button-neutral" onClick={onLimpar} style={styles.botaoSecundario}>
         Limpar
       </button>
     </div>

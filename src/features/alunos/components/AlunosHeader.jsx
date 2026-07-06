@@ -8,7 +8,7 @@ function AlunosHeader({ alunosFiltradosTotal, alunosTotal, onNovoAluno, styles }
       description="Gerencie cadastros, planos, status e acompanhamento dos seus alunos."
       meta={`${alunosFiltradosTotal} de ${alunosTotal} alunos exibidos`}
       actions={
-        <button onClick={onNovoAluno} style={styles.botaoPrimario}>
+        <button className="app-button app-button-primary" onClick={onNovoAluno} style={styles.botaoPrimario}>
           + Novo Aluno
         </button>
       }

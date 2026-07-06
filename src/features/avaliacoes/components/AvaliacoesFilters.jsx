@@ -9,12 +9,14 @@ function AvaliacoesFilters({
   return (
     <div className="app-filter-grid avaliacoes-filtros" style={styles.filtros}>
       <input
+        className="app-input"
         placeholder="Buscar por nome do aluno"
         value={busca}
         onChange={(event) => onBuscaChange(event.target.value)}
         style={styles.campo}
       />
       <select
+        className="app-select"
         value={filtroAluno}
         onChange={(event) => onFiltroAlunoChange(event.target.value)}
         style={styles.campo}

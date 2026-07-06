@@ -20,10 +20,10 @@ function AvaliacoesHeader({
         meta={`${quantidadeExibida} registros exibidos`}
         actions={
           <>
-            <button onClick={onNovaAvaliacao} style={styles.botaoPrimario}>
+            <button className="app-button app-button-primary" onClick={onNovaAvaliacao} style={styles.botaoPrimario}>
               + Nova avaliação
             </button>
-            <button onClick={onNovaAnamnese} style={styles.botaoSecundario}>
+            <button className="app-button app-button-secondary" onClick={onNovaAnamnese} style={styles.botaoSecundario}>
               + Nova anamnese
             </button>
           </>
@@ -38,7 +38,7 @@ function AvaliacoesHeader({
             <p style={styles.moduloTexto}>
               Registre medidas, fotos, indicadores corporais e acompanhe a evolução do aluno.
             </p>
-            <button onClick={onNovaAvaliacao} style={styles.botaoPrimario}>
+            <button className="app-button app-button-primary" onClick={onNovaAvaliacao} style={styles.botaoPrimario}>
               Nova avaliação
             </button>
           </div>
@@ -49,7 +49,7 @@ function AvaliacoesHeader({
             <p style={styles.moduloTexto}>
               Registre histórico, rotina, saúde, hábitos, preferências e informações importantes.
             </p>
-            <button onClick={onNovaAnamnese} style={styles.botaoSecundario}>
+            <button className="app-button app-button-secondary" onClick={onNovaAnamnese} style={styles.botaoSecundario}>
               Nova anamnese
             </button>
           </div>
