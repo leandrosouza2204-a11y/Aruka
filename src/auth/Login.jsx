@@ -92,7 +92,7 @@ function Login() {
     <div style={pagina}>
       <form onSubmit={modoCadastro ? cadastrar : entrar} style={card}>
         <div style={marca}>
-          <BrandLogo variant="full" size="md" />
+          <BrandLogo variant="full" size="login" />
           <p style={subtitulo}>
             {modoCadastro
               ? "Crie sua conta para solicitar a liberação."
@@ -161,27 +161,27 @@ const pagina = {
   alignItems: "center",
   justifyContent: "center",
   background:
-    "radial-gradient(circle at 50% 18%, rgba(37, 99, 235, 0.28), transparent 300px), linear-gradient(180deg, #111827 0%, #0f172a 52%, #0b1120 100%)",
+    "radial-gradient(circle at 50% 12%, rgba(59, 130, 246, 0.18), transparent 360px), linear-gradient(180deg, #f8fafc 0%, #eef4ff 100%)",
   overflowY: "auto",
-  padding: "18px",
+  padding: "32px 24px",
 };
 
 const card = {
   width: "min(430px, 100%)",
   background: "rgba(255, 255, 255, 0.96)",
-  border: "1px solid rgba(255, 255, 255, 0.72)",
+  border: "1px solid rgba(226, 232, 240, 0.9)",
   borderRadius: "8px",
-  padding: "22px",
+  padding: "32px",
   display: "grid",
-  gap: "12px",
-  boxShadow: "0 24px 70px rgba(0,0,0,0.32)",
+  gap: "16px",
+  boxShadow: "0 24px 70px rgba(15, 23, 42, 0.12)",
 };
 
 const marca = {
   display: "grid",
-  gap: "6px",
+  gap: "16px",
   justifyItems: "center",
-  marginBottom: "2px",
+  marginBottom: "8px",
   textAlign: "center",
 };
 
@@ -194,7 +194,7 @@ const subtitulo = {
 const campoGrupo = {
   display: "flex",
   flexDirection: "column",
-  gap: "5px",
+  gap: "8px",
 };
 
 const label = {
@@ -204,10 +204,10 @@ const label = {
 };
 
 const campo = {
-  minHeight: "40px",
+  minHeight: "44px",
   border: "1px solid #d1d5db",
   borderRadius: "8px",
-  padding: "8px 11px",
+  padding: "10px 12px",
   outline: "none",
 };
 
@@ -218,7 +218,7 @@ const botao = {
   borderRadius: "8px",
   cursor: "pointer",
   fontWeight: "700",
-  minHeight: "42px",
+  minHeight: "44px",
 };
 
 const erroTexto = {
@@ -248,7 +248,7 @@ const botaoAlternar = {
   borderRadius: "8px",
   cursor: "pointer",
   fontWeight: "700",
-  minHeight: "40px",
+  minHeight: "44px",
 };
 
 export default Login;

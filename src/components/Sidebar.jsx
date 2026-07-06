@@ -185,11 +185,8 @@ function Sidebar() {
         </div>
 
         <div className="app-sidebar-brand" style={styles.brand}>
-          <div style={styles.logoWrap}>
-            <BrandLogo variant="icon" size="md" />
-          </div>
           <div style={styles.brandCopy}>
-            <h2 style={styles.title}>Aruka</h2>
+            <BrandLogo variant="full" size="sidebar" tone="white" />
             <span style={styles.subtitle}>Painel Profissional</span>
           </div>
         </div>
@@ -291,9 +288,9 @@ const styles = {
     left: 0,
     height: "100vh",
     width: "260px",
-    background: "linear-gradient(180deg, #0b1220, #111827)",
+    background: "linear-gradient(180deg, #08111f 0%, #0f172a 52%, #111827 100%)",
     color: "white",
-    padding: "18px 16px",
+    padding: "24px 16px",
     display: "flex",
     flexDirection: "column",
     borderRight: "1px solid rgba(255,255,255,0.06)",
@@ -303,9 +300,9 @@ const styles = {
 
   header: {
     display: "flex",
-    alignItems: "center",
-    gap: "12px",
-    marginBottom: "28px",
+    alignItems: "flex-start",
+    gap: "16px",
+    marginBottom: "32px",
     position: "relative",
   },
 
@@ -407,30 +404,17 @@ const styles = {
   brand: {
     display: "flex",
     flex: 1,
-    alignItems: "center",
-    gap: "12px",
+    alignItems: "flex-start",
+    gap: "16px",
     lineHeight: "1.15",
     minWidth: 0,
-    padding: "4px 0",
-  },
-
-  logoWrap: {
-    alignItems: "center",
-    background:
-      "linear-gradient(135deg, rgba(37,99,235,0.18), rgba(14,165,233,0.08))",
-    border: "1px solid rgba(147,197,253,0.2)",
-    borderRadius: "14px",
-    boxShadow: "0 14px 34px rgba(37, 99, 235, 0.14)",
-    display: "flex",
-    height: "54px",
-    justifyContent: "center",
-    overflow: "hidden",
-    width: "54px",
+    padding: "2px 0 0",
   },
 
   brandCopy: {
     display: "grid",
-    gap: "4px",
+    gap: "10px",
+    justifyItems: "start",
     minWidth: 0,
   },
 
@@ -442,16 +426,16 @@ const styles = {
   },
 
   subtitle: {
-    color: "rgba(255,255,255,0.52)",
+    color: "rgba(255,255,255,0.58)",
     fontSize: "12px",
-    fontWeight: "600",
+    fontWeight: "700",
     letterSpacing: "0",
   },
 
   nav: {
     display: "flex",
     flexDirection: "column",
-    gap: "7px",
+    gap: "8px",
   },
 
   navSection: {

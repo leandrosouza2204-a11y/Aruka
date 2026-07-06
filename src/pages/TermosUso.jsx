@@ -23,12 +23,15 @@ function TermosUso() {
           </button>
         </div>
 
-        <div style={marca}>
-          <BrandLogo variant="full" size="md" />
-        </div>
-
-        <span style={badge}>Versão 1.0 • Última atualização: 08/06/2026</span>
-        <h1 style={titulo}>Termos de Uso</h1>
+        <header style={cabecalho}>
+          <div style={headerCopy}>
+            <span style={badge}>Versão 1.0 • Última atualização: 08/06/2026</span>
+            <h1 style={titulo}>Termos de Uso</h1>
+          </div>
+          <div style={marca}>
+            <BrandLogo variant="full" size="legal" />
+          </div>
+        </header>
 
         <Aviso />
 
@@ -113,7 +116,7 @@ function Secao({ titulo, children }) {
 const pagina = {
   minHeight: "100vh",
   background: "#f3f4f6",
-  padding: "32px 18px",
+  padding: "48px 24px",
 };
 
 const documento = {
@@ -123,13 +126,13 @@ const documento = {
   borderRadius: "8px",
   boxShadow: "0 20px 60px rgba(15, 23, 42, 0.1)",
   margin: "0 auto",
-  padding: "30px",
+  padding: "32px",
 };
 
 const barraAcoes = {
   display: "flex",
   justifyContent: "flex-end",
-  marginBottom: "8px",
+  marginBottom: "24px",
 };
 
 const botaoSair = {
@@ -143,10 +146,27 @@ const botaoSair = {
   padding: "8px 13px",
 };
 
-const marca = {
-  display: "grid",
-  justifyItems: "center",
+const cabecalho = {
+  alignItems: "flex-start",
+  borderBottom: "1px solid #e5e7eb",
+  display: "flex",
+  flexWrap: "wrap-reverse",
+  gap: "24px",
+  justifyContent: "space-between",
   marginBottom: "24px",
+  paddingBottom: "24px",
+};
+
+const headerCopy = {
+  display: "grid",
+  gap: "8px",
+};
+
+const marca = {
+  flex: "0 0 auto",
+  display: "grid",
+  justifyItems: "end",
+  opacity: 0.86,
 };
 
 const badge = {
@@ -158,7 +178,7 @@ const badge = {
 const titulo = {
   color: "#111827",
   fontSize: "34px",
-  margin: "8px 0 18px",
+  margin: 0,
 };
 
 const aviso = {
@@ -168,14 +188,14 @@ const aviso = {
   color: "#92400e",
   fontWeight: "700",
   lineHeight: 1.5,
-  marginBottom: "22px",
-  padding: "12px",
+  marginBottom: "24px",
+  padding: "16px",
 };
 
 const secao = {
   borderTop: "1px solid #e5e7eb",
-  paddingTop: "18px",
-  marginTop: "18px",
+  paddingTop: "24px",
+  marginTop: "24px",
 };
 
 const secaoTitulo = {
@@ -187,6 +207,7 @@ const secaoTitulo = {
 const paragrafo = {
   color: "#4b5563",
   lineHeight: 1.7,
+  margin: 0,
 };
 
 export default TermosUso;

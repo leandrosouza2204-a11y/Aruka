@@ -53,7 +53,7 @@ function AceiteLegal() {
     <div style={pagina}>
       <main style={card}>
         <div style={marca}>
-          <BrandLogo variant="full" size="md" />
+          <BrandLogo variant="full" size="legal" />
         </div>
 
         <div style={topo}>
@@ -125,7 +125,7 @@ const pagina = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  padding: "24px",
+  padding: "48px 24px",
 };
 
 const card = {
@@ -135,14 +135,14 @@ const card = {
   borderRadius: "8px",
   boxShadow: "0 24px 70px rgba(15, 23, 42, 0.12)",
   display: "grid",
-  gap: "22px",
-  padding: "28px",
+  gap: "24px",
+  padding: "32px",
 };
 
 const marca = {
   display: "grid",
-  gap: "8px",
-  justifyItems: "center",
+  justifyItems: "start",
+  opacity: 0.86,
   textAlign: "center",
 };
 
@@ -160,7 +160,7 @@ const badge = {
 
 const titulo = {
   color: "#111827",
-  fontSize: "30px",
+  fontSize: "32px",
   margin: 0,
 };
 
@@ -177,7 +177,7 @@ const versao = {
 
 const form = {
   display: "grid",
-  gap: "12px",
+  gap: "16px",
 };
 
 const checkItem = {
@@ -187,9 +187,9 @@ const checkItem = {
   borderRadius: "8px",
   color: "#111827",
   display: "flex",
-  gap: "10px",
+  gap: "12px",
   lineHeight: 1.5,
-  padding: "12px",
+  padding: "16px",
 };
 
 const link = {
