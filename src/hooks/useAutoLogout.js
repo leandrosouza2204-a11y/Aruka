@@ -15,16 +15,28 @@ const ACTIVITY_EVENTS = [
 ];
 
 function readLastActivity() {
+  const currentValue = Number(localStorage.getItem(SESSION_CONFIG.LAST_ACTIVITY_KEY));
+  if (Number.isFinite(currentValue) && currentValue > 0) return currentValue;
+
+  const legacyValue = Number(
+    localStorage.getItem(SESSION_CONFIG.LEGACY_LAST_ACTIVITY_KEY)
+  );
+  if (!Number.isFinite(legacyValue) || legacyValue <= 0) return null;
+
+  localStorage.setItem(SESSION_CONFIG.LAST_ACTIVITY_KEY, String(legacyValue));
+  localStorage.removeItem(SESSION_CONFIG.LEGACY_LAST_ACTIVITY_KEY);
   const value = Number(localStorage.getItem(SESSION_CONFIG.LAST_ACTIVITY_KEY));
   return Number.isFinite(value) && value > 0 ? value : null;
 }
 
 function writeLastActivity(timestamp = Date.now()) {
   localStorage.setItem(SESSION_CONFIG.LAST_ACTIVITY_KEY, String(timestamp));
+  localStorage.removeItem(SESSION_CONFIG.LEGACY_LAST_ACTIVITY_KEY);
 }
 
 export function markSessionLoggedOut() {
   localStorage.removeItem(SESSION_CONFIG.LAST_ACTIVITY_KEY);
+  localStorage.removeItem(SESSION_CONFIG.LEGACY_LAST_ACTIVITY_KEY);
   localStorage.setItem(SESSION_CONFIG.LOGGED_OUT_AT_KEY, String(Date.now()));
 }
 
@@ -192,7 +204,8 @@ export function useAutoLogout({ user, enabled = true } = {}) {
 
     function handleStorage(event) {
       if (
-        event.key === SESSION_CONFIG.LOGGED_OUT_AT_KEY &&
+        (event.key === SESSION_CONFIG.LOGGED_OUT_AT_KEY ||
+          event.key === SESSION_CONFIG.LEGACY_LOGGED_OUT_AT_KEY) &&
         event.newValue
       ) {
         logoutNow({ broadcast: false });
@@ -200,7 +213,8 @@ export function useAutoLogout({ user, enabled = true } = {}) {
       }
 
       if (
-        event.key === SESSION_CONFIG.LAST_ACTIVITY_KEY &&
+        (event.key === SESSION_CONFIG.LAST_ACTIVITY_KEY ||
+          event.key === SESSION_CONFIG.LEGACY_LAST_ACTIVITY_KEY) &&
         event.newValue &&
         !showWarningRef.current
       ) {
