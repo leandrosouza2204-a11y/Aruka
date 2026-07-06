@@ -301,9 +301,9 @@ const styles = {
   header: {
     borderBottom: "1px solid rgba(255,255,255,0.08)",
     display: "block",
-    marginBottom: "8px",
-    minHeight: "40px",
-    padding: "0 0 8px",
+    marginBottom: "12px",
+    minHeight: "48px",
+    padding: "0 0 10px",
     position: "relative",
   },
 
@@ -318,15 +318,15 @@ const styles = {
     background: "rgba(255,255,255,0.07)",
     border: "1px solid rgba(255,255,255,0.08)",
     color: "white",
-    padding: "7px",
+    padding: "8px",
     borderRadius: "10px",
     cursor: "pointer",
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    minHeight: "38px",
+    minHeight: "40px",
     transition: "all 0.2s ease",
-    width: "38px",
+    width: "40px",
   },
 
   accountMenu: {
@@ -410,7 +410,7 @@ const styles = {
     justifyContent: "center",
     lineHeight: "1.15",
     minWidth: 0,
-    padding: "0 0 0 42px",
+    padding: "0 0 0 46px",
   },
 
   brandCopy: {
@@ -437,7 +437,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     gap: "5px",
-    paddingTop: "2px",
+    paddingTop: 0,
   },
 
   navSection: {
@@ -476,11 +476,11 @@ const styles = {
 
   footer: {
     marginTop: "auto",
-    paddingTop: "16px",
+    paddingTop: "18px",
     borderTop: "1px solid rgba(255,255,255,0.08)",
     display: "grid",
     alignItems: "center",
-    gap: "8px",
+    gap: "10px",
     textAlign: "center",
   },
 
@@ -493,21 +493,21 @@ const styles = {
   },
 
   footerLink: {
-    color: "rgba(255,255,255,0.46)",
-    fontSize: "11px",
+    color: "rgba(255,255,255,0.58)",
+    fontSize: "12px",
     fontWeight: "700",
     textDecoration: "none",
   },
 
   footerSeparator: {
-    color: "rgba(255,255,255,0.22)",
-    fontSize: "11px",
+    color: "rgba(255,255,255,0.28)",
+    fontSize: "12px",
     lineHeight: 1,
   },
 
   footerVersion: {
-    color: "rgba(255,255,255,0.26)",
-    fontSize: "10px",
+    color: "rgba(255,255,255,0.34)",
+    fontSize: "11px",
     fontWeight: "700",
   },
 };

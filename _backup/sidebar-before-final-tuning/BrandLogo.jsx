@@ -8,7 +8,7 @@ const tamanhos = {
     icon: "34px",
   },
   sidebar: {
-    full: "152px",
+    full: "176px",
     icon: "34px",
   },
   login: {
