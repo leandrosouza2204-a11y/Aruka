@@ -19,12 +19,29 @@ export async function buscarAvaliacoesSupabase() {
 
 export async function adicionarAvaliacaoSupabase(avaliacao) {
   const user = await buscarUsuarioLogado();
+  const payload = avaliacaoParaPayload(avaliacao, user.id);
 
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from("avaliacoes")
-    .insert(avaliacaoParaPayload(avaliacao, user.id))
+    .insert(payload)
     .select()
     .single();
+
+  if (isErroSchemaAvaliacaoOpcional(error)) {
+    console.warn(
+      "Supabase rejeitou colunas opcionais de avaliação; tentando payload compatível.",
+      formatarErroSupabase(error)
+    );
+
+    const resultadoCompatibilidade = await supabase
+      .from("avaliacoes")
+      .insert(avaliacaoParaPayloadCompativel(avaliacao, user.id))
+      .select()
+      .single();
+
+    data = resultadoCompatibilidade.data;
+    error = resultadoCompatibilidade.error;
+  }
 
   if (error) throw error;
 
@@ -33,14 +50,33 @@ export async function adicionarAvaliacaoSupabase(avaliacao) {
 
 export async function atualizarAvaliacaoSupabase(id, avaliacao) {
   const user = await buscarUsuarioLogado();
+  const payload = avaliacaoParaPayload(avaliacao, user.id);
 
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from("avaliacoes")
-    .update(avaliacaoParaPayload(avaliacao, user.id))
+    .update(payload)
     .eq("id", id)
     .eq("user_id", user.id)
     .select()
     .single();
+
+  if (isErroSchemaAvaliacaoOpcional(error)) {
+    console.warn(
+      "Supabase rejeitou colunas opcionais de avaliação; tentando payload compatível.",
+      formatarErroSupabase(error)
+    );
+
+    const resultadoCompatibilidade = await supabase
+      .from("avaliacoes")
+      .update(avaliacaoParaPayloadCompativel(avaliacao, user.id))
+      .eq("id", id)
+      .eq("user_id", user.id)
+      .select()
+      .single();
+
+    data = resultadoCompatibilidade.data;
+    error = resultadoCompatibilidade.error;
+  }
 
   if (error) throw error;
 
@@ -65,6 +101,28 @@ function avaliacaoParaPayload(avaliacao, userId) {
   const composicao = calcularComposicaoCorporal(avaliacao);
 
   return {
+    ...avaliacaoParaPayloadCompativel(avaliacao, userId),
+    dobra_peitoral: numeroOuNull(avaliacao.dobras?.peitoral),
+    dobra_abdominal: numeroOuNull(avaliacao.dobras?.abdominal),
+    dobra_coxa: numeroOuNull(avaliacao.dobras?.coxa),
+    dobra_triceps: numeroOuNull(avaliacao.dobras?.triceps),
+    dobra_subescapular: numeroOuNull(avaliacao.dobras?.subescapular),
+    dobra_supra_iliaca: numeroOuNull(avaliacao.dobras?.supraIliaca),
+    dobra_axilar_media: numeroOuNull(avaliacao.dobras?.axilarMedia),
+    percentual_gordura: numeroOuNull(composicao.percentualGordura),
+    percentual_massa_magra: numeroOuNull(composicao.percentualMassaMagra),
+    massa_gorda: numeroOuNull(composicao.massaGorda),
+    massa_magra: numeroOuNull(composicao.massaMagra),
+    imc: numeroOuNull(composicao.imc),
+    status: avaliacao.status || "inicial",
+    objetivo_atual: avaliacao.objetivoAtual || "",
+    aderencia_treino: avaliacao.aderenciaTreino || "",
+    aderencia_dieta: avaliacao.aderenciaDieta || "",
+  };
+}
+
+function avaliacaoParaPayloadCompativel(avaliacao, userId) {
+  return {
     user_id: userId,
     aluno_id: avaliacao.alunoId,
     data_avaliacao: dataOuNull(avaliacao.data),
@@ -86,22 +144,6 @@ function avaliacaoParaPayload(avaliacao, userId) {
     coxa_esquerda: numeroOuNull(avaliacao.medidas?.coxaEsquerda),
     panturrilha_direita: numeroOuNull(avaliacao.medidas?.panturrilhaDireita),
     panturrilha_esquerda: numeroOuNull(avaliacao.medidas?.panturrilhaEsquerda),
-    dobra_peitoral: numeroOuNull(avaliacao.dobras?.peitoral),
-    dobra_abdominal: numeroOuNull(avaliacao.dobras?.abdominal),
-    dobra_coxa: numeroOuNull(avaliacao.dobras?.coxa),
-    dobra_triceps: numeroOuNull(avaliacao.dobras?.triceps),
-    dobra_subescapular: numeroOuNull(avaliacao.dobras?.subescapular),
-    dobra_supra_iliaca: numeroOuNull(avaliacao.dobras?.supraIliaca),
-    dobra_axilar_media: numeroOuNull(avaliacao.dobras?.axilarMedia),
-    percentual_gordura: numeroOuNull(composicao.percentualGordura),
-    percentual_massa_magra: numeroOuNull(composicao.percentualMassaMagra),
-    massa_gorda: numeroOuNull(composicao.massaGorda),
-    massa_magra: numeroOuNull(composicao.massaMagra),
-    imc: numeroOuNull(composicao.imc),
-    status: avaliacao.status || "inicial",
-    objetivo_atual: avaliacao.objetivoAtual || "",
-    aderencia_treino: avaliacao.aderenciaTreino || "",
-    aderencia_dieta: avaliacao.aderenciaDieta || "",
     observacoes: avaliacao.observacoes || "",
   };
 }
@@ -160,4 +202,52 @@ function numeroOuNull(valor) {
 
 function valorOuVazio(valor) {
   return valor === null || valor === undefined ? "" : valor;
+}
+
+function isErroSchemaAvaliacaoOpcional(error) {
+  if (!error) return false;
+
+  const texto = [
+    error.code,
+    error.message,
+    error.details,
+    error.hint,
+  ].filter(Boolean).join(" ").toLowerCase();
+  const colunasOpcionais = [
+    "dobra_peitoral",
+    "dobra_abdominal",
+    "dobra_coxa",
+    "dobra_triceps",
+    "dobra_subescapular",
+    "dobra_supra_iliaca",
+    "dobra_axilar_media",
+    "percentual_gordura",
+    "percentual_massa_magra",
+    "massa_gorda",
+    "massa_magra",
+    "imc",
+    "status",
+    "objetivo_atual",
+    "aderencia_treino",
+    "aderencia_dieta",
+  ];
+
+  return (
+    (texto.includes("pgrst204") ||
+      texto.includes("schema cache") ||
+      texto.includes("could not find") ||
+      texto.includes("column")) &&
+    colunasOpcionais.some((coluna) => texto.includes(coluna))
+  );
+}
+
+export function formatarErroSupabase(error) {
+  if (!error) return null;
+
+  return {
+    code: error.code,
+    message: error.message,
+    details: error.details,
+    hint: error.hint,
+  };
 }

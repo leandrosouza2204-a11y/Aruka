@@ -8,17 +8,13 @@ import {
   statusEstaVencendo,
 } from "../../../data/alunosUtils";
 import { buscarAlunosSupabase } from "../../../services/alunosService";
-import { buscarUsuarioLogado } from "../../../services/authSessionService";
 import { buscarPagamentosSupabase } from "../../../services/pagamentosService";
 import { buscarPlanosSupabase } from "../../../services/planosService";
-import { supabase } from "../../../services/supabase";
 
 export function useDashboardPage() {
   const [alunos, setAlunos] = useState([]);
   const [pagamentos, setPagamentos] = useState([]);
   const [planos, setPlanos] = useState([]);
-  const [quantidadeTreinos, setQuantidadeTreinos] = useState(0);
-  const [quantidadeAvaliacoes, setQuantidadeAvaliacoes] = useState(0);
   const [modalCheckinAberto, setModalCheckinAberto] = useState(false);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
@@ -29,32 +25,20 @@ export function useDashboardPage() {
       setErro("");
 
       try {
-        const [
-          alunosSupabase,
-          pagamentosSupabase,
-          planosSupabase,
-          totalTreinos,
-          totalAvaliacoes,
-        ] = await Promise.all([
+        const [alunosSupabase, pagamentosSupabase, planosSupabase] = await Promise.all([
           buscarAlunosSupabase(),
           buscarPagamentosSupabase(),
           buscarPlanosSupabase(),
-          contarRegistrosUsuario("treinos"),
-          contarRegistrosUsuario("avaliacoes"),
         ]);
 
         setAlunos(alunosSupabase.map(normalizarAluno));
         setPagamentos(pagamentosSupabase);
         setPlanos(planosSupabase);
-        setQuantidadeTreinos(totalTreinos);
-        setQuantidadeAvaliacoes(totalAvaliacoes);
       } catch (error) {
         setErro(`Erro ao carregar dashboard: ${error.message}`);
         setAlunos([]);
         setPagamentos([]);
         setPlanos([]);
-        setQuantidadeTreinos(0);
-        setQuantidadeAvaliacoes(0);
       } finally {
         setCarregando(false);
       }
@@ -176,11 +160,9 @@ export function useDashboardPage() {
     () => ({
       temPlano: planos.length > 0,
       temAluno: alunos.length > 0,
-      temTreino: quantidadeTreinos > 0,
-      temAvaliacao: quantidadeAvaliacoes > 0,
       temPagamento: pagamentos.length > 0,
     }),
-    [alunos.length, pagamentos.length, planos.length, quantidadeAvaliacoes, quantidadeTreinos]
+    [alunos.length, pagamentos.length, planos.length]
   );
 
   const metricas = useMemo(
@@ -258,23 +240,6 @@ export function useDashboardPage() {
     abrirModalCheckin,
     fecharModalCheckin,
   };
-}
-
-async function contarRegistrosUsuario(tabela) {
-  try {
-    const user = await buscarUsuarioLogado();
-    const { count, error } = await supabase
-      .from(tabela)
-      .select("id", { count: "exact", head: true })
-      .eq("user_id", user.id);
-
-    if (error) throw error;
-
-    return count || 0;
-  } catch (error) {
-    console.error(`Erro ao contar registros em ${tabela}:`, error);
-    return 0;
-  }
 }
 
 function calcularStatusDashboard(aluno, pagamentosAluno, plano) {

@@ -14,6 +14,7 @@ import {
   atualizarAvaliacaoSupabase,
   buscarAvaliacoesSupabase,
   excluirAvaliacaoSupabase,
+  formatarErroSupabase,
 } from "../../../services/avaliacoesService";
 import { formatarEscala } from "../utils/formatters";
 
@@ -161,11 +162,11 @@ export function useAvaliacoesPage() {
       fecharModalAvaliacao();
       toast.sucesso("Avaliação salva", "Os dados da avaliação foram atualizados.");
     } catch (error) {
-      console.error(error);
+      console.error("Erro ao salvar avaliação no Supabase:", formatarErroSupabase(error) || error);
       setErro(`Erro ao salvar avaliação: ${error.message}`);
       toast.erro(
         "Não foi possível salvar a avaliação",
-        "Tente novamente em alguns instantes."
+        "Verifique aluno e data da avaliação. Se o problema continuar, tente novamente em alguns instantes."
       );
     }
   }
