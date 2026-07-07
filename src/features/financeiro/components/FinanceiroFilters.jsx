@@ -15,6 +15,11 @@ function FinanceiroFilters({
         <p style={styles.secaoLegenda}>
           Registre pagamentos com data, valor, forma e parcela.
         </p>
+        <p className="app-muted" style={styles.secaoAjuda}>
+          Use os filtros para separar recebidos e pendentes no ciclo atual.
+          Renovar plano deve ser usado quando o aluno iniciar um novo ciclo de
+          acompanhamento.
+        </p>
       </div>
 
       <div className="app-filter-grid financeiro-filtros" style={styles.filtros}>

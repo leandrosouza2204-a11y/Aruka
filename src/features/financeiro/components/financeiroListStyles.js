@@ -23,6 +23,11 @@ const styles = {
     fontWeight: "700",
     marginTop: "10px",
   },
+  cardDescricao: {
+    fontSize: "13px",
+    lineHeight: 1.45,
+    margin: "8px 0 0",
+  },
   filtrosCard: {
     ...card,
     marginTop: "30px",
@@ -35,6 +40,12 @@ const styles = {
     color: "#6b7280",
     fontSize: "14px",
     marginTop: "6px",
+  },
+  secaoAjuda: {
+    fontSize: "13px",
+    lineHeight: 1.45,
+    margin: "6px 0 0",
+    maxWidth: "760px",
   },
   filtros: {
     display: "grid",
