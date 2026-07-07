@@ -194,8 +194,8 @@ function Sidebar() {
 
       <nav className="app-sidebar-nav" style={styles.nav}>
         <MenuLink
-          to="/"
-          active={isActive("/")}
+          to="/dashboard"
+          active={isActive("/dashboard")}
           icon={<LayoutDashboard size={21} />}
           label="Dashboard"
         />

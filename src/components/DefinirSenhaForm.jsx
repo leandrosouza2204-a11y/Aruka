@@ -87,7 +87,7 @@ function DefinirSenhaForm() {
       setSucesso("Senha criada com sucesso. Redirecionando...");
 
       window.setTimeout(() => {
-        navigate("/", { replace: true });
+        navigate("/dashboard", { replace: true });
       }, 1200);
     } catch (error) {
       setErro(error.message || "Não foi possível criar a senha.");

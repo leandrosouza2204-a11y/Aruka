@@ -15,7 +15,7 @@ function Login() {
   const [autenticado, setAutenticado] = useState(false);
   const [modoCadastro, setModoCadastro] = useState(false);
 
-  const destino = "/";
+  const destino = "/dashboard";
 
   async function entrar(e) {
     e.preventDefault();

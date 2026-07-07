@@ -17,7 +17,7 @@ function AceiteLegal() {
   const [erro, setErro] = useState("");
   const toast = useToast();
   const { politicaVersao, termosVersao } = obterVersoesLegaisAtuais();
-  const destino = location.state?.from?.pathname || "/";
+  const destino = location.state?.from?.pathname || "/dashboard";
   const podeContinuar = politicaAceita && termosAceitos && !carregando;
 
   async function aceitar(e) {

@@ -22,7 +22,7 @@ function AssinaturaPendente() {
         const acesso = await verificarAcessoUsuario();
 
         if (ativo && acesso.liberado) {
-          navigate("/", { replace: true });
+          navigate("/dashboard", { replace: true });
         }
       } catch {
         // Mantem a mensagem amigavel da tela caso a verificacao falhe.

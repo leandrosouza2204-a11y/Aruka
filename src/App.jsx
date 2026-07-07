@@ -14,6 +14,7 @@ const Planos = lazy(() => import("./pages/Planos"));
 const AdminUsuarios = lazy(() => import("./pages/AdminUsuarios"));
 const AdminLogs = lazy(() => import("./pages/AdminLogs"));
 const AlterarSenha = lazy(() => import("./pages/AlterarSenha"));
+const LandingPage = lazy(() => import("./pages/LandingPage"));
 const Login = lazy(() => import("./auth/Login"));
 const AssinaturaPendente = lazy(() => import("./pages/AssinaturaPendente"));
 const CriarSenha = lazy(() => import("./pages/CriarSenha"));
@@ -73,8 +74,9 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/" element={<LandingPage />} />
           <Route
-            path="/"
+            path="/dashboard"
             element={
               <ProtectedRoute>
                 <SubscriptionRoute>
