@@ -234,7 +234,7 @@ function AdminUsuarios() {
     <div className="app-shell" style={{ display: "flex" }}>
       <Sidebar />
 
-      <main className="app-main page-container" style={conteudo}>
+      <main className="admin-users-page app-main page-container" style={conteudo}>
         <PageHero
           eyebrow="ADMINISTRAÇÃO"
           title="Usuários"

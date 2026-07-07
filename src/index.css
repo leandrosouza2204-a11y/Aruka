@@ -3328,3 +3328,241 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
     display: block;
   }
 }
+
+/* Responsive polish for primary app screens. Keep finance, auth, and sidebar out of this scope. */
+.dashboard-page,
+.alunos-page,
+.treinos-page,
+.avaliacoes-page,
+.planos-page,
+.admin-logs-page,
+.admin-users-page {
+  overflow-x: hidden;
+}
+
+.dashboard-page .page-hero,
+.alunos-page .page-hero,
+.treinos-page .page-hero,
+.avaliacoes-page .page-hero,
+.planos-page .page-hero,
+.admin-logs-page .page-hero,
+.admin-users-page .page-hero {
+  min-width: 0;
+}
+
+.alunos-page .mobile-list-card,
+.planos-page .mobile-list-card,
+.admin-users-page .mobile-list-card,
+.admin-logs-page .mobile-list-card,
+.avaliacoes-page .mobile-list-card,
+.treinos-page .mobile-list-card {
+  overflow-wrap: anywhere;
+}
+
+.alunos-page .card-actions,
+.planos-page .card-actions,
+.admin-users-page .card-actions,
+.admin-logs-page .card-actions,
+.avaliacoes-page .card-actions,
+.treinos-page .card-actions {
+  align-items: stretch;
+}
+
+@media (min-width: 769px) and (max-width: 1180px) {
+  .alunos-page .page-hero,
+  .treinos-page .page-hero,
+  .avaliacoes-page .page-hero,
+  .planos-page .page-hero,
+  .admin-logs-page .page-hero,
+  .admin-users-page .page-hero {
+    padding: 26px !important;
+  }
+
+  .alunos-page .page-hero-actions,
+  .treinos-page .page-hero-actions,
+  .avaliacoes-page .page-hero-actions,
+  .planos-page .page-hero-actions,
+  .admin-logs-page .page-hero-actions,
+  .admin-users-page .page-hero-actions {
+    max-width: 52%;
+  }
+
+  .alunos-page .app-filter-grid,
+  .treinos-page .app-filter-grid,
+  .avaliacoes-page .app-filter-grid,
+  .planos-page .app-filter-grid,
+  .admin-users-page .admin-filters {
+    align-items: stretch !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .admin-logs-page .admin-logs-filters {
+    grid-template-columns: minmax(220px, 1fr) minmax(150px, 200px) minmax(180px, 1fr) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-page .page-hero,
+  .alunos-page .page-hero,
+  .treinos-page .page-hero,
+  .avaliacoes-page .page-hero,
+  .planos-page .page-hero,
+  .admin-logs-page .page-hero,
+  .admin-users-page .page-hero {
+    display: grid !important;
+    gap: 18px !important;
+    min-height: auto !important;
+    padding: 22px !important;
+  }
+
+  .dashboard-page .page-hero-actions,
+  .alunos-page .page-hero-actions,
+  .treinos-page .page-hero-actions,
+  .avaliacoes-page .page-hero-actions,
+  .planos-page .page-hero-actions,
+  .admin-logs-page .page-hero-actions,
+  .admin-users-page .page-hero-actions {
+    justify-content: stretch !important;
+    max-width: none !important;
+    width: 100% !important;
+  }
+
+  .dashboard-page .page-hero-actions > *,
+  .alunos-page .page-hero-actions > *,
+  .treinos-page .page-hero-actions > *,
+  .avaliacoes-page .page-hero-actions > *,
+  .planos-page .page-hero-actions > *,
+  .admin-logs-page .page-hero-actions > *,
+  .admin-users-page .page-hero-actions > * {
+    justify-content: center;
+    width: 100% !important;
+  }
+
+  .alunos-page .app-card,
+  .treinos-page .app-card,
+  .avaliacoes-page .app-card,
+  .planos-page .app-card,
+  .admin-logs-page .admin-logs-panel,
+  .admin-users-page section {
+    padding: 14px !important;
+  }
+
+  .alunos-page .app-filter-grid,
+  .treinos-page .app-filter-grid,
+  .avaliacoes-page .app-filter-grid,
+  .planos-page .app-filter-grid,
+  .admin-users-page .admin-filters,
+  .admin-logs-page .admin-logs-filters {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .alunos-page .app-filter-grid > *,
+  .treinos-page .app-filter-grid > *,
+  .avaliacoes-page .app-filter-grid > *,
+  .planos-page .app-filter-grid > *,
+  .admin-users-page .admin-filters > *,
+  .admin-logs-page .admin-logs-filters > * {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  .alunos-page .mobile-card-list,
+  .treinos-page .mobile-card-list,
+  .avaliacoes-page .mobile-card-list,
+  .planos-page .mobile-card-list,
+  .admin-logs-page .mobile-card-list,
+  .admin-users-page .mobile-card-list {
+    display: flex !important;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .alunos-page .card-actions,
+  .planos-page .card-actions,
+  .admin-users-page .card-actions,
+  .admin-logs-page .card-actions,
+  .avaliacoes-page .card-actions,
+  .treinos-page .card-actions,
+  .avaliacoes-empty-actions,
+  .treinos-library-empty-actions {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .alunos-page .card-actions button,
+  .planos-page .card-actions button,
+  .admin-users-page .card-actions button,
+  .admin-logs-page .card-actions button,
+  .avaliacoes-page .card-actions button,
+  .treinos-page .card-actions button,
+  .avaliacoes-empty-actions button,
+  .treinos-library-empty-actions button {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .admin-logs-page .admin-logs-period,
+  .admin-logs-page .admin-logs-filter-actions {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .admin-users-page .admin-summary-grid {
+    gap: 12px !important;
+    margin-top: 16px !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .dashboard-page .page-hero,
+  .alunos-page .page-hero,
+  .treinos-page .page-hero,
+  .avaliacoes-page .page-hero,
+  .planos-page .page-hero,
+  .admin-logs-page .page-hero,
+  .admin-users-page .page-hero {
+    padding: 18px !important;
+  }
+
+  .alunos-page .card-row,
+  .treinos-page .card-row,
+  .avaliacoes-page .card-row,
+  .planos-page .card-row,
+  .admin-logs-page .card-row,
+  .admin-users-page .card-row {
+    display: grid;
+    gap: 5px;
+  }
+
+  .alunos-page .card-value,
+  .treinos-page .card-value,
+  .avaliacoes-page .card-value,
+  .planos-page .card-value,
+  .admin-logs-page .card-value,
+  .admin-users-page .card-value {
+    text-align: left;
+  }
+
+  .alunos-page .mobile-card-header,
+  .treinos-page .mobile-card-header,
+  .avaliacoes-page .mobile-card-header,
+  .planos-page .mobile-card-header,
+  .admin-logs-page .mobile-card-header,
+  .admin-users-page .mobile-card-header {
+    display: grid;
+  }
+
+  .alunos-page .mobile-card-header .status-badge,
+  .treinos-page .mobile-card-header .status-badge,
+  .avaliacoes-page .mobile-card-header .status-badge,
+  .planos-page .mobile-card-header .status-badge,
+  .admin-logs-page .mobile-card-header .status-badge,
+  .admin-users-page .mobile-card-header .status-badge {
+    justify-self: start;
+    max-width: 100%;
+  }
+}

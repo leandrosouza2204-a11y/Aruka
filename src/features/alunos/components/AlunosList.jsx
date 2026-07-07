@@ -17,7 +17,7 @@ function AlunosList() {
     <div className="app-shell" style={{ display: "flex" }}>
       <Sidebar />
 
-      <div className="app-main page-container" style={styles.conteudo}>
+      <div className="alunos-page app-main page-container" style={styles.conteudo}>
         <AlunosHeader
           alunosFiltradosTotal={page.alunosFiltrados.length}
           alunosTotal={page.alunos.length}

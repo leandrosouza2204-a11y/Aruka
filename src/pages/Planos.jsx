@@ -149,7 +149,7 @@ function Planos() {
     <div className="app-shell" style={{ display: "flex" }}>
       <Sidebar />
 
-      <div className="app-main page-container" style={conteudo}>
+      <div className="planos-page app-main page-container" style={conteudo}>
         <PageHero
           eyebrow="PLANOS"
           title="Planos personalizados"
