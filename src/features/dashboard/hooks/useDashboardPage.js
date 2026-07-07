@@ -156,6 +156,19 @@ export function useDashboardPage() {
     [alunosVencidos, alunosAtivosCheckin, alunosVencendo, receitaPendente]
   );
 
+  const onboardingStatus = useMemo(
+    () => ({
+      temPlano: planos.length > 0,
+      temAluno: alunos.length > 0,
+      // TODO: ligar ao total real de treinos quando o Dashboard puder usar esse dado sem nova carga sensivel.
+      temTreino: false,
+      // TODO: ligar ao total real de avaliacoes quando o Dashboard puder usar esse dado sem nova carga sensivel.
+      temAvaliacao: false,
+      temPagamento: pagamentos.length > 0,
+    }),
+    [alunos.length, pagamentos.length, planos.length]
+  );
+
   const metricas = useMemo(
     () => [
       {
@@ -226,6 +239,7 @@ export function useDashboardPage() {
     maiorReceitaMensal,
     metricas,
     modalCheckinAberto,
+    onboardingStatus,
     receitaMensal,
     abrirModalCheckin,
     fecharModalCheckin,

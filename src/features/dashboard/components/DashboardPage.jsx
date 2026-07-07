@@ -5,6 +5,7 @@ import DashboardAtalhos from "./DashboardAtalhos";
 import DashboardCards from "./DashboardCards";
 import DashboardCheckin from "./DashboardCheckin";
 import DashboardHeader from "./DashboardHeader";
+import DashboardOnboardingChecklist from "./DashboardOnboardingChecklist";
 
 function DashboardPage() {
   const dashboard = useDashboardPage();
@@ -17,6 +18,8 @@ function DashboardPage() {
         <DashboardHeader styles={styles} />
 
         {dashboard.erro && <div className="app-error">{dashboard.erro}</div>}
+
+        <DashboardOnboardingChecklist status={dashboard.onboardingStatus} />
 
         <div className="dashboard-stats-grid" style={styles.cardsGrid}>
           <DashboardCards metricas={dashboard.metricas} styles={styles} />
