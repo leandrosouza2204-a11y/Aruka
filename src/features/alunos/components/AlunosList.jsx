@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Sidebar from "../../../components/Sidebar";
 import InlineDetails from "../../../components/InlineDetails";
 import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
@@ -24,6 +25,25 @@ function AlunosList() {
           onNovoAluno={page.abrirCadastro}
           styles={styles}
         />
+
+        {!page.carregando && !page.erro && page.planos.length === 0 && (
+          <section className="app-card app-alert" style={styles.planoAviso}>
+            <div style={styles.planoAvisoTexto}>
+              <h2 style={styles.planoAvisoTitulo}>
+                Crie um plano antes de cadastrar alunos
+              </h2>
+              <p className="app-muted" style={styles.planoAvisoDescricao}>
+                Os planos ajudam a organizar vencimentos, valores e o
+                acompanhamento financeiro dos alunos. Cadastre o primeiro plano
+                para deixar a base pronta.
+              </p>
+            </div>
+
+            <Link className="app-button app-button-primary" to="/planos">
+              Criar primeiro plano
+            </Link>
+          </section>
+        )}
 
         <section className="app-card" style={styles.listaCard}>
           <AlunosFilters
@@ -273,6 +293,30 @@ const styles = {
     border: "1px solid #e5e7eb",
     borderRadius: "8px",
     padding: "22px",
+  },
+  planoAviso: {
+    alignItems: "center",
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "14px",
+    justifyContent: "space-between",
+    padding: "16px",
+  },
+  planoAvisoTexto: {
+    display: "grid",
+    gap: "5px",
+    minWidth: 0,
+  },
+  planoAvisoTitulo: {
+    color: "#111827",
+    fontSize: "16px",
+    margin: 0,
+  },
+  planoAvisoDescricao: {
+    fontSize: "14px",
+    lineHeight: 1.5,
+    margin: 0,
+    maxWidth: "720px",
   },
   listaTopo: {
     display: "flex",
