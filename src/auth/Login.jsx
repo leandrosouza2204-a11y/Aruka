@@ -167,7 +167,8 @@ const pagina = {
 };
 
 const card = {
-  width: "min(430px, 100%)",
+  width: "min(430px, calc(100vw - 32px))",
+  boxSizing: "border-box",
   background: "rgba(255, 255, 255, 0.96)",
   border: "1px solid rgba(226, 232, 240, 0.9)",
   borderRadius: "8px",
@@ -204,6 +205,8 @@ const label = {
 };
 
 const campo = {
+  boxSizing: "border-box",
+  width: "100%",
   minHeight: "44px",
   border: "1px solid #d1d5db",
   borderRadius: "8px",
@@ -212,6 +215,7 @@ const campo = {
 };
 
 const botao = {
+  width: "100%",
   background: "#111827",
   color: "white",
   border: "none",
@@ -242,6 +246,7 @@ const sucessoTexto = {
 };
 
 const botaoAlternar = {
+  width: "100%",
   background: "transparent",
   color: "#111827",
   border: "1px solid #d1d5db",
