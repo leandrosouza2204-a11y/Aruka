@@ -260,6 +260,11 @@ const moduloBadge = {
 
 const moduloTitulo = { fontSize: "18px", margin: "0 0 8px" };
 const moduloTexto = { color: "#4b5563", fontSize: "14px", lineHeight: 1.5, margin: "0 0 14px" };
+const moduloAjuda = {
+  fontSize: "13px",
+  lineHeight: 1.45,
+  margin: "0 0 14px",
+};
 
 const tabs = {
   display: "flex",
@@ -510,6 +515,7 @@ const styles = {
   moduloBadge,
   moduloCard,
   moduloCards,
+  moduloAjuda,
   moduloTexto,
   moduloTitulo,
   painel,

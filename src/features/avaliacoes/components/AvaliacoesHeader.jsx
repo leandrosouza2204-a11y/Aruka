@@ -38,6 +38,9 @@ function AvaliacoesHeader({
             <p style={styles.moduloTexto}>
               Registre medidas, fotos, indicadores corporais e acompanhe a evolução do aluno.
             </p>
+            <p className="app-muted" style={styles.moduloAjuda}>
+              Use para acompanhar medidas, composição corporal, evolução e resultados ao longo do tempo.
+            </p>
             <button className="app-button app-button-primary" onClick={onNovaAvaliacao} style={styles.botaoPrimario}>
               Nova avaliação
             </button>
@@ -48,6 +51,9 @@ function AvaliacoesHeader({
             <h2 style={styles.moduloTitulo}>Anamnese</h2>
             <p style={styles.moduloTexto}>
               Registre histórico, rotina, saúde, hábitos, preferências e informações importantes.
+            </p>
+            <p className="app-muted" style={styles.moduloAjuda}>
+              Use para entender histórico, restrições, dores, saúde e contexto antes de prescrever.
             </p>
             <button className="app-button app-button-secondary" onClick={onNovaAnamnese} style={styles.botaoSecundario}>
               Nova anamnese

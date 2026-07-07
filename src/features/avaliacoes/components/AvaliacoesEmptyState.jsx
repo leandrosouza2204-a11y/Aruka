@@ -5,6 +5,9 @@ function AvaliacoesEmptyState({ onNovaAvaliacao, onNovaAnamnese }) {
       <p className="app-muted">
         Crie uma avaliação física ou uma anamnese para iniciar o acompanhamento do aluno.
       </p>
+      <p className="app-muted">
+        Para alunos novos, comece pela anamnese para registrar contexto, restrições e saúde antes das medidas.
+      </p>
       <div className="avaliacoes-empty-actions">
         <button className="app-button app-button-primary table-button table-button-primary" onClick={onNovaAvaliacao}>
           Nova avaliação
