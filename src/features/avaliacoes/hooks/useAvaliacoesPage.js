@@ -164,9 +164,12 @@ export function useAvaliacoesPage() {
     } catch (error) {
       console.error("Erro ao salvar avaliação no Supabase:", formatarErroSupabase(error) || error);
       setErro(`Erro ao salvar avaliação: ${error.message}`);
+      const erroSchema = error.code === "AVALIACAO_SCHEMA_INCOMPATIVEL";
       toast.erro(
-        "Não foi possível salvar a avaliação",
-        "Verifique aluno e data da avaliação. Se o problema continuar, tente novamente em alguns instantes."
+        erroSchema ? "Banco de dados desatualizado" : "Não foi possível salvar a avaliação",
+        erroSchema
+          ? "A migration de avaliações precisa ser aplicada antes de salvar estes campos."
+          : "Verifique aluno e data da avaliação. Se o problema continuar, tente novamente em alguns instantes."
       );
     }
   }
