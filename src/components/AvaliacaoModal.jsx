@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import AvaliacaoFotoField from "../features/avaliacoes/components/AvaliacaoFotoField";
 import { useToast } from "../hooks/useToast";
 
 const avaliacaoVazia = {
@@ -54,6 +55,11 @@ function AvaliacaoModal({ alunos, avaliacao, onClose, onSave }) {
     dobras: { ...avaliacaoVazia.dobras, ...avaliacao?.dobras },
     fotos: { ...avaliacaoVazia.fotos, ...avaliacao?.fotos },
   }));
+  const [fotosLocais, setFotosLocais] = useState({
+    frente: { file: null, previewUrl: "", removida: false },
+    lateral: { file: null, previewUrl: "", removida: false },
+    costas: { file: null, previewUrl: "", removida: false },
+  });
   const toast = useToast();
 
   const alunosPorId = useMemo(
@@ -73,6 +79,48 @@ function AvaliacaoModal({ alunos, avaliacao, onClose, onSave }) {
         [campo]: valor,
       },
     });
+  }
+
+  useEffect(() => () => {
+    Object.values(fotosLocais).forEach((foto) => {
+      if (foto.previewUrl) URL.revokeObjectURL(foto.previewUrl);
+    });
+  }, [fotosLocais]);
+
+  function atualizarFotoLocal(campo, file) {
+    setFotosLocais((atuais) => {
+      if (atuais[campo]?.previewUrl) URL.revokeObjectURL(atuais[campo].previewUrl);
+      return {
+        ...atuais,
+        [campo]: {
+          file,
+          previewUrl: URL.createObjectURL(file),
+          removida: false,
+        },
+      };
+    });
+  }
+
+  function removerFotoLocal(campo) {
+    setFotosLocais((atuais) => {
+      if (atuais[campo]?.previewUrl) URL.revokeObjectURL(atuais[campo].previewUrl);
+      return {
+        ...atuais,
+        [campo]: {
+          file: null,
+          previewUrl: "",
+          removida: true,
+        },
+      };
+    });
+    // TODO Etapa 2: persistir remocao/troca apos implementar upload no Storage.
+  }
+
+  function previewFoto(campo) {
+    const local = fotosLocais[campo];
+    if (local.previewUrl) return local.previewUrl;
+    if (local.removida) return "";
+    return form.fotos[campo] || "";
   }
 
   function salvar() {
@@ -161,9 +209,33 @@ function AvaliacaoModal({ alunos, avaliacao, onClose, onSave }) {
         </Secao>
 
         <Secao titulo="Fotos (opcional)">
-          <Input label="Foto frente" value={form.fotos.frente || ""} onChange={(valor) => atualizarGrupo("fotos", "frente", valor)} />
-          <Input label="Foto lateral" value={form.fotos.lateral || ""} onChange={(valor) => atualizarGrupo("fotos", "lateral", valor)} />
-          <Input label="Foto costas" value={form.fotos.costas || ""} onChange={(valor) => atualizarGrupo("fotos", "costas", valor)} />
+          <AvaliacaoFotoField
+            id="avaliacao-foto-frente"
+            label="Foto frente"
+            value={fotosLocais.frente.file}
+            previewUrl={previewFoto("frente")}
+            onFileChange={(file) => atualizarFotoLocal("frente", file)}
+            onRemove={() => removerFotoLocal("frente")}
+          />
+          <AvaliacaoFotoField
+            id="avaliacao-foto-lateral"
+            label="Foto lateral"
+            value={fotosLocais.lateral.file}
+            previewUrl={previewFoto("lateral")}
+            onFileChange={(file) => atualizarFotoLocal("lateral", file)}
+            onRemove={() => removerFotoLocal("lateral")}
+          />
+          <AvaliacaoFotoField
+            id="avaliacao-foto-costas"
+            label="Foto costas"
+            value={fotosLocais.costas.file}
+            previewUrl={previewFoto("costas")}
+            onFileChange={(file) => atualizarFotoLocal("costas", file)}
+            onRemove={() => removerFotoLocal("costas")}
+          />
+          <p style={avisoFotos}>
+            Pre-visualizacao local. O envio definitivo das imagens sera habilitado na proxima etapa.
+          </p>
         </Secao>
 
         <Secao titulo="Observações">
@@ -272,6 +344,14 @@ const campo = {
   background: "white",
   color: "#111827",
   outline: "none",
+};
+
+const avisoFotos = {
+  gridColumn: "1 / -1",
+  margin: "0",
+  color: "#64748b",
+  fontSize: "13px",
+  lineHeight: 1.45,
 };
 
 const rodape = {
