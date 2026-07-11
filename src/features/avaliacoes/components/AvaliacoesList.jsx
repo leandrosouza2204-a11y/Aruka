@@ -502,32 +502,6 @@ const fotoRelatorioLegenda = {
   marginTop: "8px",
 };
 
-const fotoRelatorioAmpliada = {
-  marginTop: "14px",
-  border: "1px solid #dbeafe",
-  borderRadius: "8px",
-  background: "white",
-  padding: "12px",
-};
-
-const fotoRelatorioAmpliadaTopo = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  gap: "12px",
-  flexWrap: "wrap",
-  marginBottom: "10px",
-};
-
-const fotoRelatorioImagemGrande = {
-  width: "100%",
-  maxHeight: "70vh",
-  objectFit: "contain",
-  borderRadius: "6px",
-  background: "#111827",
-  display: "block",
-};
-
 const relatorioContainer = {
   marginTop: "22px",
   border: "1px solid #dbeafe",
@@ -588,11 +562,8 @@ const styles = {
   erroBox,
   estadoVazio,
   filtros,
-  fotoRelatorioAmpliada,
-  fotoRelatorioAmpliadaTopo,
   fotoRelatorioCard,
   fotoRelatorioImagem,
-  fotoRelatorioImagemGrande,
   fotoRelatorioLegenda,
   fotosRelatorioGrid,
   fotosRelatorioSecao,

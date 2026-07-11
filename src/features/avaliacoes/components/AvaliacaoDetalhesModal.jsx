@@ -14,6 +14,7 @@ import {
   gerarRecomendacoes,
 } from "../hooks/useAvaliacoesPage";
 import AnamneseResumoCard from "./AnamneseResumoCard";
+import AvaliacaoFotoLightbox from "./AvaliacaoFotoLightbox";
 
 const dobrasRelatorio = [
   ["Peitoral", "peitoral"],
@@ -436,29 +437,14 @@ function RegistroFotografico({ avaliacao, aluno, styles }) {
         ))}
       </div>
 
-      {fotoAmpliada && !indisponiveis[fotoAmpliada.chave] && (
-        <div style={styles.fotoRelatorioAmpliada}>
-          <div style={styles.fotoRelatorioAmpliadaTopo}>
-            <strong>{fotoAmpliada.legenda}</strong>
-            <button
-              type="button"
-              onClick={() => setFotoAmpliada(null)}
-              style={styles.botaoSecundario}
-            >
-              Fechar imagem
-            </button>
-          </div>
-          <img
-            src={fotoAmpliada.src}
-            alt={fotoAmpliada.alt}
-            style={styles.fotoRelatorioImagemGrande}
-            onError={() => {
-              setIndisponiveis((atuais) => ({ ...atuais, [fotoAmpliada.chave]: true }));
-              setFotoAmpliada(null);
-            }}
-          />
-        </div>
-      )}
+      <AvaliacaoFotoLightbox
+        isOpen={Boolean(fotoAmpliada && !indisponiveis[fotoAmpliada.chave])}
+        imageUrl={fotoAmpliada?.src}
+        label={fotoAmpliada?.legenda}
+        alunoNome={nomeAluno}
+        alt={fotoAmpliada?.alt}
+        onClose={() => setFotoAmpliada(null)}
+      />
     </section>
   );
 }
