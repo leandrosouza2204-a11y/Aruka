@@ -6,8 +6,10 @@ function RelatorioGeralModal({ ranking, onClose, styles }) {
     <ModalBase onClose={onClose} styles={styles} largura="min(980px, 100%)">
       <div className="financeiro-modal-topo" style={styles.modalTopo}>
         <div>
-          <h2 style={styles.modalTitulo}>RelatÃ³rios financeiros</h2>
-          <p style={styles.secaoLegenda}>Rankings para identificar alunos antigos, recorrentes e com maior valor acumulado.</p>
+          <h2 style={styles.modalTitulo}>Relatórios financeiros</h2>
+          <p style={styles.secaoLegenda}>
+            Rankings para identificar alunos antigos, recorrentes e com maior valor acumulado.
+          </p>
         </div>
         <button onClick={onClose} style={styles.botaoNeutro}>Fechar</button>
       </div>

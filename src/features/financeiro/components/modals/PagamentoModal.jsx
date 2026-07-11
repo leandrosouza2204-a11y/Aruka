@@ -48,9 +48,9 @@ function PagamentoModal({ registro, form, atualizando, onChange, onClose, onSave
             style={styles.campo}
           >
             <option value="Pix">Pix</option>
-            <option value="Cartao">CartÃ£o</option>
+            <option value="Cartao">Cartão</option>
             <option value="Dinheiro">Dinheiro</option>
-            <option value="Transferencia">TransferÃªncia</option>
+            <option value="Transferencia">Transferência</option>
             <option value="Boleto">Boleto</option>
             <option value="Outro">Outro</option>
           </select>
@@ -90,7 +90,7 @@ function PagamentoModal({ registro, form, atualizando, onChange, onClose, onSave
         </label>
 
         <label style={{ ...styles.campoGrupo, gridColumn: "1 / -1" }}>
-          <span style={styles.labelCampo}>ObservaÃ§Ã£o</span>
+          <span style={styles.labelCampo}>Observação</span>
           <textarea
             rows="3"
             value={form.observacao ?? form.observacoes ?? ""}

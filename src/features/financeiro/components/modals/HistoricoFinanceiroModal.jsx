@@ -16,13 +16,13 @@ function HistoricoFinanceiroModal({ registro, onClose, onRelatorio, styles }) {
     <ModalBase onClose={onClose} styles={styles} largura="min(980px, 100%)">
       <div className="financeiro-modal-topo" style={styles.modalTopo}>
         <div>
-          <h2 style={styles.modalTitulo}>HistÃ³rico financeiro do aluno</h2>
+          <h2 style={styles.modalTitulo}>Histórico financeiro do aluno</h2>
           <p style={styles.secaoLegenda}>
             {registro.aluno.nome} - total pago {formatarMoeda(totalPago)}
           </p>
         </div>
         <div className="financeiro-modal-actions" style={styles.modalAcoes}>
-          <button onClick={onRelatorio} className="table-button table-button-primary">RelatÃ³rio</button>
+          <button onClick={onRelatorio} className="table-button table-button-primary">Relatório</button>
           <button onClick={onClose} style={styles.botaoNeutro}>Fechar</button>
         </div>
       </div>
@@ -50,7 +50,7 @@ function HistoricoFinanceiroModal({ registro, onClose, onRelatorio, styles }) {
               <th className="financeiro-history-short" style={styles.header}>Forma</th>
               <th className="financeiro-history-date" style={styles.header}>Vencimento do plano antes</th>
               <th className="financeiro-history-date" style={styles.header}>Vencimento do plano depois</th>
-              <th className="financeiro-history-observation" style={styles.header}>ObservaÃ§Ã£o</th>
+              <th className="financeiro-history-observation" style={styles.header}>Observação</th>
             </tr>
           </thead>
           <tbody>
@@ -90,7 +90,7 @@ function HistoricoFinanceiroModal({ registro, onClose, onRelatorio, styles }) {
             <Info label="Forma" valor={pagamento.formaPagamento || "-"} />
             <Info label="Vencimento do plano antes" valor={formatarData(pagamento.vencimentoAnterior)} />
             <Info label="Vencimento do plano depois" valor={formatarData(pagamento.vencimentoNovo)} />
-            <Info label="ObservaÃ§Ã£o" valor={pagamento.observacao || pagamento.observacoes || "-"} />
+            <Info label="Observação" valor={pagamento.observacao || pagamento.observacoes || "-"} />
           </article>
         ))}
       </div>
@@ -110,7 +110,7 @@ function Info({ label, valor }) {
 function formatarTipoMovimento(tipo) {
   const mapa = {
     pagamento_parcela: "Pagamento de parcela",
-    renovacao_plano: "RenovaÃ§Ã£o de plano",
+    renovacao_plano: "Renovação de plano",
     pagamento_avulso: "Pagamento avulso",
   };
 
