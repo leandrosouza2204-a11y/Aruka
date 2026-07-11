@@ -1,9 +1,15 @@
 import { formatarData, formatarMoeda } from "../../../../data/alunosUtils";
+import { obterLabelMotivoEncerramento } from "../../constants/motivosEncerramento";
+import { obterLabelTipoEventoAcompanhamento } from "../../constants/tiposEventosAcompanhamento";
+import { useHistoricoAcompanhamento } from "../../hooks/useHistoricoAcompanhamento";
 import ModalBase from "./ModalBase";
 import ResumoItem from "./ResumoItem";
 
 function RelatorioAlunoModal({ registro, onClose, styles }) {
   const resumo = registro.resumoAluno;
+  const alunoId = registro.aluno?.id || "";
+  const userId = registro.aluno?.userId || "";
+  const historicoAcompanhamento = useHistoricoAcompanhamento({ userId, alunoId });
 
   return (
     <ModalBase onClose={onClose} styles={styles} largura="min(720px, 100%)">
@@ -35,6 +41,15 @@ function RelatorioAlunoModal({ registro, onClose, styles }) {
         </p>
       </section>
 
+      <section style={styles.relatorioBox}>
+        <h3 style={styles.subtituloModal}>Histórico do acompanhamento</h3>
+        <HistoricoAcompanhamentoContent
+          carregando={historicoAcompanhamento.carregando}
+          erro={historicoAcompanhamento.erro}
+          eventos={historicoAcompanhamento.eventos}
+        />
+      </section>
+
       {registro.grupoAcompanhamento === "encerrados" && (
         <section style={styles.relatorioBox}>
           <h3 style={styles.subtituloModal}>Encerramento do acompanhamento</h3>
@@ -59,5 +74,187 @@ function RelatorioAlunoModal({ registro, onClose, styles }) {
     </ModalBase>
   );
 }
+
+function HistoricoAcompanhamentoContent({ carregando, erro, eventos }) {
+  if (carregando) {
+    return (
+      <p className="app-loading" style={historicoStyles.estado}>
+        Carregando histórico do acompanhamento...
+      </p>
+    );
+  }
+
+  if (erro) {
+    return (
+      <p className="app-error" style={historicoStyles.estado}>
+        {erro}
+      </p>
+    );
+  }
+
+  if (!eventos.length) {
+    return (
+      <p className="app-empty-state" style={historicoStyles.estado}>
+        Nenhum evento de acompanhamento registrado.
+      </p>
+    );
+  }
+
+  return (
+    <div style={historicoStyles.lista}>
+      {eventos.map((evento) => (
+        <EventoAcompanhamentoItem key={evento.id || evento.eventKey} evento={evento} />
+      ))}
+    </div>
+  );
+}
+
+function EventoAcompanhamentoItem({ evento }) {
+  const detalhes = montarDetalhesEvento(evento);
+
+  return (
+    <article style={historicoStyles.evento}>
+      <div style={historicoStyles.eventoTopo}>
+        <strong style={historicoStyles.eventoTitulo}>
+          {obterLabelTipoEventoAcompanhamento(evento.tipo)}
+        </strong>
+        <span className="app-muted" style={historicoStyles.eventoData}>
+          {formatarDataHora(evento.ocorridoEm)}
+        </span>
+      </div>
+
+      {detalhes.length > 0 && (
+        <dl style={historicoStyles.detalhes}>
+          {detalhes.map((detalhe) => (
+            <div key={detalhe.label} style={historicoStyles.detalheLinha}>
+              <dt style={historicoStyles.detalheLabel}>{detalhe.label}</dt>
+              <dd style={historicoStyles.detalheValor}>{detalhe.valor}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+    </article>
+  );
+}
+
+function montarDetalhesEvento(evento) {
+  const detalhes = [];
+
+  if (evento.motivo) {
+    detalhes.push({
+      label: evento.tipo === "acompanhamento_reativado" ? "Motivo anterior" : "Motivo",
+      valor: obterLabelMotivoEncerramento(evento.motivo),
+    });
+  }
+
+  if (evento.motivoDetalhe) {
+    detalhes.push({
+      label: evento.tipo === "acompanhamento_reativado" ? "Detalhe anterior" : "Detalhe",
+      valor: evento.motivoDetalhe,
+    });
+  }
+
+  if (evento.planoNome) {
+    detalhes.push({
+      label: "Plano",
+      valor: evento.planoNome,
+    });
+  }
+
+  const vencimento = formatarVencimentoEvento(evento);
+  if (vencimento) {
+    detalhes.push({
+      label: "Vencimento",
+      valor: vencimento,
+    });
+  }
+
+  return detalhes;
+}
+
+function formatarVencimentoEvento(evento) {
+  if (evento.vencimentoAnterior && evento.vencimentoNovo) {
+    return `${formatarData(evento.vencimentoAnterior)} -> ${formatarData(evento.vencimentoNovo)}`;
+  }
+
+  if (evento.vencimentoAnterior) {
+    return formatarData(evento.vencimentoAnterior);
+  }
+
+  if (evento.vencimentoNovo) {
+    return formatarData(evento.vencimentoNovo);
+  }
+
+  return "";
+}
+
+function formatarDataHora(data) {
+  if (!data) return "-";
+
+  const date = new Date(data);
+  if (Number.isNaN(date.getTime())) return formatarData(data);
+
+  return date.toLocaleString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+const historicoStyles = {
+  estado: {
+    margin: "12px 0 0",
+  },
+  lista: {
+    display: "grid",
+    gap: "10px",
+    marginTop: "14px",
+  },
+  evento: {
+    borderTop: "1px solid #e5e7eb",
+    display: "grid",
+    gap: "10px",
+    paddingTop: "12px",
+  },
+  eventoTopo: {
+    alignItems: "flex-start",
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "6px 12px",
+    justifyContent: "space-between",
+  },
+  eventoTitulo: {
+    color: "#111827",
+    fontSize: "14px",
+    lineHeight: 1.35,
+  },
+  eventoData: {
+    fontSize: "13px",
+    lineHeight: 1.35,
+  },
+  detalhes: {
+    display: "grid",
+    gap: "6px",
+    margin: 0,
+  },
+  detalheLinha: {
+    display: "grid",
+    gap: "2px",
+  },
+  detalheLabel: {
+    color: "#6b7280",
+    fontSize: "12px",
+    fontWeight: 700,
+  },
+  detalheValor: {
+    color: "#374151",
+    fontSize: "13px",
+    lineHeight: 1.4,
+    margin: 0,
+    overflowWrap: "anywhere",
+  },
+};
 
 export default RelatorioAlunoModal;
