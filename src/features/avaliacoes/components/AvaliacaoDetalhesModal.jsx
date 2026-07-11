@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import CardEvolucaoFisica from "../../../components/CardEvolucaoFisica";
 import TabelaComposicaoCorporal from "../../../components/TabelaComposicaoCorporal";
 import { calcularComposicaoCorporal } from "../../../data/calculosCorporais";
@@ -348,6 +348,7 @@ function RelatorioAvaliacao({ aluno, avaliacao, anterior, anamnese, styles }) {
           ]}
           styles={styles}
         />
+        <RegistroFotografico avaliacao={avaliacao} aluno={aluno} styles={styles} />
         <BlocoRelatorio
           titulo="Evolução comparativa"
           itens={[
@@ -382,6 +383,82 @@ function RelatorioAvaliacao({ aluno, avaliacao, anterior, anamnese, styles }) {
           styles={styles}
         />
       </div>
+    </section>
+  );
+}
+
+function RegistroFotografico({ avaliacao, aluno, styles }) {
+  const [fotoAmpliada, setFotoAmpliada] = useState(null);
+  const [indisponiveis, setIndisponiveis] = useState({});
+  const nomeAluno = aluno?.nome || avaliacao.aluno || "aluno";
+  const fotos = [
+    {
+      chave: "frente",
+      legenda: "Frente",
+      src: avaliacao.fotosPreview?.frente,
+      alt: `Foto frontal da avaliação de ${nomeAluno}`,
+    },
+    {
+      chave: "lateral",
+      legenda: "Lateral",
+      src: avaliacao.fotosPreview?.lateral,
+      alt: `Foto lateral da avaliação de ${nomeAluno}`,
+    },
+    {
+      chave: "costas",
+      legenda: "Costas",
+      src: avaliacao.fotosPreview?.costas,
+      alt: `Foto de costas da avaliação de ${nomeAluno}`,
+    },
+  ].filter((foto) => foto.src && !indisponiveis[foto.chave]);
+
+  if (!fotos.length) return null;
+
+  return (
+    <section style={styles.fotosRelatorioSecao}>
+      <h4 style={styles.painelTitulo}>Registro fotográfico</h4>
+      <div style={styles.fotosRelatorioGrid}>
+        {fotos.map((foto) => (
+          <button
+            key={foto.chave}
+            type="button"
+            onClick={() => setFotoAmpliada(foto)}
+            style={styles.fotoRelatorioCard}
+          >
+            <img
+              src={foto.src}
+              alt={foto.alt}
+              style={styles.fotoRelatorioImagem}
+              onError={() => setIndisponiveis((atuais) => ({ ...atuais, [foto.chave]: true }))}
+            />
+            <span style={styles.fotoRelatorioLegenda}>{foto.legenda}</span>
+          </button>
+        ))}
+      </div>
+
+      {fotoAmpliada && !indisponiveis[fotoAmpliada.chave] && (
+        <div style={styles.fotoRelatorioAmpliada}>
+          <div style={styles.fotoRelatorioAmpliadaTopo}>
+            <strong>{fotoAmpliada.legenda}</strong>
+            <button
+              type="button"
+              onClick={() => setFotoAmpliada(null)}
+              style={styles.botaoSecundario}
+            >
+              Fechar imagem
+            </button>
+          </div>
+          <img
+            src={fotoAmpliada.src}
+            alt={fotoAmpliada.alt}
+            style={styles.fotoRelatorioImagemGrande}
+            onError={() => {
+              setIndisponiveis((atuais) => ({ ...atuais, [fotoAmpliada.chave]: true }));
+              setFotoAmpliada(null);
+            }}
+          />
+        </div>
+      )}
     </section>
   );
 }

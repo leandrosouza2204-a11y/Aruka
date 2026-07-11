@@ -462,6 +462,72 @@ const relatorioGrid = {
   gap: "14px",
 };
 
+const fotosRelatorioSecao = {
+  gridColumn: "1 / -1",
+  border: "1px solid #eef2f7",
+  borderRadius: "8px",
+  padding: "16px",
+  background: "#f9fafb",
+};
+
+const fotosRelatorioGrid = {
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+  gap: "12px",
+};
+
+const fotoRelatorioCard = {
+  border: "1px solid #e5e7eb",
+  borderRadius: "8px",
+  padding: "8px",
+  background: "white",
+  cursor: "pointer",
+  textAlign: "left",
+};
+
+const fotoRelatorioImagem = {
+  width: "100%",
+  aspectRatio: "4 / 3",
+  objectFit: "cover",
+  borderRadius: "6px",
+  background: "#e5e7eb",
+  display: "block",
+};
+
+const fotoRelatorioLegenda = {
+  display: "block",
+  color: "#374151",
+  fontSize: "13px",
+  fontWeight: "800",
+  marginTop: "8px",
+};
+
+const fotoRelatorioAmpliada = {
+  marginTop: "14px",
+  border: "1px solid #dbeafe",
+  borderRadius: "8px",
+  background: "white",
+  padding: "12px",
+};
+
+const fotoRelatorioAmpliadaTopo = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  gap: "12px",
+  flexWrap: "wrap",
+  marginBottom: "10px",
+};
+
+const fotoRelatorioImagemGrande = {
+  width: "100%",
+  maxHeight: "70vh",
+  objectFit: "contain",
+  borderRadius: "6px",
+  background: "#111827",
+  display: "block",
+};
+
 const relatorioContainer = {
   marginTop: "22px",
   border: "1px solid #dbeafe",
@@ -522,6 +588,14 @@ const styles = {
   erroBox,
   estadoVazio,
   filtros,
+  fotoRelatorioAmpliada,
+  fotoRelatorioAmpliadaTopo,
+  fotoRelatorioCard,
+  fotoRelatorioImagem,
+  fotoRelatorioImagemGrande,
+  fotoRelatorioLegenda,
+  fotosRelatorioGrid,
+  fotosRelatorioSecao,
   grafico,
   graficoCard,
   graficosGrid,
