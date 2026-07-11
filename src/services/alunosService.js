@@ -61,7 +61,7 @@ export async function excluirAlunoSupabase(id) {
 }
 
 function rowParaAluno(row) {
-  return {
+  const aluno = {
     id: row.id,
     userId: row.user_id,
     nome: row.nome || "",
@@ -79,10 +79,18 @@ function rowParaAluno(row) {
     observacoes: row.observacoes || "",
     createdAt: row.created_at || "",
   };
+
+  if (Object.prototype.hasOwnProperty.call(row, "acompanhamento_status")) {
+    aluno.acompanhamentoStatus = row.acompanhamento_status || "ativo";
+    aluno.acompanhamentoEncerradoEm = row.acompanhamento_encerrado_em || "";
+    aluno.acompanhamentoMotivo = row.acompanhamento_motivo || "";
+  }
+
+  return aluno;
 }
 
 function alunoParaPayload(aluno, userId) {
-  return {
+  const payload = {
     user_id: userId,
     nome: aluno.nome,
     whatsapp: aluno.whatsapp,
@@ -98,4 +106,12 @@ function alunoParaPayload(aluno, userId) {
     data_pagamento: dataOuNull(aluno.dataPagamento),
     observacoes: aluno.observacoes || "",
   };
+
+  if (Object.prototype.hasOwnProperty.call(aluno, "acompanhamentoStatus")) {
+    payload.acompanhamento_status = aluno.acompanhamentoStatus || "ativo";
+    payload.acompanhamento_encerrado_em = dataOuNull(aluno.acompanhamentoEncerradoEm);
+    payload.acompanhamento_motivo = aluno.acompanhamentoMotivo || "";
+  }
+
+  return payload;
 }

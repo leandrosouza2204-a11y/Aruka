@@ -27,6 +27,7 @@ import {
   statusEstaVencido,
 } from "../../../data/alunosUtils";
 import { calcularSituacaoParcelamento } from "../utils/parcelamento";
+import { calcularSituacaoAcompanhamento } from "../utils/acompanhamento";
 
 export const pagamentoInicial = {
   dataPagamento: dataHojeISO(),
@@ -55,6 +56,7 @@ export function useFinanceiroPage() {
   const [busca, setBusca] = useState("");
   const [filtroStatus, setFiltroStatus] = useState("todos");
   const [filtroPagamento, setFiltroPagamento] = useState("todos");
+  const [visaoAcompanhamento, setVisaoAcompanhamento] = useState("em_acompanhamento");
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
   const [atualizandoId, setAtualizandoId] = useState("");
@@ -131,30 +133,34 @@ export function useFinanceiroPage() {
     return registrosFinanceiros
       .filter((registro) => {
         const combinaBusca = registro.aluno.nome.toLowerCase().includes(termo);
+        const combinaVisao = registro.grupoAcompanhamento === visaoAcompanhamento;
         const combinaStatus =
-          filtroStatus === "todos" || registro.statusFinanceiro === filtroStatus;
+          filtroStatus === "todos" || registro.statusAcompanhamento === filtroStatus;
         const combinaPagamento =
           filtroPagamento === "todos" ||
-          (filtroPagamento === "recebidos" && registro.recebidoNoCiclo) ||
-          (filtroPagamento === "pendentes" && !registro.recebidoNoCiclo);
+          (filtroPagamento === "recebidos" && registro.pagamentoRecebido) ||
+          (filtroPagamento === "pendentes" && !registro.pagamentoRecebido);
 
-        return combinaBusca && combinaStatus && combinaPagamento;
+        return combinaBusca && combinaVisao && combinaStatus && combinaPagamento;
       })
       .sort((a, b) =>
         String(a.aluno.vencimento).localeCompare(String(b.aluno.vencimento))
       );
-  }, [busca, filtroPagamento, filtroStatus, registrosFinanceiros]);
+  }, [busca, filtroPagamento, filtroStatus, registrosFinanceiros, visaoAcompanhamento]);
 
   const resumo = useMemo(() => {
-    const receitaPrevista = registrosFinanceiros.reduce(
+    const registrosOperacionais = registrosFinanceiros.filter(
+      (registro) => registro.grupoAcompanhamento === "em_acompanhamento"
+    );
+    const receitaPrevista = registrosOperacionais.reduce(
       (total, registro) => total + registro.valorContrato,
       0
     );
-    const receitaRecebida = registrosFinanceiros.reduce(
+    const receitaRecebida = registrosOperacionais.reduce(
       (total, registro) => total + registro.totalRecebido,
       0
     );
-    const receitaPendente = registrosFinanceiros.reduce(
+    const receitaPendente = registrosOperacionais.reduce(
       (total, registro) => total + registro.valorPendente,
       0
     );
@@ -163,11 +169,11 @@ export function useFinanceiroPage() {
       receitaPrevista,
       receitaRecebida,
       receitaPendente,
-      alunosAtivos: registrosFinanceiros.filter(
-        (registro) => registro.statusFinanceiro === "Ativo"
+      alunosAtivos: registrosOperacionais.filter(
+        (registro) => registro.statusAcompanhamento === "Ativo"
       ).length,
-      alunosVencidos: registrosFinanceiros.filter((registro) =>
-        statusEstaVencido(registro.statusFinanceiro)
+      alunosVencidos: registrosOperacionais.filter(
+        (registro) => registro.statusAcompanhamento === "Aguardando renovação"
       ).length,
     };
   }, [registrosFinanceiros]);
@@ -297,6 +303,9 @@ export function useFinanceiroPage() {
         pagamentoRecebido: Boolean(formRenovacao.registrarPagamentoAgora),
         dataPagamento: formRenovacao.registrarPagamentoAgora ? dataHojeISO() : "",
         status: "Ativo",
+        acompanhamentoStatus: "ativo",
+        acompanhamentoEncerradoEm: "",
+        acompanhamentoMotivo: "",
       });
 
       if (formRenovacao.registrarPagamentoAgora) {
@@ -400,6 +409,68 @@ export function useFinanceiroPage() {
     }
   }
 
+  async function marcarComoNaoRenovado(registro) {
+    const confirmado = await confirmar({
+      titulo: "Marcar como não renovado?",
+      descricao:
+        "Este aluno será removido da lista operacional e movido para Encerrados. Pagamentos, avaliações e treinos permanecerão disponíveis.",
+      textoConfirmar: "Marcar como não renovado",
+    });
+
+    if (!confirmado) return;
+
+    setAtualizandoId(registro.aluno.id);
+    setErro("");
+
+    try {
+      await atualizarAlunoSupabase(registro.aluno.id, {
+        ...registro.aluno,
+        acompanhamentoStatus: "nao_renovado",
+        acompanhamentoEncerradoEm: dataHojeISO(),
+        acompanhamentoMotivo: "Não renovou",
+      });
+      await carregarDados();
+      toast.sucesso("Aluno movido para Encerrados", "O histórico foi preservado.");
+    } catch (error) {
+      console.error(error);
+      setErro(`Erro ao marcar aluno como não renovado: ${error.message}`);
+      toast.erro("Não foi possível atualizar o acompanhamento", "Tente novamente em instantes.");
+    } finally {
+      setAtualizandoId("");
+    }
+  }
+
+  async function reativarAluno(registro) {
+    const confirmado = await confirmar({
+      titulo: "Reativar aluno?",
+      descricao:
+        "O aluno voltará para a lista operacional, mas nenhuma renovação será criada automaticamente. Renove o plano para iniciar um novo ciclo.",
+      textoConfirmar: "Reativar aluno",
+    });
+
+    if (!confirmado) return;
+
+    setAtualizandoId(registro.aluno.id);
+    setErro("");
+
+    try {
+      await atualizarAlunoSupabase(registro.aluno.id, {
+        ...registro.aluno,
+        acompanhamentoStatus: "ativo",
+        acompanhamentoEncerradoEm: "",
+        acompanhamentoMotivo: "",
+      });
+      await carregarDados();
+      toast.sucesso("Aluno reativado", "Agora renove o plano para iniciar um novo ciclo.");
+    } catch (error) {
+      console.error(error);
+      setErro(`Erro ao reativar aluno: ${error.message}`);
+      toast.erro("Não foi possível reativar o aluno", "Tente novamente em instantes.");
+    } finally {
+      setAtualizandoId("");
+    }
+  }
+
   function fecharModalPagamento() {
     setModalPagamento(null);
     setFormPagamento(pagamentoInicial);
@@ -414,6 +485,7 @@ export function useFinanceiroPage() {
     setBusca("");
     setFiltroStatus("todos");
     setFiltroPagamento("todos");
+    setVisaoAcompanhamento("em_acompanhamento");
   }
 
   function enviarAvisoWhatsApp(registro) {
@@ -445,6 +517,7 @@ export function useFinanceiroPage() {
     formPagamento,
     formRenovacao,
     limparFiltros,
+    marcarComoNaoRenovado,
     modalHistorico,
     modalPagamento,
     modalRenovacao,
@@ -453,6 +526,7 @@ export function useFinanceiroPage() {
     planosAtivos,
     rankingFinanceiro,
     registrarPagamento,
+    reativarAluno,
     registrosFiltrados,
     resumo,
     setBusca,
@@ -460,6 +534,8 @@ export function useFinanceiroPage() {
     setFiltroStatus,
     setFormPagamento,
     setFormRenovacao,
+    setVisaoAcompanhamento,
+    visaoAcompanhamento,
   };
 }
 
@@ -491,9 +567,23 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
     : { aviso7: "", aviso1: "" };
   const statusFinanceiro = parcelado
     ? situacaoParcelamento.quitado
-      ? "Pago"
+      ? "Quitado"
       : calcularStatus(situacaoParcelamento.proximoVencimento, "trimestralParcelado")
     : calcularStatus(aluno.vencimento);
+  const statusPagamento = calcularStatusPagamento({
+    parcelado,
+    quitado: situacaoParcelamento.quitado,
+    valorPendente: Math.max(
+      valorContrato -
+        pagamentosContratoAtual.reduce(
+          (total, pagamento) => total + Number(pagamento.valor || 0),
+          0
+        ),
+      0
+    ),
+    statusFinanceiro,
+  });
+  const acompanhamento = calcularSituacaoAcompanhamento(aluno);
   const pagamentoCiclo = parcelado
     ? pagamentosContratoAtualOrdenados.find(
         (pagamento) => String(pagamento.parcela) === String(parcelaAtual)
@@ -525,6 +615,10 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
     aviso1Parcela: avisosParcela.aviso1,
     statusParcela: parcelado ? statusFinanceiro : "",
     statusFinanceiro,
+    statusPagamento,
+    statusAcompanhamento: acompanhamento.status,
+    grupoAcompanhamento: acompanhamento.grupo,
+    acompanhamento,
     tipoMovimentoSugerido: inferirTipoMovimentoRegistro(aluno, plano, totalParcelas),
     pagamentoCiclo,
     ultimoPagamento: pagamentosOrdenados[0] || null,
@@ -538,6 +632,7 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
     quitado: situacaoParcelamento.quitado,
     pagamentoUltimaParcela: situacaoParcelamento.pagamentoUltimaParcela,
     recebidoNoCiclo,
+    pagamentoRecebido: statusPagamento === "Pago" || statusPagamento === "Quitado",
     totalRecebido,
     valorPendente: Math.max(valorContrato - totalRecebidoContratoAtual, 0),
     resumoAluno: montarResumoFinanceiroAluno(aluno, pagamentosAluno, plano),
@@ -618,6 +713,14 @@ function inferirTipoMovimentoRegistro(aluno, plano, totalParcelas) {
   if (totalParcelas > 1) return "pagamento_parcela";
 
   return "pagamento_avulso";
+}
+
+function calcularStatusPagamento({ parcelado, quitado, valorPendente, statusFinanceiro }) {
+  if (parcelado && quitado) return "Quitado";
+  if (valorPendente <= 0) return "Pago";
+  if (statusEstaVencido(statusFinanceiro)) return "Vencido";
+
+  return "Pendente";
 }
 
 function calcularParcelaAtual(inicio, totalParcelas) {

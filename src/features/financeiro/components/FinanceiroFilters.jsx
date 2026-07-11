@@ -2,11 +2,13 @@ function FinanceiroFilters({
   busca,
   filtroPagamento,
   filtroStatus,
+  onAcompanhamentoViewChange,
   onBuscaChange,
   onFiltroPagamentoChange,
   onFiltroStatusChange,
   onLimpar,
   styles,
+  visaoAcompanhamento,
 }) {
   return (
     <section className="app-card" style={styles.filtrosCard}>
@@ -20,6 +22,29 @@ function FinanceiroFilters({
           Renovar plano deve ser usado quando o aluno iniciar um novo ciclo de
           acompanhamento.
         </p>
+      </div>
+
+      <div style={styles.segmentedControl} aria-label="Visão de acompanhamento">
+        <button
+          type="button"
+          onClick={() => onAcompanhamentoViewChange("em_acompanhamento")}
+          style={{
+            ...styles.segmentedButton,
+            ...(visaoAcompanhamento === "em_acompanhamento" ? styles.segmentedButtonActive : {}),
+          }}
+        >
+          Em acompanhamento
+        </button>
+        <button
+          type="button"
+          onClick={() => onAcompanhamentoViewChange("encerrados")}
+          style={{
+            ...styles.segmentedButton,
+            ...(visaoAcompanhamento === "encerrados" ? styles.segmentedButtonActive : {}),
+          }}
+        >
+          Encerrados
+        </button>
       </div>
 
       <div className="app-filter-grid financeiro-filtros" style={styles.filtros}>
@@ -38,9 +63,9 @@ function FinanceiroFilters({
           <option value="todos">Todos os status</option>
           <option value="Ativo">Ativo</option>
           <option value="Vencendo">Vencendo</option>
-          <option value="Vencendo parcela">Vencendo parcela</option>
-          <option value="Vencido">Vencido</option>
-          <option value="Parcela vencida">Parcela vencida</option>
+          <option value="Aguardando renovação">Aguardando renovação</option>
+          <option value="Não renovado">Não renovado</option>
+          <option value="Encerrado">Encerrado</option>
         </select>
 
         <select

@@ -54,6 +54,27 @@ const styles = {
     gap: "10px",
     marginTop: "18px",
   },
+  segmentedControl: {
+    display: "inline-flex",
+    flexWrap: "wrap",
+    gap: "6px",
+    marginTop: "16px",
+  },
+  segmentedButton: {
+    background: "#f3f4f6",
+    border: "1px solid #d1d5db",
+    borderRadius: "999px",
+    color: "#374151",
+    cursor: "pointer",
+    fontWeight: "800",
+    minHeight: "36px",
+    padding: "8px 12px",
+  },
+  segmentedButtonActive: {
+    background: "#111827",
+    borderColor: "#111827",
+    color: "white",
+  },
   campoGrupo: {
     display: "flex",
     flexDirection: "column",

@@ -9,9 +9,11 @@ function FinanceiroTable({
   carregando,
   onDesfazer,
   onHistorico,
+  onMarcarNaoRenovado,
   onRelatorioAluno,
   onRenovarPlano,
   onReceber,
+  onReativar,
   onWhatsApp,
   registros,
   styles,
@@ -40,7 +42,7 @@ function FinanceiroTable({
             <th className="cell-nowrap" style={styles.header}>Valor parcela</th>
             <th className="cell-nowrap" style={styles.header}>Recebido</th>
             <th className="cell-nowrap" style={styles.header}>Vencimento</th>
-            <th style={styles.header}>Status</th>
+            <th style={styles.header}>Acompanhamento</th>
             <th style={styles.header}>Pagamento</th>
             <th className="financeiro-actions-col" style={styles.header}>Ações</th>
           </tr>
@@ -74,7 +76,7 @@ function FinanceiroTable({
                   <VencimentoInfo registro={registro} />
                 </td>
                 <td className="financeiro-status-cell" style={styles.celula}>
-                  <StatusFinanceiro status={registro.statusFinanceiro} />
+                  <StatusFinanceiro status={registro.statusAcompanhamento} />
                 </td>
                 <td className="financeiro-pagamento-cell" style={styles.celula}>
                   <PagamentoInfo registro={registro} />
@@ -92,6 +94,15 @@ function FinanceiroTable({
                       <TableActionItem onClick={() => onRenovarPlano(registro)} variant="primary">
                         Renovar plano
                       </TableActionItem>
+                      {registro.grupoAcompanhamento === "encerrados" ? (
+                        <TableActionItem onClick={() => onReativar(registro)} variant="primary">
+                          Reativar aluno
+                        </TableActionItem>
+                      ) : (
+                        <TableActionItem onClick={() => onMarcarNaoRenovado(registro)} variant="danger">
+                          Marcar como não renovado
+                        </TableActionItem>
+                      )}
                       {registro.pagamentos.length > 0 && (
                         <>
                           <TableActionItem onClick={() => onHistorico(registro)} variant="primary">
@@ -169,6 +180,15 @@ function VencimentoInfo({ registro }) {
 }
 
 function PagamentoInfo({ registro }) {
+  if (registro.statusPagamento === "Pago" && !registro.parcelado) {
+    return (
+      <span className="financeiro-pagamento-info">
+        <span>Pago</span>
+        <strong>{formatarData(registro.pagamentoCiclo?.dataPagamento)}</strong>
+      </span>
+    );
+  }
+
   if (registro.parcelado) {
     return <PagamentoParceladoInfo registro={registro} />;
   }

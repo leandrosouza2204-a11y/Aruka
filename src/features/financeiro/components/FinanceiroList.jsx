@@ -24,11 +24,13 @@ function FinanceiroList() {
           busca={page.busca}
           filtroPagamento={page.filtroPagamento}
           filtroStatus={page.filtroStatus}
+          onAcompanhamentoViewChange={page.setVisaoAcompanhamento}
           onBuscaChange={page.setBusca}
           onFiltroPagamentoChange={page.setFiltroPagamento}
           onFiltroStatusChange={page.setFiltroStatus}
           onLimpar={page.limparFiltros}
           styles={styles}
+          visaoAcompanhamento={page.visaoAcompanhamento}
         />
 
         {page.erro && <div style={styles.erroBox}>{page.erro}</div>}
@@ -38,7 +40,9 @@ function FinanceiroList() {
           carregando={page.carregando}
           onDesfazer={page.desfazerPagamento}
           onHistorico={page.abrirHistorico}
+          onMarcarNaoRenovado={page.marcarComoNaoRenovado}
           onReceber={page.abrirRegistroPagamento}
+          onReativar={page.reativarAluno}
           onRelatorioAluno={page.abrirRelatorioAluno}
           onRenovarPlano={page.abrirRenovacaoPlano}
           onWhatsApp={page.enviarAvisoWhatsApp}
@@ -50,7 +54,9 @@ function FinanceiroList() {
           carregando={page.carregando}
           onDesfazer={page.desfazerPagamento}
           onHistorico={page.abrirHistorico}
+          onMarcarNaoRenovado={page.marcarComoNaoRenovado}
           onReceber={page.abrirRegistroPagamento}
+          onReativar={page.reativarAluno}
           onRelatorioAluno={page.abrirRelatorioAluno}
           onRenovarPlano={page.abrirRenovacaoPlano}
           onWhatsApp={page.enviarAvisoWhatsApp}

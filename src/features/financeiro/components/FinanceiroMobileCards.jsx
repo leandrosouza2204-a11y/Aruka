@@ -7,9 +7,11 @@ function FinanceiroMobileCards({
   carregando,
   onDesfazer,
   onHistorico,
+  onMarcarNaoRenovado,
   onRelatorioAluno,
   onRenovarPlano,
   onReceber,
+  onReativar,
   onWhatsApp,
   registros,
 }) {
@@ -27,8 +29,8 @@ function FinanceiroMobileCards({
                 <span className="card-label">Nome do aluno</span>
                 <strong className="card-value card-title">{registro.aluno.nome}</strong>
               </div>
-              <span className={classeStatusAluno(registro.statusFinanceiro)}>
-                {registro.statusFinanceiro}
+              <span className={classeStatusAluno(registro.statusAcompanhamento)}>
+                {registro.statusAcompanhamento}
               </span>
             </div>
 
@@ -80,6 +82,10 @@ function FinanceiroMobileCards({
               <span className="card-label">Status</span>
               <strong className="card-value">{formatarStatusPagamento(registro)}</strong>
             </div>
+            <div className="card-row">
+              <span className="card-label">Acompanhamento</span>
+              <strong className="card-value">{registro.statusAcompanhamento}</strong>
+            </div>
             {registro.ultimoPagamento && (
               <div className="card-row">
                 <span className="card-label">Último pagamento</span>
@@ -108,6 +114,15 @@ function FinanceiroMobileCards({
                 <TableActionItem onClick={() => onRenovarPlano(registro)} variant="primary">
                   Renovar plano
                 </TableActionItem>
+                {registro.grupoAcompanhamento === "encerrados" ? (
+                  <TableActionItem onClick={() => onReativar(registro)} variant="primary">
+                    Reativar aluno
+                  </TableActionItem>
+                ) : (
+                  <TableActionItem onClick={() => onMarcarNaoRenovado(registro)} variant="danger">
+                    Marcar como não renovado
+                  </TableActionItem>
+                )}
                 {registro.pagamentos.length > 0 && (
                   <>
                     <TableActionItem onClick={() => onHistorico(registro)} variant="primary">
