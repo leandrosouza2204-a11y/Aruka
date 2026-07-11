@@ -13,6 +13,10 @@ import {
   excluirPlanoSupabase,
 } from "../services/planosService";
 import { formatarMoeda } from "../data/alunosUtils";
+import {
+  erroEhPlanoDuplicado,
+  MENSAGEM_PLANO_DUPLICADO,
+} from "../features/planos/utils/normalizarNomePlano";
 
 const PlanoModal = lazy(() => import("../components/PlanoModal"));
 
@@ -94,7 +98,14 @@ function Planos() {
       fecharModal();
     } catch (error) {
       console.error(error);
-      setErro(`Erro ao salvar plano: ${error.message}`);
+      const planoDuplicado = erroEhPlanoDuplicado(error);
+      const mensagem = planoDuplicado ? MENSAGEM_PLANO_DUPLICADO : error.message;
+
+      setErro(`Erro ao salvar plano: ${mensagem}`);
+      if (planoDuplicado) {
+        toast.erro("Nome de plano duplicado", "Já existe um plano com esse nome.");
+        return;
+      }
       toast.erro("Não foi possível salvar o plano", "Tente novamente em alguns instantes.");
     } finally {
       setSalvando(false);
@@ -301,6 +312,7 @@ function Planos() {
           <Suspense fallback={null}>
             <PlanoModal
               plano={planoEditando}
+              planosExistentes={planos}
               salvando={salvando}
               onClose={fecharModal}
               onSave={salvarPlano}

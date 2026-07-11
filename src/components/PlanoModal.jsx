@@ -1,5 +1,10 @@
 import { useState } from "react";
 import { useToast } from "../hooks/useToast";
+import {
+  limparNomePlano,
+  MENSAGEM_PLANO_DUPLICADO,
+  planoTemNomeDuplicado,
+} from "../features/planos/utils/normalizarNomePlano";
 
 const planoVazio = {
   nome: "",
@@ -14,12 +19,17 @@ const planoVazio = {
   valorParcelaManual: false,
 };
 
-function PlanoModal({ plano, onClose, onSave, salvando }) {
+function PlanoModal({ plano, planosExistentes = [], onClose, onSave, salvando }) {
   const [form, setForm] = useState(() => normalizarForm({ ...planoVazio, ...plano }));
+  const [erros, setErros] = useState({});
   const toast = useToast();
 
   function atualizar(campo, valor) {
     const proximoForm = { ...form, [campo]: valor };
+
+    if (campo === "nome" && erros.nome) {
+      setErros({ ...erros, nome: "" });
+    }
 
     if (
       form.permiteParcelamento &&
@@ -55,6 +65,19 @@ function PlanoModal({ plano, onClose, onSave, salvando }) {
   }
 
   function salvar() {
+    const nomeLimpo = limparNomePlano(form.nome);
+
+    if (!nomeLimpo) {
+      setErros({ ...erros, nome: "Informe o nome do plano." });
+      toast.aviso("Nome obrigatorio", "Informe o nome do plano.");
+      return;
+    }
+
+    if (planoTemNomeDuplicado(planosExistentes, nomeLimpo, plano?.id)) {
+      setErros({ ...erros, nome: MENSAGEM_PLANO_DUPLICADO });
+      toast.aviso("Nome de plano duplicado", "Já existe um plano com esse nome.");
+      return;
+    }
     if (!form.nome.trim()) {
       toast.aviso("Nome obrigatório", "Informe o nome do plano.");
       return;
@@ -72,7 +95,7 @@ function PlanoModal({ plano, onClose, onSave, salvando }) {
 
     onSave({
       ...form,
-      nome: form.nome.trim(),
+      nome: nomeLimpo,
       descricao: form.descricao.trim(),
       duracaoMeses: Number(form.duracaoMeses || 1),
       valor: Number(form.valor || 0),
@@ -109,9 +132,11 @@ function PlanoModal({ plano, onClose, onSave, salvando }) {
             <input
               value={form.nome}
               onChange={(e) => atualizar("nome", e.target.value)}
+              onBlur={() => atualizar("nome", limparNomePlano(form.nome))}
               placeholder="Ex: Mensal"
-              style={campo}
+              style={erros.nome ? { ...campo, ...campoErro } : campo}
             />
+            {erros.nome && <span style={mensagemErro}>{erros.nome}</span>}
           </Campo>
 
           <Campo label="Duração em meses">
@@ -303,6 +328,17 @@ const campo = {
   background: "white",
   color: "#111827",
   outline: "none",
+};
+
+const campoErro = {
+  borderColor: "#dc2626",
+  boxShadow: "0 0 0 1px rgba(220, 38, 38, 0.18)",
+};
+
+const mensagemErro = {
+  color: "#b91c1c",
+  fontSize: "12px",
+  fontWeight: "700",
 };
 
 const switchCard = {

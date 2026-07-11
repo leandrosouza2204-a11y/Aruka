@@ -1,5 +1,10 @@
 import { buscarUsuarioLogado } from "./authSessionService";
 import { supabase } from "./supabase";
+import {
+  criarErroPlanoDuplicado,
+  limparNomePlano,
+  planoTemNomeDuplicado,
+} from "../features/planos/utils/normalizarNomePlano";
 
 export async function buscarPlanosSupabase() {
   const user = await buscarUsuarioLogado();
@@ -17,6 +22,8 @@ export async function buscarPlanosSupabase() {
 
 export async function adicionarPlanoSupabase(plano) {
   const user = await buscarUsuarioLogado();
+  await validarNomePlanoUnico(user.id, plano.nome);
+
   const payload = planoParaPayload(plano, user.id);
 
   let { data, error } = await supabase
@@ -29,13 +36,15 @@ export async function adicionarPlanoSupabase(plano) {
     throw erroColunasParcelamento();
   }
 
-  if (error) throw error;
+  if (error) throw traduzirErroPlano(error);
 
   return rowParaPlano(data);
 }
 
 export async function atualizarPlanoSupabase(id, plano) {
   const user = await buscarUsuarioLogado();
+  await validarNomePlanoUnico(user.id, plano.nome, id);
+
   const payload = planoParaPayload(plano, user.id);
 
   let { data, error } = await supabase
@@ -50,7 +59,7 @@ export async function atualizarPlanoSupabase(id, plano) {
     throw erroColunasParcelamento();
   }
 
-  if (error) throw error;
+  if (error) throw traduzirErroPlano(error);
 
   return rowParaPlano(data);
 }
@@ -119,7 +128,7 @@ function planoParaPayload(plano, userId) {
 
   return {
     user_id: userId,
-    nome: plano.nome || "",
+    nome: limparNomePlano(plano.nome),
     descricao: plano.descricao || "",
     duracao_meses: Number(plano.duracaoMeses || 1),
     valor,
@@ -131,6 +140,27 @@ function planoParaPayload(plano, userId) {
       : 1,
     ativo: Boolean(plano.ativo),
   };
+}
+
+async function validarNomePlanoUnico(userId, nome, idIgnorado = "") {
+  const { data, error } = await supabase
+    .from("planos")
+    .select("id,nome")
+    .eq("user_id", userId);
+
+  if (error) throw error;
+
+  if (planoTemNomeDuplicado(data || [], nome, idIgnorado)) {
+    throw criarErroPlanoDuplicado();
+  }
+}
+
+function traduzirErroPlano(error) {
+  if (error?.code === "23505") {
+    return criarErroPlanoDuplicado();
+  }
+
+  return error;
 }
 
 function erroSchemaCache(error) {
