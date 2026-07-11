@@ -1,4 +1,5 @@
 import { formatarMoeda } from "../../../../data/alunosUtils";
+import IndicadoresAcompanhamentoSection from "../IndicadoresAcompanhamentoSection";
 import ModalBase from "./ModalBase";
 
 function RelatorioGeralModal({ ranking, onClose, styles }) {
@@ -13,6 +14,8 @@ function RelatorioGeralModal({ ranking, onClose, styles }) {
         </div>
         <button onClick={onClose} style={styles.botaoNeutro}>Fechar</button>
       </div>
+
+      <IndicadoresAcompanhamentoSection styles={styles} />
 
       <div style={styles.rankingGrid}>
         <RankingLista titulo="Maior valor acumulado" itens={ranking.porTotalPago} metrica={(item) => formatarMoeda(item.totalPago)} styles={styles} />
