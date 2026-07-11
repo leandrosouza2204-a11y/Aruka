@@ -77,7 +77,7 @@ function FinanceiroTable({
                   <VencimentoInfo registro={registro} />
                 </td>
                 <td className="financeiro-status-cell" style={styles.celula}>
-                  <StatusFinanceiro status={registro.statusAcompanhamento} />
+                  <AcompanhamentoInfo registro={registro} />
                 </td>
                 <td className="financeiro-pagamento-cell" style={styles.celula}>
                   <PagamentoInfo registro={registro} />
@@ -149,6 +149,19 @@ function StatusFinanceiro({ status }) {
       {partes.map((parte) => (
         <span key={parte}>{parte}</span>
       ))}
+    </span>
+  );
+}
+
+function AcompanhamentoInfo({ registro }) {
+  return (
+    <span className="financeiro-acompanhamento-info">
+      <StatusFinanceiro status={registro.statusAcompanhamento} />
+      {registro.grupoAcompanhamento === "encerrados" && (
+        <span className="financeiro-motivo-encerramento">
+          Motivo: {registro.motivoEncerramento.label}
+        </span>
+      )}
     </span>
   );
 }

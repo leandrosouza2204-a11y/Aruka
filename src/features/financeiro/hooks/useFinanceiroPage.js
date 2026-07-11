@@ -28,6 +28,7 @@ import {
 } from "../../../data/alunosUtils";
 import { calcularSituacaoParcelamento } from "../utils/parcelamento";
 import { calcularSituacaoAcompanhamento } from "../utils/acompanhamento";
+import { obterMotivoEncerramentoParaRegistro } from "../constants/motivosEncerramento";
 
 export const pagamentoInicial = {
   dataPagamento: dataHojeISO(),
@@ -49,6 +50,11 @@ export const renovacaoInicial = {
   observacao: "",
 };
 
+export const encerramentoInicial = {
+  motivo: "",
+  detalhe: "",
+};
+
 export function useFinanceiroPage() {
   const [alunos, setAlunos] = useState([]);
   const [pagamentos, setPagamentos] = useState([]);
@@ -63,10 +69,12 @@ export function useFinanceiroPage() {
   const [modalPagamento, setModalPagamento] = useState(null);
   const [modalHistorico, setModalHistorico] = useState(null);
   const [modalRenovacao, setModalRenovacao] = useState(null);
+  const [modalEncerramento, setModalEncerramento] = useState(null);
   const [modalRelatorioAluno, setModalRelatorioAluno] = useState(null);
   const [modalRelatorioGeral, setModalRelatorioGeral] = useState(false);
   const [formPagamento, setFormPagamento] = useState(pagamentoInicial);
   const [formRenovacao, setFormRenovacao] = useState(renovacaoInicial);
+  const [formEncerramento, setFormEncerramento] = useState(encerramentoInicial);
   const toast = useToast();
   const { confirmar } = useConfirm();
 
@@ -318,6 +326,9 @@ export function useFinanceiroPage() {
         acompanhamentoStatus: "ativo",
         acompanhamentoEncerradoEm: "",
         acompanhamentoMotivo: "",
+        ...(Object.prototype.hasOwnProperty.call(aluno, "acompanhamentoMotivoDetalhe")
+          ? { acompanhamentoMotivoDetalhe: "" }
+          : {}),
       });
 
       if (formRenovacao.registrarPagamentoAgora) {
@@ -421,15 +432,28 @@ export function useFinanceiroPage() {
     }
   }
 
-  async function marcarComoNaoRenovado(registro) {
-    const confirmado = await confirmar({
-      titulo: "Marcar como não renovado?",
-      descricao:
-        "Este aluno será removido da lista operacional e movido para Encerrados. Pagamentos, avaliações e treinos permanecerão disponíveis.",
-      textoConfirmar: "Marcar como não renovado",
-    });
+  function marcarComoNaoRenovado(registro) {
+    setModalEncerramento(registro);
+    setFormEncerramento(encerramentoInicial);
+  }
 
-    if (!confirmado) return;
+  async function confirmarEncerramentoAcompanhamento() {
+    if (!modalEncerramento) return;
+
+    const motivo = formEncerramento.motivo.trim();
+    const detalhe = formEncerramento.detalhe.trim();
+
+    if (!motivo || (motivo === "outro" && !detalhe)) {
+      toast.aviso(
+        "Motivo obrigatório",
+        motivo === "outro"
+          ? "Descreva o outro motivo antes de confirmar."
+          : "Selecione o motivo do encerramento."
+      );
+      return;
+    }
+
+    const registro = modalEncerramento;
 
     setAtualizandoId(registro.aluno.id);
     setErro("");
@@ -439,14 +463,24 @@ export function useFinanceiroPage() {
         ...registro.aluno,
         acompanhamentoStatus: "nao_renovado",
         acompanhamentoEncerradoEm: dataHojeISO(),
-        acompanhamentoMotivo: "Não renovou",
+        acompanhamentoMotivo: motivo,
+        ...(detalhe || Object.prototype.hasOwnProperty.call(registro.aluno, "acompanhamentoMotivoDetalhe")
+          ? { acompanhamentoMotivoDetalhe: detalhe }
+          : {}),
       });
       await carregarDados();
-      toast.sucesso("Aluno movido para Encerrados", "O histórico foi preservado.");
+      fecharEncerramentoAcompanhamento();
+      toast.sucesso(
+        "Aluno movido para Encerrados",
+        "Aluno movido para Encerrados. Todo o histórico foi preservado."
+      );
     } catch (error) {
       console.error(error);
       setErro(`Erro ao marcar aluno como não renovado: ${error.message}`);
-      toast.erro("Não foi possível atualizar o acompanhamento", "Tente novamente em instantes.");
+      toast.erro(
+        "Não foi possível encerrar o acompanhamento",
+        "Não foi possível encerrar o acompanhamento. Tente novamente."
+      );
     } finally {
       setAtualizandoId("");
     }
@@ -471,6 +505,9 @@ export function useFinanceiroPage() {
         acompanhamentoStatus: "ativo",
         acompanhamentoEncerradoEm: "",
         acompanhamentoMotivo: "",
+        ...(Object.prototype.hasOwnProperty.call(registro.aluno, "acompanhamentoMotivoDetalhe")
+          ? { acompanhamentoMotivoDetalhe: "" }
+          : {}),
       });
       await carregarDados();
       toast.sucesso(
@@ -496,6 +533,11 @@ export function useFinanceiroPage() {
     setFormRenovacao(renovacaoInicial);
   }
 
+  function fecharEncerramentoAcompanhamento() {
+    setModalEncerramento(null);
+    setFormEncerramento(encerramentoInicial);
+  }
+
   function limparFiltros() {
     setBusca("");
     setFiltroStatus("todos");
@@ -518,12 +560,14 @@ export function useFinanceiroPage() {
     busca,
     carregando,
     confirmarRenovacaoPlano,
+    confirmarEncerramentoAcompanhamento,
     contadoresAcompanhamento,
     dadosRenovacaoCalculados,
     desfazerPagamento,
     enviarAvisoWhatsApp,
     erro,
     fecharHistorico: () => setModalHistorico(null),
+    fecharEncerramentoAcompanhamento,
     fecharModalPagamento,
     fecharRenovacaoPlano,
     fecharRelatorioAluno: () => setModalRelatorioAluno(null),
@@ -531,10 +575,12 @@ export function useFinanceiroPage() {
     filtroPagamento,
     filtroStatus,
     formPagamento,
+    formEncerramento,
     formRenovacao,
     limparFiltros,
     marcarComoNaoRenovado,
     modalHistorico,
+    modalEncerramento,
     modalPagamento,
     modalRenovacao,
     modalRelatorioAluno,
@@ -549,6 +595,7 @@ export function useFinanceiroPage() {
     setFiltroPagamento,
     setFiltroStatus,
     setFormPagamento,
+    setFormEncerramento,
     setFormRenovacao,
     setVisaoAcompanhamento,
     visaoAcompanhamento,
@@ -601,6 +648,7 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
     statusFinanceiro,
   });
   const acompanhamento = calcularSituacaoAcompanhamento(aluno);
+  const motivoEncerramento = obterMotivoEncerramentoParaRegistro(aluno, acompanhamento);
   const pagamentoCiclo = parcelado
     ? pagamentosContratoAtualOrdenados.find(
         (pagamento) => String(pagamento.parcela) === String(parcelaAtual)
@@ -632,6 +680,7 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
     statusAcompanhamento: acompanhamento.status,
     grupoAcompanhamento: acompanhamento.grupo,
     acompanhamento,
+    motivoEncerramento,
     tipoMovimentoSugerido: inferirTipoMovimentoRegistro(aluno, plano, totalParcelas),
     pagamentoCiclo,
     ultimoPagamento: pagamentosOrdenados[0] || null,

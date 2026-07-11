@@ -90,6 +90,12 @@ function FinanceiroMobileCards({
               <span className="card-label">Acompanhamento</span>
               <strong className="card-value">{registro.statusAcompanhamento}</strong>
             </div>
+            {registro.grupoAcompanhamento === "encerrados" && (
+              <div className="card-row">
+                <span className="card-label">Motivo</span>
+                <strong className="card-value">{registro.motivoEncerramento.label}</strong>
+              </div>
+            )}
             {registro.ultimoPagamento && (
               <div className="card-row">
                 <span className="card-label">Último pagamento</span>

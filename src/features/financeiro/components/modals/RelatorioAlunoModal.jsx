@@ -34,6 +34,28 @@ function RelatorioAlunoModal({ registro, onClose, styles }) {
             : "Use o histórico para avaliar campanhas de reativação, renovação ou acompanhamento individual."}
         </p>
       </section>
+
+      {registro.grupoAcompanhamento === "encerrados" && (
+        <section style={styles.relatorioBox}>
+          <h3 style={styles.subtituloModal}>Encerramento do acompanhamento</h3>
+          <div style={styles.resumoGrid}>
+            <ResumoItem label="Status" valor={registro.statusAcompanhamento} styles={styles} />
+            <ResumoItem label="Motivo" valor={registro.motivoEncerramento.label} styles={styles} />
+            <ResumoItem
+              label="Data de encerramento"
+              valor={formatarData(registro.acompanhamento.encerradoEm)}
+              styles={styles}
+            />
+            {registro.motivoEncerramento.detalhe && (
+              <ResumoItem
+                label="Observação"
+                valor={registro.motivoEncerramento.detalhe}
+                styles={styles}
+              />
+            )}
+          </div>
+        </section>
+      )}
     </ModalBase>
   );
 }

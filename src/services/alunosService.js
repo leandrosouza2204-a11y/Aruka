@@ -84,6 +84,9 @@ function rowParaAluno(row) {
     aluno.acompanhamentoStatus = row.acompanhamento_status || "ativo";
     aluno.acompanhamentoEncerradoEm = row.acompanhamento_encerrado_em || "";
     aluno.acompanhamentoMotivo = row.acompanhamento_motivo || "";
+    if (Object.prototype.hasOwnProperty.call(row, "acompanhamento_motivo_detalhe")) {
+      aluno.acompanhamentoMotivoDetalhe = row.acompanhamento_motivo_detalhe || "";
+    }
   }
 
   return aluno;
@@ -111,6 +114,10 @@ function alunoParaPayload(aluno, userId) {
     payload.acompanhamento_status = aluno.acompanhamentoStatus || "ativo";
     payload.acompanhamento_encerrado_em = dataOuNull(aluno.acompanhamentoEncerradoEm);
     payload.acompanhamento_motivo = aluno.acompanhamentoMotivo || "";
+
+    if (Object.prototype.hasOwnProperty.call(aluno, "acompanhamentoMotivoDetalhe")) {
+      payload.acompanhamento_motivo_detalhe = aluno.acompanhamentoMotivoDetalhe || "";
+    }
   }
 
   return payload;

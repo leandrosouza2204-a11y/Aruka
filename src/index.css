@@ -2398,6 +2398,20 @@ body[data-theme="dark"] .financeiro-history-table {
   display: inline-block;
 }
 
+.financeiro-acompanhamento-info {
+  align-items: flex-start;
+  display: inline-grid;
+  gap: 5px;
+  max-width: 100%;
+}
+
+.financeiro-motivo-encerramento {
+  color: #6b7280;
+  font-size: 11.5px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
 .financeiro-pagamento-info {
   display: grid;
   gap: 2px;

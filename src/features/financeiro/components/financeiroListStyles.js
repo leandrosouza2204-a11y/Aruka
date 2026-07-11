@@ -95,6 +95,10 @@ const styles = {
     color: "#111827",
     outline: "none",
   },
+  campoAjuda: {
+    fontSize: "12px",
+    lineHeight: 1.35,
+  },
   tabela: {
     width: "100%",
     borderCollapse: "collapse",
