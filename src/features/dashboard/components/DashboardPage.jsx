@@ -33,16 +33,16 @@ function DashboardPage() {
           />
         </div>
 
+        <DashboardAlertas
+          alertas={dashboard.alertasConsultoria}
+          carregando={dashboard.carregando}
+          styles={styles}
+        />
+
         <DashboardAtalhos
           carregando={dashboard.carregando}
           maiorReceitaMensal={dashboard.maiorReceitaMensal}
           receitaMensal={dashboard.receitaMensal}
-          styles={styles}
-        />
-
-        <DashboardAlertas
-          alertas={dashboard.alertasConsultoria}
-          carregando={dashboard.carregando}
           styles={styles}
         />
       </div>
@@ -255,7 +255,7 @@ const estadoVazio = {
 
 const alertasGrid = {
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+  gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
   gap: "12px",
   marginTop: "18px",
 };
@@ -263,8 +263,17 @@ const alertasGrid = {
 const alertaItem = {
   alignItems: "flex-start",
   display: "grid",
+  gridTemplateColumns: "auto 1fr",
   gap: "12px",
+  minHeight: "100%",
   padding: "14px",
+};
+
+const alertaConteudo = {
+  display: "flex",
+  flexDirection: "column",
+  gap: "10px",
+  minHeight: "100%",
 };
 
 const alertaTitulo = {
@@ -278,6 +287,19 @@ const alertaTexto = {
   fontSize: "13px",
   lineHeight: 1.45,
   marginTop: "5px",
+};
+
+const alertaAcao = {
+  alignItems: "center",
+  alignSelf: "flex-start",
+  display: "inline-flex",
+  fontSize: "12px",
+  justifyContent: "center",
+  marginTop: "auto",
+  minHeight: "34px",
+  padding: "7px 10px",
+  textDecoration: "none",
+  width: "fit-content",
 };
 
 const estadoVazioPremium = {
@@ -407,6 +429,8 @@ const botaoDesabilitado = {
 };
 
 const styles = {
+  alertaAcao,
+  alertaConteudo,
   alertaItem,
   alertaTexto,
   alertaTitulo,

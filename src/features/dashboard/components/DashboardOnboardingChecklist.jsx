@@ -33,14 +33,12 @@ function DashboardOnboardingChecklist({ status }) {
   if (totalConcluido === itens.length) {
     return (
       <section className="app-card app-section" style={styles.cardCompleto}>
-        <div className="app-card-header">
-          <div>
-            <h2 style={styles.titulo}>Primeiros passos concluídos</h2>
-            <p className="app-muted" style={styles.subtitulo}>
-              Sua consultoria já tem a configuração inicial para acompanhar alunos.
-            </p>
-          </div>
-          <span style={styles.progresso}>{totalConcluido}/{itens.length}</span>
+        <div style={styles.completoLinha}>
+          <span style={styles.iconeCompleto} aria-hidden="true">
+            <CheckCircle2 size={18} />
+          </span>
+          <strong style={styles.tituloCompleto}>Primeiros passos concluídos</strong>
+          <span style={styles.progressoCompacto}>{totalConcluido}/{itens.length}</span>
         </div>
       </section>
     );
@@ -100,8 +98,24 @@ const styles = {
   cardCompleto: {
     background: "#f0fdf4",
     border: "1px solid #bbf7d0",
-    marginTop: "24px",
-    padding: "18px",
+    marginTop: "18px",
+    padding: "10px 14px",
+  },
+  completoLinha: {
+    alignItems: "center",
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "10px",
+  },
+  iconeCompleto: {
+    alignItems: "center",
+    color: "#16a34a",
+    display: "inline-flex",
+  },
+  tituloCompleto: {
+    color: "#166534",
+    flex: "1 1 auto",
+    fontSize: "14px",
   },
   header: {
     alignItems: "center",
@@ -124,6 +138,16 @@ const styles = {
     fontSize: "13px",
     fontWeight: "900",
     padding: "8px 12px",
+  },
+  progressoCompacto: {
+    background: "white",
+    border: "1px solid #bbf7d0",
+    borderRadius: "999px",
+    color: "#166534",
+    flex: "0 0 auto",
+    fontSize: "12px",
+    fontWeight: "900",
+    padding: "5px 9px",
   },
   lista: {
     display: "grid",

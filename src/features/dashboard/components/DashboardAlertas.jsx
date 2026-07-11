@@ -1,21 +1,24 @@
-import { CheckCircle2 } from "lucide-react";
-import DashboardEmptyState from "./DashboardEmptyState";
+import { Link } from "react-router-dom";
 
 function DashboardAlertas({ alertas, carregando, styles }) {
+  if (!carregando && alertas.length === 0) {
+    return null;
+  }
+
   return (
     <section className="dashboard-panel" style={styles.resumoCard}>
       <div className="app-card-header" style={styles.secaoTopo}>
         <div>
           <h2 style={styles.secaoTitulo}>Alertas da consultoria</h2>
           <p className="app-muted" style={styles.secaoLegenda}>
-            Pontos que merecem uma revisão rápida hoje.
+            Pendências que merecem uma revisão rápida hoje.
           </p>
         </div>
       </div>
 
       {carregando ? (
         <p className="app-loading" style={styles.estadoVazio}>Carregando alertas...</p>
-      ) : alertas.length > 0 ? (
+      ) : (
         <div style={styles.alertasGrid}>
           {alertas.map((alerta) => (
             <div
@@ -26,21 +29,33 @@ function DashboardAlertas({ alertas, carregando, styles }) {
               <span className={`status-badge status-badge-${alerta.tom}`}>
                 {alerta.rotulo}
               </span>
-              <div>
-                <strong style={styles.alertaTitulo}>{alerta.titulo}</strong>
-                <p style={styles.alertaTexto}>{alerta.texto}</p>
+              <div style={styles.alertaConteudo}>
+                <div>
+                  <strong style={styles.alertaTitulo}>{alerta.titulo}</strong>
+                  <p style={styles.alertaTexto}>{alerta.texto}</p>
+                </div>
+                <AlertaAcao alerta={alerta} styles={styles} />
               </div>
             </div>
           ))}
         </div>
-      ) : (
-        <DashboardEmptyState
-          icon={<CheckCircle2 size={20} />}
-          texto="Tudo certo por enquanto. Nenhuma ação crítica encontrada."
-          styles={styles}
-        />
       )}
     </section>
+  );
+}
+
+function AlertaAcao({ alerta, styles }) {
+  if (!alerta.acao?.to) return null;
+
+  return (
+    <Link
+      to={alerta.acao.to}
+      className="app-button app-button-secondary"
+      style={styles.alertaAcao}
+      aria-label={alerta.acao.ariaLabel}
+    >
+      {alerta.acao.label}
+    </Link>
   );
 }
 

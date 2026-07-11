@@ -287,7 +287,6 @@ function filtrarPagamentosContratoAtual(aluno, pagamentosAluno) {
 export function montarAlertasConsultoria({
   alunosVencidos,
   alunosVencendo,
-  alunosAtivosCheckin,
   receitaPendente,
 }) {
   const alertas = [];
@@ -298,6 +297,11 @@ export function montarAlertasConsultoria({
       texto: "Priorize contato e renegociação para evitar perda de acompanhamento.",
       rotulo: "Atenção",
       tom: "danger",
+      acao: {
+        label: "Ver alunos",
+        to: "/alunos",
+        ariaLabel: "Ver alunos vencidos na tela de alunos",
+      },
     });
   }
 
@@ -307,6 +311,11 @@ export function montarAlertasConsultoria({
       texto: "Há contratos ou parcelas próximos do vencimento que podem ser tratados com antecedência.",
       rotulo: "Agenda",
       tom: "warning",
+      acao: {
+        label: "Ver vencimentos",
+        to: "/alunos",
+        ariaLabel: "Ver alunos próximos do vencimento",
+      },
     });
   }
 
@@ -316,15 +325,11 @@ export function montarAlertasConsultoria({
       texto: "Confira o financeiro e registre recebimentos já confirmados.",
       rotulo: "Financeiro",
       tom: "info",
-    });
-  }
-
-  if (alunosAtivosCheckin.length > 0) {
-    alertas.push({
-      titulo: "Rodar check-in semanal",
-      texto: "Use a rotina de contato para manter proximidade com alunos ativos.",
-      rotulo: "Check-in",
-      tom: "success",
+      acao: {
+        label: "Abrir financeiro",
+        to: "/financeiro",
+        ariaLabel: "Abrir financeiro para revisar pagamentos pendentes",
+      },
     });
   }
 
