@@ -25,7 +25,7 @@ function AssinaturaPendente() {
           navigate("/dashboard", { replace: true });
         }
       } catch {
-        // Mantem a mensagem amigavel da tela caso a verificacao falhe.
+        // Mantém a mensagem amigável da tela caso a verificação falhe.
       }
     }
 
@@ -58,6 +58,10 @@ function AssinaturaPendente() {
           <span style={badge}>{conteudo.badge}</span>
           <h1 style={titulo}>{conteudo.titulo}</h1>
           <p style={texto}>{conteudo.texto}</p>
+          <p className="app-muted" style={orientacao}>
+            Sua conta já existe. Assim que o acesso for liberado, você será direcionado ao
+            painel; se ainda faltar o aceite legal, a plataforma mostrará essa última etapa.
+          </p>
         </div>
 
         {erro && <div style={erroBox}>{erro}</div>}
@@ -132,6 +136,17 @@ const texto = {
   maxWidth: "720px",
 };
 
+const orientacao = {
+  background: "#f8fafc",
+  border: "1px solid #e5e7eb",
+  borderRadius: "8px",
+  color: "#4b5563",
+  lineHeight: 1.55,
+  margin: 0,
+  maxWidth: "760px",
+  padding: "12px",
+};
+
 const erroBox = {
   background: "#fef2f2",
   border: "1px solid #fecaca",
@@ -167,25 +182,25 @@ const mensagensPorMotivo = {
     badge: "Acesso aguardando liberação",
     titulo: "Seu acesso ainda está aguardando liberação.",
     texto:
-      "Seu cadastro foi criado com sucesso. O acesso à Aruka será liberado após aprovação. Escolha uma opção abaixo e solicite a ativação pelo WhatsApp.",
+      "Seu cadastro foi criado com sucesso. Para acessar o painel da Aruka, é necessário concluir a liberação do acesso ou a ativação da assinatura. Escolha uma opção abaixo e solicite a ativação pelo WhatsApp.",
   },
   bloqueado: {
     badge: "Acesso bloqueado",
     titulo: "Seu acesso está bloqueado. Entre em contato.",
     texto:
-      "Não foi possível liberar seu acesso neste momento. Entre em contato com o suporte para verificar sua situação.",
+      "Sua conta existe, mas não foi possível liberar o acesso neste momento. Entre em contato com o suporte para entender a situação e os próximos passos.",
   },
   "sem-assinatura": {
     badge: "Assinatura indisponível",
     titulo: "Assinatura não encontrada ou vencida.",
     texto:
-      "Seu perfil exige uma assinatura ativa, mas não encontramos uma assinatura válida. Escolha uma opção abaixo e solicite a regularização.",
+      "Sua conta existe, mas o painel depende de uma assinatura ativa. Escolha uma opção abaixo e solicite a regularização.",
   },
   erro: {
     badge: "Erro na verificação",
     titulo: "Não foi possível verificar seu acesso.",
     texto:
-      "Tente novamente em alguns instantes. Se o problema continuar, entre em contato com o suporte.",
+      "Não parece ser um erro no seu cadastro. Tente novamente em alguns instantes; se continuar, entre em contato com o suporte para verificar a liberação.",
   },
 };
 

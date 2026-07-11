@@ -65,6 +65,11 @@ function AceiteLegal() {
             Para continuar usando a Aruka, leia e aceite a Política de
             Privacidade e os Termos de Uso vigentes.
           </p>
+          <p className="app-muted" style={orientacao}>
+            Esta etapa aparece antes do acesso ao painel quando ainda falta o
+            aceite dos documentos legais. Depois de confirmar, você seguirá para
+            a área protegida da plataforma.
+          </p>
         </div>
 
         {erro && <div style={erroBox}>{erro}</div>}
@@ -158,6 +163,16 @@ const titulo = {
 const texto = {
   color: "#4b5563",
   lineHeight: 1.6,
+};
+
+const orientacao = {
+  background: "#f8fafc",
+  border: "1px solid #e5e7eb",
+  borderRadius: "8px",
+  color: "#4b5563",
+  lineHeight: 1.55,
+  margin: 0,
+  padding: "12px",
 };
 
 const versao = {

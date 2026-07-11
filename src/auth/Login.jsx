@@ -81,7 +81,9 @@ function Login() {
       return;
     }
 
-    setMensagem("Cadastro criado. Verifique seu e-mail para confirmar o acesso.");
+    setMensagem(
+      "Conta criada com sucesso. Verifique seu e-mail para confirmar o cadastro e depois retorne para entrar. Em seguida, o acesso ao painel pode depender da liberação da assinatura e do aceite dos termos."
+    );
   }
 
   if (autenticado) {
@@ -95,7 +97,7 @@ function Login() {
           <BrandLogo variant="full" size="login" />
           <p style={subtitulo}>
             {modoCadastro
-              ? "Crie sua conta para solicitar a liberação."
+              ? "Crie sua conta para iniciar a liberação de acesso."
               : "Acesse sua área de gestão."}
           </p>
         </div>
@@ -123,6 +125,13 @@ function Login() {
             required
           />
         </label>
+
+        {modoCadastro && (
+          <p className="app-muted" style={orientacaoCadastro}>
+            Após criar sua conta, você poderá precisar confirmar o e-mail,
+            concluir a liberação do acesso e aceitar os termos da plataforma.
+          </p>
+        )}
 
         {erro && <p style={erroTexto}>{erro}</p>}
         {mensagem && <p style={sucessoTexto}>{mensagem}</p>}
@@ -214,6 +223,17 @@ const campo = {
   outline: "none",
 };
 
+const orientacaoCadastro = {
+  background: "#f8fafc",
+  border: "1px solid #e5e7eb",
+  borderRadius: "8px",
+  color: "#4b5563",
+  fontSize: "13px",
+  lineHeight: 1.5,
+  margin: 0,
+  padding: "10px 12px",
+};
+
 const botao = {
   width: "100%",
   background: "#111827",
@@ -241,6 +261,7 @@ const sucessoTexto = {
   borderRadius: "8px",
   color: "#166534",
   fontSize: "14px",
+  lineHeight: 1.5,
   margin: 0,
   padding: "10px",
 };

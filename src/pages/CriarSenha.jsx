@@ -13,8 +13,13 @@ function CriarSenha() {
           <h1 style={titulo}>Crie sua senha de acesso</h1>
           <p style={descricao}>
             Use esta tela quando acessar pelo convite enviado por e-mail. Como o
-            convite ja autentica sua sessao, aqui voce cria uma senha sem
+            convite já autentica sua sessão, aqui você cria uma senha sem
             precisar informar senha atual.
+          </p>
+          <p className="app-muted" style={orientacao}>
+            Depois de salvar a senha, você poderá entrar normalmente com e-mail
+            e senha. Caso ainda falte liberação de acesso ou aceite legal, a
+            Aruka mostrará a próxima etapa antes do Dashboard.
           </p>
         </div>
 
@@ -67,6 +72,16 @@ const titulo = {
 const descricao = {
   color: "#6b7280",
   lineHeight: 1.6,
+};
+
+const orientacao = {
+  background: "#f8fafc",
+  border: "1px solid #e5e7eb",
+  borderRadius: "8px",
+  color: "#4b5563",
+  lineHeight: 1.55,
+  margin: 0,
+  padding: "12px",
 };
 
 export default CriarSenha;
