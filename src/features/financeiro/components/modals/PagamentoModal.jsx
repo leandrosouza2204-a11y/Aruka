@@ -1,6 +1,16 @@
+import { obterDataLocalISO } from "../../utils/validarDataPagamento";
 import ModalBase from "./ModalBase";
 
-function PagamentoModal({ registro, form, atualizando, onChange, onClose, onSave, styles }) {
+function PagamentoModal({
+  registro,
+  form,
+  atualizando,
+  erroDataPagamento = "",
+  onChange,
+  onClose,
+  onSave,
+  styles,
+}) {
   function atualizar(campo, valor) {
     onChange({ ...form, [campo]: valor });
   }
@@ -22,10 +32,17 @@ function PagamentoModal({ registro, form, atualizando, onChange, onClose, onSave
           <span style={styles.labelCampo}>Data do pagamento</span>
           <input
             type="date"
+            max={obterDataLocalISO()}
             value={form.dataPagamento}
             onChange={(e) => atualizar("dataPagamento", e.target.value)}
             style={styles.campo}
+            aria-invalid={Boolean(erroDataPagamento)}
           />
+          {erroDataPagamento && (
+            <small className="app-error" style={styles.campoAjuda}>
+              {erroDataPagamento}
+            </small>
+          )}
         </label>
 
         <label style={styles.campoGrupo}>

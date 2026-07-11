@@ -29,6 +29,10 @@ import {
 } from "../../../data/alunosUtils";
 import { calcularSituacaoParcelamento } from "../utils/parcelamento";
 import { calcularSituacaoAcompanhamento } from "../utils/acompanhamento";
+import {
+  ERRO_PAGAMENTO_DATA_FUTURA,
+  validarDataPagamento,
+} from "../utils/validarDataPagamento";
 import { obterMotivoEncerramentoParaRegistro } from "../constants/motivosEncerramento";
 
 export const pagamentoInicial = {
@@ -76,6 +80,7 @@ export function useFinanceiroPage() {
   const [modalRelatorioAluno, setModalRelatorioAluno] = useState(null);
   const [modalRelatorioGeral, setModalRelatorioGeral] = useState(false);
   const [formPagamento, setFormPagamento] = useState(pagamentoInicial);
+  const [erroDataPagamento, setErroDataPagamento] = useState("");
   const [formRenovacao, setFormRenovacao] = useState(renovacaoInicial);
   const [formEncerramento, setFormEncerramento] = useState(encerramentoInicial);
   const toast = useToast();
@@ -241,6 +246,7 @@ export function useFinanceiroPage() {
 
   function abrirRegistroPagamento(registro) {
     setModalPagamento(registro);
+    setErroDataPagamento("");
     setFormPagamento({
       dataPagamento: dataHojeISO(),
       valor: registro.valorParcela.toFixed(2),
@@ -407,6 +413,12 @@ export function useFinanceiroPage() {
       return;
     }
 
+    const validacaoDataPagamento = validarDataPagamento(formPagamento.dataPagamento);
+    if (!validacaoDataPagamento.valido) {
+      setErroDataPagamento(validacaoDataPagamento.mensagem);
+      return;
+    }
+
     const aluno = modalPagamento.aluno;
     const plano = planos.find((item) => item.id === aluno.plano);
     setAtualizandoId(aluno.id);
@@ -434,6 +446,11 @@ export function useFinanceiroPage() {
       toast.sucesso("Pagamento registrado", "Histórico financeiro atualizado.");
     } catch (error) {
       console.error(error);
+      if (error?.code === ERRO_PAGAMENTO_DATA_FUTURA) {
+        setErroDataPagamento("A data do pagamento não pode ser futura.");
+        return;
+      }
+
       setErro(`Erro ao registrar pagamento: ${error.message}`);
       toast.erro("Não foi possível registrar o pagamento", "Tente novamente em alguns instantes.");
     } finally {
@@ -636,11 +653,20 @@ export function useFinanceiroPage() {
   function fecharModalPagamento() {
     setModalPagamento(null);
     setFormPagamento(pagamentoInicial);
+    setErroDataPagamento("");
   }
 
   function fecharRenovacaoPlano() {
     setModalRenovacao(null);
     setFormRenovacao(renovacaoInicial);
+  }
+
+  function atualizarFormPagamento(proximoForm) {
+    if (proximoForm.dataPagamento !== formPagamento.dataPagamento) {
+      setErroDataPagamento("");
+    }
+
+    setFormPagamento(proximoForm);
   }
 
   function fecharEncerramentoAcompanhamento() {
@@ -684,6 +710,7 @@ export function useFinanceiroPage() {
     fecharRelatorioGeral: () => setModalRelatorioGeral(false),
     filtroPagamento,
     filtroStatus,
+    erroDataPagamento,
     formPagamento,
     formEncerramento,
     formRenovacao,
@@ -704,7 +731,7 @@ export function useFinanceiroPage() {
     setBusca,
     setFiltroPagamento,
     setFiltroStatus,
-    setFormPagamento,
+    setFormPagamento: atualizarFormPagamento,
     setFormEncerramento,
     setFormRenovacao,
     setVisaoAcompanhamento,

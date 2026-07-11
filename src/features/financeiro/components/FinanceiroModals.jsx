@@ -14,6 +14,7 @@ function FinanceiroModals({ page, styles }) {
         <Suspense fallback={null}>
           <PagamentoModal
             atualizando={page.atualizandoId === page.modalPagamento.aluno.id}
+            erroDataPagamento={page.erroDataPagamento}
             form={page.formPagamento}
             onChange={page.setFormPagamento}
             onClose={page.fecharModalPagamento}

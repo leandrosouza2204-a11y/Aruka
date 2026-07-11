@@ -1,5 +1,10 @@
 import { calcularStatus, dataHojeISO, statusEstaVencido } from "../data/alunosUtils";
 import { dataOuNull } from "../data/formatters";
+import {
+  ERRO_PAGAMENTO_DATA_FUTURA,
+  ERRO_PAGAMENTO_DATA_INVALIDA,
+  validarDataPagamento,
+} from "../features/financeiro/utils/validarDataPagamento";
 import { atualizarAlunoSupabase, buscarAlunosSupabase } from "./alunosService";
 import { buscarPlanosSupabase } from "./planosService";
 import { buscarUsuarioLogado } from "./authSessionService";
@@ -267,12 +272,13 @@ function rowParaPagamento(row) {
 
 function pagamentoParaPayload(pagamento, userId) {
   const observacao = pagamento.observacao ?? pagamento.observacoes ?? "";
+  const dataPagamento = validarDataPagamentoOuFalhar(pagamento.dataPagamento);
 
   return {
     user_id: userId,
     aluno_id: pagamento.alunoId,
     plano: pagamento.plano || "",
-    data_pagamento: pagamento.dataPagamento,
+    data_pagamento: dataPagamento,
     valor: Number(pagamento.valor || 0),
     forma_pagamento: pagamento.formaPagamento || "",
     parcela: String(pagamento.parcela || "1"),
@@ -284,6 +290,21 @@ function pagamentoParaPayload(pagamento, userId) {
     observacao,
     observacoes: observacao,
   };
+}
+
+function validarDataPagamentoOuFalhar(dataPagamento) {
+  const validacao = validarDataPagamento(dataPagamento);
+
+  if (validacao.valido) return validacao.data;
+
+  const error = new Error(validacao.mensagem);
+  error.code = validacao.codigo || ERRO_PAGAMENTO_DATA_INVALIDA;
+
+  if (error.code === ERRO_PAGAMENTO_DATA_FUTURA) {
+    error.message = "A data do pagamento não pode ser futura.";
+  }
+
+  throw error;
 }
 
 function pagamentoParaPayloadLegado(payload) {
