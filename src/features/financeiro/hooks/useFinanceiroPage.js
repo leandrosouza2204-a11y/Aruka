@@ -21,12 +21,12 @@ import {
 import {
   dataHojeISO,
   calcularAvisosVencimento,
-  calcularResumoParcelasAluno,
   calcularStatus,
   formatarData,
   formatarNomePlano,
   statusEstaVencido,
 } from "../../../data/alunosUtils";
+import { calcularSituacaoParcelamento } from "../utils/parcelamento";
 
 export const pagamentoInicial = {
   dataPagamento: dataHojeISO(),
@@ -467,14 +467,15 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
   const valorContrato = Number(aluno.valor || 0);
   const totalParcelas = calcularTotalParcelas(aluno, plano);
   const pagamentosContratoAtual = filtrarPagamentosContratoAtual(aluno, pagamentosAluno);
-  const resumoParcelas = calcularResumoParcelasAluno(
+  const situacaoParcelamento = calcularSituacaoParcelamento({
     aluno,
-    pagamentosContratoAtual,
+    plano,
+    pagamentos: pagamentosContratoAtual,
     totalParcelas,
-    plano?.intervaloParcelasMeses || 1
-  );
-  const parcelaAtual = resumoParcelas.parcelado
-    ? resumoParcelas.parcelaAtual
+  });
+  const parcelado = situacaoParcelamento.parcelado;
+  const parcelaAtual = parcelado
+    ? situacaoParcelamento.proximaParcela || situacaoParcelamento.ultimaParcelaPaga || 1
     : calcularParcelaAtual(aluno.inicio, totalParcelas);
   const valorParcela =
     totalParcelas > 1
@@ -482,18 +483,25 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
       : valorContrato;
   const pagamentosOrdenados = ordenarPagamentos(pagamentosAluno);
   const pagamentosContratoAtualOrdenados = ordenarPagamentos(pagamentosContratoAtual);
-  const vencimentoParcelaAtual = resumoParcelas.vencimentoParcelaAtual;
+  const vencimentoParcelaAtual = parcelado
+    ? situacaoParcelamento.proximoVencimento
+    : "";
   const avisosParcela = vencimentoParcelaAtual
     ? calcularAvisosVencimento(vencimentoParcelaAtual)
     : { aviso7: "", aviso1: "" };
-  const statusFinanceiro =
-    resumoParcelas.statusParcela || calcularStatus(aluno.vencimento);
-  const pagamentoCiclo = resumoParcelas.parcelado
+  const statusFinanceiro = parcelado
+    ? situacaoParcelamento.quitado
+      ? "Pago"
+      : calcularStatus(situacaoParcelamento.proximoVencimento, "trimestralParcelado")
+    : calcularStatus(aluno.vencimento);
+  const pagamentoCiclo = parcelado
     ? pagamentosContratoAtualOrdenados.find(
         (pagamento) => String(pagamento.parcela) === String(parcelaAtual)
       )
     : encontrarPagamentoContratoAtual(aluno, pagamentosContratoAtualOrdenados);
-  const recebidoNoCiclo = Boolean(pagamentoCiclo) && !statusEstaVencido(statusFinanceiro);
+  const recebidoNoCiclo = parcelado
+    ? situacaoParcelamento.quitado
+    : Boolean(pagamentoCiclo) && !statusEstaVencido(statusFinanceiro);
   const totalRecebido = pagamentosAluno.reduce(
     (total, pagamento) => total + Number(pagamento.valor || 0),
     0
@@ -515,11 +523,20 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
     vencimentoParcelaAtual,
     aviso7Parcela: avisosParcela.aviso7,
     aviso1Parcela: avisosParcela.aviso1,
-    statusParcela: resumoParcelas.statusParcela,
+    statusParcela: parcelado ? statusFinanceiro : "",
     statusFinanceiro,
     tipoMovimentoSugerido: inferirTipoMovimentoRegistro(aluno, plano, totalParcelas),
     pagamentoCiclo,
     ultimoPagamento: pagamentosOrdenados[0] || null,
+    parcelado,
+    parcelasPagas: situacaoParcelamento.parcelasPagas,
+    ultimaParcelaPaga: situacaoParcelamento.ultimaParcelaPaga,
+    dataUltimoPagamento: situacaoParcelamento.dataUltimoPagamento,
+    proximaParcela: situacaoParcelamento.proximaParcela,
+    proximoVencimento: situacaoParcelamento.proximoVencimento,
+    parcelasRestantes: situacaoParcelamento.parcelasRestantes,
+    quitado: situacaoParcelamento.quitado,
+    pagamentoUltimaParcela: situacaoParcelamento.pagamentoUltimaParcela,
     recebidoNoCiclo,
     totalRecebido,
     valorPendente: Math.max(valorContrato - totalRecebidoContratoAtual, 0),
@@ -623,10 +640,7 @@ function calcularParcelaAtual(inicio, totalParcelas) {
 function proximaParcela(registro) {
   if (registro.totalParcelas <= 1) return 1;
 
-  const parcelasPagas = registro.pagamentos.length;
-  const proxima = (parcelasPagas % registro.totalParcelas) + 1;
-
-  return proxima;
+  return registro.proximaParcela || registro.totalParcelas;
 }
 
 function ordenarPagamentos(pagamentos) {

@@ -66,11 +66,13 @@ function FinanceiroTable({
                 </td>
                 <td className="cell-nowrap" style={styles.celula}>{formatarMoeda(registro.valorContrato)}</td>
                 <td className="cell-nowrap" style={styles.celula}>
-                  {registro.parcelaAtual}/{registro.totalParcelas}
+                  <ParcelaInfo registro={registro} />
                 </td>
                 <td className="cell-nowrap" style={styles.celula}>{formatarMoeda(registro.valorParcela)}</td>
                 <td className="cell-nowrap" style={styles.celula}>{formatarMoeda(registro.totalRecebido)}</td>
-                <td className="cell-nowrap" style={styles.celula}>{formatarData(registro.aluno.vencimento)}</td>
+                <td className="cell-nowrap" style={styles.celula}>
+                  <VencimentoInfo registro={registro} />
+                </td>
                 <td className="financeiro-status-cell" style={styles.celula}>
                   <StatusFinanceiro status={registro.statusFinanceiro} />
                 </td>
@@ -137,7 +139,40 @@ function StatusFinanceiro({ status }) {
   );
 }
 
+function ParcelaInfo({ registro }) {
+  if (!registro.parcelado) {
+    return `${registro.parcelaAtual}/${registro.totalParcelas}`;
+  }
+
+  if (registro.quitado) {
+    return `Quitado ${registro.totalParcelas}/${registro.totalParcelas}`;
+  }
+
+  return `Próxima ${registro.proximaParcela}/${registro.totalParcelas}`;
+}
+
+function VencimentoInfo({ registro }) {
+  if (!registro.parcelado) {
+    return formatarData(registro.aluno.vencimento);
+  }
+
+  if (registro.quitado) {
+    return <span className="financeiro-pagamento-info">Sem parcelas pendentes</span>;
+  }
+
+  return (
+    <span className="financeiro-pagamento-info">
+      <span>Parcela</span>
+      <strong>{formatarData(registro.proximoVencimento)}</strong>
+    </span>
+  );
+}
+
 function PagamentoInfo({ registro }) {
+  if (registro.parcelado) {
+    return <PagamentoParceladoInfo registro={registro} />;
+  }
+
   if (!registro.recebidoNoCiclo) {
     return <span className="financeiro-pagamento-info">Pendente</span>;
   }
@@ -146,6 +181,32 @@ function PagamentoInfo({ registro }) {
     <span className="financeiro-pagamento-info">
       <span>Recebido em</span>
       <strong>{formatarData(registro.pagamentoCiclo?.dataPagamento)}</strong>
+    </span>
+  );
+}
+
+function PagamentoParceladoInfo({ registro }) {
+  if (!registro.ultimaParcelaPaga) {
+    return (
+      <span className="financeiro-pagamento-info">
+        <span>Próxima parcela {registro.proximaParcela}/{registro.totalParcelas}</span>
+        <strong>Vence em {formatarData(registro.proximoVencimento)}</strong>
+      </span>
+    );
+  }
+
+  return (
+    <span className="financeiro-pagamento-info">
+      <span>
+        Parcela paga {registro.ultimaParcelaPaga}/{registro.totalParcelas}
+      </span>
+      <strong>Pago em {formatarData(registro.dataUltimoPagamento)}</strong>
+      {!registro.quitado && (
+        <span>
+          Próxima {registro.proximaParcela}/{registro.totalParcelas} em{" "}
+          {formatarData(registro.proximoVencimento)}
+        </span>
+      )}
     </span>
   );
 }

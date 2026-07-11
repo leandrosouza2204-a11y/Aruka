@@ -9,7 +9,7 @@ export function classeStatusAluno(status, { incluirBase = true } = {}) {
 }
 
 export function classeStatusAlunoTom(status) {
-  if (["Ativo"].includes(status)) return "status-badge-success";
+  if (["Ativo", "Pago"].includes(status)) return "status-badge-success";
   if (["Vencendo", "Vencendo parcela"].includes(status)) {
     return "status-badge-warning";
   }

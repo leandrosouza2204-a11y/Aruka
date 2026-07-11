@@ -51,7 +51,7 @@ function FinanceiroMobileCards({
             <div className="card-row">
               <span className="card-label">Parcela</span>
               <strong className="card-value">
-                {registro.parcelaAtual}/{registro.totalParcelas} -{" "}
+                {formatarParcela(registro)} -{" "}
                 <span className="card-money">{formatarMoeda(registro.valorParcela)}</span>
               </strong>
             </div>
@@ -78,11 +78,7 @@ function FinanceiroMobileCards({
             )}
             <div className="card-row">
               <span className="card-label">Status</span>
-              <strong className="card-value">
-                {registro.recebidoNoCiclo
-                  ? `Recebido em ${formatarData(registro.pagamentoCiclo?.dataPagamento)}`
-                  : "Pendente"}
-              </strong>
+              <strong className="card-value">{formatarStatusPagamento(registro)}</strong>
             </div>
             {registro.ultimoPagamento && (
               <div className="card-row">
@@ -132,6 +128,44 @@ function FinanceiroMobileCards({
       )}
     </div>
   );
+}
+
+function formatarParcela(registro) {
+  if (!registro.parcelado) {
+    return `${registro.parcelaAtual}/${registro.totalParcelas}`;
+  }
+
+  if (registro.quitado) {
+    return `Quitado ${registro.totalParcelas}/${registro.totalParcelas}`;
+  }
+
+  return `Próxima ${registro.proximaParcela}/${registro.totalParcelas}`;
+}
+
+function formatarStatusPagamento(registro) {
+  if (!registro.parcelado) {
+    return registro.recebidoNoCiclo
+      ? `Recebido em ${formatarData(registro.pagamentoCiclo?.dataPagamento)}`
+      : "Pendente";
+  }
+
+  if (!registro.ultimaParcelaPaga) {
+    return `Próxima parcela ${registro.proximaParcela}/${registro.totalParcelas} vence em ${formatarData(
+      registro.proximoVencimento
+    )}`;
+  }
+
+  const ultima = `Parcela paga ${registro.ultimaParcelaPaga}/${registro.totalParcelas} em ${formatarData(
+    registro.dataUltimoPagamento
+  )}`;
+
+  if (registro.quitado) {
+    return ultima;
+  }
+
+  return `${ultima}. Próxima ${registro.proximaParcela}/${registro.totalParcelas} vence em ${formatarData(
+    registro.proximoVencimento
+  )}`;
 }
 
 export default FinanceiroMobileCards;
