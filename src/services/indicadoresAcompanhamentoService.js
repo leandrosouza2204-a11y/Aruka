@@ -1,4 +1,7 @@
-import { DATA_CORTE_EVENTOS_ACOMPANHAMENTO } from "../features/financeiro/constants/retencaoConfig";
+import {
+  DATA_CORTE_EVENTOS_ACOMPANHAMENTO,
+  ORIGEM_ENCERRAMENTO_AUTOMATICO,
+} from "../features/financeiro/constants/retencaoConfig";
 import { buscarUsuarioLogado } from "./authSessionService";
 import { supabase } from "./supabase";
 
@@ -18,7 +21,7 @@ export async function buscarIndicadoresAcompanhamento({
 
   const { data, error } = await supabase
     .from("acompanhamento_eventos")
-    .select("tipo,motivo,ocorrido_em")
+    .select("tipo,motivo,ocorrido_em,metadata")
     .eq("user_id", usuario.id)
     .in("tipo", TIPOS_CONTABILIZADOS)
     .gte("ocorrido_em", `${periodo.dataInicioEfetiva}T00:00:00`)
@@ -60,6 +63,8 @@ function montarIndicadores(eventos, periodo) {
     }
 
     if (evento.tipo === "acompanhamento_encerrado") {
+      if (evento.metadata?.origem === ORIGEM_ENCERRAMENTO_AUTOMATICO) return;
+
       indicadores.encerramentosManuais += 1;
       const motivo = normalizarMotivo(evento.motivo);
       motivos.set(motivo, (motivos.get(motivo) || 0) + 1);

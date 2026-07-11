@@ -1,4 +1,5 @@
 export const DATA_CORTE_EVENTOS_ACOMPANHAMENTO = "2026-07-11";
+export const ORIGEM_ENCERRAMENTO_AUTOMATICO = "automatico_90_dias";
 
 export const OPCOES_PERIODO_ACOMPANHAMENTO = [
   {

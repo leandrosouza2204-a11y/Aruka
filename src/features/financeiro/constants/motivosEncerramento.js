@@ -1,7 +1,7 @@
 export const MOTIVO_OUTRO = "outro";
 export const MOTIVO_AUTOMATICO_VENCIMENTO = "vencimento_sem_renovacao";
 
-export const MOTIVOS_ENCERRAMENTO = [
+export const MOTIVOS_ENCERRAMENTO_MANUAIS = [
   {
     value: "nao_renovou",
     label: "Não renovou",
@@ -49,8 +49,21 @@ export const MOTIVOS_ENCERRAMENTO = [
   },
 ];
 
+export const MOTIVOS_ENCERRAMENTO_INTERNOS = [
+  {
+    value: MOTIVO_AUTOMATICO_VENCIMENTO,
+    label: "Vencimento sem renovação",
+    descricao: "Encerramento automático após mais de 90 dias sem renovação.",
+  },
+];
+
+export const MOTIVOS_ENCERRAMENTO = MOTIVOS_ENCERRAMENTO_MANUAIS;
+
 const MOTIVOS_POR_VALUE = new Map(
-  MOTIVOS_ENCERRAMENTO.map((motivo) => [motivo.value, motivo])
+  [...MOTIVOS_ENCERRAMENTO_MANUAIS, ...MOTIVOS_ENCERRAMENTO_INTERNOS].map((motivo) => [
+    motivo.value,
+    motivo,
+  ])
 );
 
 const MOTIVOS_LEGADOS = new Map([
