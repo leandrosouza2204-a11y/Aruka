@@ -146,6 +146,13 @@ const styles = {
     marginTop: "16px",
     padding: "12px",
   },
+  encerradosAviso: {
+    fontSize: "14px",
+    fontWeight: "700",
+    lineHeight: 1.45,
+    marginTop: "16px",
+    padding: "12px 14px",
+  },
   overlay: {
     position: "fixed",
     inset: 0,

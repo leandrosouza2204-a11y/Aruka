@@ -1017,6 +1017,12 @@ body[data-theme="dark"] .plan-installment-content small {
   color: #92400e;
 }
 
+.status-badge-renewal {
+  background: #ffedd5;
+  border: 1px solid #fdba74;
+  color: #9a3412;
+}
+
 .status-badge-danger {
   background: #fee2e2;
   color: #991b1b;
@@ -1259,6 +1265,12 @@ body[data-theme="dark"] .status-badge-success {
 body[data-theme="dark"] .status-badge-warning {
   background: rgba(245, 158, 11, 0.18);
   color: #fcd34d;
+}
+
+body[data-theme="dark"] .status-badge-renewal {
+  background: rgba(249, 115, 22, 0.2);
+  border-color: rgba(251, 146, 60, 0.6);
+  color: #fdba74;
 }
 
 body[data-theme="dark"] .status-badge-danger {

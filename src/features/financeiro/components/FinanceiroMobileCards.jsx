@@ -1,6 +1,7 @@
 import TableActions, { TableActionItem } from "../../../components/TableActions";
 import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
 import { classeStatusAluno } from "../../../data/statusHelpers";
+import FinanceiroEmptyState from "./FinanceiroEmptyState";
 
 function FinanceiroMobileCards({
   atualizandoId,
@@ -14,13 +15,16 @@ function FinanceiroMobileCards({
   onReativar,
   onWhatsApp,
   registros,
+  visaoAcompanhamento,
 }) {
   return (
     <div className="mobile-card-list financeiro-mobile-cards">
       {carregando ? (
         <div className="mobile-list-card">Carregando financeiro...</div>
       ) : registros.length === 0 ? (
-        <div className="mobile-list-card">Nenhum pagamento encontrado.</div>
+        <div className="mobile-list-card">
+          <FinanceiroEmptyState visaoAcompanhamento={visaoAcompanhamento} />
+        </div>
       ) : (
         registros.map((registro) => (
           <article key={registro.aluno.id} className="mobile-list-card financeiro-list-card">
@@ -97,19 +101,23 @@ function FinanceiroMobileCards({
             )}
 
             <div className="card-actions financeiro-card-actions">
-              <button
-                onClick={() => onReceber(registro)}
-                className="table-button table-button-success financeiro-action-main"
-                disabled={atualizandoId === registro.aluno.id}
-              >
-                Receber
-              </button>
-              <button
-                onClick={() => onWhatsApp(registro)}
-                className="table-button table-button-success"
-              >
-                WhatsApp
-              </button>
+              {registro.podeReceber && (
+                <button
+                  onClick={() => onReceber(registro)}
+                  className="table-button table-button-success financeiro-action-main"
+                  disabled={atualizandoId === registro.aluno.id}
+                >
+                  {getReceberLabel(registro)}
+                </button>
+              )}
+              {registro.grupoAcompanhamento !== "encerrados" && (
+                <button
+                  onClick={() => onWhatsApp(registro)}
+                  className="table-button table-button-success"
+                >
+                  WhatsApp
+                </button>
+              )}
               <TableActions>
                 <TableActionItem onClick={() => onRenovarPlano(registro)} variant="primary">
                   Renovar plano
@@ -118,23 +126,21 @@ function FinanceiroMobileCards({
                   <TableActionItem onClick={() => onReativar(registro)} variant="primary">
                     Reativar aluno
                   </TableActionItem>
-                ) : (
+                ) : registro.statusAcompanhamento === "Aguardando renovação" ? (
                   <TableActionItem onClick={() => onMarcarNaoRenovado(registro)} variant="danger">
                     Marcar como não renovado
                   </TableActionItem>
-                )}
-                {registro.pagamentos.length > 0 && (
-                  <>
-                    <TableActionItem onClick={() => onHistorico(registro)} variant="primary">
-                      Ver histórico
-                    </TableActionItem>
-                    <TableActionItem onClick={() => onRelatorioAluno(registro)} variant="primary">
-                      Relatório do aluno
-                    </TableActionItem>
-                    <TableActionItem onClick={() => onDesfazer(registro)} variant="danger">
-                      Desfazer último pagamento
-                    </TableActionItem>
-                  </>
+                ) : null}
+                <TableActionItem onClick={() => onHistorico(registro)} variant="primary">
+                  Ver histórico
+                </TableActionItem>
+                <TableActionItem onClick={() => onRelatorioAluno(registro)} variant="primary">
+                  Relatório do aluno
+                </TableActionItem>
+                {registro.grupoAcompanhamento !== "encerrados" && registro.pagamentos.length > 0 && (
+                  <TableActionItem onClick={() => onDesfazer(registro)} variant="danger">
+                    Desfazer último pagamento
+                  </TableActionItem>
                 )}
               </TableActions>
             </div>
@@ -181,6 +187,12 @@ function formatarStatusPagamento(registro) {
   return `${ultima}. Próxima ${registro.proximaParcela}/${registro.totalParcelas} vence em ${formatarData(
     registro.proximoVencimento
   )}`;
+}
+
+function getReceberLabel(registro) {
+  return registro.statusAcompanhamento === "Aguardando renovação"
+    ? "Receber débito"
+    : "Receber";
 }
 
 export default FinanceiroMobileCards;

@@ -17,6 +17,7 @@ function FinanceiroTable({
   onWhatsApp,
   registros,
   styles,
+  visaoAcompanhamento,
 }) {
   return (
     <div className="app-table-scroll desktop-table financeiro-table">
@@ -83,13 +84,15 @@ function FinanceiroTable({
                 </td>
                 <td className="financeiro-actions-cell" style={styles.celula}>
                   <div className="financeiro-actions-inline">
-                    <button
-                      onClick={() => onReceber(registro)}
-                      className="table-button table-button-success"
-                      disabled={atualizandoId === registro.aluno.id}
-                    >
-                      Receber
-                    </button>
+                    {registro.podeReceber && (
+                      <button
+                        onClick={() => onReceber(registro)}
+                        className="table-button table-button-success"
+                        disabled={atualizandoId === registro.aluno.id}
+                      >
+                        {getReceberLabel(registro)}
+                      </button>
+                    )}
                     <TableActions>
                       <TableActionItem onClick={() => onRenovarPlano(registro)} variant="primary">
                         Renovar plano
@@ -98,27 +101,27 @@ function FinanceiroTable({
                         <TableActionItem onClick={() => onReativar(registro)} variant="primary">
                           Reativar aluno
                         </TableActionItem>
-                      ) : (
+                      ) : registro.statusAcompanhamento === "Aguardando renovação" ? (
                         <TableActionItem onClick={() => onMarcarNaoRenovado(registro)} variant="danger">
                           Marcar como não renovado
                         </TableActionItem>
-                      )}
-                      {registro.pagamentos.length > 0 && (
-                        <>
-                          <TableActionItem onClick={() => onHistorico(registro)} variant="primary">
-                            Ver histórico
-                          </TableActionItem>
-                          <TableActionItem onClick={() => onDesfazer(registro)} variant="danger">
-                            Desfazer último pagamento
-                          </TableActionItem>
-                          <TableActionItem onClick={() => onRelatorioAluno(registro)} variant="primary">
-                            Relatório do aluno
-                          </TableActionItem>
-                        </>
-                      )}
-                      <TableActionItem onClick={() => onWhatsApp(registro)} variant="success">
-                        WhatsApp
+                      ) : null}
+                      <TableActionItem onClick={() => onHistorico(registro)} variant="primary">
+                        Ver histórico
                       </TableActionItem>
+                      <TableActionItem onClick={() => onRelatorioAluno(registro)} variant="primary">
+                        Relatório do aluno
+                      </TableActionItem>
+                      {registro.grupoAcompanhamento !== "encerrados" && registro.pagamentos.length > 0 && (
+                        <TableActionItem onClick={() => onDesfazer(registro)} variant="danger">
+                          Desfazer último pagamento
+                        </TableActionItem>
+                      )}
+                      {registro.grupoAcompanhamento !== "encerrados" && (
+                        <TableActionItem onClick={() => onWhatsApp(registro)} variant="success">
+                          WhatsApp
+                        </TableActionItem>
+                      )}
                     </TableActions>
                   </div>
                 </td>
@@ -128,7 +131,7 @@ function FinanceiroTable({
           {!carregando && registros.length === 0 && (
             <tr>
               <td style={styles.estadoVazio} colSpan="10">
-                <FinanceiroEmptyState />
+                <FinanceiroEmptyState visaoAcompanhamento={visaoAcompanhamento} />
               </td>
             </tr>
           )}
@@ -203,6 +206,12 @@ function PagamentoInfo({ registro }) {
       <strong>{formatarData(registro.pagamentoCiclo?.dataPagamento)}</strong>
     </span>
   );
+}
+
+function getReceberLabel(registro) {
+  return registro.statusAcompanhamento === "Aguardando renovação"
+    ? "Receber débito"
+    : "Receber";
 }
 
 function PagamentoParceladoInfo({ registro }) {

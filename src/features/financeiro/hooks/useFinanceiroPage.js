@@ -148,6 +148,18 @@ export function useFinanceiroPage() {
       );
   }, [busca, filtroPagamento, filtroStatus, registrosFinanceiros, visaoAcompanhamento]);
 
+  const contadoresAcompanhamento = useMemo(
+    () => ({
+      emAcompanhamento: registrosFinanceiros.filter(
+        (registro) => registro.grupoAcompanhamento === "em_acompanhamento"
+      ).length,
+      encerrados: registrosFinanceiros.filter(
+        (registro) => registro.grupoAcompanhamento === "encerrados"
+      ).length,
+    }),
+    [registrosFinanceiros]
+  );
+
   const resumo = useMemo(() => {
     const registrosOperacionais = registrosFinanceiros.filter(
       (registro) => registro.grupoAcompanhamento === "em_acompanhamento"
@@ -461,7 +473,10 @@ export function useFinanceiroPage() {
         acompanhamentoMotivo: "",
       });
       await carregarDados();
-      toast.sucesso("Aluno reativado", "Agora renove o plano para iniciar um novo ciclo.");
+      toast.sucesso(
+        "Aluno reativado",
+        "Aluno reativado. Renove ou ajuste o plano para iniciar um novo período de acompanhamento."
+      );
     } catch (error) {
       console.error(error);
       setErro(`Erro ao reativar aluno: ${error.message}`);
@@ -503,6 +518,7 @@ export function useFinanceiroPage() {
     busca,
     carregando,
     confirmarRenovacaoPlano,
+    contadoresAcompanhamento,
     dadosRenovacaoCalculados,
     desfazerPagamento,
     enviarAvisoWhatsApp,
@@ -570,17 +586,18 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
       ? "Quitado"
       : calcularStatus(situacaoParcelamento.proximoVencimento, "trimestralParcelado")
     : calcularStatus(aluno.vencimento);
+  const valorPendente = Math.max(
+    valorContrato -
+      pagamentosContratoAtual.reduce(
+        (total, pagamento) => total + Number(pagamento.valor || 0),
+        0
+      ),
+    0
+  );
   const statusPagamento = calcularStatusPagamento({
     parcelado,
     quitado: situacaoParcelamento.quitado,
-    valorPendente: Math.max(
-      valorContrato -
-        pagamentosContratoAtual.reduce(
-          (total, pagamento) => total + Number(pagamento.valor || 0),
-          0
-        ),
-      0
-    ),
+    valorPendente,
     statusFinanceiro,
   });
   const acompanhamento = calcularSituacaoAcompanhamento(aluno);
@@ -593,10 +610,6 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
     ? situacaoParcelamento.quitado
     : Boolean(pagamentoCiclo) && !statusEstaVencido(statusFinanceiro);
   const totalRecebido = pagamentosAluno.reduce(
-    (total, pagamento) => total + Number(pagamento.valor || 0),
-    0
-  );
-  const totalRecebidoContratoAtual = pagamentosContratoAtual.reduce(
     (total, pagamento) => total + Number(pagamento.valor || 0),
     0
   );
@@ -631,10 +644,16 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
     parcelasRestantes: situacaoParcelamento.parcelasRestantes,
     quitado: situacaoParcelamento.quitado,
     pagamentoUltimaParcela: situacaoParcelamento.pagamentoUltimaParcela,
+    podeReceber: calcularPodeReceber({
+      parcelado,
+      quitado: situacaoParcelamento.quitado,
+      proximaParcela: situacaoParcelamento.proximaParcela,
+      valorPendente,
+    }),
     recebidoNoCiclo,
     pagamentoRecebido: statusPagamento === "Pago" || statusPagamento === "Quitado",
     totalRecebido,
-    valorPendente: Math.max(valorContrato - totalRecebidoContratoAtual, 0),
+    valorPendente,
     resumoAluno: montarResumoFinanceiroAluno(aluno, pagamentosAluno, plano),
   };
 }
@@ -721,6 +740,13 @@ function calcularStatusPagamento({ parcelado, quitado, valorPendente, statusFina
   if (statusEstaVencido(statusFinanceiro)) return "Vencido";
 
   return "Pendente";
+}
+
+function calcularPodeReceber({ parcelado, quitado, proximaParcela, valorPendente }) {
+  if (valorPendente <= 0) return false;
+  if (parcelado) return !quitado && Boolean(proximaParcela);
+
+  return true;
 }
 
 function calcularParcelaAtual(inicio, totalParcelas) {

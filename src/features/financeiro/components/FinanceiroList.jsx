@@ -22,6 +22,7 @@ function FinanceiroList() {
 
         <FinanceiroFilters
           busca={page.busca}
+          contadoresAcompanhamento={page.contadoresAcompanhamento}
           filtroPagamento={page.filtroPagamento}
           filtroStatus={page.filtroStatus}
           onAcompanhamentoViewChange={page.setVisaoAcompanhamento}
@@ -35,6 +36,12 @@ function FinanceiroList() {
 
         {page.erro && <div style={styles.erroBox}>{page.erro}</div>}
 
+        {page.visaoAcompanhamento === "encerrados" && (
+          <section className="app-alert app-section" style={styles.encerradosAviso}>
+            Alunos encerrados continuam disponíveis para consulta e podem ser reativados ou renovados a qualquer momento. Nenhum histórico é removido.
+          </section>
+        )}
+
         <FinanceiroMobileCards
           atualizandoId={page.atualizandoId}
           carregando={page.carregando}
@@ -47,6 +54,7 @@ function FinanceiroList() {
           onRenovarPlano={page.abrirRenovacaoPlano}
           onWhatsApp={page.enviarAvisoWhatsApp}
           registros={page.registrosFiltrados}
+          visaoAcompanhamento={page.visaoAcompanhamento}
         />
 
         <FinanceiroTable
@@ -62,6 +70,7 @@ function FinanceiroList() {
           onWhatsApp={page.enviarAvisoWhatsApp}
           registros={page.registrosFiltrados}
           styles={styles}
+          visaoAcompanhamento={page.visaoAcompanhamento}
         />
 
         <FinanceiroModals page={page} styles={styles} />

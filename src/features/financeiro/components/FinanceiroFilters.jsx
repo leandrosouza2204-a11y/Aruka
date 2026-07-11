@@ -1,5 +1,6 @@
 function FinanceiroFilters({
   busca,
+  contadoresAcompanhamento,
   filtroPagamento,
   filtroStatus,
   onAcompanhamentoViewChange,
@@ -33,7 +34,7 @@ function FinanceiroFilters({
             ...(visaoAcompanhamento === "em_acompanhamento" ? styles.segmentedButtonActive : {}),
           }}
         >
-          Em acompanhamento
+          Em acompanhamento ({contadoresAcompanhamento.emAcompanhamento})
         </button>
         <button
           type="button"
@@ -43,7 +44,7 @@ function FinanceiroFilters({
             ...(visaoAcompanhamento === "encerrados" ? styles.segmentedButtonActive : {}),
           }}
         >
-          Encerrados
+          Encerrados ({contadoresAcompanhamento.encerrados})
         </button>
       </div>
 

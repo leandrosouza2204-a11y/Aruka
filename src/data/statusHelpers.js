@@ -10,7 +10,8 @@ export function classeStatusAluno(status, { incluirBase = true } = {}) {
 
 export function classeStatusAlunoTom(status) {
   if (["Ativo", "Pago", "Quitado"].includes(status)) return "status-badge-success";
-  if (["Vencendo", "Vencendo parcela", "Aguardando renovação"].includes(status)) {
+  if (status === "Aguardando renovação") return "status-badge-renewal";
+  if (["Vencendo", "Vencendo parcela"].includes(status)) {
     return "status-badge-warning";
   }
   if (["Vencido", "Parcela vencida", "Atrasado", "Parcela atrasada", "Não renovado"].includes(status)) {
