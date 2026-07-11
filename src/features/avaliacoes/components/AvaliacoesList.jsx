@@ -109,13 +109,13 @@ function AvaliacoesList() {
                       avaliacaoAnterior={avaliacoesPage.avaliacaoAnterior}
                       historicoAluno={avaliacoesPage.historicoAluno}
                       primeiraAvaliacao={avaliacoesPage.primeiraAvaliacao}
-                      relatorioAnamneseAberto={avaliacoesPage.relatorioAnamneseAberto}
-                      relatorioAberto={avaliacoesPage.relatorioAberto}
+                      relatorioAtivo={avaliacoesPage.relatorioAtivo}
                       ultimaAvaliacao={avaliacoesPage.ultimaAvaliacao}
                       onAlternarRelatorioAnamnese={avaliacoesPage.alternarRelatorioAnamnese}
                       onAlternarRelatorio={avaliacoesPage.alternarRelatorio}
                       onCopiarResumo={avaliacoesPage.copiarResumoWhatsApp}
                       onFechar={avaliacoesPage.fecharPerfilAluno}
+                      onFecharRelatorio={avaliacoesPage.fecharRelatorio}
                       styles={styles}
                     />
                   </InlineDetails>
@@ -150,13 +150,13 @@ function AvaliacoesList() {
                       avaliacaoAnterior={avaliacoesPage.avaliacaoAnterior}
                       historicoAluno={avaliacoesPage.historicoAluno}
                       primeiraAvaliacao={avaliacoesPage.primeiraAvaliacao}
-                      relatorioAnamneseAberto={avaliacoesPage.relatorioAnamneseAberto}
-                      relatorioAberto={avaliacoesPage.relatorioAberto}
+                      relatorioAtivo={avaliacoesPage.relatorioAtivo}
                       ultimaAvaliacao={avaliacoesPage.ultimaAvaliacao}
                       onAlternarRelatorioAnamnese={avaliacoesPage.alternarRelatorioAnamnese}
                       onAlternarRelatorio={avaliacoesPage.alternarRelatorio}
                       onCopiarResumo={avaliacoesPage.copiarResumoWhatsApp}
                       onFechar={avaliacoesPage.fecharPerfilAluno}
+                      onFecharRelatorio={avaliacoesPage.fecharRelatorio}
                       styles={styles}
                     />
                   </InlineDetails>
@@ -174,13 +174,13 @@ function AvaliacoesList() {
             avaliacaoAnterior={avaliacoesPage.avaliacaoAnterior}
             historicoAluno={avaliacoesPage.historicoAluno}
             primeiraAvaliacao={avaliacoesPage.primeiraAvaliacao}
-            relatorioAnamneseAberto={avaliacoesPage.relatorioAnamneseAberto}
-            relatorioAberto={avaliacoesPage.relatorioAberto}
+            relatorioAtivo={avaliacoesPage.relatorioAtivo}
             ultimaAvaliacao={avaliacoesPage.ultimaAvaliacao}
             onAlternarRelatorioAnamnese={avaliacoesPage.alternarRelatorioAnamnese}
             onAlternarRelatorio={avaliacoesPage.alternarRelatorio}
             onCopiarResumo={avaliacoesPage.copiarResumoWhatsApp}
             onFechar={avaliacoesPage.fecharPerfilAluno}
+            onFecharRelatorio={avaliacoesPage.fecharRelatorio}
             styles={styles}
           />
         </div>
@@ -453,9 +453,7 @@ const barra = { width: "100%", background: "#2563eb", borderRadius: "8px 8px 0 0
 const barraLabel = { color: "#6b7280", fontSize: "11px" };
 
 const relatorio = {
-  marginTop: "22px",
-  borderTop: "1px solid #e5e7eb",
-  paddingTop: "18px",
+  marginTop: "16px",
 };
 
 const relatorioGrid = {
@@ -463,6 +461,27 @@ const relatorioGrid = {
   gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
   gap: "14px",
 };
+
+const relatorioContainer = {
+  marginTop: "22px",
+  border: "1px solid #dbeafe",
+  borderRadius: "8px",
+  background: "white",
+  padding: "18px",
+  scrollMarginTop: "24px",
+};
+
+const relatorioTopo = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-start",
+  gap: "12px",
+  flexWrap: "wrap",
+  marginBottom: "4px",
+};
+
+const relatorioTitulo = { margin: 0, fontSize: "18px" };
+const relatorioResumo = { margin: "6px 0 0", color: "#6b7280", fontSize: "13px" };
 
 const infoItem = {
   border: "1px solid #eef2f7",
@@ -522,7 +541,11 @@ const styles = {
   painelTitulo,
   perfilGrid,
   relatorio,
+  relatorioContainer,
   relatorioGrid,
+  relatorioResumo,
+  relatorioTitulo,
+  relatorioTopo,
   resumoLista,
   subtituloSecao,
   tabButton,

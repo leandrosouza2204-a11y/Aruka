@@ -29,8 +29,7 @@ export function useAvaliacoesPage() {
   const [avaliacaoEditando, setAvaliacaoEditando] = useState(null);
   const [anamneseEditando, setAnamneseEditando] = useState(null);
   const [alunoSelecionadoId, setAlunoSelecionadoId] = useState("");
-  const [relatorioAberto, setRelatorioAberto] = useState(false);
-  const [relatorioAnamneseAberto, setRelatorioAnamneseAberto] = useState(false);
+  const [relatorioAtivo, setRelatorioAtivo] = useState(null);
   const [busca, setBusca] = useState("");
   const [filtroAluno, setFiltroAluno] = useState("todos");
   const [abaAtiva, setAbaAtiva] = useState("avaliacoes");
@@ -226,20 +225,24 @@ export function useAvaliacoesPage() {
 
   function abrirNovaAvaliacao() {
     setAvaliacaoEditando(null);
+    setRelatorioAtivo(null);
     setModalAvaliacao(true);
   }
 
   function abrirNovaAnamnese() {
     setAnamneseEditando(null);
+    setRelatorioAtivo(null);
     setModalAnamnese(true);
   }
 
   function abrirEdicaoAvaliacao(avaliacao) {
     setAvaliacaoEditando(avaliacao);
+    setRelatorioAtivo(null);
     setModalAvaliacao(true);
   }
 
   function editarAnamneseAluno(alunoId) {
+    setRelatorioAtivo(null);
     setAnamneseEditando(
       [...anamneses]
         .filter((anamnese) => anamnese.alunoId === alunoId)
@@ -251,6 +254,7 @@ export function useAvaliacoesPage() {
 
   function abrirEdicaoAnamnese(anamnese) {
     setAnamneseEditando(anamnese);
+    setRelatorioAtivo(null);
     setModalAnamnese(true);
   }
 
@@ -296,27 +300,36 @@ export function useAvaliacoesPage() {
 
   function selecionarPerfilAluno(alunoId) {
     setAlunoSelecionadoId(alunoId);
-    setRelatorioAberto(false);
-    setRelatorioAnamneseAberto(false);
+    setRelatorioAtivo(null);
   }
 
   function abrirRelatorioAnamnese(anamnese) {
     setAlunoSelecionadoId(anamnese.alunoId || "");
-    setRelatorioAberto(false);
-    setRelatorioAnamneseAberto(true);
+    setRelatorioAtivo("anamnese");
   }
 
   function fecharPerfilAluno() {
     setAlunoSelecionadoId("");
+    setRelatorioAtivo(null);
   }
 
   function alternarRelatorio() {
-    setRelatorioAberto((valor) => !valor);
+    if (!ultimaAvaliacao) return;
+    setRelatorioAtivo("avaliacao");
   }
 
   function alternarRelatorioAnamnese() {
     if (!anamneseAluno) return;
-    setRelatorioAnamneseAberto((valor) => !valor);
+    setRelatorioAtivo("anamnese");
+  }
+
+  function fecharRelatorio() {
+    setRelatorioAtivo(null);
+  }
+
+  function selecionarAba(aba) {
+    setAbaAtiva(aba);
+    setRelatorioAtivo(null);
   }
 
   function fecharModalAvaliacao() {
@@ -352,8 +365,7 @@ export function useAvaliacoesPage() {
     modalAnamnese,
     modalAvaliacao,
     primeiraAvaliacao,
-    relatorioAnamneseAberto,
-    relatorioAberto,
+    relatorioAtivo,
     ultimaAvaliacao,
     abrirEdicaoAvaliacao,
     abrirEdicaoAnamnese,
@@ -371,7 +383,8 @@ export function useAvaliacoesPage() {
     salvarAnamnese,
     salvarAvaliacao,
     selecionarPerfilAluno,
-    setAbaAtiva,
+    fecharRelatorio,
+    setAbaAtiva: selecionarAba,
     setBusca,
     setFiltroAluno,
   };

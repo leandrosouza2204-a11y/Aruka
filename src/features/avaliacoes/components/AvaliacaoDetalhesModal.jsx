@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import CardEvolucaoFisica from "../../../components/CardEvolucaoFisica";
 import TabelaComposicaoCorporal from "../../../components/TabelaComposicaoCorporal";
 import { calcularComposicaoCorporal } from "../../../data/calculosCorporais";
@@ -32,15 +33,25 @@ function AvaliacaoDetalhesModal({
   avaliacaoAnterior,
   historicoAluno,
   primeiraAvaliacao,
-  relatorioAnamneseAberto,
-  relatorioAberto,
+  relatorioAtivo,
   ultimaAvaliacao,
   onAlternarRelatorioAnamnese,
   onAlternarRelatorio,
   onCopiarResumo,
   onFechar,
+  onFecharRelatorio,
   styles,
 }) {
+  const relatorioRef = useRef(null);
+
+  useEffect(() => {
+    if (!relatorioAtivo) return undefined;
+    const frame = requestAnimationFrame(() => {
+      relatorioRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [relatorioAtivo]);
+
   if (!ultimaAvaliacao && !anamneseAluno) return null;
 
   return (
@@ -202,23 +213,45 @@ function AvaliacaoDetalhesModal({
         </div>
       )}
 
-      {relatorioAberto && (
-        <RelatorioAvaliacao
-          aluno={alunoCadastro}
-          avaliacao={ultimaAvaliacao}
-          anterior={avaliacaoAnterior}
-          anamnese={anamneseAluno}
-          styles={styles}
-        />
-      )}
+      {relatorioAtivo && (
+        <section ref={relatorioRef} className="app-card" style={styles.relatorioContainer}>
+          <div className="app-card-header" style={styles.relatorioTopo}>
+            <div>
+              <h3 style={styles.relatorioTitulo}>
+                {relatorioAtivo === "avaliacao"
+                  ? "Relatório da Avaliação Física"
+                  : "Relatório da Anamnese"}
+              </h3>
+              <p className="app-muted" style={styles.relatorioResumo}>
+                {alunoSelecionado}
+              </p>
+            </div>
+            <button
+              className="app-button app-button-secondary"
+              onClick={onFecharRelatorio}
+              style={styles.botaoSecundario}
+            >
+              Fechar relatório
+            </button>
+          </div>
 
-      {relatorioAnamneseAberto && (
-        <RelatorioAnamnese
-          aluno={alunoCadastro}
-          alunoSelecionado={alunoSelecionado}
-          anamnese={anamneseAluno}
-          styles={styles}
-        />
+          {relatorioAtivo === "avaliacao" ? (
+            <RelatorioAvaliacao
+              aluno={alunoCadastro}
+              avaliacao={ultimaAvaliacao}
+              anterior={avaliacaoAnterior}
+              anamnese={anamneseAluno}
+              styles={styles}
+            />
+          ) : (
+            <RelatorioAnamnese
+              aluno={alunoCadastro}
+              alunoSelecionado={alunoSelecionado}
+              anamnese={anamneseAluno}
+              styles={styles}
+            />
+          )}
+        </section>
       )}
 
       <h3 style={styles.subtituloSecao}>Histórico de evolução</h3>
