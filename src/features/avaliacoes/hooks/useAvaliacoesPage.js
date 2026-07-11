@@ -165,11 +165,24 @@ export function useAvaliacoesPage() {
       console.error("Erro ao salvar avaliação no Supabase:", formatarErroSupabase(error) || error);
       setErro(`Erro ao salvar avaliação: ${error.message}`);
       const erroSchema = error.code === "AVALIACAO_SCHEMA_INCOMPATIVEL";
+      const erroFotosParcial = error.code === "AVALIACAO_FOTOS_PARCIAL";
+      if (erroFotosParcial && error.avaliacaoSalva) {
+        await carregarDados();
+        setAlunoSelecionadoId(aluno.id);
+        setAbaAtiva("avaliacoes");
+        fecharModalAvaliacao();
+      }
       toast.erro(
-        erroSchema ? "Banco de dados desatualizado" : "Não foi possível salvar a avaliação",
+        erroSchema
+          ? "Banco de dados desatualizado"
+          : erroFotosParcial
+            ? "Fotos pendentes"
+            : "Não foi possível salvar a avaliação",
         erroSchema
           ? "A migration de avaliações precisa ser aplicada antes de salvar estes campos."
-          : "Verifique aluno e data da avaliação. Se o problema continuar, tente novamente em alguns instantes."
+          : erroFotosParcial
+            ? "A avaliação foi salva, mas revise as fotos antes de continuar."
+            : "Verifique aluno e data da avaliação. Se o problema continuar, tente novamente em alguns instantes."
       );
     }
   }

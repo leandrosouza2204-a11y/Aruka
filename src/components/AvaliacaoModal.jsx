@@ -113,14 +113,13 @@ function AvaliacaoModal({ alunos, avaliacao, onClose, onSave }) {
         },
       };
     });
-    // TODO Etapa 2: persistir remocao/troca apos implementar upload no Storage.
   }
 
   function previewFoto(campo) {
     const local = fotosLocais[campo];
     if (local.previewUrl) return local.previewUrl;
     if (local.removida) return "";
-    return form.fotos[campo] || "";
+    return form.fotosPreview?.[campo] || form.fotos[campo] || "";
   }
 
   function salvar() {
@@ -133,6 +132,11 @@ function AvaliacaoModal({ alunos, avaliacao, onClose, onSave }) {
 
     onSave({
       ...form,
+      fotosPendentes: {
+        frente: { file: fotosLocais.frente.file, removida: fotosLocais.frente.removida },
+        lateral: { file: fotosLocais.lateral.file, removida: fotosLocais.lateral.removida },
+        costas: { file: fotosLocais.costas.file, removida: fotosLocais.costas.removida },
+      },
       alunoId: alunoSelecionado.id,
       aluno: alunoSelecionado.nome,
       nomeAluno: alunoSelecionado.nome,
@@ -234,7 +238,7 @@ function AvaliacaoModal({ alunos, avaliacao, onClose, onSave }) {
             onRemove={() => removerFotoLocal("costas")}
           />
           <p style={avisoFotos}>
-            Pre-visualizacao local. O envio definitivo das imagens sera habilitado na proxima etapa.
+            As imagens selecionadas serao enviadas ao salvar a avaliacao.
           </p>
         </Secao>
 

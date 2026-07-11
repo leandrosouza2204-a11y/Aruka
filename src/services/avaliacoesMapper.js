@@ -44,6 +44,7 @@ export function rowParaAvaliacao(row) {
     status: row.status || "inicial", altura: valorOuVazio(row.altura), peso: valorOuVazio(row.peso),
     medidas: {}, dobras: {},
     fotos: { frente: row.foto_frente_url || "", lateral: row.foto_lateral_url || "", costas: row.foto_costas_url || "" },
+    fotosPreview: { frente: "", lateral: "", costas: "" },
     observacoes: row.observacoes || "", objetivoAtual: row.objetivo_atual || "",
     aderenciaTreino: row.aderencia_treino || "", aderenciaDieta: row.aderencia_dieta || "",
     createdAt: row.created_at || "",
