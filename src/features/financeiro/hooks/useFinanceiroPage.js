@@ -5,6 +5,7 @@ import {
   atualizarAlunoSupabase,
   buscarAlunosSupabase,
 } from "../../../services/alunosService";
+import { registrarEventoAcompanhamento } from "../../../services/acompanhamentoEventosService";
 import {
   buscarPagamentosSupabase,
   desfazerUltimoPagamento,
@@ -48,11 +49,13 @@ export const renovacaoInicial = {
   registrarPagamentoAgora: true,
   formaPagamento: "Pix",
   observacao: "",
+  operationId: "",
 };
 
 export const encerramentoInicial = {
   motivo: "",
   detalhe: "",
+  operationId: "",
 };
 
 export function useFinanceiroPage() {
@@ -283,6 +286,7 @@ export function useFinanceiroPage() {
       registrarPagamentoAgora: true,
       formaPagamento: "Pix",
       observacao: "",
+      operationId: criarOperationId(),
     });
   }
 
@@ -292,6 +296,10 @@ export function useFinanceiroPage() {
     const aluno = modalRenovacao.aluno;
     const novoPlano = planos.find((plano) => plano.id === formRenovacao.novoPlanoId);
     const valor = Number(novoPlano?.valor || 0);
+    const statusAnterior = aluno.acompanhamentoStatus || "ativo";
+    const estavaEncerrado = modalRenovacao.grupoAcompanhamento === "encerrados";
+    const vencimentoAnterior = aluno.vencimento || "";
+    const operationId = formRenovacao.operationId || criarOperationId();
 
     if (!novoPlano || !formRenovacao.dataInicio) {
       toast.aviso("Renovacao incompleta", "Informe o novo plano e a data de inicio.");
@@ -347,9 +355,39 @@ export function useFinanceiroPage() {
         );
       }
 
+      const historicoRegistrado = await registrarHistoricoAcompanhamento({
+        operacao: "renovacao",
+        alunoId: aluno.id,
+        tipo: "plano_renovado",
+        eventKey: `renovacao:${aluno.id}:${operationId}`,
+        evento: {
+          userId: aluno.userId,
+          alunoId: aluno.id,
+          tipo: "plano_renovado",
+          planoId: novoPlano.id,
+          planoNome: novoPlano.nome,
+          vencimentoAnterior,
+          vencimentoNovo: datasRenovacao.vencimento,
+          metadata: {
+            origem: "financeiro",
+            status_anterior: statusAnterior,
+            estava_encerrado: estavaEncerrado,
+            total_parcelas: Math.max(Number(novoPlano.quantidadeParcelas || 1), 1),
+          },
+          eventKey: `renovacao:${aluno.id}:${operationId}`,
+        },
+      });
+
       await carregarDados();
       fecharRenovacaoPlano();
-      toast.sucesso("Plano renovado", "O aluno foi atualizado com o novo vencimento.");
+      if (historicoRegistrado) {
+        toast.sucesso("Plano renovado", "O aluno foi atualizado com o novo vencimento.");
+      } else {
+        toast.aviso(
+          "Plano renovado",
+          "A alteração foi concluída, mas não foi possível registrar o histórico do acompanhamento."
+        );
+      }
     } catch (error) {
       console.error(error);
       setErro(`Erro ao renovar plano: ${error.message}`);
@@ -434,7 +472,10 @@ export function useFinanceiroPage() {
 
   function marcarComoNaoRenovado(registro) {
     setModalEncerramento(registro);
-    setFormEncerramento(encerramentoInicial);
+    setFormEncerramento({
+      ...encerramentoInicial,
+      operationId: criarOperationId(),
+    });
   }
 
   async function confirmarEncerramentoAcompanhamento() {
@@ -442,6 +483,7 @@ export function useFinanceiroPage() {
 
     const motivo = formEncerramento.motivo.trim();
     const detalhe = formEncerramento.detalhe.trim();
+    const operationId = formEncerramento.operationId || criarOperationId();
 
     if (!motivo || (motivo === "outro" && !detalhe)) {
       toast.aviso(
@@ -454,6 +496,8 @@ export function useFinanceiroPage() {
     }
 
     const registro = modalEncerramento;
+    const encerradoEm = dataHojeISO();
+    const statusAnterior = registro.aluno.acompanhamentoStatus || "ativo";
 
     setAtualizandoId(registro.aluno.id);
     setErro("");
@@ -462,18 +506,48 @@ export function useFinanceiroPage() {
       await atualizarAlunoSupabase(registro.aluno.id, {
         ...registro.aluno,
         acompanhamentoStatus: "nao_renovado",
-        acompanhamentoEncerradoEm: dataHojeISO(),
+        acompanhamentoEncerradoEm: encerradoEm,
         acompanhamentoMotivo: motivo,
         ...(detalhe || Object.prototype.hasOwnProperty.call(registro.aluno, "acompanhamentoMotivoDetalhe")
           ? { acompanhamentoMotivoDetalhe: detalhe }
           : {}),
       });
+      const historicoRegistrado = await registrarHistoricoAcompanhamento({
+        operacao: "encerramento",
+        alunoId: registro.aluno.id,
+        tipo: "acompanhamento_encerrado",
+        eventKey: `encerramento:${registro.aluno.id}:${operationId}`,
+        evento: {
+          userId: registro.aluno.userId,
+          alunoId: registro.aluno.id,
+          tipo: "acompanhamento_encerrado",
+          ocorridoEm: encerradoEm,
+          motivo,
+          motivoDetalhe: detalhe,
+          planoId: registro.plano?.id || null,
+          planoNome: registro.plano?.nome || registro.nomePlano,
+          vencimentoAnterior: registro.aluno.vencimento || "",
+          metadata: {
+            origem: "manual",
+            status_anterior: statusAnterior,
+          },
+          eventKey: `encerramento:${registro.aluno.id}:${operationId}`,
+        },
+      });
+
       await carregarDados();
       fecharEncerramentoAcompanhamento();
-      toast.sucesso(
-        "Aluno movido para Encerrados",
-        "Aluno movido para Encerrados. Todo o histórico foi preservado."
-      );
+      if (historicoRegistrado) {
+        toast.sucesso(
+          "Aluno movido para Encerrados",
+          "Aluno movido para Encerrados. Todo o histórico foi preservado."
+        );
+      } else {
+        toast.aviso(
+          "Aluno movido para Encerrados",
+          "A alteração foi concluída, mas não foi possível registrar o histórico do acompanhamento."
+        );
+      }
     } catch (error) {
       console.error(error);
       setErro(`Erro ao marcar aluno como não renovado: ${error.message}`);
@@ -487,6 +561,7 @@ export function useFinanceiroPage() {
   }
 
   async function reativarAluno(registro) {
+    const operationId = criarOperationId();
     const confirmado = await confirmar({
       titulo: "Reativar aluno?",
       descricao:
@@ -500,6 +575,11 @@ export function useFinanceiroPage() {
     setErro("");
 
     try {
+      const statusAnterior = registro.aluno.acompanhamentoStatus || "";
+      const encerradoEm = registro.aluno.acompanhamentoEncerradoEm || "";
+      const motivoAnterior = registro.aluno.acompanhamentoMotivo || "";
+      const motivoDetalheAnterior = registro.aluno.acompanhamentoMotivoDetalhe || "";
+
       await atualizarAlunoSupabase(registro.aluno.id, {
         ...registro.aluno,
         acompanhamentoStatus: "ativo",
@@ -509,11 +589,41 @@ export function useFinanceiroPage() {
           ? { acompanhamentoMotivoDetalhe: "" }
           : {}),
       });
+      const historicoRegistrado = await registrarHistoricoAcompanhamento({
+        operacao: "reativacao",
+        alunoId: registro.aluno.id,
+        tipo: "acompanhamento_reativado",
+        eventKey: `reativacao:${registro.aluno.id}:${operationId}`,
+        evento: {
+          userId: registro.aluno.userId,
+          alunoId: registro.aluno.id,
+          tipo: "acompanhamento_reativado",
+          motivo: motivoAnterior,
+          motivoDetalhe: motivoDetalheAnterior,
+          planoId: registro.plano?.id || null,
+          planoNome: registro.plano?.nome || registro.nomePlano,
+          vencimentoAnterior: registro.aluno.vencimento || "",
+          metadata: {
+            origem: "manual",
+            status_anterior: statusAnterior,
+            encerrado_em: encerradoEm,
+          },
+          eventKey: `reativacao:${registro.aluno.id}:${operationId}`,
+        },
+      });
+
       await carregarDados();
-      toast.sucesso(
-        "Aluno reativado",
-        "Aluno reativado. Renove ou ajuste o plano para iniciar um novo período de acompanhamento."
-      );
+      if (historicoRegistrado) {
+        toast.sucesso(
+          "Aluno reativado",
+          "Aluno reativado. Renove ou ajuste o plano para iniciar um novo período de acompanhamento."
+        );
+      } else {
+        toast.aviso(
+          "Aluno reativado",
+          "A alteração foi concluída, mas não foi possível registrar o histórico do acompanhamento."
+        );
+      }
     } catch (error) {
       console.error(error);
       setErro(`Erro ao reativar aluno: ${error.message}`);
@@ -819,6 +929,50 @@ function proximaParcela(registro) {
   if (registro.totalParcelas <= 1) return 1;
 
   return registro.proximaParcela || registro.totalParcelas;
+}
+
+async function registrarHistoricoAcompanhamento({ operacao, alunoId, tipo, eventKey, evento }) {
+  try {
+    const resultado = await registrarEventoAcompanhamento(evento);
+
+    if (resultado.duplicate) {
+      console.info("Evento de acompanhamento já registrado:", {
+        operacao,
+        alunoId,
+        tipo,
+        eventKey,
+      });
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Falha ao registrar histórico de acompanhamento:", {
+      operacao,
+      alunoId,
+      tipo,
+      eventKey,
+      ...formatarErroHistorico(error),
+    });
+
+    return false;
+  }
+}
+
+function criarOperationId() {
+  if (globalThis.crypto?.randomUUID) {
+    return globalThis.crypto.randomUUID();
+  }
+
+  return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+}
+
+function formatarErroHistorico(error) {
+  return {
+    code: error?.code,
+    message: error?.message,
+    details: error?.details,
+    hint: error?.hint,
+  };
 }
 
 function ordenarPagamentos(pagamentos) {
