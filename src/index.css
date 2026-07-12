@@ -4298,14 +4298,75 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
 
   .financeiro-modal {
     box-sizing: border-box;
-    max-width: calc(100vw - 20px) !important;
-    width: calc(100vw - 20px) !important;
+    max-width: calc(100vw - 24px) !important;
+    width: 100% !important;
   }
 
   .financeiro-modal > div {
     box-sizing: border-box;
     max-width: 100% !important;
     width: 100% !important;
+  }
+
+  .financeiro-modal-topo {
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .financeiro-modal-topo > div,
+  .financeiro-modal-actions {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .financeiro-modal-topo h2,
+  .financeiro-modal-topo p,
+  .financeiro-modal .app-muted,
+  .financeiro-modal .app-alert,
+  .financeiro-modal h3,
+  .financeiro-modal h4 {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .financeiro-modal button,
+  .financeiro-modal input,
+  .financeiro-modal select,
+  .financeiro-modal textarea {
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .financeiro-report-card,
+  .financeiro-report-card-header,
+  .financeiro-report-card-main,
+  .financeiro-report-card-details,
+  .financeiro-ranking-card,
+  .financeiro-ranking-row {
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .financeiro-report-info {
+    display: grid;
+    gap: 3px;
+    justify-content: stretch;
+  }
+
+  .financeiro-report-info .card-value {
+    text-align: left;
+  }
+
+  .financeiro-modal [style*="justify-content: space-between"] {
+    flex-wrap: wrap !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
   }
 
   .financeiro-history-mobile {
