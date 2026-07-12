@@ -965,6 +965,19 @@ body[data-theme="dark"] .plan-installment-content small {
   z-index: 9999;
 }
 
+@media (max-width: 767px) {
+  .table-actions-dropdown {
+    max-width: calc(100vw - 24px);
+    min-width: 0;
+    width: min(190px, calc(100vw - 24px));
+  }
+
+  .table-menu-item {
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+}
+
 .table-menu-item {
   background: transparent;
   border: none;
@@ -4200,6 +4213,101 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
 }
 
 @media (max-width: 767px) {
+  .financeiro-page,
+  .financeiro-page .app-main,
+  .financeiro-page.page-container,
+  .financeiro-page .app-card,
+  .financeiro-page .mobile-card-list,
+  .financeiro-page .mobile-list-card,
+  .financeiro-page .financeiro-mobile-cards,
+  .financeiro-page .financeiro-list-card {
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .financeiro-page *,
+  .financeiro-modal *,
+  .financeiro-modal-overlay * {
+    min-width: 0;
+  }
+
+  .financeiro-page [style*="width: calc(100% - 260px)"] {
+    width: 100% !important;
+  }
+
+  .financeiro-page [style*="repeat(auto-fit, minmax(210px, 1fr))"],
+  .financeiro-page [style*="minmax(220px, 1fr)"],
+  .financeiro-page [style*="minmax(170px, 220px)"],
+  .financeiro-page [style*="minmax(180px, 220px)"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .financeiro-page [style*="display: inline-flex"],
+  .financeiro-page [aria-label="Visão de acompanhamento"] {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+  }
+
+  .financeiro-page [aria-label="Visão de acompanhamento"] button {
+    min-height: 44px;
+    overflow-wrap: anywhere;
+    white-space: normal;
+    width: 100%;
+  }
+
+  .financeiro-page .card-row,
+  .financeiro-page .mobile-card-header,
+  .financeiro-report-card-header,
+  .financeiro-report-info {
+    min-width: 0;
+  }
+
+  .financeiro-page .card-value,
+  .financeiro-page .card-title,
+  .financeiro-page .card-money,
+  .financeiro-page .status-badge,
+  .financeiro-report-card-title,
+  .financeiro-report-card-money,
+  .financeiro-report-info .card-value {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    white-space: normal;
+    word-break: normal;
+  }
+
+  .financeiro-card-actions {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .financeiro-card-actions .table-actions-menu,
+  .financeiro-card-actions .table-actions-trigger {
+    min-width: 0;
+  }
+
+  .financeiro-table,
+  .financeiro-history-table {
+    display: none !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  .financeiro-modal {
+    box-sizing: border-box;
+    max-width: calc(100vw - 20px) !important;
+    width: calc(100vw - 20px) !important;
+  }
+
+  .financeiro-modal > div {
+    box-sizing: border-box;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
   .financeiro-history-mobile {
     display: grid !important;
     gap: 10px !important;

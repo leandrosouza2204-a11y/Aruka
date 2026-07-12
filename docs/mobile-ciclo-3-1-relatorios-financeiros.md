@@ -99,3 +99,51 @@ Adaptacao mobile:
 ## Proximos passos
 - Abrir os tres relatorios com dados reais em celular e validar cards em 320px.
 - Revisar eventual necessidade de compactar ainda mais secoes longas do relatorio do aluno apos teste real.
+
+## Correcao de overflow horizontal
+
+### Escopo auditado
+- Tela principal do Financeiro.
+- Filtros e abas de acompanhamento.
+- Cards mobile do Financeiro.
+- Menus de acoes de tres pontos.
+- Historico financeiro do aluno.
+- Relatorio financeiro do aluno.
+- Relatorio geral financeiro.
+- CSS global relacionado a tabelas, cards, modais financeiros e bottom navigation.
+
+### Possiveis causadores identificados por auditoria
+- Filtros e abas com estilos inline herdados do desktop (`inline-flex`, `minmax(...)` e botoes com textos longos).
+- Filhos de flex/grid em cards financeiros sem protecao suficiente de `min-width: 0`.
+- Valores longos em cards, status, plano, motivo, observacao e rankings sem garantia consistente de quebra.
+- Menus de acoes com largura fixa de 190px sem limite explicito por viewport no mobile.
+- Wrappers de tabela financeira e de historico com `min-width` alto na tabela interna.
+- Conteudo interno de modais financeiros usando largura desktop via `width: min(..., 100%)`.
+
+### Correcao aplicada
+- Menus de acoes agora usam `width: min(190px, calc(100vw - 24px))` no mobile.
+- Itens do menu podem quebrar texto e nao devem ampliar a pagina.
+- Escopo `.financeiro-page` mobile recebeu protecao estrutural: `box-sizing`, `max-width: 100%`, `min-width: 0` e `width: 100%` nos wrappers relevantes.
+- Grids e filtros financeiros passam a `minmax(0, 1fr)` no mobile.
+- Abas de acompanhamento passam a empilhar em 1 coluna no mobile, com texto quebravel.
+- Cards financeiros, valores, badges e campos do relatorio passam a quebrar texto longo com `overflow-wrap: anywhere`.
+- Wrappers de tabela financeira e historico ficam fora do fluxo no mobile com `display: none`, `min-width: 0`, `max-width: 100%` e `width: 100%`.
+- Modal financeiro mobile fica limitado a `calc(100vw - 20px)` e seus filhos diretos a `max-width: 100%`.
+
+### Valores de scrollWidth/clientWidth
+- Nao houve sessao autenticada real disponivel nesta execucao.
+- Portanto, os valores antes/depois de `document.documentElement.scrollWidth` e `clientWidth` nao foram declarados.
+- A confirmacao final deve ser feita no navegador autenticado, nos estados descritos no briefing.
+
+### Breakpoints a confirmar com sessao real
+- 320px
+- 360px
+- 375px
+- 390px
+- 412px
+- 430px
+- Regressao desktop em 1366px
+
+### Regressao desktop
+- As correcoes novas foram escopadas em `@media (max-width: 767px)`.
+- Tabelas e relatorios desktop permanecem preservados em 768px ou mais.
