@@ -1,50 +1,70 @@
 # Mobile Ciclo 3.2 - Overflow em modais financeiros
 
 ## Arquivos analisados
-- `src/features/financeiro/components/modals/HistoricoFinanceiroModal.jsx`
-- `src/features/financeiro/components/mobile/HistoricoFinanceiroMobileCards.jsx`
-- `src/features/financeiro/components/modals/RelatorioAlunoModal.jsx`
-- `src/features/financeiro/components/modals/RelatorioGeralModal.jsx`
-- `src/features/financeiro/components/IndicadoresAcompanhamentoSection.jsx`
-- `src/features/financeiro/components/modals/ModalBase.jsx`
 - `src/components/AccessibleModal.jsx`
+- `src/features/financeiro/components/modals/ModalBase.jsx`
+- `src/features/financeiro/components/modals/HistoricoFinanceiroModal.jsx`
+- `src/features/financeiro/components/modals/RelatorioGeralModal.jsx`
+- `src/features/financeiro/components/mobile/HistoricoFinanceiroMobileCards.jsx`
 - `src/index.css`
 
 ## Arquivos alterados
+- `src/features/financeiro/components/modals/HistoricoFinanceiroModal.jsx`
+- `src/features/financeiro/components/modals/RelatorioGeralModal.jsx`
 - `src/index.css`
 
-## Causas encontradas
-- O overlay mobile do `AccessibleModal` usa `padding: 12px`, deixando area util horizontal de `100vw - 24px`.
-- A regra mobile anterior da classe `.financeiro-modal` usava `width: calc(100vw - 20px)`, podendo exceder a area util do overlay em 4px.
-- Cabecalhos, acoes, cards e linhas de detalhe dos relatorios tinham protecoes parciais de `min-width: 0`, mas ainda podiam sofrer pressao de textos longos.
-- Rankings e linhas com `justify-content: space-between` podiam manter largura implicita maior que o container em casos extremos.
+## Diagnostico por codigo
+- O portal do `AccessibleModal` ja e renderizado diretamente em `document.body`, sem ancestral transformado entre o dialogo e o body.
+- O overlay usa `.accessible-modal-overlay.financeiro-modal-overlay`.
+- O conteudo principal usa `section.accessible-modal.accessible-modal-full.financeiro-modal`.
+- O wrapper intermediario de `ModalBase` aplica `style={{ width: largura }}`, com `largura="min(980px, 100%)"` nesses dois modais.
+- A combinacao anterior ainda dependia do dimensionamento centralizado do modal desktop/tablet e de correcoes internas, em vez de trocar a estrutura do dialogo no mobile.
 
-## Solucao aplicada
-- `.financeiro-modal` passou a usar `width: 100%` e `max-width: calc(100vw - 24px)` no mobile.
-- Filho direto do modal financeiro limitado a `width: 100%` e `max-width: 100%`.
-- Cabecalho financeiro recebeu limites estruturais (`max-width`, `min-width: 0`, `width: 100%`).
-- Titulos, legendas, alertas e textos internos passaram a quebrar com `overflow-wrap: anywhere`.
-- Controles (`button`, `input`, `select`, `textarea`) dentro do modal financeiro foram limitados a `max-width: 100%`.
-- Cards, detalhes, rankings e linhas internas receberam `box-sizing`, `max-width: 100%`, `min-width: 0` e `width: 100%`.
-- Linhas de informacao dos cards financeiros foram empilhadas em uma coluna no mobile para evitar que valores longos pressionem o layout.
-- Elementos internos com `justify-content: space-between` dentro do modal financeiro podem quebrar linha no mobile.
+## Causa provavel do overflow
+- O ancestral responsavel estava na pilha do dialogo financeiro: overlay + `section.financeiro-modal` + wrapper inline de `ModalBase`.
+- As propriedades relevantes eram `padding` do overlay mobile, `width/max-width` herdados do modal desktop e `width` inline do wrapper intermediario.
+- Cards, rankings e textos longos podiam ampliar a pressao interna, mas nao eram a origem estrutural principal.
 
-## Breakpoints utilizados
-- Correcoes aplicadas somente em `@media (max-width: 767px)`.
-- Desktop e tablet a partir de 768px preservados.
+## Solucao aplicada ao Dialog/portal
+- Em `@media (max-width: 640px)`, `.financeiro-modal-overlay` remove padding e estica o dialogo.
+- `.financeiro-modal-overlay .financeiro-modal` passa a usar estrutura fullscreen:
+  - `position: fixed`
+  - `inset: 0`
+  - `width: auto`
+  - `min-width: 0`
+  - `max-width: none`
+  - `height: 100dvh`
+  - `max-height: 100dvh`
+  - `margin: 0`
+  - `border-radius: 0`
+  - `box-sizing: border-box`
+  - `transform: none`
+  - `overflow: hidden`
+- O wrapper inline de `ModalBase` e `.accessible-modal-body` sao forçados a `width: 100%`, `max-width: 100%`, `min-width: 0`, `height: 100%` e layout flex somente no breakpoint mobile.
 
-## Testes executados
+## Solucao aplicada ao conteudo
+- Os dois modais agora separam cabecalho e conteudo rolavel com `.financeiro-modal-scroll`.
+- O cabecalho fica fora do container rolavel e usa `flex: 0 0 auto`.
+- O conteudo usa `flex: 1 1 auto`, `overflow-y: auto`, `overflow-x: clip` e `overscroll-behavior: contain`.
+- O cabecalho do historico permite quebra em duas linhas: texto em linha propria e acoes abaixo quando necessario.
+- Cards, rankings e filhos diretos recebem limites de largura no mobile.
+- Linhas de informacao e ranking usam `grid-template-columns: minmax(0, 1fr) auto`; blocos longos usam quebra de palavra.
+
+## Validacao executada
 - `npm run lint`
-- `npm run build`
-- `git diff --check`
 
-## Validacao visual
+## Validacao pendente em navegador autenticado
 - Nao houve sessao autenticada real disponivel nesta execucao.
-- Nao foram declarados valores de `scrollWidth/clientWidth`.
-- A confirmacao final deve ser feita com os modais abertos em 320, 360, 375, 390, 412 e 430px.
+- Os valores de `clientWidth` e `scrollWidth` ainda precisam ser medidos com os modais abertos.
+- Larguras a medir: 320, 360, 375, 390, 412 e 430px.
+- Cenarios pendentes:
+  - sem modal aberto;
+  - `Relatorios financeiros` aberto;
+  - `Historico financeiro do aluno` aberto;
+  - historico com detalhes de uma parcela expandidos;
+  - relatorio aberto a partir do historico.
 
-## Pendencias
-- Medir em navegador autenticado:
-  - Historico financeiro aberto e com card expandido.
-  - Relatorios financeiros aberto com rankings/listas.
-  - `document.documentElement.scrollWidth === document.documentElement.clientWidth`.
+## Criterio tecnico esperado
+- `document.documentElement.scrollWidth === document.documentElement.clientWidth`
+- `.financeiro-modal-scroll.scrollWidth === .financeiro-modal-scroll.clientWidth`
+- Diferenca maxima aceitavel: 1px por arredondamento.

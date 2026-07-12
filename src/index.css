@@ -4440,3 +4440,157 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
     border-color: rgba(148, 163, 184, 0.2) !important;
   }
 }
+
+/* Ciclo 3.2: modais financeiros fullscreen no mobile */
+.financeiro-modal-scroll {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .financeiro-modal-overlay {
+    align-items: stretch !important;
+    justify-content: stretch !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+  }
+
+  .financeiro-modal-overlay .financeiro-modal {
+    border-radius: 0 !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100dvh !important;
+    inset: 0 !important;
+    margin: 0 !important;
+    max-height: 100dvh !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    padding: 14px !important;
+    position: fixed !important;
+    transform: none !important;
+    width: auto !important;
+  }
+
+  @supports not (height: 100dvh) {
+    .financeiro-modal-overlay .financeiro-modal {
+      height: 100vh !important;
+      max-height: 100vh !important;
+    }
+  }
+
+  .financeiro-modal .accessible-modal-body {
+    box-sizing: border-box;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    height: 100%;
+    max-width: 100%;
+    min-height: 0;
+    min-width: 0;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .financeiro-modal .accessible-modal-body > div {
+    box-sizing: border-box;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    height: 100%;
+    max-width: 100% !important;
+    min-height: 0;
+    min-width: 0;
+    overflow: hidden;
+    width: 100% !important;
+  }
+
+  .financeiro-modal-topo {
+    align-items: flex-start !important;
+    box-sizing: border-box;
+    display: flex !important;
+    flex: 0 0 auto;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    max-width: 100%;
+    min-width: 0;
+    padding-bottom: 10px;
+    width: 100%;
+  }
+
+  .financeiro-modal-topo > div:first-child {
+    flex: 1 1 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .financeiro-modal-actions,
+  .financeiro-modal-topo > button {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .financeiro-modal-actions {
+    display: flex !important;
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+    gap: 8px !important;
+    justify-content: flex-end !important;
+  }
+
+  .financeiro-modal-actions > button,
+  .financeiro-modal-topo > button {
+    flex: 1 1 136px;
+    margin-left: 0 !important;
+    min-height: 44px;
+  }
+
+  .financeiro-modal-scroll {
+    box-sizing: border-box;
+    flex: 1 1 auto;
+    max-width: 100%;
+    min-height: 0;
+    min-width: 0;
+    overscroll-behavior: contain;
+    overflow-x: clip;
+    overflow-y: auto;
+    padding-bottom: calc(14px + env(safe-area-inset-bottom));
+    width: 100%;
+  }
+
+  .financeiro-modal-scroll > *,
+  .financeiro-history-mobile,
+  .financeiro-report-card,
+  .financeiro-report-card > *,
+  .financeiro-report-card-details,
+  .financeiro-ranking-card,
+  .financeiro-ranking-row,
+  .financeiro-recurring-section {
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .financeiro-report-info,
+  .financeiro-ranking-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .financeiro-report-info-block {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .financeiro-report-card-title,
+  .financeiro-report-card-money,
+  .financeiro-report-info .card-value,
+  .financeiro-ranking-row strong,
+  .financeiro-ranking-row span {
+    overflow-wrap: anywhere;
+    white-space: normal;
+    word-break: break-word;
+  }
+}

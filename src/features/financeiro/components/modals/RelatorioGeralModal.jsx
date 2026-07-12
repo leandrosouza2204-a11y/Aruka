@@ -15,29 +15,31 @@ function RelatorioGeralModal({ ranking, onClose, styles }) {
         <button onClick={onClose} style={styles.botaoNeutro}>Fechar</button>
       </div>
 
-      <IndicadoresAcompanhamentoSection styles={styles} />
+      <div className="financeiro-modal-scroll">
+        <IndicadoresAcompanhamentoSection styles={styles} />
 
-      <div className="financeiro-general-ranking-grid" style={styles.rankingGrid}>
-        <RankingLista titulo="Maior valor acumulado" itens={ranking.porTotalPago} metrica={(item) => formatarMoeda(item.totalPago)} styles={styles} />
-        <RankingLista titulo="Mais tempo na consultoria" itens={ranking.porTempoConsultoria} metrica={(item) => `${item.tempoConsultoriaMeses} meses`} styles={styles} />
-        <RankingLista titulo="Mais pagamentos" itens={ranking.porQuantidadePagamentos} metrica={(item) => `${item.quantidadePagamentos} pagamentos`} styles={styles} />
-      </div>
-
-      <section className="financeiro-report-section financeiro-recurring-section" style={styles.relatorioBox}>
-        <h3 style={styles.subtituloModal}>Pagamentos recorrentes em dia</h3>
-        <div style={styles.listaCompacta}>
-          {ranking.recorrentesEmDia.length === 0 ? (
-            <span style={styles.secaoLegenda}>Nenhum aluno recorrente em dia encontrado ainda.</span>
-          ) : (
-            ranking.recorrentesEmDia.map((item) => (
-              <span key={item.aluno.id} className="financeiro-ranking-row" style={styles.rankingLinha}>
-                <strong>{item.nomeAluno}</strong>
-                <span>{formatarMoeda(item.totalPago)}</span>
-              </span>
-            ))
-          )}
+        <div className="financeiro-general-ranking-grid" style={styles.rankingGrid}>
+          <RankingLista titulo="Maior valor acumulado" itens={ranking.porTotalPago} metrica={(item) => formatarMoeda(item.totalPago)} styles={styles} />
+          <RankingLista titulo="Mais tempo na consultoria" itens={ranking.porTempoConsultoria} metrica={(item) => `${item.tempoConsultoriaMeses} meses`} styles={styles} />
+          <RankingLista titulo="Mais pagamentos" itens={ranking.porQuantidadePagamentos} metrica={(item) => `${item.quantidadePagamentos} pagamentos`} styles={styles} />
         </div>
-      </section>
+
+        <section className="financeiro-report-section financeiro-recurring-section" style={styles.relatorioBox}>
+          <h3 style={styles.subtituloModal}>Pagamentos recorrentes em dia</h3>
+          <div style={styles.listaCompacta}>
+            {ranking.recorrentesEmDia.length === 0 ? (
+              <span style={styles.secaoLegenda}>Nenhum aluno recorrente em dia encontrado ainda.</span>
+            ) : (
+              ranking.recorrentesEmDia.map((item) => (
+                <span key={item.aluno.id} className="financeiro-ranking-row" style={styles.rankingLinha}>
+                  <strong>{item.nomeAluno}</strong>
+                  <span>{formatarMoeda(item.totalPago)}</span>
+                </span>
+              ))
+            )}
+          </div>
+        </section>
+      </div>
     </ModalBase>
   );
 }

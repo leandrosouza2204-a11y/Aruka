@@ -28,18 +28,19 @@ function HistoricoFinanceiroModal({ registro, onClose, onRelatorio, styles }) {
         </div>
       </div>
 
-      <div className="financeiro-history-filter" style={styles.filtrosHistorico}>
-        <label style={styles.campoGrupo}>
-          <span style={styles.labelCampo}>Ordenar por data</span>
-          <select value={ordem} onChange={(e) => setOrdem(e.target.value)} style={styles.campo}>
-            <option value="desc">Mais recentes primeiro</option>
-            <option value="asc">Mais antigos primeiro</option>
-          </select>
-        </label>
-      </div>
+      <div className="financeiro-modal-scroll">
+        <div className="financeiro-history-filter" style={styles.filtrosHistorico}>
+          <label style={styles.campoGrupo}>
+            <span style={styles.labelCampo}>Ordenar por data</span>
+            <select value={ordem} onChange={(e) => setOrdem(e.target.value)} style={styles.campo}>
+              <option value="desc">Mais recentes primeiro</option>
+              <option value="asc">Mais antigos primeiro</option>
+            </select>
+          </label>
+        </div>
 
-      <div className="app-table-scroll financeiro-history-table" style={styles.tabelaModal}>
-        <table className="app-table financeiro-history-data-table" style={styles.tabela}>
+        <div className="app-table-scroll financeiro-history-table" style={styles.tabelaModal}>
+          <table className="app-table financeiro-history-data-table" style={styles.tabela}>
           <thead>
             <tr style={styles.linhaCabecalho}>
               <th className="financeiro-history-date" style={styles.header}>Data</th>
@@ -76,14 +77,15 @@ function HistoricoFinanceiroModal({ registro, onClose, onRelatorio, styles }) {
               ))
             )}
           </tbody>
-        </table>
-      </div>
+          </table>
+        </div>
 
-      <HistoricoFinanceiroMobileCards
-        formatarTipoMovimento={formatarTipoMovimento}
-        nomePlanoFallback={registro.nomePlano}
-        pagamentos={pagamentos}
-      />
+        <HistoricoFinanceiroMobileCards
+          formatarTipoMovimento={formatarTipoMovimento}
+          nomePlanoFallback={registro.nomePlano}
+          pagamentos={pagamentos}
+        />
+      </div>
     </ModalBase>
   );
 }
