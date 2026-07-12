@@ -69,7 +69,7 @@ function MobileBottomNavigation() {
     function fecharComEscape(event) {
       if (event.key === "Escape") {
         setMaisAberto(false);
-        maisButtonRef.current?.focus();
+        restaurarFocoMais(maisButtonRef.current);
       }
     }
 
@@ -81,7 +81,7 @@ function MobileBottomNavigation() {
     return () => {
       document.body.style.overflow = overflowAnterior;
       document.removeEventListener("keydown", fecharComEscape);
-      maisButton?.focus();
+      restaurarFocoMais(maisButton);
     };
   }, [maisAberto]);
 
@@ -248,6 +248,10 @@ function getActiveSection(pathname) {
   if (pathname.startsWith("/treinos")) return "treinos";
   if (pathname.startsWith("/financeiro")) return "financeiro";
   return "mais";
+}
+
+function restaurarFocoMais(element) {
+  element?.focus({ preventScroll: true });
 }
 
 export default MobileBottomNavigation;

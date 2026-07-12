@@ -3600,6 +3600,14 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
 
 /* Ciclo 1 mobile: compactacao visual sem alterar desktop ou regras de negocio. */
 @media (max-width: 767px) {
+  .app-sidebar-primary-nav {
+    display: none !important;
+  }
+
+  .app-sidebar-header {
+    margin-bottom: 0 !important;
+  }
+
   body.mobile-bottom-nav-mounted .app-main.page-container {
     padding-bottom: calc(92px + env(safe-area-inset-bottom)) !important;
   }
@@ -3615,7 +3623,7 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
     padding: 6px 8px calc(8px + env(safe-area-inset-bottom));
     position: fixed;
     width: 100%;
-    z-index: 80;
+    z-index: 10;
   }
 
   .mobile-bottom-nav-item {

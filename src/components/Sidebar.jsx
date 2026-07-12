@@ -192,7 +192,7 @@ function Sidebar() {
         </div>
       </div>
 
-      <nav className="app-sidebar-nav" style={styles.nav}>
+      <nav className="app-sidebar-nav app-sidebar-primary-nav" style={styles.nav}>
         <MenuLink
           to="/dashboard"
           active={isActive("/dashboard")}
