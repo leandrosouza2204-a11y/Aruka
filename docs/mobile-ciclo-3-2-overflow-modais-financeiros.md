@@ -12,6 +12,7 @@
 - `src/features/financeiro/components/modals/HistoricoFinanceiroModal.jsx`
 - `src/features/financeiro/components/modals/RelatorioGeralModal.jsx`
 - `src/index.css`
+- `scripts/validate-finance-modals-cdp.mjs`
 
 ## Diagnostico por codigo
 - O portal do `AccessibleModal` ja e renderizado diretamente em `document.body`, sem ancestral transformado entre o dialogo e o body.
@@ -50,11 +51,66 @@
 - Cards, rankings e filhos diretos recebem limites de largura no mobile.
 - Linhas de informacao e ranking usam `grid-template-columns: minmax(0, 1fr) auto`; blocos longos usam quebra de palavra.
 
-## Validacao executada
+## Script de validacao criado
+- `scripts/validate-finance-modals-cdp.mjs`
+- Usa Chrome DevTools Protocol na porta `9222` por padrao.
+- Aceita porta alternativa via `CDP_PORT`.
+- Carrega credenciais QA locais via `node --env-file=.env.qa.local`.
+- Nao carrega credenciais no frontend e nao usa variaveis `VITE_`.
+- Se nao houver sessao autenticada, tenta login automatico com `QA_USER_EMAIL` e `QA_USER_PASSWORD`.
+- O script nao imprime e-mail, senha, tokens, storage, cookies ou headers de autenticacao.
+- Navega para `/financeiro`, testa 320, 360, 375, 390, 412 e 430px.
+- Para cada largura, tenta abrir:
+  - `Relatorios financeiros`;
+  - `Historico financeiro do aluno`;
+  - detalhes expandidos do historico, quando houver botao `Ver detalhes`.
+- Registra:
+  - `document.documentElement.clientWidth`;
+  - `document.documentElement.scrollWidth`;
+  - `document.body.clientWidth`;
+  - `document.body.scrollWidth`;
+  - `modal.clientWidth`;
+  - `modal.scrollWidth`;
+  - `scrollContainer.clientWidth`;
+  - `scrollContainer.scrollWidth`;
+  - visibilidade do botao `Fechar`;
+  - elementos que ainda excedem o viewport.
+- Salva evidencias em `tmp-responsive-screenshots/finance-modals/`, pasta ignorada pelo Git.
+- Retorna codigo diferente de zero quando a autenticacao falha, um modal nao abre, um seletor obrigatorio nao e encontrado ou algum delta horizontal passa de 1px.
+
+## Como executar com credenciais QA locais
+1. Criar ou editar `.env.qa.local` na raiz do projeto.
+2. Preencher somente localmente:
+   - `QA_USER_EMAIL`
+   - `QA_USER_PASSWORD`
+3. Nunca versionar `.env.qa.local`.
+4. Iniciar o app local em `http://127.0.0.1:5173/`.
+5. Iniciar o Chrome com DevTools Protocol na porta `9222`.
+6. Executar:
+   - `npm run qa:finance-modals`
+
+## Protecao de credenciais
+- `.env.qa.local` possui regra explicita em `.gitignore`.
+- O arquivo tambem fica coberto pelas regras existentes `.env.*`, `*.local` e `.env*`.
+- Confirmar com:
+  - `git check-ignore -v .env.qa.local`
+  - `git ls-files .env.qa.local`
+
+## Validacao executada em 2026-07-12
+- Vite local iniciado em `http://127.0.0.1:5173/`.
+- Chrome headless com CDP iniciado na porta `9222` usando perfil temporario.
+- Resultado: nao autenticado. A rota `/financeiro` redirecionou para `/login` em 320px.
+- Chrome headless com CDP iniciado na porta `9223` tentando reaproveitar o perfil padrao.
+- Resultado: nao autenticado. A rota `/financeiro` redirecionou para `/login` em 320px.
+- `.env.local` nao possui credencial de teste nomeada; foi encontrada somente chave relacionada a Vercel.
+- Foi adicionado suporte seguro a `.env.qa.local`, mas o arquivo local esta sem valores reais nesta execucao.
 - `npm run lint`
+- `npm run build`
+- `git diff --check`
 
 ## Validacao pendente em navegador autenticado
 - Nao houve sessao autenticada real disponivel nesta execucao.
+- A validacao final nao foi declarada concluida.
 - Os valores de `clientWidth` e `scrollWidth` ainda precisam ser medidos com os modais abertos.
 - Larguras a medir: 320, 360, 375, 390, 412 e 430px.
 - Cenarios pendentes:
