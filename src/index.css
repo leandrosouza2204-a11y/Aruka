@@ -2176,6 +2176,86 @@ body[data-theme="dark"] .admin-logs-panel select {
   display: none;
 }
 
+.financeiro-report-empty {
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  color: #64748b;
+  display: none;
+  font-size: 14px;
+  font-weight: 800;
+  margin-top: 14px;
+  padding: 14px;
+  text-align: center;
+}
+
+.financeiro-report-card-header {
+  align-items: flex-start;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.financeiro-report-card-title {
+  color: #111827;
+  display: block;
+  font-size: 15px;
+  line-height: 1.25;
+  margin-top: 3px;
+}
+
+.financeiro-report-card-money {
+  color: #16a34a;
+  flex: 0 0 auto;
+  font-size: 18px;
+  line-height: 1.15;
+  text-align: right;
+}
+
+.financeiro-report-card-main,
+.financeiro-report-card-details {
+  display: grid;
+  gap: 8px;
+}
+
+.financeiro-report-card-main {
+  border-top: 1px solid #eef2f7;
+  padding-top: 10px;
+}
+
+.financeiro-report-card-details {
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.financeiro-report-info {
+  align-items: flex-start;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.financeiro-report-info-block {
+  display: grid;
+  justify-content: stretch;
+}
+
+.financeiro-report-info .card-value {
+  overflow-wrap: anywhere;
+  text-align: right;
+}
+
+.financeiro-report-info-block .card-value {
+  text-align: left;
+}
+
+.financeiro-report-details-toggle {
+  justify-self: stretch;
+}
+
 .financeiro-card-actions .financeiro-action-main {
   flex-basis: 100%;
 }
@@ -2297,6 +2377,18 @@ body[data-theme="dark"] .admin-logs-panel select {
 body[data-theme="dark"] .financeiro-history-table {
   background: #182235;
   border-color: #334155;
+}
+
+body[data-theme="dark"] .financeiro-report-empty,
+body[data-theme="dark"] .financeiro-report-card-details {
+  background: #0f172a;
+  border-color: rgba(148, 163, 184, 0.22);
+  color: #cbd5e1;
+}
+
+body[data-theme="dark"] .financeiro-report-card-title,
+body[data-theme="dark"] .financeiro-report-info .card-value {
+  color: #f8fafc;
 }
 
 .financeiro-desktop-table th:nth-child(1),
@@ -4092,5 +4184,90 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
   .mobile-card-actions,
   .financeiro-card-actions {
     grid-template-columns: 1fr !important;
+  }
+}
+
+/* Ciclo 3.1: relatorios financeiros em cards no mobile, tabelas preservadas no desktop. */
+@media (min-width: 768px) {
+  .financeiro-history-table {
+    display: block !important;
+  }
+
+  .financeiro-history-mobile,
+  .financeiro-report-empty {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .financeiro-history-mobile {
+    display: grid !important;
+    gap: 10px !important;
+    margin-top: 12px !important;
+  }
+
+  .financeiro-report-empty {
+    display: block;
+  }
+
+  .financeiro-report-card {
+    gap: 10px !important;
+  }
+
+  .financeiro-report-card-main {
+    grid-template-columns: 1fr;
+  }
+
+  .financeiro-report-card-money {
+    font-size: 17px;
+  }
+
+  .financeiro-report-details-toggle {
+    min-height: 44px;
+    width: 100%;
+  }
+
+  .financeiro-student-report-grid,
+  .financeiro-general-ranking-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    margin-top: 12px !important;
+  }
+
+  .financeiro-report-section,
+  .financeiro-ranking-card {
+    padding: 12px !important;
+  }
+
+  .financeiro-ranking-card {
+    display: grid;
+    gap: 10px;
+  }
+
+  .financeiro-ranking-row {
+    align-items: flex-start !important;
+    background: #ffffff;
+    border: 1px solid #e5e7eb !important;
+    border-radius: 8px;
+    display: grid !important;
+    gap: 4px !important;
+    justify-content: stretch !important;
+    padding: 10px !important;
+  }
+
+  .financeiro-ranking-row strong,
+  .financeiro-ranking-row span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .financeiro-recurring-section .financeiro-ranking-row span {
+    color: #16a34a;
+    font-weight: 850;
+  }
+
+  body[data-theme="dark"] .financeiro-ranking-row {
+    background: #111827;
+    border-color: rgba(148, 163, 184, 0.2) !important;
   }
 }

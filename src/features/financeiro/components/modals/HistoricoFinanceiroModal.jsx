@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { formatarData, formatarMoeda } from "../../../../data/alunosUtils";
+import HistoricoFinanceiroMobileCards from "../mobile/HistoricoFinanceiroMobileCards";
 import ModalBase from "./ModalBase";
 
 function HistoricoFinanceiroModal({ registro, onClose, onRelatorio, styles }) {
@@ -78,32 +79,12 @@ function HistoricoFinanceiroModal({ registro, onClose, onRelatorio, styles }) {
         </table>
       </div>
 
-      <div className="mobile-card-list financeiro-history-mobile" style={styles.mobileModalList}>
-        {pagamentos.map((pagamento) => (
-          <article key={pagamento.id} className="mobile-list-card financeiro-list-card">
-            <Info label="Data" valor={formatarData(pagamento.dataPagamento)} />
-            <Info label="Valor" valor={formatarMoeda(pagamento.valor)} />
-            <Info label="Plano" valor={pagamento.plano || registro.nomePlano} />
-            <Info label="Tipo" valor={formatarTipoMovimento(pagamento.tipoMovimento)} />
-            <Info label="Parcela" valor={pagamento.parcela} />
-            <Info label="Vencimento da parcela" valor={formatarData(pagamento.vencimentoParcela)} />
-            <Info label="Forma" valor={pagamento.formaPagamento || "-"} />
-            <Info label="Vencimento do plano antes" valor={formatarData(pagamento.vencimentoAnterior)} />
-            <Info label="Vencimento do plano depois" valor={formatarData(pagamento.vencimentoNovo)} />
-            <Info label="Observação" valor={pagamento.observacao || pagamento.observacoes || "-"} />
-          </article>
-        ))}
-      </div>
+      <HistoricoFinanceiroMobileCards
+        formatarTipoMovimento={formatarTipoMovimento}
+        nomePlanoFallback={registro.nomePlano}
+        pagamentos={pagamentos}
+      />
     </ModalBase>
-  );
-}
-
-function Info({ label, valor }) {
-  return (
-    <div className="card-row">
-      <span className="card-label">{label}</span>
-      <strong className="card-value">{valor}</strong>
-    </div>
   );
 }
 

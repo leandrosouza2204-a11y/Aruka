@@ -21,7 +21,7 @@ function RelatorioAlunoModal({ registro, onClose, styles }) {
         <button onClick={onClose} style={styles.botaoNeutro}>Fechar</button>
       </div>
 
-      <div style={styles.resumoGrid}>
+      <div className="financeiro-student-report-grid" style={styles.resumoGrid}>
         <ResumoItem label="Data de início" valor={formatarData(resumo.dataInicio)} styles={styles} />
         <ResumoItem label="Tempo na consultoria" valor={`${resumo.tempoConsultoriaMeses} meses`} styles={styles} />
         <ResumoItem label="Total pago" valor={formatarMoeda(resumo.totalPago)} styles={styles} />
@@ -32,7 +32,7 @@ function RelatorioAlunoModal({ registro, onClose, styles }) {
         <ResumoItem label="Próximo vencimento" valor={formatarData(resumo.proximoVencimento)} styles={styles} />
       </div>
 
-      <section style={styles.relatorioBox}>
+      <section className="financeiro-report-section" style={styles.relatorioBox}>
         <h3 style={styles.subtituloModal}>Resumo para promoções</h3>
         <p style={styles.secaoLegenda}>
           {resumo.recorrenteEmDia
@@ -41,7 +41,7 @@ function RelatorioAlunoModal({ registro, onClose, styles }) {
         </p>
       </section>
 
-      <section style={styles.relatorioBox}>
+      <section className="financeiro-report-section" style={styles.relatorioBox}>
         <h3 style={styles.subtituloModal}>Histórico do acompanhamento</h3>
         <HistoricoAcompanhamentoContent
           carregando={historicoAcompanhamento.carregando}
@@ -51,9 +51,9 @@ function RelatorioAlunoModal({ registro, onClose, styles }) {
       </section>
 
       {registro.grupoAcompanhamento === "encerrados" && (
-        <section style={styles.relatorioBox}>
+        <section className="financeiro-report-section" style={styles.relatorioBox}>
           <h3 style={styles.subtituloModal}>Encerramento do acompanhamento</h3>
-          <div style={styles.resumoGrid}>
+          <div className="financeiro-student-report-grid" style={styles.resumoGrid}>
             <ResumoItem label="Status" valor={registro.statusAcompanhamento} styles={styles} />
             <ResumoItem label="Motivo" valor={registro.motivoEncerramento.label} styles={styles} />
             <ResumoItem
