@@ -4,6 +4,7 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 import SubscriptionRoute from "./auth/SubscriptionRoute";
 import AdminRoute from "./auth/AdminRoute";
 import LegalRoute from "./auth/LegalRoute";
+import MobileBottomNavigation from "./components/MobileBottomNavigation";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Alunos = lazy(() => import("./pages/Alunos"));
@@ -60,7 +61,9 @@ function App() {
               <ProtectedRoute>
                 <SubscriptionRoute>
                   <LegalRoute>
-                    <AlterarSenha />
+                    <AppMobileNav>
+                      <AlterarSenha />
+                    </AppMobileNav>
                   </LegalRoute>
                 </SubscriptionRoute>
               </ProtectedRoute>
@@ -81,7 +84,9 @@ function App() {
               <ProtectedRoute>
                 <SubscriptionRoute>
                   <LegalRoute>
-                    <Dashboard />
+                    <AppMobileNav>
+                      <Dashboard />
+                    </AppMobileNav>
                   </LegalRoute>
                 </SubscriptionRoute>
               </ProtectedRoute>
@@ -93,7 +98,9 @@ function App() {
               <ProtectedRoute>
                 <SubscriptionRoute>
                   <LegalRoute>
-                    <Alunos />
+                    <AppMobileNav>
+                      <Alunos />
+                    </AppMobileNav>
                   </LegalRoute>
                 </SubscriptionRoute>
               </ProtectedRoute>
@@ -105,7 +112,9 @@ function App() {
               <ProtectedRoute>
                 <SubscriptionRoute>
                   <LegalRoute>
-                    <Financeiro />
+                    <AppMobileNav>
+                      <Financeiro />
+                    </AppMobileNav>
                   </LegalRoute>
                 </SubscriptionRoute>
               </ProtectedRoute>
@@ -117,7 +126,9 @@ function App() {
               <ProtectedRoute>
                 <SubscriptionRoute>
                   <LegalRoute>
-                    <Planos />
+                    <AppMobileNav>
+                      <Planos />
+                    </AppMobileNav>
                   </LegalRoute>
                 </SubscriptionRoute>
               </ProtectedRoute>
@@ -129,7 +140,9 @@ function App() {
               <ProtectedRoute>
                 <SubscriptionRoute>
                   <LegalRoute>
-                    <Avaliacoes />
+                    <AppMobileNav>
+                      <Avaliacoes />
+                    </AppMobileNav>
                   </LegalRoute>
                 </SubscriptionRoute>
               </ProtectedRoute>
@@ -141,7 +154,9 @@ function App() {
               <ProtectedRoute>
                 <SubscriptionRoute>
                   <LegalRoute>
-                    <Treinos />
+                    <AppMobileNav>
+                      <Treinos />
+                    </AppMobileNav>
                   </LegalRoute>
                 </SubscriptionRoute>
               </ProtectedRoute>
@@ -154,7 +169,9 @@ function App() {
                 <SubscriptionRoute>
                   <LegalRoute>
                     <AdminRoute>
-                      <AdminUsuarios />
+                      <AppMobileNav>
+                        <AdminUsuarios />
+                      </AppMobileNav>
                     </AdminRoute>
                   </LegalRoute>
                 </SubscriptionRoute>
@@ -168,7 +185,9 @@ function App() {
                 <SubscriptionRoute>
                   <LegalRoute>
                     <AdminRoute>
-                      <AdminLogs />
+                      <AppMobileNav>
+                        <AdminLogs />
+                      </AppMobileNav>
                     </AdminRoute>
                   </LegalRoute>
                 </SubscriptionRoute>
@@ -178,6 +197,15 @@ function App() {
         </Routes>
       </Suspense>
     </BrowserRouter>
+  );
+}
+
+function AppMobileNav({ children }) {
+  return (
+    <>
+      {children}
+      <MobileBottomNavigation />
+    </>
   );
 }
 
