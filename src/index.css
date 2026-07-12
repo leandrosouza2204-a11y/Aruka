@@ -3592,3 +3592,268 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
     max-width: 100%;
   }
 }
+
+/* Ciclo 1 mobile: compactacao visual sem alterar desktop ou regras de negocio. */
+@media (max-width: 767px) {
+  .dashboard-page,
+  .financeiro-page,
+  .alunos-page,
+  .treinos-page,
+  .avaliacoes-page,
+  .planos-page,
+  .admin-logs-page,
+  .admin-users-page {
+    padding: 12px !important;
+  }
+
+  .dashboard-page .page-hero,
+  .financeiro-page .page-hero,
+  .alunos-page .page-hero,
+  .treinos-page .page-hero,
+  .avaliacoes-page .page-hero,
+  .planos-page .page-hero,
+  .admin-logs-page .page-hero,
+  .admin-users-page .page-hero {
+    display: grid !important;
+    gap: 12px !important;
+    margin-bottom: 14px !important;
+    min-height: 0 !important;
+    padding: 16px !important;
+  }
+
+  .dashboard-page .page-hero-content,
+  .financeiro-page .page-hero-content,
+  .alunos-page .page-hero-content,
+  .treinos-page .page-hero-content,
+  .avaliacoes-page .page-hero-content,
+  .planos-page .page-hero-content,
+  .admin-logs-page .page-hero-content,
+  .admin-users-page .page-hero-content {
+    gap: 5px !important;
+  }
+
+  .dashboard-page .page-hero-eyebrow,
+  .financeiro-page .page-hero-eyebrow,
+  .alunos-page .page-hero-eyebrow,
+  .treinos-page .page-hero-eyebrow,
+  .avaliacoes-page .page-hero-eyebrow,
+  .planos-page .page-hero-eyebrow,
+  .admin-logs-page .page-hero-eyebrow,
+  .admin-users-page .page-hero-eyebrow {
+    font-size: 11px !important;
+    line-height: 1.15 !important;
+  }
+
+  .dashboard-page .page-hero h1,
+  .financeiro-page .page-hero h1,
+  .alunos-page .page-hero h1,
+  .treinos-page .page-hero h1,
+  .avaliacoes-page .page-hero h1,
+  .planos-page .page-hero h1,
+  .admin-logs-page .page-hero h1,
+  .admin-users-page .page-hero h1 {
+    font-size: 22px !important;
+    line-height: 1.12 !important;
+  }
+
+  .dashboard-page .page-hero p,
+  .financeiro-page .page-hero p,
+  .alunos-page .page-hero p,
+  .treinos-page .page-hero p,
+  .avaliacoes-page .page-hero p,
+  .planos-page .page-hero p,
+  .admin-logs-page .page-hero p,
+  .admin-users-page .page-hero p {
+    font-size: 14px !important;
+    line-height: 1.32 !important;
+    max-width: 34rem !important;
+  }
+
+  .dashboard-page .page-hero-actions,
+  .financeiro-page .page-hero-actions,
+  .alunos-page .page-hero-actions,
+  .treinos-page .page-hero-actions,
+  .avaliacoes-page .page-hero-actions,
+  .planos-page .page-hero-actions,
+  .admin-logs-page .page-hero-actions,
+  .admin-users-page .page-hero-actions {
+    gap: 8px !important;
+  }
+
+  .dashboard-page .page-hero-actions button,
+  .dashboard-page .page-hero-actions a,
+  .financeiro-page .page-hero-actions button,
+  .financeiro-page .page-hero-actions a,
+  .alunos-page .page-hero-actions button,
+  .alunos-page .page-hero-actions a,
+  .treinos-page .page-hero-actions button,
+  .treinos-page .page-hero-actions a,
+  .avaliacoes-page .page-hero-actions button,
+  .avaliacoes-page .page-hero-actions a,
+  .planos-page .page-hero-actions button,
+  .planos-page .page-hero-actions a,
+  .admin-logs-page .page-hero-actions button,
+  .admin-logs-page .page-hero-actions a,
+  .admin-users-page .page-hero-actions button,
+  .admin-users-page .page-hero-actions a {
+    min-height: 44px !important;
+    padding: 8px 12px !important;
+  }
+
+  .dashboard-stats-grid,
+  .financeiro-page [style*="repeat(auto-fit, minmax(210px, 1fr))"],
+  .alunos-page .mobile-card-list,
+  .treinos-page .treinos-library-grid,
+  .avaliacoes-page .mobile-card-list,
+  .planos-page .mobile-card-list,
+  .admin-logs-page .mobile-card-list,
+  .admin-users-page .mobile-card-list {
+    gap: 10px !important;
+    margin-top: 12px !important;
+  }
+
+  .dashboard-metric-card,
+  .dashboard-stat-card,
+  .dashboard-panel,
+  .financeiro-page .app-card,
+  .financeiro-page .mobile-list-card,
+  .alunos-page .app-card,
+  .alunos-page .mobile-list-card,
+  .treinos-page .app-card,
+  .treinos-page .treino-library-card,
+  .avaliacoes-page .app-card,
+  .avaliacoes-page .mobile-card,
+  .planos-page .app-card,
+  .planos-page .mobile-list-card,
+  .admin-logs-page .admin-logs-panel,
+  .admin-logs-page .mobile-list-card,
+  .admin-users-page section,
+  .admin-users-page .mobile-list-card {
+    padding: 12px !important;
+  }
+
+  .dashboard-metric-card,
+  .dashboard-stat-card,
+  .dashboard-panel {
+    min-height: 0 !important;
+  }
+
+  .dashboard-stats-grid {
+    margin-top: 12px !important;
+  }
+
+  .dashboard-metric-card .dashboard-stat-value,
+  .dashboard-stat-card .dashboard-stat-value {
+    margin-top: 8px !important;
+  }
+
+  .dashboard-panel {
+    margin-top: 12px !important;
+  }
+
+  .dashboard-alert-item {
+    gap: 10px !important;
+    padding: 12px !important;
+  }
+
+  .dashboard-empty-premium {
+    margin-top: 12px !important;
+    padding: 12px !important;
+  }
+
+  .financeiro-page [style*="marginTop: 30px"],
+  .financeiro-page [style*="margin-top: 30px"] {
+    margin-top: 14px !important;
+  }
+
+  .financeiro-page .app-alert {
+    margin-top: 12px !important;
+    padding: 10px 12px !important;
+  }
+
+  .financeiro-page .financeiro-mobile-cards {
+    gap: 10px !important;
+    margin-top: 12px !important;
+  }
+
+  .mobile-card-header {
+    gap: 8px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .mobile-card-grid {
+    gap: 8px !important;
+  }
+
+  .card-row {
+    gap: 6px !important;
+    padding: 6px 0 !important;
+  }
+
+  .card-label,
+  .mobile-card-grid small {
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+  }
+
+  .card-value,
+  .mobile-card-header strong,
+  .mobile-card-grid span {
+    line-height: 1.25 !important;
+  }
+
+  .card-actions,
+  .mobile-card-actions,
+  .financeiro-card-actions {
+    gap: 8px !important;
+    margin-top: 10px !important;
+  }
+
+  .table-button,
+  .card-actions button,
+  .mobile-card-actions button,
+  .financeiro-card-actions button {
+    min-height: 44px !important;
+  }
+
+  .app-filter-grid,
+  .financeiro-page [style*="gridTemplateColumns"],
+  .financeiro-page [style*="grid-template-columns"] {
+    gap: 10px !important;
+  }
+
+  .app-table-scroll {
+    margin-top: 12px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .dashboard-page,
+  .financeiro-page,
+  .alunos-page,
+  .treinos-page,
+  .avaliacoes-page,
+  .planos-page,
+  .admin-logs-page,
+  .admin-users-page {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  .dashboard-page .page-hero,
+  .financeiro-page .page-hero,
+  .alunos-page .page-hero,
+  .treinos-page .page-hero,
+  .avaliacoes-page .page-hero,
+  .planos-page .page-hero,
+  .admin-logs-page .page-hero,
+  .admin-users-page .page-hero {
+    padding: 14px !important;
+  }
+
+  .card-actions,
+  .mobile-card-actions,
+  .financeiro-card-actions {
+    grid-template-columns: 1fr !important;
+  }
+}

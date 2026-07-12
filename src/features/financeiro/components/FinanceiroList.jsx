@@ -15,7 +15,7 @@ function FinanceiroList() {
     <div className="app-shell" style={{ display: "flex" }}>
       <Sidebar />
 
-      <div className="app-main page-container" style={styles.conteudo}>
+      <div className="financeiro-page app-main page-container" style={styles.conteudo}>
         <FinanceiroHeader onRelatorios={page.abrirRelatorioGeral} />
 
         <FinanceiroCards resumo={page.resumo} styles={styles} />
