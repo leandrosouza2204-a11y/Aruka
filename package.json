@@ -16,7 +16,8 @@
     "qa:aluno-details-mobile": "node --env-file=.env.qa.local scripts/validate-aluno-details-mobile-cdp.mjs",
     "qa:aluno-actions-mobile": "node --env-file=.env.qa.local scripts/validate-aluno-actions-mobile-cdp.mjs",
     "qa:alunos-final": "node --env-file=.env.qa.local scripts/validate-alunos-final-cdp.mjs",
-    "qa:alunos-module": "node --env-file=.env.qa.local scripts/validate-alunos-module-cdp.mjs"
+    "qa:alunos-module": "node --env-file=.env.qa.local scripts/validate-alunos-module-cdp.mjs",
+    "qa:treinos-mobile": "node --env-file=.env.qa.local scripts/validate-treinos-mobile-cdp.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.107.0",

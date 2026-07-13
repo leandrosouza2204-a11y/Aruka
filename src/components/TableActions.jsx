@@ -7,7 +7,7 @@ const MENU_WIDTH = 240;
 const MENU_OFFSET = 8;
 const MENU_MARGIN = 16;
 
-function TableActions({ children, label = "Mais ações" }) {
+function TableActions({ children, label = "Mais ações", testIdPrefix = "aluno" }) {
   const [aberto, setAberto] = useState(false);
   const [posicao, setPosicao] = useState({
     left: MENU_MARGIN,
@@ -108,7 +108,7 @@ function TableActions({ children, label = "Mais ações" }) {
           ref={triggerRef}
           type="button"
           className="table-button table-button-secondary table-actions-trigger"
-          data-testid="aluno-actions-trigger"
+          data-testid={`${testIdPrefix}-actions-trigger`}
           aria-label={label}
           aria-expanded={aberto}
           aria-controls={aberto ? menuId : undefined}
@@ -125,7 +125,7 @@ function TableActions({ children, label = "Mais ações" }) {
               id={menuId}
               ref={menuRef}
               role="menu"
-              data-testid="aluno-actions-menu"
+              data-testid={`${testIdPrefix}-actions-menu`}
               aria-label={label}
               className="table-actions-dropdown"
               onKeyDown={fecharComTeclado}

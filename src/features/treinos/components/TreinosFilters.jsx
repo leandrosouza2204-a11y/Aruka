@@ -14,9 +14,15 @@ function TreinosFilters({
   styles,
 }) {
   return (
-    <div className="app-filter-grid treinos-filtros" style={styles.filtros}>
+    <div
+      className="app-filter-grid treinos-filtros"
+      data-testid="treinos-filters"
+      style={styles.filtros}
+    >
       <input
         className="app-input"
+        aria-label="Buscar treinos"
+        data-testid="treinos-search"
         placeholder="Buscar por aluno ou rotina"
         value={busca}
         onChange={(event) => onBuscaChange(event.target.value)}
@@ -25,6 +31,8 @@ function TreinosFilters({
 
       <select
         className="app-select"
+        aria-label="Filtrar por aluno"
+        data-testid="treinos-filter-aluno"
         value={filtroAluno}
         onChange={(event) => onFiltroAlunoChange(event.target.value)}
         style={styles.campo}
@@ -39,6 +47,8 @@ function TreinosFilters({
 
       <select
         className="app-select"
+        aria-label="Filtrar por objetivo"
+        data-testid="treinos-filter-objetivo"
         value={filtroObjetivo}
         onChange={(event) => onFiltroObjetivoChange(event.target.value)}
         style={styles.campo}
@@ -53,6 +63,8 @@ function TreinosFilters({
 
       <select
         className="app-select"
+        aria-label="Filtrar por nível"
+        data-testid="treinos-filter-nivel"
         value={filtroNivel}
         onChange={(event) => onFiltroNivelChange(event.target.value)}
         style={styles.campo}
@@ -67,6 +79,8 @@ function TreinosFilters({
 
       <select
         className="app-select"
+        aria-label="Filtrar por status"
+        data-testid="treinos-filter-status"
         value={filtroStatus}
         onChange={(event) => onFiltroStatusChange(event.target.value)}
         style={styles.campo}
@@ -79,7 +93,12 @@ function TreinosFilters({
         ))}
       </select>
 
-      <button className="app-button app-button-neutral" onClick={onLimparFiltros} style={styles.botaoSecundario}>
+      <button
+        className="app-button app-button-neutral"
+        data-testid="treinos-clear-filters"
+        onClick={onLimparFiltros}
+        style={styles.botaoSecundario}
+      >
         Limpar
       </button>
     </div>

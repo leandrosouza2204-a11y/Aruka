@@ -31,7 +31,11 @@ function TreinosList() {
     <div className="app-shell" style={{ display: "flex" }}>
       <Sidebar />
 
-      <div className="treinos-page app-main page-container" style={styles.conteudo}>
+      <div
+        className="treinos-page app-main page-container"
+        data-testid="treinos-page"
+        style={styles.conteudo}
+      >
         <TreinosHeader
           quantidadeFiltrada={treinosPage.treinosFiltrados.length}
           quantidadeTotal={treinosPage.treinos.length}
@@ -51,12 +55,12 @@ function TreinosList() {
                 Gerencie as rotinas criadas para seus alunos.
               </p>
             </div>
-            <span style={styles.libraryCounter}>
+            <span className="treinos-library-counter" style={styles.libraryCounter}>
               {treinosPage.treinosFiltrados.length} rotinas
             </span>
           </div>
 
-          <div style={styles.filterCard}>
+          <div className="treinos-filter-card" style={styles.filterCard}>
             <TreinosFilters
               busca={treinosPage.busca}
               filtroAluno={treinosPage.filtroAluno}
@@ -98,7 +102,11 @@ function TreinosList() {
         </div>
 
         {!treinosPage.treinoSelecionado && !treinosPage.carregando && (
-          <section className="app-empty-state treinos-empty-card app-card" style={styles.semTreinoCard}>
+          <section
+            className="app-empty-state treinos-empty-card app-card"
+            data-testid="treinos-empty-state"
+            style={styles.semTreinoCard}
+          >
             <div style={styles.semTreinoIcone}>
               <Dumbbell size={22} />
             </div>

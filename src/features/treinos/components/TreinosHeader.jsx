@@ -17,7 +17,12 @@ function TreinosHeader({
         description="Crie, organize e acompanhe rotinas de treino personalizadas."
         meta={`${quantidadeFiltrada} de ${quantidadeTotal} treinos exibidos`}
         actions={
-          <button className="app-button app-button-primary" onClick={onNovoTreino} style={styles.botaoPrimario}>
+          <button
+            className="app-button app-button-primary"
+            data-testid="treino-new-button"
+            onClick={onNovoTreino}
+            style={styles.botaoPrimario}
+          >
             + Novo treino
           </button>
         }

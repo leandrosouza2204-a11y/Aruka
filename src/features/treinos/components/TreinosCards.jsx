@@ -48,6 +48,7 @@ function TreinosCards({
         <article
           key={treino.id}
           className={`treino-library-card${selectedId === treino.id ? " is-selected" : ""}`}
+          data-testid="treino-mobile-card"
           style={{
             ...styles.treinoCard,
             ...(selectedId === treino.id ? styles.treinoCardSelecionado : {}),
@@ -91,21 +92,26 @@ function TreinosCards({
             <button
               onClick={() => onVisualizar(treino.id)}
               className="table-button table-button-primary"
+              data-testid="treino-open"
               style={styles.treinoVisualizar}
             >
               <Eye size={15} />
               Visualizar
             </button>
-            <TableActions>
-              <TableActionItem onClick={() => onEditar(treino)}>
+            <TableActions label={`Mais ações de ${treino.rotina || "treino"}`} testIdPrefix="treino">
+              <TableActionItem data-testid="treino-action-edit" onClick={() => onEditar(treino)}>
                 <Pencil size={14} />
                 Editar
               </TableActionItem>
-              <TableActionItem onClick={() => onDuplicar(treino)}>
+              <TableActionItem data-testid="treino-action-duplicate" onClick={() => onDuplicar(treino)}>
                 <Copy size={14} />
                 Duplicar
               </TableActionItem>
-              <TableActionItem onClick={() => onExcluir(treino.id)} variant="danger">
+              <TableActionItem
+                data-testid="treino-action-delete"
+                onClick={() => onExcluir(treino.id)}
+                variant="danger"
+              >
                 <Trash2 size={14} />
                 Excluir
               </TableActionItem>

@@ -2633,6 +2633,39 @@ body[data-theme="dark"] .financeiro-report-info .card-value {
   gap: 8px;
 }
 
+.treinos-page,
+.treinos-page *,
+.treinos-library-section,
+.treinos-filter-card,
+.treinos-library-grid,
+.treino-library-card {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.treinos-library-grid {
+  width: 100%;
+}
+
+.treino-library-card {
+  overflow-wrap: anywhere;
+  width: 100%;
+}
+
+.treino-library-card h3,
+.treino-library-card p,
+.treino-library-badge,
+.treino-library-card strong {
+  overflow-wrap: anywhere;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.treino-library-card .table-actions-menu {
+  flex: 0 0 auto;
+}
+
 .avaliacao-mobile-card {
   display: grid;
   gap: 14px;

@@ -198,6 +198,7 @@ export function useTreinosPage() {
       titulo: "Excluir treino?",
       descricao: "Esta ação remove a ficha de treino selecionada.",
       textoConfirmar: "Excluir",
+      testIdPrefix: "treino",
     });
 
     if (!confirmado) return;

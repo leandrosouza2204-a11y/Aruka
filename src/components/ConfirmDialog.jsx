@@ -14,6 +14,7 @@ export function ConfirmProvider({ children }) {
         textoConfirmar: opcoes.textoConfirmar || "Confirmar",
         textoCancelar: opcoes.textoCancelar || "Cancelar",
         variante: opcoes.variante || "perigo",
+        testIdPrefix: opcoes.testIdPrefix || "aluno",
         resolve,
       });
     });
@@ -37,7 +38,7 @@ export function ConfirmProvider({ children }) {
           description={dialog.descricao}
           size="sm"
           role="alertdialog"
-          data-testid="aluno-confirmation-dialog"
+          data-testid={`${dialog.testIdPrefix}-confirmation-dialog`}
           initialFocusRef={cancelarRef}
           closeOnOverlayClick={false}
           footer={
@@ -46,7 +47,7 @@ export function ConfirmProvider({ children }) {
                 ref={cancelarRef}
                 type="button"
                 className="btn btn-secondary"
-                data-testid="aluno-confirmation-cancel"
+                data-testid={`${dialog.testIdPrefix}-confirmation-cancel`}
                 onClick={() => fechar(false)}
               >
                 {dialog.textoCancelar}
@@ -54,7 +55,7 @@ export function ConfirmProvider({ children }) {
               <button
                 type="button"
                 className={`btn ${dialog.variante === "perigo" ? "btn-danger" : "btn-primary"}`}
-                data-testid="aluno-confirmation-confirm"
+                data-testid={`${dialog.testIdPrefix}-confirmation-confirm`}
                 onClick={() => fechar(true)}
               >
                 {dialog.textoConfirmar}
