@@ -3275,13 +3275,20 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
 
 /* Dashboard mobile final polish */
 .dashboard-page {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   max-width: 100%;
-  overflow-x: hidden;
+  min-width: 0;
   width: 100%;
 }
 
 .dashboard-stats-grid,
+.dashboard-onboarding-section,
+.dashboard-alerts-section,
+.dashboard-chart-section,
 .dashboard-panel {
+  box-sizing: border-box;
   max-width: 100%;
   min-width: 0;
   width: 100%;
@@ -3298,6 +3305,7 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
 
 .dashboard-metric-card,
 .dashboard-stat-card {
+  box-sizing: border-box;
   max-width: 100%;
   overflow: hidden;
   width: 100%;
@@ -3332,9 +3340,33 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
     padding-right: 12px !important;
   }
 
+  .dashboard-page .page-hero {
+    order: 1;
+  }
+
+  .dashboard-alerts-section {
+    order: 2;
+  }
+
+  .dashboard-stats-section {
+    order: 3;
+  }
+
+  .dashboard-onboarding-section {
+    order: 4;
+  }
+
+  .dashboard-chart-section {
+    order: 5;
+  }
+
   .dashboard-stats-grid {
     gap: 12px !important;
     margin-top: 16px !important;
+  }
+
+  .checkin-card {
+    order: -1;
   }
 
   .dashboard-metric-card,
@@ -3349,6 +3381,20 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
 
   .dashboard-panel [style*="grid-template-columns"] {
     max-width: 100%;
+  }
+
+  .dashboard-alert-item {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .dashboard-alert-item .status-badge {
+    justify-self: start;
+  }
+
+  .dashboard-alert-item .app-button,
+  .dashboard-alert-item a {
+    min-height: 44px !important;
+    width: 100% !important;
   }
 }
 
@@ -3474,6 +3520,10 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
 .admin-logs-page,
 .admin-users-page {
   overflow-x: hidden;
+}
+
+.dashboard-page {
+  overflow-x: visible;
 }
 
 .dashboard-page .page-hero,

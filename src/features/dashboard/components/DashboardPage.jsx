@@ -14,14 +14,16 @@ function DashboardPage() {
     <div className="app-shell" style={{ display: "flex" }}>
       <Sidebar />
 
-      <div className="dashboard-page app-main page-container" style={styles.conteudo}>
+      <div className="dashboard-page app-main page-container" data-page="dashboard" style={styles.conteudo}>
         <DashboardHeader styles={styles} />
 
         {dashboard.erro && <div className="app-error">{dashboard.erro}</div>}
 
-        <DashboardOnboardingChecklist status={dashboard.onboardingStatus} />
+        <div className="dashboard-onboarding-section">
+          <DashboardOnboardingChecklist status={dashboard.onboardingStatus} />
+        </div>
 
-        <div className="dashboard-stats-grid" style={styles.cardsGrid}>
+        <div className="dashboard-stats-grid dashboard-stats-section" style={styles.cardsGrid}>
           <DashboardCards metricas={dashboard.metricas} styles={styles} />
           <DashboardCheckin
             alunos={dashboard.alunosAtivosCheckin}
@@ -33,18 +35,22 @@ function DashboardPage() {
           />
         </div>
 
-        <DashboardAlertas
-          alertas={dashboard.alertasConsultoria}
-          carregando={dashboard.carregando}
-          styles={styles}
-        />
+        <div className="dashboard-alerts-section">
+          <DashboardAlertas
+            alertas={dashboard.alertasConsultoria}
+            carregando={dashboard.carregando}
+            styles={styles}
+          />
+        </div>
 
-        <DashboardAtalhos
-          carregando={dashboard.carregando}
-          maiorReceitaMensal={dashboard.maiorReceitaMensal}
-          receitaMensal={dashboard.receitaMensal}
-          styles={styles}
-        />
+        <div className="dashboard-chart-section">
+          <DashboardAtalhos
+            carregando={dashboard.carregando}
+            maiorReceitaMensal={dashboard.maiorReceitaMensal}
+            receitaMensal={dashboard.receitaMensal}
+            styles={styles}
+          />
+        </div>
       </div>
     </div>
   );

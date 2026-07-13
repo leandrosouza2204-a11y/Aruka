@@ -6,7 +6,7 @@ function DashboardAlertas({ alertas, carregando, styles }) {
   }
 
   return (
-    <section className="dashboard-panel" style={styles.resumoCard}>
+    <section className="dashboard-panel dashboard-alerts-panel" style={styles.resumoCard}>
       <div className="app-card-header" style={styles.secaoTopo}>
         <div>
           <h2 style={styles.secaoTitulo}>Alertas da consultoria</h2>
