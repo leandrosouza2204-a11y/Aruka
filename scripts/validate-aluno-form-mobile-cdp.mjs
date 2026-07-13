@@ -192,6 +192,8 @@ async function openCadastro(client) {
 }
 
 async function openEdicao(client) {
+  await client.send("Input.dispatchKeyEvent", { type: "keyDown", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27 });
+  await client.send("Input.dispatchKeyEvent", { type: "keyUp", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27 });
   await waitFor(
     client,
     "document.querySelector('[data-testid=\"aluno-mobile-card\"], .aluno-mobile-card, .desktop-table tbody tr')",
@@ -201,50 +203,35 @@ async function openEdicao(client) {
   const opened = await evaluate(
     client,
     `(() => {
-      if (window.innerWidth > 768) {
-        const tableActions = document.querySelector('.desktop-table .table-actions-trigger, .table-actions-trigger');
-        tableActions?.scrollIntoView({ block: 'center', inline: 'nearest' });
-        return Boolean(tableActions);
-      }
-      const card = document.querySelector('[data-testid="aluno-mobile-card"], .aluno-mobile-card');
-      if (card) {
-        const trigger = card.querySelector('.table-actions-trigger');
-        if (trigger) {
-          trigger.scrollIntoView({ block: 'center', inline: 'nearest' });
-          return true;
-        }
-      }
-      const tableActions = document.querySelector('.desktop-table .table-actions-trigger, .table-actions-trigger');
-      tableActions?.scrollIntoView({ block: 'center', inline: 'nearest' });
-      return Boolean(tableActions);
+      const visible = (element) => {
+        if (!element) return false;
+        const rect = element.getBoundingClientRect();
+        const style = getComputedStyle(element);
+        return rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
+      };
+      const cards = [...document.querySelectorAll('[data-testid="aluno-mobile-card"], .aluno-mobile-card')].filter(visible);
+      const rows = [...document.querySelectorAll('.desktop-table tbody tr')].filter(visible);
+      const source = cards[0] || rows[0];
+      const trigger = source?.querySelector('[data-testid="aluno-actions-trigger"], .table-actions-trigger');
+      trigger?.scrollIntoView({ block: 'center', inline: 'nearest' });
+      if (trigger) trigger.setAttribute('data-qa-edit-target', 'true');
+      return Boolean(trigger);
     })()`
   );
   if (!opened) throw new Error("Nao foi possivel localizar menu de edicao do aluno.");
-  await sleep(250);
+  await sleep(350);
   const clicked = await evaluate(
     client,
     `(() => {
-      if (window.innerWidth > 768) {
-        const tableActions = document.querySelector('.desktop-table .table-actions-trigger, .table-actions-trigger');
-        tableActions?.click();
-        return Boolean(tableActions);
-      }
-      const card = document.querySelector('[data-testid="aluno-mobile-card"], .aluno-mobile-card');
-      if (card) {
-        const trigger = card.querySelector('.table-actions-trigger');
-        if (trigger) {
-          trigger.click();
-          return true;
-        }
-      }
-      const tableActions = document.querySelector('.desktop-table .table-actions-trigger, .table-actions-trigger');
-      tableActions?.click();
-      return Boolean(tableActions);
+      const trigger = document.querySelector('[data-qa-edit-target="true"]');
+      trigger?.click();
+      trigger?.removeAttribute('data-qa-edit-target');
+      return Boolean(trigger);
     })()`
   );
   if (!clicked) throw new Error("Nao foi possivel abrir menu de edicao do aluno.");
   await sleep(300);
-  if (!(await clickText(client, "Editar", '[role="menuitem"], button'))) {
+  if (!(await clickText(client, "Editar", '[data-testid="aluno-action-edit"], [role="menuitem"], button'))) {
     throw new Error("Acao Editar nao encontrada.");
   }
   await waitFor(client, "document.querySelector('[data-testid=\"aluno-form-modal\"]')");

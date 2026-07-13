@@ -167,6 +167,28 @@ async function getAuthState(client) {
   );
 }
 
+async function openAlunos(client) {
+  await client.send("Page.navigate", { url: appUrl });
+  await waitFor(client, "document.readyState === 'complete'");
+  await sleep(700);
+  const state = await getAuthState(client);
+  if (state.path.includes("/login") || state.hasLoginForm) {
+    await loginIfNeeded(client);
+  }
+  await waitFor(client, "document.querySelector('[data-page=\"alunos\"], .alunos-page')", 20000);
+  await waitFor(
+    client,
+    `(() => {
+      const hasItems = document.querySelector('[data-testid="aluno-mobile-card"], .aluno-mobile-card, .desktop-table tbody tr');
+      const hasEmpty = document.body.textContent.includes('Nenhum aluno encontrado');
+      const hasError = Boolean(document.querySelector('.app-error'));
+      return (hasItems || hasEmpty || hasError) && !document.body.textContent.includes('Carregando alunos');
+    })()`,
+    25000
+  );
+  await sleep(1200);
+}
+
 async function measure(client, viewport, phase) {
   return evaluate(
     client,
@@ -404,17 +426,15 @@ async function run() {
         deviceScaleFactor: 1,
         mobile: viewport.mobile,
       });
-      await client.send("Page.navigate", { url: appUrl });
-      await waitFor(client, "document.readyState === 'complete'");
-      await sleep(2200);
       if (!authDone) {
+        await client.send("Page.navigate", { url: "http://127.0.0.1:5173/login" });
+        await waitFor(client, "document.readyState === 'complete'");
+        await sleep(1200);
         const auth = await loginIfNeeded(client);
         console.log(auth === "logged-in" ? "Autenticacao QA realizada com sucesso." : "Sessao QA existente reaproveitada.");
         authDone = true;
       }
-      await waitFor(client, "document.querySelector('[data-page=\"alunos\"], .alunos-page')");
-      await waitFor(client, "!document.body.textContent.includes('Carregando alunos')");
-      await sleep(1200);
+      await openAlunos(client);
       await windowScrollTop(client, 0);
 
       if (!filtersExercised) {
