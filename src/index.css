@@ -3560,6 +3560,121 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
   min-width: 0;
 }
 
+.aluno-details,
+.aluno-details *,
+.aluno-details-content,
+.aluno-details-section,
+.aluno-details-actions {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.aluno-details {
+  overflow-wrap: anywhere;
+  width: 100%;
+}
+
+.aluno-details-header {
+  align-items: flex-start !important;
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 12px !important;
+}
+
+.aluno-details-heading {
+  display: grid;
+  flex: 1 1 180px;
+  gap: 6px;
+  min-width: 0;
+}
+
+.aluno-details-heading h2 {
+  overflow-wrap: anywhere;
+}
+
+.aluno-details-content {
+  display: grid;
+  gap: 14px;
+  width: 100%;
+}
+
+.aluno-details-section {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+}
+
+.aluno-details-section h3 {
+  color: #111827;
+  font-size: 14px;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.aluno-details-info {
+  display: grid;
+  gap: 4px;
+}
+
+.aluno-details-info strong,
+.aluno-details-observacoes p {
+  overflow-wrap: anywhere;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.aluno-details-observacoes p {
+  color: #111827;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.aluno-details-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 2px;
+}
+
+.aluno-details-actions button {
+  min-height: 42px;
+}
+
+.aluno-form-modal,
+.aluno-form-shell,
+.aluno-form-header,
+.aluno-form-heading,
+.aluno-form-scroll,
+.aluno-form-grid,
+.aluno-form-footer {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.aluno-form-shell {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.aluno-form-scroll {
+  flex: 1 1 auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.aluno-form-grid > *,
+.aluno-form-grid input,
+.aluno-form-grid select,
+.aluno-form-grid textarea {
+  max-width: 100%;
+  min-width: 0;
+}
+
 .alunos-page .card-actions,
 .planos-page .card-actions,
 .admin-users-page .card-actions,
@@ -3567,6 +3682,79 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
 .avaliacoes-page .card-actions,
 .treinos-page .card-actions {
   align-items: stretch;
+}
+
+@media (max-width: 640px) {
+  .aluno-form-overlay,
+  .aluno-form-overlay[style*="position: fixed"][style*="inset: 0"] {
+    align-items: stretch !important;
+    justify-content: stretch !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+  }
+
+  .aluno-form-modal,
+  .aluno-form-modal[style*="width: min(680px, 100%)"] {
+    border-radius: 0 !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    width: auto !important;
+  }
+
+  .aluno-form-header {
+    align-items: flex-start !important;
+    gap: 12px !important;
+    padding: 16px 16px 10px !important;
+  }
+
+  .aluno-form-heading {
+    flex: 1 1 auto;
+  }
+
+  .aluno-form-header h2 {
+    font-size: 20px !important;
+    line-height: 1.2 !important;
+    overflow-wrap: anywhere;
+  }
+
+  .aluno-form-header p {
+    line-height: 1.35 !important;
+  }
+
+  .aluno-form-close {
+    flex: 0 0 auto;
+    min-height: 40px;
+  }
+
+  .aluno-form-scroll {
+    overflow-x: clip !important;
+    padding: 12px 16px 16px !important;
+  }
+
+  .aluno-form-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .aluno-form-grid input,
+  .aluno-form-grid select,
+  .aluno-form-grid textarea {
+    font-size: 16px !important;
+    min-height: 44px !important;
+  }
+
+  .aluno-form-footer {
+    background: white;
+    flex-direction: column-reverse;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .aluno-form-footer button {
+    justify-content: center;
+    min-height: 44px;
+    width: 100%;
+  }
 }
 
 @media (min-width: 769px) and (max-width: 1180px) {
@@ -3721,6 +3909,24 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
   .alunos-page .mobile-inline-details > section {
     margin-top: 0 !important;
     padding: 12px !important;
+  }
+
+  .alunos-page .aluno-details {
+    padding-bottom: calc(8px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .alunos-page .aluno-details [style*="grid-template-columns"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .alunos-page .aluno-details-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .alunos-page .aluno-details-actions button {
+    justify-content: center;
+    width: 100%;
   }
 
   .alunos-page .mobile-inline-details [style*="grid-template-columns"] {

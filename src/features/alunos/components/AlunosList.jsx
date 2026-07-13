@@ -1,7 +1,10 @@
+import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import Sidebar from "../../../components/Sidebar";
 import InlineDetails from "../../../components/InlineDetails";
 import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
+import { classeStatusAluno } from "../../../data/statusHelpers";
 import { useAlunosPage } from "../hooks/useAlunosPage";
 import AlunoCardMobile from "./AlunoCardMobile";
 import AlunosFilters from "./AlunosFilters";
@@ -108,9 +111,10 @@ function AlunosList() {
                   itemId={aluno.id}
                   selectedItemId={page.alunoSelecionadoId}
                 >
-                  <AlunoDetalhes
+                  <AlunoDetalhesResponsivo
                     aluno={aluno}
                     nomePlano={page.nomePlano}
+                    onEditar={page.abrirEdicao}
                     onFechar={() => page.setAlunoSelecionadoId("")}
                     styles={styles}
                   />
@@ -121,10 +125,11 @@ function AlunosList() {
         </div>
 
         {page.alunoSelecionado && (
-          <AlunoDetalhes
+          <AlunoDetalhesResponsivo
             aluno={page.alunoSelecionado}
             className="desktop-detail-panel"
             nomePlano={page.nomePlano}
+            onEditar={page.abrirEdicao}
             onFechar={() => page.setAlunoSelecionadoId("")}
             styles={styles}
           />
@@ -136,26 +141,65 @@ function AlunosList() {
 
 function AlunoModal({ page, styles }) {
   const form = page.form;
+  const tituloId = "aluno-form-title";
+  const descricaoId = "aluno-form-description";
 
-  return (
-    <div style={styles.modalOverlay}>
-      <div style={styles.modal}>
-        <div style={styles.modalTopo}>
-          <div>
-            <h2 style={styles.detalhesTitulo}>
+  useEffect(() => {
+    const overflowAnterior = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = overflowAnterior;
+    };
+  }, []);
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    page.salvarAluno();
+  }
+
+  return createPortal(
+    <div className="aluno-form-overlay" style={styles.modalOverlay}>
+      <div
+        aria-describedby={descricaoId}
+        aria-labelledby={tituloId}
+        aria-modal="true"
+        className="aluno-form-modal"
+        data-testid="aluno-form-modal"
+        role="dialog"
+        style={styles.modal}
+      >
+        <div className="aluno-form-header" style={styles.modalTopo}>
+          <div className="aluno-form-heading">
+            <h2 id={tituloId} style={styles.detalhesTitulo}>
               {page.alunoEditandoId ? "Editar Aluno" : "Cadastro Aluno"}
             </h2>
-            <p style={styles.resumoLista}>Preencha os dados do aluno</p>
+            <p id={descricaoId} style={styles.resumoLista}>Preencha os dados do aluno</p>
           </div>
 
-          <button onClick={page.fecharModal} style={styles.botaoSecundario}>
+          <button
+            className="aluno-form-close"
+            data-testid="aluno-form-close"
+            onClick={page.fecharModal}
+            style={styles.botaoSecundario}
+            type="button"
+          >
             Fechar
           </button>
         </div>
 
-        <div style={styles.formGrid}>
+        <form className="aluno-form-shell" onSubmit={handleSubmit}>
+          <div
+            className="aluno-form-scroll"
+            data-testid="aluno-form-scroll"
+            style={styles.formScroll}
+          >
+            <div className="aluno-form-grid" style={styles.formGrid}>
           <Campo label="Nome do aluno" styles={styles}>
             <input
+              autoComplete="name"
+              data-testid="aluno-name"
+              enterKeyHint="next"
               placeholder="Ex: Maria Silva"
               value={form.nome}
               onChange={(e) => page.atualizarForm("nome", e.target.value)}
@@ -165,7 +209,12 @@ function AlunoModal({ page, styles }) {
 
           <Campo label="WhatsApp" styles={styles}>
             <input
+              autoComplete="tel"
+              data-testid="aluno-phone"
+              enterKeyHint="next"
+              inputMode="tel"
               placeholder="Ex: (11) 99999-9999"
+              type="tel"
               value={form.whatsapp}
               onChange={page.handleWhatsApp}
               style={styles.campo}
@@ -174,6 +223,8 @@ function AlunoModal({ page, styles }) {
 
           <Campo label="Data de nascimento" styles={styles}>
             <input
+              data-testid="aluno-birth-date"
+              enterKeyHint="next"
               type="date"
               value={form.nascimento}
               onChange={(e) => page.atualizarForm("nascimento", e.target.value)}
@@ -183,6 +234,8 @@ function AlunoModal({ page, styles }) {
 
           <Campo label="Início do plano" styles={styles}>
             <input
+              data-testid="aluno-plan-start"
+              enterKeyHint="next"
               type="date"
               value={form.inicio}
               onChange={page.handleInicio}
@@ -191,7 +244,12 @@ function AlunoModal({ page, styles }) {
           </Campo>
 
           <Campo label="Plano contratado" styles={styles}>
-            <select value={form.plano} onChange={page.handlePlano} style={styles.campo}>
+            <select
+              data-testid="aluno-plan"
+              value={form.plano}
+              onChange={page.handlePlano}
+              style={styles.campo}
+            >
               <option value="">Selecione o plano</option>
               {page.planosAtivos.map((plano) => (
                 <option key={plano.id} value={plano.id}>
@@ -203,6 +261,7 @@ function AlunoModal({ page, styles }) {
 
           <Campo label="Vencimento" styles={styles}>
             <input
+              data-testid="aluno-due-date"
               readOnly
               placeholder="Calculado pelo plano"
               value={formatarData(form.vencimento)}
@@ -212,6 +271,8 @@ function AlunoModal({ page, styles }) {
 
           <Campo label="Valor" styles={styles}>
             <input
+              data-testid="aluno-value"
+              inputMode="decimal"
               type="number"
               min="0"
               step="0.01"
@@ -222,15 +283,41 @@ function AlunoModal({ page, styles }) {
             />
           </Campo>
 
-          <button onClick={page.salvarAluno} style={styles.botaoPrimario} disabled={page.salvando}>
-            {page.salvando ? "Salvando..." : "Salvar"}
-          </button>
-        </div>
+            </div>
+          </div>
+
+          <div
+            className="aluno-form-footer"
+            data-testid="aluno-form-footer"
+            style={styles.formFooter}
+          >
+            <button
+              className="aluno-form-cancel"
+              data-testid="aluno-form-cancel"
+              onClick={page.fecharModal}
+              style={styles.botaoSecundario}
+              type="button"
+            >
+              Cancelar
+            </button>
+            <button
+              className="aluno-form-submit"
+              data-testid="aluno-form-submit"
+              style={styles.botaoPrimario}
+              disabled={page.salvando}
+              type="submit"
+            >
+              {page.salvando ? "Salvando..." : "Salvar"}
+            </button>
+          </div>
+        </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
+// eslint-disable-next-line no-unused-vars
 function AlunoDetalhes({ aluno, className = "", nomePlano, onFechar, styles }) {
   return (
     <section className={className} style={styles.detalhesAluno}>
@@ -263,6 +350,116 @@ function AlunoDetalhes({ aluno, className = "", nomePlano, onFechar, styles }) {
   );
 }
 
+function AlunoDetalhesResponsivo({
+  aluno,
+  className = "",
+  nomePlano,
+  onEditar,
+  onFechar,
+  styles,
+}) {
+  return (
+    <section
+      className={`aluno-details ${className}`.trim()}
+      data-testid="aluno-details"
+      style={styles.detalhesAluno}
+    >
+      <div
+        className="aluno-details-header"
+        data-testid="aluno-details-header"
+        style={styles.detalhesTopo}
+      >
+        <div className="aluno-details-heading">
+          <span className={classeStatusAluno(aluno.status)}>{aluno.status}</span>
+          <h2 style={styles.detalhesTitulo}>{aluno.nome}</h2>
+          <p style={styles.resumoLista}>Informações completas do cadastro</p>
+        </div>
+
+        <button
+          data-testid="aluno-details-close"
+          onClick={onFechar}
+          style={styles.botaoSecundario}
+          type="button"
+        >
+          Fechar
+        </button>
+      </div>
+
+      <div className="aluno-details-content" data-testid="aluno-details-content">
+        <section className="aluno-details-section" data-testid="aluno-details-plan">
+          <h3>Plano e vencimento</h3>
+          <div style={styles.detalhesGrid}>
+            <InfoResponsivo label="Plano" valor={nomePlano(aluno.plano)} styles={styles} />
+            <InfoResponsivo label="Valor" valor={formatarMoeda(aluno.valor)} styles={styles} />
+            <InfoResponsivo label="Início" valor={formatarData(aluno.inicio)} styles={styles} />
+            <InfoResponsivo label="Vencimento" valor={formatarData(aluno.vencimento)} styles={styles} />
+          </div>
+        </section>
+
+        <section className="aluno-details-section" data-testid="aluno-details-contact">
+          <h3>Contato</h3>
+          <div style={styles.detalhesGrid}>
+            <InfoResponsivo label="WhatsApp" valor={aluno.whatsapp || "Não cadastrado"} styles={styles} />
+          </div>
+        </section>
+
+        <section className="aluno-details-section">
+          <h3>Dados pessoais e status</h3>
+          <div style={styles.detalhesGrid}>
+            <InfoResponsivo label="Nascimento" valor={formatarData(aluno.nascimento)} styles={styles} />
+            <InfoResponsivo label="Status" valor={aluno.status} styles={styles} />
+            <InfoResponsivo label="Pagamento recebido" valor={aluno.pagamentoRecebido ? "Sim" : "Não"} styles={styles} />
+            <InfoResponsivo label="Data do pagamento" valor={formatarData(aluno.dataPagamento)} styles={styles} />
+          </div>
+        </section>
+
+        <section className="aluno-details-section">
+          <h3>Avisos</h3>
+          <div style={styles.detalhesGrid}>
+            <InfoResponsivo label="Aviso 7 dias" valor={formatarData(aluno.aviso7)} styles={styles} />
+            <InfoResponsivo label="Aviso 1 dia" valor={formatarData(aluno.aviso1)} styles={styles} />
+          </div>
+        </section>
+
+        <section
+          className="aluno-details-section aluno-details-observacoes"
+          data-testid="aluno-details-observacoes"
+        >
+          <h3>Observações</h3>
+          <p>{aluno.observacoes || "Sem observações cadastradas"}</p>
+        </section>
+
+        <div className="aluno-details-actions" data-testid="aluno-details-actions">
+          <button
+            className="table-button table-button-primary"
+            data-testid="aluno-details-edit"
+            onClick={() => onEditar?.(aluno)}
+            type="button"
+          >
+            Editar aluno
+          </button>
+          <button
+            className="table-button table-button-secondary"
+            onClick={onFechar}
+            type="button"
+          >
+            Recolher detalhes
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function InfoResponsivo({ label, valor, styles }) {
+  return (
+    <div className="aluno-details-info" style={styles.infoItem}>
+      <span style={styles.infoLabel}>{label}</span>
+      <strong style={styles.infoValor}>{valor || "Não informado"}</strong>
+    </div>
+  );
+}
+
 function Campo({ label, children, styles }) {
   return (
     <label style={styles.campoGrupo}>
@@ -286,7 +483,22 @@ const styles = {
     display: "grid",
     gap: "14px",
     maxWidth: "620px",
-    marginTop: "20px",
+    width: "100%",
+  },
+  formScroll: {
+    minHeight: 0,
+    overflowX: "clip",
+    overflowY: "auto",
+    padding: "20px 24px",
+  },
+  formFooter: {
+    alignItems: "center",
+    borderTop: "1px solid #e5e7eb",
+    display: "flex",
+    flex: "0 0 auto",
+    gap: "10px",
+    justifyContent: "flex-end",
+    padding: "14px 24px",
   },
   conteudo: {
     padding: "24px",
@@ -352,6 +564,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     gap: "6px",
+    minWidth: 0,
   },
   labelCampo: {
     color: "#374151",
@@ -360,9 +573,12 @@ const styles = {
   },
   campo: {
     width: "100%",
+    maxWidth: "100%",
+    minWidth: 0,
     minHeight: "42px",
     border: "1px solid #d1d5db",
     borderRadius: "8px",
+    boxSizing: "border-box",
     padding: "9px 11px",
     background: "white",
     color: "#111827",
@@ -426,7 +642,7 @@ const styles = {
   modalOverlay: {
     position: "fixed",
     inset: 0,
-    zIndex: 20,
+    zIndex: 1200,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -435,18 +651,23 @@ const styles = {
   },
   modal: {
     width: "min(680px, 100%)",
-    maxHeight: "calc(100vh - 48px)",
-    overflowY: "auto",
+    height: "min(760px, calc(100dvh - 48px))",
+    maxHeight: "calc(100dvh - 48px)",
+    overflow: "hidden",
     background: "white",
     borderRadius: "8px",
-    padding: "24px",
     boxShadow: "0 24px 70px rgba(15, 23, 42, 0.28)",
+    display: "flex",
+    flexDirection: "column",
+    minHeight: 0,
   },
   modalTopo: {
     display: "flex",
     alignItems: "flex-start",
     justifyContent: "space-between",
     gap: "16px",
+    flex: "0 0 auto",
+    padding: "24px 24px 0",
   },
   detalhesAluno: {
     marginTop: "24px",
