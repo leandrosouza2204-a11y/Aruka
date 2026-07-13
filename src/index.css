@@ -4449,6 +4449,15 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
   width: 100%;
 }
 
+.renovacao-modal-scroll,
+.renovacao-modal-grid,
+.renovacao-modal-footer {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+  width: 100%;
+}
+
 @media (max-width: 640px) {
   .financeiro-modal-overlay {
     align-items: stretch !important;
@@ -4558,6 +4567,53 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
     overflow-x: clip;
     overflow-y: auto;
     padding-bottom: calc(14px + env(safe-area-inset-bottom));
+    width: 100%;
+  }
+
+  .renovacao-modal-scroll {
+    box-sizing: border-box;
+    flex: 1 1 auto;
+    max-width: 100%;
+    min-height: 0;
+    min-width: 0;
+    overscroll-behavior: contain;
+    overflow-x: clip;
+    overflow-y: auto;
+    padding-bottom: 12px;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .renovacao-modal-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    margin-top: 0 !important;
+  }
+
+  .renovacao-modal-grid > *,
+  .renovacao-modal-grid label,
+  .renovacao-modal-grid input,
+  .renovacao-modal-grid select,
+  .renovacao-modal-grid textarea {
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .renovacao-modal-footer {
+    background: #ffffff;
+    border-top: 1px solid #e5e7eb;
+    display: flex !important;
+    flex: 0 0 auto;
+    flex-direction: column-reverse;
+    gap: 8px !important;
+    margin-top: 0 !important;
+    padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+  }
+
+  .renovacao-modal-footer > button {
+    justify-content: center;
+    min-height: 44px;
     width: 100%;
   }
 

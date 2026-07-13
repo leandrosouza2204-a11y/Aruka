@@ -108,17 +108,64 @@
 - `npm run build`
 - `git diff --check`
 
-## Validacao pendente em navegador autenticado
-- Nao houve sessao autenticada real disponivel nesta execucao.
-- A validacao final nao foi declarada concluida.
-- Os valores de `clientWidth` e `scrollWidth` ainda precisam ser medidos com os modais abertos.
-- Larguras a medir: 320, 360, 375, 390, 412 e 430px.
-- Cenarios pendentes:
-  - sem modal aberto;
-  - `Relatorios financeiros` aberto;
-  - `Historico financeiro do aluno` aberto;
-  - historico com detalhes de uma parcela expandidos;
-  - relatorio aberto a partir do historico.
+## Validacao autenticada final em 2026-07-12
+- Credenciais carregadas exclusivamente de `.env.qa.local` via `npm run qa:finance-modals`.
+- Autenticacao QA concluida com sucesso, sem registrar e-mail, senha, tokens, cookies ou storage.
+- Viewports testados com altura de 900px: 320, 360, 375, 390, 412 e 430px.
+- Modais abertos com dados reais do usuario QA:
+  - `Relatorios financeiros`;
+  - `Historico financeiro do aluno`;
+  - `Historico financeiro do aluno` com detalhes expandidos.
+- O container `.financeiro-modal-scroll` foi rolado ate o final antes de cada medicao.
+- Todos os deltas horizontais ficaram em `0px`.
+- O botao `Fechar` ficou visivel em todos os cenarios.
+- Nao houve elemento excedendo o viewport no diagnostico automatizado.
+
+| Viewport | Cenario | Documento | Body | Modal | Scroll interno | Resultado |
+| --- | --- | --- | --- | --- | --- | --- |
+| 320 | Relatorios | 320/320 | 320/320 | 318/318 | 290/290 | OK |
+| 320 | Historico | 320/320 | 320/320 | 318/318 | 290/290 | OK |
+| 320 | Historico detalhes | 320/320 | 320/320 | 318/318 | 290/290 | OK |
+| 360 | Relatorios | 360/360 | 360/360 | 358/358 | 330/330 | OK |
+| 360 | Historico | 360/360 | 360/360 | 358/358 | 330/330 | OK |
+| 360 | Historico detalhes | 360/360 | 360/360 | 358/358 | 330/330 | OK |
+| 375 | Relatorios | 375/375 | 375/375 | 373/373 | 345/345 | OK |
+| 375 | Historico | 375/375 | 375/375 | 373/373 | 345/345 | OK |
+| 375 | Historico detalhes | 375/375 | 375/375 | 373/373 | 345/345 | OK |
+| 390 | Relatorios | 390/390 | 390/390 | 388/388 | 360/360 | OK |
+| 390 | Historico | 390/390 | 390/390 | 388/388 | 360/360 | OK |
+| 390 | Historico detalhes | 390/390 | 390/390 | 388/388 | 360/360 | OK |
+| 412 | Relatorios | 412/412 | 412/412 | 410/410 | 382/382 | OK |
+| 412 | Historico | 412/412 | 412/412 | 410/410 | 382/382 | OK |
+| 412 | Historico detalhes | 412/412 | 412/412 | 410/410 | 382/382 | OK |
+| 430 | Relatorios | 430/430 | 430/430 | 428/428 | 400/400 | OK |
+| 430 | Historico | 430/430 | 430/430 | 428/428 | 400/400 | OK |
+| 430 | Historico detalhes | 430/430 | 430/430 | 428/428 | 400/400 | OK |
+
+## Screenshots geradas
+- `tmp-responsive-screenshots/finance-modals/relatorios-financeiros-320.png`
+- `tmp-responsive-screenshots/finance-modals/historico-financeiro-320.png`
+- `tmp-responsive-screenshots/finance-modals/relatorios-financeiros-360.png`
+- `tmp-responsive-screenshots/finance-modals/historico-financeiro-360.png`
+- `tmp-responsive-screenshots/finance-modals/relatorios-financeiros-375.png`
+- `tmp-responsive-screenshots/finance-modals/historico-financeiro-375.png`
+- `tmp-responsive-screenshots/finance-modals/relatorios-financeiros-390.png`
+- `tmp-responsive-screenshots/finance-modals/historico-financeiro-390.png`
+- `tmp-responsive-screenshots/finance-modals/relatorios-financeiros-412.png`
+- `tmp-responsive-screenshots/finance-modals/historico-financeiro-412.png`
+- `tmp-responsive-screenshots/finance-modals/relatorios-financeiros-430.png`
+- `tmp-responsive-screenshots/finance-modals/historico-financeiro-430.png`
+- Evidencias adicionais de detalhes expandidos:
+  - `historico-financeiro-detalhes-320.png`
+  - `historico-financeiro-detalhes-360.png`
+  - `historico-financeiro-detalhes-375.png`
+  - `historico-financeiro-detalhes-390.png`
+  - `historico-financeiro-detalhes-412.png`
+  - `historico-financeiro-detalhes-430.png`
+
+## Status final
+- Aprovado.
+- A correcao estrutural fullscreen eliminou o overflow horizontal nos modais financeiros testados.
 
 ## Criterio tecnico esperado
 - `document.documentElement.scrollWidth === document.documentElement.clientWidth`

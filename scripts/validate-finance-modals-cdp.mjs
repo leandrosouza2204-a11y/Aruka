@@ -45,11 +45,11 @@ function createCdpClient(webSocketUrl) {
     const message = JSON.parse(event.data);
     if (!message.id || !pending.has(message.id)) return;
 
-    const { resolve, reject } = pending.get(message.id);
+    const { method, resolve, reject } = pending.get(message.id);
     pending.delete(message.id);
 
     if (message.error) {
-      reject(new Error(message.error.message));
+      reject(new Error(`${method}: ${message.error.message}`));
       return;
     }
 
@@ -65,7 +65,7 @@ function createCdpClient(webSocketUrl) {
       const id = nextId++;
       socket.send(JSON.stringify({ id, method, params }));
       return new Promise((resolve, reject) => {
-        pending.set(id, { resolve, reject });
+        pending.set(id, { method, resolve, reject });
       });
     },
     close() {
@@ -77,7 +77,7 @@ function createCdpClient(webSocketUrl) {
 async function waitFor(client, expression, timeout = 15000) {
   const started = Date.now();
   while (Date.now() - started < timeout) {
-    const result = await evaluate(client, expression);
+    const result = await evaluate(client, `Boolean(${expression})`);
     if (result) return result;
     await sleep(250);
   }
@@ -127,15 +127,20 @@ async function loginIfNeeded(client) {
         return { ok: false, reason: "campos-nao-encontrados" };
       }
 
+      const setValue = (input, value) => {
+        const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+        setter.call(input, value);
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      };
+
       email.focus();
-      email.value = ${JSON.stringify(process.env.QA_USER_EMAIL)};
+      setValue(email, ${JSON.stringify(process.env.QA_USER_EMAIL)});
       email.dispatchEvent(new Event('input', { bubbles: true }));
       email.dispatchEvent(new Event('change', { bubbles: true }));
 
       password.focus();
-      password.value = ${JSON.stringify(process.env.QA_USER_PASSWORD)};
-      password.dispatchEvent(new Event('input', { bubbles: true }));
-      password.dispatchEvent(new Event('change', { bubbles: true }));
+      setValue(password, ${JSON.stringify(process.env.QA_USER_PASSWORD)});
 
       return { ok: true };
     })()`
@@ -150,7 +155,7 @@ async function loginIfNeeded(client) {
     throw new Error(`Falha no login QA: botao Entrar nao encontrado. Rota atual: ${authState.path}`);
   }
 
-  await sleep(3500);
+  await sleep(5500);
   const afterLogin = await getAuthState(client);
   if (afterLogin.path.includes("/login") || afterLogin.hasLoginForm) {
     throw new Error(
@@ -176,7 +181,8 @@ async function getAuthState(client) {
     `(() => {
       const alertText = [...document.querySelectorAll('p, [role="alert"], .app-alert')]
         .map((item) => item.textContent.trim())
-        .find(Boolean) || "";
+        .filter(Boolean)
+        .find((text) => /erro|invalid|senha|credenciais|login|auth|não|nao|falha|failed/i.test(text)) || "";
       return {
         path: window.location.pathname,
         hasLoginForm: Boolean(document.querySelector('input[type="email"], input[type="password"]')),
@@ -218,6 +224,8 @@ async function openHistoryModal(client) {
 }
 
 async function measure(client, width, scenario) {
+  await scrollModalToEnd(client);
+
   return evaluate(
     client,
     `(() => {
@@ -234,7 +242,7 @@ async function measure(client, width, scenario) {
           return {
             tag: element.tagName.toLowerCase(),
             className: typeof element.className === 'string' ? element.className : '',
-            text: element.textContent.trim().slice(0, 80),
+            text: element.textContent.trim().replace(/\\s+/g, ' ').slice(0, 80),
             width: Math.round(rect.width * 100) / 100,
             left: Math.round(rect.left * 100) / 100,
             right: Math.round(rect.right * 100) / 100,
@@ -274,10 +282,37 @@ async function measure(client, width, scenario) {
         bodyDelta: document.body.scrollWidth - document.body.clientWidth,
         modalDelta: modal ? modal.scrollWidth - modal.clientWidth : null,
         scrollContainerDelta: scrollContainer ? scrollContainer.scrollWidth - scrollContainer.clientWidth : null,
-        overflowing
+        overflowing: overflowing.map((item) => ({
+          tag: item.tag,
+          className: item.className,
+          text: item.text,
+          width: item.width,
+          left: item.left,
+          right: item.right,
+          position: item.position,
+          display: item.display,
+          overflowX: item.overflowX,
+          minWidth: item.minWidth,
+          maxWidth: item.maxWidth,
+          transform: item.transform,
+          whiteSpace: item.whiteSpace
+        }))
       };
     })()`
   );
+}
+
+async function scrollModalToEnd(client) {
+  await evaluate(
+    client,
+    `(() => {
+      const scrollContainer = document.querySelector('.financeiro-modal-scroll');
+      if (!scrollContainer) return false;
+      scrollContainer.scrollTop = scrollContainer.scrollHeight;
+      return true;
+    })()`
+  );
+  await sleep(250);
 }
 
 async function captureModalScreenshot(client, scenario, width) {
@@ -348,7 +383,7 @@ async function run() {
     for (const width of widths) {
       await client.send("Emulation.setDeviceMetricsOverride", {
         width,
-        height: 1100,
+        height: 900,
         deviceScaleFactor: 1,
         mobile: true,
       });
