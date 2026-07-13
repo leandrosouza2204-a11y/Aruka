@@ -13,6 +13,7 @@ function AlunosFilters({
     <div className="app-filter-grid alunos-filtros" style={styles.filtros}>
       <input
         className="app-input"
+        data-testid="alunos-search"
         placeholder="Buscar por nome"
         value={busca}
         onChange={(e) => onBuscaChange(e.target.value)}
@@ -21,6 +22,7 @@ function AlunosFilters({
 
       <select
         className="app-select"
+        data-testid="alunos-status-filter"
         value={filtroStatus}
         onChange={(e) => onFiltroStatusChange(e.target.value)}
         style={{ ...styles.campo, ...styles.campoFiltro }}
@@ -35,6 +37,7 @@ function AlunosFilters({
 
       <select
         className="app-select"
+        data-testid="alunos-plan-filter"
         value={filtroPlano}
         onChange={(e) => onFiltroPlanoChange(e.target.value)}
         style={{ ...styles.campo, ...styles.campoFiltro }}

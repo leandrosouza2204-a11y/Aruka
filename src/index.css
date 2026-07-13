@@ -3526,6 +3526,10 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
   overflow-x: visible;
 }
 
+.alunos-page {
+  overflow-x: visible;
+}
+
 .dashboard-page .page-hero,
 .alunos-page .page-hero,
 .treinos-page .page-hero,
@@ -3542,7 +3546,18 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
 .admin-logs-page .mobile-list-card,
 .avaliacoes-page .mobile-list-card,
 .treinos-page .mobile-list-card {
+  max-width: 100%;
   overflow-wrap: anywhere;
+  width: 100%;
+}
+
+.alunos-page .aluno-mobile-card,
+.alunos-page .mobile-inline-details,
+.alunos-page .mobile-inline-details > section,
+.alunos-page .desktop-detail-panel,
+.alunos-page .alunos-filter-card {
+  max-width: 100%;
+  min-width: 0;
 }
 
 .alunos-page .card-actions,
@@ -3665,6 +3680,9 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
     flex-direction: column;
     gap: 12px;
     margin-top: 16px;
+    max-width: 100%;
+    min-width: 0;
+    width: 100%;
   }
 
   .alunos-page .card-actions,
@@ -3679,6 +3697,15 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
     grid-template-columns: 1fr !important;
   }
 
+  .alunos-page .card-actions {
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr)) !important;
+  }
+
+  .alunos-page .card-actions .table-actions-menu,
+  .alunos-page .card-actions .table-actions-trigger {
+    width: 100%;
+  }
+
   .alunos-page .card-actions button,
   .planos-page .card-actions button,
   .admin-users-page .card-actions button,
@@ -3689,6 +3716,20 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
   .treinos-library-empty-actions button {
     justify-content: center;
     width: 100%;
+  }
+
+  .alunos-page .mobile-inline-details > section {
+    margin-top: 0 !important;
+    padding: 12px !important;
+  }
+
+  .alunos-page .mobile-inline-details [style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  .alunos-page .mobile-inline-details [style*="justify-content: space-between"] {
+    align-items: stretch !important;
+    display: grid !important;
   }
 
   .admin-logs-page .admin-logs-period,

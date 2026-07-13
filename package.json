@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "qa:finance-modals": "node --env-file=.env.qa.local scripts/validate-finance-modals-cdp.mjs",
     "qa:renovacao-mobile": "node --env-file=.env.qa.local scripts/validate-renovacao-plano-mobile-cdp.mjs",
-    "qa:dashboard-mobile": "node --env-file=.env.qa.local scripts/validate-dashboard-mobile-cdp.mjs"
+    "qa:dashboard-mobile": "node --env-file=.env.qa.local scripts/validate-dashboard-mobile-cdp.mjs",
+    "qa:alunos-mobile": "node --env-file=.env.qa.local scripts/validate-alunos-mobile-cdp.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.107.0",

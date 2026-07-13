@@ -18,7 +18,12 @@ function AlunosList() {
     <div className="app-shell" style={{ display: "flex" }}>
       <Sidebar />
 
-      <div className="alunos-page app-main page-container" style={styles.conteudo}>
+      <div
+        className="alunos-page app-main page-container"
+        data-page="alunos"
+        data-testid="alunos-page"
+        style={styles.conteudo}
+      >
         <AlunosHeader
           alunosFiltradosTotal={page.alunosFiltrados.length}
           alunosTotal={page.alunos.length}
@@ -45,7 +50,7 @@ function AlunosList() {
           </section>
         )}
 
-        <section className="app-card" style={styles.listaCard}>
+        <section className="app-card alunos-filter-card" style={styles.listaCard}>
           <AlunosFilters
             busca={page.busca}
             filtroPlano={page.filtroPlano}

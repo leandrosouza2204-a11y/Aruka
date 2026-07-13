@@ -1,6 +1,7 @@
 import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
 import { classeStatusAluno } from "../../../data/statusHelpers";
 import { normalizarTelefoneWhatsApp } from "../../../services/whatsappService";
+import TableActions, { TableActionItem } from "../../../components/TableActions";
 
 function AlunoCardMobile({
   aluno,
@@ -13,7 +14,10 @@ function AlunoCardMobile({
   onCheckin,
 }) {
   return (
-    <article className={`mobile-list-card aluno-mobile-card${isExpanded ? " mobile-list-card-expanded" : ""}`}>
+    <article
+      className={`mobile-list-card aluno-mobile-card${isExpanded ? " mobile-list-card-expanded" : ""}`}
+      data-testid="aluno-mobile-card"
+    >
       <div className="mobile-card-header">
         <div>
           <span className="card-label">Nome</span>
@@ -54,12 +58,14 @@ function AlunoCardMobile({
         >
           Check-in
         </button>
-        <button onClick={() => onEditar(aluno)} className="table-button table-button-primary">
-          Editar
-        </button>
-        <button onClick={() => onExcluir(aluno.id)} className="table-button table-button-danger">
-          Excluir
-        </button>
+        <TableActions label={`Mais ações de ${aluno.nome || "aluno"}`}>
+          <TableActionItem onClick={() => onEditar(aluno)} variant="primary">
+            Editar
+          </TableActionItem>
+          <TableActionItem onClick={() => onExcluir(aluno.id)} variant="danger">
+            Excluir
+          </TableActionItem>
+        </TableActions>
       </div>
 
       {children}
