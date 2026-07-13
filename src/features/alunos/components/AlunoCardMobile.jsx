@@ -48,21 +48,31 @@ function AlunoCardMobile({
           aria-expanded={isExpanded}
           onClick={() => onDetalhes(aluno.id)}
           className="table-button table-button-secondary"
+          data-testid="aluno-action-details"
         >
           {isExpanded ? "Ocultar" : "Detalhes"}
         </button>
         <button
           onClick={() => onCheckin(aluno)}
           className="table-button table-button-success"
+          data-testid="aluno-action-whatsapp"
           disabled={!normalizarTelefoneWhatsApp(aluno.whatsapp)}
         >
           Check-in
         </button>
         <TableActions label={`Mais ações de ${aluno.nome || "aluno"}`}>
-          <TableActionItem onClick={() => onEditar(aluno)} variant="primary">
+          <TableActionItem
+            data-testid="aluno-action-edit"
+            onClick={() => onEditar(aluno)}
+            variant="primary"
+          >
             Editar
           </TableActionItem>
-          <TableActionItem onClick={() => onExcluir(aluno.id)} variant="danger">
+          <TableActionItem
+            data-testid="aluno-action-delete"
+            onClick={() => onExcluir(aluno.id)}
+            variant="danger"
+          >
             Excluir
           </TableActionItem>
         </TableActions>

@@ -3,12 +3,17 @@ import { createPortal } from "react-dom";
 import { MoreHorizontal } from "lucide-react";
 
 const TableActionsContext = createContext(null);
-const MENU_WIDTH = 190;
-const MENU_OFFSET = 6;
+const MENU_WIDTH = 240;
+const MENU_OFFSET = 8;
+const MENU_MARGIN = 16;
 
 function TableActions({ children, label = "Mais ações" }) {
   const [aberto, setAberto] = useState(false);
-  const [posicao, setPosicao] = useState({ left: 0, top: 0, abrirParaCima: false });
+  const [posicao, setPosicao] = useState({
+    left: MENU_MARGIN,
+    top: MENU_MARGIN,
+    maxHeight: 360,
+  });
   const menuId = useId();
   const triggerRef = useRef(null);
   const menuRef = useRef(null);
@@ -17,17 +22,26 @@ function TableActions({ children, label = "Mais ações" }) {
     const rect = triggerRef.current?.getBoundingClientRect();
     if (!rect) return;
 
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const menuWidth = Math.min(MENU_WIDTH, viewportWidth - MENU_MARGIN * 2);
     const left = Math.min(
-      Math.max(8, rect.right - MENU_WIDTH),
-      window.innerWidth - MENU_WIDTH - 8
+      Math.max(MENU_MARGIN, rect.right - menuWidth),
+      viewportWidth - menuWidth - MENU_MARGIN
     );
-    const espacoAbaixo = window.innerHeight - rect.bottom;
-    const abrirParaCima = espacoAbaixo < 180 && rect.top > 180;
+    const espacoAbaixo = viewportHeight - rect.bottom - MENU_MARGIN;
+    const espacoAcima = rect.top - MENU_MARGIN;
+    const abrirParaCima = espacoAbaixo < 180 && espacoAcima > espacoAbaixo;
+    const espacoDisponivel = Math.max(
+      96,
+      abrirParaCima ? espacoAcima - MENU_OFFSET : espacoAbaixo - MENU_OFFSET
+    );
+    const maxHeight = Math.min(360, espacoDisponivel);
     const top = abrirParaCima
-      ? Math.max(8, rect.top - MENU_OFFSET)
-      : Math.min(window.innerHeight - 8, rect.bottom + MENU_OFFSET);
+      ? Math.max(MENU_MARGIN, rect.top - MENU_OFFSET - maxHeight)
+      : Math.min(rect.bottom + MENU_OFFSET, viewportHeight - MENU_MARGIN - maxHeight);
 
-    setPosicao({ left, top, abrirParaCima });
+    setPosicao({ left, top, maxHeight });
   }
 
   function alternarMenu(event) {
@@ -66,12 +80,22 @@ function TableActions({ children, label = "Mais ações" }) {
       fecharMenu();
     }
 
+    function fecharAoPressionarEscape(event) {
+      if (event.key === "Escape") {
+        event.stopPropagation();
+        fecharMenu();
+        triggerRef.current?.focus();
+      }
+    }
+
     document.addEventListener("mousedown", fecharAoClicarFora);
+    document.addEventListener("keydown", fecharAoPressionarEscape);
     window.addEventListener("resize", fecharAoReposicionar);
     window.addEventListener("scroll", fecharAoReposicionar, true);
 
     return () => {
       document.removeEventListener("mousedown", fecharAoClicarFora);
+      document.removeEventListener("keydown", fecharAoPressionarEscape);
       window.removeEventListener("resize", fecharAoReposicionar);
       window.removeEventListener("scroll", fecharAoReposicionar, true);
     };
@@ -84,6 +108,7 @@ function TableActions({ children, label = "Mais ações" }) {
           ref={triggerRef}
           type="button"
           className="table-button table-button-secondary table-actions-trigger"
+          data-testid="aluno-actions-trigger"
           aria-label={label}
           aria-expanded={aberto}
           aria-controls={aberto ? menuId : undefined}
@@ -100,15 +125,14 @@ function TableActions({ children, label = "Mais ações" }) {
               id={menuId}
               ref={menuRef}
               role="menu"
+              data-testid="aluno-actions-menu"
               aria-label={label}
               className="table-actions-dropdown"
               onKeyDown={fecharComTeclado}
               style={{
                 left: posicao.left,
-                top: posicao.abrirParaCima ? "auto" : posicao.top,
-                bottom: posicao.abrirParaCima
-                  ? window.innerHeight - posicao.top + MENU_OFFSET
-                  : "auto",
+                top: posicao.top,
+                maxHeight: posicao.maxHeight,
               }}
             >
               {children}

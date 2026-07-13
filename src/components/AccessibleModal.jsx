@@ -26,6 +26,8 @@ function AccessibleModal({
   contentClassName = "",
   showCloseButton = true,
   ariaLabel,
+  role = "dialog",
+  ...props
 }) {
   const titleId = useId();
   const descriptionId = useId();
@@ -104,13 +106,14 @@ function AccessibleModal({
       <section
         ref={dialogRef}
         className={`accessible-modal accessible-modal-${size} ${contentClassName}`.trim()}
-        role="dialog"
+        role={role}
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
         aria-label={!title ? ariaLabel : undefined}
         aria-describedby={description ? descriptionId : undefined}
         tabIndex={-1}
         onKeyDown={tratarTeclado}
+        {...props}
       >
         {(title || showCloseButton) && (
           <header className="accessible-modal-header">

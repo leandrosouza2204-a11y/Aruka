@@ -36,6 +36,8 @@ export function ConfirmProvider({ children }) {
           title={dialog.titulo}
           description={dialog.descricao}
           size="sm"
+          role="alertdialog"
+          data-testid="aluno-confirmation-dialog"
           initialFocusRef={cancelarRef}
           closeOnOverlayClick={false}
           footer={
@@ -44,6 +46,7 @@ export function ConfirmProvider({ children }) {
                 ref={cancelarRef}
                 type="button"
                 className="btn btn-secondary"
+                data-testid="aluno-confirmation-cancel"
                 onClick={() => fechar(false)}
               >
                 {dialog.textoCancelar}
@@ -51,6 +54,7 @@ export function ConfirmProvider({ children }) {
               <button
                 type="button"
                 className={`btn ${dialog.variante === "perigo" ? "btn-danger" : "btn-primary"}`}
+                data-testid="aluno-confirmation-confirm"
                 onClick={() => fechar(true)}
               >
                 {dialog.textoConfirmar}

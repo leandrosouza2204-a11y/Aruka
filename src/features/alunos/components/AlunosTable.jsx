@@ -50,12 +50,14 @@ function AlunosTable({
                     <button
                       onClick={() => onDetalhes(aluno.id)}
                       className="table-button table-button-secondary"
+                      data-testid="aluno-action-details"
                     >
                       Detalhes
                     </button>
                     <button
                       onClick={() => onCheckin(aluno)}
                       className="table-button table-button-success"
+                      data-testid="aluno-action-whatsapp"
                       disabled={!normalizarTelefoneWhatsApp(aluno.whatsapp)}
                       title={
                         normalizarTelefoneWhatsApp(aluno.whatsapp)
@@ -66,10 +68,14 @@ function AlunosTable({
                       Check-in
                     </button>
                     <TableActions>
-                      <TableActionItem onClick={() => onEditar(aluno)}>
+                      <TableActionItem
+                        data-testid="aluno-action-edit"
+                        onClick={() => onEditar(aluno)}
+                      >
                         Editar
                       </TableActionItem>
                       <TableActionItem
+                        data-testid="aluno-action-delete"
                         onClick={() => onExcluir(aluno.id)}
                         variant="danger"
                       >

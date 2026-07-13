@@ -13,7 +13,8 @@
     "qa:dashboard-mobile": "node --env-file=.env.qa.local scripts/validate-dashboard-mobile-cdp.mjs",
     "qa:alunos-mobile": "node --env-file=.env.qa.local scripts/validate-alunos-mobile-cdp.mjs",
     "qa:aluno-form-mobile": "node --env-file=.env.qa.local scripts/validate-aluno-form-mobile-cdp.mjs",
-    "qa:aluno-details-mobile": "node --env-file=.env.qa.local scripts/validate-aluno-details-mobile-cdp.mjs"
+    "qa:aluno-details-mobile": "node --env-file=.env.qa.local scripts/validate-aluno-details-mobile-cdp.mjs",
+    "qa:aluno-actions-mobile": "node --env-file=.env.qa.local scripts/validate-aluno-actions-mobile-cdp.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.107.0",
