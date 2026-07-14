@@ -33,9 +33,9 @@ INFO          0
 - Target: sprint01
 - Status: PASSED
 - Exit code: 0
-- Started: 2026-07-14T21:28:30.759Z
-- Finished: 2026-07-14T21:28:31.402Z
-- Duration: 645ms
+- Started: 2026-07-14T21:43:07.141Z
+- Finished: 2026-07-14T21:43:07.691Z
+- Duration: 549ms
 - Files scanned: 26
 - Documents parsed: 26
 - Rules loaded: 9
@@ -99,15 +99,15 @@ Nenhuma ocorrencia.
 
 | Rule | Severity | Scope | Findings | Duration |
 | --- | --- | --- | --- | --- |
-| aqa-001 | error | global | 0 | 3ms |
+| aqa-001 | error | global | 0 | 2ms |
 | aqa-002 | error | model | 0 | 7ms |
-| aqa-003 | error | model | 0 | 383ms |
+| aqa-003 | error | model | 0 | 286ms |
 | aqa-004 | error | prescription | 0 | 7ms |
-| aqa-005 | warning | model | 0 | 36ms |
-| aqa-006 | warning | document | 0 | 5ms |
+| aqa-005 | warning | model | 0 | 27ms |
+| aqa-006 | warning | document | 0 | 6ms |
 | aqa-007 | error | global | 0 | 1ms |
-| aqa-008 | error | model | 0 | 6ms |
-| aqa-009 | warning | model | 0 | 2ms |
+| aqa-008 | error | model | 0 | 4ms |
+| aqa-009 | warning | model | 0 | 1ms |
 
 ## Findings
 
@@ -163,12 +163,12 @@ Nenhuma ocorrencia.
 
 ## Performance
 
-- aqa-001: 3ms
+- aqa-001: 2ms
 - aqa-002: 7ms
-- aqa-003: 383ms
+- aqa-003: 286ms
 - aqa-004: 7ms
-- aqa-005: 36ms
-- aqa-006: 5ms
+- aqa-005: 27ms
+- aqa-006: 6ms
 - aqa-007: 1ms
-- aqa-008: 6ms
-- aqa-009: 2ms
+- aqa-008: 4ms
+- aqa-009: 1ms

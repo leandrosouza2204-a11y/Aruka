@@ -1,9 +1,9 @@
 {
   "version": "1.2.1",
   "target": "sprint01",
-  "startedAt": "2026-07-14T21:28:30.759Z",
-  "finishedAt": "2026-07-14T21:28:31.402Z",
-  "durationMs": 645,
+  "startedAt": "2026-07-14T21:43:07.141Z",
+  "finishedAt": "2026-07-14T21:43:07.691Z",
+  "durationMs": 549,
   "filesScanned": 26,
   "documentsParsed": 26,
   "rulesLoaded": 9,
@@ -168,7 +168,7 @@
       "severity": "error",
       "scope": "global",
       "findings": 0,
-      "durationMs": 3
+      "durationMs": 2
     },
     {
       "id": "aqa-002",
@@ -184,7 +184,7 @@
       "severity": "error",
       "scope": "model",
       "findings": 0,
-      "durationMs": 383
+      "durationMs": 286
     },
     {
       "id": "aqa-004",
@@ -200,7 +200,7 @@
       "severity": "warning",
       "scope": "model",
       "findings": 0,
-      "durationMs": 36
+      "durationMs": 27
     },
     {
       "id": "aqa-006",
@@ -208,7 +208,7 @@
       "severity": "warning",
       "scope": "document",
       "findings": 0,
-      "durationMs": 5
+      "durationMs": 6
     },
     {
       "id": "aqa-007",
@@ -224,7 +224,7 @@
       "severity": "error",
       "scope": "model",
       "findings": 0,
-      "durationMs": 6
+      "durationMs": 4
     },
     {
       "id": "aqa-009",
@@ -232,7 +232,7 @@
       "severity": "warning",
       "scope": "model",
       "findings": 0,
-      "durationMs": 2
+      "durationMs": 1
     }
   ],
   "findings": [],
@@ -274,21 +274,21 @@
       "documentsParsed": 26
     },
     "performance": {
-      "durationMs": 645,
+      "durationMs": 549,
       "byRule": {
-        "aqa-001": 3,
+        "aqa-001": 2,
         "aqa-002": 7,
-        "aqa-003": 383,
+        "aqa-003": 286,
         "aqa-004": 7,
-        "aqa-005": 36,
-        "aqa-006": 5,
+        "aqa-005": 27,
+        "aqa-006": 6,
         "aqa-007": 1,
-        "aqa-008": 6,
-        "aqa-009": 2
+        "aqa-008": 4,
+        "aqa-009": 1
       },
       "slowestRule": {
         "id": "aqa-003",
-        "durationMs": 383
+        "durationMs": 286
       }
     },
     "calibration": {
@@ -305,18 +305,18 @@
       "topModels": [],
       "performance": {
         "byRule": {
-          "aqa-001": 3,
+          "aqa-001": 2,
           "aqa-002": 7,
-          "aqa-003": 383,
+          "aqa-003": 286,
           "aqa-004": 7,
-          "aqa-005": 36,
-          "aqa-006": 5,
+          "aqa-005": 27,
+          "aqa-006": 6,
           "aqa-007": 1,
-          "aqa-008": 6,
-          "aqa-009": 2
+          "aqa-008": 4,
+          "aqa-009": 1
         },
         "bySprint": {},
-        "totalMs": 645
+        "totalMs": 549
       }
     }
   },
@@ -353,7 +353,7 @@
     "baseline": {
       "baselinePath": "C:\\Projetos\\ConsultoriaFitness\\reports\\apl\\.baseline.json",
       "previous": {
-        "updatedAt": "2026-07-14T21:27:39.308Z",
+        "updatedAt": "2026-07-14T21:28:52.536Z",
         "target": "all",
         "totalFindings": 475,
         "byRule": {
@@ -381,7 +381,7 @@
         }
       },
       "current": {
-        "updatedAt": "2026-07-14T21:28:31.409Z",
+        "updatedAt": "2026-07-14T21:43:07.705Z",
         "target": "sprint01",
         "totalFindings": 0,
         "byRule": {},

@@ -29,7 +29,15 @@
 
 # Sprint 01 - Masculino Iniciante
 
-Status Geral: Homologada.
+Status Geral: Homologada - Release 1.0.0 congelada.
+
+Resumo da release:
+
+- Modelos concluidos: 15
+- Modelos homologados: 15
+- Pendencias abertas: 0
+- AQA Sprint 01: PASSED
+- Freeze: concluido
 
 ## ABC
 
@@ -225,7 +233,7 @@ A partir da reorganizacao da APL, adotam-se as seguintes diretrizes:
 
 # Proximo Objetivo
 
-Iniciar a homologacao tecnica da Sprint 02 com a Sprint 01 homologada.
+Homologar a Sprint 02 usando a Sprint 01 v1.0.0 como baseline oficial.
 
 Proximo modelo:
 
