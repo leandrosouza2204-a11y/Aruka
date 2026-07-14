@@ -1,0 +1,30 @@
+{
+  "package": "Aruka Performance Library documentation",
+  "version": "1.0.0-draft",
+  "completed": [
+    "README.md",
+    "APL_MASTER_v1.md",
+    "APL_METODOLOGIA.md",
+    "APL_DESIGN_GUIDELINES.md",
+    "APL_DECISIONS.md",
+    "APL_GLOSSARIO.md",
+    "APL_ENGENHARIA.md",
+    "APL_AOE.md",
+    "APL_AEP.md",
+    "APL_CRITERIOS_CIENTIFICOS.md",
+    "APL_DATA_MODEL.md",
+    "APL_API_SPEC.md",
+    "APL_CHECKLIST_HOMOLOGACAO.md",
+    "APL_ROADMAP.md",
+    "SPRINT_01/README.md",
+    "SPRINT_01/ABC.md"
+  ],
+  "pending": [
+    "SPRINT_01/ABCD.md",
+    "SPRINT_01/ABCDE.md",
+    "SPRINT_01/FULL_BODY.md",
+    "SPRINT_01/UPPER_LOWER.md",
+    "SPRINT_01/QA.md",
+    "SPRINT_01/CHANGELOG.md"
+  ]
+}
