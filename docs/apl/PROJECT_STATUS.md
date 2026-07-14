@@ -42,9 +42,9 @@ Status Geral: Em desenvolvimento
 
 | Modelo | Status |
 |---|---|
-| Base | Nao iniciado |
-| Performance | Nao iniciado |
-| Especializacao | Nao iniciado |
+| ABCD Base | Concluido |
+| ABCD Performance | Concluido |
+| ABCD Eficiencia | Concluido |
 
 ## ABCDE
 
@@ -184,7 +184,7 @@ Status Geral: Nao iniciado
 
 ## Modelos concluidos
 
-18 / 90
+21 / 90
 
 ## Modelos homologados
 
@@ -192,7 +192,7 @@ Status Geral: Nao iniciado
 
 ## Progresso geral
 
-20,0%
+23,3%
 
 ---
 
@@ -224,8 +224,8 @@ A partir da reorganizacao da APL, adotam-se as seguintes diretrizes:
 
 # Proximo Objetivo
 
-Concluir os 12 modelos pendentes da Sprint 01, comecando pelo ABCD Base.
+Concluir os 9 modelos pendentes da Sprint 01, comecando pelo ABCDE Base.
 
 Proximo modelo:
 
-APL-M-HIP-I-ABCD-BASE-01
+APL-M-HIP-I-ABCDE-BASE-01
