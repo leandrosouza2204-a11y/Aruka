@@ -1,0 +1,5 @@
+# AQA suppression file.
+# Add one pattern per line:
+# aqa-006
+# docs/apl/_legacy/**
+# APL-M-HIP-I-ABC-BASE-01

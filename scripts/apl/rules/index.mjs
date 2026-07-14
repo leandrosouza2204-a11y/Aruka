@@ -4,7 +4,7 @@ import { RULES_DIRECTORY } from "../config.mjs";
 import { listMarkdown, walk } from "../utils/files.mjs";
 import { AqaFatalError, validateRuleDefinition } from "./rule-contract.mjs";
 
-const ignoredFiles = new Set(["index.mjs", "rule-contract.mjs", "rule-contract.test.mjs"]);
+const ignoredFiles = new Set(["index.mjs", "rule-contract.mjs", "rule-contract.test.mjs", "rule-utils.mjs"]);
 
 async function listRuleFiles(rulesDirectory = RULES_DIRECTORY) {
   const files = await walk(rulesDirectory);

@@ -1,7 +1,9 @@
 import { MAX_EXCERPT_LENGTH } from "../config.mjs";
 
 export const SEVERITIES = Object.freeze({
+  BLOCKER: "blocker",
   INFO: "info",
+  SUGGESTION: "suggestion",
   WARNING: "warning",
   ERROR: "error",
   FATAL: "fatal",
@@ -9,8 +11,10 @@ export const SEVERITIES = Object.freeze({
 
 export const SEVERITY_ORDER = Object.freeze([
   SEVERITIES.INFO,
+  SEVERITIES.SUGGESTION,
   SEVERITIES.WARNING,
   SEVERITIES.ERROR,
+  SEVERITIES.BLOCKER,
   SEVERITIES.FATAL,
 ]);
 

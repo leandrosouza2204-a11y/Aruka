@@ -54,6 +54,46 @@ function findingsSection(title, findings) {
   ].join("\n");
 }
 
+function topRowsFromCounts(counts, label, limit = 10) {
+  return Object.entries(counts ?? {})
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, limit)
+    .map(([name, count]) => ({ [label]: name, Findings: count }));
+}
+
+function groupedSummary(findings, label, keyFactory) {
+  const counts = {};
+  for (const finding of findings) {
+    const key = keyFactory(finding);
+    if (!key) continue;
+    counts[key] = (counts[key] ?? 0) + 1;
+  }
+  const rows = topRowsFromCounts(counts, label, 999);
+  return rows.length ? markdownTable(rows) : "Nenhuma ocorrencia.";
+}
+
+function bar(label, value, max) {
+  const size = max ? Math.max(1, Math.round((value / max) * 24)) : 0;
+  return `${label.padEnd(12)} ${"#".repeat(size)} ${value}`;
+}
+
+function asciiChart(counts) {
+  const rows = [
+    ["BLOCKERS", counts.blocker ?? 0],
+    ["ERRORS", counts.error ?? 0],
+    ["WARNINGS", counts.warning ?? 0],
+    ["SUGGESTIONS", counts.suggestion ?? 0],
+    ["INFO", counts.info ?? 0],
+  ];
+  const max = Math.max(...rows.map(([, value]) => value), 0);
+  return ["```text", ...rows.map(([label, value]) => bar(label, value, max)), "```"].join("\n");
+}
+
+function topFindings(findings, severity, limit = 10) {
+  const items = findings.filter((finding) => finding.severity === severity && !finding.suppressed).slice(0, limit);
+  return items.length ? items.map((finding) => findingLines(finding)).join("\n\n") : "Nenhuma ocorrencia.";
+}
+
 export function createMarkdownReport(result, options = {}) {
   const displayedFindings = filterFindingsForDisplay(result.findings, options.minSeverity);
   const bySeverity = Object.values(SEVERITIES).map((severity) => ({
@@ -75,9 +115,41 @@ export function createMarkdownReport(result, options = {}) {
   const performance = result.ruleRuns.length
     ? result.ruleRuns.map((rule) => `- ${rule.id}: ${rule.durationMs}ms`).join("\n")
     : "Nenhuma regra executada.";
+  const mostViolatedRules = topRowsFromCounts(result.statistics.rules?.findingsByRule, "Rule");
+  const topFiles = topRowsFromCounts(result.statistics.findings?.byFile, "File");
+  const calibration = result.calibration;
+  const calibratedStats = result.statistics.calibration ?? {};
+  const executive = calibration?.summary;
+  const trend = calibration?.baseline?.trend;
+  const baseline = calibration?.baseline;
 
   return [
     "# AQA Audit Report",
+    "",
+    "## Executive Summary",
+    "",
+    executive
+      ? [
+          `- Version: ${executive.version}`,
+          `- Result: ${result.status}`,
+          `- BLOCKERS: ${executive.blockers}`,
+          `- ERRORS: ${executive.errors}`,
+          `- WARNINGS: ${executive.warnings}`,
+          `- SUGGESTIONS: ${executive.suggestions}`,
+          `- INFO: ${executive.info}`,
+          `- Duplicates removidos: ${executive.duplicatesRemoved}`,
+          `- Findings suprimidos: ${executive.suppressedCount}`,
+          `- Root Causes: ${executive.rootCauses}`,
+          `- Confidence media: ${executive.averageConfidence}%`,
+          `- Modelo mais critico: ${executive.mostCriticalModel}`,
+          `- Regra mais violada: ${executive.mostViolatedRule}`,
+          `- Sprint mais critica: ${executive.mostCriticalSprint}`,
+        ].join("\n")
+      : "Calibration desabilitada.",
+    "",
+    "## Calibration Chart",
+    "",
+    asciiChart(result.statistics.findings?.bySeverity ?? {}),
     "",
     "## Summary",
     "",
@@ -97,6 +169,49 @@ export function createMarkdownReport(result, options = {}) {
     "",
     markdownTable(bySeverity),
     "",
+    "## Baseline",
+    "",
+    baseline
+      ? [
+          `- Arquivo: ${baseline.baselinePath}`,
+          `- Findings anterior: ${trend.previousTotal}`,
+          `- Findings atual: ${trend.currentTotal}`,
+          `- Delta findings: ${trend.findingsDelta >= 0 ? "+" : ""}${trend.findingsDelta}`,
+          `- Delta BLOCKERS: ${trend.blockersDelta >= 0 ? "+" : ""}${trend.blockersDelta}`,
+          `- Delta ERRORS: ${trend.errorsDelta >= 0 ? "+" : ""}${trend.errorsDelta}`,
+          `- Delta WARNINGS: ${trend.warningsDelta >= 0 ? "+" : ""}${trend.warningsDelta}`,
+          `- Delta SUGGESTIONS: ${trend.suggestionsDelta >= 0 ? "+" : ""}${trend.suggestionsDelta}`,
+        ].join("\n")
+      : "Baseline desabilitada.",
+    "",
+    "## Categories",
+    "",
+    calibratedStats.byCategory ? markdownTable(topRowsFromCounts(calibratedStats.byCategory, "Category", 999)) : "Nenhuma categoria.",
+    "",
+    "## Confidence",
+    "",
+    calibratedStats.byConfidence ? markdownTable(topRowsFromCounts(calibratedStats.byConfidence, "Confidence", 999)) : "Nenhum confidence.",
+    "",
+    "## Root Causes",
+    "",
+    groupedSummary(displayedFindings.filter((finding) => !finding.isCascadeChild), "Root Cause", (finding) => finding.rootCauseMessage),
+    "",
+    "## Top BLOCKERS",
+    "",
+    topFindings(displayedFindings, SEVERITIES.BLOCKER),
+    "",
+    "## Top ERRORS",
+    "",
+    topFindings(displayedFindings, SEVERITIES.ERROR),
+    "",
+    "## Top WARNINGS",
+    "",
+    topFindings(displayedFindings, SEVERITIES.WARNING),
+    "",
+    "## Top SUGGESTIONS",
+    "",
+    topFindings(displayedFindings, SEVERITIES.SUGGESTION),
+    "",
     "## Rules",
     "",
     markdownTable(rules),
@@ -107,6 +222,34 @@ export function createMarkdownReport(result, options = {}) {
     findingsSection("Errors", displayedFindings.filter((finding) => finding.severity === SEVERITIES.ERROR)),
     findingsSection("Warnings", displayedFindings.filter((finding) => finding.severity === SEVERITIES.WARNING)),
     findingsSection("Information", displayedFindings.filter((finding) => finding.severity === SEVERITIES.INFO)),
+    "## Findings By Rule",
+    "",
+    groupedSummary(displayedFindings, "Rule", (finding) => finding.ruleId),
+    "",
+    "## Findings By Sprint",
+    "",
+    groupedSummary(displayedFindings, "Sprint", (finding) => finding.sprint),
+    "",
+    "## Findings By Block",
+    "",
+    groupedSummary(displayedFindings, "Block", (finding) => finding.block),
+    "",
+    "## Findings By File",
+    "",
+    groupedSummary(displayedFindings, "File", (finding) => finding.file),
+    "",
+    "## Findings By Model",
+    "",
+    groupedSummary(displayedFindings, "Model", (finding) => finding.modelCode),
+    "",
+    "## Most Violated Rules",
+    "",
+    mostViolatedRules.length ? markdownTable(mostViolatedRules) : "Nenhuma ocorrencia.",
+    "",
+    "## Top 10 Files",
+    "",
+    topFiles.length ? markdownTable(topFiles) : "Nenhuma ocorrencia.",
+    "",
     "## Diagnostics",
     "",
     diagnostics,

@@ -85,3 +85,39 @@ export function debug(message, enabled = false) {
     console.log(format("DEBUG", message, "cyan"));
   }
 }
+
+export function blocker(message) {
+  console.error(format("BLOCKER", message, "red"));
+}
+
+export function suggestion(message) {
+  console.log(format("SUGGESTION", message, "cyan"));
+}
+
+export function confidence(value) {
+  info(`Confidence medio: ${value}%`);
+}
+
+export function baseline(message) {
+  info(`Baseline: ${message}`);
+}
+
+export function category(message) {
+  info(`Categoria: ${message}`);
+}
+
+export function rootCause(message) {
+  warning(`Root cause: ${message}`);
+}
+
+export function trend(message) {
+  info(`Tendencia: ${message}`);
+}
+
+export function dedup(message) {
+  info(`Dedup: ${message}`);
+}
+
+export function suppression(message) {
+  info(`Suppression: ${message}`);
+}

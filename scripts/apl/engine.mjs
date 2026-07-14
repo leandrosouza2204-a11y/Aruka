@@ -3,10 +3,12 @@ import {
   DEFAULT_CONTINUE_ON_FATAL,
   DEFAULT_MIN_SEVERITY,
   DEFAULT_STRICT_MODE,
+  ENABLE_CALIBRATION,
   ROOT_DOCS,
   ROOT_REPORTS,
   VERSION,
 } from "./config.mjs";
+import { calibrateAuditResult } from "./calibration/calibrator.mjs";
 import { parseMarkdown } from "./parser.mjs";
 import { scanAll, scanBlock, scanSprint } from "./scanner.mjs";
 import { read } from "./utils/files.mjs";
@@ -118,10 +120,12 @@ function createContext(options, startedAt, scanResult, documents, projectStatus,
 function statusFromFindings(findings, diagnostics, strict) {
   const hasFatal = findings.some((finding) => finding.severity === SEVERITIES.FATAL) ||
     diagnostics.some((diagnostic) => diagnostic.severity === SEVERITIES.FATAL);
+  const hasBlocker = findings.some((finding) => finding.severity === SEVERITIES.BLOCKER && !finding.suppressed);
   const hasError = findings.some((finding) => finding.severity === SEVERITIES.ERROR);
   const hasWarning = findings.some((finding) => finding.severity === SEVERITIES.WARNING);
 
   if (hasFatal) return { status: "FATAL", exitCode: 2 };
+  if (hasBlocker) return { status: "FAILED", exitCode: 1 };
   if (hasError) return { status: "FAILED", exitCode: 1 };
   if (hasWarning) return { status: "PASSED_WITH_WARNINGS", exitCode: strict ? 1 : 0 };
   return { status: "PASSED", exitCode: 0 };
@@ -286,6 +290,36 @@ export async function runAudit(options = {}) {
     result.status = status.status;
     result.exitCode = status.exitCode;
     result.statistics = buildStatistics(result, ruleRuns);
+    if (ENABLE_CALIBRATION) {
+      const calibration = await calibrateAuditResult(result, options);
+      result.rawFindings = result.findings;
+      result.findings = calibration.findings;
+      result.calibration = {
+        enabled: calibration.enabled,
+        version: calibration.version,
+        metrics: calibration.metrics,
+        summary: calibration.summary,
+        baseline: calibration.baseline,
+      };
+      result.statistics = {
+        ...result.statistics,
+        calibration: calibration.statistics,
+        findings: {
+          ...result.statistics.findings,
+          bySeverity: calibration.statistics.bySeverity,
+          bySprint: calibration.statistics.bySprint,
+          byBlock: calibration.statistics.byBlock,
+          byFile: calibration.statistics.byFile,
+        },
+        rules: {
+          ...result.statistics.rules,
+          findingsByRule: calibration.statistics.byRule,
+        },
+      };
+      const calibratedStatus = statusFromFindings(result.findings, diagnostics, options.strict ?? DEFAULT_STRICT_MODE);
+      result.status = calibratedStatus.status;
+      result.exitCode = calibratedStatus.exitCode;
+    }
     return result;
   } catch (err) {
     const finishedAt = new Date();

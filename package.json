@@ -32,7 +32,10 @@
     "qa:apl:sprint02": "node scripts/apl/audit.mjs --sprint=2",
     "qa:apl:all": "node scripts/apl/audit.mjs --all",
     "qa:apl:rules": "node scripts/apl/audit.mjs --list-rules",
-    "qa:apl:contract": "node scripts/apl/rules/rule-contract.test.mjs"
+    "qa:apl:contract": "node scripts/apl/rules/rule-contract.test.mjs",
+    "qa:apl:test": "node scripts/apl/tests/rules.test.mjs",
+    "qa:apl:baseline": "node scripts/apl/audit.mjs --all --report-format=both",
+    "qa:apl:compare": "node scripts/apl/audit.mjs --all --report-format=both"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.107.0",

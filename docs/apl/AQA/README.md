@@ -34,6 +34,20 @@ npm run qa:apl -- --help
 
 Regras ficam em `scripts/apl/rules/` e exportam um objeto default com `id`, `name`, `description`, `severity`, `scope`, `enabled`, `tags` e `run`. O carregador ignora arquivos internos, valida contratos, detecta IDs duplicados e executa apenas regras habilitadas.
 
+## Regras Oficiais
+
+- AQA-001 Estrutura: `aqa-001`
+- AQA-002 Metadados: `aqa-002`
+- AQA-003 Secoes Premium: `aqa-003`
+- AQA-004 Prescricao: `aqa-004`
+- AQA-005 Metodos: `aqa-005`
+- AQA-006 Terminologia: `aqa-006`
+- AQA-007 PROJECT_STATUS: `aqa-007`
+- AQA-008 Regras para Iniciantes: `aqa-008`
+- AQA-009 Regras para Intermediarios: `aqa-009`
+
+O catalogo completo fica em `docs/apl/AQA/RULE_CATALOG.md`.
+
 ## Filtros
 
 - `--rule=rule-id`: seleciona uma regra.
@@ -41,6 +55,29 @@ Regras ficam em `scripts/apl/rules/` e exportam um objeto default com `id`, `nam
 - `--tag=structure`: seleciona regras por tag.
 - `--tags=structure,metadata`: seleciona varias tags.
 - `--severity=warning`: filtra apenas a exibicao e o relatorio.
+
+Execucao individual:
+
+```bash
+npm run qa:apl -- --rule=aqa-001
+npm run qa:apl -- --sprint=1 --rule=aqa-008
+```
+
+Execucao por tag:
+
+```bash
+npm run qa:apl -- --tag=structure
+npm run qa:apl -- --tags=metadata,premium
+```
+
+Execucao por Sprint:
+
+```bash
+npm run qa:apl:sprint01
+npm run qa:apl:sprint02
+```
+
+Para desabilitar uma regra, altere `enabled: false` no modulo da regra. Regras desabilitadas continuam aparecendo em `npm run qa:apl:rules`, mas nao entram na pipeline.
 
 ## Severidades
 
