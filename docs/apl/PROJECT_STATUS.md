@@ -58,9 +58,9 @@ Status Geral: Em desenvolvimento
 
 | Modelo | Status |
 |---|---|
-| Base | Nao iniciado |
-| Performance | Nao iniciado |
-| Eficiencia | Nao iniciado |
+| Full Body Base | Concluido |
+| Full Body Performance | Concluido |
+| Full Body Eficiencia | Concluido |
 
 ## Upper / Lower
 
@@ -184,7 +184,7 @@ Status Geral: Nao iniciado
 
 ## Modelos concluidos
 
-24 / 90
+27 / 90
 
 ## Modelos homologados
 
@@ -192,7 +192,7 @@ Status Geral: Nao iniciado
 
 ## Progresso geral
 
-26,7%
+30,0%
 
 ---
 
@@ -224,8 +224,8 @@ A partir da reorganizacao da APL, adotam-se as seguintes diretrizes:
 
 # Proximo Objetivo
 
-Concluir os 6 modelos pendentes da Sprint 01, comecando pelo Full Body Base.
+Concluir os 3 modelos pendentes da Sprint 01, comecando pelo Upper/Lower Base.
 
 Proximo modelo:
 
-APL-M-HIP-I-FB-BASE-01
+APL-M-HIP-I-UL-BASE-01
