@@ -1,227 +1,250 @@
 # Hipertrofia Base - ABC Iniciante
 
-**Codigo do modelo:** `APL-M-HIP-I-ABC-BASE-01`  
-**Versao:** 1.0.0  
-**Status:** Concluido  
+**Código:** `APL-M-HIP-I-ABC-BASE-01`  
+**Versão:** `1.0.0`  
+**Status:** `Concluído — aguardando homologação`  
+**Biblioteca:** Aruka Performance Library  
+**Metodologia:** Hipertrofia  
+**Público:** Masculino iniciante  
+**Divisão:** ABC  
+**Estratégia:** Base
 
 ## Resumo Executivo
 
-Modelo ABC iniciante para construcao tecnica em tres sessoes semanais. Usa Progressao Dupla, RIR 2-3, volume moderado, prioridade para maquinas e nenhuma tecnica intensificadora. O treino dura aproximadamente 55 minutos e serve como referencia oficial para a entrada do aluno iniciante na divisao ABC.
-
-## Filosofia do modelo
-
-O modelo ensina o aluno a repetir boas execucoes antes de buscar cargas altas. A selecao prioriza maquinas, cabos e exercicios estaveis para reduzir variabilidade, controlar amplitude e consolidar padroes de empurrar, puxar, agachar, flexionar joelho, elevar bracos e estabilizar o tronco.
+Modelo ABC iniciante para construção técnica em três sessões semanais. Usa progressão dupla, RIR 2-3, volume moderado, prioridade para máquinas e ausência de técnicas intensificadoras. O treino dura aproximadamente 55 minutos e serve como referência de entrada para alunos que precisam consolidar execução antes de avançar para Performance ou ABCD.
 
 ## Problema que resolve
 
-Resolve o caso do aluno que ja pode sair de estruturas muito gerais, mas ainda precisa de simplicidade, seguranca tecnica e margem clara de recuperacao. O ABC Base organiza o treino sem recorrer a tecnicas intensificadoras ou combinacoes complexas.
+Resolve o caso do aluno que já pode sair de estruturas muito gerais, mas ainda precisa de simplicidade, segurança técnica e margem clara de recuperação.
 
 ## Quando utilizar
 
-- Iniciante com 0 a 12 meses de treino consistente.
-- Disponibilidade real para tres sessoes semanais.
-- Necessidade de aprender tecnica em ambiente controlado.
+- Iniciante com três sessões semanais disponíveis.
+- Necessidade de aprender técnica em ambiente controlado.
 - Objetivo de hipertrofia inicial com baixo risco de fadiga.
-- Aluno que se beneficia de maquinas por estabilidade e previsibilidade.
+- Aluno que se beneficia de máquinas por estabilidade.
 
 ## Quando evitar
 
-- Frequencia semanal inferior a tres sessoes.
-- Dor articular relevante sem avaliacao profissional.
-- Aluno incapaz de encerrar series com margem tecnica.
-- Necessidade de sessoes abaixo de 40 minutos.
-- Objetivo de performance em exercicios livres.
+- Frequência semanal inferior a três sessões.
+- Necessidade de sessões abaixo de 40 minutos.
+- Busca por especialização muscular.
+- Objetivo de performance em exercícios livres.
 
-## Publico-alvo
+## Público-alvo
 
-Homem iniciante, sem contraindicacao para musculacao, com objetivo de hipertrofia e necessidade de construir repertorio tecnico. O aluno deve aceitar registrar cargas, repeticoes e percepcao de esforco.
+Homem iniciante, com objetivo de hipertrofia e necessidade de construir repertório técnico. O aluno deve aceitar registrar cargas, repetições e percepção de esforço.
 
-## Pre-requisitos
+## Pré-requisitos
 
-- Entender que RIR significa repeticoes em reserva.
+- Entender RIR como repetições em reserva.
 - Conseguir executar movimentos guiados sem dor.
-- Manter assiduidade minima de tres treinos semanais.
-- Registrar carga e repeticoes em todos os exercicios.
-- Encerrar a serie com margem tecnica e antes de qualquer perda de controle.
+- Manter três treinos semanais.
+- Registrar carga e repetições.
+
+## Filosofia
+
+O modelo ensina o aluno a repetir boas execuções antes de buscar cargas altas. Máquinas, cabos e exercícios estáveis reduzem variabilidade e favorecem amplitude, trajetória e controle de RIR.
 
 ## Objetivo principal
 
-Construir tecnica e consistencia de treino em uma divisao ABC iniciante.
+Construir técnica e consistência de treino em uma divisão ABC iniciante.
 
-## Objetivos secundarios
+## Objetivos secundários
 
 - Desenvolver hipertrofia inicial com volume moderado.
-- Ensinar Progressao Dupla em exercicios estaveis.
-- Consolidar controle de RIR 2-3.
-- Preparar o aluno para modelos Performance ou ABCD.
-- Melhorar aderencia sem aumentar complexidade.
+- Ensinar progressão dupla.
+- Consolidar RIR 2-3.
+- Preparar para Performance ou ABCD.
 
 ## Metadados
 
-- Codigo: `APL-M-HIP-I-ABC-BASE-01`
-- Versao: 1.0.0
-- Status: Concluido
-- Sprint: 01
-- Populacao: masculino iniciante
-- Divisao: ABC
-- Frequencia: 3 sessoes semanais
-- Tempo medio: aproximadamente 55 minutos
-- Metodo principal: Progressao Dupla
-- RIR predominante: 2-3
-- Intensidade limite: manter margem tecnica em todas as series
-- Tecnicas intensificadoras: nao utilizar
-- Ciclo sugerido: 8 a 12 semanas
+| Campo | Valor |
+|---|---|
+| Código | APL-M-HIP-I-ABC-BASE-01 |
+| Versão | 1.0.0 |
+| Status | Concluído — aguardando homologação |
+| Sexo | Masculino |
+| Nível | Iniciante |
+| Objetivo | Hipertrofia |
+| Divisão | ABC |
+| Estratégia | Base |
+| Frequência | 3 sessões semanais |
+| Duração média | 50-60 minutos |
+| Ciclo sugerido | 8-12 semanas |
+| RIR predominante | 2-3 |
+| Método principal | Progressão dupla |
+| Métodos complementares | Nenhum |
+| Complexidade | Baixa |
+| Equipamentos | Máquinas, cabos e halteres |
 
 ## Estrutura semanal
 
-- Segunda: Treino A - Peitoral, deltoides e triceps.
-- Quarta: Treino B - Costas e biceps.
-- Sexta: Treino C - Quadriceps, posteriores, gluteos, panturrilhas e core.
+| Dia sugerido | Sessão | Ênfase | Duração estimada |
+|---|---|---|---|
+| Segunda | Treino A | Peitoral, deltoides e tríceps | 50-60 minutos |
+| Quarta | Treino B | Costas e bíceps | 50-60 minutos |
+| Sexta | Treino C | Pernas, panturrilhas e core | 50-60 minutos |
 
 ## Diretrizes
 
-- Priorizar maquinas e cabos quando houver opcao equivalente.
-- Manter RIR 2-3 em todas as series de trabalho.
-- Nao realizar series maximas voluntarias.
-- Nao usar tecnicas intensificadoras ou superseries.
-- Interromper a serie se a tecnica perder controle.
-- Descansar o suficiente para repetir a execucao prescrita.
-- Aumentar carga apenas quando a faixa superior de repeticoes for atingida com tecnica.
+- Manter RIR 2-3 em todas as séries.
+- Encerrar a série com margem técnica.
+- Priorizar máquinas e cabos quando houver opção equivalente.
+- Aumentar carga apenas quando a faixa superior for atingida com técnica.
+- Não utilizar técnicas intensificadoras neste modelo.
 
-## Periodizacao
+## Periodização
 
-- Semanas 1-2: aprendizagem de ajustes, amplitude, cadencia e RIR.
-- Semanas 3-6: progressao de repeticoes dentro das faixas prescritas.
-- Semanas 7-10: progressao conservadora de carga quando o topo da faixa for atingido.
-- Semanas 11-12: consolidacao e avaliacao para manter, trocar para Performance ou evoluir para ABCD.
-- Deload: reduzir 30-40% das series se houver queda persistente de rendimento, sono ruim ou dor articular.
+Semanas 1-2 ajustam máquinas, amplitude e RIR. Semanas 3-6 progridem repetições. Semanas 7-10 progridem carga de forma conservadora. Semanas 11-12 consolidam o bloco e avaliam manutenção, Performance ou ABCD.
 
-## Progressao
+## Progressão
 
-A Progressao Dupla usa primeiro repeticoes e depois carga. Em um exercicio prescrito como 3 series de 8-12 repeticoes, o aluno deve buscar mais repeticoes mantendo RIR 2-3. Ao completar 12 repeticoes em todas as series com tecnica limpa, aumentar a carga em 2-5% e retornar para a parte inferior da faixa.
+Aplicar progressão dupla. Ao completar o topo da faixa de repetições em todas as séries com RIR 2-3, aumentar a carga em 2-5% e retornar à parte inferior da faixa.
 
 ## Treinos
 
-### Treino A - Peitoral, deltoides e triceps
+### Treino A - Peitoral, deltoides e tríceps
 
-## Objetivo da sessao
+#### Objetivo da sessão
 
-Aprender empurrar horizontal e vertical com estabilidade, somando volume direto para peitoral, deltoides e triceps com margem tecnica.
+Aprender empurrar horizontal e vertical com estabilidade, somando volume direto para peitoral, deltoides e tríceps.
 
-| Exercicio | Series | Repeticoes | RIR | Descanso | Metodo | Observacoes |
-|---|---:|---|---|---|---|---|
-| Supino Maquina | 3 | 8-12 | 2-3 | 90-120 s | Progressao Dupla | Ajustar banco para empurrar na linha media do peito. |
-| Supino Inclinado Maquina | 3 | 8-12 | 2-3 | 90 s | Progressao Dupla | Manter escapulas apoiadas e amplitude sem dor. |
-| Crucifixo no Crossover | 2 | 12-15 | 2-3 | 60-75 s | Progressao Dupla | Controlar alongamento sem projetar ombros. |
-| Desenvolvimento Maquina | 2 | 8-12 | 2-3 | 90 s | Progressao Dupla | Evitar hiperextensao lombar. |
-| Elevacao Lateral Maquina | 2 | 12-15 | 2-3 | 60-75 s | Progressao Dupla | Subir ate linha confortavel dos ombros. |
-| Triceps Polia Corda | 3 | 10-15 | 2-3 | 60-75 s | Progressao Dupla | Cotovelos fixos e punhos neutros. |
+#### Prescrição
 
-**Justificativa tecnica:** maquinas reduzem exigencia de estabilizacao e deixam o aluno concentrar atencao em amplitude, trajetoria e RIR. O volume de empurroes e suficiente para hipertrofia inicial sem sobrecarregar ombros e cotovelos.
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+|---:|---|:---:|:---:|:---:|:---:|---|---|
+| 1 | Supino Máquina | 3 | 8-12 | 2-3 | 90-120 s | Progressão dupla | Ajustar banco para empurrar na linha média do peito |
+| 2 | Supino Inclinado Máquina | 3 | 8-12 | 2-3 | 90 s | Progressão dupla | Manter escápulas apoiadas |
+| 3 | Crucifixo no Crossover | 2 | 12-15 | 2-3 | 60-75 s | Progressão dupla | Controlar alongamento |
+| 4 | Desenvolvimento Máquina | 2 | 8-12 | 2-3 | 90 s | Progressão dupla | Evitar compensação lombar |
+| 5 | Elevação Lateral Máquina | 2 | 12-15 | 2-3 | 60-75 s | Progressão dupla | Subir até linha confortável |
+| 6 | Tríceps Polia Corda | 3 | 10-15 | 2-3 | 60-75 s | Progressão dupla | Cotovelos fixos |
 
-### Treino B - Costas e biceps
+#### Justificativa
 
-**Objetivo da sessao:** ensinar puxada vertical, remada estavel e flexao de cotovelo com controle escapular.
+Máquinas reduzem exigência de estabilização e deixam o aluno concentrar atenção em amplitude, trajetória e RIR. O volume é suficiente para hipertrofia inicial sem sobrecarregar ombros e cotovelos.
 
-| Exercicio | Series | Repeticoes | RIR | Descanso | Metodo | Observacoes |
-|---|---:|---|---|---|---|---|
-| Puxada Alta Frente | 3 | 8-12 | 2-3 | 90-120 s | Progressao Dupla | Puxar cotovelos para baixo sem inclinar demais o tronco. |
-| Remada Baixa Neutra | 3 | 10-12 | 2-3 | 90 s | Progressao Dupla | Manter tronco firme e pausa curta na contracao. |
-| Remada Maquina com Apoio | 2 | 10-12 | 2-3 | 90 s | Progressao Dupla | Evitar elevar ombros no final da puxada. |
-| Pulldown na Polia | 2 | 12-15 | 2-3 | 60-75 s | Progressao Dupla | Braços quase estendidos e dorsais ativos. |
-| Rosca Scott Maquina | 3 | 10-12 | 2-3 | 60-75 s | Progressao Dupla | Nao perder contato do braco com o apoio. |
-| Rosca Martelo com Halteres | 2 | 10-12 | 2-3 | 60-75 s | Progressao Dupla | Sem balanco do tronco. |
+### Treino B - Costas e bíceps
 
-**Justificativa tecnica:** puxada e remadas cobrem dorsais, romboides e trapecio medio com baixa demanda lombar. A escolha de maquina para biceps melhora controle e reduz compensacoes comuns no iniciante.
+#### Objetivo da sessão
 
-### Treino C - Quadriceps, posteriores, gluteos, panturrilhas e core
+Ensinar puxada vertical, remada estável e flexão de cotovelo com controle escapular.
 
-**Objetivo da sessao:** desenvolver membros inferiores com enfase em padroes guiados de extensao de joelho, flexao de joelho, extensao de quadril e estabilizacao.
+#### Prescrição
 
-| Exercicio | Series | Repeticoes | RIR | Descanso | Metodo | Observacoes |
-|---|---:|---|---|---|---|---|
-| Leg Press | 3 | 10-12 | 2-3 | 120 s | Progressao Dupla | Joelhos acompanham a linha dos pes; quadril fica apoiado. |
-| Cadeira Extensora | 2 | 12-15 | 2-3 | 60-75 s | Progressao Dupla | Pausa curta no topo sem travar joelhos com agressividade. |
-| Mesa Flexora | 3 | 10-12 | 2-3 | 75-90 s | Progressao Dupla | Quadril apoiado e descida controlada. |
-| Gluteo Maquina | 2 | 10-15 | 2-3 | 60-75 s | Progressao Dupla | Evitar compensar com lombar. |
-| Panturrilha Sentado | 3 | 12-20 | 2-3 | 60-75 s | Progressao Dupla | Pausar em alongamento e contracao. |
-| Abdominal na Maquina | 2 | 12-15 | 2-3 | 60 s | Progressao Dupla | Flexionar tronco com controle. |
-| Prancha Frontal | 2 | 20-40 s | Tecnico | 45-60 s | Tempo sob Tensao | Encerrar antes de perder alinhamento. |
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+|---:|---|:---:|:---:|:---:|:---:|---|---|
+| 1 | Puxada Alta Frente | 3 | 8-12 | 2-3 | 90-120 s | Progressão dupla | Puxar cotovelos para baixo |
+| 2 | Remada Baixa Neutra | 3 | 10-12 | 2-3 | 90 s | Progressão dupla | Manter tronco firme |
+| 3 | Remada Máquina com Apoio | 2 | 10-12 | 2-3 | 90 s | Progressão dupla | Evitar elevar ombros |
+| 4 | Pulldown na Polia | 2 | 12-15 | 2-3 | 60-75 s | Progressão dupla | Braços quase estendidos |
+| 5 | Rosca Scott Máquina | 3 | 10-12 | 2-3 | 60-75 s | Progressão dupla | Manter braço apoiado |
+| 6 | Rosca Martelo com Halteres | 2 | 10-12 | 2-3 | 60-75 s | Progressão dupla | Sem balanço do tronco |
 
-**Justificativa tecnica:** a sessao usa maquinas para cobrir quadriceps, posteriores, gluteos, panturrilhas e core com baixa complexidade. A ordem coloca o exercicio mais demandante primeiro e finaliza com estabilizacao.
+#### Justificativa
 
-## Prescricao
+Puxada e remadas cobrem dorsais, romboides e trapézio médio com baixa demanda lombar. A máquina para bíceps melhora controle e reduz compensações comuns no iniciante.
 
-As tabelas dos treinos A, B e C sao a prescricao oficial do modelo. Todas as linhas incluem exercicio, series, repeticoes, RIR, descanso, metodo e observacoes.
+### Treino C - Quadríceps, posteriores, glúteos, panturrilhas e core
 
-## Justificativa
+#### Objetivo da sessão
 
-O ABC Base limita intensidade para proteger aprendizagem. A prioridade para maquinas reduz variacao tecnica, permite progressao objetiva e melhora aderencia. A ausencia de tecnicas intensificadoras preserva recuperacao e evita que o iniciante confunda esforco maximo com execucao eficiente.
+Desenvolver membros inferiores com ênfase em extensão de joelho, flexão de joelho, extensão de quadril e estabilização.
+
+#### Prescrição
+
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+|---:|---|:---:|:---:|:---:|:---:|---|---|
+| 1 | Leg Press | 3 | 10-12 | 2-3 | 120 s | Progressão dupla | Joelhos acompanham os pés |
+| 2 | Cadeira Extensora | 2 | 12-15 | 2-3 | 60-75 s | Progressão dupla | Pausa curta no topo |
+| 3 | Mesa Flexora | 3 | 10-12 | 2-3 | 75-90 s | Progressão dupla | Descida controlada |
+| 4 | Glúteo Máquina | 2 | 10-15 | 2-3 | 60-75 s | Progressão dupla | Evitar compensar com lombar |
+| 5 | Panturrilha Sentado | 3 | 12-20 | 2-3 | 60-75 s | Progressão dupla | Pausar em alongamento e contração |
+| 6 | Abdominal na Máquina | 2 | 12-15 | 2-3 | 60 s | Progressão dupla | Flexionar tronco com controle |
+| 7 | Prancha Frontal | 2 | 20-40 s | Técnico | 45-60 s | Isometria | Encerrar antes de perder alinhamento |
+
+#### Justificativa
+
+A sessão usa máquinas para cobrir quadríceps, posteriores, glúteos, panturrilhas e core com baixa complexidade. A ordem coloca o exercício mais demandante primeiro e finaliza com estabilização.
 
 ## Volume semanal
 
-- Peitoral: 8 series diretas.
-- Costas: 10 series diretas.
-- Deltoides: 4 series diretas, alem de participacao nos empurroes.
-- Triceps: 3 series diretas, alem de participacao nos empurroes.
-- Biceps: 5 series diretas.
-- Quadriceps: 5 series diretas.
-- Posteriores: 3 series diretas.
-- Gluteos: 5 series entre Leg Press e maquina.
-- Panturrilhas: 3 series diretas.
-- Core: 4 series diretas.
+| Grupo | Séries diretas | Observação |
+|---|:---:|---|
+| Peitoral | 8 | Supinos e crucifixo |
+| Costas | 10 | Puxada, remadas e pulldown |
+| Deltoides | 4 | Desenvolvimento e elevação lateral |
+| Tríceps | 3 | Além dos empurrões |
+| Bíceps | 5 | Roscas e participação nas puxadas |
+| Quadríceps | 5 | Leg Press e extensora |
+| Posteriores/glúteos | 8 | Flexora, glúteo e Leg Press |
+| Panturrilhas | 3 | Panturrilha sentado |
+| Core | 4 | Máquina e prancha |
 
-## Referencias AOE
+## Distribuição dos padrões de movimento
 
-As equivalencias abaixo sao referencias temporarias; a equivalencia definitiva sera centralizada no AOE.
+- Empurrar horizontal: supinos e crucifixo.
+- Empurrar vertical: desenvolvimento.
+- Puxar vertical: puxada alta e pulldown.
+- Puxar horizontal: remadas.
+- Dominante de joelho: Leg Press e extensora.
+- Dominante de quadril: flexora e glúteo máquina.
+- Core: abdominal e prancha.
 
-- Supino Maquina -> Supino Barra.
-- Leg Press -> Hack.
-- Puxada Alta -> Barra Fixa.
-- Mesa Flexora -> Cadeira Flexora.
+## Referências futuras ao AOE
 
-## Coaching Notes
+Equivalências provisórias: Supino Máquina → Supino Barra; Leg Press → Hack; Puxada Alta → Barra Fixa; Mesa Flexora → Cadeira Flexora. A equivalência definitiva será centralizada no AOE.
 
-- Repeticao limpa vale mais do que aumento imediato de carga.
-- Ensinar o aluno a terminar a serie com margem visivel.
-- Ajustar maquinas antes de iniciar a primeira serie valida.
-- Usar cadencia controlada, sem transformar o treino em teste de carga.
-- Registrar comentarios tecnicos quando houver reducao de amplitude.
+## Aruka Coaching Notes
 
-## Criterios de evolucao
+- Repetição limpa vale mais do que aumento imediato de carga.
+- Ensinar o aluno a terminar a série com margem visível.
+- Ajustar máquinas antes da primeira série válida.
+- Registrar observações técnicas quando houver redução de amplitude.
 
-- Completar 8 a 12 semanas com pelo menos 85% de presenca.
-- Demonstrar controle real de RIR 2-3.
-- Progredir repeticoes ou cargas sem perda tecnica.
-- Executar treinos em aproximadamente 55 minutos.
-- Manter recuperacao adequada entre sessoes.
-- Evoluir para Performance se houver maturidade tecnica; evoluir para ABCD se houver disponibilidade para quatro sessoes.
+## Critérios de evolução
+
+Evoluir após 8-12 semanas com assiduidade, RIR 2-3 real, progressão sem perda técnica, duração próxima de 55 minutos e recuperação adequada.
 
 ## Aruka Score
 
-- Estimulo hipertrofico: 7/10.
-- Aprendizagem tecnica: 10/10.
-- Sustentabilidade: 10/10.
-- Simplicidade operacional: 9/10.
-- Prontidao para evolucao: 8/10.
-- Score global: 44/50.
+| Critério | Nota de 1 a 5 | Justificativa |
+|---|:---:|---|
+| Hipertrofia | 3 | Volume moderado |
+| Força | 2 | Prioridade técnica |
+| Aprendizagem | 5 | Baixa complexidade |
+| Complexidade | 2 | Predomínio de máquinas |
+| Demanda de recuperação | 2 | Margem técnica preservada |
+| Eficiência de tempo | 4 | Cerca de 55 minutos |
+| Necessidade de equipamentos | 4 | Requer máquinas e cabos |
+| Personalização | 3 | Trocas via AOE |
+| Aderência esperada | 5 | Estrutura simples |
+
+## Engenharia do treino
+
+O ABC Base limita intensidade para proteger aprendizagem. A prioridade para máquinas reduz variação técnica, permite progressão objetiva e melhora aderência. A ausência de técnicas intensificadoras preserva recuperação.
 
 ## Checklist
 
-- Codigo do modelo presente.
-- Versao e status definidos.
-- Estrutura ABC completa.
-- Progressao Dupla aplicada.
-- RIR 2-3 respeitado.
-- Margem tecnica preservada.
-- Sem tecnicas intensificadoras.
-- Tabelas completas de prescricao.
-- Referencias AOE registradas.
+- [x] Código do modelo presente.
+- [x] Versão e status definidos.
+- [x] Estrutura ABC completa.
+- [x] Progressão dupla aplicada.
+- [x] RIR 2-3 respeitado.
+- [x] Tabelas oficiais de prescrição.
+- [x] Referências AOE registradas.
 
-## Assinatura Tecnica
+## Assinatura Técnica
 
-Modelo ABC iniciante de hipertrofia base, construido para aprendizagem tecnica, progressao conservadora e aderencia em tres sessoes semanais. Documento aprovado como referencia premium do bloco ABC da Sprint 01.
+Modelo ABC iniciante de hipertrofia base, construído para aprendizagem técnica, progressão conservadora e aderência em três sessões semanais.
 
 ## Tags
 
-`hipertrofia`, `masculino`, `iniciante`, `ABC`, `base`, `progressao dupla`, `RIR 2-3`, `maquinas`, `APL-M-HIP-I`
+- hipertrofia
+- masculino
+- iniciante
+- abc
+- base
+- progressao-dupla
+- rir-2-3

@@ -13,7 +13,7 @@
 
 ## Resumo Executivo
 
-Modelo Upper/Lower masculino iniciante com quatro sessões semanais, duração média de 50–60 minutos e foco em construção técnica. A proposta distribui membros superiores e inferiores em frequência 2x, usa progressão dupla, mantém RIR 2–3 e prioriza máquinas ou exercícios estáveis para reduzir ruído técnico. Não utiliza Drop Set, Rest Pause, falha obrigatória ou métodos intensificadores. É indicado para alunos que já conseguem treinar quatro vezes por semana, mas ainda precisam consolidar execução, amplitude, registro de carga e tolerância ao volume.
+Modelo Upper/Lower masculino iniciante com quatro sessões semanais, duração média de 50–60 minutos e foco em construção técnica. A proposta distribui membros superiores e inferiores em frequência 2x, usa progressão dupla, mantém RIR 2–3 e prioriza máquinas ou exercícios estáveis para reduzir ruído técnico. Não utiliza técnicas intensificadoras. É indicado para alunos que já conseguem treinar quatro vezes por semana, mas ainda precisam consolidar execução, amplitude, registro de carga e tolerância ao volume.
 
 ## Problema que resolve
 
@@ -61,6 +61,8 @@ Construir base técnica na divisão Upper/Lower com progressão previsível e re
 
 ## Metadados
 
+Os metadados abaixo consolidam identificação, estratégia e parâmetros operacionais do modelo.
+
 ### Tabela de metadados
 
 | Campo | Valor |
@@ -101,8 +103,8 @@ Construir base técnica na divisão Upper/Lower com progressão previsível e re
 - Registro de carga: anotar carga, repetições concluídas e RIR percebido.
 - Amplitude: priorizar amplitude confortável e repetível antes de aumentar carga.
 - Progressão: aumentar repetições dentro da faixa antes de elevar carga.
-- Regras de falha: não utilizar falha como alvo de prescrição.
-- Técnicas intensificadoras: não utilizar Drop Set, Rest Pause ou métodos similares.
+- Regras de esforço: encerrar as séries com margem técnica.
+- Técnicas intensificadoras: não utilizar neste modelo.
 
 ## Periodização
 
@@ -217,7 +219,7 @@ Posteriores e glúteos recebem prioridade na abertura, enquanto quadríceps apar
 
 | Padrão | Sessões | Estratégia |
 |---|---|---|
-| Empurrar horizontal | Upper A e Upper B | Supinos estáveis, sem falha |
+| Empurrar horizontal | Upper A e Upper B | Supinos estáveis, com margem técnica |
 | Empurrar vertical | Upper B | Desenvolvimento em máquina |
 | Puxar horizontal | Upper A e Upper B | Remadas com apoio e cabo |
 | Puxar vertical | Upper B | Puxada alta como base para barra fixa |
@@ -230,7 +232,7 @@ Posteriores e glúteos recebem prioridade na abertura, enquanto quadríceps apar
 
 As equivalências abaixo são referências operacionais e não substituem a centralização definitiva no AOE: Supino Máquina → Supino Barra; Supino Inclinado Máquina → Supino Inclinado com Halteres; Puxada Alta → Barra Fixa; Remada Máquina → Remada com Barra; Leg Press → Hack; Mesa Flexora → Cadeira Flexora; Desenvolvimento Máquina → Desenvolvimento com Halteres.
 
-## Coaching Notes
+## Aruka Coaching Notes
 
 - Usar as primeiras sessões para calibrar carga, banco, amplitude e ritmo.
 - Evitar quatro treinos consecutivos; a sequência ideal alterna dois dias de treino, descanso, dois dias de treino.

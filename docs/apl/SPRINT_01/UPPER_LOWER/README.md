@@ -32,7 +32,7 @@ O Upper/Lower separa o treino em dias de superiores e inferiores. Na Sprint 01, 
 
 ## Perfil do aluno
 
-Indicado para homens iniciantes que já toleram frequência semanal maior, conseguem registrar cargas e repetições, aceitam treinar sem falha obrigatória e precisam consolidar execução antes de aumentar complexidade. O aluno deve conseguir manter intervalo mínimo de recuperação entre sessões de mesmo segmento.
+Indicado para homens iniciantes que já toleram frequência semanal maior, conseguem registrar cargas e repetições, aceitam encerrar séries com margem técnica e precisam consolidar execução antes de aumentar complexidade. O aluno deve conseguir manter intervalo mínimo de recuperação entre sessões de mesmo segmento.
 
 ## Comparação entre modelos
 
@@ -44,14 +44,14 @@ Indicado para homens iniciantes que já toleram frequência semanal maior, conse
 | Duração média | 50–60 minutos | 55–65 minutos | 55–65 minutos |
 | RIR predominante | 2–3 | 2 | 2 |
 | Método principal | Progressão dupla | Progressão dupla com Top Set + Back-off seletivos | Progressão dupla com prioridade de peitoral |
-| Técnicas intensificadoras | Não utiliza | Não utiliza Drop Set, Rest Pause ou falha obrigatória | Não utiliza Drop Set, Rest Pause ou falha obrigatória |
+| Técnicas intensificadoras | Não utiliza | Não utiliza técnicas intensificadoras | Não utiliza técnicas intensificadoras |
 | Exercícios livres | Baixa presença | Presença moderada | Presença moderada e controlada |
 | Melhor uso | Iniciante em consolidação | Iniciante avançando para intermediário | Peitoral atrasado sem perder recuperação |
 
 ## Critérios para migração para Sprint 02
 
 - Completar 8–12 semanas com boa aderência.
-- Manter RIR prescrito sem transformar séries em falha.
+- Manter RIR prescrito sem transformar séries em esforço máximo.
 - Registrar cargas, repetições e percepção de recuperação.
 - Executar supinos, puxadas, remadas, padrões de joelho e quadril com estabilidade.
 - Recuperar-se bem entre quatro sessões semanais.

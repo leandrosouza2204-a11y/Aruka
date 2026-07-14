@@ -13,7 +13,7 @@
 
 ## Resumo Executivo
 
-Modelo Upper/Lower masculino iniciante com prioridade moderada para peitoral. Mantém quatro sessões semanais, duas exposições de peitoral, duração média de 55–65 minutos e aproximadamente 15 séries diretas semanais para o grupamento prioritário. Os demais grupamentos permanecem em volume de manutenção produtiva para preservar equilíbrio técnico e recuperação. O modelo não usa Drop Set, Rest Pause ou falha obrigatória. A especialização acontece por ordem dos exercícios, frequência e volume controlado, não por técnicas agressivas.
+Modelo Upper/Lower masculino iniciante com prioridade moderada para peitoral. Mantém quatro sessões semanais, duas exposições de peitoral, duração média de 55–65 minutos e aproximadamente 15 séries diretas semanais para o grupamento prioritário. Os demais grupamentos permanecem em volume de manutenção produtiva para preservar equilíbrio técnico e recuperação. O modelo não usa técnicas intensificadoras. A especialização acontece por ordem dos exercícios, frequência e volume controlado, não por técnicas agressivas.
 
 ## Problema que resolve
 
@@ -61,6 +61,8 @@ Priorizar peitoral de forma moderada e recuperável dentro de uma divisão Upper
 
 ## Metadados
 
+Os metadados abaixo consolidam identificação, estratégia e parâmetros operacionais do modelo.
+
 ### Tabela de metadados
 
 | Campo | Valor |
@@ -101,8 +103,8 @@ Priorizar peitoral de forma moderada e recuperável dentro de uma divisão Upper
 - Registro de carga: registrar separadamente supinos principais e complementares.
 - Amplitude: alongar peitoral sem provocar desconforto no ombro.
 - Progressão: aumentar repetições antes de carga.
-- Regras de falha: falha não é alvo do modelo.
-- Técnicas intensificadoras: não utilizar Drop Set ou Rest Pause.
+- Regras de esforço: encerrar as séries com margem técnica.
+- Técnicas intensificadoras: não utilizar neste modelo.
 
 ## Periodização
 
@@ -230,7 +232,7 @@ Lower B mantém inferiores treináveis sem criar fadiga desnecessária. A priori
 
 As equivalências abaixo são referências operacionais e não substituem a centralização definitiva no AOE: Supino Máquina → Supino Barra; Supino Inclinado Máquina → Supino Inclinado com Halteres; Crossover na Polia → Crucifixo Máquina; Puxada Alta → Barra Fixa; Remada Máquina → Remada com Barra; Leg Press → Hack; Mesa Flexora → Cadeira Flexora.
 
-## Coaching Notes
+## Aruka Coaching Notes
 
 - A prioridade de peitoral deve melhorar execução, não apenas aumentar carga.
 - Se ombro anterior ou tríceps se tornam limitantes, reduzir 2–3 séries semanais de peitoral.
@@ -270,7 +272,7 @@ A especialização usa a estrutura Upper/Lower para expor o peitoral duas vezes 
 - [x] Todas as tabelas de exercícios possuem as oito colunas oficiais.
 - [x] Peitoral permanece entre 14–16 séries diretas semanais.
 - [x] Demais grupamentos permanecem em manutenção produtiva.
-- [x] Drop Set, Rest Pause e falha obrigatória não são utilizados.
+- [x] Técnicas intensificadoras não são utilizadas.
 - [x] Volume semanal foi calculado.
 - [x] Aruka Score está preenchido e justificado.
 

@@ -1,245 +1,248 @@
-# Hipertrofia Eficiencia - ABC Iniciante
+# Hipertrofia Eficiência - ABC Iniciante
 
-**Codigo do modelo:** `APL-M-HIP-I-ABC-EFI-01`  
-**Versao:** 1.0.0  
-**Status:** Concluido  
+**Código:** `APL-M-HIP-I-ABC-EFI-01`  
+**Versão:** `1.0.0`  
+**Status:** `Concluído — aguardando homologação`  
+**Biblioteca:** Aruka Performance Library  
+**Metodologia:** Hipertrofia  
+**Público:** Masculino iniciante  
+**Divisão:** ABC  
+**Estratégia:** Eficiência
 
 ## Resumo Executivo
 
-Modelo ABC iniciante para treinos rapidos de 40 a 45 minutos. Reduz volume de forma inteligente, preserva exercicios essenciais e permite superserie apenas entre isoladores. Nunca utiliza superserie entre compostos. Mantem RIR 2-3, margem tecnica e baixa complexidade.
-
-## Filosofia do modelo
-
-O modelo Eficiencia protege o minimo efetivo: menos exercicios, menor redundancia e mais clareza operacional. A meta e entregar treino completo quando tempo, deslocamento ou academia cheia poderiam quebrar a aderencia.
+Modelo ABC iniciante para treinos rápidos de 40-45 minutos. Reduz volume de forma planejada, preserva exercícios essenciais e permite superséries apenas entre isoladores. Compostos mantêm descanso próprio, RIR 2-3 e margem técnica.
 
 ## Problema que resolve
 
-Resolve o caso do aluno iniciante que precisa treinar em agenda curta sem transformar o ABC em um treino incompleto. A reducao de volume e planejada para preservar padroes principais e retirar o que tem menor retorno imediato.
+Resolve o caso do aluno iniciante que precisa treinar em agenda curta sem transformar o ABC em um treino incompleto.
 
 ## Quando utilizar
 
-- Agenda de 40 a 45 minutos por sessao.
-- Academia cheia ou com alternancia frequente de equipamentos.
-- Aluno que perderia treinos com modelos mais longos.
-- Fase de manutencao tecnica dentro da Sprint 01.
-- Necessidade de reduzir volume sem abandonar a divisao ABC.
+- Agenda de 40-45 minutos por sessão.
+- Academia cheia.
+- Fase de manutenção técnica.
+- Necessidade de reduzir volume sem abandonar o ABC.
 
 ## Quando evitar
 
-- Aluno com tempo suficiente e boa recuperacao para Base ou Performance.
+- Aluno com tempo suficiente para Base ou Performance.
 - Necessidade de alto volume por grupamento.
-- Objetivo de especializacao muscular.
-- Aluno que usa superserie para acelerar compostos.
-- Dor ou limitacao que exija longos ajustes de exercicios.
+- Objetivo de especialização muscular.
+- Dificuldade em respeitar descansos nos compostos.
 
-## Publico-alvo
+## Público-alvo
 
-Homem iniciante com pouco tempo disponivel, mas capaz de manter tres treinos semanais. O aluno deve aceitar sessoes mais enxutas, foco tecnico e prioridade para exercicios que entregam maior retorno por minuto.
+Homem iniciante com pouco tempo disponível, mas capaz de manter três treinos semanais e registrar substituições.
 
-## Pre-requisitos
+## Pré-requisitos
 
 - Entender RIR 2-3.
-- Conseguir alternar equipamentos sem perder registro.
-- Saber que superserie e permitida apenas entre isoladores.
-- Respeitar descansos minimos nos compostos.
-- Registrar qualquer substituicao causada por academia cheia.
+- Saber que supersérie é permitida apenas entre isoladores.
+- Respeitar descansos mínimos nos compostos.
+- Registrar substituições causadas por academia cheia.
+
+## Filosofia
+
+O modelo protege o mínimo efetivo: menos redundância, mais clareza operacional e foco nos exercícios de maior retorno por minuto.
 
 ## Objetivo principal
 
-Executar uma divisao ABC iniciante completa em 40 a 45 minutos, preservando tecnica, aderencia e estimulo suficiente.
+Executar uma divisão ABC iniciante em 40-45 minutos, preservando técnica, aderência e estímulo suficiente.
 
-## Objetivos secundarios
+## Objetivos secundários
 
-- Reduzir volume sem remover padroes essenciais.
-- Manter Progressao Dupla nos principais exercicios.
-- Usar superseries apenas quando aumentarem eficiencia sem elevar risco.
-- Oferecer adaptacoes para academia cheia.
-- Definir versao de contingencia para apenas 35 minutos.
+- Reduzir volume sem remover padrões essenciais.
+- Manter progressão dupla.
+- Usar superséries apenas entre isoladores.
+- Oferecer adaptação para academia cheia e sessão de 35 minutos.
 
 ## Metadados
 
-- Codigo: `APL-M-HIP-I-ABC-EFI-01`
-- Versao: 1.0.0
-- Status: Concluido
-- Sprint: 01
-- Populacao: masculino iniciante
-- Divisao: ABC
-- Frequencia: 3 sessoes semanais
-- Tempo medio: 40-45 minutos
-- Metodo principal: Progressao Dupla
-- Metodo complementar: Superserie apenas entre isoladores
-- RIR predominante: 2-3
-- Intensidade limite: manter margem tecnica em todas as series
-- Superserie entre compostos: proibida
-- Ciclo sugerido: 6 a 10 semanas
+| Campo | Valor |
+|---|---|
+| Código | APL-M-HIP-I-ABC-EFI-01 |
+| Versão | 1.0.0 |
+| Status | Concluído — aguardando homologação |
+| Sexo | Masculino |
+| Nível | Iniciante |
+| Objetivo | Hipertrofia |
+| Divisão | ABC |
+| Estratégia | Eficiência |
+| Frequência | 3 sessões semanais |
+| Duração média | 40-45 minutos |
+| Ciclo sugerido | 6-10 semanas |
+| RIR predominante | 2-3 |
+| Método principal | Progressão dupla |
+| Métodos complementares | Supersérie entre isoladores |
+| Complexidade | Baixa |
+| Equipamentos | Máquinas, cabos e halteres |
 
 ## Estrutura semanal
 
-- Segunda: Treino A - Peitoral, deltoides e triceps.
-- Quarta: Treino B - Costas e biceps.
-- Sexta: Treino C - Quadriceps, posteriores, gluteos, panturrilhas e core.
+| Dia sugerido | Sessão | Ênfase | Duração estimada |
+|---|---|---|---|
+| Segunda | Treino A | Peitoral, deltoides e tríceps | 40-45 minutos |
+| Quarta | Treino B | Costas e bíceps | 40-45 minutos |
+| Sexta | Treino C | Pernas, panturrilhas e core | 40-45 minutos |
 
 ## Diretrizes
 
-- Compostos nunca entram em superserie.
-- Superserie so pode unir isoladores de baixa complexidade.
-- Se o equipamento principal estiver ocupado, usar alternativa equivalente e registrar.
+- Compostos nunca entram em supersérie.
+- Supersérie só pode unir isoladores de baixa complexidade.
 - Descansos dos compostos devem ser preservados.
 - Cortar primeiro isoladores redundantes quando faltar tempo.
-- Manter aquecimento especifico breve antes do primeiro composto.
-- Nao usar tentativas maximas para compensar volume menor.
+- Não usar tentativas máximas para compensar volume menor.
 
-## Periodizacao
+## Periodização
 
-- Semanas 1-2: aprender fluxo rapido, ajustes e substituicoes.
-- Semanas 3-6: progredir repeticoes mantendo tempo de sessao.
-- Semanas 7-8: subir carga quando o topo da faixa for atingido.
-- Semanas 9-10: avaliar retorno para Base, manutencao em Eficiencia ou evolucao para ABCD se houver agenda.
-- Deload: reduzir uma serie dos exercicios principais e retirar superseries por uma semana se houver fadiga.
+Semanas 1-2 aprendem fluxo rápido e substituições. Semanas 3-6 progridem repetições. Semanas 7-8 permitem aumento de carga. Semanas 9-10 avaliam retorno para Base ou manutenção em Eficiência.
 
-## Progressao
+## Progressão
 
-Aplicar Progressao Dupla nos compostos e isoladores. Em superseries de isoladores, a progressao deve respeitar o exercicio mais fraco do par. Se a economia de tempo causar perda tecnica, desfazer a superserie e manter descansos tradicionais.
+Aplicar progressão dupla. Em superséries de isoladores, a progressão respeita o exercício mais fraco do par. Se a economia de tempo causar perda técnica, desfazer a supersérie.
 
 ## Treinos
 
-### Treino A - Peitoral, deltoides e triceps
+### Treino A - Peitoral, deltoides e tríceps
 
-## Objetivo da sessao
+#### Objetivo da sessão
 
-Entregar empurroes essenciais e isoladores de ombro/triceps em formato rapido, sem superserie entre compostos.
+Entregar empurrões essenciais e isoladores de ombro/tríceps em formato rápido.
 
-| Exercicio | Series | Repeticoes | RIR | Descanso | Metodo | Observacoes |
-|---|---:|---|---|---|---|---|
-| Supino Maquina | 3 | 8-12 | 2-3 | 90 s | Progressao Dupla | Principal composto da sessao; nao combinar em superserie. |
-| Supino Inclinado com Halteres | 2 | 8-10 | 2-3 | 90 s | Progressao Dupla | Usar maquina inclinada se halteres estiverem indisponiveis. |
-| Desenvolvimento Maquina | 2 | 8-12 | 2-3 | 90 s | Progressao Dupla | Manter coluna apoiada. |
-| Crucifixo no Crossover | 2 | 12-15 | 2-3 | 30-45 s | Superserie Isoladora | Pode alternar com Triceps Polia Corda. |
-| Triceps Polia Corda | 2 | 10-15 | 2-3 | 60 s apos o par | Superserie Isoladora | Superserie permitida apenas com Crucifixo. |
-| Elevacao Lateral com Halteres | 2 | 12-15 | 2-3 | 45-60 s | Progressao Dupla | Usar carga leve e sem impulso. |
+#### Prescrição
 
-**Justificativa tecnica:** os tres primeiros exercicios preservam os padroes de empurrar. A superserie entre Crucifixo e Triceps economiza tempo por unir isoladores estaveis e nao concorrentes em excesso.
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+|---:|---|:---:|:---:|:---:|:---:|---|---|
+| 1 | Supino Máquina | 3 | 8-12 | 2-3 | 90 s | Progressão dupla | Composto principal |
+| 2 | Supino Inclinado com Halteres | 2 | 8-10 | 2-3 | 90 s | Progressão dupla | Usar máquina se necessário |
+| 3 | Desenvolvimento Máquina | 2 | 8-12 | 2-3 | 90 s | Progressão dupla | Coluna apoiada |
+| 4 | Crucifixo no Crossover | 2 | 12-15 | 2-3 | 30-45 s | Supersérie isoladora | Alternar com tríceps |
+| 5 | Tríceps Polia Corda | 2 | 10-15 | 2-3 | 60 s após o par | Supersérie isoladora | Cotovelos fixos |
+| 6 | Elevação Lateral com Halteres | 2 | 12-15 | 2-3 | 45-60 s | Progressão dupla | Sem impulso |
 
-### Treino B - Costas e biceps
+#### Justificativa
 
-**Objetivo da sessao:** manter puxada vertical, remada horizontal e biceps em sessao compacta.
+Os três primeiros exercícios preservam padrões de empurrar. A supersérie entre crucifixo e tríceps economiza tempo por unir isoladores estáveis.
 
-| Exercicio | Series | Repeticoes | RIR | Descanso | Metodo | Observacoes |
-|---|---:|---|---|---|---|---|
-| Puxada Alta Frente | 3 | 8-12 | 2-3 | 90 s | Progressao Dupla | Principal composto vertical; nao combinar em superserie. |
-| Remada Baixa Neutra | 3 | 10-12 | 2-3 | 90 s | Progressao Dupla | Tronco firme e amplitude repetivel. |
-| Remada Maquina com Apoio | 2 | 10-12 | 2-3 | 75-90 s | Progressao Dupla | Opcao rapida se a remada baixa estiver ocupada. |
-| Pulldown na Polia | 2 | 12-15 | 2-3 | 30-45 s | Superserie Isoladora | Pode alternar com Rosca Polia. |
-| Rosca Polia | 2 | 10-12 | 2-3 | 60 s apos o par | Superserie Isoladora | Cotovelos fixos. |
-| Rosca Martelo com Halteres | 2 | 10-12 | 2-3 | 60 s | Progressao Dupla | Sem impulso. |
+### Treino B - Costas e bíceps
 
-**Justificativa tecnica:** a sessao preserva uma puxada e duas remadas para costas. A superserie entre Pulldown e Rosca reduz deslocamento quando feita na mesma estacao de cabos, sem misturar compostos.
+#### Objetivo da sessão
 
-### Treino C - Quadriceps, posteriores, gluteos, panturrilhas e core
+Manter puxada vertical, remada horizontal e bíceps em sessão compacta.
 
-**Objetivo da sessao:** treinar membros inferiores completos com volume enxuto e alta previsibilidade operacional.
+#### Prescrição
 
-| Exercicio | Series | Repeticoes | RIR | Descanso | Metodo | Observacoes |
-|---|---:|---|---|---|---|---|
-| Leg Press | 3 | 10-12 | 2-3 | 120 s | Progressao Dupla | Composto principal; nao combinar em superserie. |
-| Mesa Flexora | 3 | 10-12 | 2-3 | 75-90 s | Progressao Dupla | Controlar descida. |
-| Cadeira Extensora | 2 | 12-15 | 2-3 | 60-75 s | Progressao Dupla | Pausa curta no topo. |
-| Gluteo Maquina | 2 | 10-15 | 2-3 | 60 s | Progressao Dupla | Evitar lombar. |
-| Panturrilha Sentado | 2 | 12-20 | 2-3 | 30-45 s | Superserie Isoladora | Pode alternar com Abdominal Maquina. |
-| Abdominal Maquina | 2 | 12-15 | 2-3 | 60 s apos o par | Superserie Isoladora | Manter controle do tronco. |
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+|---:|---|:---:|:---:|:---:|:---:|---|---|
+| 1 | Puxada Alta Frente | 3 | 8-12 | 2-3 | 90 s | Progressão dupla | Composto vertical |
+| 2 | Remada Baixa Neutra | 3 | 10-12 | 2-3 | 90 s | Progressão dupla | Tronco firme |
+| 3 | Remada Máquina com Apoio | 2 | 10-12 | 2-3 | 75-90 s | Progressão dupla | Alternativa rápida |
+| 4 | Pulldown na Polia | 2 | 12-15 | 2-3 | 30-45 s | Supersérie isoladora | Alternar com rosca |
+| 5 | Rosca Polia | 2 | 10-12 | 2-3 | 60 s após o par | Supersérie isoladora | Cotovelos fixos |
+| 6 | Rosca Martelo com Halteres | 2 | 10-12 | 2-3 | 60 s | Progressão dupla | Sem impulso |
 
-**Justificativa tecnica:** Leg Press, flexora e extensora sustentam o nucleo do treino de pernas. Gluteo direto cobre extensao de quadril. Panturrilha e abdominal formam par isolador para economizar tempo sem comprometer seguranca.
+#### Justificativa
 
-## Prescricao
+A sessão preserva uma puxada e duas remadas. A supersérie entre pulldown e rosca reduz deslocamento quando feita na mesma estação.
 
-As tabelas dos treinos A, B e C sao a prescricao oficial do modelo. Todas as linhas incluem exercicio, series, repeticoes, RIR, descanso, metodo e observacoes.
+### Treino C - Quadríceps, posteriores, glúteos, panturrilhas e core
 
-## Justificativa
+#### Objetivo da sessão
 
-O Eficiencia reduz volume por redundancia, nao por abandono de padroes. Compostos mantem descanso e foco proprio; isoladores podem ser agrupados para poupar deslocamento e tempo. A proibicao de superserie entre compostos protege tecnica, respiracao e qualidade de carga.
+Treinar membros inferiores completos com volume enxuto e alta previsibilidade operacional.
+
+#### Prescrição
+
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+|---:|---|:---:|:---:|:---:|:---:|---|---|
+| 1 | Leg Press | 3 | 10-12 | 2-3 | 120 s | Progressão dupla | Composto principal |
+| 2 | Mesa Flexora | 3 | 10-12 | 2-3 | 75-90 s | Progressão dupla | Controlar descida |
+| 3 | Cadeira Extensora | 2 | 12-15 | 2-3 | 60-75 s | Progressão dupla | Pausa curta |
+| 4 | Glúteo Máquina | 2 | 10-15 | 2-3 | 60 s | Progressão dupla | Evitar lombar |
+| 5 | Panturrilha Sentado | 2 | 12-20 | 2-3 | 30-45 s | Supersérie isoladora | Alternar com abdominal |
+| 6 | Abdominal Máquina | 2 | 12-15 | 2-3 | 60 s após o par | Supersérie isoladora | Controle do tronco |
+
+#### Justificativa
+
+Leg Press, flexora e extensora sustentam o núcleo do treino de pernas. Panturrilha e abdominal formam par isolador para economizar tempo.
 
 ## Volume semanal
 
-- Peitoral: 7 series diretas.
-- Costas: 10 series diretas.
-- Deltoides: 4 series diretas, alem dos empurroes.
-- Triceps: 2 series diretas, alem dos empurroes.
-- Biceps: 4 series diretas.
-- Quadriceps: 5 series diretas.
-- Posteriores: 3 series diretas.
-- Gluteos: 5 series estimadas entre Leg Press e maquina.
-- Panturrilhas: 2 series diretas.
-- Core: 2 series diretas.
+| Grupo | Séries diretas | Observação |
+|---|:---:|---|
+| Peitoral | 7 | Supinos e crucifixo |
+| Costas | 10 | Puxada, remadas e pulldown |
+| Deltoides | 4 | Desenvolvimento e lateral |
+| Tríceps | 2 | Além dos empurrões |
+| Bíceps | 4 | Roscas diretas |
+| Quadríceps | 5 | Leg Press e extensora |
+| Posteriores/glúteos | 8 | Flexora, glúteo e Leg Press |
+| Panturrilhas | 2 | Panturrilha sentado |
+| Core | 2 | Abdominal máquina |
 
-## Como adaptar em academias cheias
+## Distribuição dos padrões de movimento
 
-- Trocar maquina ocupada por alternativa do mesmo padrao e registrar.
-- Preferir cabos quando permitirem executar dois isoladores na mesma estacao.
-- Se o Leg Press estiver ocupado, usar Hack ou Smith com carga conservadora.
-- Se a Puxada Alta estiver ocupada, usar Barra Fixa assistida ou puxada articulada.
-- Se houver fila em halteres, substituir por maquina equivalente.
-- Nao transformar espera em superserie entre compostos.
+- Empurrar horizontal: supinos e crucifixo.
+- Empurrar vertical: desenvolvimento.
+- Puxar vertical: puxada alta e pulldown.
+- Puxar horizontal: remadas.
+- Dominante de joelho: Leg Press e extensora.
+- Dominante de quadril: flexora e glúteo máquina.
+- Core: abdominal.
 
-## Como adaptar quando houver apenas 35 minutos
+## Referências futuras ao AOE
 
-- Manter o primeiro composto de cada sessao.
-- Remover o ultimo isolador do dia.
-- Reduzir uma serie dos exercicios secundarios.
-- Preservar descanso dos compostos.
-- Usar apenas uma superserie isoladora.
-- Registrar a sessao como versao curta para nao comparar diretamente com treino completo.
+Equivalências provisórias: Supino Máquina → Supino Barra; Leg Press → Hack; Puxada Alta → Barra Fixa; Mesa Flexora → Cadeira Flexora. A equivalência definitiva será centralizada no AOE.
 
-## Referencias AOE
+## Aruka Coaching Notes
 
-As equivalencias abaixo sao referencias temporarias; a equivalencia definitiva sera centralizada no AOE.
+- Rápido não significa apressado nos compostos.
+- Supersérie só vale se a execução continuar limpa.
+- Em academia cheia, preservar padrão motor antes do nome exato.
+- Cronometrar descansos sem reduzir técnica.
 
-- Supino Maquina -> Supino Barra.
-- Leg Press -> Hack.
-- Puxada Alta -> Barra Fixa.
-- Mesa Flexora -> Cadeira Flexora.
+## Critérios de evolução
 
-## Coaching Notes
-
-- Rapido nao significa apressado nos compostos.
-- Superserie so vale se a execucao continuar limpa.
-- Em academia cheia, preservar padrao motor antes do nome exato do exercicio.
-- Nao compensar menor volume com tentativas maximas.
-- Cronometrar descansos sem reduzir tecnica.
-
-## Criterios de evolucao
-
-- Completar treinos em 40 a 45 minutos sem cortar compostos.
-- Manter RIR 2-3 mesmo com menor descanso em isoladores.
-- Registrar substituicoes de academia cheia com consistencia.
-- Progredir repeticoes por pelo menos 6 semanas.
-- Migrar para Base quando houver mais tempo ou para ABCD quando houver quatro sessoes e boa recuperacao.
+Evoluir quando o aluno completar treinos em 40-45 minutos sem cortar compostos, mantendo RIR 2-3 e progressão por pelo menos 6 semanas.
 
 ## Aruka Score
 
-- Estimulo hipertrofico: 6/10.
-- Aprendizagem tecnica: 8/10.
-- Sustentabilidade: 9/10.
-- Simplicidade operacional: 10/10.
-- Prontidao para evolucao: 7/10.
-- Score global: 40/50.
+| Critério | Nota de 1 a 5 | Justificativa |
+|---|:---:|---|
+| Hipertrofia | 3 | Volume enxuto |
+| Força | 2 | Sem prioridade neural |
+| Aprendizagem | 4 | Padrões preservados |
+| Complexidade | 2 | Regras simples |
+| Demanda de recuperação | 2 | Volume reduzido |
+| Eficiência de tempo | 5 | Sessões curtas |
+| Necessidade de equipamentos | 4 | Máquinas e cabos |
+| Personalização | 4 | Adaptável em academia cheia |
+| Aderência esperada | 5 | Alta para agenda curta |
+
+## Engenharia do treino
+
+O Eficiência reduz volume por redundância, não por abandono de padrões. Compostos mantêm descanso próprio; isoladores podem ser agrupados para poupar tempo sem comprometer segurança.
 
 ## Checklist
 
-- Codigo do modelo presente.
-- Versao e status definidos.
-- Tempo de 40-45 minutos respeitado.
-- Volume reduzido de forma planejada.
-- Superserie apenas entre isoladores.
-- Nenhuma superserie entre compostos.
-- Adaptacao para academia cheia incluida.
-- Adaptacao para 35 minutos incluida.
-- Tabelas completas de prescricao.
-- Referencias AOE registradas.
+- [x] Código do modelo presente.
+- [x] Versão e status definidos.
+- [x] Tempo de 40-45 minutos.
+- [x] Supersérie apenas entre isoladores.
+- [x] Tabelas oficiais de prescrição.
+- [x] Referências AOE registradas.
 
-## Assinatura Tecnica
+## Assinatura Técnica
 
-Modelo ABC iniciante de hipertrofia eficiencia, construido para preservar aderencia e padroes essenciais em sessoes curtas, com volume enxuto, Progressao Dupla e regras claras de superserie.
+Modelo ABC iniciante de hipertrofia eficiência, construído para preservar aderência e padrões essenciais em sessões curtas.
 
 ## Tags
 
-`hipertrofia`, `masculino`, `iniciante`, `ABC`, `eficiencia`, `treino rapido`, `40 minutos`, `superserie isoladora`, `APL-M-HIP-I`
+- hipertrofia
+- masculino
+- iniciante
+- abc
+- eficiencia
+- superserie-isoladora
+- treino-rapido

@@ -5,14 +5,14 @@
 - Version: AQA v1.1
 - Result: FAILED
 - BLOCKERS: 5
-- ERRORS: 21
-- WARNINGS: 512
+- ERRORS: 16
+- WARNINGS: 459
 - SUGGESTIONS: 0
 - INFO: 0
-- Duplicates removidos: 16
+- Duplicates removidos: 15
 - Findings suprimidos: 0
-- Root Causes: 41
-- Confidence media: 88%
+- Root Causes: 35
+- Confidence media: 89%
 - Modelo mais critico: APL-M-HIP-M-ABC-EFI-01
 - Regra mais violada: aqa-003
 - Sprint mais critica: SPRINT_02
@@ -21,8 +21,8 @@
 
 ```text
 BLOCKERS     # 5
-ERRORS       # 21
-WARNINGS     ######################## 512
+ERRORS       # 16
+WARNINGS     ######################## 459
 SUGGESTIONS  # 0
 INFO         # 0
 ```
@@ -33,9 +33,9 @@ INFO         # 0
 - Target: all
 - Status: FAILED
 - Exit code: 1
-- Started: 2026-07-14T20:06:12.717Z
-- Finished: 2026-07-14T20:06:14.726Z
-- Duration: 2010ms
+- Started: 2026-07-14T20:37:33.390Z
+- Finished: 2026-07-14T20:37:34.725Z
+- Duration: 1336ms
 - Files scanned: 51
 - Documents parsed: 51
 - Rules loaded: 9
@@ -48,22 +48,21 @@ INFO         # 0
 | blocker | 5 |
 | info | 0 |
 | suggestion | 0 |
-| warning | 512 |
-| error | 21 |
+| warning | 459 |
+| error | 16 |
 | fatal | 0 |
 
 ## Findings by Context
 
 | Contexto | Findings |
 | --- | --- |
-| global | 526 |
-| session | 12 |
+| global | 480 |
 
 ## Baseline
 
 - Arquivo: C:\Projetos\ConsultoriaFitness\reports\apl\.baseline.json
-- Findings anterior: 538
-- Findings atual: 538
+- Findings anterior: 480
+- Findings atual: 480
 - Delta findings: +0
 - Delta BLOCKERS: +0
 - Delta ERRORS: +0
@@ -74,29 +73,24 @@ INFO         # 0
 
 | Category | Findings |
 | --- | --- |
-| Documentacao | 504 |
-| Metodos | 10 |
-| Iniciante | 9 |
+| Documentacao | 468 |
 | Estrutura | 7 |
-| Terminologia | 4 |
-| Prescricao | 3 |
+| Metodos | 4 |
 | Status | 1 |
 
 ## Confidence
 
 | Confidence | Findings |
 | --- | --- |
-| 90 | 489 |
-| 70 | 34 |
+| 90 | 456 |
 | 80 | 15 |
+| 70 | 9 |
 
 ## Root Causes
 
 | Root Cause | Findings |
 | --- | --- |
 | Secao obrigatoria ausente: Assinatura Tecnica. | 15 |
-| Drop Set encontrado em modelo iniciante. | 3 |
-| Secao Premium ausente: Distribuicao dos padroes de movimento. | 3 |
 | Diretorio esperado ausente: ABC | 1 |
 | Diretorio esperado ausente: ABCD | 1 |
 | Diretorio esperado ausente: ABCDE | 1 |
@@ -314,14 +308,14 @@ Nenhuma ocorrencia.
 | Rule | Severity | Scope | Findings | Duration |
 | --- | --- | --- | --- | --- |
 | aqa-001 | error | global | 22 | 6ms |
-| aqa-002 | error | model | 93 | 33ms |
-| aqa-003 | error | model | 411 | 1321ms |
-| aqa-004 | error | prescription | 3 | 9ms |
-| aqa-005 | warning | model | 10 | 65ms |
-| aqa-006 | warning | document | 4 | 10ms |
-| aqa-007 | error | global | 2 | 4ms |
-| aqa-008 | error | model | 9 | 10ms |
-| aqa-009 | warning | model | 0 | 10ms |
+| aqa-002 | error | model | 90 | 27ms |
+| aqa-003 | error | model | 378 | 922ms |
+| aqa-004 | error | prescription | 0 | 7ms |
+| aqa-005 | warning | model | 4 | 46ms |
+| aqa-006 | warning | document | 0 | 7ms |
+| aqa-007 | error | global | 1 | 2ms |
+| aqa-008 | error | model | 0 | 9ms |
+| aqa-009 | warning | model | 0 | 3ms |
 
 ## Findings
 
@@ -451,56 +445,9 @@ Nenhuma ocorrencia.
 - Mensagem: Secao obrigatoria ausente: Assinatura Tecnica.
 - Sugestao: Adicionar a secao "Assinatura Tecnica".
 
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-BASE-01
-- Secao: Distribuicao dos padroes de movimento
-- Mensagem: Secao Premium ausente: Distribuicao dos padroes de movimento.
-- Sugestao: Adicionar a secao "Distribuicao dos padroes de movimento" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-EFI-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-EFI-01
-- Secao: Distribuicao dos padroes de movimento
-- Mensagem: Secao Premium ausente: Distribuicao dos padroes de movimento.
-- Sugestao: Adicionar a secao "Distribuicao dos padroes de movimento" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-PERF-01
-- Secao: Distribuicao dos padroes de movimento
-- Mensagem: Secao Premium ausente: Distribuicao dos padroes de movimento.
-- Sugestao: Adicionar a secao "Distribuicao dos padroes de movimento" no modelo.
-
-- Regra: aqa-008
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Drop Set encontrado em modelo iniciante.
-- Sugestao: Remover tecnica intensiva ou mover para modelo de nivel adequado.
-
-- Regra: aqa-008
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Mensagem: Drop Set encontrado em modelo iniciante.
-- Sugestao: Remover tecnica intensiva ou mover para modelo de nivel adequado.
-
-- Regra: aqa-008
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Mensagem: Drop Set encontrado em modelo iniciante.
-- Sugestao: Remover tecnica intensiva ou mover para modelo de nivel adequado.
+- Regra: aqa-007
+- Mensagem: Contador de modelos concluidos diverge dos modelos existentes.
+- Sugestao: Revisar contador de modelos concluidos no PROJECT_STATUS.
 
 ### Warnings
 
@@ -4511,435 +4458,6 @@ Nenhuma ocorrencia.
 - Mensagem: Secao obrigatoria ausente: Tags.
 - Sugestao: Adicionar a secao "Tags".
 
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-BASE-01
-- Secao: Engenharia do treino
-- Mensagem: Secao Premium ausente: Engenharia do treino.
-- Sugestao: Adicionar a secao "Engenharia do treino" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-BASE-01
-- Secao: Filosofia
-- Mensagem: Secao Premium ausente: Filosofia.
-- Sugestao: Adicionar a secao "Filosofia" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-BASE-01
-- Secao: Referencias futuras ao AOE
-- Mensagem: Secao Premium ausente: Referencias futuras ao AOE.
-- Sugestao: Adicionar a secao "Referencias futuras ao AOE" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-BASE-01
-- Sessao: Treino A - Peitoral, deltoides e triceps
-- Secao: Justificativa
-- Linha: 105
-- Mensagem: Sessao "Treino A - Peitoral, deltoides e triceps" sem subsecao "Justificativa".
-- Sugestao: Adicionar "#### Justificativa" dentro da sessao "Treino A - Peitoral, deltoides e triceps".
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-BASE-01
-- Sessao: Treino A - Peitoral, deltoides e triceps
-- Secao: Objetivo da sessão
-- Linha: 105
-- Mensagem: Sessao "Treino A - Peitoral, deltoides e triceps" sem subsecao "Objetivo da sessão".
-- Sugestao: Adicionar "#### Objetivo da sessão" dentro da sessao "Treino A - Peitoral, deltoides e triceps".
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-BASE-01
-- Sessao: Treino A - Peitoral, deltoides e triceps
-- Secao: Prescrição
-- Linha: 105
-- Mensagem: Sessao "Treino A - Peitoral, deltoides e triceps" sem subsecao "Prescrição".
-- Sugestao: Adicionar "#### Prescrição" dentro da sessao "Treino A - Peitoral, deltoides e triceps".
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-BASE-01
-- Sessao: Treino A - Peitoral, deltoides e triceps
-- Secao: Prescrição
-- Linha: 105
-- Mensagem: Sessao "Treino A - Peitoral, deltoides e triceps" sem subsecao Prescricao.
-- Sugestao: Adicionar subsecao de prescricao com tabela oficial.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-BASE-01
-- Secao: Aruka Coaching Notes
-- Linha: 183
-- Mensagem: Alias legado utilizado: Coaching Notes.
-- Sugestao: Preferir o titulo oficial "Aruka Coaching Notes" quando o modelo for revisado.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-EFI-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-EFI-01
-- Secao: Engenharia do treino
-- Mensagem: Secao Premium ausente: Engenharia do treino.
-- Sugestao: Adicionar a secao "Engenharia do treino" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-EFI-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-EFI-01
-- Secao: Filosofia
-- Mensagem: Secao Premium ausente: Filosofia.
-- Sugestao: Adicionar a secao "Filosofia" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-EFI-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-EFI-01
-- Secao: Referencias futuras ao AOE
-- Mensagem: Secao Premium ausente: Referencias futuras ao AOE.
-- Sugestao: Adicionar a secao "Referencias futuras ao AOE" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-EFI-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-EFI-01
-- Sessao: Treino A - Peitoral, deltoides e triceps
-- Secao: Justificativa
-- Linha: 106
-- Mensagem: Sessao "Treino A - Peitoral, deltoides e triceps" sem subsecao "Justificativa".
-- Sugestao: Adicionar "#### Justificativa" dentro da sessao "Treino A - Peitoral, deltoides e triceps".
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-EFI-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-EFI-01
-- Sessao: Treino A - Peitoral, deltoides e triceps
-- Secao: Objetivo da sessão
-- Linha: 106
-- Mensagem: Sessao "Treino A - Peitoral, deltoides e triceps" sem subsecao "Objetivo da sessão".
-- Sugestao: Adicionar "#### Objetivo da sessão" dentro da sessao "Treino A - Peitoral, deltoides e triceps".
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-EFI-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-EFI-01
-- Sessao: Treino A - Peitoral, deltoides e triceps
-- Secao: Prescrição
-- Linha: 106
-- Mensagem: Sessao "Treino A - Peitoral, deltoides e triceps" sem subsecao "Prescrição".
-- Sugestao: Adicionar "#### Prescrição" dentro da sessao "Treino A - Peitoral, deltoides e triceps".
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-EFI-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-EFI-01
-- Sessao: Treino A - Peitoral, deltoides e triceps
-- Secao: Prescrição
-- Linha: 106
-- Mensagem: Sessao "Treino A - Peitoral, deltoides e triceps" sem subsecao Prescricao.
-- Sugestao: Adicionar subsecao de prescricao com tabela oficial.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-EFI-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-EFI-01
-- Secao: Aruka Coaching Notes
-- Linha: 201
-- Mensagem: Alias legado utilizado: Coaching Notes.
-- Sugestao: Preferir o titulo oficial "Aruka Coaching Notes" quando o modelo for revisado.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-PERF-01
-- Secao: Engenharia do treino
-- Mensagem: Secao Premium ausente: Engenharia do treino.
-- Sugestao: Adicionar a secao "Engenharia do treino" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-PERF-01
-- Secao: Filosofia
-- Mensagem: Secao Premium ausente: Filosofia.
-- Sugestao: Adicionar a secao "Filosofia" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-PERF-01
-- Secao: Referencias futuras ao AOE
-- Mensagem: Secao Premium ausente: Referencias futuras ao AOE.
-- Sugestao: Adicionar a secao "Referencias futuras ao AOE" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-PERF-01
-- Sessao: Treino A - Peitoral, deltoides e triceps
-- Secao: Justificativa
-- Linha: 106
-- Mensagem: Sessao "Treino A - Peitoral, deltoides e triceps" sem subsecao "Justificativa".
-- Sugestao: Adicionar "#### Justificativa" dentro da sessao "Treino A - Peitoral, deltoides e triceps".
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-PERF-01
-- Sessao: Treino A - Peitoral, deltoides e triceps
-- Secao: Objetivo da sessão
-- Linha: 106
-- Mensagem: Sessao "Treino A - Peitoral, deltoides e triceps" sem subsecao "Objetivo da sessão".
-- Sugestao: Adicionar "#### Objetivo da sessão" dentro da sessao "Treino A - Peitoral, deltoides e triceps".
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-PERF-01
-- Sessao: Treino A - Peitoral, deltoides e triceps
-- Secao: Prescrição
-- Linha: 106
-- Mensagem: Sessao "Treino A - Peitoral, deltoides e triceps" sem subsecao "Prescrição".
-- Sugestao: Adicionar "#### Prescrição" dentro da sessao "Treino A - Peitoral, deltoides e triceps".
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-PERF-01
-- Sessao: Treino A - Peitoral, deltoides e triceps
-- Secao: Prescrição
-- Linha: 106
-- Mensagem: Sessao "Treino A - Peitoral, deltoides e triceps" sem subsecao Prescricao.
-- Sugestao: Adicionar subsecao de prescricao com tabela oficial.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: ABC
-- Modelo: APL-M-HIP-I-ABC-PERF-01
-- Secao: Aruka Coaching Notes
-- Linha: 185
-- Mensagem: Alias legado utilizado: Coaching Notes.
-- Sugestao: Preferir o titulo oficial "Aruka Coaching Notes" quando o modelo for revisado.
-
-- Regra: aqa-008
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Rest Pause encontrado em modelo iniciante.
-- Sugestao: Substituir por progressao simples e controle de RIR.
-
-- Regra: aqa-002
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Secao: Metadados
-- Linha: 62
-- Mensagem: Secao sem conteudo: Metadados.
-- Sugestao: Preencher a secao com informacao objetiva.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Secao: Aruka Coaching Notes
-- Linha: 233
-- Mensagem: Alias legado utilizado: Coaching Notes.
-- Sugestao: Preferir o titulo oficial "Aruka Coaching Notes" quando o modelo for revisado.
-
-- Regra: aqa-005
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Drop Set duplicado no modelo.
-- Sugestao: Limitar Drop Set a usos pontuais e justificados.
-
-- Regra: aqa-005
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Rest Pause excessivo no modelo.
-- Sugestao: Reduzir Rest Pause ou justificar o volume de tecnicas intensivas.
-
-- Regra: aqa-006
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 16
-- Mensagem: Termo inadequado encontrado: falha obrigatoria.
-- Sugestao: Substituir por linguagem tecnica, precisa e verificavel.
-- Trecho: falha obrigatoria
-
-- Regra: aqa-008
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Referencia a falha em modelo iniciante.
-- Sugestao: Usar linguagem de proximidade da falha com margem tecnica.
-
-- Regra: aqa-008
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Mensagem: Rest Pause encontrado em modelo iniciante.
-- Sugestao: Substituir por progressao simples e controle de RIR.
-
-- Regra: aqa-002
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Secao: Metadados
-- Linha: 62
-- Mensagem: Secao sem conteudo: Metadados.
-- Sugestao: Preencher a secao com informacao objetiva.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Secao: Aruka Coaching Notes
-- Linha: 233
-- Mensagem: Alias legado utilizado: Coaching Notes.
-- Sugestao: Preferir o titulo oficial "Aruka Coaching Notes" quando o modelo for revisado.
-
-- Regra: aqa-005
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Mensagem: Drop Set duplicado no modelo.
-- Sugestao: Limitar Drop Set a usos pontuais e justificados.
-
-- Regra: aqa-005
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Mensagem: Rest Pause excessivo no modelo.
-- Sugestao: Reduzir Rest Pause ou justificar o volume de tecnicas intensivas.
-
-- Regra: aqa-006
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 16
-- Mensagem: Termo inadequado encontrado: falha obrigatoria.
-- Sugestao: Substituir por linguagem tecnica, precisa e verificavel.
-- Trecho: falha obrigatoria
-
-- Regra: aqa-008
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Mensagem: Referencia a falha em modelo iniciante.
-- Sugestao: Usar linguagem de proximidade da falha com margem tecnica.
-
-- Regra: aqa-008
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Mensagem: Rest Pause encontrado em modelo iniciante.
-- Sugestao: Substituir por progressao simples e controle de RIR.
-
-- Regra: aqa-002
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Secao: Metadados
-- Linha: 62
-- Mensagem: Secao sem conteudo: Metadados.
-- Sugestao: Preencher a secao com informacao objetiva.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Secao: Aruka Coaching Notes
-- Linha: 233
-- Mensagem: Alias legado utilizado: Coaching Notes.
-- Sugestao: Preferir o titulo oficial "Aruka Coaching Notes" quando o modelo for revisado.
-
-- Regra: aqa-005
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Mensagem: Drop Set duplicado no modelo.
-- Sugestao: Limitar Drop Set a usos pontuais e justificados.
-
-- Regra: aqa-005
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Mensagem: Rest Pause excessivo no modelo.
-- Sugestao: Reduzir Rest Pause ou justificar o volume de tecnicas intensivas.
-
-- Regra: aqa-006
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 16
-- Mensagem: Termo inadequado encontrado: falha obrigatoria.
-- Sugestao: Substituir por linguagem tecnica, precisa e verificavel.
-- Trecho: falha obrigatoria
-
-- Regra: aqa-008
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Mensagem: Referencia a falha em modelo iniciante.
-- Sugestao: Usar linguagem de proximidade da falha com margem tecnica.
-
 - Regra: aqa-001
 - Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY.md
 - Sprint: SPRINT_01
@@ -4953,66 +4471,6 @@ Nenhuma ocorrencia.
 - Bloco: _ROOT
 - Mensagem: Arquivo adicional desconhecido ou nome fora do padrao.
 - Sugestao: Revisar se o arquivo faz parte da estrutura oficial da APL.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: ABCD
-- Modelo: APL-M-HIP-I-ABCD-BASE-01
-- Secao: Aruka Coaching Notes
-- Linha: 234
-- Mensagem: Alias legado utilizado: Coaching Notes.
-- Sugestao: Preferir o titulo oficial "Aruka Coaching Notes" quando o modelo for revisado.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-EFI-01.md
-- Sprint: SPRINT_01
-- Bloco: ABCD
-- Modelo: APL-M-HIP-I-ABCD-EFI-01
-- Secao: Aruka Coaching Notes
-- Linha: 235
-- Mensagem: Alias legado utilizado: Coaching Notes.
-- Sugestao: Preferir o titulo oficial "Aruka Coaching Notes" quando o modelo for revisado.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: ABCD
-- Modelo: APL-M-HIP-I-ABCD-PERF-01
-- Secao: Aruka Coaching Notes
-- Linha: 235
-- Mensagem: Alias legado utilizado: Coaching Notes.
-- Sugestao: Preferir o titulo oficial "Aruka Coaching Notes" quando o modelo for revisado.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCDE\APL-M-HIP-I-ABCDE-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: ABCDE
-- Modelo: APL-M-HIP-I-ABCDE-BASE-01
-- Secao: Aruka Coaching Notes
-- Linha: 238
-- Mensagem: Alias legado utilizado: Coaching Notes.
-- Sugestao: Preferir o titulo oficial "Aruka Coaching Notes" quando o modelo for revisado.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCDE\APL-M-HIP-I-ABCDE-EFI-01.md
-- Sprint: SPRINT_01
-- Bloco: ABCDE
-- Modelo: APL-M-HIP-I-ABCDE-EFI-01
-- Secao: Aruka Coaching Notes
-- Linha: 239
-- Mensagem: Alias legado utilizado: Coaching Notes.
-- Sugestao: Preferir o titulo oficial "Aruka Coaching Notes" quando o modelo for revisado.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCDE\APL-M-HIP-I-ABCDE-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: ABCDE
-- Modelo: APL-M-HIP-I-ABCDE-PERF-01
-- Secao: Aruka Coaching Notes
-- Linha: 238
-- Mensagem: Alias legado utilizado: Coaching Notes.
-- Sugestao: Preferir o titulo oficial "Aruka Coaching Notes" quando o modelo for revisado.
 
 - Regra: aqa-003
 - Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY\APL-M-HIP-I-FB-BASE-01.md
@@ -5044,21 +4502,6 @@ Nenhuma ocorrencia.
 - Mensagem: Secao fora da ordem Premium: Checklist.
 - Sugestao: Reordenar as secoes H2 conforme o catalogo Premium oficial.
 
-- Regra: aqa-006
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\README.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Linha: 35
-- Mensagem: Termo inadequado encontrado: falha obrigatoria.
-- Sugestao: Substituir por linguagem tecnica, precisa e verificavel.
-- Trecho: falha obrigatoria
-
-- Regra: aqa-007
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Mensagem: Bloco existente possivelmente ausente do PROJECT_STATUS: UPPER_LOWER.
-- Sugestao: Conferir se o bloco esta declarado no status oficial.
-
 ### Information
 
 Nenhuma ocorrencia.
@@ -5067,13 +4510,10 @@ Nenhuma ocorrencia.
 
 | Rule | Findings |
 | --- | --- |
-| aqa-003 | 411 |
-| aqa-002 | 93 |
-| aqa-005 | 10 |
-| aqa-008 | 9 |
+| aqa-003 | 378 |
+| aqa-002 | 90 |
 | aqa-001 | 7 |
-| aqa-006 | 4 |
-| aqa-004 | 3 |
+| aqa-005 | 4 |
 | aqa-007 | 1 |
 
 ## Findings By Sprint
@@ -5081,18 +4521,18 @@ Nenhuma ocorrencia.
 | Sprint | Findings |
 | --- | --- |
 | SPRINT_02 | 469 |
-| SPRINT_01 | 64 |
+| SPRINT_01 | 5 |
 | SPRINT_03 | 5 |
 
 ## Findings By Block
 
 | Block | Findings |
 | --- | --- |
-| ABC | 122 |
-| UPPER_LOWER | 121 |
-| ABCD | 98 |
-| ABCDE | 98 |
 | FULL_BODY | 97 |
+| ABC | 95 |
+| ABCD | 95 |
+| ABCDE | 95 |
+| UPPER_LOWER | 95 |
 | _ROOT | 2 |
 
 ## Findings By File
@@ -5114,24 +4554,11 @@ Nenhuma ocorrencia.
 | C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_02\FULL_BODY\APL-M-HIP-M-FB-PERF-01.md | 31 |
 | C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_02\UPPER_LOWER\APL-M-HIP-M-UL-BASE-01.md | 31 |
 | C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_02\UPPER_LOWER\APL-M-HIP-M-UL-PERF-01.md | 31 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-BASE-01.md | 9 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-EFI-01.md | 9 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABC\APL-M-HIP-I-ABC-PERF-01.md | 9 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md | 8 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md | 8 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md | 8 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-BASE-01.md | 1 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-EFI-01.md | 1 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-PERF-01.md | 1 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCDE\APL-M-HIP-I-ABCDE-BASE-01.md | 1 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCDE\APL-M-HIP-I-ABCDE-EFI-01.md | 1 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCDE\APL-M-HIP-I-ABCDE-PERF-01.md | 1 |
 | C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY.md | 1 |
 | C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY\APL-M-HIP-I-FB-BASE-01.md | 1 |
 | C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY\APL-M-HIP-I-FB-EFI-01.md | 1 |
 | C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY\APL-M-HIP-I-FB-PERF-01.md | 1 |
 | C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER.md | 1 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\README.md | 1 |
 
 ## Findings By Model
 
@@ -5152,18 +4579,6 @@ Nenhuma ocorrencia.
 | APL-M-HIP-M-FB-PERF-01 | 31 |
 | APL-M-HIP-M-UL-BASE-01 | 31 |
 | APL-M-HIP-M-UL-PERF-01 | 31 |
-| APL-M-HIP-I-ABC-BASE-01 | 9 |
-| APL-M-HIP-I-ABC-EFI-01 | 9 |
-| APL-M-HIP-I-ABC-PERF-01 | 9 |
-| APL-M-HIP-I-UL-BASE-01 | 8 |
-| APL-M-HIP-I-UL-ESP-PEITO-01 | 8 |
-| APL-M-HIP-I-UL-PERF-01 | 8 |
-| APL-M-HIP-I-ABCD-BASE-01 | 1 |
-| APL-M-HIP-I-ABCD-EFI-01 | 1 |
-| APL-M-HIP-I-ABCD-PERF-01 | 1 |
-| APL-M-HIP-I-ABCDE-BASE-01 | 1 |
-| APL-M-HIP-I-ABCDE-EFI-01 | 1 |
-| APL-M-HIP-I-ABCDE-PERF-01 | 1 |
 | APL-M-HIP-I-FB-BASE-01 | 1 |
 | APL-M-HIP-I-FB-EFI-01 | 1 |
 | APL-M-HIP-I-FB-PERF-01 | 1 |
@@ -5172,13 +4587,10 @@ Nenhuma ocorrencia.
 
 | Rule | Findings |
 | --- | --- |
-| aqa-003 | 411 |
-| aqa-002 | 93 |
-| aqa-005 | 10 |
-| aqa-008 | 9 |
+| aqa-003 | 378 |
+| aqa-002 | 90 |
 | aqa-001 | 7 |
-| aqa-006 | 4 |
-| aqa-004 | 3 |
+| aqa-005 | 4 |
 | aqa-007 | 1 |
 
 ## Top 10 Files
@@ -5205,11 +4617,11 @@ Nenhuma ocorrencia.
 ## Performance
 
 - aqa-001: 6ms
-- aqa-002: 33ms
-- aqa-003: 1321ms
-- aqa-004: 9ms
-- aqa-005: 65ms
-- aqa-006: 10ms
-- aqa-007: 4ms
-- aqa-008: 10ms
-- aqa-009: 10ms
+- aqa-002: 27ms
+- aqa-003: 922ms
+- aqa-004: 7ms
+- aqa-005: 46ms
+- aqa-006: 7ms
+- aqa-007: 2ms
+- aqa-008: 9ms
+- aqa-009: 3ms

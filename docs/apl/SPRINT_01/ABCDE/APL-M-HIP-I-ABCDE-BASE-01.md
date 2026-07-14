@@ -235,7 +235,7 @@ Braços recebem prática direta simples e o core reforça controle postural sem 
 
 Referências provisórias: Supino Máquina → Supino Barra; Puxada Alta → Barra Fixa; Mesa Flexora → Cadeira Flexora; Agachamento Smith → Agachamento Livre; Leg Press → Hack; Elevação Lateral Máquina → Halteres; Rosca Máquina → Barra W; Tríceps Máquina → Polia. As equivalências definitivas serão centralizadas futuramente no AOE.
 
-## Coaching Notes
+## Aruka Coaching Notes
 
 - Priorizar postura, amplitude e controle.
 - Aumentar carga apenas quando todas as repetições estiverem estáveis.

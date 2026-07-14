@@ -1,229 +1,251 @@
 # Hipertrofia Performance - ABC Iniciante
 
-**Codigo do modelo:** `APL-M-HIP-I-ABC-PERF-01`  
-**Versao:** 1.0.0  
-**Status:** Concluido  
+**Código:** `APL-M-HIP-I-ABC-PERF-01`  
+**Versão:** `1.0.0`  
+**Status:** `Concluído — aguardando homologação`  
+**Biblioteca:** Aruka Performance Library  
+**Metodologia:** Hipertrofia  
+**Público:** Masculino iniciante  
+**Divisão:** ABC  
+**Estratégia:** Performance
 
 ## Resumo Executivo
 
-Modelo ABC iniciante avancando para preparacao da Sprint 02. Mantem tres sessoes semanais, RIR 2 e margem tecnica, mas introduz Top Set apenas no primeiro exercicio de cada sessao e Back-off simples. O tempo previsto e de 55 a 65 minutos, com maior utilizacao de exercicios livres.
-
-## Filosofia do modelo
-
-O modelo Performance aproxima o aluno dos padroes intermediarios sem abandonar controle. O primeiro exercicio concentra a exposicao mais exigente; os demais exercicios sustentam volume e tecnica por Progressao Dupla. A proposta e ensinar intensidade organizada, nao exaustao.
+Modelo ABC iniciante de transição para Sprint 02. Mantém três sessões semanais, RIR 2 e margem técnica, introduzindo Top Set + Back-off apenas no primeiro exercício de cada sessão. O restante usa progressão dupla, com maior presença de exercícios livres e duração prevista de 55-65 minutos.
 
 ## Problema que resolve
 
-Resolve a transicao do iniciante que ja domina o ABC Base e precisa se preparar para a Sprint 02, com mais responsabilidade tecnica, exercicios livres selecionados e registro mais preciso de carga, repeticoes e RIR.
+Resolve a transição do iniciante que domina o ABC Base e precisa praticar intensidade controlada, exercícios livres selecionados e registro mais preciso de carga.
 
 ## Quando utilizar
 
-- Apos ciclo Base bem executado.
-- Quando o aluno entende RIR e preserva margem tecnica.
-- Quando ha disponibilidade para sessoes de 55 a 65 minutos.
-- Quando os principais padroes ja estao estaveis.
-- Quando a meta e preparar a entrada no nivel intermediario.
+- Após ciclo Base bem executado.
+- Quando o aluno entende RIR 2.
+- Quando há disponibilidade para 55-65 minutos.
+- Quando os principais padrões já estão estáveis.
 
 ## Quando evitar
 
-- Iniciante sem controle de tecnica nos movimentos livres.
-- Dor em ombros, lombar, joelhos ou cotovelos sem avaliacao.
-- Rotina com menos de tres sessoes semanais.
-- Aluno que transforma Top Set em tentativa maxima.
+- Iniciante sem controle técnico.
+- Aluno que transforma Top Set em tentativa máxima.
+- Rotina com menos de três sessões semanais.
 - Necessidade de treinos muito curtos.
 
-## Publico-alvo
+## Público-alvo
 
-Homem iniciante em fase final da Sprint 01, com boa assiduidade, registro consistente e capacidade de executar livres basicos com supervisao tecnica. O aluno ainda deve preservar margem tecnica em todas as series.
+Homem iniciante em fase final da Sprint 01, com boa assiduidade, registro consistente e capacidade de executar livres básicos com supervisão técnica.
 
-## Pre-requisitos
+## Pré-requisitos
 
 - Ter completado um bloco Base ou equivalente.
-- Entender Top Set como serie mais pesada com RIR 2.
-- Entender Back-off simples como reducao de carga para volume tecnico.
-- Registrar separadamente Top Set e Back-off.
-- Manter amplitude padronizada antes de aumentar carga.
+- Entender Top Set como série mais pesada com RIR 2.
+- Registrar Top Set e Back-off separadamente.
+- Manter amplitude padronizada.
+
+## Filosofia
+
+O Performance aproxima o aluno dos padrões intermediários sem abandonar controle. O primeiro exercício concentra a exposição mais exigente; os demais sustentam volume e técnica por progressão dupla.
 
 ## Objetivo principal
 
-Preparar o aluno para a Sprint 02 por meio de intensidade controlada, maior uso de livres e progressao mensuravel.
+Preparar o aluno para a Sprint 02 por meio de intensidade controlada, maior uso de livres e progressão mensurável.
 
-## Objetivos secundarios
+## Objetivos secundários
 
-- Consolidar supino, puxada/remada e agachamento ou Hack como movimentos de referencia.
-- Ensinar Top Set apenas no primeiro exercicio da sessao.
-- Aplicar Back-off simples com margem tecnica.
-- Manter recuperacao adequada em tres sessoes semanais.
-- Desenvolver autonomia de registro.
+- Consolidar supino, puxada/remada e agachamento ou Hack.
+- Ensinar Top Set apenas no primeiro exercício.
+- Aplicar Back-off simples com margem técnica.
+- Manter recuperação adequada.
 
 ## Metadados
 
-- Codigo: `APL-M-HIP-I-ABC-PERF-01`
-- Versao: 1.0.0
-- Status: Concluido
-- Sprint: 01
-- Populacao: masculino iniciante
-- Divisao: ABC
-- Frequencia: 3 sessoes semanais
-- Tempo medio: 55-65 minutos
-- Metodo principal: Progressao Dupla
-- Metodo complementar: Top Set + Back-off simples no primeiro exercicio
-- RIR predominante: 2
-- Intensidade limite: manter margem tecnica em todas as series
-- Tecnicas intensificadoras: nao utilizar
-- Ciclo sugerido: 6 a 10 semanas
+| Campo | Valor |
+|---|---|
+| Código | APL-M-HIP-I-ABC-PERF-01 |
+| Versão | 1.0.0 |
+| Status | Concluído — aguardando homologação |
+| Sexo | Masculino |
+| Nível | Iniciante |
+| Objetivo | Hipertrofia |
+| Divisão | ABC |
+| Estratégia | Performance |
+| Frequência | 3 sessões semanais |
+| Duração média | 55-65 minutos |
+| Ciclo sugerido | 6-10 semanas |
+| RIR predominante | 2 |
+| Método principal | Progressão dupla |
+| Métodos complementares | Top Set + Back-off no primeiro exercício |
+| Complexidade | Moderada |
+| Equipamentos | Barras, halteres, máquinas e cabos |
 
 ## Estrutura semanal
 
-- Segunda: Treino A - Peitoral, deltoides e triceps.
-- Quarta: Treino B - Costas e biceps.
-- Sexta: Treino C - Quadriceps, posteriores, gluteos, panturrilhas e core.
+| Dia sugerido | Sessão | Ênfase | Duração estimada |
+|---|---|---|---|
+| Segunda | Treino A | Peitoral, deltoides e tríceps | 55-65 minutos |
+| Quarta | Treino B | Costas e bíceps | 55-65 minutos |
+| Sexta | Treino C | Pernas, panturrilhas e core | 55-65 minutos |
 
 ## Diretrizes
 
-- Top Set aparece apenas no primeiro exercicio de cada sessao.
-- Back-off simples usa reducao aproximada de 8-12% da carga do Top Set.
-- Nenhuma serie deve virar tentativa maxima.
-- Tecnicas intensificadoras nao fazem parte do modelo.
-- Exercicios livres exigem amplitude constante e controle de tronco.
-- Se a tecnica cair, reduzir carga antes de reduzir amplitude.
-- Isoladores mantem Progressao Dupla com RIR 2.
+- Top Set aparece apenas no primeiro exercício de cada sessão.
+- Back-off usa redução aproximada de 8-12% da carga do Top Set.
+- Manter RIR 2 em todos os exercícios.
+- Técnicas intensificadoras não fazem parte deste modelo.
+- Se a técnica cair, reduzir carga antes de reduzir amplitude.
 
-## Periodizacao
+## Periodização
 
-- Semanas 1-2: introducao do Top Set com conservadorismo e RIR 2 claro.
-- Semanas 3-5: progressao de repeticoes nos Back-off e acessorios.
-- Semanas 6-8: aumento gradual de carga quando as faixas forem atingidas.
-- Semanas 9-10: avaliacao de prontidao para Sprint 02 ou retorno a Base.
-- Deload: retirar Top Set por uma semana e reduzir 30-40% das series se houver fadiga acumulada.
+Semanas 1-2 introduzem Top Set conservador. Semanas 3-5 progridem repetições nos Back-offs e acessórios. Semanas 6-8 permitem aumento gradual de carga. Semanas 9-10 avaliam prontidão para Sprint 02.
 
-## Progressao
+## Progressão
 
-No primeiro exercicio, realizar 1 Top Set na faixa prescrita com RIR 2. Em seguida, reduzir a carga em 8-12% e executar Back-off simples. Nos demais exercicios, aplicar Progressao Dupla. A carga so aumenta quando o topo da faixa e atingido com tecnica estavel e RIR 2.
+No primeiro exercício, realizar um Top Set com RIR 2 e Back-offs com redução de carga. Nos demais exercícios, aplicar progressão dupla. A carga só aumenta com técnica estável.
 
 ## Treinos
 
-### Treino A - Peitoral, deltoides e triceps
+### Treino A - Peitoral, deltoides e tríceps
 
-## Objetivo da sessao
+#### Objetivo da sessão
 
-Progredir no empurrar horizontal com Top Set controlado e completar volume para peitoral, deltoides e triceps.
+Progredir no empurrar horizontal com Top Set controlado e completar volume para peitoral, deltoides e tríceps.
 
-| Exercicio | Series | Repeticoes | RIR | Descanso | Metodo | Observacoes |
-|---|---:|---|---|---|---|---|
-| Supino Reto com Barra | 1 + 2 | Top Set 6-8; Back-off 8-10 | 2 | 150-180 s | Top Set + Back-off | Reduzir 8-12% apos Top Set; preservar margem tecnica. |
-| Supino Inclinado com Halteres | 3 | 8-10 | 2 | 120 s | Progressao Dupla | Escapulas estaveis e descida controlada. |
-| Crucifixo no Crossover | 2 | 12-15 | 2 | 60-75 s | Progressao Dupla | Alongar sem dor anterior no ombro. |
-| Desenvolvimento com Halteres Sentado | 3 | 8-10 | 2 | 120 s | Progressao Dupla | Coluna neutra e amplitude repetivel. |
-| Elevacao Lateral na Polia | 3 | 12-15 | 2 | 60-75 s | Progressao Dupla | Controle no topo, sem impulso. |
-| Triceps Frances na Polia | 2 | 10-12 | 2 | 75 s | Progressao Dupla | Cotovelos estaveis. |
-| Triceps Polia Corda | 2 | 12-15 | 2 | 60-75 s | Progressao Dupla | Abrir a corda sem compensar tronco. |
+#### Prescrição
 
-**Justificativa tecnica:** o supino livre cria ponte para a Sprint 02 e concentra o estimulo mais pesado. Back-off simples entrega volume com carga administravel. Halteres e cabos completam peitoral, deltoides e triceps com menor custo articular.
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+|---:|---|:---:|:---:|:---:|:---:|---|---|
+| 1 | Supino Reto com Barra | 1 + 2 | 6-8 / 8-10 | 2 | 150-180 s | Top Set + Back-off | Reduzir 8-12% após Top Set |
+| 2 | Supino Inclinado com Halteres | 3 | 8-10 | 2 | 120 s | Progressão dupla | Escápulas estáveis |
+| 3 | Crucifixo no Crossover | 2 | 12-15 | 2 | 60-75 s | Progressão dupla | Alongar sem dor |
+| 4 | Desenvolvimento com Halteres Sentado | 3 | 8-10 | 2 | 120 s | Progressão dupla | Coluna neutra |
+| 5 | Elevação Lateral na Polia | 3 | 12-15 | 2 | 60-75 s | Progressão dupla | Sem impulso |
+| 6 | Tríceps Francês na Polia | 2 | 10-12 | 2 | 75 s | Progressão dupla | Cotovelos estáveis |
+| 7 | Tríceps Polia Corda | 2 | 12-15 | 2 | 60-75 s | Progressão dupla | Controle total |
 
-### Treino B - Costas e biceps
+#### Justificativa
 
-**Objetivo da sessao:** desenvolver puxada vertical e remada com maior autonomia tecnica, mantendo biceps como complemento.
+O supino livre cria ponte para a Sprint 02. Back-off simples entrega volume com carga administrável, enquanto halteres e cabos completam o estímulo com menor custo articular.
 
-| Exercicio | Series | Repeticoes | RIR | Descanso | Metodo | Observacoes |
-|---|---:|---|---|---|---|---|
-| Puxada Alta ou Barra Fixa Assistida | 1 + 2 | Top Set 6-8; Back-off 8-10 | 2 | 150-180 s | Top Set + Back-off | Escolher variacao que permita amplitude completa. |
-| Remada Curvada com Barra | 3 | 8-10 | 2 | 120-150 s | Progressao Dupla | Tronco firme; reduzir carga se a lombar dominar. |
-| Remada Unilateral com Halter | 3 | 10-12 por lado | 2 | 90 s | Progressao Dupla | Pausa curta na contracao. |
-| Face Pull | 2 | 12-15 | 2 | 60-75 s | Progressao Dupla | Cotovelos altos e escapulas controladas. |
-| Rosca Direta com Barra W | 3 | 8-10 | 2 | 75-90 s | Progressao Dupla | Sem balanco de tronco. |
-| Rosca Inclinada com Halteres | 2 | 10-12 | 2 | 75 s | Progressao Dupla | Alongamento controlado. |
+### Treino B - Costas e bíceps
 
-**Justificativa tecnica:** a primeira puxada ensina intensidade vertical com margem tecnica. A remada curvada introduz demanda livre controlada, enquanto a remada unilateral corrige assimetrias. Face Pull preserva equilibrio escapular antes dos isoladores de biceps.
+#### Objetivo da sessão
 
-### Treino C - Quadriceps, posteriores, gluteos, panturrilhas e core
+Desenvolver puxada vertical e remada com maior autonomia técnica, mantendo bíceps como complemento.
 
-**Objetivo da sessao:** preparar membros inferiores para maior exigencia da Sprint 02 com um primeiro movimento pesado e acessorios tecnicos.
+#### Prescrição
 
-| Exercicio | Series | Repeticoes | RIR | Descanso | Metodo | Observacoes |
-|---|---:|---|---|---|---|---|
-| Hack ou Agachamento Livre | 1 + 2 | Top Set 6-8; Back-off 8-10 | 2 | 150-180 s | Top Set + Back-off | Usar Hack se o agachamento livre ainda oscilar. |
-| Levantamento Terra Romeno com Halteres | 3 | 8-10 | 2 | 120-150 s | Progressao Dupla | Quadril para tras e coluna neutra. |
-| Leg Press | 2 | 10-12 | 2 | 120 s | Progressao Dupla | Amplitude padronizada, sem tirar quadril do banco. |
-| Mesa Flexora | 3 | 10-12 | 2 | 75-90 s | Progressao Dupla | Controlar a fase excentrica. |
-| Cadeira Extensora | 2 | 12-15 | 2 | 75 s | Progressao Dupla | Pausa curta no topo. |
-| Panturrilha em Pe | 4 | 10-15 | 2 | 60-75 s | Progressao Dupla | Pausa em alongamento e contracao. |
-| Abdominal na Polia | 3 | 12-15 | 2 | 60 s | Progressao Dupla | Flexionar tronco sem puxar com bracos. |
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+|---:|---|:---:|:---:|:---:|:---:|---|---|
+| 1 | Puxada Alta ou Barra Fixa Assistida | 1 + 2 | 6-8 / 8-10 | 2 | 150-180 s | Top Set + Back-off | Escolher variação com amplitude completa |
+| 2 | Remada Curvada com Barra | 3 | 8-10 | 2 | 120-150 s | Progressão dupla | Tronco firme |
+| 3 | Remada Unilateral com Halter | 3 | 10-12 por lado | 2 | 90 s | Progressão dupla | Pausa curta na contração |
+| 4 | Face Pull | 2 | 12-15 | 2 | 60-75 s | Progressão dupla | Escápulas controladas |
+| 5 | Rosca Direta com Barra W | 3 | 8-10 | 2 | 75-90 s | Progressão dupla | Sem balanço |
+| 6 | Rosca Inclinada com Halteres | 2 | 10-12 | 2 | 75 s | Progressão dupla | Alongamento controlado |
 
-**Justificativa tecnica:** Hack ou agachamento livre estabelece referencia de forca tecnica com margem controlada. O terra romeno desenvolve cadeia posterior e controle de quadril. Leg Press e isoladores completam volume de pernas sem prolongar demais a sessao.
+#### Justificativa
 
-## Prescricao
+A primeira puxada ensina intensidade vertical com margem técnica. A remada curvada introduz demanda livre controlada e a remada unilateral melhora simetria.
 
-As tabelas dos treinos A, B e C sao a prescricao oficial do modelo. Todas as linhas incluem exercicio, series, repeticoes, RIR, descanso, metodo e observacoes.
+### Treino C - Quadríceps, posteriores, glúteos, panturrilhas e core
 
-## Justificativa
+#### Objetivo da sessão
 
-O Performance aumenta especificidade sem antecipar metodos avancados. O Top Set unico melhora foco e registro, enquanto o Back-off simples permite volume tecnico. A ausencia de tecnicas intensificadoras preserva recuperacao e evita que o aluno iniciante confunda preparacao para Sprint 02 com treino exaustivo.
+Preparar membros inferiores para maior exigência da Sprint 02 com um primeiro movimento pesado e acessórios técnicos.
+
+#### Prescrição
+
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+|---:|---|:---:|:---:|:---:|:---:|---|---|
+| 1 | Hack ou Agachamento Livre | 1 + 2 | 6-8 / 8-10 | 2 | 150-180 s | Top Set + Back-off | Usar Hack se o livre oscilar |
+| 2 | Levantamento Terra Romeno com Halteres | 3 | 8-10 | 2 | 120-150 s | Progressão dupla | Quadril para trás |
+| 3 | Leg Press | 2 | 10-12 | 2 | 120 s | Progressão dupla | Amplitude padronizada |
+| 4 | Mesa Flexora | 3 | 10-12 | 2 | 75-90 s | Progressão dupla | Controlar excêntrica |
+| 5 | Cadeira Extensora | 2 | 12-15 | 2 | 75 s | Progressão dupla | Pausa curta |
+| 6 | Panturrilha em Pé | 4 | 10-15 | 2 | 60-75 s | Progressão dupla | Amplitude completa |
+| 7 | Abdominal na Polia | 3 | 12-15 | 2 | 60 s | Progressão dupla | Flexionar tronco com controle |
+
+#### Justificativa
+
+Hack ou agachamento livre estabelece referência de força técnica com margem controlada. O romeno desenvolve cadeia posterior e controle de quadril.
 
 ## Volume semanal
 
-- Peitoral: 8 series diretas.
-- Costas: 11 series diretas.
-- Deltoides: 8 series diretas, incluindo Face Pull.
-- Triceps: 4 series diretas, alem dos empurroes.
-- Biceps: 5 series diretas.
-- Quadriceps: 7 series diretas.
-- Posteriores: 6 series diretas.
-- Gluteos: 5 series estimadas entre Hack, romeno e Leg Press.
-- Panturrilhas: 4 series diretas.
-- Core: 3 series diretas.
+| Grupo | Séries diretas | Observação |
+|---|:---:|---|
+| Peitoral | 8 | Supinos e crucifixo |
+| Costas | 11 | Puxada e remadas |
+| Deltoides | 8 | Desenvolvimento, lateral e Face Pull |
+| Tríceps | 4 | Além dos empurrões |
+| Bíceps | 5 | Roscas diretas |
+| Quadríceps | 7 | Hack, Leg Press e extensora |
+| Posteriores/glúteos | 8 | Romeno, flexora e compostos |
+| Panturrilhas | 4 | Panturrilha em pé |
+| Core | 3 | Abdominal na polia |
 
-## Referencias AOE
+## Distribuição dos padrões de movimento
 
-As equivalencias abaixo sao referencias temporarias; a equivalencia definitiva sera centralizada no AOE.
+- Empurrar horizontal: supinos e crucifixo.
+- Empurrar vertical: desenvolvimento.
+- Puxar vertical: puxada ou barra assistida.
+- Puxar horizontal: remadas.
+- Dominante de joelho: Hack, agachamento, Leg Press e extensora.
+- Dominante de quadril: terra romeno e flexora.
+- Core: abdominal na polia.
 
-- Supino Maquina -> Supino Barra.
-- Leg Press -> Hack.
-- Puxada Alta -> Barra Fixa.
-- Mesa Flexora -> Cadeira Flexora.
+## Referências futuras ao AOE
 
-## Coaching Notes
+Equivalências provisórias: Supino Máquina → Supino Barra; Leg Press → Hack; Puxada Alta → Barra Fixa; Mesa Flexora → Cadeira Flexora. A equivalência definitiva será centralizada no AOE.
 
-- Top Set nao e teste de uma repeticao maxima.
-- Back-off deve parecer mais tecnico, nao mais sofrido.
-- Registrar carga, repeticoes e RIR do Top Set separadamente.
+## Aruka Coaching Notes
+
+- Top Set não é teste máximo.
+- Back-off deve parecer mais técnico.
+- Registrar carga, repetições e RIR do Top Set separadamente.
 - Em livres, priorizar amplitude e estabilidade antes de carga.
-- Se a sessao ultrapassar 65 minutos, reduzir uma serie de isolador, nao o aquecimento tecnico.
 
-## Criterios de evolucao
+## Critérios de evolução
 
-- Completar o ciclo com Top Sets em RIR 2 real.
-- Manter tecnica estavel em livres selecionados.
-- Registrar todas as sessoes sem lacunas relevantes.
-- Recuperar-se bem entre segunda, quarta e sexta.
-- Estar pronto para modelos intermediarios da Sprint 02 ou para ABCD iniciante se a agenda permitir quatro sessoes.
+Evoluir para Sprint 02 quando o aluno sustentar Top Sets com RIR 2 real, técnica estável, registro completo e boa recuperação entre sessões.
 
 ## Aruka Score
 
-- Estimulo hipertrofico: 8/10.
-- Aprendizagem tecnica: 8/10.
-- Sustentabilidade: 8/10.
-- Simplicidade operacional: 7/10.
-- Prontidao para evolucao: 10/10.
-- Score global: 41/50.
+| Critério | Nota de 1 a 5 | Justificativa |
+|---|:---:|---|
+| Hipertrofia | 4 | Volume e carga melhores |
+| Força | 3 | Top Sets controlados |
+| Aprendizagem | 4 | Mais livres |
+| Complexidade | 3 | Exige registro |
+| Demanda de recuperação | 3 | Intensidade moderada |
+| Eficiência de tempo | 3 | Até 65 minutos |
+| Necessidade de equipamentos | 4 | Barras, halteres e máquinas |
+| Personalização | 3 | Trocas via AOE |
+| Aderência esperada | 4 | Progressão clara |
+
+## Engenharia do treino
+
+O Performance aumenta especificidade sem antecipar métodos avançados. O Top Set único melhora foco e registro, enquanto o Back-off simples permite volume técnico e recuperação compatível com iniciante.
 
 ## Checklist
 
-- Codigo do modelo presente.
-- Versao e status definidos.
-- Top Set apenas no primeiro exercicio.
-- Back-off simples aplicado.
-- RIR 2 mantido.
-- Margem tecnica preservada.
-- Sem tecnicas intensificadoras.
-- Maior uso de exercicios livres.
-- Justificativa tecnica por sessao incluida.
-- Referencias AOE registradas.
+- [x] Código do modelo presente.
+- [x] Versão e status definidos.
+- [x] Top Set apenas no primeiro exercício.
+- [x] Back-off simples aplicado.
+- [x] RIR 2 mantido.
+- [x] Tabelas oficiais de prescrição.
+- [x] Referências AOE registradas.
 
-## Assinatura Tecnica
+## Assinatura Técnica
 
-Modelo ABC iniciante de hipertrofia performance, construido para preparar a transicao para Sprint 02 com intensidade controlada, Top Set unico, Back-off simples e progressao mensuravel.
+Modelo ABC iniciante de hipertrofia performance, construído para preparar a transição para Sprint 02 com intensidade controlada e progressão mensurável.
 
 ## Tags
 
-`hipertrofia`, `masculino`, `iniciante`, `ABC`, `performance`, `top set`, `back-off`, `RIR 2`, `Sprint 02`, `APL-M-HIP-I`
+- hipertrofia
+- masculino
+- iniciante
+- abc
+- performance
+- top-set
+- back-off

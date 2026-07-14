@@ -235,7 +235,7 @@ Braços recebem volume direto simples e core reforça postura para exercícios l
 
 Referências provisórias: Supino Máquina → Supino Barra; Puxada Alta → Barra Fixa; Mesa Flexora → Cadeira Flexora; Agachamento Smith → Agachamento Livre; Leg Press → Hack; Elevação Lateral Máquina → Halteres; Rosca Máquina → Barra W; Tríceps Máquina → Polia. As equivalências definitivas serão centralizadas futuramente no AOE.
 
-## Coaching Notes
+## Aruka Coaching Notes
 
 - Top Set deve ter técnica idêntica às séries leves.
 - Se o Top Set piorar a execução, voltar para Base.

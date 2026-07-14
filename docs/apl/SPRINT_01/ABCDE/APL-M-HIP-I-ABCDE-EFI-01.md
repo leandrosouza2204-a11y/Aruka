@@ -236,7 +236,7 @@ Braços usam superséries de acessórios, e o core fecha a sessão sem pressa t�
 
 Referências provisórias: Supino Máquina → Supino Barra; Puxada Alta → Barra Fixa; Mesa Flexora → Cadeira Flexora; Agachamento Smith → Agachamento Livre; Leg Press → Hack; Elevação Lateral Máquina → Halteres; Rosca Máquina → Barra W; Tríceps Máquina → Polia. As equivalências definitivas serão centralizadas futuramente no AOE.
 
-## Coaching Notes
+## Aruka Coaching Notes
 
 - Supersérie é ferramenta de tempo, não de intensidade.
 - Nunca combinar compostos em supersérie.

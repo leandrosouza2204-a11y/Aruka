@@ -232,7 +232,7 @@ As substituições abaixo são referências provisórias. A equivalência defini
 - Mesa Flexora → Cadeira Flexora.
 - Passada dinâmica → Afundo reverso estacionário, Split Squat ou Agachamento Búlgaro, conforme estabilidade, técnica, espaço e objetivo.
 
-## Coaching Notes
+## Aruka Coaching Notes
 
 - Superséries são opcionais quando a academia estiver cheia.
 - Priorizar técnica sobre velocidade.

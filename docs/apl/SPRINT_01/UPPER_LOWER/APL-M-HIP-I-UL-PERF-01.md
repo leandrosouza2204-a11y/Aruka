@@ -13,7 +13,7 @@
 
 ## Resumo Executivo
 
-Modelo Upper/Lower masculino iniciante voltado à preparação para a Sprint 02. Mantém quatro sessões semanais, duração média de 55–65 minutos, RIR predominante 2 e maior presença de exercícios livres do que o Base. Introduz Top Set + Back-off apenas nos exercícios principais selecionados, sempre com margem técnica e sem falha obrigatória. O restante do treino usa progressão dupla para preservar previsibilidade. É indicado para alunos que já passaram por um bloco de aprendizagem e precisam praticar supino, remadas, agachamento guiado e padrões de quadril com mais autonomia.
+Modelo Upper/Lower masculino iniciante voltado à preparação para a Sprint 02. Mantém quatro sessões semanais, duração média de 55–65 minutos, RIR predominante 2 e maior presença de exercícios livres do que o Base. Introduz Top Set + Back-off apenas nos exercícios principais selecionados, sempre com margem técnica. O restante do treino usa progressão dupla para preservar previsibilidade. É indicado para alunos que já passaram por um bloco de aprendizagem e precisam praticar supino, remadas, agachamento guiado e padrões de quadril com mais autonomia.
 
 ## Problema que resolve
 
@@ -46,7 +46,7 @@ Homens iniciantes em fase final da Sprint 01, com boa aderência, registro de tr
 
 ## Filosofia
 
-O Performance aumenta exigência sem abandonar segurança. Os Top Sets são ferramentas pedagógicas para ensinar preparação, foco e escolha de carga. Os Back-offs consolidam volume com menor carga, enquanto os acessórios mantêm progressão dupla simples. A fadiga é controlada por RIR 2, seleção criteriosa de livres e ausência de Drop Set, Rest Pause ou falha planejada.
+O Performance aumenta exigência sem abandonar segurança. Os Top Sets são ferramentas pedagógicas para ensinar preparação, foco e escolha de carga. Os Back-offs consolidam volume com menor carga, enquanto os acessórios mantêm progressão dupla simples. A fadiga é controlada por RIR 2, seleção criteriosa de livres e ausência de técnicas intensificadoras.
 
 ## Objetivo principal
 
@@ -60,6 +60,8 @@ Preparar o aluno iniciante para a Sprint 02 por meio de maior autonomia técnica
 - Preservar recuperação com volume moderado.
 
 ## Metadados
+
+Os metadados abaixo consolidam identificação, estratégia e parâmetros operacionais do modelo.
 
 ### Tabela de metadados
 
@@ -101,8 +103,8 @@ Preparar o aluno iniciante para a Sprint 02 por meio de maior autonomia técnica
 - Registro de carga: separar carga do Top Set e cargas de Back-off.
 - Amplitude: manter repetibilidade antes de progredir carga.
 - Progressão: progredir primeiro repetições, depois carga.
-- Regras de falha: falha não é alvo do modelo.
-- Técnicas intensificadoras: não utilizar Drop Set ou Rest Pause.
+- Regras de esforço: encerrar as séries com margem técnica.
+- Técnicas intensificadoras: não utilizar neste modelo.
 
 ## Periodização
 
@@ -230,7 +232,7 @@ O romeno com halteres introduz hinge com carga administrável. A sessão reforç
 
 As equivalências abaixo são referências operacionais e não substituem a centralização definitiva no AOE: Supino Máquina → Supino Barra; Puxada Alta → Barra Fixa; Remada Máquina → Remada com Barra; Agachamento Smith → Agachamento Livre; Leg Press → Hack; Mesa Flexora → Cadeira Flexora; Desenvolvimento com Halteres → Desenvolvimento Máquina.
 
-## Coaching Notes
+## Aruka Coaching Notes
 
 - Top Set é uma série técnica forte, não um teste máximo.
 - Se o aluno perde RIR 2, reduzir carga antes de reduzir amplitude.
@@ -239,7 +241,7 @@ As equivalências abaixo são referências operacionais e não substituem a cent
 
 ## Critérios de evolução
 
-Evoluir para Sprint 02 quando o aluno sustentar Top Sets com RIR 2, completar Back-offs sem queda técnica, recuperar-se bem entre quatro sessões e demonstrar autonomia em seleção de carga. Retornar ao Base se houver perda recorrente de execução ou falhas não planejadas.
+Evoluir para Sprint 02 quando o aluno sustentar Top Sets com RIR 2, completar Back-offs sem queda técnica, recuperar-se bem entre quatro sessões e demonstrar autonomia em seleção de carga. Retornar ao Base se houver perda recorrente de execução ou séries acima da margem prescrita.
 
 ## Aruka Score
 
@@ -270,7 +272,7 @@ O Performance preserva a arquitetura Upper/Lower, mas adiciona picos técnicos d
 - [x] Todas as tabelas de exercícios possuem as oito colunas oficiais.
 - [x] Top Set + Back-off aparecem apenas em exercícios principais selecionados.
 - [x] RIR 2 está explícito.
-- [x] Drop Set, Rest Pause e falha obrigatória não são utilizados.
+- [x] Técnicas intensificadoras não são utilizadas.
 - [x] Volume semanal foi calculado.
 - [x] Aruka Score está preenchido e justificado.
 

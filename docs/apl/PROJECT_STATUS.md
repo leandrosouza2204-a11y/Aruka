@@ -28,7 +28,7 @@
 
 # Sprint 01 - Masculino Iniciante
 
-Status Geral: Biblioteca concluida - aguardando homologacao tecnica.
+Status Geral: Biblioteca validada pelo AQA - aguardando homologacao tecnica humana.
 
 ## ABC
 
@@ -62,7 +62,7 @@ Status Geral: Biblioteca concluida - aguardando homologacao tecnica.
 | Full Body Performance | Concluido |
 | Full Body Eficiencia | Concluido |
 
-## Upper / Lower
+## Upper Lower
 
 | Modelo | Status |
 |---|---|
@@ -184,7 +184,7 @@ Status Geral: Nao iniciado
 
 ## Modelos concluidos
 
-30 / 90
+15 / 90
 
 ## Modelos homologados
 
@@ -192,7 +192,7 @@ Status Geral: Nao iniciado
 
 ## Progresso geral
 
-33,3%
+16,7%
 
 ---
 

@@ -232,7 +232,7 @@ As substituições abaixo são referências provisórias. A equivalência defini
 - Mesa Flexora → Cadeira Flexora.
 - Passada dinâmica → Afundo reverso estacionário, Split Squat ou Agachamento Búlgaro, conforme estabilidade, técnica, espaço e objetivo.
 
-## Coaching Notes
+## Aruka Coaching Notes
 
 - Top Set não é teste máximo.
 - Back-off deve parecer tecnicamente mais controlado que o Top Set.
