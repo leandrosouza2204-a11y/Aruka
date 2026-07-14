@@ -22,13 +22,14 @@
 | Em desenvolvimento | Conteudo em producao ou consolidacao |
 | Concluido | Modelo completo aguardando homologacao |
 | Homologado | Modelo aprovado |
+| Homologado com ressalvas | Modelo aprovado com recomendacoes tecnicas nao bloqueantes |
 | Congelado | Conteudo bloqueado para alteracoes |
 
 ---
 
 # Sprint 01 - Masculino Iniciante
 
-Status Geral: Biblioteca validada pelo AQA - aguardando homologacao tecnica humana.
+Status Geral: Homologada com ressalvas.
 
 ## ABC
 
@@ -42,33 +43,33 @@ Status Geral: Biblioteca validada pelo AQA - aguardando homologacao tecnica huma
 
 | Modelo | Status |
 |---|---|
-| ABCD Base | Concluido |
-| ABCD Performance | Concluido |
-| ABCD Eficiencia | Concluido |
+| ABCD Base | Homologado |
+| ABCD Performance | Homologado |
+| ABCD Eficiencia | Homologado |
 
 ## ABCDE
 
 | Modelo | Status |
 |---|---|
-| ABCDE Base | Concluido |
-| ABCDE Performance | Concluido |
-| ABCDE Eficiencia | Concluido |
+| ABCDE Base | Homologado |
+| ABCDE Performance | Homologado com ressalvas |
+| ABCDE Eficiencia | Homologado com ressalvas |
 
 ## Full Body
 
 | Modelo | Status |
 |---|---|
-| Full Body Base | Concluido |
-| Full Body Performance | Concluido |
-| Full Body Eficiencia | Concluido |
+| Full Body Base | Homologado com ressalvas |
+| Full Body Performance | Homologado com ressalvas |
+| Full Body Eficiencia | Homologado com ressalvas |
 
 ## Upper Lower
 
 | Modelo | Status |
 |---|---|
-| Upper/Lower Base | Concluido |
-| Upper/Lower Performance | Concluido |
-| Upper/Lower Especializacao em Peitoral | Concluido |
+| Upper/Lower Base | Homologado |
+| Upper/Lower Performance | Homologado |
+| Upper/Lower Especializacao em Peitoral | Homologado com ressalvas |
 
 ---
 
@@ -188,7 +189,7 @@ Status Geral: Nao iniciado
 
 ## Modelos homologados
 
-3 / 90
+15 / 90
 
 ## Progresso geral
 
@@ -224,8 +225,8 @@ A partir da reorganizacao da APL, adotam-se as seguintes diretrizes:
 
 # Proximo Objetivo
 
-Iniciar a Homologacao Tecnica Completa da Sprint 01 antes da homologacao da Sprint 02.
+Iniciar a homologacao tecnica da Sprint 02 com a Sprint 01 ja homologada com ressalvas.
 
 Proximo modelo:
 
-Sprint 01 - Homologacao Tecnica Completa
+Sprint 02 - Homologacao Tecnica Completa

@@ -1,9 +1,9 @@
 {
   "version": "1.2.1",
   "target": "sprint01",
-  "startedAt": "2026-07-14T20:57:43.682Z",
-  "finishedAt": "2026-07-14T20:57:44.627Z",
-  "durationMs": 943,
+  "startedAt": "2026-07-14T21:09:47.844Z",
+  "finishedAt": "2026-07-14T21:09:49.041Z",
+  "durationMs": 1245,
   "filesScanned": 26,
   "documentsParsed": 26,
   "rulesLoaded": 9,
@@ -168,7 +168,7 @@
       "severity": "error",
       "scope": "global",
       "findings": 0,
-      "durationMs": 4
+      "durationMs": 2
     },
     {
       "id": "aqa-002",
@@ -184,7 +184,7 @@
       "severity": "error",
       "scope": "model",
       "findings": 0,
-      "durationMs": 529
+      "durationMs": 840
     },
     {
       "id": "aqa-004",
@@ -192,7 +192,7 @@
       "severity": "error",
       "scope": "prescription",
       "findings": 0,
-      "durationMs": 7
+      "durationMs": 11
     },
     {
       "id": "aqa-005",
@@ -200,7 +200,7 @@
       "severity": "warning",
       "scope": "model",
       "findings": 0,
-      "durationMs": 38
+      "durationMs": 50
     },
     {
       "id": "aqa-006",
@@ -208,7 +208,7 @@
       "severity": "warning",
       "scope": "document",
       "findings": 0,
-      "durationMs": 7
+      "durationMs": 55
     },
     {
       "id": "aqa-007",
@@ -224,7 +224,7 @@
       "severity": "error",
       "scope": "model",
       "findings": 0,
-      "durationMs": 6
+      "durationMs": 9
     },
     {
       "id": "aqa-009",
@@ -274,21 +274,21 @@
       "documentsParsed": 26
     },
     "performance": {
-      "durationMs": 943,
+      "durationMs": 1245,
       "byRule": {
-        "aqa-001": 4,
+        "aqa-001": 2,
         "aqa-002": 9,
-        "aqa-003": 529,
-        "aqa-004": 7,
-        "aqa-005": 38,
-        "aqa-006": 7,
+        "aqa-003": 840,
+        "aqa-004": 11,
+        "aqa-005": 50,
+        "aqa-006": 55,
         "aqa-007": 2,
-        "aqa-008": 6,
+        "aqa-008": 9,
         "aqa-009": 1
       },
       "slowestRule": {
         "id": "aqa-003",
-        "durationMs": 529
+        "durationMs": 840
       }
     },
     "calibration": {
@@ -305,18 +305,18 @@
       "topModels": [],
       "performance": {
         "byRule": {
-          "aqa-001": 4,
+          "aqa-001": 2,
           "aqa-002": 9,
-          "aqa-003": 529,
-          "aqa-004": 7,
-          "aqa-005": 38,
-          "aqa-006": 7,
+          "aqa-003": 840,
+          "aqa-004": 11,
+          "aqa-005": 50,
+          "aqa-006": 55,
           "aqa-007": 2,
-          "aqa-008": 6,
+          "aqa-008": 9,
           "aqa-009": 1
         },
         "bySprint": {},
-        "totalMs": 943
+        "totalMs": 1245
       }
     }
   },
@@ -353,36 +353,16 @@
     "baseline": {
       "baselinePath": "C:\\Projetos\\ConsultoriaFitness\\reports\\apl\\.baseline.json",
       "previous": {
-        "updatedAt": "2026-07-14T20:52:06.741Z",
-        "target": "all",
-        "totalFindings": 499,
-        "byRule": {
-          "aqa-001": 5,
-          "aqa-002": 90,
-          "aqa-003": 399,
-          "aqa-005": 4,
-          "aqa-007": 1
-        },
-        "bySeverity": {
-          "blocker": 5,
-          "error": 16,
-          "warning": 478
-        },
-        "bySprint": {
-          "SPRINT_03": 5,
-          "SPRINT_02": 469,
-          "SPRINT_01": 24
-        },
-        "byBlock": {
-          "ABC": 101,
-          "ABCD": 101,
-          "ABCDE": 101,
-          "FULL_BODY": 94,
-          "UPPER_LOWER": 101
-        }
+        "updatedAt": "2026-07-14T21:05:09.574Z",
+        "target": "sprint01",
+        "totalFindings": 0,
+        "byRule": {},
+        "bySeverity": {},
+        "bySprint": {},
+        "byBlock": {}
       },
       "current": {
-        "updatedAt": "2026-07-14T20:57:44.636Z",
+        "updatedAt": "2026-07-14T21:09:49.113Z",
         "target": "sprint01",
         "totalFindings": 0,
         "byRule": {},
@@ -391,12 +371,12 @@
         "byBlock": {}
       },
       "trend": {
-        "findingsDelta": -499,
-        "blockersDelta": -5,
-        "errorsDelta": -16,
-        "warningsDelta": -478,
+        "findingsDelta": 0,
+        "blockersDelta": 0,
+        "errorsDelta": 0,
+        "warningsDelta": 0,
         "suggestionsDelta": 0,
-        "previousTotal": 499,
+        "previousTotal": 0,
         "currentTotal": 0
       }
     }
