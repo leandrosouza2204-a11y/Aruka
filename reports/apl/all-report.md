@@ -33,9 +33,9 @@ INFO         # 0
 - Target: all
 - Status: FAILED
 - Exit code: 1
-- Started: 2026-07-14T20:58:03.486Z
-- Finished: 2026-07-14T20:58:04.745Z
-- Duration: 1261ms
+- Started: 2026-07-14T21:28:51.080Z
+- Finished: 2026-07-14T21:28:52.509Z
+- Duration: 1430ms
 - Files scanned: 46
 - Documents parsed: 46
 - Rules loaded: 9
@@ -308,14 +308,14 @@ Nenhuma ocorrencia.
 | Rule | Severity | Scope | Findings | Duration |
 | --- | --- | --- | --- | --- |
 | aqa-001 | error | global | 20 | 5ms |
-| aqa-002 | error | model | 90 | 21ms |
-| aqa-003 | error | model | 375 | 891ms |
-| aqa-004 | error | prescription | 0 | 7ms |
-| aqa-005 | warning | model | 4 | 42ms |
+| aqa-002 | error | model | 90 | 38ms |
+| aqa-003 | error | model | 375 | 949ms |
+| aqa-004 | error | prescription | 0 | 8ms |
+| aqa-005 | warning | model | 4 | 46ms |
 | aqa-006 | warning | document | 0 | 8ms |
 | aqa-007 | error | global | 1 | 2ms |
 | aqa-008 | error | model | 0 | 6ms |
-| aqa-009 | warning | model | 0 | 2ms |
+| aqa-009 | warning | model | 0 | 3ms |
 
 ## Findings
 
@@ -4563,11 +4563,11 @@ Nenhuma ocorrencia.
 ## Performance
 
 - aqa-001: 5ms
-- aqa-002: 21ms
-- aqa-003: 891ms
-- aqa-004: 7ms
-- aqa-005: 42ms
+- aqa-002: 38ms
+- aqa-003: 949ms
+- aqa-004: 8ms
+- aqa-005: 46ms
 - aqa-006: 8ms
 - aqa-007: 2ms
 - aqa-008: 6ms
-- aqa-009: 2ms
+- aqa-009: 3ms

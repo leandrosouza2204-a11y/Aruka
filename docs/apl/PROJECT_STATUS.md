@@ -29,7 +29,7 @@
 
 # Sprint 01 - Masculino Iniciante
 
-Status Geral: Homologada com ressalvas.
+Status Geral: Homologada.
 
 ## ABC
 
@@ -52,16 +52,16 @@ Status Geral: Homologada com ressalvas.
 | Modelo | Status |
 |---|---|
 | ABCDE Base | Homologado |
-| ABCDE Performance | Homologado com ressalvas |
-| ABCDE Eficiencia | Homologado com ressalvas |
+| ABCDE Performance | Homologado |
+| ABCDE Eficiencia | Homologado |
 
 ## Full Body
 
 | Modelo | Status |
 |---|---|
-| Full Body Base | Homologado com ressalvas |
-| Full Body Performance | Homologado com ressalvas |
-| Full Body Eficiencia | Homologado com ressalvas |
+| Full Body Base | Homologado |
+| Full Body Performance | Homologado |
+| Full Body Eficiencia | Homologado |
 
 ## Upper Lower
 
@@ -69,7 +69,7 @@ Status Geral: Homologada com ressalvas.
 |---|---|
 | Upper/Lower Base | Homologado |
 | Upper/Lower Performance | Homologado |
-| Upper/Lower Especializacao em Peitoral | Homologado com ressalvas |
+| Upper/Lower Especializacao em Peitoral | Homologado |
 
 ---
 
@@ -225,7 +225,7 @@ A partir da reorganizacao da APL, adotam-se as seguintes diretrizes:
 
 # Proximo Objetivo
 
-Iniciar a homologacao tecnica da Sprint 02 com a Sprint 01 ja homologada com ressalvas.
+Iniciar a homologacao tecnica da Sprint 02 com a Sprint 01 homologada.
 
 Proximo modelo:
 

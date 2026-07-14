@@ -48,3 +48,11 @@ Todos os modelos atingem nota minima de 80/100. Os modelos com menor margem sao 
 
 APROVADO COM RESSALVAS. A Sprint 01 e adequada ao iniciante, desde que os modelos mais densos sejam aplicados ao perfil correto e monitorados pelo profissional responsavel.
 
+## Saneamento das ressalvas pós-homologação
+
+| Ressalva original | Arquivos afetados | Correção aplicada | Validações | Status final |
+|---|---|---|---|---|
+| Flexoras descritas como dominante de quadril | Modelos com padrões de movimento afetados | A nomenclatura passou a separar flexão de joelho, extensão de quadril e dominante de quadril | Busca textual confirmou ausência de flexoras como dominante de quadril operacional | Resolvida |
+| ABCDE exige aderência alta | Modelos ABCDE | Foram adicionados critérios de assiduidade, rotina previsível e migração por faltas recorrentes | Adequação ao iniciante preservada por triagem explícita | Resolvida |
+| ABCDE Eficiência com 35-45 minutos | ABCDE Eficiência | Faixa ajustada para 40-50 minutos, mais compatível com aquecimento, descansos e transições | Estimativa simples registrada | Resolvida |
+| Especialização Peitoral exige monitoramento | Upper/Lower Especialização Peitoral | Sinais de alerta e critérios de saída foram registrados para ombro, tríceps e desempenho | Modelo segue adequado ao iniciante supervisionado | Resolvida |

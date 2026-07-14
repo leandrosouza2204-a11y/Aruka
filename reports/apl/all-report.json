@@ -1,9 +1,9 @@
 {
   "version": "1.2.1",
   "target": "all",
-  "startedAt": "2026-07-14T20:58:03.486Z",
-  "finishedAt": "2026-07-14T20:58:04.745Z",
-  "durationMs": 1261,
+  "startedAt": "2026-07-14T21:28:51.080Z",
+  "finishedAt": "2026-07-14T21:28:52.509Z",
+  "durationMs": 1430,
   "filesScanned": 46,
   "documentsParsed": 46,
   "rulesLoaded": 9,
@@ -176,7 +176,7 @@
       "severity": "error",
       "scope": "model",
       "findings": 90,
-      "durationMs": 21
+      "durationMs": 38
     },
     {
       "id": "aqa-003",
@@ -184,7 +184,7 @@
       "severity": "error",
       "scope": "model",
       "findings": 375,
-      "durationMs": 891
+      "durationMs": 949
     },
     {
       "id": "aqa-004",
@@ -192,7 +192,7 @@
       "severity": "error",
       "scope": "prescription",
       "findings": 0,
-      "durationMs": 7
+      "durationMs": 8
     },
     {
       "id": "aqa-005",
@@ -200,7 +200,7 @@
       "severity": "warning",
       "scope": "model",
       "findings": 4,
-      "durationMs": 42
+      "durationMs": 46
     },
     {
       "id": "aqa-006",
@@ -232,7 +232,7 @@
       "severity": "warning",
       "scope": "model",
       "findings": 0,
-      "durationMs": 2
+      "durationMs": 3
     }
   ],
   "findings": [
@@ -12058,21 +12058,21 @@
       "documentsParsed": 46
     },
     "performance": {
-      "durationMs": 1261,
+      "durationMs": 1430,
       "byRule": {
         "aqa-001": 5,
-        "aqa-002": 21,
-        "aqa-003": 891,
-        "aqa-004": 7,
-        "aqa-005": 42,
+        "aqa-002": 38,
+        "aqa-003": 949,
+        "aqa-004": 8,
+        "aqa-005": 46,
         "aqa-006": 8,
         "aqa-007": 2,
         "aqa-008": 6,
-        "aqa-009": 2
+        "aqa-009": 3
       },
       "slowestRule": {
         "id": "aqa-003",
-        "durationMs": 891
+        "durationMs": 949
       }
     },
     "calibration": {
@@ -12253,20 +12253,20 @@
       "performance": {
         "byRule": {
           "aqa-001": 5,
-          "aqa-002": 21,
-          "aqa-003": 891,
-          "aqa-004": 7,
-          "aqa-005": 42,
+          "aqa-002": 38,
+          "aqa-003": 949,
+          "aqa-004": 8,
+          "aqa-005": 46,
           "aqa-006": 8,
           "aqa-007": 2,
           "aqa-008": 6,
-          "aqa-009": 2
+          "aqa-009": 3
         },
         "bySprint": {
           "SPRINT_03": 5,
           "SPRINT_02": 469
         },
-        "totalMs": 1261
+        "totalMs": 1430
       }
     }
   },
@@ -18526,7 +18526,7 @@
     "baseline": {
       "baselinePath": "C:\\Projetos\\ConsultoriaFitness\\reports\\apl\\.baseline.json",
       "previous": {
-        "updatedAt": "2026-07-14T20:57:57.497Z",
+        "updatedAt": "2026-07-14T21:28:40.035Z",
         "target": "all",
         "totalFindings": 475,
         "byRule": {
@@ -18554,7 +18554,7 @@
         }
       },
       "current": {
-        "updatedAt": "2026-07-14T20:58:04.773Z",
+        "updatedAt": "2026-07-14T21:28:52.536Z",
         "target": "all",
         "totalFindings": 475,
         "byRule": {

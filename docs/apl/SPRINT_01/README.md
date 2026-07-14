@@ -3,7 +3,7 @@
 ## Hipertrofia Masculina — Iniciante
 
 **Versão:** 1.0.0-rc.1  
-**Status:** Em homologação
+**Status:** Homologada
 
 ## Escopo
 
@@ -26,8 +26,8 @@
 
 | Bloco | Status |
 |---|---|
-| ABC | Consolidado |
-| ABCD | Pendente de consolidação |
-| ABCDE | Pendente de consolidação |
-| Full Body | Pendente de consolidação |
-| Upper/Lower | Pendente de consolidação |
+| ABC | Homologado |
+| ABCD | Homologado |
+| ABCDE | Homologado |
+| Full Body | Homologado |
+| Upper/Lower | Homologado |

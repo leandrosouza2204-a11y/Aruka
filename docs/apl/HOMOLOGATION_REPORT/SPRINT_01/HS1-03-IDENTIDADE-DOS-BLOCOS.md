@@ -35,3 +35,10 @@ Os cinco blocos acrescentam valor porque permitem prescricao por contexto real, 
 
 APROVADO. A identidade dos blocos esta preservada, tecnicamente distinta e compativel com o nivel iniciante.
 
+## Saneamento das ressalvas pós-homologação
+
+| Ressalva original | Arquivos afetados | Correção aplicada | Validações | Status final |
+|---|---|---|---|---|
+| ABCDE exige aderência alta | README ABCDE e três modelos ABCDE | A identidade do ABCDE foi mantida como divisão de cinco sessões, agora com triagem explícita de assiduidade e rotina previsível | Confirmado que a ressalva não virou contraindicação absoluta | Resolvida |
+| ABCDE Eficiência dependia de cenário operacional favorável | README ABCDE e modelo Eficiência | O bloco preserva identidade de eficiência, mas com duração realista de 40-50 minutos | Confirmado que superséries seguem apenas acessórios | Resolvida |
+| Upper/Lower Especialização Peitoral exige monitoramento | README Upper/Lower e modelo de especialização | A identidade de prioridade temporária foi reforçada com critérios de saída para ombro, tríceps e desempenho | Confirmado que o modelo não virou especialização avançada | Resolvida |

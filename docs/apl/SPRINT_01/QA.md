@@ -1,5 +1,5 @@
 # QA da Sprint 1
 
-**Status:** Pendente de consolidação.
+**Status:** Homologada.
 
-A estrutura já está criada, mas o conteúdo definitivo ainda será produzido, revisado e homologado.
+A estrutura oficial da Sprint 01 foi validada pelo AQA v1.2.1 e homologada após saneamento das ressalvas técnicas humanas.

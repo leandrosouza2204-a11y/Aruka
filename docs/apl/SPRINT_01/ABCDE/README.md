@@ -4,7 +4,7 @@
 
 ## Conceito da divisão ABCDE
 
-A divisão ABCDE distribui o treino iniciante em cinco sessões semanais curtas, cada uma com foco mais específico. A proposta é aumentar frequência de prática, reduzir fadiga por sessão e permitir que o aluno aprenda os principais padrões de movimento sem acumular volume excessivo em um único dia.
+A divisão ABCDE distribui o treino iniciante em cinco sessões semanais curtas, cada uma com foco mais específico. A proposta é aumentar frequência de prática, reduzir fadiga por sessão e permitir que o aluno aprenda os principais padrões de movimento sem acumular volume excessivo em um único dia. É a divisão mais sensível a faltas dentro da Sprint 01, pois perder uma sessão altera a distribuição semanal.
 
 ## Vantagens
 
@@ -17,21 +17,22 @@ A divisão ABCDE distribui o treino iniciante em cinco sessões semanais curtas,
 ## Limitações
 
 - Exige cinco idas semanais à academia.
-- Pode ser inadequado para rotinas instáveis.
+- Pode ser inadequado para rotinas instáveis ou faltas recorrentes.
 - Não é a melhor opção para quem precisa de poucos dias de treino.
+- Não deve ser compensado acumulando sessões perdidas no mesmo dia.
 - Não busca especialização avançada.
 - Requer controle para não aumentar volume apenas por haver mais sessões.
 
 ## Perfil do aluno
 
-Homem iniciante em hipertrofia, com disponibilidade real de cinco sessões semanais, boa tolerância a treinos curtos e necessidade de aprender execução com baixa fadiga. O aluno deve registrar carga, repetições e RIR, além de aceitar progressões graduais.
+Homem iniciante em hipertrofia, com disponibilidade real de cinco sessões semanais, boa tolerância a treinos curtos, assiduidade previsível e necessidade de aprender execução com baixa fadiga. O aluno deve registrar carga, repetições e RIR, além de aceitar progressões graduais. Se houver faltas recorrentes por duas ou mais semanas, ABC, Full Body ou Upper/Lower tendem a ser escolhas mais robustas.
 
 ## Comparação Base × Performance × Eficiência
 
 | Critério | Base | Performance | Eficiência |
 |---|---|---|---|
 | Aplicação | Aprendizagem global | Preparação para Sprint 02 | Sessões curtas |
-| Tempo | 45–55 min | 50–60 min | 35–45 min |
+| Tempo | 45–55 min | 50–60 min | 40–50 min |
 | Complexidade | Baixa | Moderada | Baixa |
 | RIR predominante | 2–3 | 2 | 2–3 |
 | Método principal | Progressão dupla | Progressão dupla e Top Set seletivo | Progressão dupla e superséries acessórias |

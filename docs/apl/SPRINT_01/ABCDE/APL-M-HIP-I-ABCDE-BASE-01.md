@@ -22,6 +22,8 @@ Ajuda o iniciante que prefere sessões curtas e frequentes, mas ainda precisa ap
 ## Quando utilizar
 
 - Aluno iniciante com disponibilidade real de cinco dias.
+- Histórico recente de assiduidade estável.
+- Rotina previsível para cinco sessões sem reposições acumuladas.
 - Necessidade de aprender execução com baixa fadiga por sessão.
 - Objetivo de hipertrofia inicial.
 - Boa aderência semanal.
@@ -30,6 +32,8 @@ Ajuda o iniciante que prefere sessões curtas e frequentes, mas ainda precisa ap
 ## Quando evitar
 
 - Agenda instável.
+- Faltas frequentes por duas ou mais semanas.
+- Tendência a compensar sessões perdidas acumulando treinos no mesmo dia.
 - Recuperação ruim mesmo com baixo volume.
 - Dor articular sem avaliação profissional.
 - Aluno que precisa concentrar treinos em poucos dias.
@@ -45,6 +49,8 @@ Homem iniciante em hipertrofia, com 0–12 meses de prática consistente, boa di
 - Encerrar séries com 2–3 repetições possíveis e execução estável.
 - Registrar carga, repetições e observações técnicas.
 - Cumprir cinco sessões semanais por pelo menos 8 semanas.
+- Entender que perder uma sessão altera a distribuição semanal do ABCDE.
+- Manter cinco sessões sem criar sequência excessiva de treinos para compensar faltas.
 - Manter amplitude consistente antes de progredir carga.
 
 ## Filosofia
@@ -241,10 +247,13 @@ Referências provisórias: Supino Máquina → Supino Barra; Puxada Alta → Bar
 - Aumentar carga apenas quando todas as repetições estiverem estáveis.
 - Máquinas são preferidas quando reduzem complexidade.
 - Reforçar margem técnica em todas as séries.
+- Se o aluno faltar repetidamente, migrar para ABC, Full Body ou Upper/Lower.
+- Não repor várias sessões no mesmo dia nem transformar a semana seguinte em compensação de volume.
+- Priorizar consistência semanal sobre a sofisticação da divisão.
 
 ## Critérios de evolução
 
-Evoluir quando o aluno sustentar 8–10 semanas com assiduidade, técnica consistente, registros de carga e recuperação adequada. Manter o modelo se a frequência alta melhorar aderência sem elevar fadiga.
+Evoluir quando o aluno sustentar 8–10 semanas com assiduidade, técnica consistente, registros de carga e recuperação adequada. Manter o modelo somente se a aderência semanal permanecer estável; considerar migração para ABC, Full Body ou Upper/Lower se houver faltas recorrentes por duas ou mais semanas. Manter o modelo se a frequência alta melhorar aderência sem elevar fadiga.
 
 ## Aruka Score
 

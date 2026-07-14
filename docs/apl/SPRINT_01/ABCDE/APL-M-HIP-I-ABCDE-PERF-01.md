@@ -21,7 +21,9 @@ Ajuda o aluno que já executa bem máquinas e precisa aprender cargas livres com
 
 ## Quando utilizar
 
-- Aluno iniciante com boa aderência.
+- Aluno iniciante com boa aderência comprovada.
+- Disponibilidade real para cinco sessões semanais.
+- Rotina previsível para sustentar a sequência do bloco.
 - Técnica básica consistente em máquinas.
 - Interesse em evoluir para intermediário.
 - Capacidade de registrar cargas, RIR e Back-off.
@@ -30,6 +32,8 @@ Ajuda o aluno que já executa bem máquinas e precisa aprender cargas livres com
 ## Quando evitar
 
 - Iniciante absoluto.
+- Baixa assiduidade ou faltas recorrentes.
+- Rotina instável que obriga reposições acumuladas.
 - Dor em movimentos livres.
 - Dificuldade de manter RIR 2.
 - Recuperação insuficiente para cinco dias.
@@ -46,6 +50,8 @@ Homem iniciante em fase final da Sprint 01, com domínio técnico básico, boa a
 - Manter amplitude e trajetória antes de aumentar carga.
 - Aceitar regressão para máquinas se a técnica oscilar.
 - Ter completado bloco Base ou equivalente.
+- Manter cinco sessões semanais sem treinar dias em sequência excessiva para compensar faltas.
+- Entender que perder uma sessão altera a distribuição semanal e reduz a lógica do ABCDE.
 
 ## Filosofia
 
@@ -241,10 +247,13 @@ Referências provisórias: Supino Máquina → Supino Barra; Puxada Alta → Bar
 - Se o Top Set piorar a execução, voltar para Base.
 - Poucos exercícios livres são suficientes nesta etapa.
 - Registrar carga, repetições e RIR em todas as sessões.
+- Se o aluno faltar repetidamente, migrar para ABC, Full Body ou Upper/Lower antes de insistir no ABCDE.
+- Não repor várias sessões no mesmo dia e não aumentar volume na semana seguinte para compensar ausência.
+- Consistência semanal é critério de segurança, não apenas de organização.
 
 ## Critérios de evolução
 
-Evoluir para Sprint 02 quando o aluno mantiver RIR 2, técnica estável nos livres e recuperação adequada durante um bloco completo. Reduzir para Base se a complexidade prejudicar execução.
+Evoluir para Sprint 02 quando o aluno mantiver RIR 2, técnica estável nos livres, aderência semanal estável e recuperação adequada durante um bloco completo. Reduzir para Base se a complexidade prejudicar execução. Migrar para ABC, Full Body ou Upper/Lower se houver faltas recorrentes por duas ou mais semanas.
 
 ## Aruka Score
 

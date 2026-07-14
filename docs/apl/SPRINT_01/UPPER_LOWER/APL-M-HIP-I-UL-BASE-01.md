@@ -224,7 +224,8 @@ Posteriores e glúteos recebem prioridade na abertura, enquanto quadríceps apar
 | Puxar horizontal | Upper A e Upper B | Remadas com apoio e cabo |
 | Puxar vertical | Upper B | Puxada alta como base para barra fixa |
 | Dominante de joelho | Lower A e Lower B | Leg Press, Smith e extensora |
-| Dominante de quadril | Lower B | Flexora, elevação pélvica e Leg Press pés altos |
+| Dominante de quadril | Lower B | Elevação pélvica; Leg Press pés altos contribui para glúteos e posteriores sem ser hinge |
+| Flexão de joelho | Lower A e Lower B | Mesa Flexora e Cadeira Flexora |
 | Panturrilhas | Lower A e Lower B | Variação sentado/em pé |
 | Core | Lower B | Prancha técnica |
 

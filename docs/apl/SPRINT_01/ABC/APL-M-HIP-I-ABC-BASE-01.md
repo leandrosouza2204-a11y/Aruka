@@ -189,7 +189,8 @@ A sessão usa máquinas para cobrir quadríceps, posteriores, glúteos, panturri
 - Puxar vertical: puxada alta e pulldown.
 - Puxar horizontal: remadas.
 - Dominante de joelho: Leg Press e extensora.
-- Dominante de quadril: flexora e glúteo máquina.
+- Flexão de joelho: Mesa Flexora.
+- Extensão de quadril: Glúteo Máquina.
 - Core: abdominal e prancha.
 
 ## Referências futuras ao AOE

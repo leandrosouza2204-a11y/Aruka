@@ -46,7 +46,9 @@ Indicado para homens iniciantes que já toleram frequência semanal maior, conse
 | Método principal | Progressão dupla | Progressão dupla com Top Set + Back-off seletivos | Progressão dupla com prioridade de peitoral |
 | Técnicas intensificadoras | Não utiliza | Não utiliza técnicas intensificadoras | Não utiliza técnicas intensificadoras |
 | Exercícios livres | Baixa presença | Presença moderada | Presença moderada e controlada |
-| Melhor uso | Iniciante em consolidação | Iniciante avançando para intermediário | Peitoral atrasado sem perder recuperação |
+| Melhor uso | Iniciante em consolidação | Iniciante avançando para intermediário | Peitoral atrasado sem perder recuperação, com monitoramento de ombro e tríceps |
+
+Na Especialização Peitoral, a prioridade é temporária. O modelo deve ser encerrado ou regredido se houver desconforto anterior no ombro, fadiga persistente de tríceps, perda de desempenho nos supinos ou queda técnica entre Upper A e Upper B.
 
 ## Critérios para migração para Sprint 02
 

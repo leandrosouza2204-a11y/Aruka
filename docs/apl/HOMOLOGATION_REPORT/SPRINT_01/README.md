@@ -35,5 +35,4 @@ Foram avaliados 15 modelos da Sprint 01, distribuidos em cinco blocos: ABC, ABCD
 
 ## Relacao Entre AQA e Homologacao Humana
 
-O AQA v1.2.1 confirmou que a Sprint 01 esta documentalmente valida. A homologacao humana confirmou que a biblioteca esta tecnicamente aplicavel, com ressalvas nao bloqueantes registradas para refinamento futuro. A decisao final da Sprint 01 e Homologada com ressalvas.
-
+O AQA v1.2.1 confirmou que a Sprint 01 esta documentalmente valida. A homologacao humana confirmou que a biblioteca esta tecnicamente aplicavel. As ressalvas nao bloqueantes foram saneadas em ciclo controlado pós-homologação. A decisao final da Sprint 01 e Homologada.

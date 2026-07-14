@@ -188,7 +188,8 @@ Leg Press, flexora e extensora sustentam o núcleo do treino de pernas. Panturri
 - Puxar vertical: puxada alta e pulldown.
 - Puxar horizontal: remadas.
 - Dominante de joelho: Leg Press e extensora.
-- Dominante de quadril: flexora e glúteo máquina.
+- Flexão de joelho: Mesa Flexora.
+- Extensão de quadril: Glúteo Máquina.
 - Core: abdominal.
 
 ## Referências futuras ao AOE

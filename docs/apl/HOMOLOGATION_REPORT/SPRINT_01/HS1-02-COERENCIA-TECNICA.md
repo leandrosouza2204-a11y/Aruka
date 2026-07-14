@@ -68,3 +68,11 @@ Os modelos Full Body treinam joelho, empurrar, puxar, core e panturrilhas ao lon
 
 APROVADO COM RESSALVAS. Nenhuma ressalva bloqueia homologacao, mas os pontos registrados devem orientar refinamentos futuros.
 
+## Saneamento das ressalvas pós-homologação
+
+| Ressalva original | Arquivos afetados | Correção aplicada | Validações | Status final |
+|---|---|---|---|---|
+| Flexoras descritas como dominante de quadril em alguns textos | ABC, Full Body e Upper/Lower | Mesa Flexora e Cadeira Flexora foram classificadas como flexão de joelho; dominante de quadril ficou restrito a Romeno, Elevação Pélvica, extensão de quadril ou baixa ênfase declarada | Busca por dominante de quadril, flexoras e padrões de movimento | Resolvida |
+| ABCDE exige aderência alta | Três modelos ABCDE e README do bloco | Critérios de uso, evitação, pré-requisitos, coaching notes e evolução passaram a registrar assiduidade, rotina previsível e migração se houver faltas recorrentes | Revisão das seções obrigatórias dos modelos ABCDE | Resolvida |
+| ABCDE Eficiência dependia de cenário operacional favorável para 35-45 minutos | APL-M-HIP-I-ABCDE-EFI-01.md e README ABCDE | Duração ajustada para 40-50 minutos com condições operacionais, cálculo simples e cenários de tempo maior | Estimativa de execução, descansos, transições e aquecimento | Resolvida |
+| Upper/Lower Especialização Peitoral exige monitoramento de ombro e tríceps | APL-M-HIP-I-UL-ESP-PEITO-01.md e README Upper/Lower | Incluídos critérios de uso/evitação, diretrizes, sinais de alerta, critérios de saída e engenharia de distribuição do volume | Recontagem: peitoral 15 séries diretas; tríceps e deltoide anterior como participação indireta monitorada | Resolvida |

@@ -135,7 +135,7 @@ Os três movimentos principais ficam intactos; a economia ocorre apenas nos aces
 
 #### Objetivo da sessão
 
-Praticar quadril, remada, empurrar vertical, joelho complementar e core com sessão curta.
+Praticar remada, empurrar vertical, flexão de joelho, joelho complementar e core com sessão curta.
 
 #### Prescrição
 
@@ -156,7 +156,7 @@ Agachamento, remada e desenvolvimento ficam preservados, sem supersérie em comp
 
 #### Objetivo da sessão
 
-Consolidar peitoral, costas, pernas, quadril e core com baixo custo de recuperação.
+Consolidar peitoral, costas, pernas, flexão de joelho e core com baixo custo de recuperação.
 
 #### Prescrição
 
@@ -190,7 +190,8 @@ A sessão fecha a frequência com poucos exercícios e baixo custo de recuperaç
 ## Distribuição dos padrões de movimento
 
 - Dominante de joelho: Leg Press, Agachamento Smith e Cadeira Extensora.
-- Dominante de quadril: Mesa Flexora e Cadeira Flexora.
+- Flexão de joelho: Mesa Flexora e Cadeira Flexora.
+- Dominante de quadril: baixa ênfase direta neste modelo; a economia de tempo prioriza padrões guiados e evita hinge pesado.
 - Empurrar horizontal: Supino Máquina e Supino Inclinado.
 - Empurrar vertical: Desenvolvimento Máquina.
 - Puxar vertical: Puxada Alta e Puxada Neutra.

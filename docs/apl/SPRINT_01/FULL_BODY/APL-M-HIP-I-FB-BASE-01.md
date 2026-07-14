@@ -129,7 +129,7 @@ Praticar dominante de joelho, empurrar horizontal, puxada vertical, flexão de j
 
 #### Justificativa
 
-A sessão combina corpo inteiro com exercícios estáveis. Leg Press e flexora cobrem joelho e quadril de forma simples; supino e puxada garantem tronco; panturrilha e core completam padrões básicos.
+A sessão combina corpo inteiro com exercícios estáveis. Leg Press cobre o padrão dominante de joelho e a flexora trabalha flexão de joelho para posteriores; supino e puxada garantem tronco; panturrilha e core completam padrões básicos.
 
 ### Treino B — Quadril, remada e ombros
 
@@ -188,7 +188,8 @@ A terceira sessão repete padrões com pequenas variações, acelerando aprendiz
 ## Distribuição dos padrões de movimento
 
 - Dominante de joelho: Leg Press, Agachamento Smith e Cadeira Extensora.
-- Dominante de quadril: Mesa Flexora, Cadeira Flexora e Leg Press Pés Altos.
+- Flexão de joelho: Mesa Flexora e Cadeira Flexora.
+- Extensão de quadril com baixa complexidade: Leg Press Pés Altos, com maior participação de glúteos e posteriores, sem ser tratado como hinge.
 - Empurrar horizontal: Supino Máquina, Supino Inclinado e Supino com Halteres.
 - Empurrar vertical: Desenvolvimento Máquina.
 - Puxar vertical: Puxada Alta Frente e Puxada Alta Neutra.

@@ -190,7 +190,8 @@ Hack ou agachamento livre estabelece referência de força técnica com margem c
 - Puxar vertical: puxada ou barra assistida.
 - Puxar horizontal: remadas.
 - Dominante de joelho: Hack, agachamento, Leg Press e extensora.
-- Dominante de quadril: terra romeno e flexora.
+- Dominante de quadril: Terra Romeno.
+- Flexão de joelho: Mesa Flexora.
 - Core: abdominal na polia.
 
 ## Referências futuras ao AOE

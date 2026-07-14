@@ -224,7 +224,8 @@ O romeno com halteres introduz hinge com carga administrável. A sessão reforç
 | Puxar horizontal | Upper A e Upper B | Remadas com apoio ou cabo |
 | Puxar vertical | Upper B | Puxada com Top Set + Back-off |
 | Dominante de joelho | Lower A | Agachamento Smith e Leg Press |
-| Dominante de quadril | Lower B | Romeno, flexora e elevação pélvica |
+| Dominante de quadril | Lower B | Romeno e elevação pélvica |
+| Flexão de joelho | Lower A e Lower B | Mesa Flexora e Cadeira Flexora |
 | Panturrilhas | Lower A e Lower B | Em pé e sentado |
 | Core | Lower B | Prancha frontal |
 

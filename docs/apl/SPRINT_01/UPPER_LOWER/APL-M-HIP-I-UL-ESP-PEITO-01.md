@@ -25,12 +25,18 @@ Resolve a necessidade de dar mais prática e volume ao peitoral em um aluno inic
 - O aluno já executa supinos básicos com controle.
 - Há disponibilidade para quatro sessões semanais.
 - A recuperação de ombros e tríceps é adequada.
+- Não há dor relevante em ombros ou cotovelos.
+- Há boa tolerância a empurrar horizontal.
+- Tríceps e deltoide anterior recuperam bem entre Upper A e Upper B.
 
 ## Quando evitar
 
 - Iniciante absoluto sem domínio de supino.
 - Dor anterior no ombro ou desconforto recorrente em empurrar.
 - Tríceps ou deltoides limitam a execução de peitoral.
+- Fadiga persistente de tríceps entre as sessões Upper.
+- Perda de desempenho entre Upper A e Upper B.
+- Técnica instável nos supinos.
 - Objetivo prioritário está em costas, pernas ou glúteos.
 
 ## Público-alvo
@@ -105,6 +111,10 @@ Os metadados abaixo consolidam identificação, estratégia e parâmetros operac
 - Progressão: aumentar repetições antes de carga.
 - Regras de esforço: encerrar as séries com margem técnica.
 - Técnicas intensificadoras: não utilizar neste modelo.
+- Monitoramento de ombro: interromper a progressão se houver desconforto anterior recorrente.
+- Monitoramento de tríceps: reduzir isoladores antes de reduzir supinos principais quando o tríceps limitar o peitoral.
+- Volume combinado: não aumentar simultaneamente peitoral, ombros e tríceps.
+- Saída da especialização: encerrar o bloco se houver piora persistente de dor, amplitude ou desempenho.
 
 ## Periodização
 
@@ -208,7 +218,7 @@ Lower B mantém inferiores treináveis sem criar fadiga desnecessária. A priori
 | Peitoral | 15 | Tríceps e deltoide anterior | Prioridade moderada em duas exposições |
 | Costas | 6 | Bíceps e deltoide posterior | Manutenção para equilíbrio escapular |
 | Deltoides | 4 | Supinos e puxadas | Volume direto reduzido |
-| Tríceps | 2 | Supinos | Mantido baixo para não limitar peitoral |
+| Tríceps | 2 | Supinos geram participação indireta relevante | Mantido baixo para não limitar peitoral |
 | Bíceps | 2 | Puxada e remada | Manutenção |
 | Quadríceps | 9 | Leg Press e Smith | Manutenção produtiva |
 | Posteriores e glúteos | 9 | Leg Press pés altos | Manutenção produtiva |
@@ -224,7 +234,8 @@ Lower B mantém inferiores treináveis sem criar fadiga desnecessária. A priori
 | Puxar horizontal | Upper A | Remada apoiada para equilíbrio |
 | Puxar vertical | Upper B | Puxada alta antes dos supinos complementares |
 | Dominante de joelho | Lower A e Lower B | Volume de manutenção |
-| Dominante de quadril | Lower B | Flexora, elevação pélvica e Leg Press pés altos |
+| Dominante de quadril | Lower B | Elevação pélvica; Leg Press pés altos contribui para glúteos e posteriores sem ser hinge |
+| Flexão de joelho | Lower A e Lower B | Mesa Flexora e Cadeira Flexora |
 | Panturrilhas | Lower A e Lower B | Frequência 2x |
 | Core | Lower B | Prancha frontal |
 
@@ -238,10 +249,12 @@ As equivalências abaixo são referências operacionais e não substituem a cent
 - Se ombro anterior ou tríceps se tornam limitantes, reduzir 2–3 séries semanais de peitoral.
 - Manter costas ativas para sustentar escápulas e qualidade dos supinos.
 - Encerrar a especialização se o desempenho dos inferiores ou a recuperação geral caírem por duas semanas.
+- Sinais de alerta: queda de carga nos supinos, dor anterior no ombro, perda de amplitude, tríceps limitando o peitoral ou dificuldade de recuperar entre Upper A e Upper B.
+- Retirar volume isolador de tríceps ou deltoide antes de reduzir os movimentos principais de peitoral.
 
 ## Critérios de evolução
 
-Encerrar o bloco após 6–8 semanas, quando o aluno melhora controle dos supinos e mantém recuperação. Migrar para Sprint 02 se o peitoral responde sem dor, o aluno sustenta RIR 2 e os demais padrões permanecem estáveis. Retornar ao Base se houver desconforto, queda técnica ou fadiga acumulada.
+Encerrar o bloco após 6–8 semanas, quando o aluno melhora controle dos supinos e mantém recuperação. Migrar para Sprint 02 se o peitoral responde sem dor, o aluno sustenta RIR 2 e os demais padrões permanecem estáveis. Retornar ao Base se houver desconforto articular, fadiga persistente de tríceps, queda de desempenho, perda técnica ou conclusão do bloco de especialização sem necessidade de nova prioridade.
 
 ## Aruka Score
 
@@ -261,7 +274,7 @@ Encerrar o bloco após 6–8 semanas, quando o aluno melhora controle dos supino
 
 ## Engenharia do treino
 
-A especialização usa a estrutura Upper/Lower para expor o peitoral duas vezes na semana sem criar um dia isolado de peito. Upper A concentra a maior dose, Upper B complementa com ângulos mais estáveis. Costas, deltoides, braços e inferiores ficam em manutenção para que a prioridade não desequilibre o iniciante nem reduza a recuperação.
+A especialização usa a estrutura Upper/Lower para expor o peitoral duas vezes na semana sem criar um dia isolado de peito. Upper A concentra 8 séries diretas e Upper B complementa com 7 séries em ângulos mais estáveis, totalizando 15 séries diretas. Tríceps e deltoide anterior participam indiretamente nos supinos, por isso o volume direto deles fica baixo e não deve subir junto com o peitoral. Costas, deltoides, braços e inferiores ficam em manutenção para que a prioridade não desequilibre o iniciante nem reduza a recuperação.
 
 ## Assinatura Técnica
 

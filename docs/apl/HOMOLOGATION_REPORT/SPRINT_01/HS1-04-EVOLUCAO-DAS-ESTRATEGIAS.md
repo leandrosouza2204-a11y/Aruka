@@ -43,3 +43,10 @@ O Upper/Lower Especializacao em Peitoral e coerente como modelo de prioridade. E
 
 APROVADO. A evolucao entre estrategias e concreta, tecnicamente reconhecivel e aplicavel.
 
+## Saneamento das ressalvas pós-homologação
+
+| Ressalva original | Arquivos afetados | Correção aplicada | Validações | Status final |
+|---|---|---|---|---|
+| ABCDE exige aderência alta | Modelos ABCDE | A permanência no ABCDE passou a depender de aderência semanal estável; faltas por duas ou mais semanas indicam migração para ABC, Full Body ou Upper/Lower | Estratégia continua evolutiva, sem bloquear uso correto do ABCDE | Resolvida |
+| ABCDE Eficiência dependia de cenário operacional favorável | ABCDE Eficiência | A duração foi ajustada para 40-50 minutos e a eficiência passou a ser descrita por condições operacionais reais | Cálculo simples registrado na engenharia do treino | Resolvida |
+| Upper/Lower Especialização Peitoral exige monitoramento | Upper/Lower Especialização Peitoral | A evolução por prioridade agora inclui critérios objetivos de saída, sem aumentar volume | Peitoral permanece com 15 séries diretas e demais grupos em manutenção | Resolvida |

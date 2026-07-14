@@ -135,7 +135,7 @@ O Top Set no Smith introduz carga organizada sem a instabilidade do agachamento 
 
 #### Objetivo da sessão
 
-Praticar remada, empurrar vertical, joelho, quadril, peitoral e core sem repetir o mesmo padrão pesado do Treino A.
+Praticar remada, empurrar vertical, joelho, flexão de joelho, peitoral e core sem repetir o mesmo padrão pesado do Treino A.
 
 #### Prescrição
 
@@ -156,7 +156,7 @@ Remada apoiada e Leg Press permitem evolução sem carga lombar excessiva. A ses
 
 #### Objetivo da sessão
 
-Consolidar pernas, puxadas, empurrar horizontal, quadril e core com variações seguras.
+Consolidar pernas, puxadas, empurrar horizontal, flexão de joelho e core com variações seguras.
 
 #### Prescrição
 
@@ -188,7 +188,8 @@ A terceira sessão consolida corpo inteiro com padrões seguros. O Leg Press rec
 ## Distribuição dos padrões de movimento
 
 - Dominante de joelho: Agachamento Smith e Leg Press.
-- Dominante de quadril: Mesa Flexora e Cadeira Flexora.
+- Flexão de joelho: Mesa Flexora e Cadeira Flexora.
+- Dominante de quadril: baixa ênfase direta neste modelo; a participação de glúteos e posteriores vem de Leg Press e padrões guiados, sem hinge pesado.
 - Empurrar horizontal: Supino Reto, Supino Inclinado e Supino Máquina.
 - Empurrar vertical: Desenvolvimento com Halteres.
 - Puxar vertical: Puxada Alta Frente e Puxada Alta Neutra.
@@ -227,7 +228,7 @@ Evoluir para Full Body intermediário quando o aluno controlar RIR 2, registrar 
 
 ## Engenharia do treino
 
-Cada sessão mantém corpo inteiro, mas alterna o Top Set entre joelho, puxar horizontal e Leg Press para controlar fadiga sistêmica. O treino evita repetir o mesmo padrão pesado em sessões próximas e mantém empurrar, puxar, joelho, quadril e core em toda a semana.
+Cada sessão mantém corpo inteiro, mas alterna o Top Set entre joelho, puxar horizontal e Leg Press para controlar fadiga sistêmica. O treino evita repetir o mesmo padrão pesado em sessões próximas e mantém empurrar, puxar, joelho, flexão de joelho e core em toda a semana; o padrão dominante de quadril permanece com baixa ênfase para preservar segurança do iniciante.
 
 ## Assinatura Técnica
 

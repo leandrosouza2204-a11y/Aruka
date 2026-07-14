@@ -13,7 +13,7 @@
 
 ## Resumo Executivo
 
-Modelo ABCDE Eficiência para homens iniciantes com pouco tempo por sessão. Usa cinco treinos de 35–45 minutos, poucos exercícios, progressão dupla e superséries apenas entre acessórios ou isoladores. A estratégia é preservar movimentos principais, reduzir volume de forma inteligente e manter aderência sem combinar compostos pesados.
+Modelo ABCDE Eficiência para homens iniciantes com pouco tempo por sessão. Usa cinco treinos de 40–50 minutos, poucos exercícios, progressão dupla e superséries apenas entre acessórios ou isoladores. A estratégia é preservar movimentos principais, reduzir volume de forma inteligente e manter aderência sem combinar compostos pesados.
 
 ## Problema que resolve
 
@@ -22,6 +22,9 @@ Ajuda o aluno que quer treinar cinco vezes por semana, mas tem pouco tempo e pre
 ## Quando utilizar
 
 - Rotina com cinco janelas curtas.
+- Disponibilidade real para cinco sessões semanais.
+- Histórico de boa assiduidade.
+- Academia com baixa espera e equipamentos próximos.
 - Objetivo de aderência.
 - Academia com equipamentos acessíveis.
 - Aluno iniciante que precisa de simplicidade.
@@ -30,6 +33,8 @@ Ajuda o aluno que quer treinar cinco vezes por semana, mas tem pouco tempo e pre
 ## Quando evitar
 
 - Academia sempre lotada.
+- Baixa aderência ou faltas recorrentes.
+- Rotina instável que exige reposição de sessões.
 - Necessidade de alto volume.
 - Dor ou limitação técnica sem avaliação.
 - Dificuldade de cumprir cinco dias.
@@ -37,7 +42,7 @@ Ajuda o aluno que quer treinar cinco vezes por semana, mas tem pouco tempo e pre
 
 ## Público-alvo
 
-Homem iniciante em hipertrofia, com cinco janelas curtas por semana e necessidade de manter estímulo básico sem prolongar as sessões.
+Homem iniciante em hipertrofia, com cinco janelas curtas por semana, rotina previsível e necessidade de manter estímulo básico sem prolongar as sessões.
 
 ## Pré-requisitos
 
@@ -46,6 +51,8 @@ Homem iniciante em hipertrofia, com cinco janelas curtas por semana e necessidad
 - Preservar descanso dos exercícios principais.
 - Usar superséries somente entre acessórios ou isoladores.
 - Manter execução estável antes de progredir.
+- Entender que perder uma sessão altera a distribuição semanal do ABCDE.
+- Evitar reposições acumuladas no mesmo dia ou na semana seguinte.
 
 ## Filosofia
 
@@ -53,7 +60,7 @@ Eficiência significa reduzir redundância, não sacrificar técnica. Os compost
 
 ## Objetivo principal
 
-Executar uma divisão ABCDE iniciante em sessões de 35–45 minutos com volume reduzido e boa aderência.
+Executar uma divisão ABCDE iniciante em sessões de 40–50 minutos com volume reduzido e boa aderência.
 
 ## Objetivos secundários
 
@@ -76,7 +83,7 @@ Executar uma divisão ABCDE iniciante em sessões de 35–45 minutos com volume 
 | Divisão | ABCDE |
 | Estratégia | Eficiência |
 | Frequência | 5 sessões semanais |
-| Duração média | 35–45 minutos |
+| Duração média | 40–50 minutos |
 | Ciclo sugerido | 6–10 semanas |
 | RIR predominante | 2–3 |
 | Método principal | Progressão dupla |
@@ -88,11 +95,11 @@ Executar uma divisão ABCDE iniciante em sessões de 35–45 minutos com volume 
 
 | Dia sugerido | Sessão | Ênfase | Duração estimada |
 |---|---|---|---|
-| Segunda | Treino A | Peitoral | 35–45 min |
-| Terça | Treino B | Costas | 35–45 min |
-| Quarta | Treino C | Pernas | 40–45 min |
-| Quinta | Treino D | Ombros | 35–45 min |
-| Sexta | Treino E | Braços e core | 35–45 min |
+| Segunda | Treino A | Peitoral | 40–50 min |
+| Terça | Treino B | Costas | 40–50 min |
+| Quarta | Treino C | Pernas | 40–50 min |
+| Quinta | Treino D | Ombros | 40–50 min |
+| Sexta | Treino E | Braços e core | 40–50 min |
 
 ## Diretrizes
 
@@ -102,6 +109,24 @@ Executar uma divisão ABCDE iniciante em sessões de 35–45 minutos com volume 
 - Descansar 90 s nos principais e 60–75 s após pares acessórios.
 - Desfazer superséries se a academia estiver cheia.
 - Não utilizar técnicas intensificadoras neste modelo.
+
+### Condições para cumprir 40–50 minutos
+
+- Equipamentos disponíveis e próximos.
+- Transições curtas entre exercícios.
+- Descanso cronometrado.
+- Aquecimento específico objetivo.
+- Ausência de filas relevantes.
+- Não adicionar exercícios extras.
+
+### Quando o tempo real será maior
+
+- Academia lotada.
+- Necessidade de regressões técnicas.
+- Pausas longas por orientação ou supervisão.
+- Dificuldade de alternar equipamentos.
+- Aquecimento mais extenso.
+- Superséries inviáveis por ocupação dos aparelhos.
 
 ## Periodização
 
@@ -242,10 +267,13 @@ Referências provisórias: Supino Máquina → Supino Barra; Puxada Alta → Bar
 - Nunca combinar compostos em supersérie.
 - Se a academia estiver cheia, transformar superséries em séries normais.
 - Preservar os exercícios principais.
+- A faixa de 40–50 minutos depende de montagem prévia da sessão, cronômetro de descanso e baixa espera por equipamentos.
+- Se o aluno faltar repetidamente, migrar para ABC, Full Body ou Upper/Lower.
+- Não compensar faltas com volume extra ou várias sessões no mesmo dia.
 
 ## Critérios de evolução
 
-Evoluir para Base quando o aluno tiver mais tempo ou precisar de mais prática por exercício. Evoluir para Performance quando técnica e aderência estiverem consistentes. Manter Eficiência enquanto a agenda curta for o fator principal.
+Evoluir para Base quando o aluno tiver mais tempo ou precisar de mais prática por exercício. Evoluir para Performance quando técnica e aderência estiverem consistentes. Manter Eficiência enquanto a agenda curta for o fator principal e a assiduidade semanal estiver estável. Migrar para ABC, Full Body ou Upper/Lower se houver faltas recorrentes por duas ou mais semanas.
 
 ## Aruka Score
 
@@ -256,14 +284,14 @@ Evoluir para Base quando o aluno tiver mais tempo ou precisar de mais prática p
 | Aprendizagem | 4 | Padrões simples preservados. |
 | Complexidade | 2 | Baixa complexidade operacional. |
 | Demanda de recuperação | 2 | Volume baixo por sessão. |
-| Eficiência de tempo | 5 | Sessões de 35–45 minutos. |
+| Eficiência de tempo | 4 | Sessões de 40–50 minutos em cenário operacional favorável. |
 | Necessidade de equipamentos | 4 | Usa máquinas e cabos. |
 | Personalização | 3 | Permite desfazer superséries. |
 | Aderência esperada | 5 | Forte para rotina curta. |
 
 ## Engenharia do treino
 
-A divisão mantém cinco sessões, mas corta redundâncias para preservar tempo. Compostos aparecem no início e com descanso próprio. Superséries acessórias reduzem deslocamento e duração sem comprometer os padrões principais.
+A divisão mantém cinco sessões, mas corta redundâncias para preservar tempo. Compostos aparecem no início e com descanso próprio. Superséries acessórias reduzem deslocamento e duração sem comprometer os padrões principais. A estimativa simples considera cerca de 10–14 minutos de execução das séries, 20–28 minutos de descansos, 5–8 minutos de transições e 5–7 minutos de aquecimento específico, resultando em 40–50 minutos na prática.
 
 ## Assinatura Técnica
 
