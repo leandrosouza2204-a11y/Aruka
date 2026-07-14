@@ -30,7 +30,9 @@
     "qa:apl": "node scripts/apl/audit.mjs",
     "qa:apl:sprint01": "node scripts/apl/audit.mjs --sprint=1",
     "qa:apl:sprint02": "node scripts/apl/audit.mjs --sprint=2",
-    "qa:apl:all": "node scripts/apl/audit.mjs --all"
+    "qa:apl:all": "node scripts/apl/audit.mjs --all",
+    "qa:apl:rules": "node scripts/apl/audit.mjs --list-rules",
+    "qa:apl:contract": "node scripts/apl/rules/rule-contract.test.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.107.0",

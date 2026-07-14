@@ -2,8 +2,15 @@ import path from "node:path";
 
 export const ROOT_DOCS = path.resolve("docs", "apl");
 export const ROOT_REPORTS = path.resolve("reports", "apl");
+export const RULES_DIRECTORY = path.resolve("scripts", "apl", "rules");
 export const SUPPORTED_SPRINTS = Object.freeze([1, 2]);
 export const SUPPORTED_EXTENSIONS = Object.freeze([".md"]);
 export const DEFAULT_ENCODING = "utf8";
 export const REPORT_FORMAT = "markdown";
+export const DEFAULT_STRICT_MODE = false;
+export const DEFAULT_MIN_SEVERITY = "info";
+export const DEFAULT_REPORT_FORMAT = "markdown";
+export const SUPPORTED_REPORT_FORMATS = Object.freeze(["markdown", "json", "both"]);
+export const DEFAULT_CONTINUE_ON_FATAL = false;
+export const MAX_EXCERPT_LENGTH = 300;
 export const VERSION = "1.0.0";

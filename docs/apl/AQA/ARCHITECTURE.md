@@ -1,33 +1,63 @@
 # Arquitetura AQA
 
-O AQA separa responsabilidades para permitir crescimento incremental sem misturar localizacao de arquivos, parsing, regras e relatorios.
-
 ```text
-+---------+    +--------+    +--------+    +-------+    +--------+    +---------+
-| Scanner | -> | Parser | -> | Engine | -> | Rules | -> | Report | -> | Console |
-+---------+    +--------+    +--------+    +-------+    +--------+    +---------+
+CLI
+ |
+ v
+Scanner
+ |
+ v
+Parser
+ |
+ v
+AuditContext
+ |
+ v
+Rule Loader
+ |
+ v
+Rule Engine
+ |
+ v
+Finding Normalizer
+ |
+ v
+Statistics
+ |
+ v
+Report
+ |
+ v
+Exit Code
 ```
 
-## Scanner
+## Fluxo
 
-Localiza arquivos da APL em tres escopos: toda a biblioteca, uma Sprint ou um bloco especifico. Ele retorna uma estrutura hierarquica com Sprint, bloco e arquivos. Nao le nem analisa conteudo.
+A CLI interpreta argumentos, define o alvo e chama a engine. O scanner localiza arquivos sem analisar conteudo. O parser estrutura cada markdown. A engine cria um `AuditContext` imutavel, carrega regras, executa a pipeline sequencialmente, normaliza findings, calcula estatisticas e define status e exit code.
 
-## Parser
+## Isolamento
 
-Recebe arquivos markdown e devolve um objeto estruturado com titulo, headings, secoes, tabelas, blocos de codigo, conteudo bruto, conteudo normalizado e metadados. Ele nao aplica validacoes.
+Cada regra recebe o mesmo contexto imutavel. Regras nao devem alterar documentos, scanner result, opcoes ou PROJECT_STATUS. Helpers fornecem consultas seguras para documentos, Sprints, blocos, modelos, READMEs e diagnostics.
 
-## Engine
+## Determinismo
 
-Coordena a execucao da pipeline. O motor chama o scanner, envia cada arquivo ao parser, monta o `AuditContext` e produz um `AuditResult`. Nesta versao, nenhuma regra e carregada ou executada.
+As regras sao ordenadas por ID e executadas em sequencia. Nao ha paralelismo nesta versao para preservar ordem de diagnostico, facilitar reproducao e simplificar a leitura dos relatorios.
 
-## Rules
+## Finding E Diagnostico
 
-O diretorio `scripts/apl/rules` e o ponto de extensao para regras futuras. As regras devem consumir o contexto criado pela engine e produzir findings estruturados.
+Finding e uma ocorrencia de auditoria produzida por uma regra. Diagnostico e uma mensagem de infraestrutura, como regra desabilitada, falha de carregamento ou erro inesperado do motor.
 
-## Report
+## ERROR E FATAL
 
-Gera a saida em console e o relatorio markdown em `reports/apl/audit-report.md`. A versao inicial registra data, versao, quantidade de arquivos, quantidade de Sprints e informa que nenhuma regra foi executada.
+`ERROR` representa inconsistencia de conteudo que bloqueia homologacao. `FATAL` representa falha de infraestrutura ou corrupcao do processo, como contrato invalido, importacao com erro ou excecao inesperada em regra.
 
-## Console
+## Modulos
 
-Mostra a versao do AQA, resumo da execucao, quantidade de arquivos, tempo total e status das regras carregadas.
+- `audit.mjs`: executor CLI.
+- `scanner.mjs`: localizacao de arquivos.
+- `parser.mjs`: estruturacao de markdown.
+- `engine.mjs`: contexto, execucao, metricas e exit codes.
+- `rules/index.mjs`: carregamento e filtros de regras.
+- `rules/rule-contract.mjs`: severidades, escopos, contrato e findings.
+- `report.mjs`: relatorios Markdown e JSON.
+- `utils/logger.mjs`: saida padronizada no console.

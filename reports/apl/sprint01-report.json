@@ -1,0 +1,101 @@
+{
+  "version": "1.0.0",
+  "target": "sprint01",
+  "startedAt": "2026-07-14T17:12:49.748Z",
+  "finishedAt": "2026-07-14T17:12:49.904Z",
+  "durationMs": 155,
+  "filesScanned": 30,
+  "documentsParsed": 30,
+  "rulesLoaded": 0,
+  "rulesAvailable": 3,
+  "rulesExecuted": 0,
+  "rulesSkipped": 3,
+  "rules": [
+    {
+      "id": "apl-example-error",
+      "name": "Exemplo bloqueante",
+      "description": "Demonstra uma regra de erro desabilitada para documentar o contrato.",
+      "severity": "error",
+      "scope": "model",
+      "enabled": false,
+      "tags": [
+        "example",
+        "documentation",
+        "error"
+      ]
+    },
+    {
+      "id": "apl-example-info",
+      "name": "Exemplo informativo",
+      "description": "Demonstra uma regra informativa desabilitada para documentar o contrato.",
+      "severity": "info",
+      "scope": "document",
+      "enabled": false,
+      "tags": [
+        "example",
+        "documentation",
+        "info"
+      ]
+    },
+    {
+      "id": "apl-example-warning",
+      "name": "Exemplo de ressalva",
+      "description": "Demonstra uma regra de warning desabilitada para documentar o contrato.",
+      "severity": "warning",
+      "scope": "sprint",
+      "enabled": false,
+      "tags": [
+        "example",
+        "documentation",
+        "warning"
+      ]
+    }
+  ],
+  "ruleRuns": [],
+  "findings": [],
+  "diagnostics": [
+    {
+      "severity": "info",
+      "message": "Regra desabilitada: apl-example-error",
+      "ruleId": "apl-example-error",
+      "file": "C:\\Projetos\\ConsultoriaFitness\\scripts\\apl\\rules\\example-error.mjs"
+    },
+    {
+      "severity": "info",
+      "message": "Regra desabilitada: apl-example-info",
+      "ruleId": "apl-example-info",
+      "file": "C:\\Projetos\\ConsultoriaFitness\\scripts\\apl\\rules\\example-info.mjs"
+    },
+    {
+      "severity": "info",
+      "message": "Regra desabilitada: apl-example-warning",
+      "ruleId": "apl-example-warning",
+      "file": "C:\\Projetos\\ConsultoriaFitness\\scripts\\apl\\rules\\example-warning.mjs"
+    }
+  ],
+  "statistics": {
+    "rules": {
+      "loaded": 0,
+      "executed": 0,
+      "skipped": 3,
+      "findingsByRule": {}
+    },
+    "findings": {
+      "bySeverity": {},
+      "bySprint": {},
+      "byBlock": {},
+      "byFile": {}
+    },
+    "targets": {
+      "filesScanned": 30,
+      "documentsParsed": 30
+    },
+    "performance": {
+      "durationMs": 155,
+      "byRule": {},
+      "slowestRule": null
+    }
+  },
+  "status": "PASSED",
+  "exitCode": 0
+}

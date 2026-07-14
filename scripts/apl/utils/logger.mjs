@@ -40,3 +40,48 @@ export function summary(items) {
     console.log(`${colors.cyan}${label}:${colors.reset} ${value}`);
   }
 }
+
+export function ruleStart(rule) {
+  info(`Executando regra ${rule.id}`);
+}
+
+export function ruleSuccess(rule, duration) {
+  success(`Regra ${rule.id} concluida em ${duration}ms`);
+}
+
+export function ruleWarning(rule, findingCount) {
+  warning(`Regra ${rule.id} gerou ${findingCount} ocorrencia(s)`);
+}
+
+export function ruleError(rule, err) {
+  error(`Regra ${rule.id} falhou: ${err.message}`);
+}
+
+export function finding(item) {
+  console.log(format(item.severity, `${item.ruleId}: ${item.message}`, "yellow"));
+}
+
+export function progress(current, total) {
+  info(`Progresso ${current}/${total}`);
+}
+
+export function table(rows) {
+  if (!rows.length) return;
+  const headers = Object.keys(rows[0]);
+  const widths = headers.map((header) =>
+    Math.max(header.length, ...rows.map((row) => String(row[header] ?? "").length)),
+  );
+  const render = (values) => values.map((value, index) => String(value ?? "").padEnd(widths[index])).join("  ");
+
+  console.log(render(headers));
+  console.log(render(widths.map((width) => "-".repeat(width))));
+  for (const row of rows) {
+    console.log(render(headers.map((header) => row[header])));
+  }
+}
+
+export function debug(message, enabled = false) {
+  if (enabled) {
+    console.log(format("DEBUG", message, "cyan"));
+  }
+}

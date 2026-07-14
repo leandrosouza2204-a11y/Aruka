@@ -1,65 +1,69 @@
 # Aruka Quality Assurance
 
-O AQA e o framework oficial de auditoria da Aruka Performance Library. Nesta versao, ele entrega a infraestrutura base para localizar arquivos, estruturar markdowns, executar uma pipeline de auditoria e gerar um relatorio inicial.
+O AQA e o framework oficial de auditoria da Aruka Performance Library. Ele localiza documentos, estrutura markdowns, carrega regras como plugins, executa uma pipeline deterministica e gera relatorios Markdown ou JSON.
 
-Esta etapa nao implementa regras de auditoria e nao valida modelos de treino.
+Esta versao ainda nao implementa regras reais de auditoria da APL. As regras existentes sao exemplos desabilitados para documentar o contrato.
 
-## Objetivo
-
-Criar uma base extensivel para auditorias futuras da APL, separando localizacao de arquivos, parsing de conteudo, execucao de regras e geracao de relatorios.
-
-## Arquitetura
-
-O fluxo principal e:
+## Fluxo
 
 ```text
-Scanner -> Parser -> Engine -> Rules -> Report -> Console
+CLI -> Scanner -> Parser -> AuditContext -> Rule Loader -> Rule Engine -> Report -> Exit Code
 ```
 
-- Scanner: localiza Sprints, blocos e arquivos markdown.
-- Parser: transforma cada markdown em uma estrutura de dados.
-- Engine: coordena a pipeline e prepara o contexto de auditoria.
-- Rules: ponto de extensao para regras futuras.
-- Report: gera saida em console e markdown.
-
-## Como executar
+## Execucao
 
 ```bash
 npm run qa:apl
 npm run qa:apl:sprint01
 npm run qa:apl:sprint02
 npm run qa:apl:all
+npm run qa:apl:rules
 ```
 
-Tambem e possivel chamar o executor diretamente:
+Exemplos com argumentos:
 
 ```bash
-node scripts/apl/audit.mjs --all
-node scripts/apl/audit.mjs --sprint=1
-node scripts/apl/audit.mjs --sprint=2
+npm run qa:apl -- --sprint=1 --rule=apl-example-info
+npm run qa:apl -- --all --tag=structure
+npm run qa:apl -- --sprint=2 --severity=warning --strict
+npm run qa:apl -- --all --report-format=both
+npm run qa:apl -- --help
 ```
 
-Sem argumentos, o AQA executa a auditoria em toda a APL.
+## Regras Como Plugins
 
-## Scripts npm
+Regras ficam em `scripts/apl/rules/` e exportam um objeto default com `id`, `name`, `description`, `severity`, `scope`, `enabled`, `tags` e `run`. O carregador ignora arquivos internos, valida contratos, detecta IDs duplicados e executa apenas regras habilitadas.
 
-- `qa:apl`: executa a auditoria completa.
-- `qa:apl:sprint01`: executa a auditoria da Sprint 01.
-- `qa:apl:sprint02`: executa a auditoria da Sprint 02.
-- `qa:apl:all`: executa a auditoria completa.
+## Filtros
 
-## Regras
+- `--rule=rule-id`: seleciona uma regra.
+- `--rules=a,b`: seleciona varias regras.
+- `--tag=structure`: seleciona regras por tag.
+- `--tags=structure,metadata`: seleciona varias tags.
+- `--severity=warning`: filtra apenas a exibicao e o relatorio.
 
-Regras serao adicionadas em ciclos futuros dentro de `scripts/apl/rules`. Cada regra devera receber o contexto de auditoria e devolver achados estruturados para o relatorio.
+## Severidades
 
-## Severidade
+- `info`: informativa, exit code 0.
+- `warning`: ressalva, exit code 0 por padrao.
+- `error`: bloqueia homologacao, exit code 1.
+- `fatal`: falha de infraestrutura, exit code 2.
 
-As severidades futuras devem permitir priorizacao de achados. A base foi preparada para aceitar regras e findings sem acoplar o motor a uma lista fixa nesta etapa.
+Com `--strict`, warnings passam a retornar exit code 1.
+
+## Relatorios
+
+Formatos suportados:
+
+- `--report-format=markdown`
+- `--report-format=json`
+- `--report-format=both`
+
+Os relatorios sao salvos em `reports/apl/` com nomes derivados do alvo, como `all-report.md`, `sprint01-report.md` e `sprint01-abc-report.md`.
 
 ## Roadmap
 
-- Adicionar carregamento dinamico de regras.
-- Definir contrato oficial de findings.
-- Implementar severidades.
-- Gerar relatorios detalhados por Sprint e bloco.
-- Integrar regras de homologacao tecnica da APL.
+- Implementar regras reais do AQA v1.
+- Expandir severidades por politica de homologacao.
+- Adicionar relatorios detalhados por bloco.
+- Integrar regras de estrutura, metadados, prescricoes e terminologia.
