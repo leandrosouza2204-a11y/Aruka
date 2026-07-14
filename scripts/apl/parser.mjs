@@ -1,4 +1,5 @@
 import path from "node:path";
+import { buildDocumentContext, classifyDocument } from "./document-context.mjs";
 import { read } from "./utils/files.mjs";
 import { countTables, countWords, extractHeadings, normalize } from "./utils/markdown.mjs";
 
@@ -39,7 +40,7 @@ export async function parseMarkdown(file) {
   const headings = extractHeadings(normalized);
   const title = headings.find((heading) => heading.level === 1)?.text ?? path.basename(file, ".md");
 
-  return {
+  const parsed = {
     file,
     title,
     headings,
@@ -51,6 +52,11 @@ export async function parseMarkdown(file) {
     metadata: {
       wordCount: countWords(normalized),
       extension: path.extname(file),
+      documentType: classifyDocument(file),
     },
+  };
+  return {
+    ...parsed,
+    context: buildDocumentContext(parsed),
   };
 }

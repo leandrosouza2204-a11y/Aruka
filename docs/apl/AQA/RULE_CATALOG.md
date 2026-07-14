@@ -1,11 +1,13 @@
-# Catalogo De Regras AQA v1
+# Catálogo De Regras AQA v1.2
+
+Versão: **AQA v1.2 — Context-Aware Parser**
 
 | ID | Nome | Descricao | Escopo | Severidade | Tags |
 |---|---|---|---|---|---|
 | AQA-001 | Estrutura | Valida estrutura dos blocos, README, modelos, nomes, extensoes, duplicidades e arquivos vazios. | GLOBAL | ERROR | structure, filesystem |
 | AQA-002 | Metadados | Valida titulo, codigo, versao, status, resumo, objetivos, metadados, assinatura tecnica e tags. | MODEL | ERROR | metadata, model |
-| AQA-003 | Secoes Premium | Valida presenca, duplicidade e ordem das secoes Premium obrigatorias. | MODEL | ERROR | sections, premium |
-| AQA-004 | Prescricao | Audita tabelas de exercicios, series, repeticoes, RIR, descanso e metodo. | PRESCRIPTION | ERROR | prescription, tables |
+| AQA-003 | Secoes Premium | Valida presença, duplicidade e ordem das seções Premium com escopo global e escopo por sessão. | MODEL | ERROR | sections, premium, context |
+| AQA-004 | Prescricao | Audita somente tabelas classificadas contextualmente como prescrição. | PRESCRIPTION | ERROR | prescription, tables, context |
 | AQA-005 | Metodos | Valida coerencia entre metodos como Progressao Dupla, Top Set, Back-off, Drop Set e Rest Pause. | MODEL | WARNING | methods, prescription |
 | AQA-006 | Terminologia | Detecta termos inadequados e linguagem promocional fora do padrao tecnico. | DOCUMENT | WARNING | terminology, language |
 | AQA-007 | PROJECT_STATUS | Compara PROJECT_STATUS com Sprints, blocos, modelos existentes e contadores. | GLOBAL | ERROR | project-status, metadata |

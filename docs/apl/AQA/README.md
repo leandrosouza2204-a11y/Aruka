@@ -1,8 +1,10 @@
 # Aruka Quality Assurance
 
-O AQA e o framework oficial de auditoria da Aruka Performance Library. Ele localiza documentos, estrutura markdowns, carrega regras como plugins, executa uma pipeline deterministica e gera relatorios Markdown ou JSON.
+O AQA é o framework oficial de auditoria da Aruka Performance Library. Ele localiza documentos, estrutura markdowns, carrega regras como plugins, executa uma pipeline determinística e gera relatórios Markdown ou JSON.
 
-Esta versao ainda nao implementa regras reais de auditoria da APL. As regras existentes sao exemplos desabilitados para documentar o contrato.
+Versão atual: **AQA v1.2 — Context-Aware Parser**.
+
+A v1.2 adiciona uma árvore contextual de headings e tabelas para que regras compreendam escopo global, escopo de sessão e tabelas de prescrição sem confundir tabelas auxiliares com exercícios.
 
 ## Fluxo
 
@@ -46,7 +48,7 @@ Regras ficam em `scripts/apl/rules/` e exportam um objeto default com `id`, `nam
 - AQA-008 Regras para Iniciantes: `aqa-008`
 - AQA-009 Regras para Intermediarios: `aqa-009`
 
-O catalogo completo fica em `docs/apl/AQA/RULE_CATALOG.md`.
+O catálogo completo fica em `docs/apl/AQA/RULE_CATALOG.md`. A documentação do parser contextual fica em `docs/apl/AQA/PARSER_CONTEXT.md`.
 
 ## Filtros
 
@@ -100,7 +102,6 @@ Os relatorios sao salvos em `reports/apl/` com nomes derivados do alvo, como `al
 
 ## Roadmap
 
-- Implementar regras reais do AQA v1.
-- Expandir severidades por politica de homologacao.
-- Adicionar relatorios detalhados por bloco.
-- Integrar regras de estrutura, metadados, prescricoes e terminologia.
+- Expandir severidades por política de homologação.
+- Adicionar relatórios detalhados por bloco.
+- Evoluir deduplicação contextual conforme novos padrões Premium surgirem.

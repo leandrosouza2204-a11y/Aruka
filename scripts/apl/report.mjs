@@ -35,7 +35,9 @@ function findingLines(finding) {
     ["Sprint", finding.sprint],
     ["Bloco", finding.block],
     ["Modelo", finding.modelCode],
+    ["Sessao", finding.metadata?.session],
     ["Secao", finding.section],
+    ["Contexto", finding.metadata?.contextType],
     ["Linha", finding.line],
     ["Mensagem", finding.message],
     ["Sugestao", finding.suggestion],
@@ -69,6 +71,19 @@ function groupedSummary(findings, label, keyFactory) {
     counts[key] = (counts[key] ?? 0) + 1;
   }
   const rows = topRowsFromCounts(counts, label, 999);
+  return rows.length ? markdownTable(rows) : "Nenhuma ocorrencia.";
+}
+
+function findingsByContext(findings) {
+  const rows = topRowsFromCounts(
+    findings.reduce((counts, finding) => {
+      const context = finding.metadata?.contextType ?? (finding.metadata?.session ? "session" : "global");
+      counts[context] = (counts[context] ?? 0) + 1;
+      return counts;
+    }, {}),
+    "Contexto",
+    999,
+  );
   return rows.length ? markdownTable(rows) : "Nenhuma ocorrencia.";
 }
 
@@ -168,6 +183,10 @@ export function createMarkdownReport(result, options = {}) {
     "## Findings Summary",
     "",
     markdownTable(bySeverity),
+    "",
+    "## Findings by Context",
+    "",
+    findingsByContext(displayedFindings),
     "",
     "## Baseline",
     "",

@@ -6,6 +6,8 @@ import prescriptions from "../rules/prescriptions.mjs";
 import methods from "../rules/methods.mjs";
 import terminology from "../rules/terminology.mjs";
 import { validateRuleDefinition } from "../rules/rule-contract.mjs";
+import { buildDocumentContext } from "../document-context.mjs";
+import { extractHeadings } from "../utils/markdown.mjs";
 
 function documentRef(overrides = {}) {
   const normalized = overrides.normalized ?? [
@@ -25,25 +27,28 @@ function documentRef(overrides = {}) {
     "## Tags",
     "abc base iniciante",
   ].join("\n");
+  const parsed = {
+    file: overrides.file ?? "docs/apl/SPRINT_01/ABC/APL-M-HIP-I-ABC-BASE-01.md",
+    title: "APL-M-HIP-I-ABC-BASE-01",
+    normalized,
+    headings: extractHeadings(normalized),
+    metadata: { modelCode: "APL-M-HIP-I-ABC-BASE-01", extension: ".md" },
+  };
   return {
     sprint: overrides.sprint ?? "SPRINT_01",
     block: overrides.block ?? "ABC",
-    file: overrides.file ?? "docs/apl/SPRINT_01/ABC/APL-M-HIP-I-ABC-BASE-01.md",
+    file: parsed.file,
     document: {
-      title: "APL-M-HIP-I-ABC-BASE-01",
+      title: parsed.title,
       normalized,
-      headings: [
-        { level: 1, text: "APL-M-HIP-I-ABC-BASE-01", line: 1 },
-        { level: 2, text: "Resumo Executivo", line: 3 },
-        { level: 2, text: "Metadados", line: 6 },
-        { level: 2, text: "Tags", line: 14 },
-      ],
+      headings: parsed.headings,
       sections: [
         { title: "Resumo Executivo", level: 2, line: 3, content: "Conteudo." },
         { title: "Metadados", level: 2, line: 6, content: "Versao: 1.0\nStatus: Concluido" },
         { title: "Tags", level: 2, line: 14, content: "abc base iniciante" },
       ],
-      metadata: { modelCode: "APL-M-HIP-I-ABC-BASE-01", extension: ".md" },
+      metadata: parsed.metadata,
+      context: buildDocumentContext(parsed),
     },
   };
 }
@@ -83,7 +88,20 @@ const badTerminology = await terminology.run(context([documentRef({ normalized: 
 assert.equal(badTerminology.length, 1);
 assert.equal(badTerminology[0].ruleId, "aqa-006");
 
-const badPrescription = await prescriptions.run(context([documentRef({ normalized: "# APL-M-HIP-I-ABC-BASE-01\n\nSem tabela." })]));
+const badPrescription = await prescriptions.run(context([documentRef({
+  normalized: [
+    "# APL-M-HIP-I-ABC-BASE-01",
+    "",
+    "## Treinos",
+    "### Treino A — Peitoral",
+    "#### Objetivo da sessão",
+    "Texto.",
+    "#### Prescrição",
+    "Sem tabela.",
+    "#### Justificativa",
+    "Texto.",
+  ].join("\n"),
+})]));
 assert.equal(badPrescription.some((finding) => finding.ruleId === "aqa-004"), true);
 
 console.log("AQA official rules tests passed.");

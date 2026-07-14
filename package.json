@@ -33,7 +33,10 @@
     "qa:apl:all": "node scripts/apl/audit.mjs --all",
     "qa:apl:rules": "node scripts/apl/audit.mjs --list-rules",
     "qa:apl:contract": "node scripts/apl/rules/rule-contract.test.mjs",
-    "qa:apl:test": "node scripts/apl/tests/rules.test.mjs",
+    "qa:apl:test": "node scripts/apl/tests/rules.test.mjs && node scripts/apl/tests/parser-context.test.mjs && node scripts/apl/tests/sections-context.test.mjs && node scripts/apl/tests/prescriptions-context.test.mjs",
+    "qa:apl:test:parser": "node scripts/apl/tests/parser-context.test.mjs",
+    "qa:apl:test:sections": "node scripts/apl/tests/sections-context.test.mjs",
+    "qa:apl:test:prescriptions": "node scripts/apl/tests/prescriptions-context.test.mjs",
     "qa:apl:baseline": "node scripts/apl/audit.mjs --all --report-format=both",
     "qa:apl:compare": "node scripts/apl/audit.mjs --all --report-format=both"
   },
