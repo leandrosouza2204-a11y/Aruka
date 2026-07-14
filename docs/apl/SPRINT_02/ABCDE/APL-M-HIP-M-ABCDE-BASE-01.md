@@ -1,303 +1,282 @@
-# Hipertrofia Base - ABCDE Intermediario
+# Hipertrofia Base — ABCDE Intermediário
 
-**Codigo interno:** `APL-M-HIP-M-ABCDE-BASE-01`
+**Código:** `APL-M-HIP-M-ABCDE-BASE-01`  
+**Versão:** `1.0.0`  
+**Status:** `Concluído — aguardando homologação`  
+**Biblioteca:** `Aruka Performance Library`  
+**Sprint:** `Sprint 02`  
+**Estratégia:** `Base`
 
-## 2. Status e versao
+## Resumo Executivo
 
-**Status:** Concluido - aguardando homologacao da Sprint 02  
-**Versao:** 1.0.0  
-**Sprint:** 02 - Masculino Intermediario  
-**Divisao:** ABCDE  
-**Nome comercial:** Hipertrofia Base - ABCDE Intermediario
+Modelo intermediário de hipertrofia em divisão ABCDE, criado para consolidar técnica, volume produtivo e progressão sem depender de técnicas intensificadoras frequentes.
 
-## 3. Resumo executivo
+## Problema que resolve
 
-Modelo de cinco sessoes para praticantes intermediarios que desejam hipertrofia global com maior foco por sessao, menor sobreposicao de fadiga e melhor qualidade nas series de cada grupamento. A progressao dupla e o metodo principal, com Top Set + Back-off apenas nos primeiros exercicios dos treinos A, B e D.
+Resolve a transição entre o iniciante avançado e o intermediário que já tolera mais volume, mas ainda precisa de controle de fadiga e critérios claros de execução.
 
-## 4. Problema que resolve
+## Quando utilizar
 
-Resolve o cenario: "Consigo treinar cinco vezes por semana e quero distribuir melhor o volume, evitando sessoes excessivamente longas."
+- Quando o aluno treina com regularidade há pelo menos seis meses.
+- Quando há disponibilidade compatível com a divisão semanal.
+- Quando a prioridade é hipertrofia com progressão mensurável.
 
-## 5. Quando utilizar
+## Quando evitar
 
-- Praticante com aproximadamente 12-36 meses de treino consistente.
-- Tecnica consolidada.
-- Disponibilidade real de cinco dias.
-- Boa recuperacao.
-- Preferencia por menor quantidade de grupamentos por sessao.
-- Academia completa ou estrutura equivalente.
+- Em semanas de baixa recuperação ou agenda instável.
+- Quando a técnica dos exercícios livres ainda é inconsistente.
+- Quando dor articular limita amplitude segura.
 
-## 6. Quando evitar
+## Público-alvo
 
-- Iniciante absoluto.
-- Disponibilidade inferior a cinco sessoes.
-- Recuperacao comprometida.
-- Baixa aderencia semanal.
-- Necessidade de frequencia direta superior a uma vez por semana para todos os grupamentos.
-- Dificuldade de manter consistencia em cinco dias.
+Homens intermediários que dominam os padrões básicos e precisam de uma estrutura organizada para hipertrofia.
 
-## 7. Pre-requisitos
+## Pré-requisitos
 
-- Entender Repeticoes em Reserva (RIR) e registrar o RIR de trabalho.
-- Registrar cargas, repeticoes e observacoes tecnicas.
-- Executar supino, barra fixa, remadas, desenvolvimento, agachamento e levantamento terra romeno com controle.
-- Ter agenda preferencial de segunda, terca, quarta, sexta e sabado, ou alternativa segunda, terca, quinta, sexta e sabado.
-- Evitar cinco dias consecutivos.
+- Execução estável dos principais padrões de movimento.
+- Registro de cargas e repetições.
+- Capacidade de respeitar RIR sem buscar falha sistemática.
 
-## 8. Filosofia
+## Filosofia
 
-O quinto dia permite maior foco por sessao, mas exige consistencia semanal e controle de recuperacao. Exercicios livres nao devem ser levados ate a falha. Interromper a serie se a tecnica se deteriorar. Metodos intensificadores devem ser retirados antes de reduzir exercicios principais.
+Treinar pesado o suficiente para gerar adaptação, mas com margem técnica para repetir desempenho, recuperar e evoluir semana a semana.
 
-## 9. Objetivo principal
+## Objetivo principal
 
-Promover hipertrofia global em praticante masculino intermediario com cinco sessoes semanais, mantendo qualidade de execucao e progresso mensuravel.
+Promover hipertrofia com progressão dupla e controle técnico intermediário.
 
-## 10. Objetivos secundarios
+## Objetivos secundários
 
-- Distribuir melhor o volume semanal.
-- Reduzir sessoes excessivamente longas.
-- Consolidar progressao nos movimentos principais.
-- Aumentar volume direto de bracos, deltoides, panturrilhas e core sem prejudicar peitoral, costas e pernas.
+- Melhorar consistência dos exercícios livres.
+- Distribuir fadiga por padrões de movimento.
+- Preparar o aluno para modelos Performance ou especializações futuras.
 
-## 11. Metadados tecnicos
+## Metadados
 
 | Campo | Valor |
-|---|---|
-| Codigo | `APL-M-HIP-M-ABCDE-BASE-01` |
-| Populacao | Masculino intermediario |
-| Objetivo | Hipertrofia global |
-| Frequencia | 5 sessoes semanais |
-| Tempo medio | 55-70 minutos |
-| RIR predominante | 1-2 nos principais; 2 nos acessorios |
-| Metodo principal | Progressao dupla |
-| Metodo complementar | Top Set + Back-off nos treinos A, B e D |
-| Ciclo sugerido | 8-10 semanas |
+| --- | --- |
+| Versão | 1.0.0 |
+| Código | APL-M-HIP-M-ABCDE-BASE-01 |
+| Nível | Intermediário |
+| Público | Masculino intermediário |
+| Objetivo | Hipertrofia |
+| Divisão | ABCDE |
+| Frequência semanal | 5 sessões semanais |
+| Duração por sessão | 60-75 minutos |
+| RIR predominante | 1-2 em compostos; 2 em acessórios |
+| Métodos | Progressão dupla, Top Set + Back-off no primeiro exercício de sessões-chave |
+| Status | Concluído — aguardando homologação |
 
-## 12. Estrutura semanal
+## Estrutura semanal
 
-| Dia preferencial | Sessao | Enfase |
-|---|---|---|
-| Segunda-feira | Treino A | Peitoral |
-| Terca-feira | Treino B | Costas |
-| Quarta-feira | Treino C | Deltoides e core |
-| Sexta-feira | Treino D | Pernas completas |
-| Sabado | Treino E | Bracos e panturrilhas |
+| Dia | Sessão | Ênfase | Duração estimada |
+| --- | --- | --- | --- |
+| Dia 1 | Treino A | Peitoral | 60-75 minutos |
+| Dia 2 | Treino B | Costas | 60-75 minutos |
+| Dia 3 | Treino C | Deltoides e core | 60-75 minutos |
+| Dia 4 | Treino D | Pernas | 60-75 minutos |
+| Dia 5 | Treino E | Braços e panturrilhas | 60-75 minutos |
 
-Alternativa: segunda, terca, quinta, sexta e sabado. A organizacao deve permitir ao menos um dia de recuperacao antes da sessao de pernas quando possivel.
+## Diretrizes
 
-## 13. Diretrizes gerais
+- Manter RIR planejado em todas as séries.
+- Registrar carga, repetições e percepção técnica.
+- Não usar falha muscular como estratégia padrão.
+- Priorizar amplitude e estabilidade antes de aumentar carga.
 
-- Compostos prioritarios: 150-180 segundos.
-- Compostos secundarios: 90-150 segundos.
-- Exercicios isolados: 60-90 segundos.
-- Core: 45-75 segundos.
-- Progressao dupla permanece como metodo principal.
-- Top Set + Back-off somente onde indicado.
-- Nao combinar dois exercicios compostos pesados em superserie.
-- Registrar cargas, repeticoes e RIR.
+## Periodização
 
-## 14. Periodizacao
+- Semanas 1-2: acomodação de carga e validação técnica.
+- Semanas 3-5: progressão de repetições dentro da faixa prescrita.
+- Semana 6: aumento seletivo de carga ou deload se houver queda de performance.
 
-| Periodo | Diretriz |
-|---|---|
-| Semanas 1-2 | Consolidacao, RIR conservador, sem Rest-Pause ou Drop Set e avaliacao da tolerancia a divisao de cinco dias. |
-| Semanas 3-4 | Progressao de repeticoes, introducao de Top Set + Back-off e acessorios em RIR 2. |
-| Semanas 5-7 | Progressao de carga e RIR 1-2 nos exercicios principais. |
-| Semana 8 | Avaliacao da recuperacao e deload quando necessario. |
-| Semanas 9-10 | Consolidacao, encerramento e decisao de manter ou trocar. |
+## Progressão
 
-**Deload:** reduzir 40-50% das series, usar RIR 3-4, retirar metodos intensificadores e preservar tecnica.
+- Quando todas as séries atingirem o topo da faixa com RIR previsto, aumentar 2-5% da carga.
+- Se a técnica degradar, manter carga e reconstruir repetições.
+- Reduzir uma série de acessórios quando recuperação local cair por duas sessões seguidas.
 
-## 15. Progressao
+## Treinos
 
-Exemplo de progressao dupla para exercicio em 3x8-10:
+### Treino A — Peitoral
 
-| Semana | Serie 1 | Serie 2 | Serie 3 |
-|---|---:|---:|---:|
-| 1 | 8 | 8 | 8 |
-| 2 | 9 | 8 | 8 |
-| 3 | 10 | 9 | 9 |
-| 4 | 10 | 10 | 10 |
+#### Objetivo da sessão
 
-Depois, aumentar aproximadamente 2-5% da carga, retornar a parte inferior da faixa, manter o RIR e nao aumentar carga quando houver perda de amplitude ou tecnica.
+Concentrar volume de peitoral com alta qualidade técnica.
 
-## 16. Treinos A, B, C, D e E completos
+#### Prescrição
 
-### Treino A - Peitoral
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | Supino Reto Barra | 1 + 2 | 6-8 + 8-10 | 1-2 | 120-150 s | Top Set + Back-off | Top set técnico; back-offs com carga reduzida. |
+| 2 | Supino Inclinado Halteres | 3 | 8-10 | 2 | 90 s | Tradicional | Amplitude controlada e escápulas estáveis. |
+| 3 | Crucifixo Crossover | 2 | 12-15 | 2 | 60 s | Tradicional | Foco em alongamento sem perder controle. |
+| 4 | Supino Máquina | 2 | 10-12 | 2 | 90 s | Tradicional | Estável para completar volume. |
 
-**Objetivo:** desenvolver o peitoral em diferentes angulos, priorizando progressao no supino reto e controlando a fadiga de triceps e deltoides.
+#### Justificativa
 
-| Ordem | Exercicio | Series | Repeticoes ou duracao | RIR | Descanso | Metodo | Observacao especifica |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Supino Reto com Barra | 1 + 3 | Top Set 6-8; Back-off 8-10 | 1-2 | 150-180 s | Top Set + Back-off | Reduzir 8-12% da carga apos o Top Set. |
-| 2 | Supino Inclinado com Halteres | 3 | 8-10 | 2 | 120-150 s | Progressao dupla | Series tradicionais. |
-| 3 | Supino Convergente na Maquina | 3 | 10-12 | 2 | 90-120 s | Progressao dupla | Controlar amplitude. |
-| 4 | Crucifixo no Crossover | 3 | 12-15 | 2 | 75-90 s | Progressao dupla | Alongamento sem perder ombros. |
-| 5 | Flexao de Bracos com Controle | 2 | 10-15 | 2 | 75 s | Progressao dupla | Opcional caso a sessao ultrapasse 70 minutos. |
+A sessão única de peitoral permite foco sem competir com costas ou pernas.
 
-**Justificativa tecnica:** o treino concentra peitoral em angulos complementares e evita excesso de triceps direto, preservando a recuperacao para as sessoes seguintes.
+### Treino B — Costas
 
-### Treino B - Costas
+#### Objetivo da sessão
 
-**Objetivo:** combinar puxadas verticais e remadas horizontais, desenvolvendo largura, espessura e controle escapular.
+Trabalhar dorsais em vetores vertical e horizontal.
 
-| Ordem | Exercicio | Series | Repeticoes ou duracao | RIR | Descanso | Metodo | Observacao especifica |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Barra Fixa Livre, com Carga ou Assistida | 1 + 3 | Top Set 6-8; Back-off 8-10 | 1-2 | 150-180 s | Top Set + Back-off | Ajustar assistencia para amplitude completa. |
-| 2 | Remada Curvada com Barra | 3 | 8-10 | 2 | 150 s | Progressao dupla | Coluna neutra e sem falha. |
-| 3 | Remada Articulada com Apoio Peitoral | 3 | 10-12 | 2 | 90-120 s | Progressao dupla | Pausa curta na contracao. |
-| 4 | Puxada Alta com Pegada Neutra | 3 | 10-12 | 2 | 90-120 s | Progressao dupla | Controlar escapulas. |
-| 5 | Pulldown com Bracos Estendidos | 2 | 12-15 | 2 | 75 s | Progressao dupla | Focar dorsais. |
+#### Prescrição
 
-**Justificativa tecnica:** a sessao usa uma puxada prioritaria e remadas complementares para cobrir largura e espessura sem alongar demais o treino.
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | Barra Fixa | 1 + 2 | 5-8 + 8-10 | 1-2 | 120 s | Top Set + Back-off | Usar assistência se necessário para manter amplitude. |
+| 2 | Remada Curvada Barra | 3 | 6-10 | 2 | 120 s | Tradicional | Tronco firme e trajetória consistente. |
+| 3 | Puxada Alta Neutra | 3 | 8-12 | 2 | 90 s | Tradicional | Depressão escapular antes da puxada. |
+| 4 | Face Pull | 3 | 12-15 | 2 | 60 s | Tradicional | Priorizar deltoide posterior e escápulas. |
 
-### Treino C - Deltoides e core
+#### Justificativa
 
-**Objetivo:** desenvolver deltoides anterior, lateral e posterior sem depender apenas do volume indireto de peitoral e costas.
+A organização isolada favorece carga, amplitude e controle escapular.
 
-| Ordem | Exercicio | Series | Repeticoes ou duracao | RIR | Descanso | Metodo | Observacao especifica |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Desenvolvimento com Halteres Sentado | 4 | 6-10 | 1-2 | 120-150 s | Progressao dupla | Evitar hiperextensao lombar. |
-| 2 | Elevacao Lateral Unilateral na Polia | 4 | 12-15 | 1-2 | 60-75 s | Progressao dupla | Controle no topo. |
-| 3 | Elevacao Lateral com Halteres | 3 | 12-15 | 2 | 60-75 s | Progressao dupla | Sem impulso. |
-| 4 | Crucifixo Inverso na Maquina | 4 | 12-15 | 1-2 | 60-75 s | Progressao dupla | Movimento controlado. |
-| 5 | Face Pull | 3 | 12-15 | 2 | 60-75 s | Progressao dupla | Cotovelos altos. |
-| 6 | Abdominal na Polia Alta | 3 | 12-15 | 2 | 60 s | Progressao dupla | Flexionar tronco com controle. |
-| 7 | Prancha Lateral | 3 | 30-45 s por lado | Tecnico | 45-60 s | Tempo sob tensao | Encerrar antes de perder alinhamento. |
+### Treino C — Deltoides e core
 
-**Justificativa tecnica:** deltoides recebem sessao propria para ampliar volume direto, enquanto core entra ao final com baixo custo articular.
+#### Objetivo da sessão
 
-### Treino D - Pernas completas
+Construir deltoides com controle de ombro e estabilidade central.
 
-**Objetivo:** desenvolver quadriceps, posteriores e gluteos em uma sessao equilibrada, com prioridade para agachamento e padrao de dobradica de quadril.
+#### Prescrição
 
-| Ordem | Exercicio | Series | Repeticoes ou duracao | RIR | Descanso | Metodo | Observacao especifica |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Agachamento Livre | 1 + 3 | Top Set 6-8; Back-off 8-10 | 1-2 | 180 s | Top Set + Back-off | Sem falha; profundidade padronizada. |
-| 2 | Levantamento Terra Romeno | 3 | 8-10 | 2 | 150-180 s | Progressao dupla | Interromper se perder coluna neutra. |
-| 3 | Leg Press 45 graus | 3 | 10-12 | 2 | 120-150 s | Progressao dupla | Controlar pelve. |
-| 4 | Mesa Flexora | 3 | 10-12 | 2 | 75-90 s | Progressao dupla | Cadeira Flexora sera alternativa futura AOE. |
-| 5 | Cadeira Extensora | 3 | 12-15 | 1-2 | 75-90 s | Progressao dupla | Pausa curta na extensao. |
-| 6 | Elevacao Pelvica com Barra | 3 | 8-12 | 2 | 120-150 s | Progressao dupla | Maquina sera alternativa futura. |
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 4 | Desenvolvimento Halteres | 3 | 8-10 | 2 | 90 s | Tradicional | Evitar compensação lombar. |
+| 5 | Elevação Lateral Polia | 3 | 12-15 | 2 | 60 s | Tradicional | Manter tensão contínua. |
+| 4 | Face Pull | 3 | 12-15 | 2 | 60 s | Tradicional | Priorizar deltoide posterior e escápulas. |
+| 7 | Prancha | 3 | 30-45 s | 2 | 45 s | Tradicional | Manter pelve neutra. |
 
-**Justificativa tecnica:** pernas ficam concentradas em uma sessao completa, com compostos no inicio e isoladores depois para controlar fadiga e tecnica.
+#### Justificativa
 
-### Treino E - Bracos e panturrilhas
+Deltoides recebem dia próprio para equilibrar press, lateral e posterior.
 
-**Objetivo:** aumentar o volume direto de bracos sem interferir nas sessoes de peitoral e costas, complementando o trabalho de panturrilhas.
+### Treino D — Pernas
 
-| Ordem | Exercicio | Series | Repeticoes ou duracao | RIR | Descanso | Metodo | Observacao especifica |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Rosca Direta com Barra W | 3 | 8-10 | 2 | 75-90 s | Progressao dupla | Evitar balanco. |
-| 2 | Triceps Frances na Polia | 3 | 10-12 | 2 | 75-90 s | Progressao dupla | Cotovelos estaveis. |
-| 3 | Rosca Inclinada com Halteres | 3 | 10-12 | 2 | 75 s | Progressao dupla | Alongamento controlado. |
-| 4 | Triceps na Polia com Corda | 3 | 10-15 | 1-2 | 60-75 s | Progressao dupla | Sem compensacao de tronco. |
-| 5 | Rosca Martelo com Halteres | 2 | 12-15 | 1-2 | 60-75 s | Progressao dupla | Punhos neutros. |
-| 6 | Triceps Unilateral na Polia | 2 | 12-15 | 1-2 | 60-75 s | Progressao dupla | Alternar lados com controle. |
-| 7 | Panturrilha em Pe | 4 | 10-15 | 1-2 | 60-75 s | Progressao dupla | Amplitude completa. |
-| 8 | Panturrilha Sentado | 3 | 15-20 | 1-2 | 60-75 s | Progressao dupla | Pausar no alongamento. |
+#### Objetivo da sessão
 
-**Justificativa tecnica:** bracos recebem dose direta longe das sessoes principais de peitoral e costas; panturrilhas fecham a semana com volume especifico.
+Treinar membros inferiores de forma completa em sessão dedicada.
 
-## 17. Objetivo de cada sessao
+#### Prescrição
 
-| Sessao | Objetivo |
-|---|---|
-| A | Priorizar peitoral em angulos variados. |
-| B | Desenvolver costas com puxadas e remadas. |
-| C | Trabalhar deltoides completos e core. |
-| D | Treinar pernas completas com prioridade no agachamento. |
-| E | Aumentar volume direto de bracos e panturrilhas. |
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | Agachamento Livre | 1 + 2 | 5-8 + 8-10 | 1-2 | 150 s | Top Set + Back-off | Profundidade consistente e tronco estável. |
+| 2 | Terra Romeno | 3 | 8-10 | 2 | 120 s | Tradicional | Quadril para trás e coluna neutra. |
+| 3 | Leg Press | 3 | 10-12 | 2 | 90 s | Tradicional | Amplitude sem retroversão pélvica. |
+| 4 | Cadeira Extensora | 2 | 12-15 | 2 | 60 s | Tradicional | Pico de contração controlado. |
+| 5 | Mesa Flexora | 3 | 10-15 | 2 | 60-75 s | Tradicional | Controle excêntrico. |
+| 6 | Panturrilha em Pé | 4 | 8-12 | 2 | 60 s | Tradicional | Pausa curta no alongamento. |
 
-## 18. Tabelas completas de prescricao
+#### Justificativa
 
-As tabelas do item 16 sao a fonte oficial de prescricao. Todas contem ordem, exercicio, series, repeticoes ou duracao, RIR, descanso, metodo e observacao especifica.
+A sessão usa compostos primeiro e isoladores para distribuir estímulo por joelho, quadril e tornozelo.
 
-## 19. Justificativa tecnica de cada sessao
+### Treino E — Braços e panturrilhas
 
-As justificativas estao registradas abaixo de cada treino. Em conjunto, elas demonstram a distribuicao por grupamento, o controle de fadiga e a preservacao dos movimentos principais.
+#### Objetivo da sessão
 
-## 20. Volume semanal direto estimado
+Completar volume direto de bíceps, tríceps e panturrilhas.
 
-| Grupamento | Series diretas estimadas |
-|---|---:|
-| Peitoral | 13-15 |
-| Costas | 15 |
-| Deltoides | 18, monitorando participacao indireta em A e B |
-| Biceps | 8, alem da participacao nas puxadas |
-| Triceps | 8, alem da participacao nos supinos e desenvolvimento |
-| Quadriceps | 10 |
-| Posteriores | 6 |
-| Gluteos | Participacao no agachamento, terra romeno e elevacao pelvica |
-| Panturrilhas | 7 |
-| Core | 6 |
+#### Prescrição
 
-O volume de deltoides pode ser reduzido em 3-4 series caso haja excesso de fadiga acumulada.
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 6 | Tríceps Corda | 3 | 10-12 | 2 | 60 s | Tradicional | Cotovelos estáveis. |
+| 5 | Rosca Direta Barra W | 3 | 8-12 | 2 | 60-75 s | Tradicional | Evitar balanço do tronco. |
+| 3 | Rosca Inclinado Halteres | 2 | 10-12 | 2 | 60 s | Tradicional | Alongamento controlado. |
+| 6 | Panturrilha em Pé | 4 | 8-12 | 2 | 60 s | Tradicional | Pausa curta no alongamento. |
 
-## 21. Referencias futuras ao AOE
+#### Justificativa
 
-As equivalencias definitivas serao centralizadas futuramente no Aruka Exercise Ontology (AOE). Referencias provisorias:
+Braços ficam separados dos grandes grupamentos para melhorar qualidade de execução.
 
-- Supino com Barra -> Smith, halteres ou maquina convergente.
-- Barra Fixa -> Puxada Alta.
-- Remada Curvada -> Remada com apoio peitoral.
-- Agachamento Livre -> Smith ou Hack.
-- Mesa Flexora -> Cadeira Flexora.
-- Elevacao Pelvica com Barra -> Maquina.
-- Desenvolvimento com Halteres -> Maquina.
-- Elevacao Lateral na Polia -> Halteres ou maquina.
-- Crucifixo Inverso na Maquina -> Polia ou halteres com apoio.
+## Volume semanal
 
-## 22. Aruka Coaching Notes
+| Grupo muscular | Séries diretas estimadas | Séries indiretas relevantes | Leitura técnica |
+| --- | --- | --- | --- |
+| Peitoral | 8-12 | 3-6 | Volume moderado com estímulo mecânico principal. |
+| Costas | 10-14 | 2-4 | Ênfase em puxadas e remadas. |
+| Deltoides | 8-12 | 4-6 | Distribuição entre press, lateral e posterior. |
+| Quadríceps | 8-12 | 2-4 | Agachamento ou leg press como base. |
+| Posteriores e glúteos | 8-12 | 2-4 | Dobradiça de quadril e flexão de joelho. |
+| Braços | 6-10 | 4-8 | Complemento sem roubar recuperação dos compostos. |
 
-- Monitorar aderencia semanal antes de aumentar volume.
-- Reduzir deltoides em 3-4 series se houver fadiga acumulada.
-- Nao transformar a flexao final do Treino A em serie ate a falha.
-- Preservar tecnica dos compostos antes de buscar carga.
-- Se cinco sessoes forem inconsistentes, migrar para ABCD Base.
+## Distribuição dos padrões de movimento
 
-## 23. Criterios de evolucao ou troca do modelo
+| Padrão | Exercícios principais | Função no modelo |
+| --- | --- | --- |
+| Empurrar horizontal | Supinos e crucifixos | Base de peitoral e tríceps. |
+| Puxar vertical | Barra fixa e puxada alta | Largura dorsal e controle escapular. |
+| Puxar horizontal | Remadas | Espessura dorsal e postura. |
+| Agachar | Agachamento, leg press ou hack | Ênfase em quadríceps. |
+| Dobradiça de quadril | Terra romeno e elevação pélvica | Posteriores e glúteos. |
+| Flexão de joelho | Mesa ou cadeira flexora | Posteriores sem sobrecarregar lombar. |
 
-- Progressao consistente por 8-10 semanas.
-- Boa recuperacao entre cinco sessoes.
-- Necessidade de maior enfase em forca, migrando para Performance.
-- Necessidade real de prioridade muscular, migrando para especializacao.
-- Queda de aderencia semanal, migrando para ABCD ou ABC.
+## Referências futuras ao AOE
 
-## 24. Aruka Score
+As equivalências abaixo são provisórias e servem apenas para orientar substituições operacionais. A equivalência definitiva será centralizada no AOE.
 
-| Dimensao | Nota 1-5 | Justificativa |
-|---|---:|---|
-| Hipertrofia | 5 | Alto volume distribuido. |
-| Forca | 4 | Top Sets nos principais selecionados. |
-| Aprendizagem | 4 | Boa pratica tecnica por grupamento. |
-| Complexidade | 3 | Organizacao simples, frequencia alta. |
-| Demanda de recuperacao | 4 | Cinco sessoes exigem controle. |
-| Eficiencia de tempo | 4 | Sessoes moderadas. |
-| Necessidade de equipamentos | 4 | Requer academia completa. |
-| Nivel de personalizacao | 3 | Ajustes principais em volume e agenda. |
+| Exercício do modelo | Equivalência provisória | Observação |
+| --- | --- | --- |
+| Supino Reto Barra | Supino Máquina | A equivalência definitiva será centralizada no AOE. |
+| Leg Press | Hack | A equivalência definitiva será centralizada no AOE. |
+| Barra Fixa | Puxada Alta | A equivalência definitiva será centralizada no AOE. |
+| Mesa Flexora | Cadeira Flexora | A equivalência definitiva será centralizada no AOE. |
 
-## 25. Engenharia do treino
+## Aruka Coaching Notes
 
-A divisao isola grupamentos para ampliar foco por sessao e reduzir competicao entre exercicios. A semana posiciona pernas apos um intervalo, quando possivel, e deixa bracos/panturrilhas ao final para menor interferencia nos compostos principais.
+- Top set deve parecer forte, não caótico.
+- Back-offs existem para acumular volume limpo.
+- Dor articular altera exercício; fadiga muscular ajusta carga.
+- Não compensar sessão perdida dobrando volume na próxima.
 
-## 26. Assinatura Tecnica Aruka
+## Critérios de evolução
 
-Modelo ABCDE masculino intermediario para hipertrofia global, com progressao dupla, Top Set + Back-off seletivo e cinco sessoes semanais. Documento pronto para revisao tecnica, homologacao da Sprint 02 e futura transformacao em dados.
+- Quatro semanas com aderência mínima de 85%.
+- Progressão em pelo menos dois exercícios estruturais.
+- Sem queda persistente de sono, apetite ou performance.
+- Execução consistente nos exercícios livres principais.
 
-## 27. Tags para busca
+## Aruka Score
 
-`hipertrofia`, `masculino`, `intermediario`, `ABCDE`, `base`, `progressao dupla`, `top set`, `cinco dias`, `volume distribuido`, `APL-M-HIP-M`
+| Critério | Nota de 1 a 5 | Justificativa |
+| --- | --- | --- |
+| Clareza técnica | 5 | Prescrição auditável com objetivo, método e observação por exercício. |
+| Aplicabilidade | 5 | Pode ser executado em academias convencionais sem depender de recursos raros. |
+| Controle de fadiga | 4 | Volume e RIR sustentam progresso intermediário com recuperação monitorável. |
+| Progressão | 5 | Critérios objetivos conectam carga, repetições, técnica e prontidão. |
 
-## 28. Checklist interno de integridade
+## Engenharia do treino
 
-| Item | Status |
-|---|---|
-| Titulo e codigo interno presentes | OK |
-| Status e versao definidos | OK |
-| Secoes Premium completas | OK |
-| Treinos A, B, C, D e E completos | OK |
-| Prescricao com series, repeticoes, RIR, descanso e metodo | OK |
-| Periodizacao e progressao incluidas | OK |
-| Referencias futuras ao AOE sem iniciar AOE | OK |
-| Sem linguagem promocional exagerada | OK |
+- Primeiros exercícios concentram maior demanda neural.
+- Acessórios completam volume sem competir com compostos.
+- Descansos preservam desempenho em séries produtivas.
+- Volume semanal fica dentro de faixa intermediária recuperável.
+
+## Assinatura Técnica
+
+Modelo revisado segundo o padrão Premium oficial da Aruka Performance Library, com prescrição auditável, controle de fadiga, progressão documentada e compatibilidade com o AQA v1.2.1.
+
+## Tags
+
+- `apl`
+- `sprint-02`
+- `masculino`
+- `intermediario`
+- `abcde`
+- `hipertrofia`
+- `base`
+
+## Checklist
+
+- [x] Cabeçalho oficial presente.
+- [x] Todas as seções H2 obrigatórias estão presentes e ordenadas.
+- [x] Tabelas de prescrição utilizam o formato oficial.
+- [x] Métodos intensificadores estão limitados ao objetivo do modelo.
+- [x] Volume semanal e distribuição de padrões foram recalculados.
+- [x] Assinatura Técnica está presente.

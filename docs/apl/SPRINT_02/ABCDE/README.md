@@ -1,32 +1,44 @@
-# Sprint 02 - ABCDE Masculino Intermediario
+# Sprint 02 — ABCDE Intermediário
 
-Este diretorio contem os tres modelos ABCDE da Sprint 02 da Aruka Performance Library (APL), voltados ao publico masculino intermediario em hipertrofia. O quinto dia aumenta o foco por sessao, reduz a sobreposicao de fadiga e exige alta aderencia semanal, boa recuperacao e capacidade de registrar cargas, repeticoes e Repeticoes em Reserva (RIR).
+**Status:** Concluído — aguardando homologação
 
-Status do bloco ABCDE: **Concluido - aguardando homologacao da Sprint 02**.
+## Conceito
 
-## Publico
+A divisão ABCDE organiza a hipertrofia intermediária em sessões com maior especificidade que a Sprint 01, preservando controle de fadiga, progressão auditável e margem técnica.
 
-Praticantes intermediarios com tecnica consolidada, disponibilidade real para cinco sessoes semanais e preferencia por treinos com menor quantidade de grupamentos por sessao. A agenda preferencial e segunda, terca, quarta, sexta e sabado; a alternativa e segunda, terca, quinta, sexta e sabado. Evitar cinco dias consecutivos.
+## Quando utilizar
 
-## Arquivos
+- Quando o aluno já domina os padrões básicos.
+- Quando há aderência semanal compatível com a frequência do bloco.
+- Quando o objetivo é progredir volume, carga e densidade sem iniciar especializações avançadas.
 
-| Arquivo | Modelo | Status |
-|---|---|---|
-| `APL-M-HIP-M-ABCDE-BASE-01.md` | Hipertrofia Base - ABCDE Intermediario | Concluido - aguardando homologacao da Sprint 02 |
-| `APL-M-HIP-M-ABCDE-PERF-01.md` | Hipertrofia Performance - ABCDE Intermediario | Concluido - aguardando homologacao da Sprint 02 |
-| `APL-M-HIP-M-ABCDE-ESP-DELTS-01.md` | Hipertrofia Especializacao em Deltoides - ABCDE Intermediario | Concluido - aguardando homologacao da Sprint 02 |
+## Vantagens
 
-## Comparacao entre modelos
+- Maior precisão de estímulo por grupo muscular.
+- Melhor distribuição de fadiga ao longo da semana.
+- Transição clara entre Base, Performance, Eficiência e especializações.
 
-| Criterio | Base | Performance | Especializacao Deltoides |
-|---|---|---|---|
-| Aplicacao | Evolucao global | Forca e hipertrofia | Prioridade de deltoides |
-| Tempo | 55-70 min | 60-80 min | 55-75 min |
-| Complexidade | Moderada | Moderada-alta | Alta |
-| Frequencia direta | 1x por grupo | 1-2x conforme grupo | 3 exposicoes de deltoides |
-| Metodos | Progressao dupla | Top Set e Rest-Pause | Top Set e Drop Set |
-| Personalizacao | Media | Media-alta | Alta |
+## Limitações
 
-## Convencao de codigo
+- Exige registro de treino e recuperação consistente.
+- Não substitui avaliação técnica presencial.
+- Pode perder eficácia quando a frequência semanal não é cumprida.
 
-`APL-M-HIP-M` preserva a convencao atual: o primeiro `M` representa Masculino, `HIP` representa Hipertrofia e o segundo `M` representa Intermediario. `ABCDE` identifica a divisao e `ESP-DELTS` identifica a especializacao em deltoides.
+## Perfil do aluno
+
+Aluno masculino intermediário, com experiência mínima em exercícios livres, capacidade de autorregular RIR e disponibilidade para seguir planejamento semanal.
+
+## Comparação dos modelos
+
+| Modelo | Melhor uso | Métodos | Duração típica | Observação |
+| --- | --- | --- | --- | --- |
+| Base | Alta especificidade semanal | Progressão dupla | 60-75 min | Exige cinco dias |
+| Performance | Sessões densas e específicas | Top Set seletivo e intensificador pontual | 60-75 min | Preparação avançada |
+| Especialização Deltoides | Prioridade em deltoides | Finalizador local controlado | 60-75 min | Monitorar ombro |
+
+## Critérios para homologação humana
+
+- Modelos lidos integralmente por revisor técnico.
+- Prescrição compatível com o objetivo do bloco.
+- AQA sem blockers, errors ou warnings antes da liberação.
+- Status final mantido como aguardando homologação até revisão humana.

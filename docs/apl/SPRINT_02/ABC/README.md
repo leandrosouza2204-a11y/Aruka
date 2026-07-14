@@ -1,34 +1,44 @@
-# Sprint 02 - ABC Masculino Intermediario
+# Sprint 02 — ABC Intermediário
 
-Este diretorio contem os tres modelos ABC da Sprint 02 da Aruka Performance Library (APL), voltados ao publico masculino intermediario em hipertrofia. Os modelos foram estruturados em formato Premium, com prescricoes completas, criterios de evolucao e campos preparados para futura conversao em dados do sistema.
+**Status:** Concluído — aguardando homologação
 
-Status do bloco ABC: **Concluido - aguardando homologacao da Sprint 02**.
+## Conceito
 
-## Publico
+A divisão ABC organiza a hipertrofia intermediária em sessões com maior especificidade que a Sprint 01, preservando controle de fadiga, progressão auditável e margem técnica.
 
-Praticantes intermediarios que ja dominam os principais padroes da musculacao, toleram volume moderado, registram cargas com consistencia e conseguem treinar tres vezes por semana com recuperacao adequada.
+## Quando utilizar
 
-## Comparacao entre modelos
+- Quando o aluno já domina os padrões básicos.
+- Quando há aderência semanal compatível com a frequência do bloco.
+- Quando o objetivo é progredir volume, carga e densidade sem iniciar especializações avançadas.
 
-O modelo Base prioriza evolucao global equilibrada. O Performance aumenta a demanda tecnica e a enfase em forca aplicada a hipertrofia. O Eficiencia preserva os movimentos prioritarios em sessoes mais curtas, usando superseries apenas em acessorios.
+## Vantagens
 
-| Criterio | Base | Performance | Eficiencia |
-|---|---|---|---|
-| Aplicacao | Evolucao global | Forca e hipertrofia | Pouco tempo |
-| Tempo | 65-75 min | 70-80 min | 45-55 min |
-| Complexidade | Moderada | Moderada-alta | Moderada |
-| Metodo principal | Progressao dupla | Top Set + Rest-Pause seletivo | Superseries |
-| Pesos livres | Alto | Muito alto | Moderado-alto |
-| Personalizacao | Media | Media-alta | Media |
+- Maior precisão de estímulo por grupo muscular.
+- Melhor distribuição de fadiga ao longo da semana.
+- Transição clara entre Base, Performance, Eficiência e especializações.
 
-## Arquivos
+## Limitações
 
-| Arquivo | Modelo | Status |
-|---|---|---|
-| `APL-M-HIP-M-ABC-BASE-01.md` | Hipertrofia Base - Intermediario | Concluido - aguardando homologacao da Sprint 02 |
-| `APL-M-HIP-M-ABC-PERF-01.md` | Hipertrofia Performance - Intermediario | Concluido - aguardando homologacao da Sprint 02 |
-| `APL-M-HIP-M-ABC-EFI-01.md` | Hipertrofia Eficiencia - Intermediario | Concluido - aguardando homologacao da Sprint 02 |
+- Exige registro de treino e recuperação consistente.
+- Não substitui avaliação técnica presencial.
+- Pode perder eficácia quando a frequência semanal não é cumprida.
 
-## Observacao tecnica
+## Perfil do aluno
 
-A convencao `APL-M-HIP-M` foi preservada: o primeiro `M` representa Masculino e o segundo `M` representa Intermediario.
+Aluno masculino intermediário, com experiência mínima em exercícios livres, capacidade de autorregular RIR e disponibilidade para seguir planejamento semanal.
+
+## Comparação dos modelos
+
+| Modelo | Melhor uso | Métodos | Duração típica | Observação |
+| --- | --- | --- | --- | --- |
+| Base | Consolidação técnica | Progressão dupla | 60-75 min | Referência de entrada |
+| Performance | Preparação para maior demanda | Top Set seletivo e intensificador pontual | 65-80 min | Mais pesos livres |
+| Eficiência | Treinos curtos | Superséries entre acessórios | 40-50 min | Volume mínimo efetivo |
+
+## Critérios para homologação humana
+
+- Modelos lidos integralmente por revisor técnico.
+- Prescrição compatível com o objetivo do bloco.
+- AQA sem blockers, errors ou warnings antes da liberação.
+- Status final mantido como aguardando homologação até revisão humana.

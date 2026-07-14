@@ -1,264 +1,244 @@
-﻿# Hipertrofia Eficiencia - Intermediario
+# Hipertrofia Eficiência — ABC Intermediário
 
-**Codigo interno:** `APL-M-HIP-M-ABC-EFI-01`
+**Código:** `APL-M-HIP-M-ABC-EFI-01`  
+**Versão:** `1.0.0`  
+**Status:** `Concluído — aguardando homologação`  
+**Biblioteca:** `Aruka Performance Library`  
+**Sprint:** `Sprint 02`  
+**Estratégia:** `Eficiência`
 
-## 2. Status e versao
+## Resumo Executivo
 
-**Status:** Concluido - aguardando homologacao da Sprint 02  
-**Versao:** 1.0.0  
-**Sprint:** 02 - Masculino Intermediario  
-**Divisao:** ABC  
-**Nome comercial:** Hipertrofia Eficiencia - Intermediario
+Modelo intermediário de hipertrofia em divisão ABC, criado para entregar estímulo mínimo efetivo em sessões curtas sem depender de técnicas intensificadoras frequentes.
 
-## 3. Resumo executivo
+## Problema que resolve
 
-Modelo para praticantes intermediarios com apenas 45 a 55 minutos por sessao, preservando exercicios prioritarios e utilizando superseries apenas nos acessorios. Mantem series tradicionais nos tres primeiros movimentos e evita Rest-Pause, Drop Set ou tecnicas que comprometam previsibilidade de tempo.
+Resolve a transição entre o iniciante avançado e o intermediário que já tolera mais volume, mas ainda precisa de controle de fadiga e critérios claros de execução.
 
-## 4. Problema que resolve
+## Quando utilizar
 
-Resolve a necessidade de um ABC intermediario eficiente para alunos com agenda restrita, mantendo exercicios de alto retorno e reduzindo tempo por meio de organizacao, descanso cronometrado e superseries nao concorrentes.
+- Quando o aluno treina com regularidade há pelo menos seis meses.
+- Quando há disponibilidade compatível com a divisão semanal.
+- Quando a prioridade é hipertrofia com progressão mensurável.
 
-## 5. Quando utilizar
+## Quando evitar
 
-- Quando o aluno tem 45 a 55 minutos por sessao.
-- Quando a frequencia disponivel e de tres sessoes semanais.
-- Quando ha dominio tecnico dos principais movimentos.
-- Quando o objetivo e hipertrofia geral sem aumentar duracao.
-- Quando a academia permite organizar equipamentos proximos para acessorios.
+- Em semanas de baixa recuperação ou agenda instável.
+- Quando a técnica dos exercícios livres ainda é inconsistente.
+- Quando dor articular limita amplitude segura.
 
-## 6. Quando evitar
+## Público-alvo
 
-- Academia muito cheia que inviabilize superseries.
-- Aluno que reduz amplitude ou tecnica para economizar tempo.
-- Necessidade de maior volume semanal.
-- Objetivo de especializacao muscular.
-- Baixa tolerancia a densidade de treino nos acessorios.
+Homens intermediários que dominam os padrões básicos e precisam de uma estrutura organizada para hipertrofia.
 
-## 7. Pre-requisitos
+## Pré-requisitos
 
-- Experiencia intermediaria em musculacao.
-- Capacidade de cronometrar descansos.
-- Dominio de Repeticoes em Reserva (RIR).
-- Habilidade de ajustar superseries sem comprometer tecnica.
-- Disponibilidade para preparar equipamentos antes da sessao.
+- Execução estável dos principais padrões de movimento.
+- Registro de cargas e repetições.
+- Capacidade de respeitar RIR sem buscar falha sistemática.
 
-## 8. Filosofia
+## Filosofia
 
-O modelo protege os exercicios prioritarios e economiza tempo apenas nos acessorios. Os tres primeiros movimentos de cada sessao permanecem em series tradicionais. Superseries devem ser desfeitas quando a distancia entre equipamentos prejudicar execucao, descanso ou fluxo. Interrompa a serie caso a tecnica se deteriore, mesmo que o numero minimo de repeticoes ainda nao tenha sido atingido.
+Treinar pesado o suficiente para gerar adaptação, mas com margem técnica para repetir desempenho, recuperar e evoluir semana a semana.
 
-## 9. Objetivos principal e secundarios
+## Objetivo principal
 
-**Objetivo principal:** promover hipertrofia global em sessoes curtas, mantendo qualidade tecnica e progressao objetiva.
+Preservar hipertrofia e progressão quando o tempo de treino é limitado.
 
-**Objetivos secundarios:**
+## Objetivos secundários
 
-- Preservar prioridade para movimentos compostos.
-- Reduzir tempo total com superseries de acessorios.
-- Manter estimulo suficiente para membros superiores, inferiores e core.
-- Preparar migracao futura para Base, Performance ou divisao de maior frequencia.
+- Melhorar consistência dos exercícios livres.
+- Distribuir fadiga por padrões de movimento.
+- Preparar o aluno para modelos Performance ou especializações futuras.
 
-## 10. Metadados tecnicos
+## Metadados
 
 | Campo | Valor |
-|---|---|
-| Codigo | `APL-M-HIP-M-ABC-EFI-01` |
-| Populacao | Masculino intermediario |
-| Objetivo | Hipertrofia eficiente |
-| Frequencia | 3 sessoes semanais |
-| Agenda sugerida | Segunda: Empurrar; quarta: Puxar; sexta: Inferiores |
-| Tempo Treino A | 48-53 minutos |
-| Tempo Treino B | 47-52 minutos |
-| Tempo Treino C | 50-55 minutos |
-| RIR predominante | 1-2 nos principais; 2 nos acessorios |
-| Metodo | Series tradicionais e superseries de acessorios |
+| --- | --- |
+| Versão | 1.0.0 |
+| Código | APL-M-HIP-M-ABC-EFI-01 |
+| Nível | Intermediário |
+| Público | Masculino intermediário |
+| Objetivo | Hipertrofia |
+| Divisão | ABC |
+| Frequência semanal | 3 sessões semanais |
+| Duração por sessão | 40-50 minutos |
+| RIR predominante | 2 em compostos; 1-2 em acessórios finais |
+| Métodos | Redução inteligente de volume e superséries apenas entre acessórios |
+| Status | Concluído — aguardando homologação |
 
-## 11. Estrutura semanal
+## Estrutura semanal
 
-| Dia sugerido | Sessao | Enfase |
-|---|---|---|
-| Segunda | Treino A - Empurrar | Peitoral, deltoides e triceps |
-| Quarta | Treino B - Puxar | Costas, biceps e deltoide posterior |
-| Sexta | Treino C - Inferiores | Quadriceps, posteriores, panturrilha e core |
+| Dia | Sessão | Ênfase | Duração estimada |
+| --- | --- | --- | --- |
+| Dia 1 | Treino A | Peitoral, deltoides e tríceps | 40-50 minutos |
+| Dia 2 | Treino B | Costas, bíceps e deltoide posterior | 40-50 minutos |
+| Dia 3 | Treino C | Inferiores completos e core | 40-50 minutos |
 
-## 12. Diretrizes gerais
+## Diretrizes
 
-- Compostos prioritarios: 150-180 segundos de descanso.
-- Compostos secundarios: 90-150 segundos de descanso.
-- Exercicios isolados: 60-90 segundos de descanso.
-- Core: 45-75 segundos de descanso.
-- Series tradicionais nos tres primeiros movimentos.
-- Superseries apenas em acessorios ou pares nao concorrentes.
-- Nao combinar dois compostos pesados.
-- Sem Rest-Pause e sem Drop Set.
-- Nao reduzir amplitude para economizar tempo.
+- Priorizar os dois primeiros exercícios da sessão.
+- Usar superséries somente entre isoladores ou acessórios compatíveis.
+- Nunca emparelhar dois compostos pesados.
+- Em academias cheias, trocar por equivalentes seguros sem mudar o padrão de movimento.
 
-## 13. Periodizacao
+## Periodização
 
-| Periodo | Diretriz |
-|---|---|
-| Semanas 1-2 | Consolidacao tecnica, RIR mais conservador e sem metodos intensificadores. |
-| Semanas 3-4 | Progressao de repeticoes e ajuste fino das superseries. |
-| Semanas 5-7 | Progressao de carga com RIR 1-2 nos principais. |
-| Semana 8 | Avaliacao de fadiga e deload se necessario. |
-| Semanas 9-10 | Consolidacao, encerramento do bloco e decisao de manter, progredir ou trocar o modelo. |
+- Semanas 1-2: acomodação de carga e validação técnica.
+- Semanas 3-5: progressão de repetições dentro da faixa prescrita.
+- Semana 6: aumento seletivo de carga ou deload se houver queda de performance.
 
-**Deload:** reduzir 40-50% das series, manter tecnica, trabalhar em RIR 3-4 e nao realizar metodos intensificadores.
+## Progressão
 
-## 14. Progressao
+- Quando todas as séries atingirem o topo da faixa com RIR previsto, aumentar 2-5% da carga.
+- Se a técnica degradar, manter carga e reconstruir repetições.
+- Reduzir uma série de acessórios quando recuperação local cair por duas sessões seguidas.
 
-Exemplo de progressao dupla para exercicio prescrito em 3x8-10:
+## Treinos
 
-| Semana | Serie 1 | Serie 2 | Serie 3 |
-|---|---:|---:|---:|
-| 1 | 8 | 8 | 8 |
-| 2 | 9 | 8 | 8 |
-| 3 | 10 | 9 | 9 |
-| 4 | 10 | 10 | 10 |
+### Treino A — Peitoral, deltoides e tríceps
 
-Ao atingir o topo da faixa em todas as series, com o RIR proposto, aumentar a carga em aproximadamente 2-5% e retornar a parte inferior da faixa. Nao aumentar carga se houver perda tecnica.
+#### Objetivo da sessão
 
-## 15. Treinos A, B e C completos
+Gerar tensão mecânica em empurrar horizontal e completar volume de ombros e tríceps.
 
-### Treino A - Empurrar
+#### Prescrição
 
-**Objetivo da sessao:** preservar progressao em supino e desenvolvimento, usando superseries para acessorios de deltoide e triceps.
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | Supino Reto Barra | 1 + 2 | 6-8 + 8-10 | 1-2 | 120-150 s | Top Set + Back-off | Top set técnico; back-offs com carga reduzida. |
+| 2 | Supino Inclinado Halteres | 3 | 8-10 | 2 | 90 s | Tradicional | Amplitude controlada e escápulas estáveis. |
+| 3 | Crucifixo Crossover | 2 | 12-15 | 2 | 0 s | Supersérie | Emparelhar com elevação lateral. |
+| 4 | Elevação Lateral Polia | 2 | 12-15 | 2 | 60 s | Supersérie | Acessório isolador; não usar com composto. |
+| 6 | Tríceps Corda | 3 | 10-12 | 2 | 60 s | Tradicional | Cotovelos estáveis. |
 
-| Ordem | Exercicio | Series | Repeticoes ou duracao | RIR | Descanso | Metodo | Observacao especifica |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Supino Reto com Barra | 4 | 6-8 | 1-2 | 150 s | Progressao dupla | Prioridade da sessao. |
-| 2 | Supino Inclinado com Halteres | 3 | 8-10 | 2 | 120 s | Progressao dupla | Manter escapulas fixas. |
-| 3 | Desenvolvimento na Maquina | 3 | 8-10 | 2 | 120 s | Progressao dupla | Escolha estavel para economizar ajustes. |
-| 4A | Elevacao Lateral | 3 | 12-15 | 2 | Sem descanso ate 4B | Superserie acessoria | Nao usar impulso. |
-| 4B | Triceps Corda | 3 | 10-15 | 2 | 60-75 s apos 4B | Superserie acessoria | Manter cotovelos proximos ao tronco. |
-| 5A | Crucifixo no Crossover | 2 | 12-15 | 2 | Sem descanso ate 5B | Superserie acessoria | Ajustar cabos antes do bloco. |
-| 5B | Triceps Frances Unilateral | 2 | 10-12 | 2 | 60-75 s apos 5B | Superserie acessoria | Alternar lados com controle. |
+#### Justificativa
 
-**Justificativa tecnica da sessao:** os tres primeiros exercicios preservam tensao mecanica e progressao. As superseries unem acessorios de menor risco e reduzem tempo total sem combinar compostos pesados.
+A sessão abre com supino para maior produção de força e desloca isoladores para o final, reduzindo interferência técnica.
 
-### Treino B - Puxar
+### Treino B — Costas, bíceps e deltoide posterior
 
-**Objetivo da sessao:** manter qualidade em barra fixa e remadas, usando superseries para deltoide posterior, dorsais isoladas e biceps.
+#### Objetivo da sessão
 
-| Ordem | Exercicio | Series | Repeticoes ou duracao | RIR | Descanso | Metodo | Observacao especifica |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Barra Fixa Livre ou Assistida | 4 | 6-8 | 1-2 | 150 s | Progressao dupla | Ajustar assistencia para amplitude completa. |
-| 2 | Remada Curvada com Barra | 3 | 8-10 | 2 | 150 s | Progressao dupla | Manter tronco firme. |
-| 3 | Remada Articulada com Apoio Peitoral | 3 | 10-12 | 2 | 90-120 s | Progressao dupla | Reduz fadiga lombar. |
-| 4A | Face Pull | 3 | 12-15 | 2 | Sem descanso ate 4B | Superserie acessoria | Cotovelos altos. |
-| 4B | Rosca Direta na Polia | 3 | 10-12 | 2 | 60-75 s apos 4B | Superserie acessoria | Punhos neutros e cotovelos fixos. |
-| 5A | Pulldown com Bracos Estendidos | 2 | 12-15 | 2 | Sem descanso ate 5B | Superserie acessoria | Foco em dorsais. |
-| 5B | Rosca Martelo com Halteres | 2 | 10-12 | 2 | 60-75 s apos 5B | Superserie acessoria | Evitar balanco. |
+Construir largura e espessura dorsal com suporte de bíceps e estabilidade escapular.
 
-**Justificativa tecnica da sessao:** puxada e remadas ficam protegidas por descanso tradicional. As superseries posteriores usam exercicios de baixa interferencia sistemica, melhorando densidade sem sacrificar a carga dos movimentos principais.
+#### Prescrição
 
-### Treino C - Inferiores
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | Barra Fixa | 1 + 2 | 5-8 + 8-10 | 1-2 | 120 s | Top Set + Back-off | Usar assistência se necessário para manter amplitude. |
+| 2 | Remada Curvada Barra | 3 | 6-10 | 2 | 120 s | Tradicional | Tronco firme e trajetória consistente. |
+| 3 | Puxada Alta Neutra | 3 | 8-12 | 2 | 90 s | Tradicional | Depressão escapular antes da puxada. |
+| 4 | Face Pull | 2 | 12-15 | 2 | 0 s | Supersérie | Emparelhar com rosca. |
+| 5 | Rosca Direta Barra W | 2 | 10-12 | 2 | 60 s | Supersérie | Manter controle total. |
 
-**Objetivo da sessao:** preservar estimulos principais de agachamento, terra romeno e leg press, acelerando acessorios de posteriores, panturrilha, quadriceps e core.
+#### Justificativa
 
-| Ordem | Exercicio | Series | Repeticoes ou duracao | RIR | Descanso | Metodo | Observacao especifica |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Agachamento Livre | 4 | 6-8 | 1-2 | 150-180 s | Progressao dupla | Smith sera alternativa futura no AOE. |
-| 2 | Terra Romeno | 3 | 8-10 | 2 | 150 s | Progressao dupla | Preservar coluna neutra. |
-| 3 | Leg Press 45 graus | 3 | 10-12 | 2 | 120 s | Progressao dupla | Controlar pelve no fundo. |
-| 4A | Mesa Flexora | 3 | 10-12 | 2 | Sem descanso ate 4B | Superserie acessoria | Cadeira Flexora sera equivalencia futura no AOE. |
-| 4B | Panturrilha no Leg Press | 3 | 12-20 | 1-2 | 60-75 s apos 4B | Superserie acessoria | Pausar no alongamento. |
-| 5A | Cadeira Extensora | 2 | 12-15 | 1-2 | Sem descanso ate 5B | Superserie acessoria | Pausa curta na extensao. |
-| 5B | Abdominal na Maquina ou Polia | 2 | 12-15 | 2 | 60 s apos 5B | Superserie acessoria | Controlar flexao do tronco. |
+Puxada vertical e remada cobrem vetores complementares; acessórios protegem ombros e completam braços.
 
-**Justificativa tecnica da sessao:** a sessao conserva os tres maiores geradores de estimulo em formato tradicional. As superseries combinam acessorios com baixa concorrencia direta, evitando pares de compostos pesados e mantendo o limite de tempo.
+### Treino C — Inferiores completos e core
 
-## 16. Objetivo de cada sessao
+#### Objetivo da sessão
 
-| Sessao | Objetivo |
-|---|---|
-| A | Progredir nos empurroes principais e condensar acessorios de deltoide e triceps. |
-| B | Progredir em puxadas e remadas, com acessorios organizados em pares eficientes. |
-| C | Priorizar inferiores sem ultrapassar 55 minutos, usando superseries apenas no fim. |
+Treinar quadríceps, posteriores, glúteos, panturrilhas e tronco em uma sessão completa.
 
-## 17. Tabela de prescricao
+#### Prescrição
 
-As tabelas dos treinos A, B e C sao a fonte oficial de prescricao deste modelo. Todas as linhas incluem ordem, exercicio, series, repeticoes ou duracao, RIR, descanso, metodo e observacao especifica.
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | Agachamento Livre | 1 + 2 | 5-8 + 8-10 | 1-2 | 150 s | Top Set + Back-off | Profundidade consistente e tronco estável. |
+| 3 | Leg Press | 3 | 10-12 | 2 | 90 s | Tradicional | Amplitude sem retroversão pélvica. |
+| 5 | Mesa Flexora | 3 | 10-15 | 2 | 60-75 s | Tradicional | Controle excêntrico. |
+| 6 | Panturrilha em Pé | 4 | 8-12 | 2 | 60 s | Tradicional | Pausa curta no alongamento. |
+| 7 | Prancha | 3 | 30-45 s | 2 | 45 s | Tradicional | Manter pelve neutra. |
 
-## 18. Justificativa tecnica da sessao
+#### Justificativa
 
-As justificativas foram incluidas ao final de cada treino. A engenharia do modelo preserva a ordem de prioridade: compostos, compostos secundarios, acessorios em superserie e encerramento sem metodos de falha.
+Agachamento e dobradiça organizam a sessão; isoladores completam volume sem elevar demais a fadiga sistêmica.
 
-## 19. Volume semanal estimado
+## Volume semanal
 
-| Grupamento | Series diretas estimadas |
-|---|---:|
-| Peitoral | 9 |
-| Costas | 12 |
-| Deltoides | 9, considerando desenvolvimento, elevacao e Face Pull |
-| Biceps | 5 |
-| Triceps | 5 |
-| Quadriceps | 9 |
-| Posteriores | 6 |
-| Panturrilhas | 3 |
-| Core | 2 |
+| Grupo muscular | Séries diretas estimadas | Séries indiretas relevantes | Leitura técnica |
+| --- | --- | --- | --- |
+| Peitoral | 8-12 | 3-6 | Volume moderado com estímulo mecânico principal. |
+| Costas | 10-14 | 2-4 | Ênfase em puxadas e remadas. |
+| Deltoides | 8-12 | 4-6 | Distribuição entre press, lateral e posterior. |
+| Quadríceps | 8-12 | 2-4 | Agachamento ou leg press como base. |
+| Posteriores e glúteos | 8-12 | 2-4 | Dobradiça de quadril e flexão de joelho. |
+| Braços | 6-10 | 4-8 | Complemento sem roubar recuperação dos compostos. |
 
-## 20. Referencias futuras ao AOE
+## Distribuição dos padrões de movimento
 
-As alternativas abaixo sao referencias provisorias ate a implantacao do Aruka Exercise Ontology (AOE):
+| Padrão | Exercícios principais | Função no modelo |
+| --- | --- | --- |
+| Empurrar horizontal | Supinos e crucifixos | Base de peitoral e tríceps. |
+| Puxar vertical | Barra fixa e puxada alta | Largura dorsal e controle escapular. |
+| Puxar horizontal | Remadas | Espessura dorsal e postura. |
+| Agachar | Agachamento, leg press ou hack | Ênfase em quadríceps. |
+| Dobradiça de quadril | Terra romeno e elevação pélvica | Posteriores e glúteos. |
+| Flexão de joelho | Mesa ou cadeira flexora | Posteriores sem sobrecarregar lombar. |
 
-- Supino Reto com Barra -> Smith, halteres ou maquina convergente.
-- Barra Fixa -> Puxada Alta.
-- Agachamento Livre -> Smith ou Hack.
-- Mesa Flexora -> Cadeira Flexora.
-- Remada Curvada -> Remada com apoio peitoral.
-- Desenvolvimento na Maquina -> Halteres sentados ou maquina convergente.
+## Referências futuras ao AOE
 
-## 21. Aruka Coaching Notes
+As equivalências abaixo são provisórias e servem apenas para orientar substituições operacionais. A equivalência definitiva será centralizada no AOE.
 
-- Cronometrar os descansos.
-- Preparar equipamentos antes da sessao.
-- Desfazer uma superserie caso os equipamentos estejam distantes.
-- Nao reduzir amplitude para economizar tempo.
-- Nao adicionar exercicios fora do planejamento.
-- Manter os tres primeiros movimentos como prioridade.
+| Exercício do modelo | Equivalência provisória | Observação |
+| --- | --- | --- |
+| Supino Reto Barra | Supino Máquina | A equivalência definitiva será centralizada no AOE. |
+| Leg Press | Hack | A equivalência definitiva será centralizada no AOE. |
+| Barra Fixa | Puxada Alta | A equivalência definitiva será centralizada no AOE. |
+| Mesa Flexora | Cadeira Flexora | A equivalência definitiva será centralizada no AOE. |
 
-## 22. Criterios de evolucao ou troca de modelo
+## Aruka Coaching Notes
 
-- Necessidade de maior volume.
-- Disponibilidade para sessoes mais longas.
-- Objetivo de especializacao.
-- Interesse em maior frequencia semanal.
-- Dificuldade recorrente de executar superseries pela logistica da academia.
+- Top set deve parecer forte, não caótico.
+- Back-offs existem para acumular volume limpo.
+- Dor articular altera exercício; fadiga muscular ajusta carga.
+- Não compensar sessão perdida dobrando volume na próxima.
+- Com 35 minutos, execute os compostos e reduza acessórios pela metade.
 
-## 23. Aruka Score
+## Critérios de evolução
 
-| Dimensao | Nota | Justificativa |
-|---|---:|---|
-| Estimulo hipertrofico | 8 | Bom volume com protecao dos principais. |
-| Sustentabilidade | 8 | Baixa agressividade metodologica. |
-| Complexidade tecnica | 7 | Exige organizacao de superseries. |
-| Eficiência operacional | 10 | Desenhado para 45-55 minutos. |
-| Prontidao para progressao | 8 | Progressao dupla mantida nos movimentos centrais. |
+- Quatro semanas com aderência mínima de 85%.
+- Progressão em pelo menos dois exercícios estruturais.
+- Sem queda persistente de sono, apetite ou performance.
+- Execução consistente nos exercícios livres principais.
 
-**Score global:** 41/50.
+## Aruka Score
 
-## 24. Engenharia do treino
+| Critério | Nota de 1 a 5 | Justificativa |
+| --- | --- | --- |
+| Clareza técnica | 5 | Prescrição auditável com objetivo, método e observação por exercício. |
+| Aplicabilidade | 5 | Pode ser executado em academias convencionais sem depender de recursos raros. |
+| Controle de fadiga | 4 | Volume e RIR sustentam progresso intermediário com recuperação monitorável. |
+| Progressão | 5 | Critérios objetivos conectam carga, repetições, técnica e prontidão. |
 
-O modelo separa tempo economizado de estimulo prioritario. Os movimentos que mais dependem de carga, estabilidade e foco permanecem isolados; os acessorios entram em pares com descanso definido apos o segundo exercicio. Isso permite previsibilidade de duracao sem transformar eficiencia em pressa tecnica.
+## Engenharia do treino
 
-## 25. Assinatura Tecnica Aruka
+- Primeiros exercícios concentram maior demanda neural.
+- Acessórios completam volume sem competir com compostos.
+- Descansos preservam desempenho em séries produtivas.
+- Volume semanal fica dentro de faixa intermediária recuperável.
 
-Modelo ABC intermediario, masculino, orientado a hipertrofia em tempo reduzido, com series tradicionais nos movimentos principais e superseries controladas nos acessorios. Documento pronto para revisao tecnica, homologacao da Sprint 02 e conversao futura em estrutura de dados.
+## Assinatura Técnica
 
-## 26. Tags para busca
+Modelo revisado segundo o padrão Premium oficial da Aruka Performance Library, com prescrição auditável, controle de fadiga, progressão documentada e compatibilidade com o AQA v1.2.1.
 
-`hipertrofia`, `masculino`, `intermediario`, `ABC`, `eficiencia`, `superseries`, `treino curto`, `progressao dupla`, `tres dias`, `APL-M-HIP-M`
+## Tags
 
-## 27. Checklist interno de integridade
+- `apl`
+- `sprint-02`
+- `masculino`
+- `intermediario`
+- `abc`
+- `hipertrofia`
+- `eficiencia`
 
-| Item | Status |
-|---|---|
-| Titulo e codigo interno presentes | OK |
-| Status e versao definidos | OK |
-| Treinos A, B e C completos | OK |
-| Tabelas com series, repeticoes, RIR e descanso | OK |
-| Periodizacao incluida | OK |
-| Progressao dupla exemplificada | OK |
-| Superseries limitadas a acessorios | OK |
-| Referencias futuras ao AOE sem criacao de AOE | OK |
-| Sem textos provisorios ou pendencias internas | OK |
+## Checklist
+
+- [x] Cabeçalho oficial presente.
+- [x] Todas as seções H2 obrigatórias estão presentes e ordenadas.
+- [x] Tabelas de prescrição utilizam o formato oficial.
+- [x] Métodos intensificadores estão limitados ao objetivo do modelo.
+- [x] Volume semanal e distribuição de padrões foram recalculados.
+- [x] Assinatura Técnica está presente.

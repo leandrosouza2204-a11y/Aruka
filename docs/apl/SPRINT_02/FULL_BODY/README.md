@@ -1,34 +1,44 @@
-# Sprint 02 - Full Body Masculino Intermediario
+# Sprint 02 — Full Body Intermediário
 
-Este diretorio contem os tres modelos Full Body da Sprint 02 da Aruka Performance Library (APL), voltados ao publico masculino intermediario em hipertrofia. Full Body, neste bloco, e uma estrategia de frequencia: distribui volume em tres sessoes completas, repete padroes motores com variacoes controladas e reduz fadiga localizada por sessao. Nao deve ser tratado como treino simplificado.
+**Status:** Concluído — aguardando homologação
 
-Status do bloco Full Body: **Concluido - aguardando homologacao da Sprint 02**.
+## Conceito
 
-## Publico
+A divisão Full Body organiza a hipertrofia intermediária em sessões com maior especificidade que a Sprint 01, preservando controle de fadiga, progressão auditável e margem técnica.
 
-Praticantes intermediarios com tecnica consolidada, disponibilidade para tres sessoes semanais nao consecutivas e interesse em estimular os principais grupamentos varias vezes por semana. A agenda preferencial e segunda, quarta e sexta-feira; alternativas: terca, quinta e sabado ou segunda, quinta e sabado.
+## Quando utilizar
 
-## Arquivos
+- Quando o aluno já domina os padrões básicos.
+- Quando há aderência semanal compatível com a frequência do bloco.
+- Quando o objetivo é progredir volume, carga e densidade sem iniciar especializações avançadas.
 
-| Arquivo | Modelo | Status |
-|---|---|---|
-| `APL-M-HIP-M-FB-BASE-01.md` | Hipertrofia Base - Full Body Intermediario | Concluido - aguardando homologacao da Sprint 02 |
-| `APL-M-HIP-M-FB-PERF-01.md` | Hipertrofia Performance - Full Body Intermediario | Concluido - aguardando homologacao da Sprint 02 |
-| `APL-M-HIP-M-FB-EFI-01.md` | Hipertrofia Eficiencia - Full Body Intermediario | Concluido - aguardando homologacao da Sprint 02 |
+## Vantagens
 
-## Comparacao entre modelos
+- Maior precisão de estímulo por grupo muscular.
+- Melhor distribuição de fadiga ao longo da semana.
+- Transição clara entre Base, Performance, Eficiência e especializações.
 
-| Criterio | Base | Performance | Eficiencia |
-|---|---|---|---|
-| Aplicacao | Hipertrofia global | Forca e hipertrofia | Pouco tempo |
-| Tempo | 65-75 min | 70-85 min | 45-55 min |
-| Complexidade | Moderada | Moderada-alta | Moderada |
-| Frequencia | 3x por semana | 3x por semana | 3x por semana |
-| Metodos | Progressao dupla | Top Set e Rest-Pause | Superseries |
-| Pesos livres | Alto | Muito alto | Moderado |
-| Personalizacao | Media | Media-alta | Media |
-| Demanda de recuperacao | Moderada | Alta | Moderada |
+## Limitações
 
-## Convencao de codigo
+- Exige registro de treino e recuperação consistente.
+- Não substitui avaliação técnica presencial.
+- Pode perder eficácia quando a frequência semanal não é cumprida.
 
-`APL-M-HIP-M` preserva a convencao atual: o primeiro `M` representa Masculino, `HIP` representa Hipertrofia e o segundo `M` representa Intermediario. `FB` identifica Full Body, e os sufixos `BASE`, `PERF` e `EFI` identificam o perfil do modelo.
+## Perfil do aluno
+
+Aluno masculino intermediário, com experiência mínima em exercícios livres, capacidade de autorregular RIR e disponibilidade para seguir planejamento semanal.
+
+## Comparação dos modelos
+
+| Modelo | Melhor uso | Métodos | Duração típica | Observação |
+| --- | --- | --- | --- | --- |
+| Base | Frequência global | Progressão dupla | 60-75 min | Ótimo para três dias |
+| Performance | Full body mais denso | Top Set seletivo e intensificador pontual | 60-75 min | Maior demanda sistêmica |
+| Eficiência | Rotina compacta | Redução inteligente de volume | 40-50 min | Priorizar compostos |
+
+## Critérios para homologação humana
+
+- Modelos lidos integralmente por revisor técnico.
+- Prescrição compatível com o objetivo do bloco.
+- AQA sem blockers, errors ou warnings antes da liberação.
+- Status final mantido como aguardando homologação até revisão humana.

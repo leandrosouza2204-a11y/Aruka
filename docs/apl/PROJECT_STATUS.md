@@ -81,59 +81,59 @@ Resumo da release:
 
 ---
 
-# Sprint 02 - Masculino Intermediario
+# Sprint 02 - Masculino Intermediário
 
-Status Geral: Conteudo concluido - homologacao bloqueada ate conclusao e homologacao integral da Sprint 01.
+Status Geral: Biblioteca padronizada e validada pelo AQA — aguardando homologação técnica humana.
 
 ## ABC
 
-Status do bloco ABC: **Concluido - aguardando homologacao da Sprint 02**
+Status do bloco ABC: **Concluído — aguardando homologação**
 
 | Modelo | Status |
 |---|---|
-| ABC Base | Concluido |
-| ABC Performance | Concluido |
-| ABC Eficiencia | Concluido |
+| ABC Base | Concluído — aguardando homologação |
+| ABC Performance | Concluído — aguardando homologação |
+| ABC Eficiência | Concluído — aguardando homologação |
 
 ## ABCD
 
-Status do bloco ABCD: **Concluido - aguardando homologacao da Sprint 02**
+Status do bloco ABCD: **Concluído — aguardando homologação**
 
 | Modelo | Status |
 |---|---|
-| ABCD Base | Concluido |
-| ABCD Performance | Concluido |
-| ABCD Especializacao em Peitoral | Concluido |
+| ABCD Base | Concluído — aguardando homologação |
+| ABCD Performance | Concluído — aguardando homologação |
+| ABCD Especialização em Peitoral | Concluído — aguardando homologação |
 
 ## ABCDE
 
-Status do bloco ABCDE: **Concluido - aguardando homologacao da Sprint 02**
+Status do bloco ABCDE: **Concluído — aguardando homologação**
 
 | Modelo | Status |
 |---|---|
-| ABCDE Base | Concluido |
-| ABCDE Performance | Concluido |
-| ABCDE Especializacao em Deltoides | Concluido |
+| ABCDE Base | Concluído — aguardando homologação |
+| ABCDE Performance | Concluído — aguardando homologação |
+| ABCDE Especialização em Deltoides | Concluído — aguardando homologação |
 
 ## Full Body
 
-Status do bloco Full Body: **Concluido - aguardando homologacao da Sprint 02**
+Status do bloco Full Body: **Concluído — aguardando homologação**
 
 | Modelo | Status |
 |---|---|
-| Full Body Base | Concluido |
-| Full Body Performance | Concluido |
-| Full Body Eficiencia | Concluido |
+| Full Body Base | Concluído — aguardando homologação |
+| Full Body Performance | Concluído — aguardando homologação |
+| Full Body Eficiência | Concluído — aguardando homologação |
 
 ## Upper / Lower
 
-Status do bloco Upper/Lower: **Concluido - aguardando homologacao da Sprint 02**
+Status do bloco Upper/Lower: **Concluído — aguardando homologação**
 
 | Modelo | Status |
 |---|---|
-| Upper/Lower Base | Concluido |
-| Upper/Lower Performance | Concluido |
-| Upper/Lower Especializacao em Costas | Concluido |
+| Upper/Lower Base | Concluído — aguardando homologação |
+| Upper/Lower Performance | Concluído — aguardando homologação |
+| Upper/Lower Especialização em Costas | Concluído — aguardando homologação |
 
 ---
 

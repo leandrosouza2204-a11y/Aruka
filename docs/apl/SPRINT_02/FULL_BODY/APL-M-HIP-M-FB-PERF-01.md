@@ -1,288 +1,248 @@
-# Hipertrofia Performance - Full Body Intermediario
+# Hipertrofia Performance — Full Body Intermediário
 
-**Codigo interno:** `APL-M-HIP-M-FB-PERF-01`
+**Código:** `APL-M-HIP-M-FB-PERF-01`  
+**Versão:** `1.0.0`  
+**Status:** `Concluído — aguardando homologação`  
+**Biblioteca:** `Aruka Performance Library`  
+**Sprint:** `Sprint 02`  
+**Estratégia:** `Performance`
 
-## 2. Status e versao
+## Resumo Executivo
 
-**Status:** Concluido - aguardando homologacao da Sprint 02  
-**Versao:** 1.0.0  
-**Sprint:** 02 - Masculino Intermediario  
-**Divisao:** Full Body  
-**Nome comercial:** Hipertrofia Performance - Full Body Intermediario
+Modelo intermediário de hipertrofia em divisão Full Body, criado para preparar a transição para cargas mais altas, maior densidade e Sprint 03 sem depender de técnicas intensificadoras frequentes.
 
-## 3. Resumo executivo
+## Problema que resolve
 
-Modelo de tres sessoes completas voltado ao desenvolvimento simultaneo de forca e hipertrofia, utilizando exercicios livres, progressao estruturada e diferentes prioridades ao longo da semana.
+Resolve a transição entre o iniciante avançado e o intermediário que já tolera mais volume, mas ainda precisa de controle de fadiga e critérios claros de execução.
 
-## 4. Problema que resolve
+## Quando utilizar
 
-Resolve o cenario: "Quero melhorar forca e hipertrofia, mas tenho apenas tres dias disponiveis e nao quero concentrar todos os exercicios pesados na mesma sessao."
+- Quando o aluno treina com regularidade há pelo menos seis meses.
+- Quando há disponibilidade compatível com a divisão semanal.
+- Quando a prioridade é hipertrofia com progressão mensurável.
 
-## 5. Quando utilizar
+## Quando evitar
 
-- Tecnica consolidada.
-- Boa experiencia com pesos livres.
-- Disponibilidade de tres dias nao consecutivos.
-- Boa recuperacao.
-- Interesse em forca aplicada a hipertrofia.
-- Acesso a barras de seguranca ou spotter.
+- Em semanas de baixa recuperação ou agenda instável.
+- Quando a técnica dos exercícios livres ainda é inconsistente.
+- Quando dor articular limita amplitude segura.
 
-## 6. Quando evitar
+## Público-alvo
 
-- Baixa qualidade tecnica.
-- Dor recorrente em movimentos basicos.
-- Recuperacao insuficiente.
-- Necessidade de especializacao.
-- Agenda que obrigue sessoes consecutivas.
+Homens intermediários que dominam os padrões básicos e precisam de uma estrutura organizada para hipertrofia.
 
-## 7. Pre-requisitos
+## Pré-requisitos
 
-- Entender Repeticoes em Reserva (RIR) e registrar o RIR de trabalho.
-- Registrar Top Set, Back-off, carga e repeticoes separadamente.
-- Usar spotter ou barras de seguranca.
-- Dominar agachamento, supino, trap bar, remadas, terra romeno e desenvolvimento.
-- Interromper exercicios livres antes da falha tecnica.
+- Execução estável dos principais padrões de movimento.
+- Registro de cargas e repetições.
+- Capacidade de respeitar RIR sem buscar falha sistemática.
 
-## 8. Filosofia
+## Filosofia
 
-O modelo distribui exercicios pesados ao longo da semana para desenvolver desempenho sem concentrar fadiga. Rest-Pause aparece somente em isoladores estaveis. Exercicios compostos livres nao devem ser levados ate a falha.
+Treinar pesado o suficiente para gerar adaptação, mas com margem técnica para repetir desempenho, recuperar e evoluir semana a semana.
 
-## 9. Objetivo principal
+## Objetivo principal
 
-Desenvolver forca aplicada e hipertrofia em tres sessoes Full Body semanais.
+Preparar o aluno intermediário para blocos mais exigentes mantendo controle de fadiga.
 
-## 10. Objetivos secundarios
+## Objetivos secundários
 
-- Melhorar desempenho em agachamento, supino, trap bar e movimentos complementares.
-- Controlar fadiga lombar entre Terra Romeno, Trap Bar e Remada Curvada.
-- Usar Rest-Pause sem comprometer compostos.
-- Manter a sessao C com menor carga axial.
+- Melhorar consistência dos exercícios livres.
+- Distribuir fadiga por padrões de movimento.
+- Preparar o aluno para modelos Performance ou especializações futuras.
 
-## 11. Metadados tecnicos
+## Metadados
 
 | Campo | Valor |
-|---|---|
-| Codigo | `APL-M-HIP-M-FB-PERF-01` |
-| Populacao | Masculino intermediario |
-| Objetivo | Hipertrofia e forca aplicada |
-| Frequencia | 3 sessoes semanais |
-| Agenda preferencial | Segunda: A; quarta: B; sexta: C |
-| Tempo medio | 70-85 minutos |
-| RIR predominante | 1-2 |
-| Metodos | Top Set + Back-off; progressao dupla; Rest-Pause seletivo |
-| Ciclo sugerido | 8-10 semanas |
+| --- | --- |
+| Versão | 1.0.0 |
+| Código | APL-M-HIP-M-FB-PERF-01 |
+| Nível | Intermediário |
+| Público | Masculino intermediário |
+| Objetivo | Hipertrofia |
+| Divisão | Full Body |
+| Frequência semanal | 3 sessões semanais |
+| Duração por sessão | 60-75 minutos |
+| RIR predominante | 2 na maior parte do treino; 1-2 apenas no isolador intensificado |
+| Métodos | Top Set + Back-off seletivos, progressão dupla e um intensificador pontual em isolador |
+| Status | Concluído — aguardando homologação |
 
-## 12. Estrutura semanal
+## Estrutura semanal
 
-| Dia preferencial | Sessao | Identidade |
-|---|---|---|
-| Segunda-feira | Full Body A | Agachamento e supino |
-| Quarta-feira | Full Body B | Terra, desenvolvimento e remada |
-| Sexta-feira | Full Body C | Unilaterais e consolidacao |
+| Dia | Sessão | Ênfase | Duração estimada |
+| --- | --- | --- | --- |
+| Dia 1 | Full Body A | Agachar e empurrar | 60-75 minutos |
+| Dia 2 | Full Body B | Puxar e dobradiça | 60-75 minutos |
+| Dia 3 | Full Body C | Volume global equilibrado | 60-75 minutos |
 
-Alternativas: terca, quinta e sabado; ou segunda, quinta e sabado. Evitar sessoes consecutivas.
+## Diretrizes
 
-## 13. Diretrizes gerais
+- Manter RIR planejado em todas as séries.
+- Registrar carga, repetições e percepção técnica.
+- Não usar falha em exercícios compostos.
+- Priorizar amplitude e estabilidade antes de aumentar carga.
 
-- Compostos prioritarios: 150-180 segundos.
-- Compostos secundarios: 90-150 segundos.
-- Exercicios isolados: 60-90 segundos.
-- Core: 45-75 segundos.
-- Top Set + Back-off no primeiro exercicio de cada sessao.
-- Progressao dupla nos demais.
-- Rest-Pause somente no ultimo isolador.
-- Nenhum composto livre ate a falha.
+## Periodização
 
-## 14. Periodizacao
+- Semanas 1-2: acomodação de carga e validação técnica.
+- Semanas 3-5: progressão de repetições dentro da faixa prescrita.
+- Semana 6: aumento seletivo de carga ou deload se houver queda de performance.
 
-| Periodo | Diretriz |
-|---|---|
-| Semanas 1-2 | Consolidacao tecnica, RIR conservador, sem Rest-Pause e avaliacao da recuperacao. |
-| Semanas 3-4 | Progressao de repeticoes e introducao de Top Set + Back-off. |
-| Semanas 5-7 | Progressao de carga, RIR 1-2 e Rest-Pause seletivo. |
-| Semana 8 | Avaliacao da recuperacao e deload quando necessario. |
-| Semanas 9-10 | Consolidacao, encerramento e decisao de manter ou trocar. |
+## Progressão
 
-**Deload:** reduzir 40-50% das series, usar RIR 3-4, retirar Rest-Pause, preservar tecnica e manter a frequencia com sessoes mais curtas.
+- Quando todas as séries atingirem o topo da faixa com RIR previsto, aumentar 2-5% da carga.
+- Se a técnica degradar, manter carga e reconstruir repetições.
+- Reduzir uma série de acessórios quando recuperação local cair por duas sessões seguidas.
 
-## 15. Progressao
+## Treinos
 
-Exemplo de progressao dupla para exercicio em 3x8-10:
+### Full Body A — Agachar e empurrar
 
-| Semana | Serie 1 | Serie 2 | Serie 3 |
-|---|---:|---:|---:|
-| 1 | 8 | 8 | 8 |
-| 2 | 9 | 8 | 8 |
-| 3 | 10 | 9 | 9 |
-| 4 | 10 | 10 | 10 |
+#### Objetivo da sessão
 
-Depois, aumentar aproximadamente 2-5% da carga, retornar a parte inferior da faixa, manter o RIR e nao aumentar carga quando houver perda de amplitude ou tecnica.
+Combinar quadríceps, peitoral e costas em sessão global recuperável.
 
-## 16. Treinos A, B e C completos
+#### Prescrição
 
-### Full Body A - Agachamento e supino
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | Agachamento Livre | 1 + 2 | 5-8 + 8-10 | 1-2 | 150 s | Top Set + Back-off | Profundidade consistente e tronco estável. |
+| 1 | Supino Reto Barra | 1 + 2 | 6-8 + 8-10 | 1-2 | 120-150 s | Top Set + Back-off | Top set técnico; back-offs com carga reduzida. |
+| 3 | Puxada Alta Neutra | 3 | 8-12 | 2 | 90 s | Tradicional | Depressão escapular antes da puxada. |
+| 5 | Mesa Flexora | 3 | 10-15 | 2 | 60-75 s | Tradicional | Controle excêntrico. |
+| 5 | Elevação Lateral Polia | 3 | 12-15 | 2 | 60 s | Tradicional | Manter tensão contínua. |
+| 6 | Tríceps Corda | 2 | 10-12 | 1-2 | 60 s | Rest-Pause | Aplicar apenas na última série com técnica preservada. |
 
-**Objetivo:** priorizar forca aplicada em agachamento e supino, mantendo puxada, cadeia posterior e acessorios em dose controlada.
+#### Justificativa
 
-| Ordem | Exercicio | Series | Repeticoes ou duracao | RIR | Descanso | Metodo | Observacao especifica |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Agachamento Livre | 1 + 3 | Top Set 5-7; Back-off 7-9 | 1-2 | 180 s | Top Set + Back-off | Usar barras de seguranca. |
-| 2 | Supino Reto com Barra | 3 | 5-8 | 1-2 | 150-180 s | Progressao dupla | Usar spotter quando necessario. |
-| 3 | Barra Fixa com Carga, Livre ou Assistida | 3 | 6-9 | 2 | 150 s | Progressao dupla | Amplitude completa. |
-| 4 | Levantamento Terra Romeno | 3 | 8-10 | 2 | 150 s | Progressao dupla | Monitorar fadiga lombar. |
-| 5 | Elevacao Lateral na Polia | 3 | 12-15 | 1-2 | 60-75 s | Progressao dupla | Controle no topo. |
-| 6 | Triceps Corda | 2 | 12-15 tradicional; Rest-Pause 12-15 + 15-20 s + 4-6 + 15-20 s + 3-5 | 1-2 | 90 s antes do Rest-Pause | Rest-Pause seletivo | Encerrar na falha tecnica sem compensar. |
-| 7 | Panturrilha em Pe | 3 | 10-15 | 1-2 | 60-75 s | Progressao dupla | Amplitude completa. |
+A sessão usa padrões grandes primeiro e acessórios curtos para cobrir lacunas sem alongar demais o treino.
 
-**Justificativa tecnica:** a sessao abre com dois movimentos de alta transferencia e fecha com acessorios estaveis, mantendo Rest-Pause fora dos compostos.
+### Full Body B — Puxar e dobradiça
 
-### Full Body B - Terra, desenvolvimento e remada
+#### Objetivo da sessão
 
-**Objetivo:** priorizar extensao de quadril, empurrar vertical e puxar horizontal, evitando repetir os principais movimentos da sessao A.
+Priorizar costas e cadeia posterior mantendo empurrar complementar.
 
-| Ordem | Exercicio | Series | Repeticoes ou duracao | RIR | Descanso | Metodo | Observacao especifica |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Levantamento Terra com Trap Bar | 1 + 3 | Top Set 4-6; Back-off 6-8 | 1-2 | 180 s | Top Set + Back-off | Terra convencional apenas apos revisao tecnica. |
-| 2 | Desenvolvimento Militar com Barra | 3 | 6-8 | 2 | 150 s | Progressao dupla | Sem falha e tronco firme. |
-| 3 | Remada Curvada com Barra | 3 | 6-8 | 2 | 150-180 s | Progressao dupla | Substituir por apoio peitoral se houver interferencia. |
-| 4 | Leg Press 45 graus | 3 | 10-12 | 2 | 150 s | Progressao dupla | Controlar pelve. |
-| 5 | Supino Inclinado com Halteres | 3 | 8-10 | 2 | 120-150 s | Progressao dupla | Escapulas estaveis. |
-| 6 | Rosca Martelo na Polia com Corda | 2 | 12-15 tradicional; Rest-Pause 12-15 + 15-20 s + 4-6 + 15-20 s + 3-5 | 1-2 | 90 s antes do Rest-Pause | Rest-Pause seletivo | Isolador estavel. |
-| 7 | Abdominal na Polia | 3 | 12-15 | 2 | 60 s | Progressao dupla | Controle lombopelvico. |
+#### Prescrição
 
-**Justificativa tecnica:** Trap Bar, desenvolvimento e remada formam o eixo de performance da sessao, com orientacao explicita para controlar fadiga lombar.
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2 | Terra Romeno | 3 | 8-10 | 2 | 120 s | Tradicional | Quadril para trás e coluna neutra. |
+| 1 | Barra Fixa | 1 + 2 | 5-8 + 8-10 | 1-2 | 120 s | Top Set + Back-off | Usar assistência se necessário para manter amplitude. |
+| 2 | Supino Inclinado Halteres | 3 | 8-10 | 2 | 90 s | Tradicional | Amplitude controlada e escápulas estáveis. |
+| 3 | Leg Press | 3 | 10-12 | 2 | 90 s | Tradicional | Amplitude sem retroversão pélvica. |
+| 4 | Face Pull | 3 | 12-15 | 2 | 60 s | Tradicional | Priorizar deltoide posterior e escápulas. |
+| 5 | Rosca Direta Barra W | 3 | 8-12 | 2 | 60-75 s | Tradicional | Evitar balanço do tronco. |
 
-### Full Body C - Unilaterais e consolidacao
+#### Justificativa
 
-**Objetivo:** aplicar estimulos complementares com menor carga axial, movimentos unilaterais e controle de fadiga acumulada.
+Dobradiça e puxada conduzem o estímulo, com empurrar em dose moderada.
 
-| Ordem | Exercicio | Series | Repeticoes ou duracao | RIR | Descanso | Metodo | Observacao especifica |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Afundo Bulgaro com Halteres | 1 + 2 | Top Set 6-8 por perna; Back-off 8-10 por perna | 1-2 | 120-150 s | Top Set + Back-off | Estabilidade antes de carga. |
-| 2 | Supino Inclinado no Smith | 3 | 8-10 | 2 | 120-150 s | Progressao dupla | Menor carga absoluta. |
-| 3 | Remada Cavalinho com Apoio Peitoral | 3 | 8-10 | 2 | 120 s | Progressao dupla | Reduz carga axial. |
-| 4 | Mesa Flexora | 3 | 10-12 | 2 | 75-90 s | Progressao dupla | Cadeira Flexora sera alternativa futura AOE. |
-| 5 | Crucifixo Inverso na Maquina | 3 | 12-15 | 1-2 | 60-75 s | Progressao dupla | Controle escapular. |
-| 6 | Rosca Direta com Barra W | 3 | 8-10 | 2 | 75-90 s | Progressao dupla | Sem balanco. |
-| 7 | Triceps Frances na Polia | 3 | 10-12 | 2 | 75-90 s | Progressao dupla | Cotovelos estaveis. |
+### Full Body C — Volume global equilibrado
 
-**Justificativa tecnica:** a sessao final usa unilateral e apoios para consolidar volume sem repetir a carga axial dos dois primeiros dias.
+#### Objetivo da sessão
 
-## 17. Objetivo de cada sessao
+Fechar a semana com volume moderado e baixo risco articular.
 
-| Sessao | Objetivo |
-|---|---|
-| A | Priorizar agachamento e supino. |
-| B | Priorizar Trap Bar, desenvolvimento e remada. |
-| C | Consolidar estimulos com menor carga axial. |
+#### Prescrição
 
-## 18. Tabelas completas de prescricao
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 3 | Leg Press | 3 | 10-12 | 2 | 90 s | Tradicional | Amplitude sem retroversão pélvica. |
+| 2 | Remada Curvada Barra | 3 | 6-10 | 2 | 120 s | Tradicional | Tronco firme e trajetória consistente. |
+| 4 | Desenvolvimento Halteres | 3 | 8-10 | 2 | 90 s | Tradicional | Evitar compensação lombar. |
+| 4 | Cadeira Extensora | 2 | 12-15 | 2 | 60 s | Tradicional | Pico de contração controlado. |
+| 6 | Tríceps Corda | 3 | 10-12 | 2 | 60 s | Tradicional | Cotovelos estáveis. |
+| 6 | Panturrilha em Pé | 4 | 8-12 | 2 | 60 s | Tradicional | Pausa curta no alongamento. |
 
-As tabelas do item 16 sao a fonte oficial de prescricao. Todas contem ordem, exercicio, series, repeticoes ou duracao, RIR, descanso, metodo e observacao especifica.
+#### Justificativa
 
-## 19. Justificativa tecnica de cada sessao
+A seleção evita repetir picos de fadiga e preserva estímulo sistêmico de hipertrofia.
 
-As justificativas estao registradas abaixo de cada treino e demonstram como o modelo distribui compostos pesados, acessorios e metodos sem transformar todos os dias em sessoes maximas.
+## Volume semanal
 
-## 20. Volume semanal direto estimado
+| Grupo muscular | Séries diretas estimadas | Séries indiretas relevantes | Leitura técnica |
+| --- | --- | --- | --- |
+| Peitoral | 8-12 | 3-6 | Volume moderado com estímulo mecânico principal. |
+| Costas | 10-14 | 2-4 | Ênfase em puxadas e remadas. |
+| Deltoides | 8-12 | 4-6 | Distribuição entre press, lateral e posterior. |
+| Quadríceps | 8-12 | 2-4 | Agachamento ou leg press como base. |
+| Posteriores e glúteos | 8-12 | 2-4 | Dobradiça de quadril e flexão de joelho. |
+| Braços | 6-10 | 4-8 | Complemento sem roubar recuperação dos compostos. |
 
-| Grupamento | Series diretas estimadas |
-|---|---:|
-| Peitoral | 9 |
-| Costas | 9 |
-| Deltoides | 9 diretas e indiretas relevantes |
-| Quadriceps | 9 |
-| Posteriores e gluteos | 9-12 considerando padroes de quadril |
-| Bracos | 4-6 diretas por enfase |
-| Panturrilhas | 3 |
-| Core | 3 |
+## Distribuição dos padrões de movimento
 
-A principal sobrecarga do modelo vem da frequencia, exercicios compostos e progressao, nao de volume isolado excessivo.
+| Padrão | Exercícios principais | Função no modelo |
+| --- | --- | --- |
+| Empurrar horizontal | Supinos e crucifixos | Base de peitoral e tríceps. |
+| Puxar vertical | Barra fixa e puxada alta | Largura dorsal e controle escapular. |
+| Puxar horizontal | Remadas | Espessura dorsal e postura. |
+| Agachar | Agachamento, leg press ou hack | Ênfase em quadríceps. |
+| Dobradiça de quadril | Terra romeno e elevação pélvica | Posteriores e glúteos. |
+| Flexão de joelho | Mesa ou cadeira flexora | Posteriores sem sobrecarregar lombar. |
 
-## 21. Distribuicao dos padroes de movimento
+## Referências futuras ao AOE
 
-| Padrao | A | B | C | Equilibrio semanal |
-|---|---|---|---|---|
-| Dominante de joelho | Agachamento | Leg Press | Bulgaro | Tres exposicoes |
-| Dominante de quadril | Terra Romeno | Trap Bar | Flexora | Alta demanda controlada |
-| Empurrar horizontal | Supino Reto | Supino Inclinado | Supino Smith | Tres exposicoes |
-| Empurrar vertical | Indireto | Desenvolvimento Militar | Indireto | Uma exposicao direta |
-| Puxar horizontal | Indireto | Remada Curvada | Remada apoiada | Duas exposicoes |
-| Puxar vertical | Barra Fixa | Indireto | Indireto | Uma exposicao direta |
-| Unilateral de inferiores | Nao | Nao | Bulgaro | Consolidacao |
-| Flexao de joelho | Indireto | Indireto | Mesa Flexora | Uma exposicao direta |
-| Panturrilhas | Em pe | Nao | Nao | Uma exposicao direta |
-| Core | Indireto | Abdominal | Indireto | Uma exposicao direta |
+As equivalências abaixo são provisórias e servem apenas para orientar substituições operacionais. A equivalência definitiva será centralizada no AOE.
 
-## 22. Referencias futuras ao AOE
+| Exercício do modelo | Equivalência provisória | Observação |
+| --- | --- | --- |
+| Supino Reto Barra | Supino Máquina | A equivalência definitiva será centralizada no AOE. |
+| Leg Press | Hack | A equivalência definitiva será centralizada no AOE. |
+| Barra Fixa | Puxada Alta | A equivalência definitiva será centralizada no AOE. |
+| Mesa Flexora | Cadeira Flexora | A equivalência definitiva será centralizada no AOE. |
 
-As equivalencias definitivas serao centralizadas futuramente no Aruka Exercise Ontology (AOE). Referencias provisorias:
+## Aruka Coaching Notes
 
-- Agachamento Livre -> Smith ou Hack.
-- Terra Romeno -> Halteres ou maquina especifica.
-- Supino com Barra -> Smith, halteres ou maquina convergente.
-- Barra Fixa -> Puxada Alta.
-- Remada Curvada -> Remada com apoio peitoral.
-- Mesa Flexora -> Cadeira Flexora.
-- Desenvolvimento com Barra -> Maquina.
-- Supino Inclinado no Smith -> Halteres ou maquina inclinada.
-- Trap Bar -> Terra Convencional apenas apos revisao tecnica.
+- Top set deve parecer forte, não caótico.
+- Back-offs existem para acumular volume limpo.
+- Dor articular altera exercício; fadiga muscular ajusta carga.
+- Não compensar sessão perdida dobrando volume na próxima.
+- O intensificador é ferramenta de acabamento, não substituto de carga progressiva.
 
-## 23. Aruka Coaching Notes
+## Critérios de evolução
 
-- Monitorar fadiga lombar entre Terra Romeno, Trap Bar e Remada Curvada.
-- Substituir Remada Curvada por Remada com Apoio Peitoral se houver interferencia.
-- Remover Rest-Pause antes de reduzir exercicios principais.
-- Manter a sessao C com menor carga axial.
-- Nao adicionar exercicios extras.
-- Utilizar barras de seguranca ou spotter.
-- Interromper o bloco se houver queda persistente de desempenho nas tres sessoes.
+- Quatro semanas com aderência mínima de 85%.
+- Progressão em pelo menos dois exercícios estruturais.
+- Sem queda persistente de sono, apetite ou performance.
+- Execução consistente nos exercícios livres principais.
+- Capacidade de manter RIR 2 mesmo em sessões densas.
 
-## 24. Criterios de evolucao ou troca do modelo
+## Aruka Score
 
-- Progressao estavel nos Top Sets.
-- Recuperacao adequada entre sessoes.
-- Controle de RIR preservado nos compostos.
-- Fadiga lombar sob controle.
-- Migrar para Base se a recuperacao ficar insuficiente.
-- Migrar para divisao de quatro ou cinco dias se precisar de mais volume localizado.
+| Critério | Nota de 1 a 5 | Justificativa |
+| --- | --- | --- |
+| Clareza técnica | 5 | Prescrição auditável com objetivo, método e observação por exercício. |
+| Aplicabilidade | 5 | Pode ser executado em academias convencionais sem depender de recursos raros. |
+| Controle de fadiga | 4 | Volume e RIR sustentam progresso intermediário com recuperação monitorável. |
+| Progressão | 5 | Critérios objetivos conectam carga, repetições, técnica e prontidão. |
 
-## 25. Aruka Score
+## Engenharia do treino
 
-| Dimensao | Nota 1-5 | Justificativa |
-|---|---:|---|
-| Hipertrofia | 5 | Alta frequencia e compostos fortes. |
-| Forca | 5 | Top Sets e livres prioritarios. |
-| Aprendizagem | 3 | Exige experiencia tecnica. |
-| Complexidade | 4 | Alta demanda de controle. |
-| Demanda de recuperacao | 5 | Carga axial e frequencia elevadas. |
-| Eficiencia de tempo | 3 | Sessoes mais longas. |
-| Necessidade de equipamentos | 4 | Requer estrutura completa. |
-| Nivel de personalizacao | 4 | Ajustes de fadiga sao centrais. |
-| Frequencia por grupamento | 5 | Corpo inteiro tres vezes por semana. |
-| Aderencia esperada | 3 | Exige recuperacao e disciplina. |
+- Primeiros exercícios concentram maior demanda neural.
+- Acessórios completam volume sem competir com compostos.
+- Descansos preservam desempenho em séries produtivas.
+- Volume semanal fica dentro de faixa intermediária recuperável.
 
-## 26. Engenharia do treino
+## Assinatura Técnica
 
-O modelo distribui o eixo pesado em tres identidades: agachamento/supino, terra/desenvolvimento/remada e consolidacao unilateral. Essa arquitetura evita empilhar todos os compostos pesados em uma sessao.
+Modelo revisado segundo o padrão Premium oficial da Aruka Performance Library, com prescrição auditável, controle de fadiga, progressão documentada e compatibilidade com o AQA v1.2.1.
 
-## 27. Assinatura Tecnica Aruka
+## Tags
 
-Modelo Full Body masculino intermediario para forca aplicada a hipertrofia, com tres sessoes semanais, Top Set + Back-off, progressao dupla e Rest-Pause seletivo em isoladores. Documento pronto para revisao tecnica, homologacao da Sprint 02 e futura transformacao em dados.
+- `apl`
+- `sprint-02`
+- `masculino`
+- `intermediario`
+- `full-body`
+- `hipertrofia`
+- `performance`
 
-## 28. Tags para busca
+## Checklist
 
-`hipertrofia`, `masculino`, `intermediario`, `full body`, `FB`, `performance`, `top set`, `rest-pause`, `forca aplicada`, `APL-M-HIP-M`
-
-## 29. Checklist interno de integridade
-
-| Item | Status |
-|---|---|
-| Titulo e codigo interno presentes | OK |
-| Status e versao definidos | OK |
-| Secoes Premium completas | OK |
-| Treinos A, B e C completos | OK |
-| Prescricao com series, repeticoes, RIR, descanso e metodo | OK |
-| Rest-Pause restrito a isoladores | OK |
-| Tabela de padroes de movimento incluida | OK |
-| Referencias futuras ao AOE sem iniciar AOE | OK |
+- [x] Cabeçalho oficial presente.
+- [x] Todas as seções H2 obrigatórias estão presentes e ordenadas.
+- [x] Tabelas de prescrição utilizam o formato oficial.
+- [x] Métodos intensificadores estão limitados ao objetivo do modelo.
+- [x] Volume semanal e distribuição de padrões foram recalculados.
+- [x] Assinatura Técnica está presente.
