@@ -1,180 +1,258 @@
 # Hipertrofia Base - Full Body Iniciante
 
-**Codigo interno:** `APL-M-HIP-I-FB-BASE-01`
+**Código:** `APL-M-HIP-I-FB-BASE-01`  
+**Versão:** `1.0.0`  
+**Status:** `Concluído — aguardando homologação`  
+**Biblioteca:** Aruka Performance Library  
+**Metodologia:** Hipertrofia  
+**Público:** Masculino Iniciante  
+**Divisão:** Full Body  
+**Estratégia:** Base
+
+---
 
 ## Resumo Executivo
 
-Modelo Full Body iniciante de tres sessoes semanais para aprendizagem tecnica. Todos os grandes grupamentos aparecem nas tres sessoes com baixo volume, priorizando maquinas, halteres e movimentos estaveis.
+Modelo Full Body Base para homens iniciantes que treinam três vezes por semana e precisam aprender padrões motores com alta frequência. Todas as sessões treinam o corpo inteiro, alternando ênfases de joelho, quadril, empurrar, puxar, core e panturrilhas quando pertinente. Usa progressão dupla, RIR 2–3, baixa complexidade e duração aproximada de 55 minutos.
 
-## Problema
+## Problema que resolve
 
-Resolve a necessidade de treinar o corpo inteiro com frequencia alta, sem transformar cada sessao em um treino longo ou muito cansativo.
+Resolve a necessidade de treinar o corpo inteiro com frequência alta sem transformar cada sessão em um treino longo, denso ou excessivamente cansativo para o iniciante.
 
 ## Quando utilizar
 
-- Iniciante com tres dias semanais.
-- Necessidade de aprender padroes motores.
+- Iniciante com três dias semanais.
+- Necessidade de aprender padrões motores.
 - Objetivo de hipertrofia inicial.
-- Preferencia por rotina simples.
-- Recuperacao ainda em desenvolvimento.
+- Preferência por rotina simples.
+- Recuperação ainda em desenvolvimento.
 
 ## Quando evitar
 
-- Necessidade de especializacao muscular.
-- Dor sem avaliacao.
-- Agenda que obrigue tres dias consecutivos.
-- Aluno que precisa de treinos muito curtos.
+- Necessidade de especialização muscular.
+- Dor sem avaliação profissional.
+- Agenda que obrigue três dias consecutivos.
+- Aluno que precisa de sessões abaixo de 40 minutos.
+- Necessidade de alto volume por grupamento.
 
-## Pre-requisitos
+## Público-alvo
 
-RIR significa Repeticoes em Reserva. O aluno deve terminar cada serie com 2-3 repeticoes possiveis, sem falha e sem perda de postura.
+Homem iniciante em hipertrofia, com 0–12 meses de prática consistente, disponibilidade para três sessões semanais e necessidade de repetir movimentos básicos com baixa complexidade.
 
-## Objetivos
+## Pré-requisitos
 
-- Repetir padroes motores tres vezes por semana.
-- Ensinar respiracao, amplitude, cadencia e controle.
-- Melhorar aderencia com baixo volume por sessao.
-- Preparar para divisoes ABCD ou ABCDE no futuro.
+- Entender RIR como repetições em reserva.
+- Encerrar séries com 2–3 repetições possíveis e postura estável.
+- Registrar cargas, repetições e observações técnicas.
+- Treinar em dias não consecutivos sempre que possível.
+- Manter amplitude antes de aumentar carga.
+
+## Filosofia
+
+O Full Body Base usa frequência para acelerar aprendizagem. Cada sessão tem corpo inteiro, mas baixo volume por padrão, permitindo repetição técnica sem fadiga localizada excessiva.
+
+## Objetivo principal
+
+Construir técnica e aderência em três sessões semanais de corpo inteiro.
+
+## Objetivos secundários
+
+- Repetir padrões motores três vezes por semana.
+- Ensinar respiração, amplitude, cadência e controle.
+- Melhorar aderência com baixo volume por sessão.
+- Preparar para divisões ABC, ABCD ou ABCDE.
 
 ## Metadados
 
 | Campo | Valor |
 |---|---|
-| Frequencia | 3 sessoes semanais |
-| Agenda | Segunda, quarta e sexta |
-| Alternativa | Terca, quinta e sabado |
-| Tempo medio | 50-60 minutos |
-| Metodo | Progressao Dupla |
-| RIR | 2-3 |
-| Falha | Nao utilizar |
+| Código | APL-M-HIP-I-FB-BASE-01 |
+| Versão | 1.0.0 |
+| Status | Concluído — aguardando homologação |
+| Sexo | Masculino |
+| Nível | Iniciante |
+| Objetivo | Hipertrofia |
+| Divisão | Full Body |
+| Estratégia | Base |
+| Frequência | 3 sessões semanais |
+| Duração média | 50–60 minutos |
+| Ciclo sugerido | 8–12 semanas |
+| RIR predominante | 2–3 |
+| Método principal | Progressão dupla |
+| Métodos complementares | Nenhum |
+| Complexidade | Baixa |
+| Equipamentos | Academia completa com máquinas, cabos e halteres |
 
 ## Estrutura semanal
 
-| Sessao | Identidade |
-|---|---|
-| Treino A | Joelho, empurrar horizontal e puxada |
-| Treino B | Quadril, remada e ombros |
-| Treino C | Padroes mistos e consolidacao |
+| Dia sugerido | Sessão | Ênfase | Duração estimada |
+|---|---|---|---|
+| Segunda | Treino A | Joelho, empurrar horizontal e puxada vertical | 50–60 min |
+| Quarta | Treino B | Quadril, remada e empurrar vertical | 50–60 min |
+| Sexta | Treino C | Consolidação de padrões mistos | 50–60 min |
 
-Nunca recomendar tres dias consecutivos.
+## Diretrizes
 
-## Treinos completos
+- RIR predominante: 2–3.
+- Interromper a série quando postura, amplitude ou trajetória se deteriorar.
+- Descansar 90–120 s nos principais e 60–75 s nos acessórios.
+- Registrar carga, repetições e RIR em todos os exercícios.
+- Não utilizar técnicas intensificadoras neste modelo.
+- Evitar três sessões em dias consecutivos.
 
-### Treino A
+## Periodização
 
-**Objetivo da sessao:** praticar pernas, peitoral e costas com baixa complexidade.
+Semanas 1–2 consolidam ajustes e execução. Semanas 3–6 priorizam aumento de repetições. Semanas 7–10 permitem aumento conservador de carga. Semanas 11–12 avaliam migração para modelo dividido, manutenção ou deload com redução de 30–40% das séries.
 
-| Ordem | Nome | Series | Repeticoes | RIR | Descanso | Metodo | Observacoes |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Leg Press 45 graus | 3 | 10-12 | 2-3 | 90-120 s | Progressao Dupla | Respirar antes de descer e manter amplitude controlada. |
-| 2 | Supino Maquina | 3 | 8-12 | 2-3 | 90 s | Progressao Dupla | Escapulas apoiadas e punhos alinhados. |
-| 3 | Puxada Alta Frente | 3 | 8-12 | 2-3 | 90 s | Progressao Dupla | Puxar os cotovelos para baixo. |
-| 4 | Mesa Flexora | 2 | 10-12 | 2-3 | 75 s | Progressao Dupla | Controlar a volta. |
-| 5 | Elevacao Lateral Maquina | 2 | 12-15 | 2-3 | 60 s | Progressao Dupla | Subir ate linha dos ombros. |
-| 6 | Triceps Corda | 2 | 10-15 | 2-3 | 60 s | Progressao Dupla | Cotovelos fixos. |
-| 7 | Prancha Frontal | 2 | 20-40 s | Tecnico | 45-60 s | Tempo sob tensao | Encerrar antes de perder alinhamento. |
+## Progressão
 
-**Justificativa tecnica:** a sessao combina grandes grupos com exercicios estaveis, favorecendo pratica de respiracao, postura e cadencia.
+Usar progressão dupla. Primeiro aumentar repetições dentro da faixa prescrita mantendo RIR 2–3. Ao atingir o topo da faixa em todas as séries, aumentar carga em 2–5% e retornar à parte inferior da faixa.
 
-### Treino B
+## Treinos
 
-**Objetivo da sessao:** praticar quadril, remada, empurrar vertical e bracos com controle.
+### Treino A — Joelho, peitoral e puxada
 
-| Ordem | Nome | Series | Repeticoes | RIR | Descanso | Metodo | Observacoes |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Agachamento Smith | 3 | 8-10 | 2-3 | 90-120 s | Progressao Dupla | Descer com cadencia e manter tronco firme. |
-| 2 | Remada Maquina | 3 | 10-12 | 2-3 | 90 s | Progressao Dupla | Pausar levemente na contracao. |
-| 3 | Desenvolvimento Maquina | 2 | 8-12 | 2-3 | 90 s | Progressao Dupla | Coluna apoiada. |
-| 4 | Supino Inclinado com Halteres | 2 | 8-10 | 2-3 | 90 s | Progressao Dupla | Halteres leves e controle. |
-| 5 | Cadeira Flexora | 2 | 10-12 | 2-3 | 75 s | Progressao Dupla | Movimento sem impulso. |
-| 6 | Rosca Maquina | 2 | 10-12 | 2-3 | 60 s | Progressao Dupla | Cotovelos apoiados. |
-| 7 | Panturrilha Sentado | 2 | 12-20 | 2-3 | 60 s | Progressao Dupla | Amplitude completa. |
+#### Objetivo da sessão
 
-**Justificativa tecnica:** varia os angulos da semana e reforca aprendizagem sem carga livre complexa.
+Praticar dominante de joelho, empurrar horizontal, puxada vertical, flexão de joelho, core e panturrilhas com baixa complexidade.
 
-### Treino C
+#### Prescrição
 
-**Objetivo da sessao:** consolidar padroes com movimentos simples e baixo volume.
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+|---:|---|:---:|:---:|:---:|:---:|---|---|
+| 1 | Leg Press 45 Graus | 3 | 10–12 | 2–3 | 90–120 s | Tradicional | Respirar antes de descer e manter amplitude controlada. |
+| 2 | Supino Máquina | 3 | 8–12 | 2–3 | 90 s | Tradicional | Escápulas apoiadas e punhos alinhados. |
+| 3 | Puxada Alta Frente | 3 | 8–12 | 2–3 | 90 s | Tradicional | Puxar cotovelos para baixo. |
+| 4 | Mesa Flexora | 2 | 10–12 | 2–3 | 75 s | Tradicional | Controlar a volta. |
+| 5 | Panturrilha Sentado | 2 | 12–20 | 2–3 | 60 s | Tradicional | Amplitude completa. |
+| 6 | Prancha Frontal | 2 | 20–40 s | Técnico | 45–60 s | Isometria | Encerrar antes de perder alinhamento. |
 
-| Ordem | Nome | Series | Repeticoes | RIR | Descanso | Metodo | Observacoes |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Leg Press Pes Altos | 2 | 10-12 | 2-3 | 90-120 s | Progressao Dupla | Sentir gluteos e posteriores sem tirar quadril. |
-| 2 | Supino Reto com Halteres | 2 | 8-10 | 2-3 | 90 s | Progressao Dupla | Descer com controle. |
-| 3 | Puxada Alta Neutra | 2 | 10-12 | 2-3 | 90 s | Progressao Dupla | Evitar balanco. |
-| 4 | Cadeira Extensora | 2 | 12-15 | 2-3 | 60-75 s | Progressao Dupla | Pausa curta no topo. |
-| 5 | Crucifixo Inverso Maquina | 2 | 12-15 | 2-3 | 60 s | Progressao Dupla | Controlar ombros. |
-| 6 | Triceps Maquina | 2 | 10-12 | 2-3 | 60 s | Progressao Dupla | Movimento completo. |
-| 7 | Abdominal na Polia | 2 | 12-15 | 2-3 | 60 s | Progressao Dupla | Flexionar tronco com controle. |
+#### Justificativa
 
-**Justificativa tecnica:** a terceira sessao repete padroes com pequenas variacoes, acelerando aprendizagem tecnica.
+A sessão combina corpo inteiro com exercícios estáveis. Leg Press e flexora cobrem joelho e quadril de forma simples; supino e puxada garantem tronco; panturrilha e core completam padrões básicos.
 
-## Tabela de prescricao
+### Treino B — Quadril, remada e ombros
 
-As tabelas acima contem ordem, nome, series, repeticoes, RIR, descanso, metodo e observacoes.
+#### Objetivo da sessão
+
+Praticar dominante de quadril, remada, empurrar vertical, joelho, core e panturrilhas com controle.
+
+#### Prescrição
+
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+|---:|---|:---:|:---:|:---:|:---:|---|---|
+| 1 | Agachamento Smith | 3 | 8–10 | 2–3 | 90–120 s | Tradicional | Descer com cadência e tronco firme. |
+| 2 | Remada Máquina | 3 | 10–12 | 2–3 | 90 s | Tradicional | Pausar levemente na contração. |
+| 3 | Desenvolvimento Máquina | 2 | 8–12 | 2–3 | 90 s | Tradicional | Coluna apoiada. |
+| 4 | Supino Inclinado com Halteres | 2 | 8–10 | 2–3 | 90 s | Tradicional | Halteres leves e controle. |
+| 5 | Cadeira Flexora | 2 | 10–12 | 2–3 | 75 s | Tradicional | Movimento sem impulso. |
+| 6 | Abdominal na Polia | 2 | 12–15 | 2–3 | 60 s | Tradicional | Flexionar tronco com controle. |
+
+#### Justificativa
+
+A sessão varia ângulos da semana e reforça corpo inteiro. Agachamento Smith e flexora cobrem membros inferiores; remada e desenvolvimento distribuem tronco; abdominal organiza core sem aumentar fadiga sistêmica.
+
+### Treino C — Consolidação semanal
+
+#### Objetivo da sessão
+
+Consolidar padrões de joelho, quadril, empurrar, puxar e core com variações seguras.
+
+#### Prescrição
+
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+|---:|---|:---:|:---:|:---:|:---:|---|---|
+| 1 | Leg Press Pés Altos | 2 | 10–12 | 2–3 | 90–120 s | Tradicional | Sentir glúteos e posteriores sem tirar quadril. |
+| 2 | Supino Reto com Halteres | 2 | 8–10 | 2–3 | 90 s | Tradicional | Descer com controle. |
+| 3 | Puxada Alta Neutra | 2 | 10–12 | 2–3 | 90 s | Tradicional | Evitar balanço. |
+| 4 | Cadeira Extensora | 2 | 12–15 | 2–3 | 60–75 s | Tradicional | Pausa curta no topo. |
+| 5 | Crucifixo Inverso Máquina | 2 | 12–15 | 2–3 | 60 s | Tradicional | Controlar ombros. |
+| 6 | Abdominal na Polia | 2 | 12–15 | 2–3 | 60 s | Tradicional | Flexionar tronco com controle. |
+
+#### Justificativa
+
+A terceira sessão repete padrões com pequenas variações, acelerando aprendizagem técnica sem repetir o mesmo padrão pesado dos dias anteriores.
 
 ## Volume semanal
 
-| Grupo | Series diretas |
-|---|---:|
-| Peitoral | 7 |
-| Costas | 8 |
-| Quadriceps | 7 |
-| Posteriores/gluteos | 6 |
-| Ombros | 6 |
-| Biceps | 2 |
-| Triceps | 4 |
-| Panturrilhas | 2 |
-| Core | 4 |
+| Grupo | Séries diretas | Frequência | Participação indireta |
+|---|---:|---:|---|
+| Peitoral | 7 | 3x | Tríceps e deltoide anterior participam |
+| Costas | 8 | 3x | Bíceps participa nas puxadas |
+| Quadríceps | 7 | 3x | Leg Press e Smith distribuem estímulo |
+| Posteriores/glúteos | 6 | 3x | Leg Press pés altos contribui |
+| Ombros | 4 | 2x | Supinos contribuem indiretamente |
+| Panturrilhas | 2 | 1x | Baixa prioridade no Base |
+| Core | 6 | 3x | Estabilização indireta nos compostos |
 
-## Distribuicao dos padroes motores
+## Distribuição dos padrões de movimento
 
-| Padrao | Treino A | Treino B | Treino C |
-|---|---|---|---|
-| Joelho | Leg Press | Agachamento Smith | Cadeira Extensora |
-| Quadril | Mesa Flexora | Cadeira Flexora | Leg Press pes altos |
-| Empurrar | Supino Maquina | Supino Inclinado | Supino Halteres |
-| Puxar | Puxada Alta | Remada Maquina | Puxada Neutra |
-| Ombros | Elevacao Lateral | Desenvolvimento | Crucifixo Inverso |
-| Core | Prancha | Indireto | Abdominal |
+- Dominante de joelho: Leg Press, Agachamento Smith e Cadeira Extensora.
+- Dominante de quadril: Mesa Flexora, Cadeira Flexora e Leg Press Pés Altos.
+- Empurrar horizontal: Supino Máquina, Supino Inclinado e Supino com Halteres.
+- Empurrar vertical: Desenvolvimento Máquina.
+- Puxar vertical: Puxada Alta Frente e Puxada Alta Neutra.
+- Puxar horizontal: Remada Máquina.
+- Core: Prancha Frontal e Abdominal na Polia.
+- Panturrilhas: Panturrilha Sentado.
 
-## Coaching Notes
+## Referências futuras ao AOE
 
-- Respirar antes da fase dificil do movimento.
-- Manter cadencia controlada.
-- Nao encurtar amplitude para usar mais carga.
-- Aumentar peso somente com tecnica repetivel.
+Referências provisórias: Agachamento Smith → Agachamento Livre; Supino Máquina → Supino Barra; Puxada Alta → Barra Fixa; Leg Press → Hack; Mesa Flexora → Cadeira Flexora; Elevação Lateral Máquina → Halteres; Remada Máquina → Remada Barra; Desenvolvimento Máquina → Halteres. A equivalência definitiva será centralizada no AOE.
 
-## Criterios de evolucao
+## Aruka Coaching Notes
 
-Evoluir quando o aluno completar 8-10 semanas com assiduidade, boa tecnica e cargas registradas.
+- Respirar antes da fase difícil do movimento.
+- Manter cadência controlada.
+- Não encurtar amplitude para usar mais carga.
+- Aumentar peso somente com técnica repetível.
 
-## Referencias futuras ao AOE
+## Critérios de evolução
 
-Referencias provisorias: Agachamento Smith -> Agachamento Livre; Supino Maquina -> Supino Barra; Puxada Alta -> Barra Fixa; Leg Press -> Hack; Mesa Flexora -> Cadeira Flexora; Elevacao Lateral Maquina -> Halteres; Remada Maquina -> Remada Barra; Desenvolvimento Maquina -> Halteres. A equivalencia definitiva sera centralizada no AOE.
+Evoluir quando o aluno completar 8–10 semanas com assiduidade, boa técnica, cargas registradas e recuperação adequada. Migrar para modelos divididos quando houver necessidade de mais volume por grupamento.
 
 ## Aruka Score
 
-| Dimensao | Nota 1-5 |
-|---|---:|
-| Aprendizagem | 5 |
-| Frequencia | 5 |
-| Simplicidade | 5 |
-| Recuperacao | 5 |
-| Hipertrofia inicial | 3 |
+| Critério | Nota de 1 a 5 | Justificativa |
+|---|:---:|---|
+| Hipertrofia | 3 | Volume moderado e distribuído. |
+| Força | 2 | Prioridade técnica. |
+| Aprendizagem | 5 | Alta repetição dos padrões. |
+| Complexidade | 2 | Exercícios estáveis. |
+| Demanda de recuperação | 2 | Baixo volume por sessão. |
+| Eficiência de tempo | 3 | Cerca de 55 minutos. |
+| Necessidade de equipamentos | 4 | Usa máquinas e cabos. |
+| Personalização | 3 | Permite trocas futuras via AOE. |
+| Aderência esperada | 5 | Rotina simples de três dias. |
 
-## Checklist
+## Engenharia do treino
 
-| Item | Status |
-|---|---|
-| Tres sessoes completas | OK |
-| Todos os grandes grupos aparecem nas sessoes | OK |
-| Sem falha e sem tecnicas avancadas | OK |
-| Observacoes educativas incluidas | OK |
+O treino alterna ênfases para evitar repetir o mesmo padrão pesado em dias próximos. A sessão A prioriza joelho, empurrar horizontal e puxada vertical; a B muda para remada, empurrar vertical e flexão de joelho; a C consolida padrões com menor volume. Todas as sessões treinam corpo inteiro e preservam recuperação semanal.
 
-## Assinatura Tecnica
+## Assinatura Técnica
 
-Modelo Full Body masculino iniciante, voltado para frequencia de aprendizagem, baixo volume por sessao e execucao tecnica.
+Este modelo integra a Aruka Performance Library e foi estruturado para servir como base de prescrição profissional. Sua aplicação exige avaliação individual, acompanhamento da resposta ao treinamento e ajustes realizados pelo profissional responsável.
+
+A seleção final dos exercícios, cargas, amplitude, métodos e progressões deve considerar experiência do aluno, condição atual, disponibilidade de equipamentos, qualidade técnica, recuperação, objetivos específicos e eventuais limitações identificadas na avaliação profissional.
+
+Este documento não substitui avaliação, prescrição ou acompanhamento individualizado.
 
 ## Tags
 
-`hipertrofia`, `masculino`, `iniciante`, `full body`, `base`, `aprendizagem`, `progressao dupla`
+- hipertrofia
+- masculino
+- iniciante
+- full-body
+- base
+- progressao-dupla
+- rir-2-3
+
+## Checklist
+
+- [x] Código interno corresponde ao nome do arquivo.
+- [x] Versão e status estão preenchidos.
+- [x] Todas as sessões treinam corpo inteiro.
+- [x] Todas as tabelas de exercícios possuem as oito colunas oficiais.
+- [x] Volume semanal foi recalculado.
+- [x] Engenharia do treino está presente.
+- [x] Assinatura Técnica está presente.

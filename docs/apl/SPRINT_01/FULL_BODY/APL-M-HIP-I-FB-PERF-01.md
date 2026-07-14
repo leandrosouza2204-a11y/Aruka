@@ -1,173 +1,258 @@
 # Hipertrofia Performance - Full Body Iniciante
 
-**Codigo interno:** `APL-M-HIP-I-FB-PERF-01`
+**Código:** `APL-M-HIP-I-FB-PERF-01`  
+**Versão:** `1.0.0`  
+**Status:** `Concluído — aguardando homologação`  
+**Biblioteca:** Aruka Performance Library  
+**Metodologia:** Hipertrofia  
+**Público:** Masculino Iniciante  
+**Divisão:** Full Body  
+**Estratégia:** Performance
+
+---
 
 ## Resumo Executivo
 
-Modelo Full Body iniciante de transicao, com tres sessoes semanais e Top Set apenas no primeiro exercicio de cada sessao. Prepara o aluno para o Full Body intermediario sem usar falha, Rest Pause ou Drop Set.
+Modelo Full Body Performance para homens iniciantes em transição para a Sprint 02. Mantém três sessões semanais de corpo inteiro, RIR predominante 2, maior uso de pesos livres e Top Set + Back-off apenas no primeiro exercício principal de cada sessão. A duração prevista é de 55–65 minutos, com volume recuperável e foco em técnica sob carga controlada.
 
-## Problema
+## Problema que resolve
 
-Resolve a necessidade de ensinar exercicios livres e progressao estruturada para alunos que ja dominam o basico, mas ainda nao sao intermediarios.
+Resolve a necessidade de ensinar exercícios livres e progressão estruturada para alunos que já dominam o básico, mas ainda não devem treinar como intermediários.
 
 ## Quando utilizar
 
-- Iniciante com boa tecnica basica.
-- Aluno que treina tres vezes por semana.
-- Objetivo de evoluir para intermediario.
-- Boa recuperacao entre sessoes.
+- Iniciante com boa técnica básica.
+- Aluno que treina três vezes por semana.
+- Objetivo de evoluir para intermediário.
+- Boa recuperação entre sessões.
+- Capacidade de registrar Top Set, Back-off e RIR.
 
 ## Quando evitar
 
 - Iniciante absoluto.
-- Dor em exercicios livres.
+- Dor em exercícios livres.
 - Dificuldade de manter RIR 2.
 - Necessidade de treinos muito curtos.
+- Agenda com três dias consecutivos.
 
-## Pre-requisitos
+## Público-alvo
 
-RIR significa Repeticoes em Reserva. O aluno deve manter RIR 2 e nunca levar exercicios livres a falha.
+Homem iniciante em fase final da Sprint 01, com domínio técnico básico, registro consistente e prontidão para aprender livres sem abandonar exercícios estáveis.
 
-## Objetivos
+## Pré-requisitos
 
-- Ensinar Top Set como pratica tecnica, nao teste maximo.
-- Introduzir agachamento, supino, remadas e desenvolvimento com seguranca.
-- Preparar para o Full Body intermediario.
-- Manter volume recuperavel.
+- Entender RIR 2.
+- Registrar Top Set e Back-off separadamente.
+- Manter técnica estável nos exercícios livres.
+- Reduzir carga quando a execução oscilar.
+- Recuperar-se bem entre sessões não consecutivas.
+
+## Filosofia
+
+O Performance usa o Full Body como ponte para o intermediário. Cada sessão continua treinando corpo inteiro, mas o primeiro exercício ensina intensidade organizada. Os demais movimentos completam padrões com progressão dupla.
+
+## Objetivo principal
+
+Preparar o iniciante para o Full Body intermediário com Top Set seletivo e técnica estável.
+
+## Objetivos secundários
+
+- Ensinar Top Set como prática técnica.
+- Introduzir agachamento, supino, remadas e desenvolvimento com segurança.
+- Manter volume recuperável.
+- Preservar frequência de corpo inteiro.
 
 ## Metadados
 
 | Campo | Valor |
 |---|---|
-| Frequencia | 3 sessoes semanais |
-| Tempo | 55-65 minutos |
-| Metodo principal | Progressao Dupla |
-| Metodo complementar | Top Set + Back-off simples |
-| RIR | 2 |
-| Falha | Nao utilizar |
+| Código | APL-M-HIP-I-FB-PERF-01 |
+| Versão | 1.0.0 |
+| Status | Concluído — aguardando homologação |
+| Sexo | Masculino |
+| Nível | Iniciante |
+| Objetivo | Hipertrofia |
+| Divisão | Full Body |
+| Estratégia | Performance |
+| Frequência | 3 sessões semanais |
+| Duração média | 55–65 minutos |
+| Ciclo sugerido | 6–10 semanas |
+| RIR predominante | 2 |
+| Método principal | Progressão dupla |
+| Métodos complementares | Top Set + Back-off seletivo |
+| Complexidade | Moderada |
+| Equipamentos | Academia completa com barras, halteres, máquinas e cabos |
 
 ## Estrutura semanal
 
-| Sessao | Identidade |
-|---|---|
-| Treino A | Agachamento e supino |
-| Treino B | Remada e desenvolvimento |
-| Treino C | Leg Press e puxada |
+| Dia sugerido | Sessão | Ênfase | Duração estimada |
+|---|---|---|---|
+| Segunda | Treino A | Agachamento e supino | 55–65 min |
+| Quarta | Treino B | Remada e desenvolvimento | 55–65 min |
+| Sexta | Treino C | Leg Press e puxada | 55–65 min |
 
-Agenda preferencial: segunda, quarta e sexta. Alternativa: terca, quinta e sabado.
+## Diretrizes
 
-## Treinos completos
+- RIR predominante: 2.
+- Top Set + Back-off somente no primeiro exercício de cada sessão.
+- Descansar 150 s nos Top Sets e 90–120 s nos demais compostos.
+- Preservar técnica antes de carga.
+- Não utilizar técnicas intensificadoras neste modelo.
+- Se a técnica cair, remover Top Set por uma semana.
 
-### Treino A
+## Periodização
 
-**Objetivo da sessao:** aprender agachamento e supino com margem segura.
+Semanas 1–2 introduzem Top Set conservador. Semanas 3–6 priorizam progressão de repetições nos Back-off e acessórios. Semanas 7–9 permitem aumento de carga. Semana 10 avalia prontidão para Sprint 02 ou retorno temporário ao Base.
 
-| Ordem | Nome | Series | Repeticoes | RIR | Descanso | Metodo | Observacoes |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Agachamento Smith | 1 + 2 | Top Set 6-8; Back-off 8-10 | 2 | 150 s | Top Set + Back-off | Aprender postura antes de carga. |
-| 2 | Supino Reto com Barra | 3 | 6-10 | 2 | 120-150 s | Progressao Dupla | Usar carga conservadora. |
-| 3 | Puxada Alta Frente | 3 | 8-12 | 2 | 120 s | Progressao Dupla | Cotovelos para baixo. |
-| 4 | Mesa Flexora | 2 | 10-12 | 2 | 75 s | Progressao Dupla | Controlar volta. |
-| 5 | Elevacao Lateral Maquina | 2 | 12-15 | 2 | 60 s | Progressao Dupla | Sem impulso. |
-| 6 | Triceps Corda | 2 | 10-15 | 2 | 60 s | Progressao Dupla | Cotovelos fixos. |
+## Progressão
 
-**Justificativa tecnica:** o Top Set no Smith introduz carga organizada sem a instabilidade do agachamento livre.
+O primeiro exercício de cada sessão usa 1 Top Set de 6–8 ou 8–10 repetições e 2 Back-off com redução aproximada de 8–12% da carga. Os demais exercícios usam progressão dupla. A carga só aumenta quando RIR 2 e execução estável são mantidos.
 
-### Treino B
+## Treinos
 
-**Objetivo da sessao:** praticar remada, desenvolvimento e padrao de quadril sem terra convencional pesado.
+### Treino A — Agachamento e supino
 
-| Ordem | Nome | Series | Repeticoes | RIR | Descanso | Metodo | Observacoes |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Remada Maquina com Apoio | 1 + 2 | Top Set 6-8; Back-off 8-10 | 2 | 150 s | Top Set + Back-off | Pausar na contracao. |
-| 2 | Desenvolvimento com Halteres Sentado | 3 | 8-10 | 2 | 120 s | Progressao Dupla | Coluna apoiada. |
-| 3 | Leg Press 45 graus | 3 | 10-12 | 2 | 120 s | Progressao Dupla | Amplitude segura. |
-| 4 | Supino Inclinado com Halteres | 2 | 8-10 | 2 | 90 s | Progressao Dupla | Controle dos halteres. |
-| 5 | Rosca Direta com Barra W | 2 | 8-12 | 2 | 75 s | Progressao Dupla | Sem balanco. |
-| 6 | Abdominal na Polia | 2 | 12-15 | 2 | 60 s | Progressao Dupla | Controle do tronco. |
+#### Objetivo da sessão
 
-**Justificativa tecnica:** remada apoiada e leg press permitem evolucao sem carga lombar excessiva.
+Aprender agachamento guiado, empurrar horizontal, puxada vertical, quadril e core em uma sessão de corpo inteiro.
 
-### Treino C
+#### Prescrição
 
-**Objetivo da sessao:** consolidar puxadas, pernas e empurrar com variacoes seguras.
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+|---:|---|:---:|:---:|:---:|:---:|---|---|
+| 1 | Agachamento Smith | 1 + 2 | 6–8 / 8–10 | 2 | 150 s | Top Set + Back-off | Aprender postura antes de carga. |
+| 2 | Supino Reto com Barra | 3 | 6–10 | 2 | 120–150 s | Tradicional | Usar carga conservadora. |
+| 3 | Puxada Alta Frente | 3 | 8–12 | 2 | 120 s | Tradicional | Cotovelos para baixo. |
+| 4 | Mesa Flexora | 2 | 10–12 | 2 | 75 s | Tradicional | Controlar volta. |
+| 5 | Panturrilha Sentado | 2 | 12–20 | 2 | 60 s | Tradicional | Amplitude completa. |
+| 6 | Prancha Frontal | 2 | 25–45 s | Técnico | 45–60 s | Isometria | Encerrar antes de perder alinhamento. |
 
-| Ordem | Nome | Series | Repeticoes | RIR | Descanso | Metodo | Observacoes |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Leg Press 45 graus | 1 + 2 | Top Set 8-10; Back-off 10-12 | 2 | 150 s | Top Set + Back-off | Movimento forte, sem travar joelhos. |
-| 2 | Puxada Alta Neutra | 3 | 8-12 | 2 | 120 s | Progressao Dupla | Evitar balanco. |
-| 3 | Supino Maquina | 3 | 8-12 | 2 | 90-120 s | Progressao Dupla | Escapulas apoiadas. |
-| 4 | Remada Baixa Neutra | 2 | 10-12 | 2 | 90 s | Progressao Dupla | Tronco firme. |
-| 5 | Cadeira Flexora | 2 | 10-12 | 2 | 75 s | Progressao Dupla | Controle excentrico. |
-| 6 | Prancha Frontal | 3 | 25-45 s | Tecnico | 45-60 s | Tempo sob tensao | Encerrar antes de perder alinhamento. |
+#### Justificativa
 
-**Justificativa tecnica:** consolida o corpo inteiro com padroes seguros e sem terra convencional pesado.
+O Top Set no Smith introduz carga organizada sem a instabilidade do agachamento livre. Supino e puxada completam tronco, enquanto flexora, panturrilha e core mantêm o caráter Full Body.
 
-## Tabela de prescricao
+### Treino B — Remada e desenvolvimento
 
-As tabelas acima contem ordem, nome, series, repeticoes, RIR, descanso, metodo e observacoes.
+#### Objetivo da sessão
+
+Praticar remada, empurrar vertical, joelho, quadril, peitoral e core sem repetir o mesmo padrão pesado do Treino A.
+
+#### Prescrição
+
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+|---:|---|:---:|:---:|:---:|:---:|---|---|
+| 1 | Remada Máquina com Apoio | 1 + 2 | 6–8 / 8–10 | 2 | 150 s | Top Set + Back-off | Pausar na contração. |
+| 2 | Desenvolvimento com Halteres Sentado | 3 | 8–10 | 2 | 120 s | Tradicional | Coluna apoiada. |
+| 3 | Leg Press 45 Graus | 3 | 10–12 | 2 | 120 s | Tradicional | Amplitude segura. |
+| 4 | Supino Inclinado com Halteres | 2 | 8–10 | 2 | 90 s | Tradicional | Controle dos halteres. |
+| 5 | Cadeira Flexora | 2 | 10–12 | 2 | 75 s | Tradicional | Controle excêntrico. |
+| 6 | Abdominal na Polia | 2 | 12–15 | 2 | 60 s | Tradicional | Controle do tronco. |
+
+#### Justificativa
+
+Remada apoiada e Leg Press permitem evolução sem carga lombar excessiva. A sessão alterna empurrar vertical e inclinado para distribuir fadiga de tronco.
+
+### Treino C — Leg Press e puxada
+
+#### Objetivo da sessão
+
+Consolidar pernas, puxadas, empurrar horizontal, quadril e core com variações seguras.
+
+#### Prescrição
+
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+|---:|---|:---:|:---:|:---:|:---:|---|---|
+| 1 | Leg Press 45 Graus | 1 + 2 | 8–10 / 10–12 | 2 | 150 s | Top Set + Back-off | Movimento forte sem travar joelhos. |
+| 2 | Puxada Alta Neutra | 3 | 8–12 | 2 | 120 s | Tradicional | Evitar balanço. |
+| 3 | Supino Máquina | 3 | 8–12 | 2 | 90–120 s | Tradicional | Escápulas apoiadas. |
+| 4 | Remada Baixa Neutra | 2 | 10–12 | 2 | 90 s | Tradicional | Tronco firme. |
+| 5 | Mesa Flexora | 2 | 10–12 | 2 | 75 s | Tradicional | Controle na volta. |
+| 6 | Prancha Frontal | 3 | 25–45 s | Técnico | 45–60 s | Isometria | Encerrar antes de perder alinhamento. |
+
+#### Justificativa
+
+A terceira sessão consolida corpo inteiro com padrões seguros. O Leg Press recebe Top Set por ter alta estabilidade, e puxada, supino e remada completam a semana sem repetir agachamento pesado.
 
 ## Volume semanal
 
-| Grupo | Series diretas |
-|---|---:|
-| Peitoral | 8 |
-| Costas | 10 |
-| Quadriceps | 9 |
-| Posteriores/gluteos | 4 |
-| Ombros | 5 |
-| Biceps | 2 |
-| Triceps | 2 |
-| Core | 5 |
+| Grupo | Séries diretas | Frequência | Participação indireta |
+|---|---:|---:|---|
+| Peitoral | 8 | 3x | Tríceps e deltoide anterior participam |
+| Costas | 10 | 3x | Bíceps participa nas puxadas |
+| Quadríceps | 9 | 3x | Agachamento e Leg Press distribuem estímulo |
+| Posteriores/glúteos | 6 | 3x | Flexoras e Leg Press contribuem |
+| Ombros | 3 | 1x | Supinos contribuem indiretamente |
+| Panturrilhas | 2 | 1x | Baixa prioridade no Performance |
+| Core | 7 | 3x | Estabilização indireta nos livres |
 
-## Distribuicao dos padroes motores
+## Distribuição dos padrões de movimento
 
-| Padrao | A | B | C |
-|---|---|---|
-| Agachar | Agachamento Smith | Leg Press | Leg Press |
-| Empurrar | Supino Barra | Desenvolvimento | Supino Maquina |
-| Puxar | Puxada Alta | Remada Apoiada | Puxada e Remada |
-| Quadril | Mesa Flexora | Indireto | Cadeira Flexora |
-| Core | Indireto | Abdominal | Prancha |
+- Dominante de joelho: Agachamento Smith e Leg Press.
+- Dominante de quadril: Mesa Flexora e Cadeira Flexora.
+- Empurrar horizontal: Supino Reto, Supino Inclinado e Supino Máquina.
+- Empurrar vertical: Desenvolvimento com Halteres.
+- Puxar vertical: Puxada Alta Frente e Puxada Alta Neutra.
+- Puxar horizontal: Remada Máquina e Remada Baixa.
+- Core: Prancha Frontal e Abdominal na Polia.
+- Panturrilhas: Panturrilha Sentado.
 
-## Coaching Notes
+## Referências futuras ao AOE
 
-- Top Set nao e serie maxima.
-- Back-off deve manter tecnica melhor que a primeira serie.
-- Nao usar Terra Convencional pesado.
-- Se a tecnica cair, remover Top Set por uma semana.
+Referências provisórias: Agachamento Smith → Agachamento Livre; Supino Máquina → Supino Barra; Puxada Alta → Barra Fixa; Leg Press → Hack; Mesa Flexora → Cadeira Flexora; Remada Máquina → Remada Barra; Desenvolvimento Máquina → Halteres. A equivalência definitiva será centralizada no AOE.
 
-## Criterios de evolucao
+## Aruka Coaching Notes
 
-Evoluir para Full Body intermediario quando o aluno controlar RIR 2, registrar cargas e executar os livres com consistencia.
+- Top Set não é série máxima.
+- Back-off deve manter técnica melhor que a primeira série.
+- Evitar Terra Convencional pesado neste nível.
+- Se a técnica cair, remover Top Set por uma semana.
 
-## Referencias futuras ao AOE
+## Critérios de evolução
 
-Referencias provisorias: Agachamento Smith -> Agachamento Livre; Supino Maquina -> Supino Barra; Puxada Alta -> Barra Fixa; Leg Press -> Hack; Mesa Flexora -> Cadeira Flexora; Elevacao Lateral Maquina -> Halteres; Remada Maquina -> Remada Barra; Desenvolvimento Maquina -> Halteres. A equivalencia definitiva sera centralizada no AOE.
+Evoluir para Full Body intermediário quando o aluno controlar RIR 2, registrar cargas e executar livres com consistência por um bloco completo. Regressar ao Base se os Top Sets reduzirem qualidade técnica.
 
 ## Aruka Score
 
-| Dimensao | Nota 1-5 |
-|---|---:|
-| Aprendizagem | 5 |
-| Frequencia | 5 |
-| Simplicidade | 4 |
-| Recuperacao | 4 |
-| Transicao | 5 |
+| Critério | Nota de 1 a 5 | Justificativa |
+|---|:---:|---|
+| Hipertrofia | 4 | Volume equilibrado e frequência alta. |
+| Força | 3 | Top Set seletivo em padrões principais. |
+| Aprendizagem | 5 | Prepara transição técnica. |
+| Complexidade | 3 | Moderada para iniciante avançando. |
+| Demanda de recuperação | 3 | Maior que Base, ainda controlada. |
+| Eficiência de tempo | 3 | Sessões de 55–65 minutos. |
+| Necessidade de equipamentos | 4 | Usa livres, máquinas e cabos. |
+| Personalização | 3 | Permite regressões via AOE futuro. |
+| Aderência esperada | 4 | Boa para três dias semanais. |
 
-## Checklist
+## Engenharia do treino
 
-| Item | Status |
-|---|---|
-| Top Set apenas no primeiro exercicio | OK |
-| Sem Rest Pause ou Drop Set | OK |
-| Sem falha | OK |
-| Sem Terra Convencional pesado | OK |
+Cada sessão mantém corpo inteiro, mas alterna o Top Set entre joelho, puxar horizontal e Leg Press para controlar fadiga sistêmica. O treino evita repetir o mesmo padrão pesado em sessões próximas e mantém empurrar, puxar, joelho, quadril e core em toda a semana.
 
-## Assinatura Tecnica
+## Assinatura Técnica
 
-Modelo Full Body masculino iniciante de performance, voltado para transicao tecnica ao intermediario com Top Set seguro.
+Este modelo integra a Aruka Performance Library e foi estruturado para servir como base de prescrição profissional. Sua aplicação exige avaliação individual, acompanhamento da resposta ao treinamento e ajustes realizados pelo profissional responsável.
+
+A seleção final dos exercícios, cargas, amplitude, métodos e progressões deve considerar experiência do aluno, condição atual, disponibilidade de equipamentos, qualidade técnica, recuperação, objetivos específicos e eventuais limitações identificadas na avaliação profissional.
+
+Este documento não substitui avaliação, prescrição ou acompanhamento individualizado.
 
 ## Tags
 
-`hipertrofia`, `masculino`, `iniciante`, `full body`, `performance`, `top set`, `transicao`
+- hipertrofia
+- masculino
+- iniciante
+- full-body
+- performance
+- top-set
+- rir-2
+
+## Checklist
+
+- [x] Código interno corresponde ao nome do arquivo.
+- [x] Versão e status estão preenchidos.
+- [x] Todas as sessões treinam corpo inteiro.
+- [x] Top Set aparece apenas em exercícios principais.
+- [x] Todas as tabelas de exercícios possuem as oito colunas oficiais.
+- [x] Volume semanal foi recalculado.
+- [x] Assinatura Técnica está presente.
