@@ -126,9 +126,9 @@ Texto.
 | Aprendizagem | 5 |
 ## Engenharia do treino
 Texto.
-## Checklist
-- [x] OK
 ## Assinatura Técnica
 Texto.
 ## Tags
-- hipertrofia`;
+- hipertrofia
+## Checklist
+- [x] OK`;

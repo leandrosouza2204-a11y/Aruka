@@ -263,19 +263,6 @@ Manter o modelo enquanto houver melhora técnica e progressão com RIR 2–3. Ev
 
 A engenharia combina frequência 2x com volume moderado. Upper A prioriza padrões horizontais, Upper B padrões verticais, Lower A dominante de joelho e Lower B dominante de quadril. Essa separação reduz interferência local, melhora qualidade de execução e permite que o iniciante pratique os mesmos segmentos mais vezes sem transformar cada sessão em treino longo.
 
-## Checklist
-
-- [x] Código interno corresponde ao nome do arquivo.
-- [x] Versão e status estão preenchidos.
-- [x] Todas as seções obrigatórias existem.
-- [x] Todas as sessões possuem objetivo, prescrição e justificativa.
-- [x] Todas as tabelas de exercícios possuem as oito colunas oficiais.
-- [x] Séries, repetições, RIR, descanso e método estão explícitos.
-- [x] Volume semanal foi calculado.
-- [x] Técnicas intensificadoras não são utilizadas.
-- [x] Referências ao AOE estão registradas.
-- [x] Aruka Score está preenchido e justificado.
-
 ## Assinatura Técnica
 
 Este modelo integra a Aruka Performance Library e foi estruturado para prescrição profissional de hipertrofia iniciante. Sua aplicação exige avaliação individual, acompanhamento técnico e ajustes pelo profissional responsável, considerando execução, recuperação, disponibilidade de equipamentos e resposta ao treinamento.
@@ -289,3 +276,16 @@ Este modelo integra a Aruka Performance Library e foi estruturado para prescriç
 - base
 - progressao-dupla
 - rir-2-3
+
+## Checklist
+
+- [x] Código interno corresponde ao nome do arquivo.
+- [x] Versão e status estão preenchidos.
+- [x] Todas as seções obrigatórias existem.
+- [x] Todas as sessões possuem objetivo, prescrição e justificativa.
+- [x] Todas as tabelas de exercícios possuem as oito colunas oficiais.
+- [x] Séries, repetições, RIR, descanso e método estão explícitos.
+- [x] Volume semanal foi calculado.
+- [x] Técnicas intensificadoras não são utilizadas.
+- [x] Referências ao AOE estão registradas.
+- [x] Aruka Score está preenchido e justificado.

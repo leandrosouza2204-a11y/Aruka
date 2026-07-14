@@ -224,15 +224,6 @@ Evoluir quando o aluno completar treinos em 40-45 minutos sem cortar compostos, 
 
 O Eficiência reduz volume por redundância, não por abandono de padrões. Compostos mantêm descanso próprio; isoladores podem ser agrupados para poupar tempo sem comprometer segurança.
 
-## Checklist
-
-- [x] Código do modelo presente.
-- [x] Versão e status definidos.
-- [x] Tempo de 40-45 minutos.
-- [x] Supersérie apenas entre isoladores.
-- [x] Tabelas oficiais de prescrição.
-- [x] Referências AOE registradas.
-
 ## Assinatura Técnica
 
 Modelo ABC iniciante de hipertrofia eficiência, construído para preservar aderência e padrões essenciais em sessões curtas.
@@ -246,3 +237,12 @@ Modelo ABC iniciante de hipertrofia eficiência, construído para preservar ader
 - eficiencia
 - superserie-isoladora
 - treino-rapido
+
+## Checklist
+
+- [x] Código do modelo presente.
+- [x] Versão e status definidos.
+- [x] Tempo de 40-45 minutos.
+- [x] Supersérie apenas entre isoladores.
+- [x] Tabelas oficiais de prescrição.
+- [x] Referências AOE registradas.

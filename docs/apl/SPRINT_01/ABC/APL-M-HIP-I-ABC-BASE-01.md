@@ -225,16 +225,6 @@ Evoluir após 8-12 semanas com assiduidade, RIR 2-3 real, progressão sem perda 
 
 O ABC Base limita intensidade para proteger aprendizagem. A prioridade para máquinas reduz variação técnica, permite progressão objetiva e melhora aderência. A ausência de técnicas intensificadoras preserva recuperação.
 
-## Checklist
-
-- [x] Código do modelo presente.
-- [x] Versão e status definidos.
-- [x] Estrutura ABC completa.
-- [x] Progressão dupla aplicada.
-- [x] RIR 2-3 respeitado.
-- [x] Tabelas oficiais de prescrição.
-- [x] Referências AOE registradas.
-
 ## Assinatura Técnica
 
 Modelo ABC iniciante de hipertrofia base, construído para aprendizagem técnica, progressão conservadora e aderência em três sessões semanais.
@@ -248,3 +238,13 @@ Modelo ABC iniciante de hipertrofia base, construído para aprendizagem técnica
 - base
 - progressao-dupla
 - rir-2-3
+
+## Checklist
+
+- [x] Código do modelo presente.
+- [x] Versão e status definidos.
+- [x] Estrutura ABC completa.
+- [x] Progressão dupla aplicada.
+- [x] RIR 2-3 respeitado.
+- [x] Tabelas oficiais de prescrição.
+- [x] Referências AOE registradas.

@@ -263,19 +263,6 @@ Encerrar o bloco após 6–8 semanas, quando o aluno melhora controle dos supino
 
 A especialização usa a estrutura Upper/Lower para expor o peitoral duas vezes na semana sem criar um dia isolado de peito. Upper A concentra a maior dose, Upper B complementa com ângulos mais estáveis. Costas, deltoides, braços e inferiores ficam em manutenção para que a prioridade não desequilibre o iniciante nem reduza a recuperação.
 
-## Checklist
-
-- [x] Código interno corresponde ao nome do arquivo.
-- [x] Versão e status estão preenchidos.
-- [x] Todas as seções obrigatórias existem.
-- [x] Todas as sessões possuem objetivo, prescrição e justificativa.
-- [x] Todas as tabelas de exercícios possuem as oito colunas oficiais.
-- [x] Peitoral permanece entre 14–16 séries diretas semanais.
-- [x] Demais grupamentos permanecem em manutenção produtiva.
-- [x] Técnicas intensificadoras não são utilizadas.
-- [x] Volume semanal foi calculado.
-- [x] Aruka Score está preenchido e justificado.
-
 ## Assinatura Técnica
 
 Este modelo integra a Aruka Performance Library e foi estruturado para prescrição profissional de hipertrofia iniciante com prioridade moderada de peitoral. Sua aplicação exige avaliação individual, acompanhamento técnico e ajustes pelo profissional responsável, especialmente em ombros, tríceps e resposta de recuperação.
@@ -289,3 +276,16 @@ Este modelo integra a Aruka Performance Library e foi estruturado para prescriç
 - especializacao
 - peitoral
 - rir-2
+
+## Checklist
+
+- [x] Código interno corresponde ao nome do arquivo.
+- [x] Versão e status estão preenchidos.
+- [x] Todas as seções obrigatórias existem.
+- [x] Todas as sessões possuem objetivo, prescrição e justificativa.
+- [x] Todas as tabelas de exercícios possuem as oito colunas oficiais.
+- [x] Peitoral permanece entre 14–16 séries diretas semanais.
+- [x] Demais grupamentos permanecem em manutenção produtiva.
+- [x] Técnicas intensificadoras não são utilizadas.
+- [x] Volume semanal foi calculado.
+- [x] Aruka Score está preenchido e justificado.

@@ -262,20 +262,7 @@ Migrar para Sprint 02 quando o aluno sustentar Top Sets técnicos, registrar car
 
 A divisão preserva o ABCD iniciante, mas aumenta especificidade técnica nos exercícios principais. Top Set seletivo concentra intensidade no início da sessão, enquanto Back-off gera prática com menor carga. A distribuição evita sobrepor livres pesados em dias consecutivos e mantém acessórios estáveis para controlar fadiga.
 
-## Checklist
-
-- [x] Código interno corresponde ao nome do arquivo.
-- [x] Versão e status estão preenchidos.
-- [x] Todas as seções obrigatórias existem.
-- [x] Todas as sessões possuem objetivo, prescrição e justificativa.
-- [x] Todas as tabelas de exercícios possuem as oito colunas oficiais.
-- [x] Séries, repetições, RIR, descanso e método estão explícitos.
-- [x] O volume semanal foi calculado.
-- [x] Métodos são compatíveis com o nível.
-- [x] Substituições estão registradas como referências provisórias ao AOE.
-- [x] Assinatura Técnica está presente.
-
-## Assinatura Tecnica
+## Assinatura Técnica
 
 Este modelo integra a Aruka Performance Library e foi estruturado para servir como base de prescrição profissional. Sua aplicação exige avaliação individual, acompanhamento da resposta ao treinamento e ajustes realizados pelo profissional responsável.
 
@@ -301,3 +288,16 @@ Este documento não substitui avaliação, prescrição ou acompanhamento indivi
 - top-set
 - back-off
 - rir-2
+
+## Checklist
+
+- [x] Código interno corresponde ao nome do arquivo.
+- [x] Versão e status estão preenchidos.
+- [x] Todas as seções obrigatórias existem.
+- [x] Todas as sessões possuem objetivo, prescrição e justificativa.
+- [x] Todas as tabelas de exercícios possuem as oito colunas oficiais.
+- [x] Séries, repetições, RIR, descanso e método estão explícitos.
+- [x] O volume semanal foi calculado.
+- [x] Métodos são compatíveis com o nível.
+- [x] Substituições estão registradas como referências provisórias ao AOE.
+- [x] Assinatura Técnica está presente.

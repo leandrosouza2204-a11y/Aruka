@@ -264,18 +264,7 @@ Evoluir para Sprint 02 quando o aluno mantiver RIR 2, técnica estável nos livr
 
 A divisão mantém cinco sessões específicas, mas aumenta exigência técnica somente onde há maior retorno: supino e agachamento. O restante da semana conserva exercícios estáveis para controlar fadiga e preparar a Sprint 02 sem antecipar demanda intermediária completa.
 
-## Checklist
-
-- [x] Código interno corresponde ao nome do arquivo.
-- [x] Versão e status estão preenchidos.
-- [x] Todas as seções obrigatórias existem.
-- [x] Todas as sessões possuem objetivo, prescrição e justificativa.
-- [x] Tabelas de exercícios possuem as oito colunas oficiais.
-- [x] Volume semanal foi calculado.
-- [x] Top Set é seletivo.
-- [x] Assinatura Técnica está presente.
-
-## Assinatura Tecnica
+## Assinatura Técnica
 
 Este modelo integra a Aruka Performance Library e foi estruturado para servir como base de prescrição profissional. Sua aplicação exige avaliação individual, acompanhamento da resposta ao treinamento e ajustes realizados pelo profissional responsável.
 
@@ -292,3 +281,14 @@ Este documento não substitui avaliação, prescrição ou acompanhamento indivi
 - performance
 - top-set
 - rir-2
+
+## Checklist
+
+- [x] Código interno corresponde ao nome do arquivo.
+- [x] Versão e status estão preenchidos.
+- [x] Todas as seções obrigatórias existem.
+- [x] Todas as sessões possuem objetivo, prescrição e justificativa.
+- [x] Tabelas de exercícios possuem as oito colunas oficiais.
+- [x] Volume semanal foi calculado.
+- [x] Top Set é seletivo.
+- [x] Assinatura Técnica está presente.

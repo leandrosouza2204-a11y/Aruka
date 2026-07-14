@@ -261,20 +261,7 @@ Manter o modelo se houver progresso estável e boa recuperação. Progredir para
 
 A divisão separa grupos musculares de forma simples para reduzir densidade por sessão e preservar aprendizagem. O treino A concentra empurrar horizontal, o B concentra puxadas, o C organiza membros inferiores e o D distribui ombros e core. A relação estímulo-fadiga é conservadora para sustentar recuperação entre sessões consecutivas.
 
-## Checklist
-
-- [x] Código interno corresponde ao nome do arquivo.
-- [x] Versão e status estão preenchidos.
-- [x] Todas as seções obrigatórias existem.
-- [x] Todas as sessões possuem objetivo, prescrição e justificativa.
-- [x] Todas as tabelas de exercícios possuem as oito colunas oficiais.
-- [x] Séries, repetições, RIR, descanso e método estão explícitos.
-- [x] O volume semanal foi calculado.
-- [x] Métodos são compatíveis com o nível.
-- [x] Substituições estão registradas como referências provisórias ao AOE.
-- [x] Assinatura Técnica está presente.
-
-## Assinatura Tecnica
+## Assinatura Técnica
 
 Este modelo integra a Aruka Performance Library e foi estruturado para servir como base de prescrição profissional. Sua aplicação exige avaliação individual, acompanhamento da resposta ao treinamento e ajustes realizados pelo profissional responsável.
 
@@ -300,3 +287,16 @@ Este documento não substitui avaliação, prescrição ou acompanhamento indivi
 - academia-completa
 - progressao-dupla
 - rir-2-3
+
+## Checklist
+
+- [x] Código interno corresponde ao nome do arquivo.
+- [x] Versão e status estão preenchidos.
+- [x] Todas as seções obrigatórias existem.
+- [x] Todas as sessões possuem objetivo, prescrição e justificativa.
+- [x] Todas as tabelas de exercícios possuem as oito colunas oficiais.
+- [x] Séries, repetições, RIR, descanso e método estão explícitos.
+- [x] O volume semanal foi calculado.
+- [x] Métodos são compatíveis com o nível.
+- [x] Substituições estão registradas como referências provisórias ao AOE.
+- [x] Assinatura Técnica está presente.

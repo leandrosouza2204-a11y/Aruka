@@ -264,18 +264,7 @@ Evoluir quando o aluno sustentar 8–10 semanas com assiduidade, técnica consis
 
 A divisão separa grandes regiões em cinco sessões para reduzir densidade diária. O volume permanece iniciante e a ordem prioriza exercícios estáveis no início de cada sessão. A distribuição semanal permite praticar frequentemente sem transformar cada dia em treino longo.
 
-## Checklist
-
-- [x] Código interno corresponde ao nome do arquivo.
-- [x] Versão e status estão preenchidos.
-- [x] Todas as seções obrigatórias existem.
-- [x] Todas as sessões possuem objetivo, prescrição e justificativa.
-- [x] Tabelas de exercícios possuem as oito colunas oficiais.
-- [x] Volume semanal foi calculado.
-- [x] Métodos são compatíveis com o nível.
-- [x] Assinatura Técnica está presente.
-
-## Assinatura Tecnica
+## Assinatura Técnica
 
 Este modelo integra a Aruka Performance Library e foi estruturado para servir como base de prescrição profissional. Sua aplicação exige avaliação individual, acompanhamento da resposta ao treinamento e ajustes realizados pelo profissional responsável.
 
@@ -292,3 +281,14 @@ Este documento não substitui avaliação, prescrição ou acompanhamento indivi
 - base
 - progressao-dupla
 - rir-2-3
+
+## Checklist
+
+- [x] Código interno corresponde ao nome do arquivo.
+- [x] Versão e status estão preenchidos.
+- [x] Todas as seções obrigatórias existem.
+- [x] Todas as sessões possuem objetivo, prescrição e justificativa.
+- [x] Tabelas de exercícios possuem as oito colunas oficiais.
+- [x] Volume semanal foi calculado.
+- [x] Métodos são compatíveis com o nível.
+- [x] Assinatura Técnica está presente.

@@ -265,18 +265,7 @@ Evoluir para Base quando o aluno tiver mais tempo ou precisar de mais prática p
 
 A divisão mantém cinco sessões, mas corta redundâncias para preservar tempo. Compostos aparecem no início e com descanso próprio. Superséries acessórias reduzem deslocamento e duração sem comprometer os padrões principais.
 
-## Checklist
-
-- [x] Código interno corresponde ao nome do arquivo.
-- [x] Versão e status estão preenchidos.
-- [x] Todas as seções obrigatórias existem.
-- [x] Todas as sessões possuem objetivo, prescrição e justificativa.
-- [x] Tabelas de exercícios possuem as oito colunas oficiais.
-- [x] Volume semanal foi calculado.
-- [x] Superséries são apenas acessórias.
-- [x] Assinatura Técnica está presente.
-
-## Assinatura Tecnica
+## Assinatura Técnica
 
 Este modelo integra a Aruka Performance Library e foi estruturado para servir como base de prescrição profissional. Sua aplicação exige avaliação individual, acompanhamento da resposta ao treinamento e ajustes realizados pelo profissional responsável.
 
@@ -293,3 +282,14 @@ Este documento não substitui avaliação, prescrição ou acompanhamento indivi
 - eficiencia
 - sessoes-curtas
 - rir-2-3
+
+## Checklist
+
+- [x] Código interno corresponde ao nome do arquivo.
+- [x] Versão e status estão preenchidos.
+- [x] Todas as seções obrigatórias existem.
+- [x] Todas as sessões possuem objetivo, prescrição e justificativa.
+- [x] Tabelas de exercícios possuem as oito colunas oficiais.
+- [x] Volume semanal foi calculado.
+- [x] Superséries são apenas acessórias.
+- [x] Assinatura Técnica está presente.

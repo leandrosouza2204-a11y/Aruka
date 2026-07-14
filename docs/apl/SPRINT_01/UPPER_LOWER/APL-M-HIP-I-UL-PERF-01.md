@@ -263,19 +263,6 @@ Evoluir para Sprint 02 quando o aluno sustentar Top Sets com RIR 2, completar Ba
 
 O Performance preserva a arquitetura Upper/Lower, mas adiciona picos técnicos de carga em pontos seguros. Supino, agachamento guiado e puxada recebem Top Set + Back-off por terem alto valor pedagógico. O restante do treino mantém progressão dupla para limitar variáveis, controlar fadiga e evitar que todos os exercícios virem séries principais.
 
-## Checklist
-
-- [x] Código interno corresponde ao nome do arquivo.
-- [x] Versão e status estão preenchidos.
-- [x] Todas as seções obrigatórias existem.
-- [x] Todas as sessões possuem objetivo, prescrição e justificativa.
-- [x] Todas as tabelas de exercícios possuem as oito colunas oficiais.
-- [x] Top Set + Back-off aparecem apenas em exercícios principais selecionados.
-- [x] RIR 2 está explícito.
-- [x] Técnicas intensificadoras não são utilizadas.
-- [x] Volume semanal foi calculado.
-- [x] Aruka Score está preenchido e justificado.
-
 ## Assinatura Técnica
 
 Este modelo integra a Aruka Performance Library e foi estruturado para prescrição profissional de hipertrofia iniciante em fase de transição. Sua aplicação exige avaliação individual, acompanhamento técnico e ajustes pelo profissional responsável, especialmente nos exercícios com Top Set + Back-off.
@@ -290,3 +277,16 @@ Este modelo integra a Aruka Performance Library e foi estruturado para prescriç
 - top-set
 - back-off
 - rir-2
+
+## Checklist
+
+- [x] Código interno corresponde ao nome do arquivo.
+- [x] Versão e status estão preenchidos.
+- [x] Todas as seções obrigatórias existem.
+- [x] Todas as sessões possuem objetivo, prescrição e justificativa.
+- [x] Todas as tabelas de exercícios possuem as oito colunas oficiais.
+- [x] Top Set + Back-off aparecem apenas em exercícios principais selecionados.
+- [x] RIR 2 está explícito.
+- [x] Técnicas intensificadoras não são utilizadas.
+- [x] Volume semanal foi calculado.
+- [x] Aruka Score está preenchido e justificado.

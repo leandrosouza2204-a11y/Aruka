@@ -1,11 +1,11 @@
 {
-  "version": "1.2.0",
+  "version": "1.2.1",
   "target": "sprint01",
-  "startedAt": "2026-07-14T20:37:23.940Z",
-  "finishedAt": "2026-07-14T20:37:24.794Z",
-  "durationMs": 856,
-  "filesScanned": 31,
-  "documentsParsed": 31,
+  "startedAt": "2026-07-14T20:57:43.682Z",
+  "finishedAt": "2026-07-14T20:57:44.627Z",
+  "durationMs": 943,
+  "filesScanned": 26,
+  "documentsParsed": 26,
   "rulesLoaded": 9,
   "rulesAvailable": 12,
   "rulesExecuted": 9,
@@ -167,8 +167,8 @@
       "name": "AQA-001 Estrutura",
       "severity": "error",
       "scope": "global",
-      "findings": 2,
-      "durationMs": 5
+      "findings": 0,
+      "durationMs": 4
     },
     {
       "id": "aqa-002",
@@ -176,15 +176,15 @@
       "severity": "error",
       "scope": "model",
       "findings": 0,
-      "durationMs": 10
+      "durationMs": 9
     },
     {
       "id": "aqa-003",
       "name": "AQA-003 Secoes Premium",
       "severity": "error",
       "scope": "model",
-      "findings": 3,
-      "durationMs": 500
+      "findings": 0,
+      "durationMs": 529
     },
     {
       "id": "aqa-004",
@@ -192,7 +192,7 @@
       "severity": "error",
       "scope": "prescription",
       "findings": 0,
-      "durationMs": 11
+      "durationMs": 7
     },
     {
       "id": "aqa-005",
@@ -200,7 +200,7 @@
       "severity": "warning",
       "scope": "model",
       "findings": 0,
-      "durationMs": 39
+      "durationMs": 38
     },
     {
       "id": "aqa-006",
@@ -208,7 +208,7 @@
       "severity": "warning",
       "scope": "document",
       "findings": 0,
-      "durationMs": 6
+      "durationMs": 7
     },
     {
       "id": "aqa-007",
@@ -224,7 +224,7 @@
       "severity": "error",
       "scope": "model",
       "findings": 0,
-      "durationMs": 5
+      "durationMs": 6
     },
     {
       "id": "aqa-009",
@@ -235,112 +235,7 @@
       "durationMs": 1
     }
   ],
-  "findings": [
-    {
-      "ruleId": "aqa-001",
-      "severity": "warning",
-      "scope": "model",
-      "message": "Arquivo adicional desconhecido ou nome fora do padrao.",
-      "file": "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\FULL_BODY.md",
-      "sprint": "SPRINT_01",
-      "block": "_ROOT",
-      "suggestion": "Revisar se o arquivo faz parte da estrutura oficial da APL.",
-      "metadata": {},
-      "findingId": "aqa-001-1",
-      "originalSeverity": "warning",
-      "isCascadeChild": false,
-      "depth": 0,
-      "suppressed": false,
-      "confidence": 70,
-      "category": "Estrutura",
-      "criticality": "WARNING"
-    },
-    {
-      "ruleId": "aqa-001",
-      "severity": "warning",
-      "scope": "model",
-      "message": "Arquivo adicional desconhecido ou nome fora do padrao.",
-      "file": "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\UPPER_LOWER.md",
-      "sprint": "SPRINT_01",
-      "block": "_ROOT",
-      "suggestion": "Revisar se o arquivo faz parte da estrutura oficial da APL.",
-      "metadata": {},
-      "findingId": "aqa-001-2",
-      "originalSeverity": "warning",
-      "isCascadeChild": false,
-      "depth": 0,
-      "suppressed": false,
-      "confidence": 70,
-      "category": "Estrutura",
-      "criticality": "WARNING"
-    },
-    {
-      "ruleId": "aqa-003",
-      "severity": "warning",
-      "scope": "model",
-      "message": "Secao fora da ordem Premium: Checklist.",
-      "file": "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\FULL_BODY\\APL-M-HIP-I-FB-BASE-01.md",
-      "sprint": "SPRINT_01",
-      "block": "FULL_BODY",
-      "modelCode": "APL-M-HIP-I-FB-BASE-01",
-      "line": 250,
-      "section": "Checklist",
-      "suggestion": "Reordenar as secoes H2 conforme o catalogo Premium oficial.",
-      "metadata": {},
-      "findingId": "aqa-003-3",
-      "originalSeverity": "warning",
-      "isCascadeChild": false,
-      "depth": 0,
-      "suppressed": false,
-      "confidence": 70,
-      "category": "Documentacao",
-      "criticality": "WARNING"
-    },
-    {
-      "ruleId": "aqa-003",
-      "severity": "warning",
-      "scope": "model",
-      "message": "Secao fora da ordem Premium: Checklist.",
-      "file": "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\FULL_BODY\\APL-M-HIP-I-FB-EFI-01.md",
-      "sprint": "SPRINT_01",
-      "block": "FULL_BODY",
-      "modelCode": "APL-M-HIP-I-FB-EFI-01",
-      "line": 252,
-      "section": "Checklist",
-      "suggestion": "Reordenar as secoes H2 conforme o catalogo Premium oficial.",
-      "metadata": {},
-      "findingId": "aqa-003-4",
-      "originalSeverity": "warning",
-      "isCascadeChild": false,
-      "depth": 0,
-      "suppressed": false,
-      "confidence": 70,
-      "category": "Documentacao",
-      "criticality": "WARNING"
-    },
-    {
-      "ruleId": "aqa-003",
-      "severity": "warning",
-      "scope": "model",
-      "message": "Secao fora da ordem Premium: Checklist.",
-      "file": "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\FULL_BODY\\APL-M-HIP-I-FB-PERF-01.md",
-      "sprint": "SPRINT_01",
-      "block": "FULL_BODY",
-      "modelCode": "APL-M-HIP-I-FB-PERF-01",
-      "line": 250,
-      "section": "Checklist",
-      "suggestion": "Reordenar as secoes H2 conforme o catalogo Premium oficial.",
-      "metadata": {},
-      "findingId": "aqa-003-5",
-      "originalSeverity": "warning",
-      "isCascadeChild": false,
-      "depth": 0,
-      "suppressed": false,
-      "confidence": 70,
-      "category": "Documentacao",
-      "criticality": "WARNING"
-    }
-  ],
+  "findings": [],
   "diagnostics": [
     {
       "severity": "info",
@@ -366,219 +261,68 @@
       "loaded": 9,
       "executed": 9,
       "skipped": 3,
-      "findingsByRule": {
-        "aqa-001": 2,
-        "aqa-003": 3
-      }
+      "findingsByRule": {}
     },
     "findings": {
-      "bySeverity": {
-        "warning": 5
-      },
-      "bySprint": {
-        "SPRINT_01": 5
-      },
-      "byBlock": {
-        "_ROOT": 2,
-        "FULL_BODY": 3
-      },
-      "byFile": {
-        "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\FULL_BODY.md": 1,
-        "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\UPPER_LOWER.md": 1,
-        "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\FULL_BODY\\APL-M-HIP-I-FB-BASE-01.md": 1,
-        "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\FULL_BODY\\APL-M-HIP-I-FB-EFI-01.md": 1,
-        "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\FULL_BODY\\APL-M-HIP-I-FB-PERF-01.md": 1
-      }
+      "bySeverity": {},
+      "bySprint": {},
+      "byBlock": {},
+      "byFile": {}
     },
     "targets": {
-      "filesScanned": 31,
-      "documentsParsed": 31
+      "filesScanned": 26,
+      "documentsParsed": 26
     },
     "performance": {
-      "durationMs": 856,
+      "durationMs": 943,
       "byRule": {
-        "aqa-001": 5,
-        "aqa-002": 10,
-        "aqa-003": 500,
-        "aqa-004": 11,
-        "aqa-005": 39,
-        "aqa-006": 6,
+        "aqa-001": 4,
+        "aqa-002": 9,
+        "aqa-003": 529,
+        "aqa-004": 7,
+        "aqa-005": 38,
+        "aqa-006": 7,
         "aqa-007": 2,
-        "aqa-008": 5,
+        "aqa-008": 6,
         "aqa-009": 1
       },
       "slowestRule": {
         "id": "aqa-003",
-        "durationMs": 500
+        "durationMs": 529
       }
     },
     "calibration": {
-      "byRule": {
-        "aqa-001": 2,
-        "aqa-003": 3
-      },
-      "bySprint": {
-        "SPRINT_01": 5
-      },
-      "byBlock": {
-        "_ROOT": 2,
-        "FULL_BODY": 3
-      },
-      "byModel": {
-        "APL-M-HIP-I-FB-BASE-01": 1,
-        "APL-M-HIP-I-FB-EFI-01": 1,
-        "APL-M-HIP-I-FB-PERF-01": 1
-      },
-      "byFile": {
-        "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\FULL_BODY.md": 1,
-        "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\UPPER_LOWER.md": 1,
-        "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\FULL_BODY\\APL-M-HIP-I-FB-BASE-01.md": 1,
-        "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\FULL_BODY\\APL-M-HIP-I-FB-EFI-01.md": 1,
-        "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\FULL_BODY\\APL-M-HIP-I-FB-PERF-01.md": 1
-      },
-      "bySeverity": {
-        "warning": 5
-      },
-      "byConfidence": {
-        "70": 5
-      },
-      "byCategory": {
-        "Estrutura": 2,
-        "Documentacao": 3
-      },
-      "topRules": [
-        {
-          "name": "aqa-003",
-          "count": 3
-        },
-        {
-          "name": "aqa-001",
-          "count": 2
-        }
-      ],
-      "topFiles": [
-        {
-          "name": "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\FULL_BODY.md",
-          "count": 1
-        },
-        {
-          "name": "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\FULL_BODY\\APL-M-HIP-I-FB-BASE-01.md",
-          "count": 1
-        },
-        {
-          "name": "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\FULL_BODY\\APL-M-HIP-I-FB-EFI-01.md",
-          "count": 1
-        },
-        {
-          "name": "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\FULL_BODY\\APL-M-HIP-I-FB-PERF-01.md",
-          "count": 1
-        },
-        {
-          "name": "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\UPPER_LOWER.md",
-          "count": 1
-        }
-      ],
-      "topModels": [
-        {
-          "name": "APL-M-HIP-I-FB-BASE-01",
-          "count": 1
-        },
-        {
-          "name": "APL-M-HIP-I-FB-EFI-01",
-          "count": 1
-        },
-        {
-          "name": "APL-M-HIP-I-FB-PERF-01",
-          "count": 1
-        }
-      ],
+      "byRule": {},
+      "bySprint": {},
+      "byBlock": {},
+      "byModel": {},
+      "byFile": {},
+      "bySeverity": {},
+      "byConfidence": {},
+      "byCategory": {},
+      "topRules": [],
+      "topFiles": [],
+      "topModels": [],
       "performance": {
         "byRule": {
-          "aqa-001": 5,
-          "aqa-002": 10,
-          "aqa-003": 500,
-          "aqa-004": 11,
-          "aqa-005": 39,
-          "aqa-006": 6,
+          "aqa-001": 4,
+          "aqa-002": 9,
+          "aqa-003": 529,
+          "aqa-004": 7,
+          "aqa-005": 38,
+          "aqa-006": 7,
           "aqa-007": 2,
-          "aqa-008": 5,
+          "aqa-008": 6,
           "aqa-009": 1
         },
-        "bySprint": {
-          "SPRINT_01": 5
-        },
-        "totalMs": 856
+        "bySprint": {},
+        "totalMs": 943
       }
     }
   },
-  "status": "PASSED_WITH_WARNINGS",
+  "status": "PASSED",
   "exitCode": 0,
-  "rawFindings": [
-    {
-      "ruleId": "aqa-001",
-      "severity": "warning",
-      "scope": "model",
-      "message": "Arquivo adicional desconhecido ou nome fora do padrao.",
-      "file": "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\FULL_BODY.md",
-      "sprint": "SPRINT_01",
-      "block": "_ROOT",
-      "suggestion": "Revisar se o arquivo faz parte da estrutura oficial da APL.",
-      "metadata": {}
-    },
-    {
-      "ruleId": "aqa-001",
-      "severity": "warning",
-      "scope": "model",
-      "message": "Arquivo adicional desconhecido ou nome fora do padrao.",
-      "file": "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\UPPER_LOWER.md",
-      "sprint": "SPRINT_01",
-      "block": "_ROOT",
-      "suggestion": "Revisar se o arquivo faz parte da estrutura oficial da APL.",
-      "metadata": {}
-    },
-    {
-      "ruleId": "aqa-003",
-      "severity": "warning",
-      "scope": "model",
-      "message": "Secao fora da ordem Premium: Checklist.",
-      "file": "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\FULL_BODY\\APL-M-HIP-I-FB-BASE-01.md",
-      "sprint": "SPRINT_01",
-      "block": "FULL_BODY",
-      "modelCode": "APL-M-HIP-I-FB-BASE-01",
-      "line": 250,
-      "section": "Checklist",
-      "suggestion": "Reordenar as secoes H2 conforme o catalogo Premium oficial.",
-      "metadata": {}
-    },
-    {
-      "ruleId": "aqa-003",
-      "severity": "warning",
-      "scope": "model",
-      "message": "Secao fora da ordem Premium: Checklist.",
-      "file": "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\FULL_BODY\\APL-M-HIP-I-FB-EFI-01.md",
-      "sprint": "SPRINT_01",
-      "block": "FULL_BODY",
-      "modelCode": "APL-M-HIP-I-FB-EFI-01",
-      "line": 252,
-      "section": "Checklist",
-      "suggestion": "Reordenar as secoes H2 conforme o catalogo Premium oficial.",
-      "metadata": {}
-    },
-    {
-      "ruleId": "aqa-003",
-      "severity": "warning",
-      "scope": "model",
-      "message": "Secao fora da ordem Premium: Checklist.",
-      "file": "C:\\Projetos\\ConsultoriaFitness\\docs\\apl\\SPRINT_01\\FULL_BODY\\APL-M-HIP-I-FB-PERF-01.md",
-      "sprint": "SPRINT_01",
-      "block": "FULL_BODY",
-      "modelCode": "APL-M-HIP-I-FB-PERF-01",
-      "line": 250,
-      "section": "Checklist",
-      "suggestion": "Reordenar as secoes H2 conforme o catalogo Premium oficial.",
-      "metadata": {}
-    }
-  ],
+  "rawFindings": [],
   "calibration": {
     "enabled": true,
     "version": "1.1",
@@ -588,72 +332,72 @@
       "duplicatesRemoved": 0,
       "suppressedCount": 0,
       "suppressionPatterns": 0,
-      "averageConfidence": 70
+      "averageConfidence": 0
     },
     "summary": {
       "version": "AQA v1.1",
-      "result": "PASSED_WITH_WARNINGS",
+      "result": "PASSED",
       "blockers": 0,
       "errors": 0,
-      "warnings": 5,
+      "warnings": 0,
       "suggestions": 0,
       "info": 0,
       "duplicatesRemoved": 0,
       "suppressedCount": 0,
       "rootCauses": 0,
-      "averageConfidence": 70,
-      "mostCriticalModel": "APL-M-HIP-I-FB-BASE-01",
-      "mostViolatedRule": "aqa-003",
-      "mostCriticalSprint": "SPRINT_01"
+      "averageConfidence": 0,
+      "mostCriticalModel": "N/A",
+      "mostViolatedRule": "N/A",
+      "mostCriticalSprint": "N/A"
     },
     "baseline": {
       "baselinePath": "C:\\Projetos\\ConsultoriaFitness\\reports\\apl\\.baseline.json",
       "previous": {
-        "updatedAt": "2026-07-14T20:37:06.356Z",
-        "target": "sprint01",
-        "totalFindings": 5,
+        "updatedAt": "2026-07-14T20:52:06.741Z",
+        "target": "all",
+        "totalFindings": 499,
         "byRule": {
-          "aqa-001": 2,
-          "aqa-003": 3
+          "aqa-001": 5,
+          "aqa-002": 90,
+          "aqa-003": 399,
+          "aqa-005": 4,
+          "aqa-007": 1
         },
         "bySeverity": {
-          "warning": 5
+          "blocker": 5,
+          "error": 16,
+          "warning": 478
         },
         "bySprint": {
-          "SPRINT_01": 5
+          "SPRINT_03": 5,
+          "SPRINT_02": 469,
+          "SPRINT_01": 24
         },
         "byBlock": {
-          "_ROOT": 2,
-          "FULL_BODY": 3
+          "ABC": 101,
+          "ABCD": 101,
+          "ABCDE": 101,
+          "FULL_BODY": 94,
+          "UPPER_LOWER": 101
         }
       },
       "current": {
-        "updatedAt": "2026-07-14T20:37:24.816Z",
+        "updatedAt": "2026-07-14T20:57:44.636Z",
         "target": "sprint01",
-        "totalFindings": 5,
-        "byRule": {
-          "aqa-001": 2,
-          "aqa-003": 3
-        },
-        "bySeverity": {
-          "warning": 5
-        },
-        "bySprint": {
-          "SPRINT_01": 5
-        },
-        "byBlock": {
-          "_ROOT": 2,
-          "FULL_BODY": 3
-        }
+        "totalFindings": 0,
+        "byRule": {},
+        "bySeverity": {},
+        "bySprint": {},
+        "byBlock": {}
       },
       "trend": {
-        "findingsDelta": 0,
-        "blockersDelta": 0,
-        "errorsDelta": 0,
-        "warningsDelta": 0,
+        "findingsDelta": -499,
+        "blockersDelta": -5,
+        "errorsDelta": -16,
+        "warningsDelta": -478,
         "suggestionsDelta": 0,
-        "previousTotal": 5,
-        "currentTotal": 5
+        "previousTotal": 499,
+        "currentTotal": 0
       }
     }
   }

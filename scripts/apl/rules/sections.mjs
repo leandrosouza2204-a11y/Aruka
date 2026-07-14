@@ -21,6 +21,35 @@ function sectionOrderIndex(section) {
   return PREMIUM_SECTIONS.findIndex((expected) => normalizeText(expected) === normalized);
 }
 
+function validateSectionOrder(document, h2Sections, findings) {
+  const actualOrder = h2Sections
+    .map((section) => ({
+      heading: section,
+      officialTitle: canonicalSectionName(section.title),
+      expectedIndex: sectionOrderIndex(section.title),
+    }))
+    .filter((section) => section.expectedIndex !== -1);
+
+  let previousExpectedIndex = -1;
+  for (const section of actualOrder) {
+    if (section.expectedIndex < previousExpectedIndex) {
+      findings.push(modelFinding(document, RULE_ID, SEVERITIES.WARNING, `Secao fora da ordem Premium: ${section.officialTitle}.`, {
+        line: section.heading.line,
+        section: section.officialTitle,
+        suggestion: "Reordenar as secoes H2 conforme o catalogo Premium oficial.",
+        metadata: {
+          expectedOrder: PREMIUM_SECTIONS,
+          actualOrder: actualOrder.map((item) => item.officialTitle),
+          expectedIndex: section.expectedIndex,
+          previousExpectedIndex,
+        },
+      }));
+      continue;
+    }
+    previousExpectedIndex = section.expectedIndex;
+  }
+}
+
 function subsectionOccurrences(session, title) {
   const expected = normalizeHeadingTitle(title);
   return session.children.filter((child) => child.level === 4 && child.normalizedTitle === expected);
@@ -39,7 +68,7 @@ function validateGlobalSections(document, findings) {
       }));
     }
     if (matches.length > 1) {
-      findings.push(modelFinding(document, RULE_ID, SEVERITIES.ERROR, `Secao Premium duplicada: ${section}.`, {
+      findings.push(modelFinding(document, RULE_ID, SEVERITIES.WARNING, `Secao Premium duplicada: ${section}.`, {
         line: matches[1].line,
         section,
         suggestion: "Consolidar secoes H2 duplicadas no escopo global.",
@@ -47,20 +76,7 @@ function validateGlobalSections(document, findings) {
     }
   }
 
-  let lastOrder = -1;
-  for (const section of h2Sections) {
-    const currentOrder = sectionOrderIndex(section.title);
-    if (currentOrder === -1) continue;
-    if (currentOrder < lastOrder) {
-      findings.push(modelFinding(document, RULE_ID, SEVERITIES.WARNING, `Secao fora da ordem Premium: ${canonicalSectionName(section.title)}.`, {
-        line: section.line,
-        section: canonicalSectionName(section.title),
-        suggestion: "Reordenar as secoes H2 conforme o catalogo Premium oficial.",
-      }));
-      continue;
-    }
-    lastOrder = currentOrder;
-  }
+  validateSectionOrder(document, h2Sections, findings);
 
   const legacyCoaching = findSectionOccurrences(context, "Coaching Notes", { level: 2 })
     .filter((heading) => normalizeHeadingTitle(heading.title) === "coaching notes");

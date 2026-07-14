@@ -42,6 +42,12 @@ A CLI interpreta argumentos, define o alvo e chama a engine. O scanner localiza 
 
 O módulo `scripts/apl/document-context.mjs` constrói a árvore do documento, identifica seções H2, sessões H3, subseções H4 e associa tabelas ao heading mais próximo. A classificação contextual permite que AQA-003 valide subseções por sessão e que AQA-004 audite somente tabelas de prescrição.
 
+## AQA v1.2.1 - Section Order Validator
+
+O hotfix v1.2.1 corrige a validação de ordem das seções Premium na AQA-003. O algoritmo anterior dependia da lista interna `PREMIUM_SECTIONS`, que estava com `Checklist` antes de `Assinatura Técnica` e `Tags`, gerando falso positivo em documentos cuja ordem oficial estava correta.
+
+O algoritmo novo constrói a sequência completa de headings H2 encontrados no documento, normaliza os títulos para comparação e valida os índices contra a ordem oficial. H3, H4, tabelas, listas e blocos auxiliares não participam da comparação de ordem global.
+
 ## Isolamento
 
 Cada regra recebe o mesmo contexto imutavel. Regras nao devem alterar documentos, scanner result, opcoes ou PROJECT_STATUS. Helpers fornecem consultas seguras para documentos, Sprints, blocos, modelos, READMEs e diagnostics.

@@ -226,16 +226,6 @@ Evoluir para Sprint 02 quando o aluno sustentar Top Sets com RIR 2 real, técnic
 
 O Performance aumenta especificidade sem antecipar métodos avançados. O Top Set único melhora foco e registro, enquanto o Back-off simples permite volume técnico e recuperação compatível com iniciante.
 
-## Checklist
-
-- [x] Código do modelo presente.
-- [x] Versão e status definidos.
-- [x] Top Set apenas no primeiro exercício.
-- [x] Back-off simples aplicado.
-- [x] RIR 2 mantido.
-- [x] Tabelas oficiais de prescrição.
-- [x] Referências AOE registradas.
-
 ## Assinatura Técnica
 
 Modelo ABC iniciante de hipertrofia performance, construído para preparar a transição para Sprint 02 com intensidade controlada e progressão mensurável.
@@ -249,3 +239,13 @@ Modelo ABC iniciante de hipertrofia performance, construído para preparar a tra
 - performance
 - top-set
 - back-off
+
+## Checklist
+
+- [x] Código do modelo presente.
+- [x] Versão e status definidos.
+- [x] Top Set apenas no primeiro exercício.
+- [x] Back-off simples aplicado.
+- [x] RIR 2 mantido.
+- [x] Tabelas oficiais de prescrição.
+- [x] Referências AOE registradas.

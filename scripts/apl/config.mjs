@@ -20,4 +20,4 @@ export const ENABLE_SUPPRESSIONS = true;
 export const ENABLE_CONFIDENCE = true;
 export const ENABLE_CLASSIFICATION = true;
 export const ENABLE_CASCADE = true;
-export const VERSION = "1.2.0";
+export const VERSION = "1.2.1";

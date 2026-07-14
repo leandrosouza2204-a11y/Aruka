@@ -6,13 +6,13 @@
 - Result: FAILED
 - BLOCKERS: 5
 - ERRORS: 16
-- WARNINGS: 459
+- WARNINGS: 454
 - SUGGESTIONS: 0
 - INFO: 0
 - Duplicates removidos: 15
 - Findings suprimidos: 0
 - Root Causes: 35
-- Confidence media: 89%
+- Confidence media: 90%
 - Modelo mais critico: APL-M-HIP-M-ABC-EFI-01
 - Regra mais violada: aqa-003
 - Sprint mais critica: SPRINT_02
@@ -22,22 +22,22 @@
 ```text
 BLOCKERS     # 5
 ERRORS       # 16
-WARNINGS     ######################## 459
+WARNINGS     ######################## 454
 SUGGESTIONS  # 0
 INFO         # 0
 ```
 
 ## Summary
 
-- Version: 1.2.0
+- Version: 1.2.1
 - Target: all
 - Status: FAILED
 - Exit code: 1
-- Started: 2026-07-14T20:37:33.390Z
-- Finished: 2026-07-14T20:37:34.725Z
-- Duration: 1336ms
-- Files scanned: 51
-- Documents parsed: 51
+- Started: 2026-07-14T20:58:03.486Z
+- Finished: 2026-07-14T20:58:04.745Z
+- Duration: 1261ms
+- Files scanned: 46
+- Documents parsed: 46
 - Rules loaded: 9
 - Rules executed: 9
 
@@ -48,7 +48,7 @@ INFO         # 0
 | blocker | 5 |
 | info | 0 |
 | suggestion | 0 |
-| warning | 459 |
+| warning | 454 |
 | error | 16 |
 | fatal | 0 |
 
@@ -56,13 +56,13 @@ INFO         # 0
 
 | Contexto | Findings |
 | --- | --- |
-| global | 480 |
+| global | 475 |
 
 ## Baseline
 
 - Arquivo: C:\Projetos\ConsultoriaFitness\reports\apl\.baseline.json
-- Findings anterior: 480
-- Findings atual: 480
+- Findings anterior: 475
+- Findings atual: 475
 - Delta findings: +0
 - Delta BLOCKERS: +0
 - Delta ERRORS: +0
@@ -73,8 +73,8 @@ INFO         # 0
 
 | Category | Findings |
 | --- | --- |
-| Documentacao | 468 |
-| Estrutura | 7 |
+| Documentacao | 465 |
+| Estrutura | 5 |
 | Metodos | 4 |
 | Status | 1 |
 
@@ -84,7 +84,7 @@ INFO         # 0
 | --- | --- |
 | 90 | 456 |
 | 80 | 15 |
-| 70 | 9 |
+| 70 | 4 |
 
 ## Root Causes
 
@@ -307,15 +307,15 @@ Nenhuma ocorrencia.
 
 | Rule | Severity | Scope | Findings | Duration |
 | --- | --- | --- | --- | --- |
-| aqa-001 | error | global | 22 | 6ms |
-| aqa-002 | error | model | 90 | 27ms |
-| aqa-003 | error | model | 378 | 922ms |
+| aqa-001 | error | global | 20 | 5ms |
+| aqa-002 | error | model | 90 | 21ms |
+| aqa-003 | error | model | 375 | 891ms |
 | aqa-004 | error | prescription | 0 | 7ms |
-| aqa-005 | warning | model | 4 | 46ms |
-| aqa-006 | warning | document | 0 | 7ms |
+| aqa-005 | warning | model | 4 | 42ms |
+| aqa-006 | warning | document | 0 | 8ms |
 | aqa-007 | error | global | 1 | 2ms |
-| aqa-008 | error | model | 0 | 9ms |
-| aqa-009 | warning | model | 0 | 3ms |
+| aqa-008 | error | model | 0 | 6ms |
+| aqa-009 | warning | model | 0 | 2ms |
 
 ## Findings
 
@@ -4458,50 +4458,6 @@ Nenhuma ocorrencia.
 - Mensagem: Secao obrigatoria ausente: Tags.
 - Sugestao: Adicionar a secao "Tags".
 
-- Regra: aqa-001
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY.md
-- Sprint: SPRINT_01
-- Bloco: _ROOT
-- Mensagem: Arquivo adicional desconhecido ou nome fora do padrao.
-- Sugestao: Revisar se o arquivo faz parte da estrutura oficial da APL.
-
-- Regra: aqa-001
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER.md
-- Sprint: SPRINT_01
-- Bloco: _ROOT
-- Mensagem: Arquivo adicional desconhecido ou nome fora do padrao.
-- Sugestao: Revisar se o arquivo faz parte da estrutura oficial da APL.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY\APL-M-HIP-I-FB-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: FULL_BODY
-- Modelo: APL-M-HIP-I-FB-BASE-01
-- Secao: Checklist
-- Linha: 250
-- Mensagem: Secao fora da ordem Premium: Checklist.
-- Sugestao: Reordenar as secoes H2 conforme o catalogo Premium oficial.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY\APL-M-HIP-I-FB-EFI-01.md
-- Sprint: SPRINT_01
-- Bloco: FULL_BODY
-- Modelo: APL-M-HIP-I-FB-EFI-01
-- Secao: Checklist
-- Linha: 252
-- Mensagem: Secao fora da ordem Premium: Checklist.
-- Sugestao: Reordenar as secoes H2 conforme o catalogo Premium oficial.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY\APL-M-HIP-I-FB-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: FULL_BODY
-- Modelo: APL-M-HIP-I-FB-PERF-01
-- Secao: Checklist
-- Linha: 250
-- Mensagem: Secao fora da ordem Premium: Checklist.
-- Sugestao: Reordenar as secoes H2 conforme o catalogo Premium oficial.
-
 ### Information
 
 Nenhuma ocorrencia.
@@ -4510,9 +4466,9 @@ Nenhuma ocorrencia.
 
 | Rule | Findings |
 | --- | --- |
-| aqa-003 | 378 |
+| aqa-003 | 375 |
 | aqa-002 | 90 |
-| aqa-001 | 7 |
+| aqa-001 | 5 |
 | aqa-005 | 4 |
 | aqa-007 | 1 |
 
@@ -4521,19 +4477,17 @@ Nenhuma ocorrencia.
 | Sprint | Findings |
 | --- | --- |
 | SPRINT_02 | 469 |
-| SPRINT_01 | 5 |
 | SPRINT_03 | 5 |
 
 ## Findings By Block
 
 | Block | Findings |
 | --- | --- |
-| FULL_BODY | 97 |
 | ABC | 95 |
 | ABCD | 95 |
 | ABCDE | 95 |
 | UPPER_LOWER | 95 |
-| _ROOT | 2 |
+| FULL_BODY | 94 |
 
 ## Findings By File
 
@@ -4554,11 +4508,6 @@ Nenhuma ocorrencia.
 | C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_02\FULL_BODY\APL-M-HIP-M-FB-PERF-01.md | 31 |
 | C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_02\UPPER_LOWER\APL-M-HIP-M-UL-BASE-01.md | 31 |
 | C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_02\UPPER_LOWER\APL-M-HIP-M-UL-PERF-01.md | 31 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY.md | 1 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY\APL-M-HIP-I-FB-BASE-01.md | 1 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY\APL-M-HIP-I-FB-EFI-01.md | 1 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY\APL-M-HIP-I-FB-PERF-01.md | 1 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER.md | 1 |
 
 ## Findings By Model
 
@@ -4579,17 +4528,14 @@ Nenhuma ocorrencia.
 | APL-M-HIP-M-FB-PERF-01 | 31 |
 | APL-M-HIP-M-UL-BASE-01 | 31 |
 | APL-M-HIP-M-UL-PERF-01 | 31 |
-| APL-M-HIP-I-FB-BASE-01 | 1 |
-| APL-M-HIP-I-FB-EFI-01 | 1 |
-| APL-M-HIP-I-FB-PERF-01 | 1 |
 
 ## Most Violated Rules
 
 | Rule | Findings |
 | --- | --- |
-| aqa-003 | 378 |
+| aqa-003 | 375 |
 | aqa-002 | 90 |
-| aqa-001 | 7 |
+| aqa-001 | 5 |
 | aqa-005 | 4 |
 | aqa-007 | 1 |
 
@@ -4616,12 +4562,12 @@ Nenhuma ocorrencia.
 
 ## Performance
 
-- aqa-001: 6ms
-- aqa-002: 27ms
-- aqa-003: 922ms
+- aqa-001: 5ms
+- aqa-002: 21ms
+- aqa-003: 891ms
 - aqa-004: 7ms
-- aqa-005: 46ms
-- aqa-006: 7ms
+- aqa-005: 42ms
+- aqa-006: 8ms
 - aqa-007: 2ms
-- aqa-008: 9ms
-- aqa-009: 3ms
+- aqa-008: 6ms
+- aqa-009: 2ms

@@ -27,9 +27,9 @@ export const PREMIUM_SECTIONS = Object.freeze([
   "Criterios de evolucao",
   "Aruka Score",
   "Engenharia do treino",
-  "Checklist",
   "Assinatura Tecnica",
   "Tags",
+  "Checklist",
 ]);
 
 export function normalizeText(value) {
