@@ -1,28 +1,33 @@
 {
-  "updatedAt": "2026-07-14T19:37:54.965Z",
-  "target": "sprint01",
-  "totalFindings": 395,
+  "updatedAt": "2026-07-14T19:48:38.343Z",
+  "target": "all",
+  "totalFindings": 1552,
   "byRule": {
-    "aqa-002": 6,
-    "aqa-003": 63,
-    "aqa-004": 312,
-    "aqa-005": 1,
+    "aqa-001": 7,
+    "aqa-002": 93,
+    "aqa-003": 393,
+    "aqa-004": 1035,
+    "aqa-005": 10,
     "aqa-008": 9,
-    "aqa-007": 2,
-    "aqa-001": 2
+    "aqa-006": 4,
+    "aqa-007": 1
   },
   "bySeverity": {
-    "error": 13,
-    "warning": 382
+    "blocker": 5,
+    "error": 27,
+    "warning": 1520
   },
   "bySprint": {
-    "SPRINT_01": 394
+    "SPRINT_03": 5,
+    "SPRINT_02": 1180,
+    "SPRINT_01": 367
   },
   "byBlock": {
-    "UPPER_LOWER": 149,
-    "ABCD": 78,
-    "ABCDE": 78,
-    "FULL_BODY": 87,
+    "ABC": 230,
+    "ABCD": 308,
+    "ABCDE": 308,
+    "FULL_BODY": 334,
+    "UPPER_LOWER": 370,
     "_ROOT": 2
   }
 }

@@ -6,7 +6,7 @@
 - Result: FAILED
 - BLOCKERS: 0
 - ERRORS: 13
-- WARNINGS: 382
+- WARNINGS: 355
 - SUGGESTIONS: 0
 - INFO: 0
 - Duplicates removidos: 0
@@ -22,7 +22,7 @@
 ```text
 BLOCKERS     # 0
 ERRORS       # 13
-WARNINGS     ######################## 382
+WARNINGS     ######################## 355
 SUGGESTIONS  # 0
 INFO         # 0
 ```
@@ -33,9 +33,9 @@ INFO         # 0
 - Target: sprint01
 - Status: FAILED
 - Exit code: 1
-- Started: 2026-07-14T19:37:54.682Z
-- Finished: 2026-07-14T19:37:54.939Z
-- Duration: 258ms
+- Started: 2026-07-14T19:48:37.699Z
+- Finished: 2026-07-14T19:48:38.052Z
+- Duration: 354ms
 - Files scanned: 31
 - Documents parsed: 31
 - Rules loaded: 9
@@ -48,45 +48,45 @@ INFO         # 0
 | blocker | 0 |
 | info | 0 |
 | suggestion | 0 |
-| warning | 382 |
+| warning | 355 |
 | error | 13 |
 | fatal | 0 |
 
 ## Baseline
 
 - Arquivo: C:\Projetos\ConsultoriaFitness\reports\apl\.baseline.json
-- Findings anterior: 396
-- Findings atual: 395
-- Delta findings: -1
-- Delta BLOCKERS: +0
-- Delta ERRORS: +0
-- Delta WARNINGS: -1
+- Findings anterior: 1561
+- Findings atual: 368
+- Delta findings: -1193
+- Delta BLOCKERS: -5
+- Delta ERRORS: -14
+- Delta WARNINGS: -1174
 - Delta SUGGESTIONS: +0
 
 ## Categories
 
 | Category | Findings |
 | --- | --- |
-| Prescricao | 312 |
-| Documentacao | 69 |
+| Prescricao | 294 |
+| Documentacao | 51 |
 | Iniciante | 9 |
+| Metodos | 6 |
+| Terminologia | 4 |
 | Estrutura | 2 |
 | Status | 2 |
-| Metodos | 1 |
 
 ## Confidence
 
 | Confidence | Findings |
 | --- | --- |
-| 90 | 383 |
-| 70 | 12 |
+| 90 | 347 |
+| 70 | 21 |
 
 ## Root Causes
 
 | Root Cause | Findings |
 | --- | --- |
-| Secao Premium duplicada: Objetivo da sessao. | 6 |
-| Secao obrigatoria ausente: Objetivo principal. | 3 |
+| Secao Premium duplicada: Objetivo da sessao. | 9 |
 | Secao Premium ausente: Coaching Notes. | 3 |
 
 ## Top BLOCKERS
@@ -94,230 +94,6 @@ INFO         # 0
 Nenhuma ocorrencia.
 
 ## Top ERRORS
-
-- Regra: aqa-002
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Secao obrigatoria ausente: Objetivo principal.
-- Sugestao: Adicionar a secao "Objetivo principal".
-
-- Regra: aqa-002
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Mensagem: Secao obrigatoria ausente: Objetivo principal.
-- Sugestao: Adicionar a secao "Objetivo principal".
-
-- Regra: aqa-002
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Mensagem: Secao obrigatoria ausente: Objetivo principal.
-- Sugestao: Adicionar a secao "Objetivo principal".
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: ABCD
-- Modelo: APL-M-HIP-I-ABCD-BASE-01
-- Secao: Objetivo da sessao
-- Linha: 139
-- Mensagem: Secao Premium duplicada: Objetivo da sessao.
-- Sugestao: Consolidar secoes duplicadas em uma unica secao.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-EFI-01.md
-- Sprint: SPRINT_01
-- Bloco: ABCD
-- Modelo: APL-M-HIP-I-ABCD-EFI-01
-- Secao: Objetivo da sessao
-- Linha: 140
-- Mensagem: Secao Premium duplicada: Objetivo da sessao.
-- Sugestao: Consolidar secoes duplicadas em uma unica secao.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: ABCD
-- Modelo: APL-M-HIP-I-ABCD-PERF-01
-- Secao: Objetivo da sessao
-- Linha: 140
-- Mensagem: Secao Premium duplicada: Objetivo da sessao.
-- Sugestao: Consolidar secoes duplicadas em uma unica secao.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCDE\APL-M-HIP-I-ABCDE-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: ABCDE
-- Modelo: APL-M-HIP-I-ABCDE-BASE-01
-- Secao: Objetivo da sessao
-- Linha: 136
-- Mensagem: Secao Premium duplicada: Objetivo da sessao.
-- Sugestao: Consolidar secoes duplicadas em uma unica secao.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCDE\APL-M-HIP-I-ABCDE-EFI-01.md
-- Sprint: SPRINT_01
-- Bloco: ABCDE
-- Modelo: APL-M-HIP-I-ABCDE-EFI-01
-- Secao: Objetivo da sessao
-- Linha: 137
-- Mensagem: Secao Premium duplicada: Objetivo da sessao.
-- Sugestao: Consolidar secoes duplicadas em uma unica secao.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCDE\APL-M-HIP-I-ABCDE-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: ABCDE
-- Modelo: APL-M-HIP-I-ABCDE-PERF-01
-- Secao: Objetivo da sessao
-- Linha: 136
-- Mensagem: Secao Premium duplicada: Objetivo da sessao.
-- Sugestao: Consolidar secoes duplicadas em uma unica secao.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY\APL-M-HIP-I-FB-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: FULL_BODY
-- Modelo: APL-M-HIP-I-FB-BASE-01
-- Mensagem: Secao Premium ausente: Coaching Notes.
-- Sugestao: Adicionar a secao "Coaching Notes" no modelo.
-
-## Top WARNINGS
-
-- Regra: aqa-002
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Versao ausente.
-- Sugestao: Adicionar campo de versao nos metadados.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Secao Premium ausente: Diretrizes.
-- Sugestao: Adicionar a secao "Diretrizes" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Secao Premium ausente: Justificativa.
-- Sugestao: Adicionar a secao "Justificativa" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Secao Premium ausente: Objetivo da sessao.
-- Sugestao: Adicionar a secao "Objetivo da sessao" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Secao Premium ausente: Objetivo principal.
-- Sugestao: Adicionar a secao "Objetivo principal" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Secao Premium ausente: Objetivos secundarios.
-- Sugestao: Adicionar a secao "Objetivos secundarios" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Secao Premium ausente: Periodizacao.
-- Sugestao: Adicionar a secao "Periodizacao" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Secao Premium ausente: Prescricao.
-- Sugestao: Adicionar a secao "Prescricao" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Secao Premium ausente: Progressao.
-- Sugestao: Adicionar a secao "Progressao" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Secao Premium ausente: Treinos.
-- Sugestao: Adicionar a secao "Treinos" no modelo.
-
-## Top SUGGESTIONS
-
-Nenhuma ocorrencia.
-
-## Rules
-
-| Rule | Severity | Scope | Findings | Duration |
-| --- | --- | --- | --- | --- |
-| aqa-001 | error | global | 2 | 3ms |
-| aqa-002 | error | model | 6 | 8ms |
-| aqa-003 | error | model | 63 | 16ms |
-| aqa-004 | error | prescription | 312 | 18ms |
-| aqa-005 | warning | model | 1 | 34ms |
-| aqa-006 | warning | document | 0 | 5ms |
-| aqa-007 | error | global | 2 | 3ms |
-| aqa-008 | error | model | 9 | 5ms |
-| aqa-009 | warning | model | 0 | 0ms |
-
-## Findings
-
-### Fatal
-
-Nenhuma ocorrencia.
-
-### Errors
-
-- Regra: aqa-002
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Secao obrigatoria ausente: Objetivo principal.
-- Sugestao: Adicionar a secao "Objetivo principal".
-
-- Regra: aqa-002
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Mensagem: Secao obrigatoria ausente: Objetivo principal.
-- Sugestao: Adicionar a secao "Objetivo principal".
-
-- Regra: aqa-002
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Mensagem: Secao obrigatoria ausente: Objetivo principal.
-- Sugestao: Adicionar a secao "Objetivo principal".
 
 - Regra: aqa-003
 - Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-BASE-01.md
@@ -403,1276 +179,255 @@ Nenhuma ocorrencia.
 - Mensagem: Secao Premium ausente: Coaching Notes.
 - Sugestao: Adicionar a secao "Coaching Notes" no modelo.
 
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Secao: Objetivo da sessao
+- Linha: 140
+- Mensagem: Secao Premium duplicada: Objetivo da sessao.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
+## Top WARNINGS
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: ABCD
+- Modelo: APL-M-HIP-I-ABCD-BASE-01
+- Secao: Prescricao
+- Linha: 143
+- Mensagem: Secao Premium duplicada: Prescricao.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: ABCD
+- Modelo: APL-M-HIP-I-ABCD-BASE-01
+- Secao: Justificativa
+- Linha: 153
+- Mensagem: Secao Premium duplicada: Justificativa.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: ABCD
+- Modelo: APL-M-HIP-I-ABCD-BASE-01
+- Linha: 201
+- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: ABCD
+- Modelo: APL-M-HIP-I-ABCD-BASE-01
+- Linha: 201
+- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: ABCD
+- Modelo: APL-M-HIP-I-ABCD-BASE-01
+- Linha: 201
+- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: ABCD
+- Modelo: APL-M-HIP-I-ABCD-BASE-01
+- Linha: 201
+- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: ABCD
+- Modelo: APL-M-HIP-I-ABCD-BASE-01
+- Linha: 201
+- Mensagem: Coluna obrigatoria ausente na tabela: rir.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: ABCD
+- Modelo: APL-M-HIP-I-ABCD-BASE-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: ABCD
+- Modelo: APL-M-HIP-I-ABCD-BASE-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: ABCD
+- Modelo: APL-M-HIP-I-ABCD-BASE-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+## Top SUGGESTIONS
+
+Nenhuma ocorrencia.
+
+## Rules
+
+| Rule | Severity | Scope | Findings | Duration |
+| --- | --- | --- | --- | --- |
+| aqa-001 | error | global | 2 | 6ms |
+| aqa-002 | error | model | 3 | 14ms |
+| aqa-003 | error | model | 48 | 28ms |
+| aqa-004 | error | prescription | 294 | 22ms |
+| aqa-005 | warning | model | 6 | 52ms |
+| aqa-006 | warning | document | 4 | 9ms |
+| aqa-007 | error | global | 2 | 2ms |
+| aqa-008 | error | model | 9 | 6ms |
+| aqa-009 | warning | model | 0 | 0ms |
+
+## Findings
+
+### Fatal
+
+Nenhuma ocorrencia.
+
+### Errors
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: ABCD
+- Modelo: APL-M-HIP-I-ABCD-BASE-01
+- Secao: Objetivo da sessao
+- Linha: 139
+- Mensagem: Secao Premium duplicada: Objetivo da sessao.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-EFI-01.md
+- Sprint: SPRINT_01
+- Bloco: ABCD
+- Modelo: APL-M-HIP-I-ABCD-EFI-01
+- Secao: Objetivo da sessao
+- Linha: 140
+- Mensagem: Secao Premium duplicada: Objetivo da sessao.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: ABCD
+- Modelo: APL-M-HIP-I-ABCD-PERF-01
+- Secao: Objetivo da sessao
+- Linha: 140
+- Mensagem: Secao Premium duplicada: Objetivo da sessao.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCDE\APL-M-HIP-I-ABCDE-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: ABCDE
+- Modelo: APL-M-HIP-I-ABCDE-BASE-01
+- Secao: Objetivo da sessao
+- Linha: 136
+- Mensagem: Secao Premium duplicada: Objetivo da sessao.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCDE\APL-M-HIP-I-ABCDE-EFI-01.md
+- Sprint: SPRINT_01
+- Bloco: ABCDE
+- Modelo: APL-M-HIP-I-ABCDE-EFI-01
+- Secao: Objetivo da sessao
+- Linha: 137
+- Mensagem: Secao Premium duplicada: Objetivo da sessao.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCDE\APL-M-HIP-I-ABCDE-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: ABCDE
+- Modelo: APL-M-HIP-I-ABCDE-PERF-01
+- Secao: Objetivo da sessao
+- Linha: 136
+- Mensagem: Secao Premium duplicada: Objetivo da sessao.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY\APL-M-HIP-I-FB-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: FULL_BODY
+- Modelo: APL-M-HIP-I-FB-BASE-01
+- Mensagem: Secao Premium ausente: Coaching Notes.
+- Sugestao: Adicionar a secao "Coaching Notes" no modelo.
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY\APL-M-HIP-I-FB-EFI-01.md
+- Sprint: SPRINT_01
+- Bloco: FULL_BODY
+- Modelo: APL-M-HIP-I-FB-EFI-01
+- Mensagem: Secao Premium ausente: Coaching Notes.
+- Sugestao: Adicionar a secao "Coaching Notes" no modelo.
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY\APL-M-HIP-I-FB-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: FULL_BODY
+- Modelo: APL-M-HIP-I-FB-PERF-01
+- Mensagem: Secao Premium ausente: Coaching Notes.
+- Sugestao: Adicionar a secao "Coaching Notes" no modelo.
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Secao: Objetivo da sessao
+- Linha: 140
+- Mensagem: Secao Premium duplicada: Objetivo da sessao.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Secao: Objetivo da sessao
+- Linha: 140
+- Mensagem: Secao Premium duplicada: Objetivo da sessao.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Secao: Objetivo da sessao
+- Linha: 140
+- Mensagem: Secao Premium duplicada: Objetivo da sessao.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
 - Regra: aqa-007
 - Mensagem: Contador de modelos concluidos diverge dos modelos existentes.
 - Sugestao: Revisar contador de modelos concluidos no PROJECT_STATUS.
 
 ### Warnings
-
-- Regra: aqa-002
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Versao ausente.
-- Sugestao: Adicionar campo de versao nos metadados.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Secao Premium ausente: Diretrizes.
-- Sugestao: Adicionar a secao "Diretrizes" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Secao Premium ausente: Justificativa.
-- Sugestao: Adicionar a secao "Justificativa" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Secao Premium ausente: Objetivo da sessao.
-- Sugestao: Adicionar a secao "Objetivo da sessao" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Secao Premium ausente: Objetivo principal.
-- Sugestao: Adicionar a secao "Objetivo principal" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Secao Premium ausente: Objetivos secundarios.
-- Sugestao: Adicionar a secao "Objetivos secundarios" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Secao Premium ausente: Periodizacao.
-- Sugestao: Adicionar a secao "Periodizacao" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Secao Premium ausente: Prescricao.
-- Sugestao: Adicionar a secao "Prescricao" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Secao Premium ausente: Progressao.
-- Sugestao: Adicionar a secao "Progressao" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Secao Premium ausente: Treinos.
-- Sugestao: Adicionar a secao "Treinos" no modelo.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 128
-- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 128
-- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 128
-- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 128
-- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 128
-- Mensagem: Coluna obrigatoria ausente na tabela: rir.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 142
-- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 142
-- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 142
-- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 142
-- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 142
-- Mensagem: Coluna obrigatoria ausente na tabela: rir.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 142
-- Mensagem: Coluna obrigatoria ausente na tabela: series.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 168
-- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 168
-- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 168
-- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 168
-- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 168
-- Mensagem: Coluna obrigatoria ausente na tabela: rir.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 168
-- Mensagem: Coluna obrigatoria ausente na tabela: series.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 178
-- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 178
-- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 178
-- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 178
-- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 178
-- Mensagem: Coluna obrigatoria ausente na tabela: rir.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 178
-- Mensagem: Coluna obrigatoria ausente na tabela: series.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 40
-- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 40
-- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 40
-- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 40
-- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 40
-- Mensagem: Coluna obrigatoria ausente na tabela: rir.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 40
-- Mensagem: Coluna obrigatoria ausente na tabela: series.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 51
-- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 51
-- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 51
-- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 51
-- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 51
-- Mensagem: Coluna obrigatoria ausente na tabela: rir.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Linha: 51
-- Mensagem: Coluna obrigatoria ausente na tabela: series.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-005
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Top Set sem Back-off associado.
-- Sugestao: Adicionar Back-off quando Top Set for usado ou justificar a excecao.
-
-- Regra: aqa-008
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Drop Set encontrado em modelo iniciante.
-- Sugestao: Remover tecnica intensiva ou mover para modelo de nivel adequado.
-
-- Regra: aqa-008
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Rest Pause encontrado em modelo iniciante.
-- Sugestao: Substituir por progressao simples e controle de RIR.
-
-- Regra: aqa-008
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-BASE-01
-- Mensagem: Referencia a falha em modelo iniciante.
-- Sugestao: Usar linguagem de proximidade da falha com margem tecnica.
-
-- Regra: aqa-002
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Mensagem: Versao ausente.
-- Sugestao: Adicionar campo de versao nos metadados.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Mensagem: Secao Premium ausente: Diretrizes.
-- Sugestao: Adicionar a secao "Diretrizes" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Mensagem: Secao Premium ausente: Justificativa.
-- Sugestao: Adicionar a secao "Justificativa" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Mensagem: Secao Premium ausente: Objetivo da sessao.
-- Sugestao: Adicionar a secao "Objetivo da sessao" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Mensagem: Secao Premium ausente: Objetivo principal.
-- Sugestao: Adicionar a secao "Objetivo principal" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Mensagem: Secao Premium ausente: Objetivos secundarios.
-- Sugestao: Adicionar a secao "Objetivos secundarios" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Mensagem: Secao Premium ausente: Periodizacao.
-- Sugestao: Adicionar a secao "Periodizacao" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Mensagem: Secao Premium ausente: Prescricao.
-- Sugestao: Adicionar a secao "Prescricao" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Mensagem: Secao Premium ausente: Progressao.
-- Sugestao: Adicionar a secao "Progressao" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Mensagem: Secao Premium ausente: Treinos.
-- Sugestao: Adicionar a secao "Treinos" no modelo.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 127
-- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 127
-- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 127
-- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 127
-- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 127
-- Mensagem: Coluna obrigatoria ausente na tabela: rir.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 143
-- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 143
-- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 143
-- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 143
-- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 143
-- Mensagem: Coluna obrigatoria ausente na tabela: rir.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 143
-- Mensagem: Coluna obrigatoria ausente na tabela: series.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 167
-- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 167
-- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 167
-- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 167
-- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 167
-- Mensagem: Coluna obrigatoria ausente na tabela: rir.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 167
-- Mensagem: Coluna obrigatoria ausente na tabela: series.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 177
-- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 177
-- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 177
-- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 177
-- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 177
-- Mensagem: Coluna obrigatoria ausente na tabela: rir.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 177
-- Mensagem: Coluna obrigatoria ausente na tabela: series.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 40
-- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 40
-- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 40
-- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 40
-- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 40
-- Mensagem: Coluna obrigatoria ausente na tabela: rir.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 40
-- Mensagem: Coluna obrigatoria ausente na tabela: series.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 51
-- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 51
-- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 51
-- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 51
-- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 51
-- Mensagem: Coluna obrigatoria ausente na tabela: rir.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Linha: 51
-- Mensagem: Coluna obrigatoria ausente na tabela: series.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-008
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Mensagem: Drop Set encontrado em modelo iniciante.
-- Sugestao: Remover tecnica intensiva ou mover para modelo de nivel adequado.
-
-- Regra: aqa-008
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Mensagem: Rest Pause encontrado em modelo iniciante.
-- Sugestao: Substituir por progressao simples e controle de RIR.
-
-- Regra: aqa-008
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
-- Mensagem: Referencia a falha em modelo iniciante.
-- Sugestao: Usar linguagem de proximidade da falha com margem tecnica.
-
-- Regra: aqa-002
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Mensagem: Versao ausente.
-- Sugestao: Adicionar campo de versao nos metadados.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Mensagem: Secao Premium ausente: Diretrizes.
-- Sugestao: Adicionar a secao "Diretrizes" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Mensagem: Secao Premium ausente: Justificativa.
-- Sugestao: Adicionar a secao "Justificativa" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Mensagem: Secao Premium ausente: Objetivo da sessao.
-- Sugestao: Adicionar a secao "Objetivo da sessao" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Mensagem: Secao Premium ausente: Objetivo principal.
-- Sugestao: Adicionar a secao "Objetivo principal" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Mensagem: Secao Premium ausente: Objetivos secundarios.
-- Sugestao: Adicionar a secao "Objetivos secundarios" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Mensagem: Secao Premium ausente: Periodizacao.
-- Sugestao: Adicionar a secao "Periodizacao" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Mensagem: Secao Premium ausente: Prescricao.
-- Sugestao: Adicionar a secao "Prescricao" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Mensagem: Secao Premium ausente: Progressao.
-- Sugestao: Adicionar a secao "Progressao" no modelo.
-
-- Regra: aqa-003
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Mensagem: Secao Premium ausente: Treinos.
-- Sugestao: Adicionar a secao "Treinos" no modelo.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 128
-- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 128
-- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 128
-- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 128
-- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 128
-- Mensagem: Coluna obrigatoria ausente na tabela: rir.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 142
-- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 142
-- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 142
-- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 142
-- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 142
-- Mensagem: Coluna obrigatoria ausente na tabela: rir.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 142
-- Mensagem: Coluna obrigatoria ausente na tabela: series.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 167
-- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 167
-- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 167
-- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 167
-- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 167
-- Mensagem: Coluna obrigatoria ausente na tabela: rir.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 167
-- Mensagem: Coluna obrigatoria ausente na tabela: series.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 177
-- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 177
-- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 177
-- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 177
-- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 177
-- Mensagem: Coluna obrigatoria ausente na tabela: rir.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 177
-- Mensagem: Coluna obrigatoria ausente na tabela: series.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 40
-- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 40
-- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 40
-- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 40
-- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 40
-- Mensagem: Coluna obrigatoria ausente na tabela: rir.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 40
-- Mensagem: Coluna obrigatoria ausente na tabela: series.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 51
-- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 51
-- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 51
-- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 51
-- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 51
-- Mensagem: Coluna obrigatoria ausente na tabela: rir.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-004
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Linha: 51
-- Mensagem: Coluna obrigatoria ausente na tabela: series.
-- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
-
-- Regra: aqa-008
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Mensagem: Drop Set encontrado em modelo iniciante.
-- Sugestao: Remover tecnica intensiva ou mover para modelo de nivel adequado.
-
-- Regra: aqa-008
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Mensagem: Rest Pause encontrado em modelo iniciante.
-- Sugestao: Substituir por progressao simples e controle de RIR.
-
-- Regra: aqa-008
-- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
-- Sprint: SPRINT_01
-- Bloco: UPPER_LOWER
-- Modelo: APL-M-HIP-I-UL-PERF-01
-- Mensagem: Referencia a falha em modelo iniciante.
-- Sugestao: Usar linguagem de proximidade da falha com margem tecnica.
 
 - Regra: aqa-003
 - Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCD\APL-M-HIP-I-ABCD-BASE-01.md
@@ -3807,6 +2562,1059 @@ Nenhuma ocorrencia.
 - Mensagem: Secao fora da ordem Premium: Tags.
 - Sugestao: Reordenar as secoes conforme o catalogo Premium oficial.
 
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Secao: Prescricao
+- Linha: 144
+- Mensagem: Secao Premium duplicada: Prescricao.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Secao: Justificativa
+- Linha: 154
+- Mensagem: Secao Premium duplicada: Justificativa.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Secao: Aruka Score
+- Linha: 246
+- Mensagem: Secao Premium duplicada: Aruka Score.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 204
+- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 204
+- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 204
+- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 204
+- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 204
+- Mensagem: Coluna obrigatoria ausente na tabela: rir.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 218
+- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 218
+- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 218
+- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 218
+- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 218
+- Mensagem: Coluna obrigatoria ausente na tabela: rir.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 218
+- Mensagem: Coluna obrigatoria ausente na tabela: series.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: rir.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: series.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 66
+- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 66
+- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 66
+- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 66
+- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 66
+- Mensagem: Coluna obrigatoria ausente na tabela: rir.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 66
+- Mensagem: Coluna obrigatoria ausente na tabela: series.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 89
+- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 89
+- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 89
+- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 89
+- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 89
+- Mensagem: Coluna obrigatoria ausente na tabela: rir.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 89
+- Mensagem: Coluna obrigatoria ausente na tabela: series.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-008
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Mensagem: Drop Set encontrado em modelo iniciante.
+- Sugestao: Remover tecnica intensiva ou mover para modelo de nivel adequado.
+
+- Regra: aqa-008
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Mensagem: Rest Pause encontrado em modelo iniciante.
+- Sugestao: Substituir por progressao simples e controle de RIR.
+
+- Regra: aqa-002
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Secao: Metadados
+- Linha: 62
+- Mensagem: Secao sem conteudo: Metadados.
+- Sugestao: Preencher a secao com informacao objetiva.
+
+- Regra: aqa-005
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Mensagem: Drop Set duplicado no modelo.
+- Sugestao: Limitar Drop Set a usos pontuais e justificados.
+
+- Regra: aqa-005
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Mensagem: Rest Pause excessivo no modelo.
+- Sugestao: Reduzir Rest Pause ou justificar o volume de tecnicas intensivas.
+
+- Regra: aqa-006
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Linha: 16
+- Mensagem: Termo inadequado encontrado: falha obrigatoria.
+- Sugestao: Substituir por linguagem tecnica, precisa e verificavel.
+- Trecho: falha obrigatoria
+
+- Regra: aqa-008
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-BASE-01
+- Mensagem: Referencia a falha em modelo iniciante.
+- Sugestao: Usar linguagem de proximidade da falha com margem tecnica.
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Secao: Prescricao
+- Linha: 144
+- Mensagem: Secao Premium duplicada: Prescricao.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Secao: Justificativa
+- Linha: 154
+- Mensagem: Secao Premium duplicada: Justificativa.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Secao: Aruka Score
+- Linha: 246
+- Mensagem: Secao Premium duplicada: Aruka Score.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 204
+- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 204
+- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 204
+- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 204
+- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 204
+- Mensagem: Coluna obrigatoria ausente na tabela: rir.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 218
+- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 218
+- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 218
+- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 218
+- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 218
+- Mensagem: Coluna obrigatoria ausente na tabela: rir.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 218
+- Mensagem: Coluna obrigatoria ausente na tabela: series.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: rir.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: series.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 66
+- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 66
+- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 66
+- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 66
+- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 66
+- Mensagem: Coluna obrigatoria ausente na tabela: rir.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 66
+- Mensagem: Coluna obrigatoria ausente na tabela: series.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 89
+- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 89
+- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 89
+- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 89
+- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 89
+- Mensagem: Coluna obrigatoria ausente na tabela: rir.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 89
+- Mensagem: Coluna obrigatoria ausente na tabela: series.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-008
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Mensagem: Drop Set encontrado em modelo iniciante.
+- Sugestao: Remover tecnica intensiva ou mover para modelo de nivel adequado.
+
+- Regra: aqa-008
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Mensagem: Rest Pause encontrado em modelo iniciante.
+- Sugestao: Substituir por progressao simples e controle de RIR.
+
+- Regra: aqa-002
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Secao: Metadados
+- Linha: 62
+- Mensagem: Secao sem conteudo: Metadados.
+- Sugestao: Preencher a secao com informacao objetiva.
+
+- Regra: aqa-005
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Mensagem: Drop Set duplicado no modelo.
+- Sugestao: Limitar Drop Set a usos pontuais e justificados.
+
+- Regra: aqa-005
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Mensagem: Rest Pause excessivo no modelo.
+- Sugestao: Reduzir Rest Pause ou justificar o volume de tecnicas intensivas.
+
+- Regra: aqa-006
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Linha: 16
+- Mensagem: Termo inadequado encontrado: falha obrigatoria.
+- Sugestao: Substituir por linguagem tecnica, precisa e verificavel.
+- Trecho: falha obrigatoria
+
+- Regra: aqa-008
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-ESP-PEITO-01
+- Mensagem: Referencia a falha em modelo iniciante.
+- Sugestao: Usar linguagem de proximidade da falha com margem tecnica.
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Secao: Prescricao
+- Linha: 144
+- Mensagem: Secao Premium duplicada: Prescricao.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Secao: Justificativa
+- Linha: 154
+- Mensagem: Secao Premium duplicada: Justificativa.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
+- Regra: aqa-003
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Secao: Aruka Score
+- Linha: 246
+- Mensagem: Secao Premium duplicada: Aruka Score.
+- Sugestao: Consolidar secoes duplicadas em uma unica secao.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 204
+- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 204
+- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 204
+- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 204
+- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 204
+- Mensagem: Coluna obrigatoria ausente na tabela: rir.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 218
+- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 218
+- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 218
+- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 218
+- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 218
+- Mensagem: Coluna obrigatoria ausente na tabela: rir.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 218
+- Mensagem: Coluna obrigatoria ausente na tabela: series.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: rir.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 248
+- Mensagem: Coluna obrigatoria ausente na tabela: series.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 66
+- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 66
+- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 66
+- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 66
+- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 66
+- Mensagem: Coluna obrigatoria ausente na tabela: rir.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 66
+- Mensagem: Coluna obrigatoria ausente na tabela: series.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 89
+- Mensagem: Coluna obrigatoria ausente na tabela: descanso.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 89
+- Mensagem: Coluna obrigatoria ausente na tabela: exercicio.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 89
+- Mensagem: Coluna obrigatoria ausente na tabela: metodo.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 89
+- Mensagem: Coluna obrigatoria ausente na tabela: repeticoes.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 89
+- Mensagem: Coluna obrigatoria ausente na tabela: rir.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-004
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 89
+- Mensagem: Coluna obrigatoria ausente na tabela: series.
+- Sugestao: Padronizar tabela de prescricao com todas as colunas obrigatorias.
+
+- Regra: aqa-008
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Mensagem: Drop Set encontrado em modelo iniciante.
+- Sugestao: Remover tecnica intensiva ou mover para modelo de nivel adequado.
+
+- Regra: aqa-008
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Mensagem: Rest Pause encontrado em modelo iniciante.
+- Sugestao: Substituir por progressao simples e controle de RIR.
+
+- Regra: aqa-002
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Secao: Metadados
+- Linha: 62
+- Mensagem: Secao sem conteudo: Metadados.
+- Sugestao: Preencher a secao com informacao objetiva.
+
+- Regra: aqa-005
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Mensagem: Drop Set duplicado no modelo.
+- Sugestao: Limitar Drop Set a usos pontuais e justificados.
+
+- Regra: aqa-005
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Mensagem: Rest Pause excessivo no modelo.
+- Sugestao: Reduzir Rest Pause ou justificar o volume de tecnicas intensivas.
+
+- Regra: aqa-006
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Linha: 16
+- Mensagem: Termo inadequado encontrado: falha obrigatoria.
+- Sugestao: Substituir por linguagem tecnica, precisa e verificavel.
+- Trecho: falha obrigatoria
+
+- Regra: aqa-008
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Modelo: APL-M-HIP-I-UL-PERF-01
+- Mensagem: Referencia a falha em modelo iniciante.
+- Sugestao: Usar linguagem de proximidade da falha com margem tecnica.
+
 - Regra: aqa-001
 - Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY.md
 - Sprint: SPRINT_01
@@ -3820,6 +3628,15 @@ Nenhuma ocorrencia.
 - Bloco: _ROOT
 - Mensagem: Arquivo adicional desconhecido ou nome fora do padrao.
 - Sugestao: Revisar se o arquivo faz parte da estrutura oficial da APL.
+
+- Regra: aqa-006
+- Arquivo: C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\README.md
+- Sprint: SPRINT_01
+- Bloco: UPPER_LOWER
+- Linha: 35
+- Mensagem: Termo inadequado encontrado: falha obrigatoria.
+- Sugestao: Substituir por linguagem tecnica, precisa e verificavel.
+- Trecho: falha obrigatoria
 
 - Regra: aqa-007
 - Sprint: SPRINT_01
@@ -3835,25 +3652,26 @@ Nenhuma ocorrencia.
 
 | Rule | Findings |
 | --- | --- |
-| aqa-004 | 312 |
-| aqa-003 | 63 |
+| aqa-004 | 294 |
+| aqa-003 | 48 |
 | aqa-008 | 9 |
-| aqa-002 | 6 |
+| aqa-005 | 6 |
+| aqa-006 | 4 |
+| aqa-002 | 3 |
 | aqa-001 | 2 |
 | aqa-007 | 2 |
-| aqa-005 | 1 |
 
 ## Findings By Sprint
 
 | Sprint | Findings |
 | --- | --- |
-| SPRINT_01 | 394 |
+| SPRINT_01 | 367 |
 
 ## Findings By Block
 
 | Block | Findings |
 | --- | --- |
-| UPPER_LOWER | 149 |
+| UPPER_LOWER | 122 |
 | FULL_BODY | 87 |
 | ABCD | 78 |
 | ABCDE | 78 |
@@ -3863,9 +3681,9 @@ Nenhuma ocorrencia.
 
 | File | Findings |
 | --- | --- |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md | 50 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md | 49 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md | 49 |
+| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md | 40 |
+| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md | 40 |
+| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md | 40 |
 | C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY\APL-M-HIP-I-FB-BASE-01.md | 29 |
 | C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY\APL-M-HIP-I-FB-EFI-01.md | 29 |
 | C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY\APL-M-HIP-I-FB-PERF-01.md | 29 |
@@ -3877,14 +3695,15 @@ Nenhuma ocorrencia.
 | C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\ABCDE\APL-M-HIP-I-ABCDE-PERF-01.md | 26 |
 | C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY.md | 1 |
 | C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER.md | 1 |
+| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\README.md | 1 |
 
 ## Findings By Model
 
 | Model | Findings |
 | --- | --- |
-| APL-M-HIP-I-UL-BASE-01 | 50 |
-| APL-M-HIP-I-UL-ESP-PEITO-01 | 49 |
-| APL-M-HIP-I-UL-PERF-01 | 49 |
+| APL-M-HIP-I-UL-BASE-01 | 40 |
+| APL-M-HIP-I-UL-ESP-PEITO-01 | 40 |
+| APL-M-HIP-I-UL-PERF-01 | 40 |
 | APL-M-HIP-I-FB-BASE-01 | 29 |
 | APL-M-HIP-I-FB-EFI-01 | 29 |
 | APL-M-HIP-I-FB-PERF-01 | 29 |
@@ -3899,21 +3718,22 @@ Nenhuma ocorrencia.
 
 | Rule | Findings |
 | --- | --- |
-| aqa-004 | 312 |
-| aqa-003 | 63 |
+| aqa-004 | 294 |
+| aqa-003 | 48 |
 | aqa-008 | 9 |
-| aqa-002 | 6 |
+| aqa-005 | 6 |
+| aqa-006 | 4 |
+| aqa-002 | 3 |
 | aqa-001 | 2 |
 | aqa-007 | 2 |
-| aqa-005 | 1 |
 
 ## Top 10 Files
 
 | File | Findings |
 | --- | --- |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md | 50 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md | 49 |
-| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md | 49 |
+| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-BASE-01.md | 40 |
+| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-ESP-PEITO-01.md | 40 |
+| C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\UPPER_LOWER\APL-M-HIP-I-UL-PERF-01.md | 40 |
 | C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY\APL-M-HIP-I-FB-BASE-01.md | 29 |
 | C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY\APL-M-HIP-I-FB-EFI-01.md | 29 |
 | C:\Projetos\ConsultoriaFitness\docs\apl\SPRINT_01\FULL_BODY\APL-M-HIP-I-FB-PERF-01.md | 29 |
@@ -3930,12 +3750,12 @@ Nenhuma ocorrencia.
 
 ## Performance
 
-- aqa-001: 3ms
-- aqa-002: 8ms
-- aqa-003: 16ms
-- aqa-004: 18ms
-- aqa-005: 34ms
-- aqa-006: 5ms
-- aqa-007: 3ms
-- aqa-008: 5ms
+- aqa-001: 6ms
+- aqa-002: 14ms
+- aqa-003: 28ms
+- aqa-004: 22ms
+- aqa-005: 52ms
+- aqa-006: 9ms
+- aqa-007: 2ms
+- aqa-008: 6ms
 - aqa-009: 0ms
