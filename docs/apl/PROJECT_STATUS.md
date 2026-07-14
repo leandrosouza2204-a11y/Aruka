@@ -28,7 +28,7 @@
 
 # Sprint 01 - Masculino Iniciante
 
-Status Geral: Em desenvolvimento
+Status Geral: Biblioteca concluida - aguardando homologacao tecnica.
 
 ## ABC
 
@@ -66,9 +66,9 @@ Status Geral: Em desenvolvimento
 
 | Modelo | Status |
 |---|---|
-| Base | Nao iniciado |
-| Performance | Nao iniciado |
-| Especializacao | Nao iniciado |
+| Upper/Lower Base | Concluido |
+| Upper/Lower Performance | Concluido |
+| Upper/Lower Especializacao em Peitoral | Concluido |
 
 ---
 
@@ -184,7 +184,7 @@ Status Geral: Nao iniciado
 
 ## Modelos concluidos
 
-27 / 90
+30 / 90
 
 ## Modelos homologados
 
@@ -192,7 +192,7 @@ Status Geral: Nao iniciado
 
 ## Progresso geral
 
-30,0%
+33,3%
 
 ---
 
@@ -224,8 +224,8 @@ A partir da reorganizacao da APL, adotam-se as seguintes diretrizes:
 
 # Proximo Objetivo
 
-Concluir os 3 modelos pendentes da Sprint 01, comecando pelo Upper/Lower Base.
+Iniciar a Homologacao Tecnica Completa da Sprint 01 antes da homologacao da Sprint 02.
 
 Proximo modelo:
 
-APL-M-HIP-I-UL-BASE-01
+Sprint 01 - Homologacao Tecnica Completa
