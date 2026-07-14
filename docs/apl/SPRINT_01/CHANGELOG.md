@@ -1,5 +1,6 @@
-# Changelog da Sprint 1
+# Changelog
 
-**Status:** Pendente de consolidação.
-
-A estrutura já está criada, mas o conteúdo definitivo ainda será produzido, revisado e homologado.
+## v1.0.0
+- Estrutura oficial da APL.
+- Homologação em cinco fases.
+- Sprint 1 publicada como baseline oficial.
