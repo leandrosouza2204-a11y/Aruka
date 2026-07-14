@@ -98,11 +98,13 @@ Status do bloco ABCD: **Concluido - aguardando homologacao da Sprint 02**
 
 ## ABCDE
 
+Status do bloco ABCDE: **Concluido - aguardando homologacao da Sprint 02**
+
 | Modelo | Status |
 |---|---|
-| Base | Nao iniciado |
-| Performance | Nao iniciado |
-| Especializacao | Nao iniciado |
+| ABCDE Base | Concluido |
+| ABCDE Performance | Concluido |
+| ABCDE Especializacao em Deltoides | Concluido |
 
 ## Full Body
 
@@ -178,7 +180,7 @@ Status Geral: Nao iniciado
 
 ## Modelos concluidos
 
-9 / 90
+12 / 90
 
 ## Modelos homologados
 
@@ -186,7 +188,7 @@ Status Geral: Nao iniciado
 
 ## Progresso geral
 
-10,0%
+13,3%
 
 ---
 
@@ -218,8 +220,8 @@ A partir da reorganizacao da APL, adotam-se as seguintes diretrizes:
 
 # Proximo Objetivo
 
-Homologar a Sprint 02 ABC e ABCD.
+Homologar a Sprint 02 ABC, ABCD e ABCDE.
 
 Proximo modelo:
 
-APL-M-HIP-M-ABCDE-BASE-01
+APL-M-HIP-M-FB-BASE-01
