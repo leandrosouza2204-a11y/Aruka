@@ -74,7 +74,7 @@ Status Geral: Em desenvolvimento
 
 # Sprint 02 - Masculino Intermediario
 
-Status Geral: Em desenvolvimento
+Status Geral: Conteudo concluido - homologacao bloqueada ate conclusao e homologacao integral da Sprint 01.
 
 ## ABC
 
@@ -118,11 +118,13 @@ Status do bloco Full Body: **Concluido - aguardando homologacao da Sprint 02**
 
 ## Upper / Lower
 
+Status do bloco Upper/Lower: **Concluido - aguardando homologacao da Sprint 02**
+
 | Modelo | Status |
 |---|---|
-| Base | Nao iniciado |
-| Performance | Nao iniciado |
-| Especializacao | Nao iniciado |
+| Upper/Lower Base | Concluido |
+| Upper/Lower Performance | Concluido |
+| Upper/Lower Especializacao em Costas | Concluido |
 
 ---
 
@@ -182,7 +184,7 @@ Status Geral: Nao iniciado
 
 ## Modelos concluidos
 
-15 / 90
+18 / 90
 
 ## Modelos homologados
 
@@ -190,7 +192,7 @@ Status Geral: Nao iniciado
 
 ## Progresso geral
 
-16,7%
+20,0%
 
 ---
 
@@ -222,8 +224,8 @@ A partir da reorganizacao da APL, adotam-se as seguintes diretrizes:
 
 # Proximo Objetivo
 
-Homologar a Sprint 02 ABC, ABCD, ABCDE e Full Body.
+Concluir os 12 modelos pendentes da Sprint 01, comecando pelo ABCD Base.
 
 Proximo modelo:
 
-APL-M-HIP-M-UL-BASE-01
+APL-M-HIP-I-ABCD-BASE-01
