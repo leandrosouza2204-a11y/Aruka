@@ -1,36 +1,52 @@
 # Sprint 01 - ABCD Masculino Iniciante
 
-Este diretorio contem os modelos ABCD da Sprint 01 da Aruka Performance Library (APL), voltados ao publico masculino iniciante em hipertrofia. A divisao ABCD separa o treino em quatro sessoes semanais com menor volume por dia do que divisoes mais condensadas, facilitando aprendizagem, aderencia e pratica tecnica.
+**Status do bloco:** Concluído — aguardando homologação da Sprint 01
 
-Status do bloco ABCD: **Em desenvolvimento**.
+## Conceito do ABCD iniciante
 
-## Para quem serve
+O ABCD iniciante organiza a semana em quatro sessões com menor concentração de volume por dia. A divisão separa empurrar, puxar, membros inferiores, ombros e core de forma simples, permitindo que o aluno pratique padrões motores com mais foco e menos pressa dentro de cada sessão.
 
-Praticantes iniciantes que ja conhecem a rotina basica de academia, conseguem treinar quatro vezes por semana e precisam desenvolver consistencia, controle de movimento e progressao simples. Os modelos desta sprint sao propositalmente mais simples que os equivalentes intermediarios da Sprint 02.
+## Público-alvo
 
-## Vantagens
+Homens iniciantes em hipertrofia, com rotina mínima de quatro treinos semanais, capacidade de registrar cargas e necessidade de evoluir técnica antes de avançar para modelos intermediários. O bloco atende alunos que já toleram uma frequência maior que ABC, mas ainda precisam de progressão simples e margem técnica.
 
-- Menor fadiga por sessao.
-- Mais tempo para aprender os exercicios principais.
-- Volume moderado e previsivel.
-- Poucas tecnicas e baixa complexidade.
-- Progressao objetiva por repeticoes e carga.
+## Benefícios
 
-## Arquivos
+- Menor densidade de exercícios por sessão.
+- Mais tempo para aprendizagem dos movimentos principais.
+- Recuperação semanal previsível.
+- Progressão simples por repetições e carga.
+- Boa transição entre modelos de entrada e modelos mais específicos.
 
-| Arquivo | Modelo | Status |
-|---|---|---|
-| `APL-M-HIP-I-ABCD-BASE-01.md` | Hipertrofia Base - ABCD Iniciante | Concluido |
-| `APL-M-HIP-I-ABCD-PERF-01.md` | Hipertrofia Performance - ABCD Iniciante | Concluido |
-| `APL-M-HIP-I-ABCD-EFI-01.md` | Hipertrofia Eficiencia - ABCD Iniciante | Concluido |
+## Limitações
 
-## Comparacao
+- Exige quatro presenças semanais.
+- Pode ser menos adequado para alunos que só conseguem treinar duas ou três vezes.
+- Não busca especialização muscular avançada.
+- Requer disciplina de registro para que a progressão seja objetiva.
 
-| Criterio | Base | Performance | Eficiencia |
+## Critérios de escolha
+
+Escolher ABCD quando o aluno iniciante demonstra aderência suficiente, recupera-se bem entre sessões e precisa distribuir melhor o volume semanal. Manter ABC ou Full Body quando a frequência real for menor, a técnica ainda for instável ou a agenda não comportar quatro idas à academia.
+
+## Comparação entre modelos
+
+| Critério | Base | Performance | Eficiência |
 |---|---|---|---|
-| Aplicacao | Aprendizagem global | Transicao para intermediario | Pouco tempo |
-| Tempo | 50-60 min | 55-65 min | 40-50 min |
-| Complexidade | Baixa-moderada | Moderada | Baixa-moderada |
-| Metodos | Progressao dupla | Top Set simples e Back-off | Superseries de isolados |
-| Falha | Nao utiliza | Nao utiliza | Nao utiliza |
-| RIR predominante | 2-3 | 2 | 2-3 |
+| Aplicação | Aprendizagem global | Transição técnica | Sessões curtas |
+| Tempo | 50–60 min | 55–65 min | 40–50 min |
+| Complexidade | Baixa | Moderada | Baixa |
+| RIR predominante | 2–3 | 2 | 2–3 |
+| Método principal | Progressão dupla | Progressão dupla e Top Set seletivo | Progressão dupla e superséries acessórias |
+| Técnicas intensificadoras | Não | Não | Não |
+| Pesos livres | Baixo a moderado | Moderado | Baixo a moderado |
+
+## Arquivos do bloco
+
+- `APL-M-HIP-I-ABCD-BASE-01.md` - Hipertrofia Base - ABCD Iniciante.
+- `APL-M-HIP-I-ABCD-PERF-01.md` - Hipertrofia Performance - ABCD Iniciante.
+- `APL-M-HIP-I-ABCD-EFI-01.md` - Hipertrofia Eficiência - ABCD Iniciante.
+
+## Referência de aplicação
+
+O bloco ABCD da Sprint 01 deve permanecer como opção iniciante. Ele não substitui modelos intermediários da Sprint 02 e não deve receber métodos incompatíveis com a etapa de aprendizagem.
