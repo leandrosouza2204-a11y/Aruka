@@ -1,185 +1,294 @@
 # Hipertrofia Performance - ABCDE Iniciante
 
-**Codigo interno:** `APL-M-HIP-I-ABCDE-PERF-01`
+**Código:** `APL-M-HIP-I-ABCDE-PERF-01`  
+**Versão:** `1.0.0`  
+**Status:** `Concluído — aguardando homologação`  
+**Biblioteca:** Aruka Performance Library  
+**Metodologia:** Hipertrofia  
+**Público:** Masculino Iniciante  
+**Divisão:** ABCDE  
+**Estratégia:** Performance
+
+---
 
 ## Resumo Executivo
 
-Modelo ABCDE para iniciantes em evolucao, criado para preparar a transicao para a Sprint 02. Introduz Top Set apenas no primeiro exercicio das sessoes A e C, com Back-off simples, RIR 2 e poucos exercicios livres.
+Modelo ABCDE Performance para homens iniciantes em evolução, criado para preparar a transição para a Sprint 02. Mantém cinco sessões semanais, RIR predominante 2, maior presença de pesos livres e Top Set + Back-off apenas nas sessões A e C. A estratégia é expor o aluno a cargas livres e registro mais preciso sem descaracterizar o nível iniciante.
 
 ## Problema que resolve
 
-Ajuda o aluno que ja executa bem maquinas e precisa aprender cargas livres de forma segura, sem falha e sem tecnicas avancadas.
+Ajuda o aluno que já executa bem máquinas e precisa aprender cargas livres com controle, baixo volume por sessão e progressão objetiva antes do nível intermediário.
 
 ## Quando utilizar
 
-- Aluno iniciante com boa aderencia.
-- Tecnica basica ja consistente.
-- Interesse em evoluir para intermediario.
-- Capacidade de registrar cargas e RIR.
+- Aluno iniciante com boa aderência.
+- Técnica básica consistente em máquinas.
+- Interesse em evoluir para intermediário.
+- Capacidade de registrar cargas, RIR e Back-off.
+- Recuperação adequada treinando cinco dias.
 
 ## Quando evitar
 
 - Iniciante absoluto.
 - Dor em movimentos livres.
 - Dificuldade de manter RIR 2.
-- Recuperacao insuficiente para cinco dias.
+- Recuperação insuficiente para cinco dias.
+- Agenda instável que interrompe a sequência semanal.
 
-## Pre-requisitos
+## Público-alvo
 
-RIR significa Repeticoes em Reserva. O aluno deve encerrar cada serie com 2 repeticoes possiveis e manter tecnica estavel.
+Homem iniciante em fase final da Sprint 01, com domínio técnico básico, boa assiduidade e prontidão para aprender poucos exercícios livres sem elevar demais a complexidade.
 
-## Objetivos
+## Pré-requisitos
 
-- Ensinar poucos exercicios livres.
-- Introduzir Top Set com seguranca.
-- Preparar para modelos intermediarios.
-- Manter volume iniciante e recuperavel.
+- Entender RIR 2.
+- Registrar Top Set e Back-off separadamente.
+- Manter amplitude e trajetória antes de aumentar carga.
+- Aceitar regressão para máquinas se a técnica oscilar.
+- Ter completado bloco Base ou equivalente.
+
+## Filosofia
+
+O Performance usa o ABCDE como laboratório técnico para a Sprint 02. Poucos exercícios livres entram de forma seletiva, enquanto máquinas e cabos preservam estabilidade no restante da semana.
+
+## Objetivo principal
+
+Preparar o iniciante para a Sprint 02 com Top Set seletivo, RIR 2 e maior controle técnico.
+
+## Objetivos secundários
+
+- Ensinar poucos exercícios livres.
+- Introduzir Top Set + Back-off nas sessões A e C.
+- Manter volume iniciante e recuperável.
+- Consolidar registro de carga, repetições e RIR.
 
 ## Metadados
 
 | Campo | Valor |
 |---|---|
-| Frequencia | 5 sessoes semanais |
-| Tempo | 50-60 minutos |
-| Metodo principal | Progressao Dupla |
-| Metodo complementar | Top Set + Back-off em A e C |
-| RIR | 2 |
-| Falha | Nao utilizar |
+| Código | APL-M-HIP-I-ABCDE-PERF-01 |
+| Versão | 1.0.0 |
+| Status | Concluído — aguardando homologação |
+| Sexo | Masculino |
+| Nível | Iniciante |
+| Objetivo | Hipertrofia |
+| Divisão | ABCDE |
+| Estratégia | Performance |
+| Frequência | 5 sessões semanais |
+| Duração média | 50–60 minutos |
+| Ciclo sugerido | 6–10 semanas |
+| RIR predominante | 2 |
+| Método principal | Progressão dupla |
+| Métodos complementares | Top Set + Back-off seletivo |
+| Complexidade | Moderada |
+| Equipamentos | Academia completa com barras, halteres, máquinas e cabos |
 
 ## Estrutura semanal
 
-| Dia | Sessao | Enfase |
-|---|---|---|
-| Segunda | A | Peitoral |
-| Terca | B | Costas |
-| Quarta | C | Pernas |
-| Quinta | D | Ombros |
-| Sexta | E | Bracos e core |
+| Dia sugerido | Sessão | Ênfase | Duração estimada |
+|---|---|---|---|
+| Segunda | Treino A | Peitoral | 50–60 min |
+| Terça | Treino B | Costas | 50–55 min |
+| Quarta | Treino C | Pernas | 55–60 min |
+| Quinta | Treino D | Ombros | 50–55 min |
+| Sexta | Treino E | Braços e core | 45–55 min |
 
-## Treinos completos
+## Diretrizes
 
-### Treino A - Peitoral
+- RIR predominante: 2.
+- Top Set + Back-off somente nos primeiros exercícios das sessões A e C.
+- Descansar 150 s nos Top Sets, 90–120 s em compostos e 60–75 s em acessórios.
+- Registrar Top Set, Back-off e RIR separadamente.
+- Reduzir carga se a execução perder padrão.
+- Não utilizar técnicas intensificadoras neste modelo.
 
-**Objetivo da sessao:** aprender supino livre com margem segura.
+## Periodização
 
-| Ordem | Exercicio | Series | Repeticoes | RIR | Descanso | Metodo | Observacoes |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Supino Reto com Barra | 1 + 2 | Top Set 6-8; Back-off 8-10 | 2 | 150 s | Top Set + Back-off | Top Set nao e teste maximo. |
-| 2 | Supino Inclinado com Halteres | 2 | 8-10 | 2 | 120 s | Progressao Dupla | Controle dos halteres. |
-| 3 | Supino Maquina | 2 | 10-12 | 2 | 90 s | Progressao Dupla | Reforcar padrao com estabilidade. |
-| 4 | Crucifixo no Crossover | 2 | 12-15 | 2 | 60-75 s | Progressao Dupla | Amplitude confortavel. |
+Semanas 1–2 introduzem Top Set conservador. Semanas 3–5 priorizam aumento de repetições nos Back-off e acessórios. Semanas 6–8 permitem aumento de carga com execução estável. Semanas 9–10 avaliam prontidão para Sprint 02 ou retorno temporário ao Base.
 
-**Justificativa tecnica:** o supino livre ensina controle, e maquinas reduzem fadiga tecnica no restante da sessao.
+## Progressão
 
-### Treino B - Costas
+Nos exercícios com Top Set, realizar 1 série de 6–8 repetições e 2 Back-off de 8–10 repetições com redução aproximada de 8–12% da carga. Nos demais exercícios, usar progressão dupla. Aumentar carga apenas quando o topo da faixa for atingido com RIR 2.
 
-**Objetivo da sessao:** melhorar puxadas e introduzir remada livre leve.
+## Treinos
 
-| Ordem | Exercicio | Series | Repeticoes | RIR | Descanso | Metodo | Observacoes |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Puxada Alta Frente | 3 | 8-12 | 2 | 120 s | Progressao Dupla | Cotovelos para baixo. |
-| 2 | Remada Unilateral com Halter | 2 | 8-10 por lado | 2 | 90-120 s | Progressao Dupla | Apoiar uma mao no banco. |
-| 3 | Remada Baixa Neutra | 2 | 10-12 | 2 | 90 s | Progressao Dupla | Tronco firme. |
-| 4 | Pulldown com Bracos Estendidos | 2 | 12-15 | 2 | 60-75 s | Progressao Dupla | Controlar escapulas. |
+### Treino A — Peitoral
 
-**Justificativa tecnica:** a sessao combina maquina e halter para ensinar controle sem sobrecarregar a lombar.
+#### Objetivo da sessão
 
-### Treino C - Pernas
+Aprender supino livre com margem técnica e complementar peitoral com exercícios estáveis.
 
-**Objetivo da sessao:** ensinar agachamento com apoio de maquinas.
+#### Prescrição
 
-| Ordem | Exercicio | Series | Repeticoes | RIR | Descanso | Metodo | Observacoes |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Agachamento Smith | 1 + 2 | Top Set 6-8; Back-off 8-10 | 2 | 150 s | Top Set + Back-off | Aprender postura antes de carga. |
-| 2 | Leg Press 45 graus | 3 | 10-12 | 2 | 120 s | Progressao Dupla | Amplitude sem tirar quadril. |
-| 3 | Mesa Flexora | 2 | 10-12 | 2 | 75 s | Progressao Dupla | Controle na volta. |
-| 4 | Cadeira Extensora | 2 | 12-15 | 2 | 75 s | Progressao Dupla | Sem embalo. |
-| 5 | Panturrilha em Pe | 2 | 10-15 | 2 | 60 s | Progressao Dupla | Amplitude completa. |
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+|---:|---|:---:|:---:|:---:|:---:|---|---|
+| 1 | Supino Reto com Barra | 1 + 2 | 6–8 / 8–10 | 2 | 150 s | Top Set + Back-off | Top Set não é teste máximo. |
+| 2 | Supino Inclinado com Halteres | 2 | 8–10 | 2 | 120 s | Tradicional | Controlar halteres. |
+| 3 | Supino Máquina | 2 | 10–12 | 2 | 90 s | Tradicional | Reforçar padrão com estabilidade. |
+| 4 | Crucifixo no Crossover | 2 | 12–15 | 2 | 60–75 s | Tradicional | Amplitude confortável. |
 
-**Justificativa tecnica:** o Top Set no Smith ensina preparacao para agachamento livre com menor demanda de estabilizacao.
+#### Justificativa
 
-### Treino D - Ombros
+O supino livre ensina controle e registro. Máquinas e cabos reduzem fadiga técnica no restante da sessão.
 
-**Objetivo da sessao:** desenvolver deltoides e postura escapular.
+### Treino B — Costas
 
-| Ordem | Exercicio | Series | Repeticoes | RIR | Descanso | Metodo | Observacoes |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Desenvolvimento com Halteres Sentado | 3 | 8-10 | 2 | 120 s | Progressao Dupla | Carga leve e coluna apoiada. |
-| 2 | Elevacao Lateral Maquina | 3 | 12-15 | 2 | 60-75 s | Progressao Dupla | Subir ate linha dos ombros. |
-| 3 | Crucifixo Inverso Maquina | 2 | 12-15 | 2 | 60-75 s | Progressao Dupla | Sem impulso. |
-| 4 | Face Pull | 2 | 12-15 | 2 | 60-75 s | Progressao Dupla | Cotovelos altos. |
+#### Objetivo da sessão
 
-**Justificativa tecnica:** halteres ensinam controle, enquanto maquina e cabo preservam estabilidade.
+Melhorar puxadas e introduzir remada livre leve.
 
-### Treino E - Bracos e core
+#### Prescrição
 
-**Objetivo da sessao:** treinar bracos e estabilidade sem fadiga sistemica.
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+|---:|---|:---:|:---:|:---:|:---:|---|---|
+| 1 | Puxada Alta Frente | 3 | 8–12 | 2 | 120 s | Tradicional | Cotovelos para baixo. |
+| 2 | Remada Unilateral com Halter | 2 | 8–10 por lado | 2 | 90–120 s | Tradicional | Apoiar uma mão no banco. |
+| 3 | Remada Baixa Neutra | 2 | 10–12 | 2 | 90 s | Tradicional | Tronco firme. |
+| 4 | Pulldown com Braços Estendidos | 2 | 12–15 | 2 | 60–75 s | Tradicional | Controlar escápulas. |
 
-| Ordem | Exercicio | Series | Repeticoes ou duracao | RIR | Descanso | Metodo | Observacoes |
-|---:|---|---:|---|---|---|---|---|
-| 1 | Rosca Direta com Barra W | 3 | 8-12 | 2 | 75 s | Progressao Dupla | Sem balanco. |
-| 2 | Triceps na Polia | 3 | 10-12 | 2 | 75 s | Progressao Dupla | Cotovelos fixos. |
-| 3 | Rosca Martelo | 2 | 10-12 | 2 | 60 s | Progressao Dupla | Punhos neutros. |
-| 4 | Triceps Frances na Polia | 2 | 10-12 | 2 | 60-75 s | Progressao Dupla | Sem dor no cotovelo. |
-| 5 | Prancha Frontal | 3 | 25-45 s | Tecnico | 45-60 s | Tempo sob tensao | Encerrar antes de perder alinhamento. |
+#### Justificativa
 
-**Justificativa tecnica:** bracos recebem volume direto simples e core reforca postura para exercicios livres.
+A sessão combina máquina e halter para ensinar controle sem sobrecarregar a lombar. A remada unilateral favorece estabilidade e aprendizagem técnica.
 
-## Tabela de prescricao
+### Treino C — Pernas
 
-As tabelas acima sao a fonte oficial de prescricao e incluem ordem, exercicio, series, repeticoes, RIR, descanso, metodo e observacoes.
+#### Objetivo da sessão
+
+Ensinar agachamento com apoio de máquinas e manter volume recuperável.
+
+#### Prescrição
+
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+|---:|---|:---:|:---:|:---:|:---:|---|---|
+| 1 | Agachamento Smith | 1 + 2 | 6–8 / 8–10 | 2 | 150 s | Top Set + Back-off | Aprender postura antes de carga. |
+| 2 | Leg Press 45 Graus | 3 | 10–12 | 2 | 120 s | Tradicional | Amplitude sem tirar quadril. |
+| 3 | Mesa Flexora | 2 | 10–12 | 2 | 75 s | Tradicional | Controle na volta. |
+| 4 | Cadeira Extensora | 2 | 12–15 | 2 | 75 s | Tradicional | Sem embalo. |
+| 5 | Panturrilha em Pé | 2 | 10–15 | 2 | 60 s | Tradicional | Amplitude completa. |
+
+#### Justificativa
+
+O Top Set no Smith ensina preparação para agachamento livre com menor demanda de estabilização. As máquinas complementam quadríceps, posteriores e panturrilhas com controle.
+
+### Treino D — Ombros
+
+#### Objetivo da sessão
+
+Desenvolver deltoides e postura escapular.
+
+#### Prescrição
+
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+|---:|---|:---:|:---:|:---:|:---:|---|---|
+| 1 | Desenvolvimento com Halteres Sentado | 3 | 8–10 | 2 | 120 s | Tradicional | Carga leve e coluna apoiada. |
+| 2 | Elevação Lateral Máquina | 3 | 12–15 | 2 | 60–75 s | Tradicional | Subir até linha dos ombros. |
+| 3 | Crucifixo Inverso Máquina | 2 | 12–15 | 2 | 60–75 s | Tradicional | Sem impulso. |
+| 4 | Face Pull | 2 | 12–15 | 2 | 60–75 s | Tradicional | Cotovelos altos. |
+
+#### Justificativa
+
+Halteres ensinam controle, enquanto máquina e cabo preservam estabilidade para manter o treino compatível com iniciante.
+
+### Treino E — Braços e core
+
+#### Objetivo da sessão
+
+Treinar braços e estabilidade sem fadiga sistêmica.
+
+#### Prescrição
+
+| Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
+|---:|---|:---:|:---:|:---:|:---:|---|---|
+| 1 | Rosca Direta com Barra W | 3 | 8–12 | 2 | 75 s | Tradicional | Sem balanço. |
+| 2 | Tríceps na Polia | 3 | 10–12 | 2 | 75 s | Tradicional | Cotovelos fixos. |
+| 3 | Rosca Martelo | 2 | 10–12 | 2 | 60 s | Tradicional | Punhos neutros. |
+| 4 | Tríceps Francês na Polia | 2 | 10–12 | 2 | 60–75 s | Tradicional | Preservar conforto no cotovelo. |
+| 5 | Prancha Frontal | 3 | 25–45 s | Técnico | 45–60 s | Isometria | Encerrar antes de perder alinhamento. |
+
+#### Justificativa
+
+Braços recebem volume direto simples e core reforça postura para exercícios livres.
 
 ## Volume semanal
 
-| Grupo | Series diretas |
-|---|---:|
-| Peitoral | 7 |
-| Costas | 9 |
-| Pernas | 11 |
-| Ombros | 10 |
-| Biceps | 5 |
-| Triceps | 5 |
-| Core | 3 |
+| Grupo | Séries diretas | Participação indireta |
+|---|---:|---|
+| Peitoral | 7 | Tríceps e deltoide anterior participam nos supinos |
+| Costas | 9 | Bíceps participa nas puxadas |
+| Pernas | 11 | Core estabiliza agachamento e leg press |
+| Ombros | 10 | Peitoral contribui para deltoide anterior |
+| Bíceps | 5 | Costas gera participação indireta |
+| Tríceps | 5 | Peitoral e ombros geram participação indireta |
+| Core | 3 | Estabilização indireta nos livres |
+
+## Distribuição dos padrões de movimento
+
+- Empurrar horizontal: Supino Reto, Supino Inclinado, Supino Máquina e Crucifixo.
+- Puxar vertical: Puxada Alta e Pulldown.
+- Puxar horizontal: Remada Unilateral e Remada Baixa.
+- Dominante de joelho: Agachamento Smith, Leg Press e Extensora.
+- Flexão de joelho: Mesa Flexora.
+- Empurrar vertical: Desenvolvimento com Halteres.
+- Core: Prancha Frontal.
+
+## Referências futuras ao AOE
+
+Referências provisórias: Supino Máquina → Supino Barra; Puxada Alta → Barra Fixa; Mesa Flexora → Cadeira Flexora; Agachamento Smith → Agachamento Livre; Leg Press → Hack; Elevação Lateral Máquina → Halteres; Rosca Máquina → Barra W; Tríceps Máquina → Polia. As equivalências definitivas serão centralizadas futuramente no AOE.
 
 ## Coaching Notes
 
-- Top Set deve ter tecnica identica as series leves.
-- Nao usar Rest Pause, Drop Set ou falha.
-- Se o Top Set piorar a tecnica, voltar para Base.
-- Poucos exercicios livres sao suficientes nesta etapa.
+- Top Set deve ter técnica idêntica às séries leves.
+- Se o Top Set piorar a execução, voltar para Base.
+- Poucos exercícios livres são suficientes nesta etapa.
+- Registrar carga, repetições e RIR em todas as sessões.
 
-## Criterios de evolucao
+## Critérios de evolução
 
-Evoluir para Sprint 02 quando o aluno mantiver RIR 2, tecnica estavel nos livres e recuperacao adequada durante um bloco completo.
-
-## Referencias futuras ao AOE
-
-Referencias provisorias: Supino Maquina -> Supino Barra; Puxada Alta -> Barra Fixa; Mesa Flexora -> Cadeira Flexora; Agachamento Smith -> Agachamento Livre; Leg Press -> Hack; Elevacao Lateral Maquina -> Halteres; Rosca Maquina -> Barra W; Triceps Maquina -> Polia. As equivalencias serao centralizadas futuramente no AOE.
+Evoluir para Sprint 02 quando o aluno mantiver RIR 2, técnica estável nos livres e recuperação adequada durante um bloco completo. Reduzir para Base se a complexidade prejudicar execução.
 
 ## Aruka Score
 
-| Dimensao | Nota 1-5 |
-|---|---:|
-| Aprendizagem | 5 |
-| Hipertrofia inicial | 4 |
-| Simplicidade | 4 |
-| Recuperacao | 4 |
-| Transicao | 5 |
+| Critério | Nota de 1 a 5 | Justificativa |
+|---|:---:|---|
+| Hipertrofia | 4 | Bom estímulo com volume recuperável. |
+| Força | 3 | Introduz Top Set seletivo. |
+| Aprendizagem | 5 | Prepara movimentos livres. |
+| Complexidade | 3 | Moderada para iniciante avançando. |
+| Demanda de recuperação | 3 | Maior que Base, ainda controlada. |
+| Eficiência de tempo | 3 | Sessões de 50–60 minutos. |
+| Necessidade de equipamentos | 4 | Usa livres, máquinas e cabos. |
+| Personalização | 3 | Permite regressões futuras. |
+| Aderência esperada | 4 | Boa para aluno motivado pela transição. |
+
+## Engenharia do treino
+
+A divisão mantém cinco sessões específicas, mas aumenta exigência técnica somente onde há maior retorno: supino e agachamento. O restante da semana conserva exercícios estáveis para controlar fadiga e preparar a Sprint 02 sem antecipar demanda intermediária completa.
 
 ## Checklist
 
-| Item | Status |
-|---|---|
-| Top Set apenas em A e C | OK |
-| Sem Rest Pause | OK |
-| Sem Drop Set | OK |
-| Sem falha | OK |
-| Foco em Sprint 02 | OK |
+- [x] Código interno corresponde ao nome do arquivo.
+- [x] Versão e status estão preenchidos.
+- [x] Todas as seções obrigatórias existem.
+- [x] Todas as sessões possuem objetivo, prescrição e justificativa.
+- [x] Tabelas de exercícios possuem as oito colunas oficiais.
+- [x] Volume semanal foi calculado.
+- [x] Top Set é seletivo.
+- [x] Assinatura Técnica está presente.
 
 ## Assinatura Tecnica
 
-Modelo ABCDE masculino iniciante de transicao, com baixa complexidade, poucos livres e Top Set educativo em duas sessoes.
+Este modelo integra a Aruka Performance Library e foi estruturado para servir como base de prescrição profissional. Sua aplicação exige avaliação individual, acompanhamento da resposta ao treinamento e ajustes realizados pelo profissional responsável.
+
+A seleção final dos exercícios, cargas, amplitude, métodos e progressões deve considerar experiência do aluno, condição atual, disponibilidade de equipamentos, qualidade técnica, recuperação, objetivos específicos e eventuais limitações identificadas na avaliação profissional.
+
+Este documento não substitui avaliação, prescrição ou acompanhamento individualizado.
 
 ## Tags
 
-`hipertrofia`, `masculino`, `iniciante`, `ABCDE`, `performance`, `top set`, `transicao`
+- hipertrofia
+- masculino
+- iniciante
+- abcde
+- performance
+- top-set
+- rir-2
