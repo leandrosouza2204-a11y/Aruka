@@ -83,7 +83,7 @@ Resumo da release:
 
 # Sprint 02 - Masculino Intermediário
 
-Status Geral: Biblioteca padronizada e validada pelo AQA — aguardando homologação técnica humana.
+Status Geral: Homologada com ressalvas.
 
 ## ABC
 
