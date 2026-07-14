@@ -146,8 +146,45 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
     setEdicaoExercicio({ diaId, exercicioId: exercicio.id });
   }
 
+  function cancelarEdicaoExercicio(diaId) {
+    setExercicioPorDia({ ...exercicioPorDia, [diaId]: exercicioVazio });
+    setEdicaoExercicio(null);
+  }
+
+  function moverExercicio(diaId, exercicioId, direcao) {
+    setForm({
+      ...form,
+      dias: form.dias.map((dia) => {
+        if (dia.id !== diaId) return dia;
+
+        const indice = dia.exercicios.findIndex(
+          (exercicio) => exercicio.id === exercicioId
+        );
+        const destino = indice + direcao;
+
+        if (indice < 0 || destino < 0 || destino >= dia.exercicios.length) {
+          return dia;
+        }
+
+        const exercicios = [...dia.exercicios];
+        const [movido] = exercicios.splice(indice, 1);
+        exercicios.splice(destino, 0, movido);
+
+        return {
+          ...dia,
+          exercicios,
+        };
+      }),
+    });
+  }
+
   async function excluirExercicio(diaId, exercicioId) {
-    const confirmado = await confirmar({ titulo: "Excluir exercício?", descricao: "Esta ação remove o exercício do dia selecionado.", textoConfirmar: "Excluir" });
+    const confirmado = await confirmar({
+      titulo: "Excluir exercício?",
+      descricao: "Esta ação remove apenas o exercício selecionado deste dia.",
+      textoConfirmar: "Excluir",
+      testIdPrefix: "exercise-delete",
+    });
 
     if (!confirmado) return;
 
@@ -368,7 +405,11 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
                     </button>
                   </div>
 
-                  <div className="treino-editor-exercise-form" style={exercicioForm}>
+                  <div
+                    className="treino-editor-exercise-form"
+                    style={exercicioForm}
+                    data-testid="exercise-form"
+                  >
                     <input
                       placeholder="Nome do exercício"
                       value={exercicioAtual.nome}
@@ -380,6 +421,8 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
                         )
                       }
                       style={campo}
+                      data-testid="exercise-name"
+                      aria-label="Nome do exercício"
                     />
                     <input
                       placeholder="Séries"
@@ -392,6 +435,9 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
                         )
                       }
                       style={campo}
+                      data-testid="exercise-sets"
+                      inputMode="decimal"
+                      aria-label="Séries"
                     />
                     <input
                       placeholder="Repetições"
@@ -404,6 +450,8 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
                         )
                       }
                       style={campo}
+                      data-testid="exercise-repetitions"
+                      aria-label="Repetições"
                     />
                     <input
                       placeholder="Carga"
@@ -416,6 +464,9 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
                         )
                       }
                       style={campo}
+                      data-testid="exercise-load"
+                      inputMode="decimal"
+                      aria-label="Carga"
                     />
                     <input
                       placeholder="Descanso"
@@ -428,6 +479,8 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
                         )
                       }
                       style={campo}
+                      data-testid="exercise-rest"
+                      aria-label="Descanso"
                     />
                     <input
                       placeholder="Link de vídeo"
@@ -440,6 +493,8 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
                         )
                       }
                       style={campo}
+                      data-testid="exercise-video"
+                      aria-label="Link de vídeo"
                     />
                     <textarea
                       rows="2"
@@ -453,22 +508,40 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
                         )
                       }
                       style={{ ...campo, minHeight: "70px", resize: "vertical" }}
+                      data-testid="exercise-notes"
+                      aria-label="Observações do exercício"
                     />
                     <button
+                      type="button"
                       onClick={() => salvarExercicio(dia.id)}
                       style={botaoPrimario}
+                      data-testid="exercise-add"
                     >
                       {editando}
                     </button>
+                    {edicaoExercicio?.diaId === dia.id && (
+                      <button
+                        type="button"
+                        onClick={() => cancelarEdicaoExercicio(dia.id)}
+                        style={botaoSecundario}
+                        data-testid="exercise-cancel"
+                      >
+                        Cancelar edição
+                      </button>
+                    )}
                   </div>
 
                   <div className="treino-editor-exercises-list" style={exerciciosLista}>
-                    {dia.exercicios.map((exercicio) => (
+                    {dia.exercicios.map((exercicio, index) => (
                       <ExercicioCard
                         key={exercicio.id}
                         exercicio={exercicio}
+                        index={index}
+                        total={dia.exercicios.length}
                         onEdit={() => editarExercicio(dia.id, exercicio)}
                         onDelete={() => excluirExercicio(dia.id, exercicio.id)}
+                        onMoveUp={() => moverExercicio(dia.id, exercicio.id, -1)}
+                        onMoveDown={() => moverExercicio(dia.id, exercicio.id, 1)}
                       />
                     ))}
 

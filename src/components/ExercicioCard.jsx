@@ -1,28 +1,83 @@
-import { ExternalLink, Pencil, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, ExternalLink, Pencil, Trash2 } from "lucide-react";
 
-function ExercicioCard({ exercicio, onEdit, onDelete }) {
+function ExercicioCard({
+  exercicio,
+  index = 0,
+  total = 1,
+  onEdit,
+  onDelete,
+  onMoveDown,
+  onMoveUp,
+}) {
   const videoSeguro = obterUrlVideoSegura(exercicio.video);
+  const ordem = index + 1;
 
   return (
-    <div className="treino-exercise-card" style={card}>
+    <div
+      className="treino-exercise-card"
+      style={card}
+      data-testid="exercise-card"
+      data-exercise-id={exercicio.id}
+    >
       <div className="exercise-card-top" style={topo}>
         <div className="exercise-card-title">
-          <h4 style={titulo}>{exercicio.nome || "Exercício sem nome"}</h4>
+          <span className="exercise-card-order" style={ordemBadge}>
+            #{ordem}
+          </span>
+          <h4 style={titulo} title={exercicio.nome || "Exercicio sem nome"}>
+            {exercicio.nome || "Exercicio sem nome"}
+          </h4>
           <p style={meta}>
-            {exercicio.series || "-"} séries &bull; {exercicio.repeticoes || "-"} reps
+            {exercicio.series || "-"} series &bull; {exercicio.repeticoes || "-"} reps
           </p>
         </div>
 
-        {(onEdit || onDelete) && (
+        {(onEdit || onDelete || onMoveUp || onMoveDown) && (
           <div className="exercise-card-actions" style={acoes}>
+            {onMoveUp && (
+              <button
+                type="button"
+                onClick={onMoveUp}
+                style={index === 0 ? botaoDesabilitado : botaoSecundario}
+                disabled={index === 0}
+                aria-label={`Mover exercicio ${exercicio.nome || ordem} para cima`}
+                data-testid="exercise-move-up"
+              >
+                <ArrowUp size={13} />
+                Subir
+              </button>
+            )}
+            {onMoveDown && (
+              <button
+                type="button"
+                onClick={onMoveDown}
+                style={index >= total - 1 ? botaoDesabilitado : botaoSecundario}
+                disabled={index >= total - 1}
+                aria-label={`Mover exercicio ${exercicio.nome || ordem} para baixo`}
+                data-testid="exercise-move-down"
+              >
+                <ArrowDown size={13} />
+                Descer
+              </button>
+            )}
             {onEdit && (
-              <button onClick={onEdit} style={botaoSecundario}>
+              <button
+                type="button"
+                onClick={onEdit}
+                style={botaoSecundario}
+                data-testid="exercise-edit"
+              >
                 <Pencil size={13} />
                 Editar
               </button>
             )}
             {onDelete && (
-              <button onClick={onDelete} style={botaoExcluir}>
+              <button
+                type="button"
+                onClick={onDelete}
+                style={botaoExcluir}
+                data-testid="exercise-delete"
+              >
                 <Trash2 size={13} />
                 Excluir
               </button>
@@ -34,7 +89,7 @@ function ExercicioCard({ exercicio, onEdit, onDelete }) {
       <div className="exercise-card-grid" style={grid}>
         <Info label="Carga" valor={exercicio.carga} />
         <Info label="Descanso" valor={exercicio.descanso} />
-        <Info label="Observações" valor={exercicio.observacoes} />
+        <Info label="Observacoes" valor={exercicio.observacoes} />
       </div>
 
       {videoSeguro && (
@@ -45,7 +100,7 @@ function ExercicioCard({ exercicio, onEdit, onDelete }) {
           style={linkVideo}
         >
           <ExternalLink size={13} />
-          Ver vídeo
+          Ver video
         </a>
       )}
     </div>
@@ -77,6 +132,7 @@ const card = {
   border: "1px solid rgba(226, 232, 240, 0.38)",
   borderRadius: "8px",
   boxShadow: "0 12px 30px rgba(15, 23, 42, 0.065)",
+  minWidth: 0,
   padding: "14px",
   transition: "transform 0.18s ease, box-shadow 0.18s ease",
 };
@@ -86,13 +142,28 @@ const topo = {
   display: "flex",
   gap: "12px",
   justifyContent: "space-between",
+  minWidth: 0,
 };
 
 const titulo = {
   color: "#111827",
   fontSize: "15px",
   lineHeight: 1.25,
-  margin: 0,
+  margin: "5px 0 0",
+  maxWidth: "100%",
+  overflowWrap: "anywhere",
+  whiteSpace: "normal",
+};
+
+const ordemBadge = {
+  background: "#eef2ff",
+  borderRadius: "999px",
+  color: "#1d4ed8",
+  display: "inline-flex",
+  fontSize: "11px",
+  fontWeight: "850",
+  lineHeight: 1,
+  padding: "5px 7px",
 };
 
 const meta = {
@@ -120,6 +191,7 @@ const infoBox = {
   border: "1px solid rgba(191, 219, 254, 0.32)",
   borderRadius: "8px",
   minHeight: "58px",
+  minWidth: 0,
   padding: "9px",
 };
 
@@ -137,6 +209,7 @@ const infoValor = {
   display: "block",
   fontSize: "13px",
   lineHeight: 1.35,
+  overflowWrap: "anywhere",
 };
 
 const linkVideo = {
@@ -160,7 +233,14 @@ const botaoSecundario = {
   display: "inline-flex",
   fontSize: "13px",
   gap: "5px",
+  minHeight: "36px",
   padding: "7px 10px",
+};
+
+const botaoDesabilitado = {
+  ...botaoSecundario,
+  cursor: "not-allowed",
+  opacity: 0.48,
 };
 
 const botaoExcluir = {

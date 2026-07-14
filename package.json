@@ -25,7 +25,8 @@
     "qa:cleanup-workout-templates": "node --env-file=.env --env-file=.env.local --env-file=.env.qa.local scripts/cleanup-qa-workout-templates.mjs",
     "qa:treino-custom-templates": "node --env-file=.env --env-file=.env.local --env-file=.env.qa.local scripts/validate-treino-custom-templates-cdp.mjs",
     "qa:treino-editor-module": "node --env-file=.env --env-file=.env.local --env-file=.env.qa.local scripts/validate-treino-editor-module-cdp.mjs",
-    "qa:treino-editor-final": "node --env-file=.env --env-file=.env.local --env-file=.env.qa.local scripts/validate-treino-editor-final-cdp.mjs"
+    "qa:treino-editor-final": "node --env-file=.env --env-file=.env.local --env-file=.env.qa.local scripts/validate-treino-editor-final-cdp.mjs",
+    "qa:treino-exercises-mobile": "node --env-file=.env.qa.local scripts/validate-treino-exercises-mobile-cdp.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.107.0",
