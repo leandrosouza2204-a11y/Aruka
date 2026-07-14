@@ -1,5 +1,6 @@
 ﻿import { useMemo, useState } from "react";
 import ExercicioCard from "./ExercicioCard";
+import TreinoSalvarModeloModal from "../features/treinos/components/TreinoSalvarModeloModal";
 import { useConfirm } from "../hooks/useConfirm";
 import { useToast } from "../hooks/useToast";
 
@@ -33,7 +34,7 @@ const exercicioVazio = {
   video: "",
 };
 
-function TreinoModal({ alunos, treino, onClose, onSave }) {
+function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
   const [form, setForm] = useState(() => ({
     ...treinoVazio,
     ...treino,
@@ -42,6 +43,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
   const [novoDia, setNovoDia] = useState(diaVazio);
   const [exercicioPorDia, setExercicioPorDia] = useState({});
   const [edicaoExercicio, setEdicaoExercicio] = useState(null);
+  const [salvandoModelo, setSalvandoModelo] = useState(false);
   const toast = useToast();
   const { confirmar } = useConfirm();
 
@@ -188,10 +190,34 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
     });
   }
 
+  function abrirSalvarModelo() {
+    const totalExercicios = form.dias.reduce(
+      (total, dia) => total + Number(dia.exercicios?.length || 0),
+      0
+    );
+
+    if (!form.dias.length || totalExercicios === 0) {
+      toast.aviso(
+        "Modelo incompleto",
+        "Inclua pelo menos um dia com exercicio antes de salvar como modelo."
+      );
+      return;
+    }
+
+    setSalvandoModelo(true);
+  }
+
+  async function salvarComoModelo(metadata) {
+    if (!onSaveTemplate) return;
+
+    await onSaveTemplate(metadata, form);
+    setSalvandoModelo(false);
+  }
+
   return (
-    <div style={overlay}>
-      <div style={modal}>
-        <div style={modalTopo}>
+    <div className="treino-modal-overlay" style={overlay}>
+      <div className="treino-editor-modal" style={modal} data-testid="treino-editor-modal">
+        <div className="treino-editor-header" style={modalTopo}>
           <div>
             <h2 style={tituloModal}>{titulo}</h2>
             <p style={subtitulo}>Monte a rotina, os dias e os exercícios.</p>
@@ -202,7 +228,8 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
           </button>
         </div>
 
-        <div style={formGrid}>
+        <div className="treino-editor-scroll" data-testid="treino-editor-scroll">
+          <div className="treino-editor-form-grid" style={formGrid}>
           <Campo label="Aluno">
             <select
               value={form.alunoId || ""}
@@ -299,11 +326,11 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
               style={{ ...campo, minHeight: "84px", resize: "vertical" }}
             />
           </Campo>
-        </div>
+          </div>
 
-        <section style={bloco}>
+        <section className="treino-editor-section" style={bloco}>
           <h3 style={secaoTitulo}>Dias de treino</h3>
-          <div style={diaForm}>
+          <div className="treino-editor-day-form" style={diaForm}>
             <input
               placeholder="Ex: Treino A"
               value={novoDia.nome}
@@ -323,15 +350,15 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
             </button>
           </div>
 
-          <div style={diasLista}>
+          <div className="treino-editor-days-list" style={diasLista}>
             {form.dias.map((dia) => {
               const exercicioAtual = exercicioPorDia[dia.id] || exercicioVazio;
               const editando =
                 edicaoExercicio?.diaId === dia.id ? "Salvar exercício" : "Adicionar exercício";
 
               return (
-                <div key={dia.id} style={diaCard}>
-                  <div style={diaTopo}>
+                <div key={dia.id} className="treino-editor-day-card" style={diaCard}>
+                  <div className="treino-editor-day-header" style={diaTopo}>
                     <div>
                       <h4 style={diaTitulo}>{dia.nome}</h4>
                       <p style={subtitulo}>{dia.descricao || "Sem descrição"}</p>
@@ -341,7 +368,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
                     </button>
                   </div>
 
-                  <div style={exercicioForm}>
+                  <div className="treino-editor-exercise-form" style={exercicioForm}>
                     <input
                       placeholder="Nome do exercício"
                       value={exercicioAtual.nome}
@@ -435,7 +462,7 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
                     </button>
                   </div>
 
-                  <div style={exerciciosLista}>
+                  <div className="treino-editor-exercises-list" style={exerciciosLista}>
                     {dia.exercicios.map((exercicio) => (
                       <ExercicioCard
                         key={exercicio.id}
@@ -459,15 +486,34 @@ function TreinoModal({ alunos, treino, onClose, onSave }) {
           </div>
         </section>
 
-        <div style={rodape}>
+        </div>
+
+        <div className="treino-editor-footer" style={rodape} data-testid="treino-editor-footer">
           <button onClick={onClose} style={botaoSecundario}>
             Cancelar
           </button>
+          {onSaveTemplate && (
+            <button
+              onClick={abrirSalvarModelo}
+              style={botaoSecundario}
+              data-testid="save-workout-template"
+            >
+              Salvar como modelo
+            </button>
+          )}
           <button onClick={salvarTreino} style={botaoPrimario}>
             Salvar Treino
           </button>
         </div>
       </div>
+
+      {salvandoModelo && (
+        <TreinoSalvarModeloModal
+          treino={form}
+          onClose={() => setSalvandoModelo(false)}
+          onSubmit={salvarComoModelo}
+        />
+      )}
     </div>
   );
 }

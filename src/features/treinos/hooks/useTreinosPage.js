@@ -10,7 +10,14 @@ import {
   buscarTreinosSupabase,
   excluirTreinoSupabase,
 } from "../../../services/treinosService";
+import {
+  atualizarModeloPessoalSupabase,
+  buscarModelosPessoaisSupabase,
+  criarModeloPessoalSupabase,
+  excluirModeloPessoalSupabase,
+} from "../../../services/workoutTemplatesService";
 import { abrirWhatsApp } from "../../../services/whatsappService";
+import { templateDataToWorkout } from "../utils/workoutTemplateSanitization";
 
 export { formatarData };
 
@@ -18,6 +25,10 @@ export function useTreinosPage() {
   const [treinos, setTreinos] = useState([]);
   const [alunos, setAlunos] = useState([]);
   const [modalAberto, setModalAberto] = useState(false);
+  const [modalModelosAberto, setModalModelosAberto] = useState(false);
+  const [modelosPessoais, setModelosPessoais] = useState([]);
+  const [carregandoModelos, setCarregandoModelos] = useState(false);
+  const [erroModelos, setErroModelos] = useState("");
   const [treinoEditando, setTreinoEditando] = useState(null);
   const [treinoBase, setTreinoBase] = useState(null);
   const [treinoSelecionadoId, setTreinoSelecionadoId] = useState("");
@@ -85,21 +96,38 @@ export function useTreinosPage() {
     setErro("");
 
     try {
-      const [alunosSupabase, treinosSupabase] = await Promise.all([
+      const [alunosSupabase, treinosSupabase, modelosSupabase] = await Promise.all([
         buscarAlunosSupabase(),
         buscarTreinosSupabase(),
+        carregarModelosPessoais(),
       ]);
 
       const treinosNormalizados = normalizarRegistrosAluno(treinosSupabase, alunosSupabase);
 
       setAlunos(alunosSupabase);
       setTreinos(treinosNormalizados);
+      setModelosPessoais(modelosSupabase);
       return treinosNormalizados;
     } catch (error) {
       setErro(error.message || "Não foi possível carregar os treinos.");
       return [];
     } finally {
       setCarregando(false);
+    }
+  }
+
+  async function carregarModelosPessoais() {
+    setCarregandoModelos(true);
+
+    try {
+      setErroModelos("");
+      return await buscarModelosPessoaisSupabase();
+    } catch (error) {
+      console.error(error);
+      setErroModelos(error.message || "Nao foi possivel carregar seus modelos.");
+      return [];
+    } finally {
+      setCarregandoModelos(false);
     }
   }
 
@@ -115,10 +143,71 @@ export function useTreinosPage() {
     setModalAberto(true);
   }
 
-  function gerarTreinoBase(modelo) {
+  function abrirBibliotecaModelos() {
+    setModalModelosAberto(true);
+  }
+
+  function gerarTreinoBase(modelo, opcoes = {}) {
     setTreinoEditando(null);
-    setTreinoBase(criarModeloTreino(modelo));
+    setTreinoBase(
+      typeof modelo === "object" && !modelo.isSystem
+        ? templateDataToWorkout(modelo, opcoes)
+        : criarModeloTreino(modelo, opcoes)
+    );
+    setModalModelosAberto(false);
     setModalAberto(true);
+  }
+
+  async function salvarModeloPessoal(metadata, treino) {
+    try {
+      setErroModelos("");
+      const modelo = await criarModeloPessoalSupabase(metadata, treino);
+      setModelosPessoais((atuais) => [modelo, ...atuais]);
+      toast.sucesso("Modelo salvo", "O modelo pessoal foi salvo na sua biblioteca.");
+    } catch (error) {
+      console.error(error);
+      setErroModelos(error.message || "Nao foi possivel salvar o modelo.");
+      toast.erro("Nao foi possivel salvar o modelo", "Revise os dados e tente novamente.");
+      throw error;
+    }
+  }
+
+  async function atualizarModeloPessoal(id, metadata) {
+    try {
+      setErroModelos("");
+      const modelo = await atualizarModeloPessoalSupabase(id, metadata);
+      setModelosPessoais((atuais) =>
+        atuais.map((item) => (item.id === id ? modelo : item))
+      );
+      toast.sucesso("Modelo atualizado", "Os metadados foram atualizados.");
+    } catch (error) {
+      console.error(error);
+      setErroModelos(error.message || "Nao foi possivel atualizar o modelo.");
+      toast.erro("Nao foi possivel atualizar o modelo", "Tente novamente em instantes.");
+      throw error;
+    }
+  }
+
+  async function removerModeloPessoal(modelo) {
+    const confirmado = await confirmar({
+      titulo: "Excluir modelo pessoal?",
+      descricao: "Esta acao remove apenas o modelo da sua biblioteca. Treinos ja criados nao sao alterados.",
+      textoConfirmar: "Excluir",
+      testIdPrefix: "custom-template",
+    });
+
+    if (!confirmado) return;
+
+    try {
+      setErroModelos("");
+      await excluirModeloPessoalSupabase(modelo.id);
+      setModelosPessoais((atuais) => atuais.filter((item) => item.id !== modelo.id));
+      toast.sucesso("Modelo excluido", "O modelo pessoal foi removido.");
+    } catch (error) {
+      console.error(error);
+      setErroModelos(error.message || "Nao foi possivel excluir o modelo.");
+      toast.erro("Nao foi possivel excluir o modelo", "Tente novamente em instantes.");
+    }
   }
 
   async function salvarTreino(treino) {
@@ -243,6 +332,10 @@ export function useTreinosPage() {
     setTreinoBase(null);
   }
 
+  function fecharBibliotecaModelos() {
+    setModalModelosAberto(false);
+  }
+
   function visualizarTreino(id) {
     setTreinoSelecionadoId(id);
   }
@@ -261,22 +354,31 @@ export function useTreinosPage() {
     filtroObjetivo,
     filtroStatus,
     modalAberto,
+    modalModelosAberto,
+    modelosPessoais,
     opcoesFiltro,
     treinoBase,
     treinoEditando,
     treinoSelecionado,
     treinos,
     treinosFiltrados,
+    carregandoModelos,
+    erroModelos,
+    abrirBibliotecaModelos,
     abrirEdicao,
     abrirNovoTreino,
     copiarTreinoWhatsApp,
     duplicarTreino,
+    fecharBibliotecaModelos,
     fecharDetalhes,
     fecharModal,
     gerarTreinoBase,
     limparFiltros,
     removerTreino,
+    removerModeloPessoal,
+    salvarModeloPessoal,
     salvarTreino,
+    atualizarModeloPessoal,
     setBusca,
     setFiltroAluno,
     setFiltroNivel,

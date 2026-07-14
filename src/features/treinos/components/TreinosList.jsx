@@ -8,6 +8,7 @@ import TreinosFilters from "./TreinosFilters";
 import TreinosHeader from "./TreinosHeader";
 
 const TreinoModal = lazy(() => import("../../../components/TreinoModal"));
+const TreinoTemplatesModal = lazy(() => import("./TreinoTemplatesModal"));
 
 function TreinosList() {
   const treinosPage = useTreinosPage();
@@ -40,7 +41,7 @@ function TreinosList() {
           quantidadeFiltrada={treinosPage.treinosFiltrados.length}
           quantidadeTotal={treinosPage.treinos.length}
           onNovoTreino={treinosPage.abrirNovoTreino}
-          onGerarModelo={treinosPage.gerarTreinoBase}
+          onGerarModelo={treinosPage.abrirBibliotecaModelos}
           styles={styles}
         />
 
@@ -134,6 +135,22 @@ function TreinosList() {
               treino={treinosPage.treinoEditando || treinosPage.treinoBase}
               onClose={treinosPage.fecharModal}
               onSave={treinosPage.salvarTreino}
+              onSaveTemplate={treinosPage.salvarModeloPessoal}
+            />
+          </Suspense>
+        )}
+
+        {treinosPage.modalModelosAberto && (
+          <Suspense fallback={null}>
+            <TreinoTemplatesModal
+              alunos={treinosPage.alunos}
+              carregandoModelos={treinosPage.carregandoModelos}
+              erroModelos={treinosPage.erroModelos}
+              modelosPessoais={treinosPage.modelosPessoais}
+              onClose={treinosPage.fecharBibliotecaModelos}
+              onDeleteCustom={treinosPage.removerModeloPessoal}
+              onEditCustom={treinosPage.atualizarModeloPessoal}
+              onGenerate={treinosPage.gerarTreinoBase}
             />
           </Suspense>
         )}

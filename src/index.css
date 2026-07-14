@@ -6,6 +6,702 @@
   box-sizing: border-box;
 }
 
+.treino-modal-overlay,
+.treino-editor-modal,
+.treino-editor-modal *,
+.treino-exercise-card,
+.treino-exercise-card * {
+  box-sizing: border-box;
+}
+
+.treino-editor-modal {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden !important;
+}
+
+.treino-editor-header,
+.treino-editor-footer {
+  flex: 0 0 auto;
+}
+
+.treino-editor-scroll {
+  flex: 1 1 auto;
+  margin-top: 22px;
+  min-height: 0;
+  min-width: 0;
+  overflow-x: clip;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 2px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.treino-editor-form-grid {
+  margin-top: 0 !important;
+}
+
+.treino-editor-form-grid,
+.treino-editor-day-form,
+.treino-editor-exercise-form,
+.treino-editor-days-list,
+.treino-editor-exercises-list,
+.treino-editor-day-card,
+.treino-editor-day-header,
+.treino-editor-section,
+.treino-exercise-card,
+.treino-exercise-card > *,
+.exercise-card-title,
+.exercise-card-grid,
+.exercise-card-actions {
+  max-width: 100%;
+  min-width: 0;
+}
+
+.treino-editor-form-grid input,
+.treino-editor-form-grid select,
+.treino-editor-form-grid textarea,
+.treino-editor-day-form input,
+.treino-editor-day-form button,
+.treino-editor-exercise-form input,
+.treino-editor-exercise-form textarea,
+.treino-editor-exercise-form button {
+  font-size: 16px;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.treino-editor-day-header > div:first-child,
+.exercise-card-title {
+  min-width: 0;
+}
+
+.treino-editor-day-card h4,
+.treino-editor-day-card p,
+.treino-exercise-card h4,
+.treino-exercise-card p,
+.treino-exercise-card strong {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.treino-editor-footer {
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 18px !important;
+  padding-top: 14px;
+}
+
+@media (max-width: 768px) {
+  .treino-editor-header {
+    align-items: flex-start !important;
+    flex-wrap: wrap;
+  }
+
+  .treino-editor-header > div:first-child {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .treino-editor-header > button {
+    min-height: 44px;
+  }
+
+  .treino-editor-form-grid,
+  .treino-editor-day-form,
+  .treino-editor-exercise-form {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .treino-editor-day-header,
+  .exercise-card-top {
+    flex-wrap: wrap;
+  }
+
+  .treino-editor-day-header > button,
+  .exercise-card-actions,
+  .exercise-card-actions > button {
+    flex: 1 1 136px;
+  }
+
+  .exercise-card-actions {
+    justify-content: flex-start !important;
+    width: 100%;
+  }
+
+  .exercise-card-actions > button {
+    justify-content: center;
+    min-height: 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  .treino-modal-overlay {
+    align-items: stretch !important;
+    justify-content: stretch !important;
+    padding: 0 !important;
+  }
+
+  .treino-editor-modal {
+    border-radius: 0 !important;
+    height: 100dvh;
+    margin: 0;
+    max-height: 100dvh !important;
+    max-width: none !important;
+    min-height: 0;
+    padding: 16px !important;
+    transform: none;
+    width: auto !important;
+  }
+
+  .treino-editor-scroll {
+    margin-top: 14px;
+    padding-bottom: 12px;
+    padding-right: 0;
+  }
+
+  .treino-editor-section {
+    margin-top: 18px !important;
+    padding-top: 16px !important;
+  }
+
+  .treino-editor-day-card {
+    padding: 14px !important;
+  }
+
+  .treino-editor-footer {
+    flex-direction: column-reverse;
+    gap: 8px !important;
+    margin-top: 0 !important;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  }
+
+  .treino-editor-footer > button,
+  .treino-editor-day-form > button,
+  .treino-editor-exercise-form > button,
+  .treino-editor-day-header > button {
+    justify-content: center;
+    min-height: 44px;
+    width: 100%;
+  }
+}
+
+.treino-template-overlay,
+.treino-template-modal,
+.treino-template-modal * {
+  box-sizing: border-box;
+}
+
+.treino-template-overlay {
+  align-items: center;
+  background: rgba(17, 24, 39, 0.55);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 24px;
+  position: fixed;
+  z-index: 32;
+}
+
+.treino-template-modal {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.28);
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 48px);
+  max-width: 1040px;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  padding: 24px;
+  width: min(1040px, 100%);
+}
+
+.treino-template-header,
+.treino-template-footer {
+  flex: 0 0 auto;
+}
+
+.treino-template-header {
+  align-items: flex-start;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.treino-template-header h2 {
+  color: #111827;
+  font-size: 22px;
+  margin: 4px 0 0;
+}
+
+.treino-template-header p,
+.treino-template-card p,
+.treino-template-card span,
+.treino-template-choice span,
+.treino-template-summary span {
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.treino-template-step {
+  color: #2563eb;
+  display: block;
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.treino-template-close {
+  background: #e5e7eb;
+  border: 0;
+  border-radius: 8px;
+  color: #111827;
+  cursor: pointer;
+  min-height: 40px;
+  padding: 9px 12px;
+}
+
+.treino-template-progress {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-top: 16px;
+}
+
+.treino-template-progress span {
+  background: #e5e7eb;
+  border-radius: 999px;
+  height: 5px;
+}
+
+.treino-template-progress span.is-active {
+  background: #2563eb;
+}
+
+.treino-template-scroll {
+  flex: 1 1 auto;
+  margin-top: 18px;
+  min-height: 0;
+  min-width: 0;
+  overflow-x: clip;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 2px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.treino-template-section-title {
+  color: #111827;
+  font-size: 18px;
+  margin: 0 0 12px;
+}
+
+.treino-template-choice-grid,
+.treino-template-models {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.treino-template-choice,
+.treino-template-card {
+  background: #ffffff;
+  border: 1px solid #dbeafe;
+  border-radius: 8px;
+  color: #111827;
+  cursor: pointer;
+  min-width: 0;
+  padding: 14px;
+  text-align: left;
+}
+
+.treino-template-choice {
+  display: grid;
+  gap: 6px;
+}
+
+.treino-template-choice.is-selected,
+.treino-template-card.is-selected {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+}
+
+.treino-template-card {
+  display: grid;
+  gap: 8px;
+  position: relative;
+}
+
+.treino-template-card-topline {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.treino-template-card-icon {
+  align-items: center;
+  background: #eff6ff;
+  border-radius: 8px;
+  color: #2563eb;
+  display: inline-flex;
+  height: 36px;
+  justify-content: center;
+  width: 36px;
+}
+
+.treino-template-badge {
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 850;
+  padding: 5px 8px;
+}
+
+.treino-template-badge.is-official {
+  background: #ecfeff;
+  color: #0e7490;
+}
+
+.treino-template-badge.is-custom {
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.treino-template-origin-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.treino-template-origin-filter button {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  color: #334155;
+  cursor: pointer;
+  font-weight: 800;
+  min-height: 34px;
+  padding: 7px 11px;
+}
+
+.treino-template-origin-filter button.is-selected {
+  background: #111827;
+  border-color: #111827;
+  color: #ffffff;
+}
+
+.treino-template-actions {
+  position: absolute;
+  right: 10px;
+  top: 52px;
+  z-index: 2;
+}
+
+.treino-template-actions > span[role="button"] {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #dbeafe;
+  border-radius: 8px;
+  color: #111827;
+  display: inline-flex;
+  height: 32px;
+  justify-content: center;
+  width: 32px;
+}
+
+.treino-template-actions-menu {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.14);
+  display: grid;
+  min-width: 160px;
+  padding: 6px;
+  position: absolute;
+  right: 0;
+  top: 36px;
+}
+
+.treino-template-actions-menu span {
+  border-radius: 6px;
+  color: #111827;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 750;
+  padding: 8px;
+}
+
+.treino-template-actions-menu span:hover {
+  background: #f1f5f9;
+}
+
+.treino-template-empty {
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  color: #64748b;
+  font-weight: 750;
+  margin-top: 12px;
+  padding: 18px;
+  text-align: center;
+}
+
+.treino-template-destination {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.treino-template-destination label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.treino-template-destination label span {
+  color: #374151;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.treino-template-destination input,
+.treino-template-destination select {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  color: #111827;
+  min-height: 42px;
+  min-width: 0;
+  padding: 9px 11px;
+  width: 100%;
+}
+
+.treino-template-preview {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.treino-template-preview h3 {
+  color: #111827;
+  font-size: 17px;
+  margin: 0;
+}
+
+.treino-template-preview details {
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.treino-template-preview summary {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  list-style: none;
+  padding: 13px;
+}
+
+.treino-template-preview summary span,
+.treino-template-preview p,
+.treino-template-preview article span,
+.treino-template-preview article small {
+  color: #64748b;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.treino-template-preview details > div {
+  display: grid;
+  gap: 8px;
+  padding: 0 13px 13px;
+}
+
+.treino-template-preview article {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 10px;
+}
+
+.treino-template-summary {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  display: grid;
+  gap: 5px;
+  margin-bottom: 14px;
+  min-width: 0;
+  padding: 14px;
+}
+
+.treino-template-footer {
+  align-items: center;
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  margin-top: 18px;
+  padding-top: 14px;
+}
+
+.treino-template-footer button {
+  align-items: center;
+  display: inline-flex;
+  gap: 7px;
+  justify-content: center;
+}
+
+.treino-save-template-modal {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.28);
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 48px);
+  max-width: 720px;
+  min-height: 0;
+  overflow: hidden;
+  padding: 24px;
+  width: min(720px, 100%);
+}
+
+.treino-save-template-form {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 18px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.treino-save-template-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.treino-save-template-form label span {
+  color: #374151;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.treino-save-template-form input,
+.treino-save-template-form select,
+.treino-save-template-form textarea {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  color: #111827;
+  min-height: 42px;
+  min-width: 0;
+  padding: 9px 11px;
+  width: 100%;
+}
+
+.treino-save-template-wide,
+.treino-template-privacy,
+.treino-save-template-form .treino-template-footer {
+  grid-column: 1 / -1;
+}
+
+.treino-template-privacy {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  color: #475569;
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 0;
+  padding: 12px;
+}
+
+@media (max-width: 640px) {
+  .treino-template-overlay {
+    align-items: stretch;
+    justify-content: stretch;
+    padding: 0;
+  }
+
+  .treino-template-modal {
+    border-radius: 0;
+    height: 100dvh;
+    max-height: 100dvh;
+    max-width: none;
+    padding: 16px;
+    width: auto;
+  }
+
+  .treino-save-template-modal {
+    border-radius: 0;
+    height: 100dvh;
+    max-height: 100dvh;
+    max-width: none;
+    padding: 16px;
+    width: auto;
+  }
+
+  .treino-template-header {
+    flex-wrap: wrap;
+  }
+
+  .treino-template-header > div {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .treino-template-close {
+    width: 100%;
+  }
+
+  .treino-template-choice-grid,
+  .treino-template-models,
+  .treino-template-destination {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .treino-template-destination input,
+  .treino-template-destination select,
+  .treino-save-template-form input,
+  .treino-save-template-form select,
+  .treino-save-template-form textarea {
+    font-size: 16px;
+  }
+
+  .treino-save-template-form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .treino-template-footer {
+    flex-direction: column-reverse;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  }
+
+  .treino-template-footer button {
+    min-height: 44px;
+    width: 100%;
+  }
+}
+
 :root {
   --aruka-primary: #2563eb;
   --aruka-primary-hover: #1d4ed8;
