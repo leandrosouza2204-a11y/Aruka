@@ -1,0 +1,10 @@
+{
+  "status": "PENDING",
+  "projectRefMasked": "vriz...vdik",
+  "evidenceImported": false,
+  "blockers": [
+    "Evidencia de schema ainda nao importada.",
+    "Execute scripts/aoe/sql/runtime-schema-inspection.sql em staging confirmado e importe o resultado."
+  ],
+  "productionChanged": false
+}

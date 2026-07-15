@@ -1,0 +1,56 @@
+{
+  "status": "INDETERMINATE",
+  "requestedEnvironment": "staging",
+  "date": "2026-07-15T18:31:43.711Z",
+  "confirmation": {
+    "present": false
+  },
+  "linkedProject": {
+    "refMasked": "vriz...vdik",
+    "linked": {
+      "refMasked": "vriz...vdik",
+      "name": "aruka",
+      "organizationMasked": "ztjg...xlra"
+    }
+  },
+  "supabaseCli": {
+    "npxAvailable": true,
+    "version": "2.109.1"
+  },
+  "projectListAvailable": true,
+  "configPresent": true,
+  "migrationPresent": true,
+  "functionPresent": true,
+  "catalogPresent": true,
+  "requiredFlags": [
+    {
+      "name": "AOE_ENABLED",
+      "present": false
+    },
+    {
+      "name": "AOE_PILOT_ENABLED",
+      "present": false
+    },
+    {
+      "name": "AOE_DECISION_WRITE_ENABLED",
+      "present": false
+    },
+    {
+      "name": "AOE_HUMAN_REVIEW_ENABLED",
+      "present": false
+    },
+    {
+      "name": "AOE_TRACE_READ_ENABLED",
+      "present": false
+    },
+    {
+      "name": "AOE_INFRA_TEST_ENV",
+      "present": false
+    }
+  ],
+  "blockers": [
+    ".aoe-environment.local.json ausente."
+  ],
+  "productionChanged": false,
+  "remoteWritesExecuted": false
+}

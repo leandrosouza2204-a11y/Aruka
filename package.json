@@ -91,7 +91,14 @@
     "aoe:test:database-idempotency": "node --test tests/aoe/infrastructure-activation/runtime-skips.test.js",
     "aoe:test:staging-smoke": "node --test tests/aoe/infrastructure-activation/runtime-skips.test.js",
     "aoe:validate:activation": "node scripts/aoe/activation-cli.js --all-runtime --environment=local",
-    "aoe:validate:supabase-runtime": "node scripts/aoe/supabase-runtime-cli.js --environment=indeterminate --write-reports"
+    "aoe:validate:supabase-runtime": "node scripts/aoe/supabase-runtime-cli.js --environment=indeterminate --write-reports",
+    "aoe:env:validate": "node scripts/aoe/staging-env-cli.js",
+    "aoe:runtime:import-schema": "node scripts/aoe/import-supabase-runtime-evidence.js",
+    "aoe:staging:create-fixtures": "node scripts/aoe/create-staging-fixtures.js",
+    "aoe:staging:smoke": "node scripts/aoe/staging-smoke.js",
+    "aoe:staging:cleanup": "node scripts/aoe/cleanup-staging-fixtures.js",
+    "aoe:validate:staging": "node scripts/aoe/staging-env-cli.js --environment=staging && npm run aoe:infra:build-catalog && npm run aoe:infra:build-function",
+    "aoe:validate:runtime-evidence": "node scripts/aoe/import-supabase-runtime-evidence.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.107.0",

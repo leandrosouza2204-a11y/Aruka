@@ -1,0 +1,11 @@
+{
+  "status": "BLOCKED",
+  "projectRefMasked": "vriz...vdik",
+  "blockers": [
+    ".aoe-environment.local.json ausente.",
+    "Schema real ainda precisa ser importado ou consultado.",
+    "RLS, auth, idempotencia, persistencia, privacidade e smoke ainda precisam de evidencias runtime."
+  ],
+  "productionChanged": false,
+  "remoteWritesExecuted": false
+}

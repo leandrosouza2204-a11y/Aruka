@@ -1,0 +1,22 @@
+{
+  "status": "NOT_READY",
+  "environment": "INDETERMINATE",
+  "projectRefMasked": "vriz...vdik",
+  "stagingConfirmed": false,
+  "schemaEvidenceValidated": false,
+  "migrationConfirmed": false,
+  "edgeDeploymentExecuted": false,
+  "runtimeRlsValidated": false,
+  "runtimeAuthValidated": false,
+  "runtimeIdempotencyValidated": false,
+  "runtimePersistenceValidated": false,
+  "runtimePrivacyValidated": false,
+  "smokeValidated": false,
+  "cleanupPrepared": true,
+  "blockers": [
+    ".aoe-environment.local.json ausente.",
+    "Schema real ainda precisa ser importado ou consultado.",
+    "RLS, auth, idempotencia, persistencia, privacidade e smoke ainda precisam de evidencias runtime."
+  ],
+  "productionChanged": false
+}

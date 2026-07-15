@@ -60,11 +60,17 @@ Entrega tentativa controlada de validacao real apos aplicacao manual da migratio
 
 Status: NOT_READY. Supabase CLI disponivel via `npx.cmd`, Project Ref mascarado identificado, Docker local indisponivel, `supabase/config.toml` ausente, ambiente remoto INDETERMINATE e schema/RLS/Edge runtime nao validados.
 
+## AOE v1.7.3 - Staging Environment Provisioning & Runtime Evidence
+
+Entrega configuracao local do Supabase, politica de confirmacao nao produtiva, scripts de validacao de ambiente, pacote SQL somente leitura, importacao de evidencias runtime, fixtures rastreaveis e runbook de staging.
+
+Status: NOT_READY. `supabase/config.toml` foi criado localmente, mas a confirmacao nao produtiva e as evidencias reais de schema/runtime ainda estao pendentes.
+
 ## AOE v1.8 - Controlled Integration Pilot
 
 Entrega deploy em staging, usuarios piloto, decisoes controladas, revisao humana real, metricas, feedback e decisao sobre release final.
 
-Status: bloqueado ate READY_FOR_CONTROLLED_PILOT ou restricao residual formalmente aceita.
+Status: bloqueado ate staging comprovado, validacoes runtime concluidas e decisao READY_FOR_CONTROLLED_PILOT.
 
 ## AOE v2.0 - Customization Engine
 
