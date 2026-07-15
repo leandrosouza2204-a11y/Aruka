@@ -1,0 +1,101 @@
+{
+  "status": "PASS",
+  "blockers": [],
+  "restrictions": [
+    "Migrations criadas, mas não aplicadas em banco local/staging nesta tarefa.",
+    "Edge Function criada, mas não deployada.",
+    "Execução do core AOE dentro da Edge Function exige etapa de bundle ou runtime server-side no piloto.",
+    "RLS validada estaticamente; não houve teste contra instância Supabase local."
+  ],
+  "migration": {
+    "status": "PASS",
+    "checks": [
+      {
+        "name": "table aoe_decisions",
+        "passed": true,
+        "blocking": true
+      },
+      {
+        "name": "table aoe_decision_traces",
+        "passed": true,
+        "blocking": true
+      },
+      {
+        "name": "table aoe_human_reviews",
+        "passed": true,
+        "blocking": true
+      },
+      {
+        "name": "table aoe_idempotency_keys",
+        "passed": true,
+        "blocking": true
+      },
+      {
+        "name": "table aoe_audit_events",
+        "passed": true,
+        "blocking": true
+      },
+      {
+        "name": "rls enabled",
+        "passed": true,
+        "blocking": true
+      },
+      {
+        "name": "idempotency unique index",
+        "passed": true,
+        "blocking": true
+      },
+      {
+        "name": "transactional idempotency function",
+        "passed": true,
+        "blocking": true
+      },
+      {
+        "name": "no permissive using true policy",
+        "passed": true,
+        "blocking": true
+      },
+      {
+        "name": "no permissive with check true policy",
+        "passed": true,
+        "blocking": true
+      }
+    ]
+  },
+  "boundary": {
+    "status": "PASS_WITH_RESTRICTIONS",
+    "checks": [
+      {
+        "name": "single aoe edge boundary exists",
+        "passed": true,
+        "blocking": true
+      },
+      {
+        "name": "requires authorization bearer",
+        "passed": true,
+        "blocking": true
+      },
+      {
+        "name": "uses service role only server-side",
+        "passed": true,
+        "blocking": true
+      },
+      {
+        "name": "feature flags checked",
+        "passed": true,
+        "blocking": true
+      },
+      {
+        "name": "safe public errors",
+        "passed": true,
+        "blocking": true
+      },
+      {
+        "name": "core bundle not deployed in this task",
+        "passed": false,
+        "blocking": false
+      }
+    ]
+  },
+  "generatedAt": "2026-07-15T00:00:00.000Z"
+}

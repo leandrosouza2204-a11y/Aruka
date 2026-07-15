@@ -1,0 +1,12 @@
+export function mapPublicErrorToHttpStatus(code) {
+  return {
+    INVALID_REQUEST: 400,
+    UNAUTHORIZED: 401,
+    FORBIDDEN: 403,
+    DECISION_NOT_FOUND: 404,
+    REVIEW_NOT_FOUND: 404,
+    IDEMPOTENCY_CONFLICT: 409,
+    INVALID_REVIEW_TRANSITION: 409,
+    SERVICE_UNAVAILABLE: 503,
+  }[code] ?? 500;
+}

@@ -56,10 +56,11 @@ A medida que a APL cresce, a escolha manual entre dezenas de modelos se torna le
 | `19_RECOMMENDATION_HARDENING` | Validacao, explicabilidade, risco e review gate v1.4. |
 | `20_APPLICATION_INTEGRATION` | Contratos publicos, Application Service, idempotencia, persistencia, privacidade, auditoria e observabilidade v1.5. |
 | `21_RELEASE_CANDIDATE` | Validacao consolidada, freeze de contratos e AOE v1.0.0-rc.1. |
+| `22_INFRASTRUCTURE_PILOT` | Adaptadores Supabase, migrations, RLS, boundary e base de piloto v1.7. |
 
 ## Estado Atual
 
-AOE v1.0.0-rc.1 - READY_FOR_RC. O AOE v1.6 concluiu validacao consolidada, freeze de contratos publicos, golden hashes, manifest, performance, concorrencia, seguranca, privacidade e decisao formal de release candidate.
+AOE v1.7 - Infrastructure Adapters & Pilot Foundation concluido com status READY_WITH_INFRASTRUCTURE_RESTRICTIONS. O RC segue preservado, com migrations, RLS, adaptadores Supabase, boundary server-side, feature flags e runbooks prontos para validação em staging.
 
 ## Comandos AOE
 
@@ -89,4 +90,13 @@ npm run aoe:test:security
 npm run aoe:test:release-privacy
 npm run aoe:test:contract-freeze
 npm run aoe:validate:rc
+npm run aoe:infra -- --all --environment=local
+npm run aoe:test:infrastructure
+npm run aoe:test:repositories
+npm run aoe:test:migrations
+npm run aoe:test:rls
+npm run aoe:test:boundary
+npm run aoe:test:infra-idempotency
+npm run aoe:test:pilot
+npm run aoe:validate:infrastructure
 ```

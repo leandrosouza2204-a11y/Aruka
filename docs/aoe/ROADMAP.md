@@ -46,6 +46,12 @@ Status: concluido com decisao READY_FOR_RC para AOE v1.0.0-rc.1.
 
 Entrega adaptadores reais de banco, API, autenticacao, observabilidade real e piloto controlado, mantendo UI ampla fora do escopo inicial.
 
+Status: concluido com restricoes de infraestrutura: migrations e Edge Function criadas, sem deploy e sem aplicação em banco real nesta tarefa.
+
+## AOE v1.8 - Controlled Integration Pilot
+
+Entrega deploy em staging, usuarios piloto, decisoes controladas, revisao humana real, metricas, feedback e decisao sobre release final.
+
 Status: proximo marco.
 
 ## AOE v2.0 - Customization Engine

@@ -25,8 +25,8 @@
 ## Checksums
 
 - src/aoe/public/index.js: d3f7e482b5a7f77ea9ff4cf3a5d17333036e9fa32fb535a6279f1c23d36a3746
-- src/aoe/public/public-contract-version.js: 68ae4073d0bdfec45af74ae1aef99dd09f4bc4a78c03ed9fd945227c144e2ddc
-- src/aoe/config/versions.js: e53eb596ad8977477533e474e9520987e007fa947e15f4f67a4e01131d484bdd
+- src/aoe/public/public-contract-version.js: 7881b0b83973e64b5837cc9553cd33493b428f8ba66f0ac79a415a1dbf07e0f4
+- src/aoe/config/versions.js: 953d8b470a6dbb850a1f4402b90168eb002f353822797896338deaa9673b2d14
 - src/aoe/rules/index.js: 39a40f1674d81a609d3b444527721dbb3593224acb9163f952b60e2efc12a995
 - src/aoe/config/weights.js: d97dcfa7325e2db4922ef920d9db48fe4e4b7c3accf6744dee6c78b5a32f32df
 - src/aoe/config/penalties.js: b0277f215602cc35ddd2b6157f51bfa7a17716e64f2ee5591baf3aaea3bb897b

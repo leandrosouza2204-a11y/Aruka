@@ -73,7 +73,16 @@
     "aoe:test:security": "node --test tests/aoe/release-candidate/security.test.js tests/aoe/release-candidate/public-boundary.test.js",
     "aoe:test:release-privacy": "node --test tests/aoe/release-candidate/privacy-release.test.js",
     "aoe:test:contract-freeze": "node --test tests/aoe/release-candidate/contract-freeze.test.js",
-    "aoe:validate:rc": "node scripts/aoe/rc-cli.js --all"
+    "aoe:validate:rc": "node scripts/aoe/rc-cli.js --all",
+    "aoe:infra": "node scripts/aoe/infra-cli.js",
+    "aoe:test:infrastructure": "node --test tests/aoe/infrastructure/*.test.js",
+    "aoe:test:repositories": "node --test tests/aoe/infrastructure/repositories.test.js",
+    "aoe:test:migrations": "node --test tests/aoe/infrastructure/migration-static.test.js",
+    "aoe:test:rls": "node --test tests/aoe/infrastructure/migration-static.test.js",
+    "aoe:test:boundary": "node --test tests/aoe/infrastructure/boundary.test.js",
+    "aoe:test:infra-idempotency": "node --test tests/aoe/infrastructure/migration-static.test.js tests/aoe/infrastructure/repositories.test.js",
+    "aoe:test:pilot": "node --test tests/aoe/infrastructure/pilot.test.js",
+    "aoe:validate:infrastructure": "node scripts/aoe/infra-cli.js --all --environment=local"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.107.0",

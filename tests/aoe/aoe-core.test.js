@@ -31,7 +31,7 @@ test("golden scenarios produce deterministic expected outcomes", () => {
     if (scenario.expected.reasonCode) {
       assert.ok(result.reasonCodes.includes(scenario.expected.reasonCode), scenario.id);
     }
-    assert.equal(result.versions.aoe, "1.6.0");
+    assert.equal(result.versions.aoe, "1.7.0");
   }
 });
 

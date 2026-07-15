@@ -3,8 +3,8 @@
 ## Identificacao
 
 - Projeto: Aruka Optimization Engine.
-- Versao arquitetural: 1.6.0.
-- Status: AOE v1.0.0-rc.1 READY_FOR_RC.
+- Versao arquitetural: 1.7.0.
+- Status: Infrastructure Adapters & Pilot Foundation READY_WITH_INFRASTRUCTURE_RESTRICTIONS.
 - Implementacao: concluida para uso local deterministico.
 - Banco: nao iniciado.
 - API: nao iniciada.
@@ -63,6 +63,20 @@
 | Public Contract Freeze | Concluido |
 | RC Manifest | Concluido |
 | Release Candidate | READY_FOR_RC |
+| Infrastructure Adapters | Concluido |
+| Database Model | Concluido |
+| Persistence Adapters | Concluidos |
+| Distributed Idempotency | Concluida |
+| Server Boundary | Concluido com restricao de bundle/deploy |
+| Authentication Integration | Concluida |
+| Authorization Integration | Concluida |
+| Multi-tenant Isolation | Parcial |
+| Infrastructure Observability | Concluida |
+| Infrastructure Audit | Concluida |
+| Feature Flags | Concluidas |
+| Pilot Foundation | Concluida |
+| Production Deployment | Nao executado |
+| Pilot Execution | Nao iniciado |
 | Banco real | Nao iniciado |
 | HTTP API | Nao iniciada |
 | UI | Nao iniciada |
@@ -78,4 +92,4 @@
 
 ## Proximo Marco
 
-AOE v1.0 - Release Candidate Integration Pilot.
+AOE v1.8 - Controlled Integration Pilot.

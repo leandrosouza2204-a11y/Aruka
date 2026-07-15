@@ -4913,7 +4913,7 @@
     "checksumsInvalid": 0
   },
   "versions": {
-    "aoe": "1.6.0",
+    "aoe": "1.7.0",
     "ruleCatalog": "1.0.0",
     "scoring": "1.0.0",
     "confidence": "1.0.0",
@@ -4923,7 +4923,11 @@
     "humanReviewPolicy": "1.0.0",
     "validationHardening": "1.0.0",
     "publicContract": "1.0.0-rc.1",
-    "applicationService": "1.6.0",
+    "applicationService": "1.7.0",
+    "infrastructureAdapters": "1.0.0",
+    "persistenceAdapter": "1.0.0",
+    "httpBoundary": "1.0.0",
+    "pilot": "1.0.0",
     "persistenceContract": "1.0.0",
     "auditContract": "1.0.0",
     "observabilityContract": "1.0.0",
