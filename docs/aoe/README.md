@@ -52,7 +52,18 @@ A medida que a APL cresce, a escolha manual entre dezenas de modelos se torna le
 | `15_CONFIDENCE` | Modelo de confidence e revisao humana. |
 | `16_RULE_TEST_CASES` | Casos de teste, golden scenarios e regressao. |
 | `17_EXECUTABLE_CORE` | Implementacao executavel, contratos, CLI e limites da v1.2. |
+| `18_APL_CATALOG_ADAPTER` | Adapter oficial de catalogo APL v1.3. |
 
 ## Estado Atual
 
-AOE v1.2 - Executable Decision Core concluido para uso local deterministico.
+AOE v1.3 - APL Catalog Adapter concluido. As releases APL congeladas substituem as fixtures como fonte oficial de catalogo; fixtures permanecem para testes e regressao.
+
+## Comandos AOE
+
+```bash
+npm run aoe:catalog
+npm run aoe:catalog:validate
+npm run aoe:catalog:report
+npm run aoe:catalog:diff
+npm run aoe:test:catalog
+```

@@ -39,12 +39,17 @@
     "qa:apl:test:prescriptions": "node scripts/apl/tests/prescriptions-context.test.mjs",
     "qa:apl:baseline": "node scripts/apl/audit.mjs --all --report-format=both",
     "qa:apl:compare": "node scripts/apl/audit.mjs --all --report-format=both",
-    "aoe:test": "node --test tests/aoe/*.test.js",
+    "aoe:test": "node --test tests/aoe/*.test.js tests/aoe/catalog/*.test.js",
     "aoe:test:unit": "node --test tests/aoe/aoe-core.test.js",
     "aoe:test:golden": "node --test tests/aoe/golden-scenarios.test.js && node scripts/aoe/validate-golden-scenarios.js",
     "aoe:decision": "node scripts/aoe/cli.js",
-    "aoe:validate": "node scripts/aoe/validate-golden-scenarios.js",
-    "aoe:rules": "node scripts/aoe/cli.js --list-rules"
+    "aoe:validate": "node scripts/aoe/validate-golden-scenarios.js && node scripts/aoe/catalog-cli.js --validate",
+    "aoe:rules": "node scripts/aoe/cli.js --list-rules",
+    "aoe:catalog": "node scripts/aoe/catalog-cli.js",
+    "aoe:catalog:validate": "node scripts/aoe/catalog-cli.js --validate",
+    "aoe:catalog:report": "node scripts/aoe/catalog-cli.js --validate --report=both",
+    "aoe:catalog:diff": "node scripts/aoe/catalog-cli.js --diff-fixture",
+    "aoe:test:catalog": "node --test tests/aoe/catalog/*.test.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.107.0",

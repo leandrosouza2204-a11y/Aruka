@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { readFileSync } from "node:fs";
 import { runAOEDecision, activeAplCatalog, listRules } from "../../src/aoe/index.js";
+import { CatalogSource } from "../../src/aoe/catalog/index.js";
 import { goldenScenarios } from "../../src/aoe/fixtures/profiles/golden-scenarios.js";
 
 function args(argv) {
@@ -39,8 +40,13 @@ const profile = options.profile ? loadJson(options.profile) : scenario?.profile;
 const catalog = options.catalog ? loadJson(options.catalog) : activeAplCatalog;
 const result = runAOEDecision({
   profile,
-  catalog,
-  options: { requestId: options["request-id"] ?? "aoe-cli", now: options.now ?? "2026-07-15T00:00:00.000Z" },
+  catalog: options["catalog-source"] === "APL_RELEASES" ? undefined : catalog,
+  options: {
+    requestId: options["request-id"] ?? "aoe-cli",
+    now: options.now ?? "2026-07-15T00:00:00.000Z",
+    catalogSource: options["catalog-source"] === "APL_RELEASES" ? CatalogSource.APL_RELEASES : undefined,
+    projectRoot: process.cwd(),
+  },
 });
 
 if (options.json) {

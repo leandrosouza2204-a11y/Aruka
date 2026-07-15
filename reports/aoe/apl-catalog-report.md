@@ -1,0 +1,427 @@
+# AOE APL Catalog Report
+
+## Summary
+
+| Item | Valor |
+|---|---:|
+| Adapter version | 1.3.0 |
+| Releases discovered | 2 |
+| Releases active | 2 |
+| Models declared | 30 |
+| Models valid | 30 |
+| Models invalid | 0 |
+| Checksums valid | 30 |
+| Errors | 0 |
+| Warnings | 15 |
+
+## Releases
+
+- SPRINT_01@1.0.0: ACTIVE
+- SPRINT_02@2.0.0: ACTIVE
+
+## Models
+
+- APL-M-HIP-I-ABC-BASE-01 | SPRINT_01 | ABC | BASE | b05620851cbe482ea757f6ca3d9638e377c8348090d36441d60998700095743d
+- APL-M-HIP-I-ABC-EFI-01 | SPRINT_01 | ABC | EFFICIENCY | 1d7502796cf17030fb4936770673c158668d0752b6aa6c2ca11974f71a64cff3
+- APL-M-HIP-I-ABC-PERF-01 | SPRINT_01 | ABC | PERFORMANCE | 0c85fa87169a1d04116fbfa3749488706a845e9d2a74d143b9c123269d8539f7
+- APL-M-HIP-I-ABCD-BASE-01 | SPRINT_01 | ABCD | BASE | 88b51aa5414b1462ca814e2808847524cbd8abf8978a81d80d2230bd3ac10d49
+- APL-M-HIP-I-ABCD-EFI-01 | SPRINT_01 | ABCD | EFFICIENCY | e0221c97526562a5c94afaf030b3ca0df8c7900a178175171f481abf3565dd4d
+- APL-M-HIP-I-ABCD-PERF-01 | SPRINT_01 | ABCD | PERFORMANCE | cb920383d3485c151b46acb6a70af8205b86ee5595b0f592a718a748159aa51c
+- APL-M-HIP-I-ABCDE-BASE-01 | SPRINT_01 | ABCDE | BASE | 783d438f4dac68c33459deee1d09be664795bd207a9bb083070c4756116d9861
+- APL-M-HIP-I-ABCDE-EFI-01 | SPRINT_01 | ABCDE | EFFICIENCY | 22161da1a4e83b4222a17d88d10f56f963eb7784243ebc9a18e068fe39eb939b
+- APL-M-HIP-I-ABCDE-PERF-01 | SPRINT_01 | ABCDE | PERFORMANCE | d9b8fa1546ef9b12bf831ac3c14716e72e198a11e000bef830ee123fcdc07d2b
+- APL-M-HIP-I-FB-BASE-01 | SPRINT_01 | FULL_BODY | BASE | e40cecb1b5858d42ef2fcbee1e6c40b91a971487df36b54ba383aa8e1c26f8e8
+- APL-M-HIP-I-FB-EFI-01 | SPRINT_01 | FULL_BODY | EFFICIENCY | 5655822543b7d1191cf68de7ee844478e9c4cc107353c4a2d6b1ab243a44f1b2
+- APL-M-HIP-I-FB-PERF-01 | SPRINT_01 | FULL_BODY | PERFORMANCE | 55a902e68c7e01d5cd128267047f0ecd2a9022e58caaa0924247d849dd5feb8e
+- APL-M-HIP-I-UL-BASE-01 | SPRINT_01 | UPPER_LOWER | BASE | 8c6d97d947b9ecc74c0e4c6831c247daed90c8b4d30d67dc66213a154c225f76
+- APL-M-HIP-I-UL-ESP-PEITO-01 | SPRINT_01 | UPPER_LOWER | SPECIALIZATION | a1590c7044368bf410e1c8a8f35343f2b7b9a652ca0120508432d4faa42687c7
+- APL-M-HIP-I-UL-PERF-01 | SPRINT_01 | UPPER_LOWER | PERFORMANCE | b88fa5b01b00267e1b3cc0e22629310aa77803081bd8ef7d4d4912cef9a07537
+- APL-M-HIP-M-ABC-BASE-01 | SPRINT_02 | ABC | BASE | f4039a8ba9193615c1bd3032180cca9655e8fd59f071f0eb270d2030e8efd097
+- APL-M-HIP-M-ABC-EFI-01 | SPRINT_02 | ABC | EFFICIENCY | 1f572fa17964f7d2aa106fa04c960728c8120aca700e17ee108364459e799044
+- APL-M-HIP-M-ABC-PERF-01 | SPRINT_02 | ABC | PERFORMANCE | 89ef35324d575445e008cf4ad68005eb1585398aba8c9abf66986f6618f4b530
+- APL-M-HIP-M-ABCD-BASE-01 | SPRINT_02 | ABCD | BASE | 53e477dc784c04b6db27d2e9b4f29db03d971a579be1c7c32d441c6e58d06981
+- APL-M-HIP-M-ABCD-ESP-PEITO-01 | SPRINT_02 | ABCD | SPECIALIZATION | 060e48b7efec6262bcd4531a788aeb19c7abc9f292aff2427c99109a51b8101d
+- APL-M-HIP-M-ABCD-PERF-01 | SPRINT_02 | ABCD | PERFORMANCE | e681f287585865cdcbba50921e57028b3d71a2e2cdba9e4bb0d75c79dc7288e3
+- APL-M-HIP-M-ABCDE-BASE-01 | SPRINT_02 | ABCDE | BASE | fb38e8e3836da9f1f5234a4776e5d937ec661b61f0c7afa75dfcbf29bcfb1400
+- APL-M-HIP-M-ABCDE-ESP-DELTS-01 | SPRINT_02 | ABCDE | SPECIALIZATION | b6ded1f31d2fdbb1e41456422164d9cf2e48ab6bcc3a92951cf3b7c66c6c13a7
+- APL-M-HIP-M-ABCDE-PERF-01 | SPRINT_02 | ABCDE | PERFORMANCE | a7bb86903b9813836c159321a2e8c9ba6030fac15cc7d3f890655fd801bb8371
+- APL-M-HIP-M-FB-BASE-01 | SPRINT_02 | FULL_BODY | BASE | 7795bfc647774c0e21044eebe19d44b43c1525e1682c2bbac04aaf9ee93c4a92
+- APL-M-HIP-M-FB-EFI-01 | SPRINT_02 | FULL_BODY | EFFICIENCY | 37f4b8f8613935ad483085614d27cb0e1c422643f635597d74299fe989a901ce
+- APL-M-HIP-M-FB-PERF-01 | SPRINT_02 | FULL_BODY | PERFORMANCE | 3852ea14d70690b819b1d5b0ef6638763bb48712b0a31c8b809377c871f10372
+- APL-M-HIP-M-UL-BASE-01 | SPRINT_02 | UPPER_LOWER | BASE | 7661f65b2cb233adc37a71bb342e281ba1c400e6904d7de9cfe914df574b10c9
+- APL-M-HIP-M-UL-ESP-COSTAS-01 | SPRINT_02 | UPPER_LOWER | SPECIALIZATION | d929adddedff1366df0b906697e24d7663a6d0fb2d73a2a92b24df5f6a96d444
+- APL-M-HIP-M-UL-PERF-01 | SPRINT_02 | UPPER_LOWER | PERFORMANCE | 4eedc0fc627ac4f997ebccb872f9473c0d4360deb73ad93880fecd334ba51cda
+
+## Checksum Validation
+
+- APL-M-HIP-I-ABC-BASE-01: valid
+- APL-M-HIP-I-ABC-PERF-01: valid
+- APL-M-HIP-I-ABC-EFI-01: valid
+- APL-M-HIP-I-ABCD-BASE-01: valid
+- APL-M-HIP-I-ABCD-PERF-01: valid
+- APL-M-HIP-I-ABCD-EFI-01: valid
+- APL-M-HIP-I-ABCDE-BASE-01: valid
+- APL-M-HIP-I-ABCDE-PERF-01: valid
+- APL-M-HIP-I-ABCDE-EFI-01: valid
+- APL-M-HIP-I-FB-BASE-01: valid
+- APL-M-HIP-I-FB-PERF-01: valid
+- APL-M-HIP-I-FB-EFI-01: valid
+- APL-M-HIP-I-UL-BASE-01: valid
+- APL-M-HIP-I-UL-PERF-01: valid
+- APL-M-HIP-I-UL-ESP-PEITO-01: valid
+- APL-M-HIP-M-ABC-BASE-01: valid
+- APL-M-HIP-M-ABC-PERF-01: valid
+- APL-M-HIP-M-ABC-EFI-01: valid
+- APL-M-HIP-M-ABCD-BASE-01: valid
+- APL-M-HIP-M-ABCD-PERF-01: valid
+- APL-M-HIP-M-ABCD-ESP-PEITO-01: valid
+- APL-M-HIP-M-ABCDE-BASE-01: valid
+- APL-M-HIP-M-ABCDE-PERF-01: valid
+- APL-M-HIP-M-ABCDE-ESP-DELTS-01: valid
+- APL-M-HIP-M-FB-BASE-01: valid
+- APL-M-HIP-M-FB-PERF-01: valid
+- APL-M-HIP-M-FB-EFI-01: valid
+- APL-M-HIP-M-UL-BASE-01: valid
+- APL-M-HIP-M-UL-PERF-01: valid
+- APL-M-HIP-M-UL-ESP-COSTAS-01: valid
+
+## Metadata Validation
+
+- No metadata errors.
+
+## Derived Fields
+
+- APL-M-HIP-I-ABC-BASE-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-I-ABC-BASE-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-I-ABC-BASE-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-I-ABC-BASE-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-I-ABC-EFI-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-I-ABC-EFI-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-I-ABC-EFI-01: CAT-DER-006 - Efficiency may require swaps or supersets.
+- APL-M-HIP-I-ABC-EFI-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-I-ABC-EFI-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-I-ABC-PERF-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-I-ABC-PERF-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-I-ABC-PERF-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-I-ABC-PERF-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-I-ABCD-BASE-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-I-ABCD-BASE-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-I-ABCD-BASE-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-I-ABCD-BASE-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-I-ABCD-EFI-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-I-ABCD-EFI-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-I-ABCD-EFI-01: CAT-DER-006 - Efficiency may require swaps or supersets.
+- APL-M-HIP-I-ABCD-EFI-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-I-ABCD-EFI-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-I-ABCD-PERF-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-I-ABCD-PERF-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-I-ABCD-PERF-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-I-ABCD-PERF-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-I-ABCDE-BASE-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-I-ABCDE-BASE-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-I-ABCDE-BASE-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-I-ABCDE-BASE-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-I-ABCDE-EFI-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-I-ABCDE-EFI-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-I-ABCDE-EFI-01: CAT-DER-006 - Efficiency may require swaps or supersets.
+- APL-M-HIP-I-ABCDE-EFI-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-I-ABCDE-EFI-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-I-ABCDE-PERF-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-I-ABCDE-PERF-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-I-ABCDE-PERF-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-I-ABCDE-PERF-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-I-FB-BASE-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-I-FB-BASE-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-I-FB-BASE-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-I-FB-BASE-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-I-FB-EFI-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-I-FB-EFI-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-I-FB-EFI-01: CAT-DER-006 - Efficiency may require swaps or supersets.
+- APL-M-HIP-I-FB-EFI-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-I-FB-EFI-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-I-FB-PERF-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-I-FB-PERF-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-I-FB-PERF-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-I-FB-PERF-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-I-UL-BASE-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-I-UL-BASE-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-I-UL-BASE-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-I-UL-BASE-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-I-UL-ESP-PEITO-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-I-UL-ESP-PEITO-01: CAT-DER-003 - Specialization requires at least moderate recovery demand.
+- APL-M-HIP-I-UL-ESP-PEITO-01: CAT-DER-004 - Specialization target derived from metadata/code/title.
+- APL-M-HIP-I-UL-ESP-PEITO-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-I-UL-ESP-PEITO-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-I-UL-ESP-PEITO-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-I-UL-PERF-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-I-UL-PERF-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-I-UL-PERF-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-I-UL-PERF-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-M-ABC-BASE-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-M-ABC-BASE-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-M-ABC-BASE-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-M-ABC-BASE-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-M-ABC-EFI-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-M-ABC-EFI-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-M-ABC-EFI-01: CAT-DER-006 - Efficiency may require swaps or supersets.
+- APL-M-HIP-M-ABC-EFI-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-M-ABC-EFI-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-M-ABC-PERF-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-M-ABC-PERF-01: CAT-DER-002 - Performance strategy requires at least moderate complexity.
+- APL-M-HIP-M-ABC-PERF-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-M-ABC-PERF-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-M-ABC-PERF-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-M-ABCD-BASE-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-M-ABCD-BASE-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-M-ABCD-BASE-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-M-ABCD-BASE-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-M-ABCD-ESP-PEITO-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-M-ABCD-ESP-PEITO-01: CAT-DER-003 - Specialization requires at least moderate recovery demand.
+- APL-M-HIP-M-ABCD-ESP-PEITO-01: CAT-DER-004 - Specialization target derived from metadata/code/title.
+- APL-M-HIP-M-ABCD-ESP-PEITO-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-M-ABCD-ESP-PEITO-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-M-ABCD-ESP-PEITO-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-M-ABCD-PERF-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-M-ABCD-PERF-01: CAT-DER-002 - Performance strategy requires at least moderate complexity.
+- APL-M-HIP-M-ABCD-PERF-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-M-ABCD-PERF-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-M-ABCD-PERF-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-M-ABCDE-BASE-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-M-ABCDE-BASE-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-M-ABCDE-BASE-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-M-ABCDE-BASE-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-M-ABCDE-ESP-DELTS-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-M-ABCDE-ESP-DELTS-01: CAT-DER-003 - Specialization requires at least moderate recovery demand.
+- APL-M-HIP-M-ABCDE-ESP-DELTS-01: CAT-DER-004 - Specialization target derived from metadata/code/title.
+- APL-M-HIP-M-ABCDE-ESP-DELTS-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-M-ABCDE-ESP-DELTS-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-M-ABCDE-ESP-DELTS-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-M-ABCDE-PERF-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-M-ABCDE-PERF-01: CAT-DER-002 - Performance strategy requires at least moderate complexity.
+- APL-M-HIP-M-ABCDE-PERF-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-M-ABCDE-PERF-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-M-ABCDE-PERF-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-M-FB-BASE-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-M-FB-BASE-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-M-FB-BASE-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-M-FB-BASE-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-M-FB-EFI-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-M-FB-EFI-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-M-FB-EFI-01: CAT-DER-006 - Efficiency may require swaps or supersets.
+- APL-M-HIP-M-FB-EFI-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-M-FB-EFI-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-M-FB-PERF-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-M-FB-PERF-01: CAT-DER-002 - Performance strategy requires at least moderate complexity.
+- APL-M-HIP-M-FB-PERF-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-M-FB-PERF-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-M-FB-PERF-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-M-UL-BASE-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-M-UL-BASE-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-M-UL-BASE-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-M-UL-BASE-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-M-UL-ESP-COSTAS-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-M-UL-ESP-COSTAS-01: CAT-DER-003 - Specialization requires at least moderate recovery demand.
+- APL-M-HIP-M-UL-ESP-COSTAS-01: CAT-DER-004 - Specialization target derived from metadata/code/title.
+- APL-M-HIP-M-UL-ESP-COSTAS-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-M-UL-ESP-COSTAS-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-M-UL-ESP-COSTAS-01: CAT-DER-008 - Minimum experience derived from level.
+- APL-M-HIP-M-UL-PERF-01: CAT-DER-001 - Adherence demand derived from weekly frequency.
+- APL-M-HIP-M-UL-PERF-01: CAT-DER-002 - Performance strategy requires at least moderate complexity.
+- APL-M-HIP-M-UL-PERF-01: CAT-DER-005 - Equipment profile normalized from metadata.
+- APL-M-HIP-M-UL-PERF-01: CAT-DER-007 - Progression readiness derived from level.
+- APL-M-HIP-M-UL-PERF-01: CAT-DER-008 - Minimum experience derived from level.
+
+## Fixture Comparison
+
+- APL-M-HIP-I-ABC-BASE-01: DIFFERENT (checksum)
+- APL-M-HIP-I-ABC-BASE-01: DIFFERENT (status)
+- APL-M-HIP-I-ABC-BASE-01: DIFFERENT (frequency)
+- APL-M-HIP-I-ABC-BASE-01: DIFFERENT (complexity)
+- APL-M-HIP-I-ABC-EFI-01: DIFFERENT (checksum)
+- APL-M-HIP-I-ABC-EFI-01: DIFFERENT (status)
+- APL-M-HIP-I-ABC-EFI-01: DIFFERENT (frequency)
+- APL-M-HIP-I-ABC-EFI-01: DIFFERENT (complexity)
+- APL-M-HIP-I-ABC-PERF-01: DIFFERENT (checksum)
+- APL-M-HIP-I-ABC-PERF-01: DIFFERENT (status)
+- APL-M-HIP-I-ABC-PERF-01: DIFFERENT (frequency)
+- APL-M-HIP-I-ABC-PERF-01: DIFFERENT (complexity)
+- APL-M-HIP-I-ABCD-BASE-01: DIFFERENT (checksum)
+- APL-M-HIP-I-ABCD-BASE-01: DIFFERENT (status)
+- APL-M-HIP-I-ABCD-BASE-01: DIFFERENT (frequency)
+- APL-M-HIP-I-ABCD-BASE-01: DIFFERENT (complexity)
+- APL-M-HIP-I-ABCD-EFI-01: DIFFERENT (checksum)
+- APL-M-HIP-I-ABCD-EFI-01: DIFFERENT (status)
+- APL-M-HIP-I-ABCD-EFI-01: DIFFERENT (frequency)
+- APL-M-HIP-I-ABCD-EFI-01: DIFFERENT (maximumSessionDuration)
+- APL-M-HIP-I-ABCD-EFI-01: DIFFERENT (complexity)
+- APL-M-HIP-I-ABCD-PERF-01: DIFFERENT (checksum)
+- APL-M-HIP-I-ABCD-PERF-01: DIFFERENT (status)
+- APL-M-HIP-I-ABCD-PERF-01: DIFFERENT (frequency)
+- APL-M-HIP-I-ABCD-PERF-01: DIFFERENT (complexity)
+- APL-M-HIP-I-ABCDE-BASE-01: DIFFERENT (checksum)
+- APL-M-HIP-I-ABCDE-BASE-01: DIFFERENT (status)
+- APL-M-HIP-I-ABCDE-BASE-01: DIFFERENT (frequency)
+- APL-M-HIP-I-ABCDE-BASE-01: DIFFERENT (complexity)
+- APL-M-HIP-I-ABCDE-BASE-01: DIFFERENT (recoveryDemand)
+- APL-M-HIP-I-ABCDE-EFI-01: DIFFERENT (checksum)
+- APL-M-HIP-I-ABCDE-EFI-01: DIFFERENT (status)
+- APL-M-HIP-I-ABCDE-EFI-01: DIFFERENT (frequency)
+- APL-M-HIP-I-ABCDE-EFI-01: DIFFERENT (minimumSessionDuration)
+- APL-M-HIP-I-ABCDE-EFI-01: DIFFERENT (maximumSessionDuration)
+- APL-M-HIP-I-ABCDE-EFI-01: DIFFERENT (complexity)
+- APL-M-HIP-I-ABCDE-EFI-01: DIFFERENT (recoveryDemand)
+- APL-M-HIP-I-ABCDE-PERF-01: DIFFERENT (checksum)
+- APL-M-HIP-I-ABCDE-PERF-01: DIFFERENT (status)
+- APL-M-HIP-I-ABCDE-PERF-01: DIFFERENT (frequency)
+- APL-M-HIP-I-ABCDE-PERF-01: DIFFERENT (complexity)
+- APL-M-HIP-I-ABCDE-PERF-01: DIFFERENT (recoveryDemand)
+- APL-M-HIP-I-FB-BASE-01: DIFFERENT (checksum)
+- APL-M-HIP-I-FB-BASE-01: DIFFERENT (status)
+- APL-M-HIP-I-FB-BASE-01: DIFFERENT (frequency)
+- APL-M-HIP-I-FB-BASE-01: DIFFERENT (minimumSessionDuration)
+- APL-M-HIP-I-FB-BASE-01: DIFFERENT (complexity)
+- APL-M-HIP-I-FB-EFI-01: DIFFERENT (checksum)
+- APL-M-HIP-I-FB-EFI-01: DIFFERENT (status)
+- APL-M-HIP-I-FB-EFI-01: DIFFERENT (frequency)
+- APL-M-HIP-I-FB-EFI-01: DIFFERENT (minimumSessionDuration)
+- APL-M-HIP-I-FB-EFI-01: DIFFERENT (complexity)
+- APL-M-HIP-I-FB-PERF-01: DIFFERENT (checksum)
+- APL-M-HIP-I-FB-PERF-01: DIFFERENT (status)
+- APL-M-HIP-I-FB-PERF-01: DIFFERENT (frequency)
+- APL-M-HIP-I-FB-PERF-01: DIFFERENT (minimumSessionDuration)
+- APL-M-HIP-I-FB-PERF-01: DIFFERENT (complexity)
+- APL-M-HIP-I-UL-BASE-01: DIFFERENT (checksum)
+- APL-M-HIP-I-UL-BASE-01: DIFFERENT (status)
+- APL-M-HIP-I-UL-BASE-01: DIFFERENT (frequency)
+- APL-M-HIP-I-UL-BASE-01: DIFFERENT (minimumSessionDuration)
+- APL-M-HIP-I-UL-BASE-01: DIFFERENT (complexity)
+- APL-M-HIP-I-UL-ESP-PEITO-01: DIFFERENT (checksum)
+- APL-M-HIP-I-UL-ESP-PEITO-01: DIFFERENT (status)
+- APL-M-HIP-I-UL-ESP-PEITO-01: DIFFERENT (frequency)
+- APL-M-HIP-I-UL-ESP-PEITO-01: DIFFERENT (complexity)
+- APL-M-HIP-I-UL-ESP-PEITO-01: DIFFERENT (recoveryDemand)
+- APL-M-HIP-I-UL-PERF-01: DIFFERENT (checksum)
+- APL-M-HIP-I-UL-PERF-01: DIFFERENT (status)
+- APL-M-HIP-I-UL-PERF-01: DIFFERENT (frequency)
+- APL-M-HIP-I-UL-PERF-01: DIFFERENT (complexity)
+- APL-M-HIP-M-ABC-BASE-01: DIFFERENT (checksum)
+- APL-M-HIP-M-ABC-BASE-01: DIFFERENT (status)
+- APL-M-HIP-M-ABC-BASE-01: DIFFERENT (frequency)
+- APL-M-HIP-M-ABC-BASE-01: DIFFERENT (minimumSessionDuration)
+- APL-M-HIP-M-ABC-BASE-01: DIFFERENT (maximumSessionDuration)
+- APL-M-HIP-M-ABC-BASE-01: DIFFERENT (complexity)
+- APL-M-HIP-M-ABC-BASE-01: DIFFERENT (recoveryDemand)
+- APL-M-HIP-M-ABC-EFI-01: DIFFERENT (checksum)
+- APL-M-HIP-M-ABC-EFI-01: DIFFERENT (status)
+- APL-M-HIP-M-ABC-EFI-01: DIFFERENT (frequency)
+- APL-M-HIP-M-ABC-EFI-01: DIFFERENT (complexity)
+- APL-M-HIP-M-ABC-EFI-01: DIFFERENT (recoveryDemand)
+- APL-M-HIP-M-ABC-PERF-01: DIFFERENT (checksum)
+- APL-M-HIP-M-ABC-PERF-01: DIFFERENT (status)
+- APL-M-HIP-M-ABC-PERF-01: DIFFERENT (frequency)
+- APL-M-HIP-M-ABC-PERF-01: DIFFERENT (minimumSessionDuration)
+- APL-M-HIP-M-ABC-PERF-01: DIFFERENT (maximumSessionDuration)
+- APL-M-HIP-M-ABC-PERF-01: DIFFERENT (complexity)
+- APL-M-HIP-M-ABC-PERF-01: DIFFERENT (recoveryDemand)
+- APL-M-HIP-M-ABCD-BASE-01: DIFFERENT (checksum)
+- APL-M-HIP-M-ABCD-BASE-01: DIFFERENT (status)
+- APL-M-HIP-M-ABCD-BASE-01: DIFFERENT (frequency)
+- APL-M-HIP-M-ABCD-BASE-01: DIFFERENT (minimumSessionDuration)
+- APL-M-HIP-M-ABCD-BASE-01: DIFFERENT (maximumSessionDuration)
+- APL-M-HIP-M-ABCD-BASE-01: DIFFERENT (complexity)
+- APL-M-HIP-M-ABCD-BASE-01: DIFFERENT (recoveryDemand)
+- APL-M-HIP-M-ABCD-ESP-PEITO-01: DIFFERENT (checksum)
+- APL-M-HIP-M-ABCD-ESP-PEITO-01: DIFFERENT (status)
+- APL-M-HIP-M-ABCD-ESP-PEITO-01: DIFFERENT (frequency)
+- APL-M-HIP-M-ABCD-ESP-PEITO-01: DIFFERENT (maximumSessionDuration)
+- APL-M-HIP-M-ABCD-ESP-PEITO-01: DIFFERENT (complexity)
+- APL-M-HIP-M-ABCD-ESP-PEITO-01: DIFFERENT (recoveryDemand)
+- APL-M-HIP-M-ABCD-PERF-01: DIFFERENT (checksum)
+- APL-M-HIP-M-ABCD-PERF-01: DIFFERENT (status)
+- APL-M-HIP-M-ABCD-PERF-01: DIFFERENT (frequency)
+- APL-M-HIP-M-ABCD-PERF-01: DIFFERENT (minimumSessionDuration)
+- APL-M-HIP-M-ABCD-PERF-01: DIFFERENT (maximumSessionDuration)
+- APL-M-HIP-M-ABCD-PERF-01: DIFFERENT (complexity)
+- APL-M-HIP-M-ABCD-PERF-01: DIFFERENT (recoveryDemand)
+- APL-M-HIP-M-ABCDE-BASE-01: DIFFERENT (checksum)
+- APL-M-HIP-M-ABCDE-BASE-01: DIFFERENT (status)
+- APL-M-HIP-M-ABCDE-BASE-01: DIFFERENT (frequency)
+- APL-M-HIP-M-ABCDE-BASE-01: DIFFERENT (minimumSessionDuration)
+- APL-M-HIP-M-ABCDE-BASE-01: DIFFERENT (maximumSessionDuration)
+- APL-M-HIP-M-ABCDE-BASE-01: DIFFERENT (complexity)
+- APL-M-HIP-M-ABCDE-BASE-01: DIFFERENT (recoveryDemand)
+- APL-M-HIP-M-ABCDE-ESP-DELTS-01: DIFFERENT (checksum)
+- APL-M-HIP-M-ABCDE-ESP-DELTS-01: DIFFERENT (status)
+- APL-M-HIP-M-ABCDE-ESP-DELTS-01: DIFFERENT (frequency)
+- APL-M-HIP-M-ABCDE-ESP-DELTS-01: DIFFERENT (minimumSessionDuration)
+- APL-M-HIP-M-ABCDE-ESP-DELTS-01: DIFFERENT (maximumSessionDuration)
+- APL-M-HIP-M-ABCDE-ESP-DELTS-01: DIFFERENT (complexity)
+- APL-M-HIP-M-ABCDE-ESP-DELTS-01: DIFFERENT (recoveryDemand)
+- APL-M-HIP-M-ABCDE-PERF-01: DIFFERENT (checksum)
+- APL-M-HIP-M-ABCDE-PERF-01: DIFFERENT (status)
+- APL-M-HIP-M-ABCDE-PERF-01: DIFFERENT (frequency)
+- APL-M-HIP-M-ABCDE-PERF-01: DIFFERENT (minimumSessionDuration)
+- APL-M-HIP-M-ABCDE-PERF-01: DIFFERENT (maximumSessionDuration)
+- APL-M-HIP-M-ABCDE-PERF-01: DIFFERENT (complexity)
+- APL-M-HIP-M-ABCDE-PERF-01: DIFFERENT (recoveryDemand)
+- APL-M-HIP-M-FB-BASE-01: DIFFERENT (checksum)
+- APL-M-HIP-M-FB-BASE-01: DIFFERENT (status)
+- APL-M-HIP-M-FB-BASE-01: DIFFERENT (frequency)
+- APL-M-HIP-M-FB-BASE-01: DIFFERENT (minimumSessionDuration)
+- APL-M-HIP-M-FB-BASE-01: DIFFERENT (maximumSessionDuration)
+- APL-M-HIP-M-FB-BASE-01: DIFFERENT (complexity)
+- APL-M-HIP-M-FB-BASE-01: DIFFERENT (recoveryDemand)
+- APL-M-HIP-M-FB-EFI-01: DIFFERENT (checksum)
+- APL-M-HIP-M-FB-EFI-01: DIFFERENT (status)
+- APL-M-HIP-M-FB-EFI-01: DIFFERENT (frequency)
+- APL-M-HIP-M-FB-EFI-01: DIFFERENT (complexity)
+- APL-M-HIP-M-FB-EFI-01: DIFFERENT (recoveryDemand)
+- APL-M-HIP-M-FB-PERF-01: DIFFERENT (checksum)
+- APL-M-HIP-M-FB-PERF-01: DIFFERENT (status)
+- APL-M-HIP-M-FB-PERF-01: DIFFERENT (frequency)
+- APL-M-HIP-M-FB-PERF-01: DIFFERENT (minimumSessionDuration)
+- APL-M-HIP-M-FB-PERF-01: DIFFERENT (maximumSessionDuration)
+- APL-M-HIP-M-FB-PERF-01: DIFFERENT (complexity)
+- APL-M-HIP-M-FB-PERF-01: DIFFERENT (recoveryDemand)
+- APL-M-HIP-M-UL-BASE-01: DIFFERENT (checksum)
+- APL-M-HIP-M-UL-BASE-01: DIFFERENT (status)
+- APL-M-HIP-M-UL-BASE-01: DIFFERENT (frequency)
+- APL-M-HIP-M-UL-BASE-01: DIFFERENT (minimumSessionDuration)
+- APL-M-HIP-M-UL-BASE-01: DIFFERENT (maximumSessionDuration)
+- APL-M-HIP-M-UL-BASE-01: DIFFERENT (complexity)
+- APL-M-HIP-M-UL-BASE-01: DIFFERENT (recoveryDemand)
+- APL-M-HIP-M-UL-ESP-COSTAS-01: DIFFERENT (checksum)
+- APL-M-HIP-M-UL-ESP-COSTAS-01: DIFFERENT (status)
+- APL-M-HIP-M-UL-ESP-COSTAS-01: DIFFERENT (frequency)
+- APL-M-HIP-M-UL-ESP-COSTAS-01: DIFFERENT (maximumSessionDuration)
+- APL-M-HIP-M-UL-ESP-COSTAS-01: DIFFERENT (complexity)
+- APL-M-HIP-M-UL-ESP-COSTAS-01: DIFFERENT (recoveryDemand)
+- APL-M-HIP-M-UL-PERF-01: DIFFERENT (checksum)
+- APL-M-HIP-M-UL-PERF-01: DIFFERENT (status)
+- APL-M-HIP-M-UL-PERF-01: DIFFERENT (frequency)
+- APL-M-HIP-M-UL-PERF-01: DIFFERENT (minimumSessionDuration)
+- APL-M-HIP-M-UL-PERF-01: DIFFERENT (maximumSessionDuration)
+- APL-M-HIP-M-UL-PERF-01: DIFFERENT (complexity)
+- APL-M-HIP-M-UL-PERF-01: DIFFERENT (recoveryDemand)
+
+## Errors
+
+- None.
+
+## Warnings
+
+- EQUIPMENT_DETAIL_LIMITED
+- EQUIPMENT_DETAIL_LIMITED
+- EQUIPMENT_DETAIL_LIMITED
+- EQUIPMENT_DETAIL_LIMITED
+- EQUIPMENT_DETAIL_LIMITED
+- EQUIPMENT_DETAIL_LIMITED
+- EQUIPMENT_DETAIL_LIMITED
+- EQUIPMENT_DETAIL_LIMITED
+- EQUIPMENT_DETAIL_LIMITED
+- EQUIPMENT_DETAIL_LIMITED
+- EQUIPMENT_DETAIL_LIMITED
+- EQUIPMENT_DETAIL_LIMITED
+- EQUIPMENT_DETAIL_LIMITED
+- EQUIPMENT_DETAIL_LIMITED
+- EQUIPMENT_DETAIL_LIMITED

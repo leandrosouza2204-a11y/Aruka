@@ -2,6 +2,8 @@ import { getVersionRegistry } from "../config/versions.js";
 import { RecommendationStatus, ReasonCodes } from "../domain/enums.js";
 import { AOEInputError, AOECatalogError } from "../domain/errors.js";
 import { activeAplCatalog } from "../fixtures/catalogs/apl-active.catalog.js";
+import { loadAPLCatalog } from "../catalog/index.js";
+import { CatalogSource } from "../catalog/catalog-schema.js";
 import { normalizeModelCatalog } from "../normalization/normalize-model-catalog.js";
 import { normalizeStudentProfile } from "../normalization/normalize-student-profile.js";
 import { buildNoEligibleResult } from "../selection/fallback-policy.js";
@@ -29,6 +31,8 @@ function modelSummary(item) {
       minimum: item.model.minimumSessionDuration,
       maximum: item.model.maximumSessionDuration,
     },
+    modelVersion: item.model.modelVersion,
+    checksum: item.model.checksum,
   };
 }
 
@@ -78,13 +82,41 @@ function failureResult(error, versions) {
   throw error;
 }
 
-export function runAOEDecision({ profile, catalog = activeAplCatalog, options = {} }) {
+export function runAOEDecision({ profile, catalog, catalogProvider, options = {} }) {
   const versions = getVersionRegistry();
   const startedAt = options.now ?? "2026-07-15T00:00:00.000Z";
   const requestId = options.requestId ?? `aoe-${startedAt}`;
   try {
     const normalizedProfile = normalizeStudentProfile(profile);
-    const normalizedCatalog = normalizeModelCatalog(catalog, options.activeReleases ?? ["SPRINT_01", "SPRINT_02"]);
+    let catalogContext = {
+      catalogSource: catalog ? CatalogSource.PROVIDED : CatalogSource.FIXTURE,
+      activeAPLReleases: options.activeReleases ?? ["SPRINT_01", "SPRINT_02"],
+    };
+    let effectiveCatalog = catalog ?? activeAplCatalog;
+    if (options.catalogSource === CatalogSource.APL_RELEASES) {
+      const catalogResult = loadAPLCatalog({
+        projectRoot: options.projectRoot,
+        activeReleases: options.activeReleases ?? ["SPRINT_01", "SPRINT_02"],
+        now: startedAt,
+      });
+      effectiveCatalog = catalogResult.catalog;
+      catalogContext = {
+        catalogSource: CatalogSource.APL_RELEASES,
+        catalogAdapterVersion: catalogResult.versions.catalogAdapter,
+        activeAPLReleases: catalogResult.releases.filter((release) => release.status === "ACTIVE").map((release) => `${release.releaseId}@${release.releaseVersion}`),
+        catalogGeneratedAt: catalogResult.generatedAt,
+        catalogChecksumSummary: {
+          valid: catalogResult.statistics.checksumsValid,
+          invalid: catalogResult.statistics.checksumsInvalid,
+        },
+        catalogWarnings: catalogResult.warnings,
+      };
+    } else if (!catalog && typeof catalogProvider === "function") {
+      const provided = catalogProvider();
+      effectiveCatalog = provided.catalog ?? provided;
+      catalogContext.catalogSource = "PROVIDER";
+    }
+    const normalizedCatalog = normalizeModelCatalog(effectiveCatalog, options.activeReleases ?? ["SPRINT_01", "SPRINT_02"]);
     const eligibility = evaluateEligibility(normalizedProfile, normalizedCatalog);
     const { candidates, excluded } = applyExclusions(eligibility);
 
@@ -100,6 +132,7 @@ export function runAOEDecision({ profile, catalog = activeAplCatalog, options = 
         ranked: [],
         technicalTie: { hasTie: false, tiedModels: [] },
         confidence: { score: 0, level: "LOW", dimensions: {}, reasonCodes: base.reasonCodes },
+        catalogContext,
       });
       return { ...base, decisionTrace, versions };
     }
@@ -115,7 +148,7 @@ export function runAOEDecision({ profile, catalog = activeAplCatalog, options = 
     const exclusionReasonCodes = excluded.flatMap((item) => item.reasonCodes);
     const reasonCodes = [...new Set([...(selected?.reasonCodes ?? []), ...confidence.reasonCodes, ...humanReview.reasonCodes, ...exclusionReasonCodes])];
     const status = resolveStatus(selected, confidence, humanReview, warnings);
-    const decisionTrace = buildDecisionTrace({ requestId, startedAt, profile: normalizedProfile, normalizedCatalog, excluded, ranked, technicalTie, confidence });
+    const decisionTrace = buildDecisionTrace({ requestId, startedAt, profile: normalizedProfile, normalizedCatalog, excluded, ranked, technicalTie, confidence, catalogContext });
 
     return {
       status,

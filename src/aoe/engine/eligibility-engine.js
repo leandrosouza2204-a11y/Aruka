@@ -3,6 +3,10 @@ import { ExperienceLevel, Goal, ReasonCodes, RuleOutcome, Strategy } from "../do
 const levelRank = { [ExperienceLevel.BEGINNER]: 1, [ExperienceLevel.INTERMEDIATE]: 2, [ExperienceLevel.ADVANCED]: 3 };
 const demandRank = { LOW: 1, MEDIUM: 2, HIGH: 3 };
 
+function frequencyValue(model) {
+  return typeof model.frequency === "object" ? model.frequency.minimum : model.frequency;
+}
+
 function push(result, id, pass, reasonCode, message) {
   result.rules.push({ id, outcome: pass ? RuleOutcome.PASS : RuleOutcome.FAIL, reasonCode, message });
   if (!pass && reasonCode) result.reasonCodes.push(reasonCode);
@@ -25,7 +29,7 @@ export function evaluateEligibility(profile, models) {
     if (modelLevel <= studentLevel) pass("AOE-ELG-002", "Experience compatible");
     else fail("AOE-ELG-002", ReasonCodes.LEVEL_TOO_LOW, "Model requires higher level");
 
-    if (profile.frequency >= model.frequency) pass("AOE-ELG-003", "Frequency compatible");
+    if (profile.frequency >= frequencyValue(model)) pass("AOE-ELG-003", "Frequency compatible");
     else fail("AOE-ELG-003", ReasonCodes.FREQUENCY_INSUFFICIENT, "Insufficient weekly frequency");
 
     if (profile.sessionDuration >= model.minimumSessionDuration) pass("AOE-ELG-004", "Duration compatible");
@@ -45,7 +49,7 @@ export function evaluateEligibility(profile, models) {
     if (model.homologated === true) pass("AOE-ELG-008", "Model homologated");
     else fail("AOE-ELG-008", ReasonCodes.MODEL_NOT_HOMOLOGATED, "Model not homologated");
 
-    if (model.sex === "NOT_INFORMED" || model.sex === profile.sex) pass("AOE-ELG-009", "Sex scope compatible");
+    if (model.sex === "NOT_INFORMED" || profile.sex === "NOT_INFORMED" || model.sex === profile.sex) pass("AOE-ELG-009", "Sex scope compatible");
     else fail("AOE-ELG-009", ReasonCodes.CRITICAL_CONSTRAINT, "Sex scope mismatch");
 
     if (model.strategy !== Strategy.SPECIALIZATION) pass("AOE-ELG-010", "No specialization prerequisite");

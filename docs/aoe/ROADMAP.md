@@ -22,13 +22,13 @@ Status: concluido.
 
 Entrega leitura do catalogo APL, normalizacao dos modelos, sincronizacao e versionamento.
 
+Status: concluido com 30 modelos carregados, 30 checksums validos, releases validas, catalogo deterministico, testes passando, engine integrado e relatorios gerados.
+
+## AOE v1.4 - Recommendation Validation & Explainability Hardening
+
+Entrega validacao aprofundada, explainability, reason catalog, seguranca das decisoes, revisao humana e testes adversariais.
+
 Status: proximo marco.
-
-## AOE v1.4 - Recommendation Validation
-
-Entrega validacao expandida da selecao, warnings, revisao humana e explicabilidade operacional.
-
-Status: planejado.
 
 ## AOE v1.5 - Application Integration
 

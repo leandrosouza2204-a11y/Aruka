@@ -7,6 +7,15 @@ function strategyUncertaintyRank(strategy) {
   return 3;
 }
 
+function complexityValue(value) {
+  if (typeof value === "number") return value;
+  return { LOW: 1, MODERATE: 3, MEDIUM: 3, HIGH: 5 }[value] ?? 3;
+}
+
+function durationValue(model) {
+  return model.minimumSessionDuration ?? model.duration?.minimum ?? 0;
+}
+
 export function rankCandidates(scored) {
   return [...scored].sort((a, b) => {
     const comparisons = [
@@ -15,8 +24,8 @@ export function rankCandidates(scored) {
       b.dimensions.adherenceFit - a.dimensions.adherenceFit,
       b.dimensions.recoveryFit - a.dimensions.recoveryFit,
       b.dimensions.operationalSimplicity - a.dimensions.operationalSimplicity,
-      a.model.complexity - b.model.complexity,
-      a.model.minimumSessionDuration - b.model.minimumSessionDuration,
+      complexityValue(a.model.complexity) - complexityValue(b.model.complexity),
+      durationValue(a.model) - durationValue(b.model),
       strategyUncertaintyRank(a.model.strategy) - strategyUncertaintyRank(b.model.strategy),
       a.model.modelCode.localeCompare(b.model.modelCode),
     ];
