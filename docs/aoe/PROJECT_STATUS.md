@@ -3,8 +3,8 @@
 ## Identificacao
 
 - Projeto: Aruka Optimization Engine.
-- Versao arquitetural: 1.3.0.
-- Status: APL Catalog Adapter.
+- Versao arquitetural: 1.4.0.
+- Status: Recommendation Validation & Explainability Hardening.
 - Implementacao: concluida para uso local deterministico.
 - Banco: nao iniciado.
 - API: nao iniciada.
@@ -34,6 +34,15 @@
 | Progressao automatica | Nao iniciada |
 | API | Nao iniciada |
 | UI | Nao iniciada |
+| Recommendation Validation Hardening | Concluido |
+| Explainability Engine | Concluido |
+| Reason Catalog | Concluido |
+| Decision Risk Model | Concluido |
+| Ambiguity Detection | Concluido |
+| Conflict Detection | Concluido |
+| Human Review Gate | Concluido |
+| Adversarial Testing | Concluido |
+| Application Integration | Nao iniciada |
 
 ## Dependencias
 
@@ -44,4 +53,4 @@
 
 ## Proximo Marco
 
-AOE v1.4 - Recommendation Validation & Explainability Hardening.
+AOE v1.5 - Application Integration Contracts.

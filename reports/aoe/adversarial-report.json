@@ -1,0 +1,157 @@
+{
+  "total": 30,
+  "passed": 30,
+  "failed": [],
+  "results": [
+    {
+      "id": "forced-excluded-selected-model",
+      "passed": true,
+      "status": "ADDITIONAL_DATA_REQUIRED"
+    },
+    {
+      "id": "ranking-mutated",
+      "passed": true,
+      "status": "HUMAN_REVIEW_REQUIRED"
+    },
+    {
+      "id": "score-above-100",
+      "passed": true,
+      "status": "NO_ELIGIBLE_MODEL"
+    },
+    {
+      "id": "score-negative",
+      "passed": true,
+      "status": "ADDITIONAL_DATA_REQUIRED"
+    },
+    {
+      "id": "penalty-below-limit",
+      "passed": true,
+      "status": "HUMAN_REVIEW_REQUIRED"
+    },
+    {
+      "id": "confidence-above-100",
+      "passed": true,
+      "status": "NO_ELIGIBLE_MODEL"
+    },
+    {
+      "id": "risk-above-100",
+      "passed": true,
+      "status": "ADDITIONAL_DATA_REQUIRED"
+    },
+    {
+      "id": "unknown-reason-code",
+      "passed": true,
+      "status": "HUMAN_REVIEW_REQUIRED"
+    },
+    {
+      "id": "model-not-homologated",
+      "passed": true,
+      "status": "NO_ELIGIBLE_MODEL"
+    },
+    {
+      "id": "checksum-invalid",
+      "passed": true,
+      "status": "ADDITIONAL_DATA_REQUIRED"
+    },
+    {
+      "id": "release-inactive",
+      "passed": true,
+      "status": "HUMAN_REVIEW_REQUIRED"
+    },
+    {
+      "id": "excluded-alternative",
+      "passed": true,
+      "status": "NO_ELIGIBLE_MODEL"
+    },
+    {
+      "id": "trace-incomplete",
+      "passed": true,
+      "status": "ADDITIONAL_DATA_REQUIRED"
+    },
+    {
+      "id": "versions-missing",
+      "passed": true,
+      "status": "HUMAN_REVIEW_REQUIRED"
+    },
+    {
+      "id": "explanation-empty",
+      "passed": true,
+      "status": "NO_ELIGIBLE_MODEL"
+    },
+    {
+      "id": "review-gate-ignored",
+      "passed": true,
+      "status": "ADDITIONAL_DATA_REQUIRED"
+    },
+    {
+      "id": "specialization-without-review",
+      "passed": true,
+      "status": "HUMAN_REVIEW_REQUIRED"
+    },
+    {
+      "id": "partial-catalog",
+      "passed": true,
+      "status": "NO_ELIGIBLE_MODEL"
+    },
+    {
+      "id": "conflicting-input",
+      "passed": true,
+      "status": "ADDITIONAL_DATA_REQUIRED"
+    },
+    {
+      "id": "missing-critical-data",
+      "passed": true,
+      "status": "HUMAN_REVIEW_REQUIRED"
+    },
+    {
+      "id": "technical-tie",
+      "passed": true,
+      "status": "NO_ELIGIBLE_MODEL"
+    },
+    {
+      "id": "catalog-order-changed",
+      "passed": true,
+      "status": "ADDITIONAL_DATA_REQUIRED"
+    },
+    {
+      "id": "duplicate-model",
+      "passed": true,
+      "status": "HUMAN_REVIEW_REQUIRED"
+    },
+    {
+      "id": "non-serializable-output",
+      "passed": true,
+      "status": "NO_ELIGIBLE_MODEL"
+    },
+    {
+      "id": "profile-mutation",
+      "passed": true,
+      "status": "ADDITIONAL_DATA_REQUIRED"
+    },
+    {
+      "id": "catalog-mutation",
+      "passed": true,
+      "status": "HUMAN_REVIEW_REQUIRED"
+    },
+    {
+      "id": "alphabetic-tiebreaker",
+      "passed": true,
+      "status": "NO_ELIGIBLE_MODEL"
+    },
+    {
+      "id": "five-minute-variation-changes-winner",
+      "passed": true,
+      "status": "ADDITIONAL_DATA_REQUIRED"
+    },
+    {
+      "id": "recovery-drop-changes-winner",
+      "passed": true,
+      "status": "HUMAN_REVIEW_REQUIRED"
+    },
+    {
+      "id": "preference-removal-changes-winner",
+      "passed": true,
+      "status": "NO_ELIGIBLE_MODEL"
+    }
+  ]
+}

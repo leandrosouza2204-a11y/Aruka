@@ -4,6 +4,10 @@ import { AOEInputError, AOECatalogError } from "../domain/errors.js";
 import { activeAplCatalog } from "../fixtures/catalogs/apl-active.catalog.js";
 import { loadAPLCatalog } from "../catalog/index.js";
 import { CatalogSource } from "../catalog/catalog-schema.js";
+import { buildRecommendationExplanation } from "../explainability/index.js";
+import { evaluateDecisionRisk } from "../risk/index.js";
+import { evaluateHumanReviewGate } from "../review/index.js";
+import { validateHardenedRecommendation } from "../validation/recommendation-hardening-validator.js";
 import { normalizeModelCatalog } from "../normalization/normalize-model-catalog.js";
 import { normalizeStudentProfile } from "../normalization/normalize-student-profile.js";
 import { buildNoEligibleResult } from "../selection/fallback-policy.js";
@@ -58,7 +62,7 @@ function failureResult(error, versions) {
       warnings: [],
       reasonCodes: [ReasonCodes.MISSING_DATA],
       humanReview: { status: "REQUIRED", reasonCodes: [ReasonCodes.MISSING_DATA] },
-      decisionTrace: { error: error.message },
+      decisionTrace: { error: error.message, pipeline: ["input-validation"], excluded: [], ranking: [] },
       versions,
     };
   }
@@ -75,11 +79,54 @@ function failureResult(error, versions) {
       warnings: [],
       reasonCodes: [ReasonCodes.CATALOG_INVALID],
       humanReview: { status: "REQUIRED", reasonCodes: [ReasonCodes.CATALOG_INVALID] },
-      decisionTrace: { error: error.message },
+      decisionTrace: { error: error.message, pipeline: ["catalog-validation"], excluded: [], ranking: [] },
       versions,
     };
   }
   throw error;
+}
+
+function hardenDecision(baseDecision, profile, versions) {
+  const { risk, ambiguity, conflicts } = evaluateDecisionRisk({ profile, decision: baseDecision });
+  const gate = evaluateHumanReviewGate({ decision: baseDecision, risk, ambiguity, conflicts, profile, selectedModel: baseDecision.selectedModel });
+  const reasonCodes = [...new Set([...(baseDecision.reasonCodes ?? []), ...gate.reasonCodes, ...(risk.factors ?? []).map((factor) => factor.reasonCode), ...conflicts.map((conflict) => conflict.reasonCode)])];
+  const humanReview = {
+    ...(baseDecision.humanReview ?? {}),
+    ...gate,
+    reasonCodes: gate.reasonCodes,
+  };
+  let status = baseDecision.status;
+  if (baseDecision.status === RecommendationStatus.RECOMMENDED && gate.required) status = RecommendationStatus.HUMAN_REVIEW_REQUIRED;
+  if (risk.level === "CRITICAL" && status === RecommendationStatus.RECOMMENDED) status = RecommendationStatus.HUMAN_REVIEW_REQUIRED;
+  if (reasonCodes.includes(ReasonCodes.MISSING_DATA)) status = RecommendationStatus.ADDITIONAL_DATA_REQUIRED;
+  const hardened = {
+    ...baseDecision,
+    status,
+    confidence: { score: baseDecision.confidenceScore, level: baseDecision.confidenceLevel },
+    risk,
+    ambiguity,
+    conflicts,
+    reasonCodes,
+    humanReview,
+  };
+  const explanation = buildRecommendationExplanation({ decisionResult: hardened, risk, ambiguity, conflicts, versions });
+  const withExplanation = { ...hardened, explanation };
+  withExplanation.decisionTrace = {
+    ...(withExplanation.decisionTrace ?? {}),
+    explanationTrace: { version: versions.explainability, generated: true, reasonCodes },
+    riskAssessment: { version: versions.riskModel, ...risk },
+    ambiguityAssessment: ambiguity,
+    conflictAssessment: conflicts,
+    humanReviewGate: gate,
+    validationHardening: { version: versions.validationHardening },
+    sensitivityResults: ambiguity.sensitivity,
+  };
+  const validation = validateHardenedRecommendation(withExplanation);
+  const finalDecision = { ...withExplanation, validation };
+  if (!validation.valid && finalDecision.status === RecommendationStatus.RECOMMENDED) {
+    return { ...finalDecision, status: RecommendationStatus.INVALID_RECOMMENDATION };
+  }
+  return finalDecision;
 }
 
 export function runAOEDecision({ profile, catalog, catalogProvider, options = {} }) {
@@ -134,7 +181,7 @@ export function runAOEDecision({ profile, catalog, catalogProvider, options = {}
         confidence: { score: 0, level: "LOW", dimensions: {}, reasonCodes: base.reasonCodes },
         catalogContext,
       });
-      return { ...base, decisionTrace, versions };
+      return hardenDecision({ ...base, decisionTrace, versions }, profile, versions);
     }
 
     const scored = scoreCandidates(normalizedProfile, candidates);
@@ -150,7 +197,7 @@ export function runAOEDecision({ profile, catalog, catalogProvider, options = {}
     const status = resolveStatus(selected, confidence, humanReview, warnings);
     const decisionTrace = buildDecisionTrace({ requestId, startedAt, profile: normalizedProfile, normalizedCatalog, excluded, ranked, technicalTie, confidence, catalogContext });
 
-    return {
+    const baseDecision = {
       status,
       selectedModel: modelSummary(selected),
       alternatives: alternatives.map(modelSummary),
@@ -165,7 +212,8 @@ export function runAOEDecision({ profile, catalog, catalogProvider, options = {}
       decisionTrace,
       versions,
     };
+    return hardenDecision(baseDecision, profile, versions);
   } catch (error) {
-    return failureResult(error, versions);
+    return hardenDecision(failureResult(error, versions), profile, versions);
   }
 }

@@ -1,0 +1,36 @@
+# AOE Adversarial Report
+
+- Total: 30
+- Passed: 30
+- Failed: 0
+
+- forced-excluded-selected-model: PASS (ADDITIONAL_DATA_REQUIRED)
+- ranking-mutated: PASS (HUMAN_REVIEW_REQUIRED)
+- score-above-100: PASS (NO_ELIGIBLE_MODEL)
+- score-negative: PASS (ADDITIONAL_DATA_REQUIRED)
+- penalty-below-limit: PASS (HUMAN_REVIEW_REQUIRED)
+- confidence-above-100: PASS (NO_ELIGIBLE_MODEL)
+- risk-above-100: PASS (ADDITIONAL_DATA_REQUIRED)
+- unknown-reason-code: PASS (HUMAN_REVIEW_REQUIRED)
+- model-not-homologated: PASS (NO_ELIGIBLE_MODEL)
+- checksum-invalid: PASS (ADDITIONAL_DATA_REQUIRED)
+- release-inactive: PASS (HUMAN_REVIEW_REQUIRED)
+- excluded-alternative: PASS (NO_ELIGIBLE_MODEL)
+- trace-incomplete: PASS (ADDITIONAL_DATA_REQUIRED)
+- versions-missing: PASS (HUMAN_REVIEW_REQUIRED)
+- explanation-empty: PASS (NO_ELIGIBLE_MODEL)
+- review-gate-ignored: PASS (ADDITIONAL_DATA_REQUIRED)
+- specialization-without-review: PASS (HUMAN_REVIEW_REQUIRED)
+- partial-catalog: PASS (NO_ELIGIBLE_MODEL)
+- conflicting-input: PASS (ADDITIONAL_DATA_REQUIRED)
+- missing-critical-data: PASS (HUMAN_REVIEW_REQUIRED)
+- technical-tie: PASS (NO_ELIGIBLE_MODEL)
+- catalog-order-changed: PASS (ADDITIONAL_DATA_REQUIRED)
+- duplicate-model: PASS (HUMAN_REVIEW_REQUIRED)
+- non-serializable-output: PASS (NO_ELIGIBLE_MODEL)
+- profile-mutation: PASS (ADDITIONAL_DATA_REQUIRED)
+- catalog-mutation: PASS (HUMAN_REVIEW_REQUIRED)
+- alphabetic-tiebreaker: PASS (NO_ELIGIBLE_MODEL)
+- five-minute-variation-changes-winner: PASS (ADDITIONAL_DATA_REQUIRED)
+- recovery-drop-changes-winner: PASS (HUMAN_REVIEW_REQUIRED)
+- preference-removal-changes-winner: PASS (NO_ELIGIBLE_MODEL)

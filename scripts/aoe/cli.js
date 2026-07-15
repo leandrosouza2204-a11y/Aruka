@@ -55,7 +55,13 @@ if (options.json) {
   console.log(`status: ${result.status}`);
   console.log(`selected: ${result.selectedModel?.modelCode ?? "none"}`);
   console.log(`score: ${result.compatibilityScore}`);
-  console.log(`confidence: ${result.confidenceLevel} (${result.confidenceScore})`);
+  console.log(`confidence: ${result.confidence?.level ?? result.confidenceLevel} (${result.confidence?.score ?? result.confidenceScore})`);
+  console.log(`risk: ${result.risk?.level} (${result.risk?.score})`);
+  console.log(`ambiguity: ${result.ambiguity?.level}`);
+  console.log(`humanReview: ${result.humanReview?.status}`);
   if (result.reasonCodes.length) console.log(`reasons: ${result.reasonCodes.join(", ")}`);
+  if (options.explain) console.log(`summary: ${result.explanation?.summary}`);
+  if (options.risk) console.log(JSON.stringify(result.risk, null, 2));
+  if (options.review) console.log(JSON.stringify(result.humanReview, null, 2));
   if (options.trace) console.log(JSON.stringify(result.decisionTrace, null, 2));
 }

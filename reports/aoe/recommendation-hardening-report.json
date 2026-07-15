@@ -1,0 +1,988 @@
+{
+  "version": "1.4.0",
+  "reasonCatalog": {
+    "valid": true,
+    "errors": []
+  },
+  "scenarios": [
+    {
+      "id": "beginner-3d-60-full-gym",
+      "status": "RECOMMENDED",
+      "selectedModel": "APL-M-HIP-I-ABC-BASE-01",
+      "risk": {
+        "score": 0,
+        "level": "LOW",
+        "factors": []
+      },
+      "ambiguity": {
+        "ambiguous": false,
+        "level": "NONE",
+        "reasons": [],
+        "candidates": [
+          "APL-M-HIP-I-ABC-BASE-01",
+          "APL-M-HIP-I-ABC-EFI-01",
+          "APL-M-HIP-I-FB-BASE-01"
+        ],
+        "sensitivity": {
+          "winnerChanged": false,
+          "changedCount": 0,
+          "alternatives": [],
+          "level": "NOT_RUN"
+        }
+      },
+      "review": {
+        "status": "NOT_REQUIRED",
+        "reasonCodes": [],
+        "required": false,
+        "blocking": false,
+        "reasons": [],
+        "checklist": [],
+        "suggestedActions": []
+      },
+      "validationValid": true
+    },
+    {
+      "id": "beginner-4d-high-adherence",
+      "status": "RECOMMENDED",
+      "selectedModel": "APL-M-HIP-I-ABCD-BASE-01",
+      "risk": {
+        "score": 0,
+        "level": "LOW",
+        "factors": []
+      },
+      "ambiguity": {
+        "ambiguous": false,
+        "level": "NONE",
+        "reasons": [],
+        "candidates": [
+          "APL-M-HIP-I-ABCD-BASE-01",
+          "APL-M-HIP-I-ABCD-EFI-01",
+          "APL-M-HIP-I-UL-BASE-01"
+        ],
+        "sensitivity": {
+          "winnerChanged": false,
+          "changedCount": 0,
+          "alternatives": [],
+          "level": "NOT_RUN"
+        }
+      },
+      "review": {
+        "status": "NOT_REQUIRED",
+        "reasonCodes": [],
+        "required": false,
+        "blocking": false,
+        "reasons": [],
+        "checklist": [],
+        "suggestedActions": []
+      },
+      "validationValid": true
+    },
+    {
+      "id": "beginner-5d-low-adherence",
+      "status": "RECOMMENDED_WITH_WARNINGS",
+      "selectedModel": "APL-M-HIP-I-ABCDE-EFI-01",
+      "risk": {
+        "score": 45,
+        "level": "MODERATE",
+        "factors": [
+          {
+            "code": "RECOVERY_UNCERTAIN",
+            "points": 15,
+            "reasonCode": "RECOVERY_AT_LIMIT"
+          },
+          {
+            "code": "MULTIPLE_WARNINGS",
+            "points": 10,
+            "reasonCode": "MULTIPLE_WARNINGS"
+          },
+          {
+            "code": "ADHERENCE_RISK",
+            "points": 15,
+            "reasonCode": "ADHERENCE_RISK"
+          },
+          {
+            "code": "PREFERENCE_CONFLICT",
+            "points": 5,
+            "reasonCode": "PREFERENCE_MISMATCH"
+          }
+        ]
+      },
+      "ambiguity": {
+        "ambiguous": false,
+        "level": "NONE",
+        "reasons": [],
+        "candidates": [
+          "APL-M-HIP-I-ABCDE-EFI-01",
+          "APL-M-HIP-I-FB-EFI-01",
+          "APL-M-HIP-I-ABCD-EFI-01"
+        ],
+        "sensitivity": {
+          "winnerChanged": false,
+          "changedCount": 0,
+          "alternatives": [],
+          "level": "NOT_RUN"
+        }
+      },
+      "review": {
+        "status": "REQUIRED",
+        "reasonCodes": [
+          "RECOVERY_AT_LIMIT"
+        ],
+        "required": true,
+        "blocking": false,
+        "reasons": [
+          "RECOVERY_AT_LIMIT"
+        ],
+        "checklist": [
+          {
+            "id": "HR-001",
+            "label": "Revisar recuperação",
+            "reasonCode": "RECOVERY_AT_LIMIT",
+            "required": true,
+            "completed": false
+          }
+        ],
+        "suggestedActions": [
+          "Revisar recuperação"
+        ]
+      },
+      "validationValid": true
+    },
+    {
+      "id": "intermediate-3d-performance",
+      "status": "RECOMMENDED_WITH_WARNINGS",
+      "selectedModel": "APL-M-HIP-M-ABC-PERF-01",
+      "risk": {
+        "score": 15,
+        "level": "LOW",
+        "factors": [
+          {
+            "code": "RECOVERY_UNCERTAIN",
+            "points": 15,
+            "reasonCode": "RECOVERY_AT_LIMIT"
+          }
+        ]
+      },
+      "ambiguity": {
+        "ambiguous": false,
+        "level": "NONE",
+        "reasons": [],
+        "candidates": [
+          "APL-M-HIP-M-ABC-PERF-01",
+          "APL-M-HIP-I-ABC-PERF-01",
+          "APL-M-HIP-I-ABC-EFI-01"
+        ],
+        "sensitivity": {
+          "winnerChanged": false,
+          "changedCount": 0,
+          "alternatives": [],
+          "level": "NOT_RUN"
+        }
+      },
+      "review": {
+        "status": "REQUIRED",
+        "reasonCodes": [
+          "RECOVERY_AT_LIMIT"
+        ],
+        "required": true,
+        "blocking": false,
+        "reasons": [
+          "RECOVERY_AT_LIMIT"
+        ],
+        "checklist": [
+          {
+            "id": "HR-001",
+            "label": "Revisar recuperação",
+            "reasonCode": "RECOVERY_AT_LIMIT",
+            "required": true,
+            "completed": false
+          }
+        ],
+        "suggestedActions": [
+          "Revisar recuperação"
+        ]
+      },
+      "validationValid": true
+    },
+    {
+      "id": "intermediate-5d-delts-specialization",
+      "status": "HUMAN_REVIEW_REQUIRED",
+      "selectedModel": "APL-M-HIP-M-ABCDE-ESP-DELTS-01",
+      "risk": {
+        "score": 15,
+        "level": "LOW",
+        "factors": [
+          {
+            "code": "SPECIALIZATION",
+            "points": 15,
+            "reasonCode": "HUMAN_REVIEW_REQUIRED"
+          }
+        ]
+      },
+      "ambiguity": {
+        "ambiguous": false,
+        "level": "NONE",
+        "reasons": [],
+        "candidates": [
+          "APL-M-HIP-M-ABCDE-ESP-DELTS-01",
+          "APL-M-HIP-M-ABCDE-BASE-01",
+          "APL-M-HIP-M-ABCDE-PERF-01"
+        ],
+        "sensitivity": {
+          "winnerChanged": false,
+          "changedCount": 0,
+          "alternatives": [],
+          "level": "NOT_RUN"
+        }
+      },
+      "review": {
+        "status": "REQUIRED",
+        "reasonCodes": [
+          "HUMAN_REVIEW_REQUIRED"
+        ],
+        "required": true,
+        "blocking": false,
+        "reasons": [
+          "HUMAN_REVIEW_REQUIRED"
+        ],
+        "checklist": [
+          {
+            "id": "HR-001",
+            "label": "Confirmar modelo selecionado",
+            "reasonCode": "HUMAN_REVIEW_REQUIRED",
+            "required": true,
+            "completed": false
+          }
+        ],
+        "suggestedActions": [
+          "Confirmar modelo selecionado"
+        ]
+      },
+      "validationValid": true
+    },
+    {
+      "id": "intermediate-4d-costas-specialization",
+      "status": "HUMAN_REVIEW_REQUIRED",
+      "selectedModel": "APL-M-HIP-M-UL-ESP-COSTAS-01",
+      "risk": {
+        "score": 15,
+        "level": "LOW",
+        "factors": [
+          {
+            "code": "SPECIALIZATION",
+            "points": 15,
+            "reasonCode": "HUMAN_REVIEW_REQUIRED"
+          }
+        ]
+      },
+      "ambiguity": {
+        "ambiguous": false,
+        "level": "NONE",
+        "reasons": [],
+        "candidates": [
+          "APL-M-HIP-M-UL-ESP-COSTAS-01",
+          "APL-M-HIP-M-UL-BASE-01",
+          "APL-M-HIP-M-UL-PERF-01"
+        ],
+        "sensitivity": {
+          "winnerChanged": false,
+          "changedCount": 0,
+          "alternatives": [],
+          "level": "NOT_RUN"
+        }
+      },
+      "review": {
+        "status": "REQUIRED",
+        "reasonCodes": [
+          "HUMAN_REVIEW_REQUIRED"
+        ],
+        "required": true,
+        "blocking": false,
+        "reasons": [
+          "HUMAN_REVIEW_REQUIRED"
+        ],
+        "checklist": [
+          {
+            "id": "HR-001",
+            "label": "Confirmar modelo selecionado",
+            "reasonCode": "HUMAN_REVIEW_REQUIRED",
+            "required": true,
+            "completed": false
+          }
+        ],
+        "suggestedActions": [
+          "Confirmar modelo selecionado"
+        ]
+      },
+      "validationValid": true
+    },
+    {
+      "id": "intermediate-40-min",
+      "status": "HUMAN_REVIEW_REQUIRED",
+      "selectedModel": "APL-M-HIP-I-ABC-EFI-01",
+      "risk": {
+        "score": 40,
+        "level": "MODERATE",
+        "factors": [
+          {
+            "code": "TECHNICAL_TIE",
+            "points": 20,
+            "reasonCode": "TIE_UNRESOLVED"
+          },
+          {
+            "code": "TIME_AT_LIMIT",
+            "points": 10,
+            "reasonCode": "TIME_AT_LIMIT"
+          },
+          {
+            "code": "SMALL_SCORE_GAP",
+            "points": 10,
+            "reasonCode": "AMBIGUOUS_SELECTION"
+          }
+        ]
+      },
+      "ambiguity": {
+        "ambiguous": true,
+        "level": "MODERATE",
+        "reasons": [
+          "Empate técnico detectado.",
+          "Diferença de score menor ou igual a 1."
+        ],
+        "candidates": [
+          "APL-M-HIP-I-ABC-EFI-01",
+          "APL-M-HIP-M-ABC-EFI-01",
+          "APL-M-HIP-I-FB-EFI-01"
+        ],
+        "sensitivity": {
+          "winnerChanged": false,
+          "changedCount": 0,
+          "alternatives": [],
+          "level": "NOT_RUN"
+        }
+      },
+      "review": {
+        "status": "REQUIRED",
+        "reasonCodes": [
+          "TIE_UNRESOLVED",
+          "TIME_AT_LIMIT"
+        ],
+        "required": true,
+        "blocking": false,
+        "reasons": [
+          "TIE_UNRESOLVED",
+          "TIME_AT_LIMIT"
+        ],
+        "checklist": [
+          {
+            "id": "HR-001",
+            "label": "Comparar alternativas empatadas",
+            "reasonCode": "TIE_UNRESOLVED",
+            "required": true,
+            "completed": false
+          },
+          {
+            "id": "HR-002",
+            "label": "Revisar duração disponível",
+            "reasonCode": "TIME_AT_LIMIT",
+            "required": true,
+            "completed": false
+          }
+        ],
+        "suggestedActions": [
+          "Comparar alternativas empatadas",
+          "Revisar duração disponível"
+        ]
+      },
+      "validationValid": true
+    },
+    {
+      "id": "limited-equipment",
+      "status": "HUMAN_REVIEW_REQUIRED",
+      "selectedModel": "APL-M-HIP-I-ABC-EFI-01",
+      "risk": {
+        "score": 50,
+        "level": "HIGH",
+        "factors": [
+          {
+            "code": "TECHNICAL_TIE",
+            "points": 20,
+            "reasonCode": "TIE_UNRESOLVED"
+          },
+          {
+            "code": "EQUIPMENT_ADAPTATION",
+            "points": 15,
+            "reasonCode": "EQUIPMENT_ADAPTATION_REQUIRED"
+          },
+          {
+            "code": "SMALL_SCORE_GAP",
+            "points": 10,
+            "reasonCode": "AMBIGUOUS_SELECTION"
+          },
+          {
+            "code": "PREFERENCE_CONFLICT",
+            "points": 5,
+            "reasonCode": "PREFERENCE_MISMATCH"
+          }
+        ]
+      },
+      "ambiguity": {
+        "ambiguous": true,
+        "level": "MODERATE",
+        "reasons": [
+          "Empate técnico detectado.",
+          "Diferença de score menor ou igual a 1."
+        ],
+        "candidates": [
+          "APL-M-HIP-I-ABC-EFI-01",
+          "APL-M-HIP-I-ABC-BASE-01",
+          "APL-M-HIP-I-FB-BASE-01"
+        ],
+        "sensitivity": {
+          "winnerChanged": false,
+          "changedCount": 0,
+          "alternatives": [],
+          "level": "NOT_RUN"
+        }
+      },
+      "review": {
+        "status": "REQUIRED",
+        "reasonCodes": [
+          "TIE_UNRESOLVED",
+          "HIGH_DECISION_RISK",
+          "EQUIPMENT_ADAPTATION_REQUIRED"
+        ],
+        "required": true,
+        "blocking": false,
+        "reasons": [
+          "TIE_UNRESOLVED",
+          "HIGH_DECISION_RISK",
+          "EQUIPMENT_ADAPTATION_REQUIRED"
+        ],
+        "checklist": [
+          {
+            "id": "HR-001",
+            "label": "Comparar alternativas empatadas",
+            "reasonCode": "TIE_UNRESOLVED",
+            "required": true,
+            "completed": false
+          },
+          {
+            "id": "HR-002",
+            "label": "Revisar risco decisório",
+            "reasonCode": "HIGH_DECISION_RISK",
+            "required": true,
+            "completed": false
+          },
+          {
+            "id": "HR-003",
+            "label": "Revisar equipamentos",
+            "reasonCode": "EQUIPMENT_ADAPTATION_REQUIRED",
+            "required": true,
+            "completed": false
+          }
+        ],
+        "suggestedActions": [
+          "Comparar alternativas empatadas",
+          "Revisar risco decisório",
+          "Revisar equipamentos"
+        ]
+      },
+      "validationValid": true
+    },
+    {
+      "id": "full-body-preference",
+      "status": "RECOMMENDED",
+      "selectedModel": "APL-M-HIP-I-FB-BASE-01",
+      "risk": {
+        "score": 0,
+        "level": "LOW",
+        "factors": []
+      },
+      "ambiguity": {
+        "ambiguous": false,
+        "level": "NONE",
+        "reasons": [],
+        "candidates": [
+          "APL-M-HIP-I-FB-BASE-01",
+          "APL-M-HIP-I-ABC-BASE-01",
+          "APL-M-HIP-I-FB-PERF-01"
+        ],
+        "sensitivity": {
+          "winnerChanged": false,
+          "changedCount": 0,
+          "alternatives": [],
+          "level": "NOT_RUN"
+        }
+      },
+      "review": {
+        "status": "NOT_REQUIRED",
+        "reasonCodes": [],
+        "required": false,
+        "blocking": false,
+        "reasons": [],
+        "checklist": [],
+        "suggestedActions": []
+      },
+      "validationValid": true
+    },
+    {
+      "id": "preference-incompatible-frequency",
+      "status": "HUMAN_REVIEW_REQUIRED",
+      "selectedModel": "APL-M-HIP-I-ABC-EFI-01",
+      "risk": {
+        "score": 70,
+        "level": "HIGH",
+        "factors": [
+          {
+            "code": "TECHNICAL_TIE",
+            "points": 20,
+            "reasonCode": "TIE_UNRESOLVED"
+          },
+          {
+            "code": "PREFERENCE_CONFLICT",
+            "points": 5,
+            "reasonCode": "PREFERENCE_MISMATCH"
+          },
+          {
+            "code": "SMALL_SCORE_GAP",
+            "points": 10,
+            "reasonCode": "AMBIGUOUS_SELECTION"
+          },
+          {
+            "code": "CRITICAL_CONSTRAINT",
+            "points": 35,
+            "reasonCode": "CRITICAL_CONSTRAINT"
+          }
+        ]
+      },
+      "ambiguity": {
+        "ambiguous": true,
+        "level": "HIGH",
+        "reasons": [
+          "Empate técnico detectado.",
+          "Diferença de score menor ou igual a 1.",
+          "Preferência conflitante com a seleção."
+        ],
+        "candidates": [
+          "APL-M-HIP-I-ABC-EFI-01",
+          "APL-M-HIP-I-FB-BASE-01",
+          "APL-M-HIP-I-ABC-BASE-01"
+        ],
+        "sensitivity": {
+          "winnerChanged": false,
+          "changedCount": 0,
+          "alternatives": [],
+          "level": "NOT_RUN"
+        }
+      },
+      "review": {
+        "status": "BLOCKING",
+        "reasonCodes": [
+          "TIE_UNRESOLVED",
+          "HIGH_DECISION_RISK",
+          "AMBIGUOUS_SELECTION",
+          "CRITICAL_CONSTRAINT"
+        ],
+        "required": true,
+        "blocking": true,
+        "reasons": [
+          "TIE_UNRESOLVED",
+          "HIGH_DECISION_RISK",
+          "AMBIGUOUS_SELECTION",
+          "CRITICAL_CONSTRAINT"
+        ],
+        "checklist": [
+          {
+            "id": "HR-001",
+            "label": "Comparar alternativas empatadas",
+            "reasonCode": "TIE_UNRESOLVED",
+            "required": true,
+            "completed": false
+          },
+          {
+            "id": "HR-002",
+            "label": "Revisar risco decisório",
+            "reasonCode": "HIGH_DECISION_RISK",
+            "required": true,
+            "completed": false
+          },
+          {
+            "id": "HR-003",
+            "label": "Resolver ambiguidade da seleção",
+            "reasonCode": "AMBIGUOUS_SELECTION",
+            "required": true,
+            "completed": false
+          },
+          {
+            "id": "HR-004",
+            "label": "Revisar constraints",
+            "reasonCode": "CRITICAL_CONSTRAINT",
+            "required": true,
+            "completed": false
+          }
+        ],
+        "suggestedActions": [
+          "Comparar alternativas empatadas",
+          "Revisar risco decisório",
+          "Resolver ambiguidade da seleção",
+          "Revisar constraints"
+        ]
+      },
+      "validationValid": true
+    },
+    {
+      "id": "low-recovery",
+      "status": "RECOMMENDED_WITH_WARNINGS",
+      "selectedModel": "APL-M-HIP-I-ABCD-EFI-01",
+      "risk": {
+        "score": 30,
+        "level": "MODERATE",
+        "factors": [
+          {
+            "code": "RECOVERY_UNCERTAIN",
+            "points": 15,
+            "reasonCode": "RECOVERY_AT_LIMIT"
+          },
+          {
+            "code": "MULTIPLE_WARNINGS",
+            "points": 10,
+            "reasonCode": "MULTIPLE_WARNINGS"
+          },
+          {
+            "code": "PREFERENCE_CONFLICT",
+            "points": 5,
+            "reasonCode": "PREFERENCE_MISMATCH"
+          }
+        ]
+      },
+      "ambiguity": {
+        "ambiguous": true,
+        "level": "LOW",
+        "reasons": [
+          "Preferência conflitante com a seleção."
+        ],
+        "candidates": [
+          "APL-M-HIP-I-ABCD-EFI-01",
+          "APL-M-HIP-I-UL-BASE-01",
+          "APL-M-HIP-I-FB-EFI-01"
+        ],
+        "sensitivity": {
+          "winnerChanged": false,
+          "changedCount": 0,
+          "alternatives": [],
+          "level": "NOT_RUN"
+        }
+      },
+      "review": {
+        "status": "REQUIRED",
+        "reasonCodes": [
+          "RECOVERY_AT_LIMIT"
+        ],
+        "required": true,
+        "blocking": false,
+        "reasons": [
+          "RECOVERY_AT_LIMIT"
+        ],
+        "checklist": [
+          {
+            "id": "HR-001",
+            "label": "Revisar recuperação",
+            "reasonCode": "RECOVERY_AT_LIMIT",
+            "required": true,
+            "completed": false
+          }
+        ],
+        "suggestedActions": [
+          "Revisar recuperação"
+        ]
+      },
+      "validationValid": true
+    },
+    {
+      "id": "missing-critical-data",
+      "status": "ADDITIONAL_DATA_REQUIRED",
+      "selectedModel": null,
+      "risk": {
+        "score": 60,
+        "level": "HIGH",
+        "factors": [
+          {
+            "code": "MISSING_DATA",
+            "points": 35,
+            "reasonCode": "MISSING_DATA"
+          },
+          {
+            "code": "LOW_CONFIDENCE",
+            "points": 25,
+            "reasonCode": "LOW_CONFIDENCE"
+          }
+        ]
+      },
+      "ambiguity": {
+        "ambiguous": true,
+        "level": "LOW",
+        "reasons": [
+          "Dados críticos ausentes."
+        ],
+        "candidates": [],
+        "sensitivity": {
+          "winnerChanged": false,
+          "changedCount": 0,
+          "alternatives": [],
+          "level": "NOT_RUN"
+        }
+      },
+      "review": {
+        "status": "BLOCKING",
+        "reasonCodes": [
+          "MISSING_DATA",
+          "LOW_CONFIDENCE",
+          "HIGH_DECISION_RISK"
+        ],
+        "required": true,
+        "blocking": true,
+        "reasons": [
+          "MISSING_DATA",
+          "LOW_CONFIDENCE",
+          "HIGH_DECISION_RISK"
+        ],
+        "checklist": [
+          {
+            "id": "HR-001",
+            "label": "Solicitar informação adicional",
+            "reasonCode": "MISSING_DATA",
+            "required": true,
+            "completed": false
+          },
+          {
+            "id": "HR-002",
+            "label": "Confirmar dados usados na decisão",
+            "reasonCode": "LOW_CONFIDENCE",
+            "required": true,
+            "completed": false
+          },
+          {
+            "id": "HR-003",
+            "label": "Revisar risco decisório",
+            "reasonCode": "HIGH_DECISION_RISK",
+            "required": true,
+            "completed": false
+          }
+        ],
+        "suggestedActions": [
+          "Solicitar informação adicional",
+          "Confirmar dados usados na decisão",
+          "Revisar risco decisório"
+        ]
+      },
+      "validationValid": true
+    },
+    {
+      "id": "technical-tie",
+      "status": "HUMAN_REVIEW_REQUIRED",
+      "selectedModel": "APL-M-HIP-I-ABCD-EFI-01",
+      "risk": {
+        "score": 30,
+        "level": "MODERATE",
+        "factors": [
+          {
+            "code": "TECHNICAL_TIE",
+            "points": 20,
+            "reasonCode": "TIE_UNRESOLVED"
+          },
+          {
+            "code": "SMALL_SCORE_GAP",
+            "points": 10,
+            "reasonCode": "AMBIGUOUS_SELECTION"
+          }
+        ]
+      },
+      "ambiguity": {
+        "ambiguous": true,
+        "level": "MODERATE",
+        "reasons": [
+          "Empate técnico detectado.",
+          "Diferença de score menor ou igual a 1."
+        ],
+        "candidates": [
+          "APL-M-HIP-I-ABCD-EFI-01",
+          "APL-M-HIP-I-UL-BASE-01",
+          "APL-M-HIP-I-ABCD-BASE-01"
+        ],
+        "sensitivity": {
+          "winnerChanged": false,
+          "changedCount": 0,
+          "alternatives": [],
+          "level": "NOT_RUN"
+        }
+      },
+      "review": {
+        "status": "REQUIRED",
+        "reasonCodes": [
+          "TIE_UNRESOLVED"
+        ],
+        "required": true,
+        "blocking": false,
+        "reasons": [
+          "TIE_UNRESOLVED"
+        ],
+        "checklist": [
+          {
+            "id": "HR-001",
+            "label": "Comparar alternativas empatadas",
+            "reasonCode": "TIE_UNRESOLVED",
+            "required": true,
+            "completed": false
+          }
+        ],
+        "suggestedActions": [
+          "Comparar alternativas empatadas"
+        ]
+      },
+      "validationValid": true
+    },
+    {
+      "id": "no-eligible-model",
+      "status": "NO_ELIGIBLE_MODEL",
+      "selectedModel": null,
+      "risk": {
+        "score": 25,
+        "level": "MODERATE",
+        "factors": [
+          {
+            "code": "LOW_CONFIDENCE",
+            "points": 25,
+            "reasonCode": "LOW_CONFIDENCE"
+          }
+        ]
+      },
+      "ambiguity": {
+        "ambiguous": false,
+        "level": "NONE",
+        "reasons": [],
+        "candidates": [],
+        "sensitivity": {
+          "winnerChanged": false,
+          "changedCount": 0,
+          "alternatives": [],
+          "level": "NOT_RUN"
+        }
+      },
+      "review": {
+        "status": "REQUIRED",
+        "reasonCodes": [
+          "HUMAN_REVIEW_REQUIRED",
+          "LOW_CONFIDENCE"
+        ],
+        "required": true,
+        "blocking": false,
+        "reasons": [
+          "HUMAN_REVIEW_REQUIRED",
+          "LOW_CONFIDENCE"
+        ],
+        "checklist": [
+          {
+            "id": "HR-001",
+            "label": "Confirmar modelo selecionado",
+            "reasonCode": "HUMAN_REVIEW_REQUIRED",
+            "required": true,
+            "completed": false
+          },
+          {
+            "id": "HR-002",
+            "label": "Confirmar dados usados na decisão",
+            "reasonCode": "LOW_CONFIDENCE",
+            "required": true,
+            "completed": false
+          }
+        ],
+        "suggestedActions": [
+          "Confirmar modelo selecionado",
+          "Confirmar dados usados na decisão"
+        ]
+      },
+      "validationValid": true
+    },
+    {
+      "id": "specialization-without-readiness",
+      "status": "HUMAN_REVIEW_REQUIRED",
+      "selectedModel": "APL-M-HIP-M-ABCDE-BASE-01",
+      "risk": {
+        "score": 35,
+        "level": "MODERATE",
+        "factors": [
+          {
+            "code": "TECHNICAL_TIE",
+            "points": 20,
+            "reasonCode": "TIE_UNRESOLVED"
+          },
+          {
+            "code": "PREFERENCE_CONFLICT",
+            "points": 5,
+            "reasonCode": "PREFERENCE_MISMATCH"
+          },
+          {
+            "code": "SMALL_SCORE_GAP",
+            "points": 10,
+            "reasonCode": "AMBIGUOUS_SELECTION"
+          }
+        ]
+      },
+      "ambiguity": {
+        "ambiguous": true,
+        "level": "HIGH",
+        "reasons": [
+          "Empate técnico detectado.",
+          "Diferença de score menor ou igual a 1.",
+          "Preferência conflitante com a seleção."
+        ],
+        "candidates": [
+          "APL-M-HIP-M-ABCDE-BASE-01",
+          "APL-M-HIP-M-ABCDE-PERF-01",
+          "APL-M-HIP-M-UL-BASE-01"
+        ],
+        "sensitivity": {
+          "winnerChanged": false,
+          "changedCount": 0,
+          "alternatives": [],
+          "level": "NOT_RUN"
+        }
+      },
+      "review": {
+        "status": "REQUIRED",
+        "reasonCodes": [
+          "TIE_UNRESOLVED",
+          "AMBIGUOUS_SELECTION"
+        ],
+        "required": true,
+        "blocking": false,
+        "reasons": [
+          "TIE_UNRESOLVED",
+          "AMBIGUOUS_SELECTION"
+        ],
+        "checklist": [
+          {
+            "id": "HR-001",
+            "label": "Comparar alternativas empatadas",
+            "reasonCode": "TIE_UNRESOLVED",
+            "required": true,
+            "completed": false
+          },
+          {
+            "id": "HR-002",
+            "label": "Resolver ambiguidade da seleção",
+            "reasonCode": "AMBIGUOUS_SELECTION",
+            "required": true,
+            "completed": false
+          }
+        ],
+        "suggestedActions": [
+          "Comparar alternativas empatadas",
+          "Resolver ambiguidade da seleção"
+        ]
+      },
+      "validationValid": true
+    }
+  ],
+  "valid": true
+}

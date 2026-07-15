@@ -53,10 +53,11 @@ A medida que a APL cresce, a escolha manual entre dezenas de modelos se torna le
 | `16_RULE_TEST_CASES` | Casos de teste, golden scenarios e regressao. |
 | `17_EXECUTABLE_CORE` | Implementacao executavel, contratos, CLI e limites da v1.2. |
 | `18_APL_CATALOG_ADAPTER` | Adapter oficial de catalogo APL v1.3. |
+| `19_RECOMMENDATION_HARDENING` | Validacao, explicabilidade, risco e review gate v1.4. |
 
 ## Estado Atual
 
-AOE v1.3 - APL Catalog Adapter concluido. As releases APL congeladas substituem as fixtures como fonte oficial de catalogo; fixtures permanecem para testes e regressao.
+AOE v1.4 - Recommendation Validation & Explainability Hardening concluido. As decisoes agora incluem reason catalog, explicacao deterministica, risk score, ambiguidade, conflitos, Human Review Gate e validacao reforcada.
 
 ## Comandos AOE
 
@@ -66,4 +67,7 @@ npm run aoe:catalog:validate
 npm run aoe:catalog:report
 npm run aoe:catalog:diff
 npm run aoe:test:catalog
+npm run aoe:reasons
+npm run aoe:adversarial
+npm run aoe:validate:hardening
 ```

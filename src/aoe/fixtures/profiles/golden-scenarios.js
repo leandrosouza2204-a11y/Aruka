@@ -155,7 +155,7 @@ export const goldenScenarios = [
       constraints: [],
       recovery: { capacity: "MEDIUM" },
     },
-    expected: { status: "INVALID_INPUT" },
+    expected: { status: "ADDITIONAL_DATA_REQUIRED" },
   },
   {
     id: "technical-tie",

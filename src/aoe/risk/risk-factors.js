@@ -1,0 +1,18 @@
+export const RISK_FACTORS = Object.freeze({
+  MISSING_DATA: { code: "MISSING_DATA", points: 35, reasonCode: "MISSING_DATA" },
+  CRITICAL_CONSTRAINT: { code: "CRITICAL_CONSTRAINT", points: 35, reasonCode: "CRITICAL_CONSTRAINT" },
+  LOW_CONFIDENCE: { code: "LOW_CONFIDENCE", points: 25, reasonCode: "LOW_CONFIDENCE" },
+  TECHNICAL_TIE: { code: "TECHNICAL_TIE", points: 20, reasonCode: "TIE_UNRESOLVED" },
+  SPECIALIZATION: { code: "SPECIALIZATION", points: 15, reasonCode: "HUMAN_REVIEW_REQUIRED" },
+  PHYSICAL_CONSTRAINT: { code: "PHYSICAL_CONSTRAINT", points: 25, reasonCode: "CRITICAL_CONSTRAINT" },
+  RECOVERY_UNCERTAIN: { code: "RECOVERY_UNCERTAIN", points: 15, reasonCode: "RECOVERY_AT_LIMIT" },
+  TIME_AT_LIMIT: { code: "TIME_AT_LIMIT", points: 10, reasonCode: "TIME_AT_LIMIT" },
+  FREQUENCY_AT_LIMIT: { code: "FREQUENCY_AT_LIMIT", points: 10, reasonCode: "TIME_AT_LIMIT" },
+  EQUIPMENT_ADAPTATION: { code: "EQUIPMENT_ADAPTATION", points: 15, reasonCode: "EQUIPMENT_ADAPTATION_REQUIRED" },
+  MULTIPLE_WARNINGS: { code: "MULTIPLE_WARNINGS", points: 10, reasonCode: "MULTIPLE_WARNINGS" },
+  ADHERENCE_RISK: { code: "ADHERENCE_RISK", points: 15, reasonCode: "ADHERENCE_RISK" },
+  PARTIAL_CATALOG: { code: "PARTIAL_CATALOG", points: 30, reasonCode: "CATALOG_UNAVAILABLE" },
+  CATALOG_WARNINGS: { code: "CATALOG_WARNINGS", points: 20, reasonCode: "CATALOG_INVALID" },
+  SMALL_SCORE_GAP: { code: "SMALL_SCORE_GAP", points: 10, reasonCode: "AMBIGUOUS_SELECTION" },
+  PREFERENCE_CONFLICT: { code: "PREFERENCE_CONFLICT", points: 5, reasonCode: "PREFERENCE_MISMATCH" },
+});

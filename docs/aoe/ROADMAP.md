@@ -28,13 +28,13 @@ Status: concluido com 30 modelos carregados, 30 checksums validos, releases vali
 
 Entrega validacao aprofundada, explainability, reason catalog, seguranca das decisoes, revisao humana e testes adversariais.
 
-Status: proximo marco.
+Status: concluido com explainability, risk, ambiguity, conflicts, review gate, hardening validation, golden scenarios e adversarial tests passando.
 
 ## AOE v1.5 - Application Integration
 
-Entrega servico de aplicacao, persistencia, API e integracao com Aruka.
+Entrega contratos de integracao, application service, persistencia futura, autorizacao, idempotencia, API design e observabilidade, sem criar UI ainda.
 
-Status: planejado.
+Status: proximo marco.
 
 ## AOE v2.0 - Customization Engine
 
