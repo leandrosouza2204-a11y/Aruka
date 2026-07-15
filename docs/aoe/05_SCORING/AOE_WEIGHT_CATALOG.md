@@ -1,6 +1,6 @@
 # AOE Weight Catalog
 
-## Proposta inicial não executável
+## Pesos oficiais v1.0.0
 
 | Dimensão | Peso inicial | Tipo |
 |---|---:|---|
@@ -11,9 +11,11 @@
 | Equipamentos | 10 | Compatibilidade |
 | Recuperação | 10 | Capacidade |
 | Aderência | 10 | Capacidade |
-| Preferência | 5 | Preferência |
-| Estratégia | 5 | Preferência |
+| Split Preference | 4 | Preferência |
+| Strategy Preference | 3 | Preferência |
+| Specialization Fit | 2 | Preferência |
+| Operational Simplicity | 1 | Preferência |
 
 ## Política
 
-Os pesos são provisórios, serão calibrados na v1.1, somam 100 e não se aplicam a hard constraints. Pesos podem variar por objetivo futuramente.
+Os pesos somam 100 e não se aplicam a hard constraints. Pesos podem variar por objetivo futuramente apenas com nova versão e regressão dos golden scenarios.

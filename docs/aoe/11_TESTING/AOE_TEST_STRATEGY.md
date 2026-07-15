@@ -24,6 +24,14 @@
 - Nenhuma recomendação sem justificativa.
 - Nenhum resultado inválido é entregue.
 
+## Test cases v1.1
+
+O conjunto documental em `../16_RULE_TEST_CASES/AOE_RULE_TEST_CASES_V1.md` define 100 casos mínimos: 20 de eligibility, 20 de exclusion, 24 de scoring, 12 de validation, 12 de confidence e 12 de human review.
+
+## Golden scenarios
+
+Os golden scenarios em `../16_RULE_TEST_CASES/AOE_GOLDEN_SCENARIOS.md` definem 15 cenários de regressão conceitual para o AOE v1.2.
+
 ## Requisitos não funcionais testáveis
 
 Determinismo, desempenho, explicabilidade, auditabilidade, modularidade, testabilidade, portabilidade, segurança, privacidade, compatibilidade de versões, ausência de dependência de UI e execução local ou server-side.

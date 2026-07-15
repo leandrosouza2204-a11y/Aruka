@@ -23,3 +23,11 @@ Dado ausente reduz confidence e pode gerar revisão humana. A penalização por 
 ## Separação
 
 Compatibility Score mede encaixe com o perfil. Confidence Score mede confiabilidade da decisão.
+
+## Empate técnico
+
+Diferença menor ou igual a 1,0 ponto entre primeiro e segundo candidato é empate técnico e exige desempate determinístico.
+
+## Penalizações
+
+Penalizações não críticas são aplicadas após o Raw Compatibility Score e antes do Final Compatibility Score. O total máximo sugerido é 20 pontos.

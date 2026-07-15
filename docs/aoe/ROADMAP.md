@@ -14,12 +14,14 @@ Entrega catálogo de regras, critérios, pesos, exclusões, conflitos e cenário
 Entrada: arquitetura v1 aprovada.  
 Saída: regras testáveis e pesos calibráveis.
 
+Status: concluído.
+
 ## AOE v1.2 — Executable Decision Core
 
 Entrega implementação em TypeScript ou JavaScript, motor determinístico, modelos de entrada e saída, testes unitários e fixtures.
 
-Entrada: regras e scoring especificados.  
-Saída: núcleo decisório executável.
+Entrada: catálogo aprovado, regras versionadas, scoring definido, confidence definido, 100+ test cases, golden scenarios e domínio estável.
+Saída: motor executável, contratos, regras implementadas, testes automatizados, decision trace e CLI de validação.
 
 ## AOE v1.3 — APL Catalog Adapter
 

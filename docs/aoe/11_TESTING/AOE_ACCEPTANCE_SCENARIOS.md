@@ -16,3 +16,7 @@
 | 12 | Dados insuficientes | Indeterminado | Candidatos que dependem dos dados ausentes | ADDITIONAL_DATA_REQUIRED | Sim |
 
 Não são definidos códigos vencedores nesta fase sem análise executável do catálogo real.
+
+## Relação com v1.1
+
+Os cenários acima foram expandidos em 15 golden scenarios no documento `../16_RULE_TEST_CASES/AOE_GOLDEN_SCENARIOS.md`.

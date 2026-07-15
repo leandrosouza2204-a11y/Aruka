@@ -3,6 +3,8 @@
 ## Revisão humana é exigida quando
 
 - Confidence baixa.
+- Confidence LOW.
+- Empate técnico.
 - Dados ausentes.
 - Restrição física relevante.
 - Múltiplos warnings.
@@ -19,3 +21,7 @@
 - Approved_with_adjustments.
 - Rejected.
 - Additional_information_required.
+
+## Thresholds v1.1
+
+Revisão humana é obrigatória para score de confiança de 0 a 74, especialização selecionada, dado crítico ausente, equipamento com adaptação futura ou restrição física relevante.

@@ -55,6 +55,10 @@ O Aruka Optimization Engine (AOE) é o motor de decisão responsável por seleci
 | `10_INTEGRATION` | Integração com APL e aplicação. |
 | `11_TESTING` | Estratégia de testes e cenários de aceitação. |
 | `12_DECISIONS` | ADRs do projeto. |
+| `13_RULE_CATALOG` | Catálogo formal de regras v1. |
+| `14_SCORING_SPEC` | Especificação formal de scoring v1. |
+| `15_CONFIDENCE` | Modelo de confidence e revisão humana. |
+| `16_RULE_TEST_CASES` | Casos de teste, golden scenarios e regressão. |
 
 ## Ordem recomendada de leitura
 
@@ -68,7 +72,11 @@ O Aruka Optimization Engine (AOE) é o motor de decisão responsável por seleci
 8. Integração.
 9. Testes.
 10. ADRs.
+11. Rule Catalog.
+12. Scoring Spec.
+13. Confidence.
+14. Rule Test Cases.
 
 ## Estado atual
 
-AOE v1.0 — Architecture & Domain Model em desenvolvimento.
+AOE v1.1 — Rule Catalog & Scoring Specification concluído.

@@ -4,7 +4,7 @@
 
 - Projeto: Aruka Optimization Engine.
 - Versão arquitetural: 1.0.0.
-- Status: Architecture & Domain Model.
+- Status: Rule Catalog & Scoring Specification.
 - Implementação: Não iniciada.
 - Banco: Não iniciado.
 - API: Não iniciada.
@@ -14,17 +14,16 @@
 
 | Marco | Status |
 |---|---|
-| Governança | Concluído nesta etapa |
-| Arquitetura | Concluído nesta etapa |
-| Modelo de domínio | Concluído nesta etapa |
-| Pipeline de decisão | Concluído nesta etapa |
-| Regras detalhadas | Planejado |
-| Scoring executável | Planejado |
-| Seleção executável | Planejado |
-| Customização | Planejado |
-| Progressão | Planejado |
-| API | Planejado |
-| Integração com aplicação | Planejado |
+| Governança | Concluído |
+| Arquitetura | Concluído |
+| Modelo de domínio | Concluído |
+| Pipeline | Concluído |
+| Catálogo de regras v1 | Concluído |
+| Scoring specification v1 | Concluído |
+| Confidence model v1 | Concluído |
+| Rule test cases | Concluído |
+| Implementação executável | Não iniciada |
+| APL Catalog Adapter | Não iniciado |
 
 ## Dependências
 
@@ -35,4 +34,4 @@
 
 ## Próximo marco
 
-AOE v1.1 — Rule Catalog & Scoring Specification.
+AOE v1.2 — Executable Decision Core.
