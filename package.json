@@ -43,7 +43,7 @@
     "aoe:test:unit": "node --test tests/aoe/aoe-core.test.js",
     "aoe:test:golden": "node --test tests/aoe/golden-scenarios.test.js && node scripts/aoe/validate-golden-scenarios.js",
     "aoe:decision": "node scripts/aoe/cli.js",
-    "aoe:validate": "node scripts/aoe/validate-golden-scenarios.js && node scripts/aoe/catalog-cli.js --validate && node scripts/aoe/validate-hardening.js",
+    "aoe:validate": "node scripts/aoe/validate-golden-scenarios.js && node scripts/aoe/catalog-cli.js --validate && node scripts/aoe/validate-hardening.js && node scripts/aoe/validate-integration.js",
     "aoe:rules": "node scripts/aoe/cli.js --list-rules",
     "aoe:catalog": "node scripts/aoe/catalog-cli.js",
     "aoe:catalog:validate": "node scripts/aoe/catalog-cli.js --validate",
@@ -56,7 +56,16 @@
     "aoe:test:review": "node --test tests/aoe/review.test.js",
     "aoe:test:adversarial": "node --test tests/aoe/adversarial.test.js",
     "aoe:adversarial": "node scripts/aoe/run-adversarial.js",
-    "aoe:validate:hardening": "node scripts/aoe/validate-hardening.js"
+    "aoe:validate:hardening": "node scripts/aoe/validate-hardening.js",
+    "aoe:app": "node scripts/aoe/app-cli.js",
+    "aoe:test:application": "node --test tests/aoe/application-service.test.js",
+    "aoe:test:idempotency": "node --test tests/aoe/idempotency.test.js",
+    "aoe:test:persistence": "node --test tests/aoe/persistence.test.js",
+    "aoe:test:authorization": "node --test tests/aoe/authorization.test.js",
+    "aoe:test:privacy": "node --test tests/aoe/privacy.test.js",
+    "aoe:test:observability": "node --test tests/aoe/observability.test.js",
+    "aoe:test:e2e": "node --test tests/aoe/application-e2e.test.js",
+    "aoe:validate:integration": "node scripts/aoe/validate-integration.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.107.0",

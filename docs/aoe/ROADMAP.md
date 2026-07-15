@@ -30,9 +30,15 @@ Entrega validacao aprofundada, explainability, reason catalog, seguranca das dec
 
 Status: concluido com explainability, risk, ambiguity, conflicts, review gate, hardening validation, golden scenarios e adversarial tests passando.
 
-## AOE v1.5 - Application Integration
+## AOE v1.5 - Application Integration Contracts
 
-Entrega contratos de integracao, application service, persistencia futura, autorizacao, idempotencia, API design e observabilidade, sem criar UI ainda.
+Entrega contratos publicos versionados, Application Service, idempotencia, persistencia em memoria, autorizacao, privacidade, auditoria, observabilidade, health check e revisao humana, sem criar API HTTP, UI ou banco real.
+
+Status: concluido com contratos publicos validos, Application Service funcional, idempotencia, persistencia em memoria, autorizacao, privacidade, observabilidade, auditoria, revisao humana e end-to-end testados.
+
+## AOE v1.6 - Integration Validation & Release Candidate
+
+Entrega validacao final, stress e performance, regressao, freeze dos contratos, manifesto, release candidate e checklist de producao.
 
 Status: proximo marco.
 

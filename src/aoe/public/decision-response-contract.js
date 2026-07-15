@@ -1,0 +1,15 @@
+export const AOEDecisionResponseV1Fields = Object.freeze([
+  "contractVersion",
+  "requestId",
+  "decisionId",
+  "status",
+  "selectedModel",
+  "alternatives",
+  "scores",
+  "classification",
+  "explanation",
+  "humanReview",
+  "versions",
+  "createdAt",
+  "links",
+]);

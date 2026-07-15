@@ -3,8 +3,8 @@
 ## Identificacao
 
 - Projeto: Aruka Optimization Engine.
-- Versao arquitetural: 1.4.0.
-- Status: Recommendation Validation & Explainability Hardening.
+- Versao arquitetural: 1.5.0.
+- Status: Application Integration Contracts.
 - Implementacao: concluida para uso local deterministico.
 - Banco: nao iniciado.
 - API: nao iniciada.
@@ -42,7 +42,23 @@
 | Conflict Detection | Concluido |
 | Human Review Gate | Concluido |
 | Adversarial Testing | Concluido |
-| Application Integration | Nao iniciada |
+| Application Integration Contracts | Concluido |
+| Public Contracts | Concluidos |
+| Application Service | Concluido |
+| Idempotency | Concluida |
+| Persistence Ports | Concluidos |
+| Memory Adapters | Concluidos |
+| Authorization Model | Concluido |
+| Privacy and Redaction | Concluidos |
+| Observability Contracts | Concluidos |
+| Audit Model | Concluido |
+| Human Review Workflow | Concluido |
+| End-to-End sem UI | Concluido |
+| Banco real | Nao iniciado |
+| API HTTP | Nao iniciada |
+| UI | Nao iniciada |
+| Customization | Nao iniciada |
+| Progression | Nao iniciada |
 
 ## Dependencias
 
@@ -53,4 +69,4 @@
 
 ## Proximo Marco
 
-AOE v1.5 - Application Integration Contracts.
+AOE v1.6 - Integration Validation & Release Candidate.

@@ -54,10 +54,11 @@ A medida que a APL cresce, a escolha manual entre dezenas de modelos se torna le
 | `17_EXECUTABLE_CORE` | Implementacao executavel, contratos, CLI e limites da v1.2. |
 | `18_APL_CATALOG_ADAPTER` | Adapter oficial de catalogo APL v1.3. |
 | `19_RECOMMENDATION_HARDENING` | Validacao, explicabilidade, risco e review gate v1.4. |
+| `20_APPLICATION_INTEGRATION` | Contratos publicos, Application Service, idempotencia, persistencia, privacidade, auditoria e observabilidade v1.5. |
 
 ## Estado Atual
 
-AOE v1.4 - Recommendation Validation & Explainability Hardening concluido. As decisoes agora incluem reason catalog, explicacao deterministica, risk score, ambiguidade, conflitos, Human Review Gate e validacao reforcada.
+AOE v1.5 - Application Integration Contracts concluido. A aplicacao agora possui uma fachada publica versionada, Application Service, idempotencia, autorizacao conceitual, persistencia em memoria, redaction, observabilidade, auditoria e workflow de revisao humana sem criar HTTP, UI ou banco real.
 
 ## Comandos AOE
 
@@ -70,4 +71,13 @@ npm run aoe:test:catalog
 npm run aoe:reasons
 npm run aoe:adversarial
 npm run aoe:validate:hardening
+npm run aoe:app
+npm run aoe:test:application
+npm run aoe:test:idempotency
+npm run aoe:test:persistence
+npm run aoe:test:authorization
+npm run aoe:test:privacy
+npm run aoe:test:observability
+npm run aoe:test:e2e
+npm run aoe:validate:integration
 ```

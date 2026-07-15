@@ -1,0 +1,449 @@
+{
+  "versions": {
+    "publicContractVersion": "1.0.0",
+    "applicationServiceVersion": "1.5.0",
+    "aoeVersion": "1.5.0"
+  },
+  "total": 21,
+  "passed": 21,
+  "failed": 0,
+  "scenarios": [
+    {
+      "name": "automatic decision",
+      "passed": true,
+      "result": "RECOMMENDED"
+    },
+    {
+      "name": "decision with warnings",
+      "passed": true,
+      "result": "RECOMMENDED_WITH_WARNINGS"
+    },
+    {
+      "name": "human review required",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "additional data required",
+      "passed": true,
+      "result": "ADDITIONAL_DATA_REQUIRED"
+    },
+    {
+      "name": "no eligible model",
+      "passed": true,
+      "result": "NO_ELIGIBLE_MODEL"
+    },
+    {
+      "name": "invalid request",
+      "passed": true,
+      "result": "INVALID_REQUEST"
+    },
+    {
+      "name": "catalog unavailable health",
+      "passed": true,
+      "result": "DEGRADED"
+    },
+    {
+      "name": "idempotent retry",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "idempotency conflict",
+      "passed": true,
+      "result": "IDEMPOTENCY_CONFLICT"
+    },
+    {
+      "name": "professional authorized",
+      "passed": true,
+      "result": "RECOMMENDED"
+    },
+    {
+      "name": "student review denied",
+      "passed": true,
+      "result": "FORBIDDEN"
+    },
+    {
+      "name": "organization isolation",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "decision read",
+      "passed": true,
+      "result": "dec_0046"
+    },
+    {
+      "name": "trace read",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "review approved",
+      "passed": true,
+      "result": "APPROVED"
+    },
+    {
+      "name": "review rejected",
+      "passed": true,
+      "result": "REJECTED"
+    },
+    {
+      "name": "invalid transition",
+      "passed": true,
+      "result": "INVALID_REVIEW_TRANSITION"
+    },
+    {
+      "name": "persistence rollback",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "logs redacted",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "metrics registered",
+      "passed": true,
+      "result": true
+    },
+    {
+      "name": "audit registered",
+      "passed": true,
+      "result": true
+    }
+  ],
+  "metrics": {
+    "counters": [
+      {
+        "name": "aoe_decision_requests_total",
+        "labels": {},
+        "value": 14
+      },
+      {
+        "name": "aoe_decision_completed_total",
+        "labels": {},
+        "value": 14
+      },
+      {
+        "name": "aoe_decision_status_total",
+        "labels": {
+          "status": "RECOMMENDED"
+        },
+        "value": 7
+      },
+      {
+        "name": "aoe_selected_model_total",
+        "labels": {
+          "modelCode": "APL-M-HIP-I-ABC-BASE-01"
+        },
+        "value": 6
+      },
+      {
+        "name": "aoe_human_review_required_total",
+        "labels": {},
+        "value": 7
+      },
+      {
+        "name": "aoe_decision_status_total",
+        "labels": {
+          "status": "RECOMMENDED_WITH_WARNINGS"
+        },
+        "value": 1
+      },
+      {
+        "name": "aoe_selected_model_total",
+        "labels": {
+          "modelCode": "APL-M-HIP-I-ABCDE-EFI-01"
+        },
+        "value": 1
+      },
+      {
+        "name": "aoe_decision_status_total",
+        "labels": {
+          "status": "HUMAN_REVIEW_REQUIRED"
+        },
+        "value": 4
+      },
+      {
+        "name": "aoe_selected_model_total",
+        "labels": {
+          "modelCode": "APL-M-HIP-M-ABCDE-ESP-DELTS-01"
+        },
+        "value": 3
+      },
+      {
+        "name": "aoe_decision_status_total",
+        "labels": {
+          "status": "ADDITIONAL_DATA_REQUIRED"
+        },
+        "value": 1
+      },
+      {
+        "name": "aoe_additional_data_required_total",
+        "labels": {},
+        "value": 1
+      },
+      {
+        "name": "aoe_decision_status_total",
+        "labels": {
+          "status": "NO_ELIGIBLE_MODEL"
+        },
+        "value": 1
+      },
+      {
+        "name": "aoe_no_eligible_model_total",
+        "labels": {},
+        "value": 1
+      },
+      {
+        "name": "aoe_decision_failed_total",
+        "labels": {
+          "reason": "invalid_request"
+        },
+        "value": 1
+      },
+      {
+        "name": "aoe_idempotency_hit_total",
+        "labels": {},
+        "value": 1
+      },
+      {
+        "name": "aoe_selected_model_total",
+        "labels": {
+          "modelCode": "APL-M-HIP-I-ABCD-BASE-01"
+        },
+        "value": 1
+      },
+      {
+        "name": "aoe_selected_model_total",
+        "labels": {
+          "modelCode": "APL-M-HIP-I-ABCD-EFI-01"
+        },
+        "value": 1
+      }
+    ],
+    "observations": [
+      {
+        "name": "aoe_confidence_score",
+        "value": 89,
+        "labels": {}
+      },
+      {
+        "name": "aoe_risk_score",
+        "value": 0,
+        "labels": {}
+      },
+      {
+        "name": "aoe_decision_duration_ms",
+        "value": 5537612,
+        "labels": {}
+      },
+      {
+        "name": "aoe_confidence_score",
+        "value": 89,
+        "labels": {}
+      },
+      {
+        "name": "aoe_risk_score",
+        "value": 45,
+        "labels": {}
+      },
+      {
+        "name": "aoe_decision_duration_ms",
+        "value": 5537618,
+        "labels": {}
+      },
+      {
+        "name": "aoe_confidence_score",
+        "value": 97,
+        "labels": {}
+      },
+      {
+        "name": "aoe_risk_score",
+        "value": 15,
+        "labels": {}
+      },
+      {
+        "name": "aoe_decision_duration_ms",
+        "value": 5537624,
+        "labels": {}
+      },
+      {
+        "name": "aoe_confidence_score",
+        "value": 0,
+        "labels": {}
+      },
+      {
+        "name": "aoe_risk_score",
+        "value": 60,
+        "labels": {}
+      },
+      {
+        "name": "aoe_decision_duration_ms",
+        "value": 5537626,
+        "labels": {}
+      },
+      {
+        "name": "aoe_confidence_score",
+        "value": 0,
+        "labels": {}
+      },
+      {
+        "name": "aoe_risk_score",
+        "value": 25,
+        "labels": {}
+      },
+      {
+        "name": "aoe_decision_duration_ms",
+        "value": 5537630,
+        "labels": {}
+      },
+      {
+        "name": "aoe_confidence_score",
+        "value": 89,
+        "labels": {}
+      },
+      {
+        "name": "aoe_risk_score",
+        "value": 0,
+        "labels": {}
+      },
+      {
+        "name": "aoe_decision_duration_ms",
+        "value": 5537635,
+        "labels": {}
+      },
+      {
+        "name": "aoe_confidence_score",
+        "value": 89,
+        "labels": {}
+      },
+      {
+        "name": "aoe_risk_score",
+        "value": 0,
+        "labels": {}
+      },
+      {
+        "name": "aoe_decision_duration_ms",
+        "value": 5537642,
+        "labels": {}
+      },
+      {
+        "name": "aoe_confidence_score",
+        "value": 89,
+        "labels": {}
+      },
+      {
+        "name": "aoe_risk_score",
+        "value": 0,
+        "labels": {}
+      },
+      {
+        "name": "aoe_decision_duration_ms",
+        "value": 5537647,
+        "labels": {}
+      },
+      {
+        "name": "aoe_confidence_score",
+        "value": 89,
+        "labels": {}
+      },
+      {
+        "name": "aoe_risk_score",
+        "value": 0,
+        "labels": {}
+      },
+      {
+        "name": "aoe_decision_duration_ms",
+        "value": 5537659,
+        "labels": {}
+      },
+      {
+        "name": "aoe_confidence_score",
+        "value": 89,
+        "labels": {}
+      },
+      {
+        "name": "aoe_risk_score",
+        "value": 0,
+        "labels": {}
+      },
+      {
+        "name": "aoe_decision_duration_ms",
+        "value": 5537665,
+        "labels": {}
+      },
+      {
+        "name": "aoe_confidence_score",
+        "value": 89,
+        "labels": {}
+      },
+      {
+        "name": "aoe_risk_score",
+        "value": 0,
+        "labels": {}
+      },
+      {
+        "name": "aoe_decision_duration_ms",
+        "value": 5537674,
+        "labels": {}
+      },
+      {
+        "name": "aoe_confidence_score",
+        "value": 97,
+        "labels": {}
+      },
+      {
+        "name": "aoe_risk_score",
+        "value": 15,
+        "labels": {}
+      },
+      {
+        "name": "aoe_decision_duration_ms",
+        "value": 5537681,
+        "labels": {}
+      },
+      {
+        "name": "aoe_confidence_score",
+        "value": 84,
+        "labels": {}
+      },
+      {
+        "name": "aoe_risk_score",
+        "value": 30,
+        "labels": {}
+      },
+      {
+        "name": "aoe_decision_duration_ms",
+        "value": 5537691,
+        "labels": {}
+      },
+      {
+        "name": "aoe_confidence_score",
+        "value": 97,
+        "labels": {}
+      },
+      {
+        "name": "aoe_risk_score",
+        "value": 15,
+        "labels": {}
+      },
+      {
+        "name": "aoe_decision_duration_ms",
+        "value": 5537697,
+        "labels": {}
+      }
+    ],
+    "gauges": []
+  },
+  "limitations": [
+    "sem banco real",
+    "sem API HTTP",
+    "sem UI",
+    "sem autenticação real",
+    "repositórios em memória"
+  ],
+  "generatedAt": "2026-07-15T12:00:00.000Z"
+}

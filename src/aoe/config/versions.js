@@ -1,4 +1,4 @@
-export const AOE_VERSION = "1.4.0";
+export const AOE_VERSION = "1.5.0";
 export const RULE_CATALOG_VERSION = "1.0.0";
 export const SCORING_VERSION = "1.0.0";
 export const CONFIDENCE_VERSION = "1.0.0";
@@ -7,7 +7,6 @@ export const EXPLAINABILITY_VERSION = "1.0.0";
 export const RISK_MODEL_VERSION = "1.0.0";
 export const HUMAN_REVIEW_POLICY_VERSION = "1.0.0";
 export const VALIDATION_HARDENING_VERSION = "1.0.0";
-
 export const APL_RELEASES = Object.freeze({
   SPRINT_01: "1.0.0",
   SPRINT_02: "2.0.0",
@@ -24,6 +23,12 @@ export function getVersionRegistry() {
     riskModel: RISK_MODEL_VERSION,
     humanReviewPolicy: HUMAN_REVIEW_POLICY_VERSION,
     validationHardening: VALIDATION_HARDENING_VERSION,
+    publicContract: "1.0.0",
+    applicationService: "1.5.0",
+    persistenceContract: "1.0.0",
+    auditContract: "1.0.0",
+    observabilityContract: "1.0.0",
+    humanReviewContract: "1.0.0",
     aplReleases: { ...APL_RELEASES },
   });
 }
