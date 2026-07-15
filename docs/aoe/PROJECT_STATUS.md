@@ -1,37 +1,37 @@
 # AOE Project Status
 
-## Identificação
+## Identificacao
 
 - Projeto: Aruka Optimization Engine.
-- Versão arquitetural: 1.0.0.
-- Status: Rule Catalog & Scoring Specification.
-- Implementação: Não iniciada.
-- Banco: Não iniciado.
-- API: Não iniciada.
-- UI: Não iniciada.
+- Versao arquitetural: 1.2.0.
+- Status: Executable Decision Core.
+- Implementacao: concluida para uso local deterministico.
+- Banco: nao iniciado.
+- API: nao iniciada.
+- UI: nao iniciada.
 
 ## Marcos
 
 | Marco | Status |
 |---|---|
-| Governança | Concluído |
-| Arquitetura | Concluído |
-| Modelo de domínio | Concluído |
-| Pipeline | Concluído |
-| Catálogo de regras v1 | Concluído |
-| Scoring specification v1 | Concluído |
-| Confidence model v1 | Concluído |
-| Rule test cases | Concluído |
-| Implementação executável | Não iniciada |
-| APL Catalog Adapter | Não iniciado |
+| Governanca | Concluido |
+| Arquitetura | Concluido |
+| Modelo de dominio | Concluido |
+| Pipeline | Concluido |
+| Catalogo de regras v1 | Concluido |
+| Scoring specification v1 | Concluido |
+| Confidence model v1 | Concluido |
+| Rule test cases | Concluido |
+| Implementacao executavel | Concluido |
+| APL Catalog Adapter | Nao iniciado |
 
-## Dependências
+## Dependencias
 
 - APL Sprint 01 v1.0.0.
 - APL Sprint 02 v2.0.0.
 - AQA v1.2.1.
-- STANDARDS da APL.
+- Standards da APL.
 
-## Próximo marco
+## Proximo Marco
 
-AOE v1.2 — Executable Decision Core.
+AOE v1.3 - APL Catalog Adapter.

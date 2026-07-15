@@ -1,0 +1,67 @@
+import { ExperienceLevel, Goal, Strategy, TrainingSplit } from "../../domain/enums.js";
+
+function model(modelCode, split, strategy, frequency, minDuration, maxDuration, overrides = {}) {
+  return {
+    modelCode,
+    modelVersion: "1.0.0",
+    aplRelease: "SPRINT_02",
+    status: "Homologado",
+    homologated: true,
+    checksum: `fixture-${modelCode}`,
+    sex: "NOT_INFORMED",
+    goal: Goal.HYPERTROPHY,
+    experienceLevel: ExperienceLevel.INTERMEDIATE,
+    split,
+    strategy,
+    specializationTarget: null,
+    frequency,
+    minimumSessionDuration: minDuration,
+    maximumSessionDuration: maxDuration,
+    equipmentProfile: "FULL_GYM",
+    essentialEquipment: ["barbell", "dumbbells", "machines", "cables"],
+    adaptableEquipment: ["machines", "cables", "dumbbells"],
+    complexity: strategy === Strategy.PERFORMANCE ? 4 : 3,
+    recoveryDemand: frequency >= 5 ? "HIGH" : "MEDIUM",
+    adherenceDemand: frequency >= 5 ? "HIGH" : "MEDIUM",
+    progressionReadiness: "MEDIUM",
+    methods: strategy === Strategy.PERFORMANCE ? ["TOP_SET", "BACK_OFF"] : ["PROGRESSAO_DUPLA"],
+    metadata: { source: "AOE v1.2 fixture catalog" },
+    ...overrides,
+  };
+}
+
+export const sprint02Catalog = [
+  model("APL-M-HIP-M-ABC-BASE-01", TrainingSplit.ABC, Strategy.BASE, 3, 55, 65),
+  model("APL-M-HIP-M-ABC-PERF-01", TrainingSplit.ABC, Strategy.PERFORMANCE, 3, 60, 70),
+  model("APL-M-HIP-M-ABC-EFI-01", TrainingSplit.ABC, Strategy.EFFICIENCY, 3, 40, 50, { complexity: 2 }),
+  model("APL-M-HIP-M-ABCD-BASE-01", TrainingSplit.ABCD, Strategy.BASE, 4, 55, 65),
+  model("APL-M-HIP-M-ABCD-PERF-01", TrainingSplit.ABCD, Strategy.PERFORMANCE, 4, 60, 70),
+  model("APL-M-HIP-M-ABCD-ESP-PEITO-01", TrainingSplit.ABCD, Strategy.SPECIALIZATION, 4, 60, 70, {
+    specializationTarget: "PEITORAL",
+    complexity: 5,
+    recoveryDemand: "HIGH",
+    progressionReadiness: "HIGH",
+    methods: ["ESPECIALIZACAO_CONTROLADA"],
+  }),
+  model("APL-M-HIP-M-ABCDE-BASE-01", TrainingSplit.ABCDE, Strategy.BASE, 5, 50, 60),
+  model("APL-M-HIP-M-ABCDE-PERF-01", TrainingSplit.ABCDE, Strategy.PERFORMANCE, 5, 55, 70, { recoveryDemand: "HIGH" }),
+  model("APL-M-HIP-M-ABCDE-ESP-DELTS-01", TrainingSplit.ABCDE, Strategy.SPECIALIZATION, 5, 55, 70, {
+    specializationTarget: "DELTOIDES",
+    complexity: 5,
+    recoveryDemand: "HIGH",
+    progressionReadiness: "HIGH",
+    methods: ["ESPECIALIZACAO_CONTROLADA"],
+  }),
+  model("APL-M-HIP-M-FB-BASE-01", TrainingSplit.FULL_BODY, Strategy.BASE, 3, 50, 65, { complexity: 2 }),
+  model("APL-M-HIP-M-FB-PERF-01", TrainingSplit.FULL_BODY, Strategy.PERFORMANCE, 3, 55, 70),
+  model("APL-M-HIP-M-FB-EFI-01", TrainingSplit.FULL_BODY, Strategy.EFFICIENCY, 2, 40, 50, { complexity: 2 }),
+  model("APL-M-HIP-M-UL-BASE-01", TrainingSplit.UPPER_LOWER, Strategy.BASE, 4, 50, 65),
+  model("APL-M-HIP-M-UL-PERF-01", TrainingSplit.UPPER_LOWER, Strategy.PERFORMANCE, 4, 60, 70),
+  model("APL-M-HIP-M-UL-ESP-COSTAS-01", TrainingSplit.UPPER_LOWER, Strategy.SPECIALIZATION, 4, 60, 70, {
+    specializationTarget: "COSTAS",
+    complexity: 5,
+    recoveryDemand: "HIGH",
+    progressionReadiness: "HIGH",
+    methods: ["ESPECIALIZACAO_CONTROLADA"],
+  }),
+];

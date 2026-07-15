@@ -1,12 +1,12 @@
 # Aruka Optimization Engine
 
-## Visão
+## Visao
 
-O Aruka Optimization Engine (AOE) é o motor de decisão responsável por selecionar, justificar e validar a melhor base da Aruka Performance Library (APL) para um perfil estruturado de aluno.
+O Aruka Optimization Engine (AOE) e o motor de decisao responsavel por selecionar, justificar e validar a melhor base da Aruka Performance Library (APL) para um perfil estruturado de aluno.
 
-## Problema que resolve
+## Problema que Resolve
 
-À medida que a APL cresce, a escolha manual entre dezenas ou centenas de modelos se torna lenta, inconsistente e difícil de auditar. O AOE reduz esse atrito por meio de elegibilidade explícita, exclusões, scoring, ranking, seleção e decision trace.
+A medida que a APL cresce, a escolha manual entre dezenas de modelos se torna lenta, inconsistente e dificil de auditar. O AOE reduz esse atrito por meio de elegibilidade explicita, exclusoes, scoring, ranking, selecao e decision trace.
 
 ## Responsabilidades
 
@@ -17,66 +17,42 @@ O Aruka Optimization Engine (AOE) é o motor de decisão responsável por seleci
 - Pontuar candidatos.
 - Ranquear alternativas.
 - Selecionar a melhor base.
-- Justificar a decisão.
-- Validar a recomendação.
+- Justificar a decisao.
+- Validar a recomendacao.
 
-## O que o AOE não faz na versão 1.0
+## O que o AOE nao faz nesta fase
 
-- Não diagnostica.
-- Não substitui o profissional.
-- Não prescreve para condições médicas.
-- Não inventa modelos.
-- Não altera diretamente documentos da APL.
-- Não personaliza exercícios nesta fase.
-- Não executa progressão automática nesta fase.
+- Nao diagnostica.
+- Nao substitui o profissional.
+- Nao prescreve para condicoes medicas.
+- Nao inventa modelos.
+- Nao altera diretamente documentos da APL.
+- Nao personaliza exercicios nesta fase.
+- Nao executa progressao automatica nesta fase.
 
-## Relação entre os pilares
+## Estrutura da Documentacao
 
-| Pilar | Responsabilidade |
+| Area | Conteudo |
 |---|---|
-| APL | Base de conhecimento homologada. |
-| AOE | Motor de decisão. |
-| Aplicação Aruka | Interface, fluxo operacional e persistência. |
-
-## Estrutura da documentação
-
-| Área | Conteúdo |
-|---|---|
-| `00_GOVERNANCE` | Governança, princípios, versionamento e glossário. |
+| `00_GOVERNANCE` | Governanca, principios, versionamento e glossario. |
 | `01_ARCHITECTURE` | Arquitetura, componentes e fluxo de dados. |
-| `02_DOMAIN` | Modelo de domínio, entidades, value objects, enums e invariantes. |
-| `03_PIPELINE` | Pipeline decisório e decision trace. |
-| `04_RULES` | Sistema de regras, elegibilidade, exclusões e conflitos. |
-| `05_SCORING` | Modelo conceitual de score, pesos e normalização. |
+| `02_DOMAIN` | Modelo de dominio, entidades, value objects, enums e invariantes. |
+| `03_PIPELINE` | Pipeline decisorio e decision trace. |
+| `04_RULES` | Sistema de regras, elegibilidade, exclusoes e conflitos. |
+| `05_SCORING` | Modelo conceitual de score, pesos e normalizacao. |
 | `06_SELECTION` | Ranking, desempates e fallback. |
-| `07_CUSTOMIZATION` | Fronteiras de customização futura. |
-| `08_PROGRESSION` | Fronteiras de progressão futura. |
-| `09_VALIDATION` | Validação de recomendação e revisão humana. |
-| `10_INTEGRATION` | Integração com APL e aplicação. |
-| `11_TESTING` | Estratégia de testes e cenários de aceitação. |
+| `07_CUSTOMIZATION` | Fronteiras de customizacao futura. |
+| `08_PROGRESSION` | Fronteiras de progressao futura. |
+| `09_VALIDATION` | Validacao de recomendacao e revisao humana. |
+| `10_INTEGRATION` | Integracao com APL e aplicacao. |
+| `11_TESTING` | Estrategia de testes e cenarios de aceitacao. |
 | `12_DECISIONS` | ADRs do projeto. |
-| `13_RULE_CATALOG` | Catálogo formal de regras v1. |
-| `14_SCORING_SPEC` | Especificação formal de scoring v1. |
-| `15_CONFIDENCE` | Modelo de confidence e revisão humana. |
-| `16_RULE_TEST_CASES` | Casos de teste, golden scenarios e regressão. |
+| `13_RULE_CATALOG` | Catalogo formal de regras v1. |
+| `14_SCORING_SPEC` | Especificacao formal de scoring v1. |
+| `15_CONFIDENCE` | Modelo de confidence e revisao humana. |
+| `16_RULE_TEST_CASES` | Casos de teste, golden scenarios e regressao. |
+| `17_EXECUTABLE_CORE` | Implementacao executavel, contratos, CLI e limites da v1.2. |
 
-## Ordem recomendada de leitura
+## Estado Atual
 
-1. Arquitetura.
-2. Domínio.
-3. Pipeline.
-4. Regras.
-5. Scoring.
-6. Seleção.
-7. Validação.
-8. Integração.
-9. Testes.
-10. ADRs.
-11. Rule Catalog.
-12. Scoring Spec.
-13. Confidence.
-14. Rule Test Cases.
-
-## Estado atual
-
-AOE v1.1 — Rule Catalog & Scoring Specification concluído.
+AOE v1.2 - Executable Decision Core concluido para uso local deterministico.

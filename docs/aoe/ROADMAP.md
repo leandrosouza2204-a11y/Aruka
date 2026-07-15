@@ -1,59 +1,49 @@
 # AOE Roadmap
 
-## AOE v1.0 — Architecture & Domain Model
+## AOE v1.0 - Architecture & Domain Model
 
-Entrega governança, arquitetura, domínio, pipeline, contratos conceituais e ADRs.
+Entrega governanca, arquitetura, dominio, pipeline, contratos conceituais e ADRs.
 
-Entrada: APL Sprint 01 e Sprint 02 homologadas.  
-Saída: constituição técnica suficiente para especificar regras e scoring.
+Status: concluido.
 
-## AOE v1.1 — Rule Catalog & Scoring Specification
+## AOE v1.1 - Rule Catalog & Scoring Specification
 
-Entrega catálogo de regras, critérios, pesos, exclusões, conflitos e cenários de aceitação.
+Entrega catalogo de regras, criterios, pesos, exclusoes, conflitos e cenarios de aceitacao.
 
-Entrada: arquitetura v1 aprovada.  
-Saída: regras testáveis e pesos calibráveis.
+Status: concluido.
 
-Status: concluído.
+## AOE v1.2 - Executable Decision Core
 
-## AOE v1.2 — Executable Decision Core
+Entrega implementacao JavaScript, motor deterministico, contratos de entrada e saida, fixtures, testes unitarios, golden scenarios, decision trace e CLI.
 
-Entrega implementação em TypeScript ou JavaScript, motor determinístico, modelos de entrada e saída, testes unitários e fixtures.
+Status: concluido.
 
-Entrada: catálogo aprovado, regras versionadas, scoring definido, confidence definido, 100+ test cases, golden scenarios e domínio estável.
-Saída: motor executável, contratos, regras implementadas, testes automatizados, decision trace e CLI de validação.
+## AOE v1.3 - APL Catalog Adapter
 
-## AOE v1.3 — APL Catalog Adapter
+Entrega leitura do catalogo APL, normalizacao dos modelos, sincronizacao e versionamento.
 
-Entrega leitura do catálogo APL, normalização dos modelos, sincronização e versionamento.
+Status: proximo marco.
 
-Entrada: catálogo APL definido.  
-Saída: catálogo normalizado consumível pelo motor.
+## AOE v1.4 - Recommendation Validation
 
-## AOE v1.4 — Recommendation Validation
+Entrega validacao expandida da selecao, warnings, revisao humana e explicabilidade operacional.
 
-Entrega validação da seleção, warnings, revisão humana e explicabilidade.
+Status: planejado.
 
-Entrada: motor executável e catálogo normalizado.  
-Saída: recomendação validada com decision trace.
+## AOE v1.5 - Application Integration
 
-## AOE v1.5 — Application Integration
+Entrega servico de aplicacao, persistencia, API e integracao com Aruka.
 
-Entrega serviço de aplicação, persistência, API e integração com Aruka.
+Status: planejado.
 
-Entrada: núcleo validado.  
-Saída: uso operacional pela aplicação.
+## AOE v2.0 - Customization Engine
 
-## AOE v2.0 — Customization Engine
+Entrega substituicao de exercicios, ajuste de volume, ajuste por equipamento e restricoes individuais.
 
-Entrega substituição de exercícios, ajuste de volume, ajuste por equipamento e restrições individuais.
+Status: planejado.
 
-Entrada: seleção confiável e catálogo expandido.  
-Saída: adaptação controlada sem inventar modelos.
+## AOE v3.0 - Progression Engine
 
-## AOE v3.0 — Progression Engine
+Entrega evolucao de carga, mudanca de modelo, deload, reavaliacao e aprendizado com feedback.
 
-Entrega evolução de carga, mudança de modelo, deload, reavaliação e aprendizado com feedback.
-
-Entrada: histórico de execução e validação profissional.  
-Saída: progressão controlada e auditável.
+Status: planejado.
