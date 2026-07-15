@@ -1,0 +1,12 @@
+{
+  "status": "INDETERMINADO",
+  "environment": {
+    "status": "INDETERMINADO",
+    "requestedEnvironment": "local",
+    "nodeVersion": "v24.16.0",
+    "supabaseCliAvailable": false,
+    "supabaseCliVersion": null,
+    "supabaseConfigPresent": false,
+    "productionBlocked": false
+  }
+}

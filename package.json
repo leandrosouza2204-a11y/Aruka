@@ -82,7 +82,15 @@
     "aoe:test:boundary": "node --test tests/aoe/infrastructure/boundary.test.js",
     "aoe:test:infra-idempotency": "node --test tests/aoe/infrastructure/migration-static.test.js tests/aoe/infrastructure/repositories.test.js",
     "aoe:test:pilot": "node --test tests/aoe/infrastructure/pilot.test.js",
-    "aoe:validate:infrastructure": "node scripts/aoe/infra-cli.js --all --environment=local"
+    "aoe:validate:infrastructure": "node scripts/aoe/infra-cli.js --all --environment=local",
+    "aoe:infra:build-catalog": "node scripts/aoe/infrastructure/build-runtime-catalog.js",
+    "aoe:infra:build-function": "node scripts/aoe/infrastructure/build-edge-function.js",
+    "aoe:test:infra-runtime": "node --test tests/aoe/infrastructure-activation/*.test.js",
+    "aoe:test:rls-runtime": "node --test tests/aoe/infrastructure-activation/runtime-skips.test.js",
+    "aoe:test:edge-runtime": "node --test tests/aoe/infrastructure-activation/edge-runtime.test.js",
+    "aoe:test:database-idempotency": "node --test tests/aoe/infrastructure-activation/runtime-skips.test.js",
+    "aoe:test:staging-smoke": "node --test tests/aoe/infrastructure-activation/runtime-skips.test.js",
+    "aoe:validate:activation": "node scripts/aoe/activation-cli.js --all-runtime --environment=local"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.107.0",

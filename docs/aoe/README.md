@@ -57,10 +57,11 @@ A medida que a APL cresce, a escolha manual entre dezenas de modelos se torna le
 | `20_APPLICATION_INTEGRATION` | Contratos publicos, Application Service, idempotencia, persistencia, privacidade, auditoria e observabilidade v1.5. |
 | `21_RELEASE_CANDIDATE` | Validacao consolidada, freeze de contratos e AOE v1.0.0-rc.1. |
 | `22_INFRASTRUCTURE_PILOT` | Adaptadores Supabase, migrations, RLS, boundary e base de piloto v1.7. |
+| `23_INFRASTRUCTURE_ACTIVATION` | Ativacao local/staging, catalogo runtime e validacao de ambiente v1.7.1. |
 
 ## Estado Atual
 
-AOE v1.7 - Infrastructure Adapters & Pilot Foundation concluido com status READY_WITH_INFRASTRUCTURE_RESTRICTIONS. O RC segue preservado, com migrations, RLS, adaptadores Supabase, boundary server-side, feature flags e runbooks prontos para validação em staging.
+AOE v1.7.1 - Infrastructure Activation & Staging Validation concluido com status NOT_READY porque o ambiente Supabase local/staging nao esta comprovado neste workspace. Catalogo runtime e validacoes offline foram preparados sem alterar producao.
 
 ## Comandos AOE
 
@@ -99,4 +100,12 @@ npm run aoe:test:boundary
 npm run aoe:test:infra-idempotency
 npm run aoe:test:pilot
 npm run aoe:validate:infrastructure
+npm run aoe:infra:build-catalog
+npm run aoe:infra:build-function
+npm run aoe:test:infra-runtime
+npm run aoe:test:rls-runtime
+npm run aoe:test:edge-runtime
+npm run aoe:test:database-idempotency
+npm run aoe:test:staging-smoke
+npm run aoe:validate:activation
 ```

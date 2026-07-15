@@ -4,7 +4,7 @@
 
 - Projeto: Aruka Optimization Engine.
 - Versao arquitetural: 1.7.0.
-- Status: Infrastructure Adapters & Pilot Foundation READY_WITH_INFRASTRUCTURE_RESTRICTIONS.
+- Status: Infrastructure Activation & Staging Validation NOT_READY.
 - Implementacao: concluida para uso local deterministico.
 - Banco: nao iniciado.
 - API: nao iniciada.
@@ -75,6 +75,18 @@
 | Infrastructure Audit | Concluida |
 | Feature Flags | Concluidas |
 | Pilot Foundation | Concluida |
+| Infrastructure Activation | Parcial |
+| Migration Runtime Validation | Pendente |
+| Runtime RLS Validation | Pendente |
+| Edge Runtime Integration | Pendente |
+| Catalog Runtime Bundle | Concluido |
+| Database Idempotency Validation | Pendente |
+| Runtime Authentication | Pendente |
+| Runtime Authorization | Pendente |
+| Runtime Persistence | Pendente |
+| Runtime Audit | Pendente |
+| Runtime Privacy | Pendente |
+| Controlled Pilot Readiness | NOT_READY |
 | Production Deployment | Nao executado |
 | Pilot Execution | Nao iniciado |
 | Banco real | Nao iniciado |
@@ -92,4 +104,4 @@
 
 ## Proximo Marco
 
-AOE v1.8 - Controlled Integration Pilot.
+Saneamento das restricoes de ativacao v1.7.1 antes do AOE v1.8.

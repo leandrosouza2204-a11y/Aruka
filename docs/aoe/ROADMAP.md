@@ -48,6 +48,12 @@ Entrega adaptadores reais de banco, API, autenticacao, observabilidade real e pi
 
 Status: concluido com restricoes de infraestrutura: migrations e Edge Function criadas, sem deploy e sem aplicação em banco real nesta tarefa.
 
+## AOE v1.7.1 - Infrastructure Activation & Staging Validation
+
+Entrega deteccao de ambiente, catalogo runtime pre-compilado, validacoes offline e relatorios de ativacao.
+
+Status: NOT_READY porque Supabase CLI e `supabase/config.toml` nao estao disponiveis no workspace; validacao runtime deve ocorrer antes do v1.8.
+
 ## AOE v1.8 - Controlled Integration Pilot
 
 Entrega deploy em staging, usuarios piloto, decisoes controladas, revisao humana real, metricas, feedback e decisao sobre release final.

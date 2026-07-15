@@ -1,0 +1,156 @@
+{
+  "status": "NOT_READY",
+  "environment": {
+    "status": "INDETERMINADO",
+    "requestedEnvironment": "local",
+    "nodeVersion": "v24.16.0",
+    "supabaseCliAvailable": false,
+    "supabaseCliVersion": null,
+    "supabaseConfigPresent": false,
+    "productionBlocked": false
+  },
+  "catalog": {
+    "status": "PASS",
+    "output": "supabase/functions/aoe/generated/apl-catalog.generated.ts",
+    "models": 30,
+    "releases": 2,
+    "checksumsValid": 30,
+    "aggregateChecksum": "f9f25915288445b5331b2b0611ad527b1020fb8ef5583dcba6ce55c4053628ca"
+  },
+  "blockers": [
+    "Ambiente Supabase local/staging não comprovado."
+  ],
+  "restrictions": [
+    "Supabase CLI indisponível ou supabase/config.toml ausente.",
+    "Migration runtime, RLS runtime, Edge runtime e smoke tests foram pulados."
+  ],
+  "runtimeReports": {
+    "environment": {
+      "status": "INDETERMINADO",
+      "environment": {
+        "status": "INDETERMINADO",
+        "requestedEnvironment": "local",
+        "nodeVersion": "v24.16.0",
+        "supabaseCliAvailable": false,
+        "supabaseCliVersion": null,
+        "supabaseConfigPresent": false,
+        "productionBlocked": false
+      }
+    },
+    "database": {
+      "status": "SKIPPED",
+      "environment": {
+        "status": "INDETERMINADO",
+        "requestedEnvironment": "local",
+        "nodeVersion": "v24.16.0",
+        "supabaseCliAvailable": false,
+        "supabaseCliVersion": null,
+        "supabaseConfigPresent": false,
+        "productionBlocked": false
+      },
+      "reason": "Database runtime unavailable.",
+      "passed": false
+    },
+    "rls": {
+      "status": "SKIPPED",
+      "environment": {
+        "status": "INDETERMINADO",
+        "requestedEnvironment": "local",
+        "nodeVersion": "v24.16.0",
+        "supabaseCliAvailable": false,
+        "supabaseCliVersion": null,
+        "supabaseConfigPresent": false,
+        "productionBlocked": false
+      },
+      "reason": "RLS runtime unavailable.",
+      "passed": false
+    },
+    "edge": {
+      "status": "SKIPPED",
+      "environment": {
+        "status": "INDETERMINADO",
+        "requestedEnvironment": "local",
+        "nodeVersion": "v24.16.0",
+        "supabaseCliAvailable": false,
+        "supabaseCliVersion": null,
+        "supabaseConfigPresent": false,
+        "productionBlocked": false
+      },
+      "reason": "Edge runtime unavailable.",
+      "passed": false
+    },
+    "idempotency": {
+      "status": "SKIPPED",
+      "environment": {
+        "status": "INDETERMINADO",
+        "requestedEnvironment": "local",
+        "nodeVersion": "v24.16.0",
+        "supabaseCliAvailable": false,
+        "supabaseCliVersion": null,
+        "supabaseConfigPresent": false,
+        "productionBlocked": false
+      },
+      "reason": "PostgreSQL runtime unavailable.",
+      "passed": false
+    },
+    "auth": {
+      "status": "SKIPPED",
+      "environment": {
+        "status": "INDETERMINADO",
+        "requestedEnvironment": "local",
+        "nodeVersion": "v24.16.0",
+        "supabaseCliAvailable": false,
+        "supabaseCliVersion": null,
+        "supabaseConfigPresent": false,
+        "productionBlocked": false
+      },
+      "reason": "Supabase auth runtime unavailable.",
+      "passed": false
+    },
+    "persistence": {
+      "status": "SKIPPED",
+      "environment": {
+        "status": "INDETERMINADO",
+        "requestedEnvironment": "local",
+        "nodeVersion": "v24.16.0",
+        "supabaseCliAvailable": false,
+        "supabaseCliVersion": null,
+        "supabaseConfigPresent": false,
+        "productionBlocked": false
+      },
+      "reason": "Database runtime unavailable.",
+      "passed": false
+    },
+    "privacy": {
+      "status": "SKIPPED",
+      "environment": {
+        "status": "INDETERMINADO",
+        "requestedEnvironment": "local",
+        "nodeVersion": "v24.16.0",
+        "supabaseCliAvailable": false,
+        "supabaseCliVersion": null,
+        "supabaseConfigPresent": false,
+        "productionBlocked": false
+      },
+      "reason": "Runtime tables unavailable.",
+      "passed": false
+    },
+    "smoke": {
+      "status": "SKIPPED",
+      "environment": {
+        "status": "INDETERMINADO",
+        "requestedEnvironment": "local",
+        "nodeVersion": "v24.16.0",
+        "supabaseCliAvailable": false,
+        "supabaseCliVersion": null,
+        "supabaseConfigPresent": false,
+        "productionBlocked": false
+      },
+      "reason": "Staging/local runtime unavailable.",
+      "passed": false
+    }
+  },
+  "productionChanged": false,
+  "migrationApplied": false,
+  "edgeFunctionExecuted": false
+}
