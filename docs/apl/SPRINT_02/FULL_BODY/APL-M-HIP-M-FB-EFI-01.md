@@ -107,9 +107,9 @@ Combinar quadríceps, peitoral e costas em sessão global recuperável.
 | Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | Agachamento Livre | 1 + 2 | 5-8 + 8-10 | 1-2 | 150 s | Top Set + Back-off | Profundidade consistente e tronco estável. |
-| 1 | Supino Reto Barra | 1 + 2 | 6-8 + 8-10 | 1-2 | 120-150 s | Top Set + Back-off | Top set técnico; back-offs com carga reduzida. |
+| 2 | Supino Reto Barra | 1 + 2 | 6-8 + 8-10 | 1-2 | 120-150 s | Top Set + Back-off | Top set técnico; back-offs com carga reduzida. |
 | 3 | Puxada Alta Neutra | 3 | 8-12 | 2 | 90 s | Tradicional | Depressão escapular antes da puxada. |
-| 7 | Prancha | 3 | 30-45 s | 2 | 45 s | Tradicional | Manter pelve neutra. |
+| 4 | Prancha | 3 | 30-45 s | 2 | 45 s | Tradicional | Manter pelve neutra. |
 
 #### Justificativa
 
@@ -125,9 +125,9 @@ Priorizar costas e cadeia posterior mantendo empurrar complementar.
 
 | Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2 | Terra Romeno | 3 | 8-10 | 2 | 120 s | Tradicional | Quadril para trás e coluna neutra. |
-| 1 | Barra Fixa | 1 + 2 | 5-8 + 8-10 | 1-2 | 120 s | Top Set + Back-off | Usar assistência se necessário para manter amplitude. |
-| 2 | Supino Inclinado Halteres | 3 | 8-10 | 2 | 90 s | Tradicional | Amplitude controlada e escápulas estáveis. |
+| 1 | Terra Romeno | 3 | 8-10 | 2 | 120 s | Tradicional | Quadril para trás e coluna neutra. |
+| 2 | Barra Fixa | 1 + 2 | 5-8 + 8-10 | 1-2 | 120 s | Top Set + Back-off | Usar assistência se necessário para manter amplitude. |
+| 3 | Supino Inclinado Halteres | 3 | 8-10 | 2 | 90 s | Tradicional | Amplitude controlada e escápulas estáveis. |
 | 4 | Face Pull | 3 | 12-15 | 2 | 60 s | Tradicional | Priorizar deltoide posterior e escápulas. |
 
 #### Justificativa
@@ -144,10 +144,10 @@ Fechar a semana com volume moderado e baixo risco articular.
 
 | Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 3 | Leg Press | 3 | 10-12 | 2 | 90 s | Tradicional | Amplitude sem retroversão pélvica. |
+| 1 | Leg Press | 3 | 10-12 | 2 | 90 s | Tradicional | Amplitude sem retroversão pélvica. |
 | 2 | Remada Curvada Barra | 3 | 6-10 | 2 | 120 s | Tradicional | Tronco firme e trajetória consistente. |
-| 4 | Desenvolvimento Halteres | 3 | 8-10 | 2 | 90 s | Tradicional | Evitar compensação lombar. |
-| 6 | Panturrilha em Pé | 4 | 8-12 | 2 | 60 s | Tradicional | Pausa curta no alongamento. |
+| 3 | Desenvolvimento Halteres | 3 | 8-10 | 2 | 90 s | Tradicional | Evitar compensação lombar. |
+| 4 | Panturrilha em Pé | 4 | 8-12 | 2 | 60 s | Tradicional | Pausa curta no alongamento. |
 
 #### Justificativa
 

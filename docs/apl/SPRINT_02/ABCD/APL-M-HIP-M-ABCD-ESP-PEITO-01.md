@@ -111,7 +111,7 @@ Concentrar empurrar horizontal com complemento direto de tríceps.
 | 2 | Supino Inclinado Halteres | 3 | 8-10 | 2 | 90 s | Tradicional | Amplitude controlada e escápulas estáveis. |
 | 3 | Crucifixo Crossover | 2 | 12-15 | 2 | 60 s | Tradicional | Foco em alongamento sem perder controle. |
 | 4 | Peck Deck | 2 | 12-15 | 1-2 | 60 s | Drop Set | Aplicar somente na última série. |
-| 6 | Tríceps Corda | 3 | 10-12 | 2 | 60 s | Tradicional | Cotovelos estáveis. |
+| 5 | Tríceps Corda | 3 | 10-12 | 2 | 60 s | Tradicional | Cotovelos estáveis. |
 
 #### Justificativa
 
@@ -148,10 +148,10 @@ Priorizar joelho, panturrilhas e estabilidade de tronco.
 | Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | Agachamento Livre | 1 + 2 | 5-8 + 8-10 | 1-2 | 150 s | Top Set + Back-off | Profundidade consistente e tronco estável. |
-| 3 | Leg Press | 3 | 10-12 | 2 | 90 s | Tradicional | Amplitude sem retroversão pélvica. |
-| 4 | Cadeira Extensora | 2 | 12-15 | 2 | 60 s | Tradicional | Pico de contração controlado. |
-| 6 | Panturrilha em Pé | 4 | 8-12 | 2 | 60 s | Tradicional | Pausa curta no alongamento. |
-| 7 | Prancha | 3 | 30-45 s | 2 | 45 s | Tradicional | Manter pelve neutra. |
+| 2 | Leg Press | 3 | 10-12 | 2 | 90 s | Tradicional | Amplitude sem retroversão pélvica. |
+| 3 | Cadeira Extensora | 2 | 12-15 | 2 | 60 s | Tradicional | Pico de contração controlado. |
+| 4 | Panturrilha em Pé | 4 | 8-12 | 2 | 60 s | Tradicional | Pausa curta no alongamento. |
+| 5 | Prancha | 3 | 30-45 s | 2 | 45 s | Tradicional | Manter pelve neutra. |
 
 #### Justificativa
 
@@ -169,9 +169,9 @@ Adicionar estímulo complementar de peitoral sem exceder recuperação dos ombro
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | Supino Inclinado Máquina | 3 | 8-10 | 2 | 90 s | Tradicional | Estável e controlado. |
 | 2 | Crossover Baixo | 3 | 12-15 | 2 | 60 s | Tradicional | Foco em encurtamento. |
-| 4 | Desenvolvimento Halteres | 3 | 8-10 | 2 | 90 s | Tradicional | Evitar compensação lombar. |
-| 5 | Elevação Lateral Polia | 3 | 12-15 | 2 | 60 s | Tradicional | Manter tensão contínua. |
-| 7 | Prancha | 3 | 30-45 s | 2 | 45 s | Tradicional | Manter pelve neutra. |
+| 3 | Desenvolvimento Halteres | 3 | 8-10 | 2 | 90 s | Tradicional | Evitar compensação lombar. |
+| 4 | Elevação Lateral Polia | 3 | 12-15 | 2 | 60 s | Tradicional | Manter tensão contínua. |
+| 5 | Prancha | 3 | 30-45 s | 2 | 45 s | Tradicional | Manter pelve neutra. |
 
 #### Justificativa
 

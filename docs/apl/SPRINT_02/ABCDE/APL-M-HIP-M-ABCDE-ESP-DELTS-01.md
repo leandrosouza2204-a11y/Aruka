@@ -146,11 +146,11 @@ Especializar deltoides com prioridade para lateral e posterior.
 
 | Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 4 | Desenvolvimento Halteres | 3 | 8-10 | 2 | 90 s | Tradicional | Evitar compensação lombar. |
-| 5 | Elevação Lateral Polia | 3 | 12-15 | 2 | 60 s | Tradicional | Manter tensão contínua. |
+| 1 | Desenvolvimento Halteres | 3 | 8-10 | 2 | 90 s | Tradicional | Evitar compensação lombar. |
+| 2 | Elevação Lateral Polia | 3 | 12-15 | 2 | 60 s | Tradicional | Manter tensão contínua. |
 | 3 | Elevação Lateral Máquina | 2 | 12-15 | 1-2 | 60 s | Drop Set | Aplicar somente na última série. |
 | 4 | Face Pull | 3 | 12-15 | 2 | 60 s | Tradicional | Priorizar deltoide posterior e escápulas. |
-| 7 | Prancha | 3 | 30-45 s | 2 | 45 s | Tradicional | Manter pelve neutra. |
+| 5 | Prancha | 3 | 30-45 s | 2 | 45 s | Tradicional | Manter pelve neutra. |
 
 #### Justificativa
 
@@ -187,10 +187,10 @@ Adicionar contato leve de deltoide lateral junto a braços.
 
 | Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 6 | Tríceps Corda | 3 | 10-12 | 2 | 60 s | Tradicional | Cotovelos estáveis. |
-| 5 | Rosca Direta Barra W | 3 | 8-12 | 2 | 60-75 s | Tradicional | Evitar balanço do tronco. |
+| 1 | Tríceps Corda | 3 | 10-12 | 2 | 60 s | Tradicional | Cotovelos estáveis. |
+| 2 | Rosca Direta Barra W | 3 | 8-12 | 2 | 60-75 s | Tradicional | Evitar balanço do tronco. |
 | 3 | Elevação Lateral Cabo | 2 | 15-20 | 2 | 45 s | Tradicional | Contato metabólico leve. |
-| 6 | Panturrilha em Pé | 4 | 8-12 | 2 | 60 s | Tradicional | Pausa curta no alongamento. |
+| 4 | Panturrilha em Pé | 4 | 8-12 | 2 | 60 s | Tradicional | Pausa curta no alongamento. |
 
 #### Justificativa
 

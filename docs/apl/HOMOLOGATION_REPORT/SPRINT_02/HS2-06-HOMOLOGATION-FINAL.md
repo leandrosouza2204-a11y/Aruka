@@ -24,7 +24,7 @@ Foram avaliados 15 modelos intermediários distribuídos nos blocos ABC, ABCD, A
 | Fase | Resultado |
 |---|---|
 | HS2-01 Estrutura e Conformidade | Aprovado |
-| HS2-02 Coerência Técnica | Aprovado com ressalvas |
+| HS2-02 Coerência Técnica | Aprovado |
 | HS2-03 Identidade dos Blocos | Aprovado |
 | HS2-04 Evolução Sprint 01 → Sprint 02 | Aprovado |
 | HS2-05 Adequação ao Intermediário | Aprovado |
@@ -42,47 +42,54 @@ A Sprint 02 demonstra evolução real sobre a Sprint 01: maior autonomia, maior 
 | ABC | Eficiência | 89 | 88 | 89 | Homologado |
 | ABCD | Base | 93 | 92 | 93 | Homologado |
 | ABCD | Performance | 91 | 92 | 91 | Homologado |
-| ABCD | Especialização Peitoral | 88 | 91 | 88 | Homologado com ressalva |
+| ABCD | Especialização Peitoral | 89 | 91 | 89 | Homologado |
 | ABCDE | Base | 90 | 91 | 90 | Homologado |
 | ABCDE | Performance | 90 | 91 | 90 | Homologado |
-| ABCDE | Especialização Deltoides | 87 | 90 | 87 | Homologado com ressalva |
+| ABCDE | Especialização Deltoides | 88 | 90 | 88 | Homologado |
 | Full Body | Base | 91 | 90 | 91 | Homologado |
 | Full Body | Performance | 90 | 91 | 90 | Homologado |
 | Full Body | Eficiência | 88 | 88 | 88 | Homologado |
 | Upper/Lower | Base | 92 | 91 | 92 | Homologado |
 | Upper/Lower | Performance | 91 | 91 | 91 | Homologado |
-| Upper/Lower | Especialização Costas | 87 | 90 | 87 | Homologado com ressalva |
+| Upper/Lower | Especialização Costas | 88 | 90 | 88 | Homologado |
 
 ## 7. Ressalvas
 
-- Há sessões com coluna `Ordem` preenchida, porém não sequencial ou repetida. A prescrição permanece compreensível, mas a padronização operacional deve ser saneada antes do freeze.
-- As especializações devem reforçar critérios de saída e monitoramento articular no ciclo de saneamento.
-- As tabelas de volume podem ganhar maior granularidade por modelo sem alterar a identidade técnica.
+0 ressalvas humanas abertas.
+
+Histórico: a Sprint 02 foi inicialmente homologada com ressalvas por inconsistência operacional na coluna `Ordem` de algumas tabelas de prescrição. A ressalva foi saneada sem alterar exercícios, séries, repetições, RIR, descanso, métodos ou observações.
 
 ## 8. Correções obrigatórias
 
-Não há correções obrigatórias para homologação. As correções são exigidas apenas como condição para freeze.
+Não há correções obrigatórias abertas.
 
 ## 9. Correções recomendadas
 
-- Normalizar a numeração da coluna `Ordem` por sessão em todos os modelos afetados.
 - Detalhar mais explicitamente volume prioritário e volume de manutenção nas especializações.
 - Reforçar monitoramento de ombro, cotovelo, bíceps, pegada e lombar nos modelos especializados.
 
 ## 10. Decisão final
 
-HOMOLOGADA COM RESSALVAS.
+HOMOLOGADA.
 
 ## 11. Condições para saneamento
 
-- Não alterar AQA nem STANDARDS.
-- Ajustar apenas documentação da Sprint 02.
-- Manter AQA Sprint 02 com 0 findings após saneamento.
-- Preservar identidade dos 15 modelos.
+Saneamento concluído. Sprint 02 permanece com AQA PASSED e 0 findings.
 
 ## 12. Condições para freeze
 
-- Ressalvas sanadas.
 - AQA Sprint 02 PASSED com 0 findings.
 - Nenhuma inconsistência técnica crítica aberta.
 - Registro de freeze criado em tarefa própria.
+
+## Saneamento das ressalvas pós-homologação
+
+| Item | Resultado |
+|---|---|
+| Modelos analisados | 15 |
+| Sessões analisadas | 57 |
+| Tabelas de prescrição analisadas | 57 |
+| Sequências inválidas antes | 38 |
+| Sequências inválidas depois | 0 |
+| Especializações revisadas | Peitoral, Deltoides e Costas |
+| Ressalvas humanas abertas | 0 |

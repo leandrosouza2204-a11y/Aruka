@@ -108,9 +108,9 @@ Concentrar compostos de tronco com alta qualidade técnica.
 | Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | Supino Reto Barra | 1 + 2 | 6-8 + 8-10 | 1-2 | 120-150 s | Top Set + Back-off | Top set técnico; back-offs com carga reduzida. |
-| 1 | Barra Fixa | 1 + 2 | 5-8 + 8-10 | 1-2 | 120 s | Top Set + Back-off | Usar assistência se necessário para manter amplitude. |
-| 2 | Supino Inclinado Halteres | 3 | 8-10 | 2 | 90 s | Tradicional | Amplitude controlada e escápulas estáveis. |
-| 2 | Remada Curvada Barra | 3 | 6-10 | 2 | 120 s | Tradicional | Tronco firme e trajetória consistente. |
+| 2 | Barra Fixa | 1 + 2 | 5-8 + 8-10 | 1-2 | 120 s | Top Set + Back-off | Usar assistência se necessário para manter amplitude. |
+| 3 | Supino Inclinado Halteres | 3 | 8-10 | 2 | 90 s | Tradicional | Amplitude controlada e escápulas estáveis. |
+| 4 | Remada Curvada Barra | 3 | 6-10 | 2 | 120 s | Tradicional | Tronco firme e trajetória consistente. |
 | 5 | Elevação Lateral Polia | 3 | 12-15 | 2 | 60 s | Tradicional | Manter tensão contínua. |
 | 6 | Tríceps Corda | 3 | 10-12 | 2 | 60 s | Tradicional | Cotovelos estáveis. |
 
@@ -129,10 +129,10 @@ Priorizar joelho, panturrilhas e core.
 | Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | Agachamento Livre | 1 + 2 | 5-8 + 8-10 | 1-2 | 150 s | Top Set + Back-off | Profundidade consistente e tronco estável. |
-| 3 | Leg Press | 3 | 10-12 | 2 | 90 s | Tradicional | Amplitude sem retroversão pélvica. |
-| 4 | Cadeira Extensora | 2 | 12-15 | 2 | 60 s | Tradicional | Pico de contração controlado. |
-| 6 | Panturrilha em Pé | 4 | 8-12 | 2 | 60 s | Tradicional | Pausa curta no alongamento. |
-| 7 | Prancha | 3 | 30-45 s | 2 | 45 s | Tradicional | Manter pelve neutra. |
+| 2 | Leg Press | 3 | 10-12 | 2 | 90 s | Tradicional | Amplitude sem retroversão pélvica. |
+| 3 | Cadeira Extensora | 2 | 12-15 | 2 | 60 s | Tradicional | Pico de contração controlado. |
+| 4 | Panturrilha em Pé | 4 | 8-12 | 2 | 60 s | Tradicional | Pausa curta no alongamento. |
+| 5 | Prancha | 3 | 30-45 s | 2 | 45 s | Tradicional | Manter pelve neutra. |
 
 #### Justificativa
 
@@ -148,9 +148,9 @@ Dar segundo contato de tronco com ênfase em costas e deltoides.
 
 | Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 3 | Puxada Alta Neutra | 3 | 8-12 | 2 | 90 s | Tradicional | Depressão escapular antes da puxada. |
+| 1 | Puxada Alta Neutra | 3 | 8-12 | 2 | 90 s | Tradicional | Depressão escapular antes da puxada. |
 | 2 | Remada Curvada Barra | 3 | 6-10 | 2 | 120 s | Tradicional | Tronco firme e trajetória consistente. |
-| 4 | Desenvolvimento Halteres | 3 | 8-10 | 2 | 90 s | Tradicional | Evitar compensação lombar. |
+| 3 | Desenvolvimento Halteres | 3 | 8-10 | 2 | 90 s | Tradicional | Evitar compensação lombar. |
 | 4 | Face Pull | 3 | 12-15 | 2 | 60 s | Tradicional | Priorizar deltoide posterior e escápulas. |
 | 5 | Rosca Direta Barra W | 3 | 8-12 | 2 | 60-75 s | Tradicional | Evitar balanço do tronco. |
 
@@ -168,10 +168,10 @@ Treinar cadeia posterior e completar membros inferiores.
 
 | Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2 | Terra Romeno | 3 | 8-10 | 2 | 120 s | Tradicional | Quadril para trás e coluna neutra. |
-| 5 | Mesa Flexora | 3 | 10-15 | 2 | 60-75 s | Tradicional | Controle excêntrico. |
+| 1 | Terra Romeno | 3 | 8-10 | 2 | 120 s | Tradicional | Quadril para trás e coluna neutra. |
+| 2 | Mesa Flexora | 3 | 10-15 | 2 | 60-75 s | Tradicional | Controle excêntrico. |
 | 3 | Elevação Pélvica | 3 | 8-12 | 2 | 90 s | Tradicional | Contração máxima sem compensar lombar. |
-| 6 | Panturrilha em Pé | 4 | 8-12 | 2 | 60 s | Tradicional | Pausa curta no alongamento. |
+| 4 | Panturrilha em Pé | 4 | 8-12 | 2 | 60 s | Tradicional | Pausa curta no alongamento. |
 
 #### Justificativa
 

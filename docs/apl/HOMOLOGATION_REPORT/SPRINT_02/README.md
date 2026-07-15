@@ -1,6 +1,6 @@
 # Homologação Técnica Humana — Sprint 02
 
-**Status:** Homologação técnica concluída — homologada com ressalvas  
+**Status:** Homologação técnica concluída — homologada
 **Biblioteca:** Aruka Performance Library  
 **Sprint:** Sprint 02  
 **Baseline comparativa:** Sprint 01 v1.0.0
@@ -14,11 +14,11 @@ Documentar a homologação técnica humana da Sprint 02, avaliando conformidade 
 | Fase | Documento | Finalidade | Resultado |
 |---|---|---|---|
 | HS2-01 | `HS2-01-ESTRUTURA-E-CONFORMIDADE.md` | Validar estrutura, inventário e AQA | Aprovado |
-| HS2-02 | `HS2-02-COERENCIA-TECNICA.md` | Avaliar coerência técnica dos 15 modelos | Aprovado com ressalvas |
+| HS2-02 | `HS2-02-COERENCIA-TECNICA.md` | Avaliar coerência técnica dos 15 modelos | Aprovado |
 | HS2-03 | `HS2-03-IDENTIDADE-DOS-BLOCOS.md` | Confirmar identidade dos cinco blocos | Aprovado |
 | HS2-04 | `HS2-04-EVOLUCAO-SPRINT01-SPRINT02.md` | Comparar Sprint 01 e Sprint 02 | Aprovado |
 | HS2-05 | `HS2-05-ADEQUACAO-AO-INTERMEDIARIO.md` | Pontuar adequação ao nível intermediário | Aprovado |
-| HS2-06 | `HS2-06-HOMOLOGATION-FINAL.md` | Consolidar decisão final | Homologada com ressalvas |
+| HS2-06 | `HS2-06-HOMOLOGATION-FINAL.md` | Consolidar decisão final | Homologada |
 
 ## Relação com a Sprint 01
 
@@ -31,7 +31,7 @@ A Sprint 01 é usada como baseline oficial de padrão Premium e público inician
 - Todos os modelos com nota mínima acima de 80.
 - Evolução sobre Sprint 01 confirmada.
 - Especializações tecnicamente coerentes.
-- Ressalvas registradas antes do freeze.
+- Ressalvas humanas sanadas antes do freeze.
 
 ## Ordem de leitura
 

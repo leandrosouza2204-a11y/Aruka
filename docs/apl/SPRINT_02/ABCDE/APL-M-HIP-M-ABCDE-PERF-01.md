@@ -146,10 +146,10 @@ Construir deltoides com controle de ombro e estabilidade central.
 
 | Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 4 | Desenvolvimento Halteres | 3 | 8-10 | 2 | 90 s | Tradicional | Evitar compensação lombar. |
+| 1 | Desenvolvimento Halteres | 3 | 8-10 | 2 | 90 s | Tradicional | Evitar compensação lombar. |
 | 2 | Elevação Lateral Polia | 2 | 12-15 | 1-2 | 60 s | Rest-Pause | Aplicar somente na última série. |
-| 4 | Face Pull | 3 | 12-15 | 2 | 60 s | Tradicional | Priorizar deltoide posterior e escápulas. |
-| 7 | Prancha | 3 | 30-45 s | 2 | 45 s | Tradicional | Manter pelve neutra. |
+| 3 | Face Pull | 3 | 12-15 | 2 | 60 s | Tradicional | Priorizar deltoide posterior e escápulas. |
+| 4 | Prancha | 3 | 30-45 s | 2 | 45 s | Tradicional | Manter pelve neutra. |
 
 #### Justificativa
 
@@ -186,10 +186,10 @@ Completar volume direto de bíceps, tríceps e panturrilhas.
 
 | Ordem | Exercício | Séries | Repetições | RIR | Descanso | Método | Observações |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 6 | Tríceps Corda | 3 | 10-12 | 2 | 60 s | Tradicional | Cotovelos estáveis. |
-| 5 | Rosca Direta Barra W | 3 | 8-12 | 2 | 60-75 s | Tradicional | Evitar balanço do tronco. |
+| 1 | Tríceps Corda | 3 | 10-12 | 2 | 60 s | Tradicional | Cotovelos estáveis. |
+| 2 | Rosca Direta Barra W | 3 | 8-12 | 2 | 60-75 s | Tradicional | Evitar balanço do tronco. |
 | 3 | Rosca Inclinado Halteres | 2 | 10-12 | 2 | 60 s | Tradicional | Alongamento controlado. |
-| 6 | Panturrilha em Pé | 4 | 8-12 | 2 | 60 s | Tradicional | Pausa curta no alongamento. |
+| 4 | Panturrilha em Pé | 4 | 8-12 | 2 | 60 s | Tradicional | Pausa curta no alongamento. |
 
 #### Justificativa
 
