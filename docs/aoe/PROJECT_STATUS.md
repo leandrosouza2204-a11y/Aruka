@@ -3,8 +3,8 @@
 ## Identificacao
 
 - Projeto: Aruka Optimization Engine.
-- Versao arquitetural: 1.5.0.
-- Status: Application Integration Contracts.
+- Versao arquitetural: 1.6.0.
+- Status: AOE v1.0.0-rc.1 READY_FOR_RC.
 - Implementacao: concluida para uso local deterministico.
 - Banco: nao iniciado.
 - API: nao iniciada.
@@ -54,8 +54,17 @@
 | Audit Model | Concluido |
 | Human Review Workflow | Concluido |
 | End-to-End sem UI | Concluido |
+| Integration Validation | Concluida |
+| Full Regression | Concluida |
+| Performance Validation | Concluida |
+| Concurrency Validation | Concluida |
+| Security Validation | Concluida |
+| Privacy Validation | Concluida |
+| Public Contract Freeze | Concluido |
+| RC Manifest | Concluido |
+| Release Candidate | READY_FOR_RC |
 | Banco real | Nao iniciado |
-| API HTTP | Nao iniciada |
+| HTTP API | Nao iniciada |
 | UI | Nao iniciada |
 | Customization | Nao iniciada |
 | Progression | Nao iniciada |
@@ -69,4 +78,4 @@
 
 ## Proximo Marco
 
-AOE v1.6 - Integration Validation & Release Candidate.
+AOE v1.0 - Release Candidate Integration Pilot.

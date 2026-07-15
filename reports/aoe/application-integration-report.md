@@ -1,8 +1,8 @@
 # Application Integration
 
-- Versão pública: 1.0.0
-- Application Service: 1.5.0
-- AOE: 1.5.0
+- Versão pública: 1.0.0-rc.1
+- Application Service: 1.6.0
+- AOE: 1.6.0
 - Cenários: 21/21
 - Falhas: 0
 

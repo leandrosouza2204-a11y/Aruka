@@ -17,14 +17,14 @@ export async function orchestrateDecision({ request, context, dependencies, vers
   const auth = authorizationPolicy.authorize({ actor: request.actor, action: AuthorizationAction.REQUEST_DECISION, resource: { organizationId: request.actor.organizationId ?? null } });
   if (!auth.allowed) throw new AOEAuthorizationError("Ator não autorizado a solicitar decisão.");
   const idem = createIdempotencyService({ repository: repositories.idempotencyRepository, clock });
-  const idemCheck = await idem.check({ request, operation: "REQUEST_DECISION" });
+  const idemCheck = await idem.reserve({ request, operation: "REQUEST_DECISION" });
   if (idemCheck.hit) {
     metrics.increment("aoe_idempotency_hit_total");
     logger.info({ event: ObservabilityEvent.AOE_DECISION_IDEMPOTENT_HIT, ...logBase, status: idemCheck.response.status });
     return idemCheck.response;
   }
 
-  await idem.start({ key: idemCheck.key, operation: "REQUEST_DECISION", actorId: request.actor.actorId, requestFingerprint: idemCheck.requestFingerprint });
+  if (!idemCheck.created) await idem.start({ key: idemCheck.key, operation: "REQUEST_DECISION", actorId: request.actor.actorId, requestFingerprint: idemCheck.requestFingerprint });
   auditRecorder.record(createAuditEvent({
     idGenerator,
     type: AuditEventType.DECISION_REQUESTED,

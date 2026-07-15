@@ -5,9 +5,9 @@ import { makeRequest, makeService } from "./application-test-helpers.js";
 test("application service returns versioned public response", async () => {
   const { service } = makeService();
   const response = await service.requestDecision(makeRequest());
-  assert.equal(response.contractVersion, "1.0.0");
-  assert.equal(response.applicationServiceVersion, "1.5.0");
-  assert.equal(response.aoeVersion, "1.5.0");
+  assert.equal(response.contractVersion, "1.0.0-rc.1");
+  assert.equal(response.applicationServiceVersion, "1.6.0");
+  assert.equal(response.aoeVersion, "1.6.0");
   assert.ok(response.decisionId.startsWith("dec_"));
   assert.equal("decisionTrace" in response, false);
 });

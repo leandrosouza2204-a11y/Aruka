@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOEErrorResponseV1",
+  "contractVersion": "1.0.0-rc.1",
+  "type": "object",
+  "required": ["contractVersion", "requestId", "status", "error", "createdAt"],
+  "properties": {
+    "status": { "const": "ERROR" },
+    "error": {
+      "type": "object",
+      "required": ["code", "message", "details", "retryable"]
+    }
+  }
+}

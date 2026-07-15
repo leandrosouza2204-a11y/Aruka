@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOEHumanReviewRequestV1",
+  "contractVersion": "1.0.0-rc.1",
+  "type": "object",
+  "required": ["contractVersion", "requestId", "idempotencyKey", "actor", "reviewId", "decision", "checklist"],
+  "properties": {
+    "contractVersion": { "const": "1.0.0-rc.1" },
+    "decision": { "enum": ["APPROVED", "APPROVED_WITH_ADJUSTMENTS", "REJECTED", "ADDITIONAL_INFORMATION_REQUIRED", "PENDING"] },
+    "notes": { "type": "string", "maxLength": 500 }
+  }
+}

@@ -40,6 +40,12 @@ Status: concluido com contratos publicos validos, Application Service funcional,
 
 Entrega validacao final, stress e performance, regressao, freeze dos contratos, manifesto, release candidate e checklist de producao.
 
+Status: concluido com decisao READY_FOR_RC para AOE v1.0.0-rc.1.
+
+## AOE v1.7 - Integration Pilot / Infrastructure Adapters
+
+Entrega adaptadores reais de banco, API, autenticacao, observabilidade real e piloto controlado, mantendo UI ampla fora do escopo inicial.
+
 Status: proximo marco.
 
 ## AOE v2.0 - Customization Engine

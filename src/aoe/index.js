@@ -14,3 +14,7 @@ export * from "./security/index.js";
 export * from "./observability/index.js";
 export * from "./audit/index.js";
 export * from "./idempotency/index.js";
+export * from "./release/index.js";
+export * from "./performance/index.js";
+export * from "./concurrency/index.js";
+export * from "./validation/integration/index.js";

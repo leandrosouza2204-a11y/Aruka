@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOEHumanReviewResponseV1",
+  "contractVersion": "1.0.0-rc.1",
+  "type": "object",
+  "required": ["contractVersion", "requestId", "reviewId", "decisionId", "status", "blocking", "completedAt", "nextActions"]
+}

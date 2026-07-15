@@ -114,7 +114,7 @@ async function run() {
   scenarios.push(await runScenario("audit registered", async () => ctx.auditRecorder.events().length > 0));
 
   const summary = {
-    versions: { publicContractVersion: "1.0.0", applicationServiceVersion: "1.5.0", aoeVersion: "1.5.0" },
+    versions: { publicContractVersion: "1.0.0-rc.1", applicationServiceVersion: "1.6.0", aoeVersion: "1.6.0" },
     total: scenarios.length,
     passed: scenarios.filter((item) => item.passed).length,
     failed: scenarios.filter((item) => !item.passed).length,

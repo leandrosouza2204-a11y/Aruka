@@ -17,6 +17,7 @@ const STUDENT_KEYS = new Set([
   "adherence",
   "specializationInterest",
 ]);
+const DANGEROUS_KEYS = new Set(["__proto__", "prototype", "constructor"]);
 
 function isPlainObject(value) {
   return value && typeof value === "object" && !Array.isArray(value);
@@ -27,6 +28,16 @@ function containsFunction(value, seen = new WeakSet()) {
   if (seen.has(value)) return false;
   seen.add(value);
   return Object.values(value).some((item) => typeof item === "function" || containsFunction(item, seen));
+}
+
+function findDangerousKeys(value, path = "$", findings = [], seen = new WeakSet()) {
+  if (!value || typeof value !== "object" || seen.has(value)) return findings;
+  seen.add(value);
+  for (const key of Object.keys(value)) {
+    if (DANGEROUS_KEYS.has(key)) findings.push(`${path}.${key}`);
+    findDangerousKeys(value[key], `${path}.${key}`, findings, seen);
+  }
+  return findings;
 }
 
 function add(errors, field, message) {
@@ -57,6 +68,7 @@ export function validateDecisionRequestV1(request) {
   const errors = [];
   if (!isPlainObject(request)) return { valid: false, errors: [{ field: "$", message: "request must be an object" }] };
   if (containsFunction(request)) add(errors, "$", "functions are not allowed");
+  for (const field of findDangerousKeys(request)) add(errors, field, "dangerous property is not allowed");
   if (request.contractVersion !== PUBLIC_CONTRACT_VERSION) add(errors, "contractVersion", "unsupported contract version");
   stringField(errors, request.requestId, "requestId", 1, 100);
   stringField(errors, request.idempotencyKey, "idempotencyKey", 8, 200);

@@ -1,0 +1,787 @@
+{
+  "baseline": "1.0.0-rc.1",
+  "items": [
+    {
+      "id": "beginner-3d-60-full-gym",
+      "sha256": "ff56a939a8b26afde52fa4877fc1e338143bb916225b9d47c0b383bd0b96b639",
+      "stable": {
+        "status": "RECOMMENDED",
+        "selectedModel": "APL-M-HIP-I-ABC-BASE-01",
+        "alternatives": [
+          "APL-M-HIP-I-ABC-EFI-01",
+          "APL-M-HIP-I-FB-BASE-01"
+        ],
+        "scores": {
+          "compatibility": 97.4,
+          "raw": 97.4,
+          "confidence": 89,
+          "risk": 0
+        },
+        "classifications": {
+          "confidence": "MEDIUM",
+          "risk": "LOW",
+          "ambiguity": "NONE"
+        },
+        "reasonCodes": [
+          "FREQUENCY_INSUFFICIENT",
+          "RECOVERY_INSUFFICIENT",
+          "SPECIALIZATION_PREREQUISITE_MISSING",
+          "LEVEL_TOO_LOW"
+        ],
+        "humanReviewRequired": false,
+        "versions": {
+          "aoe": "1.6.0",
+          "ruleCatalog": "1.0.0",
+          "scoring": "1.0.0",
+          "confidence": "1.0.0",
+          "catalogAdapter": "1.3.0",
+          "explainability": "1.0.0",
+          "riskModel": "1.0.0",
+          "humanReviewPolicy": "1.0.0",
+          "validationHardening": "1.0.0",
+          "publicContract": "1.0.0-rc.1",
+          "applicationService": "1.6.0",
+          "persistenceContract": "1.0.0",
+          "auditContract": "1.0.0",
+          "observabilityContract": "1.0.0",
+          "humanReviewContract": "1.0.0",
+          "aplReleases": {
+            "SPRINT_01": "1.0.0",
+            "SPRINT_02": "2.0.0"
+          }
+        }
+      }
+    },
+    {
+      "id": "beginner-4d-high-adherence",
+      "sha256": "a6c817cc9ab4347c7dd991f5bcce862ad1bbcbfcd8c14cfdac37bddfc300c112",
+      "stable": {
+        "status": "RECOMMENDED",
+        "selectedModel": "APL-M-HIP-I-ABCD-BASE-01",
+        "alternatives": [
+          "APL-M-HIP-I-ABCD-EFI-01",
+          "APL-M-HIP-I-UL-BASE-01"
+        ],
+        "scores": {
+          "compatibility": 99.4,
+          "raw": 99.4,
+          "confidence": 89,
+          "risk": 0
+        },
+        "classifications": {
+          "confidence": "MEDIUM",
+          "risk": "LOW",
+          "ambiguity": "NONE"
+        },
+        "reasonCodes": [
+          "FREQUENCY_INSUFFICIENT",
+          "RECOVERY_INSUFFICIENT",
+          "SPECIALIZATION_PREREQUISITE_MISSING",
+          "LEVEL_TOO_LOW"
+        ],
+        "humanReviewRequired": false,
+        "versions": {
+          "aoe": "1.6.0",
+          "ruleCatalog": "1.0.0",
+          "scoring": "1.0.0",
+          "confidence": "1.0.0",
+          "catalogAdapter": "1.3.0",
+          "explainability": "1.0.0",
+          "riskModel": "1.0.0",
+          "humanReviewPolicy": "1.0.0",
+          "validationHardening": "1.0.0",
+          "publicContract": "1.0.0-rc.1",
+          "applicationService": "1.6.0",
+          "persistenceContract": "1.0.0",
+          "auditContract": "1.0.0",
+          "observabilityContract": "1.0.0",
+          "humanReviewContract": "1.0.0",
+          "aplReleases": {
+            "SPRINT_01": "1.0.0",
+            "SPRINT_02": "2.0.0"
+          }
+        }
+      }
+    },
+    {
+      "id": "beginner-5d-low-adherence",
+      "sha256": "b2532c2197976c9384a4a41a702f083813d568d0926ed161ef5da94fc36ed0fb",
+      "stable": {
+        "status": "RECOMMENDED_WITH_WARNINGS",
+        "selectedModel": "APL-M-HIP-I-ABCDE-EFI-01",
+        "alternatives": [
+          "APL-M-HIP-I-FB-EFI-01",
+          "APL-M-HIP-I-ABCD-EFI-01"
+        ],
+        "scores": {
+          "compatibility": 77.9,
+          "raw": 92.9,
+          "confidence": 89,
+          "risk": 45
+        },
+        "classifications": {
+          "confidence": "MEDIUM",
+          "risk": "MODERATE",
+          "ambiguity": "NONE"
+        },
+        "reasonCodes": [
+          "RECOVERY_AT_LIMIT",
+          "ADHERENCE_RISK",
+          "MULTIPLE_WARNINGS",
+          "DURATION_INSUFFICIENT",
+          "RECOVERY_INSUFFICIENT",
+          "SPECIALIZATION_PREREQUISITE_MISSING",
+          "LEVEL_TOO_LOW",
+          "PREFERENCE_MISMATCH"
+        ],
+        "humanReviewRequired": true,
+        "versions": {
+          "aoe": "1.6.0",
+          "ruleCatalog": "1.0.0",
+          "scoring": "1.0.0",
+          "confidence": "1.0.0",
+          "catalogAdapter": "1.3.0",
+          "explainability": "1.0.0",
+          "riskModel": "1.0.0",
+          "humanReviewPolicy": "1.0.0",
+          "validationHardening": "1.0.0",
+          "publicContract": "1.0.0-rc.1",
+          "applicationService": "1.6.0",
+          "persistenceContract": "1.0.0",
+          "auditContract": "1.0.0",
+          "observabilityContract": "1.0.0",
+          "humanReviewContract": "1.0.0",
+          "aplReleases": {
+            "SPRINT_01": "1.0.0",
+            "SPRINT_02": "2.0.0"
+          }
+        }
+      }
+    },
+    {
+      "id": "intermediate-3d-performance",
+      "sha256": "f78dfaf6d7770a130c692fabf740b1cf08645c535ea6355127dfcb18fcfe5f5a",
+      "stable": {
+        "status": "RECOMMENDED_WITH_WARNINGS",
+        "selectedModel": "APL-M-HIP-M-ABC-PERF-01",
+        "alternatives": [
+          "APL-M-HIP-I-ABC-PERF-01",
+          "APL-M-HIP-I-ABC-EFI-01"
+        ],
+        "scores": {
+          "compatibility": 90,
+          "raw": 95,
+          "confidence": 89,
+          "risk": 15
+        },
+        "classifications": {
+          "confidence": "MEDIUM",
+          "risk": "LOW",
+          "ambiguity": "NONE"
+        },
+        "reasonCodes": [
+          "RECOVERY_AT_LIMIT",
+          "FREQUENCY_INSUFFICIENT",
+          "RECOVERY_INSUFFICIENT",
+          "SPECIALIZATION_PREREQUISITE_MISSING"
+        ],
+        "humanReviewRequired": true,
+        "versions": {
+          "aoe": "1.6.0",
+          "ruleCatalog": "1.0.0",
+          "scoring": "1.0.0",
+          "confidence": "1.0.0",
+          "catalogAdapter": "1.3.0",
+          "explainability": "1.0.0",
+          "riskModel": "1.0.0",
+          "humanReviewPolicy": "1.0.0",
+          "validationHardening": "1.0.0",
+          "publicContract": "1.0.0-rc.1",
+          "applicationService": "1.6.0",
+          "persistenceContract": "1.0.0",
+          "auditContract": "1.0.0",
+          "observabilityContract": "1.0.0",
+          "humanReviewContract": "1.0.0",
+          "aplReleases": {
+            "SPRINT_01": "1.0.0",
+            "SPRINT_02": "2.0.0"
+          }
+        }
+      }
+    },
+    {
+      "id": "intermediate-5d-delts-specialization",
+      "sha256": "649e0f6f905af447337c3a8d7c1b1ee7306fad8db60fab7b8f80308de7a9c4f6",
+      "stable": {
+        "status": "HUMAN_REVIEW_REQUIRED",
+        "selectedModel": "APL-M-HIP-M-ABCDE-ESP-DELTS-01",
+        "alternatives": [
+          "APL-M-HIP-M-ABCDE-BASE-01",
+          "APL-M-HIP-M-ABCDE-PERF-01"
+        ],
+        "scores": {
+          "compatibility": 97.45,
+          "raw": 97.45,
+          "confidence": 97,
+          "risk": 15
+        },
+        "classifications": {
+          "confidence": "HIGH",
+          "risk": "LOW",
+          "ambiguity": "NONE"
+        },
+        "reasonCodes": [
+          "HUMAN_REVIEW_REQUIRED",
+          "SPECIALIZATION_PREREQUISITE_MISSING"
+        ],
+        "humanReviewRequired": true,
+        "versions": {
+          "aoe": "1.6.0",
+          "ruleCatalog": "1.0.0",
+          "scoring": "1.0.0",
+          "confidence": "1.0.0",
+          "catalogAdapter": "1.3.0",
+          "explainability": "1.0.0",
+          "riskModel": "1.0.0",
+          "humanReviewPolicy": "1.0.0",
+          "validationHardening": "1.0.0",
+          "publicContract": "1.0.0-rc.1",
+          "applicationService": "1.6.0",
+          "persistenceContract": "1.0.0",
+          "auditContract": "1.0.0",
+          "observabilityContract": "1.0.0",
+          "humanReviewContract": "1.0.0",
+          "aplReleases": {
+            "SPRINT_01": "1.0.0",
+            "SPRINT_02": "2.0.0"
+          }
+        }
+      }
+    },
+    {
+      "id": "intermediate-4d-costas-specialization",
+      "sha256": "054b137690127590f325aff047a64bb8aedd7b257fdda27de516035c953eb1e6",
+      "stable": {
+        "status": "HUMAN_REVIEW_REQUIRED",
+        "selectedModel": "APL-M-HIP-M-UL-ESP-COSTAS-01",
+        "alternatives": [
+          "APL-M-HIP-M-UL-BASE-01",
+          "APL-M-HIP-M-UL-PERF-01"
+        ],
+        "scores": {
+          "compatibility": 95.45,
+          "raw": 95.45,
+          "confidence": 92,
+          "risk": 15
+        },
+        "classifications": {
+          "confidence": "HIGH",
+          "risk": "LOW",
+          "ambiguity": "NONE"
+        },
+        "reasonCodes": [
+          "HUMAN_REVIEW_REQUIRED",
+          "FREQUENCY_INSUFFICIENT",
+          "SPECIALIZATION_PREREQUISITE_MISSING"
+        ],
+        "humanReviewRequired": true,
+        "versions": {
+          "aoe": "1.6.0",
+          "ruleCatalog": "1.0.0",
+          "scoring": "1.0.0",
+          "confidence": "1.0.0",
+          "catalogAdapter": "1.3.0",
+          "explainability": "1.0.0",
+          "riskModel": "1.0.0",
+          "humanReviewPolicy": "1.0.0",
+          "validationHardening": "1.0.0",
+          "publicContract": "1.0.0-rc.1",
+          "applicationService": "1.6.0",
+          "persistenceContract": "1.0.0",
+          "auditContract": "1.0.0",
+          "observabilityContract": "1.0.0",
+          "humanReviewContract": "1.0.0",
+          "aplReleases": {
+            "SPRINT_01": "1.0.0",
+            "SPRINT_02": "2.0.0"
+          }
+        }
+      }
+    },
+    {
+      "id": "intermediate-40-min",
+      "sha256": "7298c8179efec112a2499bd7c9ea42ae395cada6ce7042c4f5dcc5999130b024",
+      "stable": {
+        "status": "HUMAN_REVIEW_REQUIRED",
+        "selectedModel": "APL-M-HIP-I-ABC-EFI-01",
+        "alternatives": [
+          "APL-M-HIP-M-ABC-EFI-01",
+          "APL-M-HIP-I-FB-EFI-01"
+        ],
+        "scores": {
+          "compatibility": 77.7,
+          "raw": 80.7,
+          "confidence": 84,
+          "risk": 40
+        },
+        "classifications": {
+          "confidence": "MEDIUM",
+          "risk": "MODERATE",
+          "ambiguity": "MODERATE"
+        },
+        "reasonCodes": [
+          "TIME_AT_LIMIT",
+          "TIE_UNRESOLVED",
+          "DURATION_INSUFFICIENT",
+          "FREQUENCY_INSUFFICIENT",
+          "RECOVERY_INSUFFICIENT",
+          "SPECIALIZATION_PREREQUISITE_MISSING",
+          "AMBIGUOUS_SELECTION"
+        ],
+        "humanReviewRequired": true,
+        "versions": {
+          "aoe": "1.6.0",
+          "ruleCatalog": "1.0.0",
+          "scoring": "1.0.0",
+          "confidence": "1.0.0",
+          "catalogAdapter": "1.3.0",
+          "explainability": "1.0.0",
+          "riskModel": "1.0.0",
+          "humanReviewPolicy": "1.0.0",
+          "validationHardening": "1.0.0",
+          "publicContract": "1.0.0-rc.1",
+          "applicationService": "1.6.0",
+          "persistenceContract": "1.0.0",
+          "auditContract": "1.0.0",
+          "observabilityContract": "1.0.0",
+          "humanReviewContract": "1.0.0",
+          "aplReleases": {
+            "SPRINT_01": "1.0.0",
+            "SPRINT_02": "2.0.0"
+          }
+        }
+      }
+    },
+    {
+      "id": "limited-equipment",
+      "sha256": "67eaed1b7ce66ce449cce11cf03d7235c3d5ffb26680932908e40f447785ddd9",
+      "stable": {
+        "status": "HUMAN_REVIEW_REQUIRED",
+        "selectedModel": "APL-M-HIP-I-ABC-EFI-01",
+        "alternatives": [
+          "APL-M-HIP-I-ABC-BASE-01",
+          "APL-M-HIP-I-FB-BASE-01"
+        ],
+        "scores": {
+          "compatibility": 90,
+          "raw": 94,
+          "confidence": 84,
+          "risk": 50
+        },
+        "classifications": {
+          "confidence": "MEDIUM",
+          "risk": "HIGH",
+          "ambiguity": "MODERATE"
+        },
+        "reasonCodes": [
+          "EQUIPMENT_ADAPTATION_REQUIRED",
+          "TIE_UNRESOLVED",
+          "FREQUENCY_INSUFFICIENT",
+          "RECOVERY_INSUFFICIENT",
+          "SPECIALIZATION_PREREQUISITE_MISSING",
+          "LEVEL_TOO_LOW",
+          "HIGH_DECISION_RISK",
+          "AMBIGUOUS_SELECTION",
+          "PREFERENCE_MISMATCH"
+        ],
+        "humanReviewRequired": true,
+        "versions": {
+          "aoe": "1.6.0",
+          "ruleCatalog": "1.0.0",
+          "scoring": "1.0.0",
+          "confidence": "1.0.0",
+          "catalogAdapter": "1.3.0",
+          "explainability": "1.0.0",
+          "riskModel": "1.0.0",
+          "humanReviewPolicy": "1.0.0",
+          "validationHardening": "1.0.0",
+          "publicContract": "1.0.0-rc.1",
+          "applicationService": "1.6.0",
+          "persistenceContract": "1.0.0",
+          "auditContract": "1.0.0",
+          "observabilityContract": "1.0.0",
+          "humanReviewContract": "1.0.0",
+          "aplReleases": {
+            "SPRINT_01": "1.0.0",
+            "SPRINT_02": "2.0.0"
+          }
+        }
+      }
+    },
+    {
+      "id": "full-body-preference",
+      "sha256": "b7be4b3a123fe6df6305467f8b4c85d136f886a06da96a5ccefcf1924038eb2d",
+      "stable": {
+        "status": "RECOMMENDED",
+        "selectedModel": "APL-M-HIP-I-FB-BASE-01",
+        "alternatives": [
+          "APL-M-HIP-I-ABC-BASE-01",
+          "APL-M-HIP-I-FB-PERF-01"
+        ],
+        "scores": {
+          "compatibility": 97.4,
+          "raw": 97.4,
+          "confidence": 89,
+          "risk": 0
+        },
+        "classifications": {
+          "confidence": "MEDIUM",
+          "risk": "LOW",
+          "ambiguity": "NONE"
+        },
+        "reasonCodes": [
+          "FREQUENCY_INSUFFICIENT",
+          "RECOVERY_INSUFFICIENT",
+          "SPECIALIZATION_PREREQUISITE_MISSING",
+          "LEVEL_TOO_LOW"
+        ],
+        "humanReviewRequired": false,
+        "versions": {
+          "aoe": "1.6.0",
+          "ruleCatalog": "1.0.0",
+          "scoring": "1.0.0",
+          "confidence": "1.0.0",
+          "catalogAdapter": "1.3.0",
+          "explainability": "1.0.0",
+          "riskModel": "1.0.0",
+          "humanReviewPolicy": "1.0.0",
+          "validationHardening": "1.0.0",
+          "publicContract": "1.0.0-rc.1",
+          "applicationService": "1.6.0",
+          "persistenceContract": "1.0.0",
+          "auditContract": "1.0.0",
+          "observabilityContract": "1.0.0",
+          "humanReviewContract": "1.0.0",
+          "aplReleases": {
+            "SPRINT_01": "1.0.0",
+            "SPRINT_02": "2.0.0"
+          }
+        }
+      }
+    },
+    {
+      "id": "preference-incompatible-frequency",
+      "sha256": "34fb0d4d130bc98e1e3374a96876df0fbfec8cf432741a5e4d838eaeb4f566fc",
+      "stable": {
+        "status": "HUMAN_REVIEW_REQUIRED",
+        "selectedModel": "APL-M-HIP-I-ABC-EFI-01",
+        "alternatives": [
+          "APL-M-HIP-I-FB-BASE-01",
+          "APL-M-HIP-I-ABC-BASE-01"
+        ],
+        "scores": {
+          "compatibility": 92.1,
+          "raw": 94.1,
+          "confidence": 84,
+          "risk": 70
+        },
+        "classifications": {
+          "confidence": "MEDIUM",
+          "risk": "HIGH",
+          "ambiguity": "HIGH"
+        },
+        "reasonCodes": [
+          "PREFERENCE_MISMATCH",
+          "TIE_UNRESOLVED",
+          "FREQUENCY_INSUFFICIENT",
+          "RECOVERY_INSUFFICIENT",
+          "SPECIALIZATION_PREREQUISITE_MISSING",
+          "LEVEL_TOO_LOW",
+          "HIGH_DECISION_RISK",
+          "AMBIGUOUS_SELECTION",
+          "CRITICAL_CONSTRAINT",
+          "CONFLICTING_INPUTS"
+        ],
+        "humanReviewRequired": true,
+        "versions": {
+          "aoe": "1.6.0",
+          "ruleCatalog": "1.0.0",
+          "scoring": "1.0.0",
+          "confidence": "1.0.0",
+          "catalogAdapter": "1.3.0",
+          "explainability": "1.0.0",
+          "riskModel": "1.0.0",
+          "humanReviewPolicy": "1.0.0",
+          "validationHardening": "1.0.0",
+          "publicContract": "1.0.0-rc.1",
+          "applicationService": "1.6.0",
+          "persistenceContract": "1.0.0",
+          "auditContract": "1.0.0",
+          "observabilityContract": "1.0.0",
+          "humanReviewContract": "1.0.0",
+          "aplReleases": {
+            "SPRINT_01": "1.0.0",
+            "SPRINT_02": "2.0.0"
+          }
+        }
+      }
+    },
+    {
+      "id": "low-recovery",
+      "sha256": "f219e471d93682cbe8f92460c4347f6dd7e42e74581582f6035be226b0d68c40",
+      "stable": {
+        "status": "RECOMMENDED_WITH_WARNINGS",
+        "selectedModel": "APL-M-HIP-I-ABCD-EFI-01",
+        "alternatives": [
+          "APL-M-HIP-I-UL-BASE-01",
+          "APL-M-HIP-I-FB-EFI-01"
+        ],
+        "scores": {
+          "compatibility": 77.85,
+          "raw": 89.85,
+          "confidence": 89,
+          "risk": 30
+        },
+        "classifications": {
+          "confidence": "MEDIUM",
+          "risk": "MODERATE",
+          "ambiguity": "LOW"
+        },
+        "reasonCodes": [
+          "RECOVERY_AT_LIMIT",
+          "PREFERENCE_MISMATCH",
+          "MULTIPLE_WARNINGS",
+          "RECOVERY_INSUFFICIENT",
+          "SPECIALIZATION_PREREQUISITE_MISSING",
+          "LEVEL_TOO_LOW",
+          "DURATION_INSUFFICIENT"
+        ],
+        "humanReviewRequired": true,
+        "versions": {
+          "aoe": "1.6.0",
+          "ruleCatalog": "1.0.0",
+          "scoring": "1.0.0",
+          "confidence": "1.0.0",
+          "catalogAdapter": "1.3.0",
+          "explainability": "1.0.0",
+          "riskModel": "1.0.0",
+          "humanReviewPolicy": "1.0.0",
+          "validationHardening": "1.0.0",
+          "publicContract": "1.0.0-rc.1",
+          "applicationService": "1.6.0",
+          "persistenceContract": "1.0.0",
+          "auditContract": "1.0.0",
+          "observabilityContract": "1.0.0",
+          "humanReviewContract": "1.0.0",
+          "aplReleases": {
+            "SPRINT_01": "1.0.0",
+            "SPRINT_02": "2.0.0"
+          }
+        }
+      }
+    },
+    {
+      "id": "missing-critical-data",
+      "sha256": "b3c857ca46bee84b8231613b96aba62f115a81346ec719b2d6eff4e58231afc0",
+      "stable": {
+        "status": "ADDITIONAL_DATA_REQUIRED",
+        "selectedModel": null,
+        "alternatives": [],
+        "scores": {
+          "compatibility": 0,
+          "raw": 0,
+          "confidence": 0,
+          "risk": 60
+        },
+        "classifications": {
+          "confidence": "LOW",
+          "risk": "HIGH",
+          "ambiguity": "LOW"
+        },
+        "reasonCodes": [
+          "MISSING_DATA",
+          "LOW_CONFIDENCE",
+          "HIGH_DECISION_RISK"
+        ],
+        "humanReviewRequired": true,
+        "versions": {
+          "aoe": "1.6.0",
+          "ruleCatalog": "1.0.0",
+          "scoring": "1.0.0",
+          "confidence": "1.0.0",
+          "catalogAdapter": "1.3.0",
+          "explainability": "1.0.0",
+          "riskModel": "1.0.0",
+          "humanReviewPolicy": "1.0.0",
+          "validationHardening": "1.0.0",
+          "publicContract": "1.0.0-rc.1",
+          "applicationService": "1.6.0",
+          "persistenceContract": "1.0.0",
+          "auditContract": "1.0.0",
+          "observabilityContract": "1.0.0",
+          "humanReviewContract": "1.0.0",
+          "aplReleases": {
+            "SPRINT_01": "1.0.0",
+            "SPRINT_02": "2.0.0"
+          }
+        }
+      }
+    },
+    {
+      "id": "technical-tie",
+      "sha256": "92b4c351b20d5e141430a96d3557924372835c1fbe0a281ee4c59fc2329da99f",
+      "stable": {
+        "status": "HUMAN_REVIEW_REQUIRED",
+        "selectedModel": "APL-M-HIP-I-ABCD-EFI-01",
+        "alternatives": [
+          "APL-M-HIP-I-UL-BASE-01",
+          "APL-M-HIP-I-ABCD-BASE-01"
+        ],
+        "scores": {
+          "compatibility": 95.3,
+          "raw": 95.3,
+          "confidence": 84,
+          "risk": 30
+        },
+        "classifications": {
+          "confidence": "MEDIUM",
+          "risk": "MODERATE",
+          "ambiguity": "MODERATE"
+        },
+        "reasonCodes": [
+          "TIE_UNRESOLVED",
+          "FREQUENCY_INSUFFICIENT",
+          "RECOVERY_INSUFFICIENT",
+          "SPECIALIZATION_PREREQUISITE_MISSING",
+          "LEVEL_TOO_LOW",
+          "AMBIGUOUS_SELECTION"
+        ],
+        "humanReviewRequired": true,
+        "versions": {
+          "aoe": "1.6.0",
+          "ruleCatalog": "1.0.0",
+          "scoring": "1.0.0",
+          "confidence": "1.0.0",
+          "catalogAdapter": "1.3.0",
+          "explainability": "1.0.0",
+          "riskModel": "1.0.0",
+          "humanReviewPolicy": "1.0.0",
+          "validationHardening": "1.0.0",
+          "publicContract": "1.0.0-rc.1",
+          "applicationService": "1.6.0",
+          "persistenceContract": "1.0.0",
+          "auditContract": "1.0.0",
+          "observabilityContract": "1.0.0",
+          "humanReviewContract": "1.0.0",
+          "aplReleases": {
+            "SPRINT_01": "1.0.0",
+            "SPRINT_02": "2.0.0"
+          }
+        }
+      }
+    },
+    {
+      "id": "no-eligible-model",
+      "sha256": "d1675bf547761fe1d16eeaba7f2a4edc1929e15809848ecf956af20fca230990",
+      "stable": {
+        "status": "NO_ELIGIBLE_MODEL",
+        "selectedModel": null,
+        "alternatives": [],
+        "scores": {
+          "compatibility": 0,
+          "raw": 0,
+          "confidence": 0,
+          "risk": 25
+        },
+        "classifications": {
+          "confidence": "LOW",
+          "risk": "MODERATE",
+          "ambiguity": "NONE"
+        },
+        "reasonCodes": [
+          "HUMAN_REVIEW_REQUIRED",
+          "GOAL_MISMATCH",
+          "FREQUENCY_INSUFFICIENT",
+          "DURATION_INSUFFICIENT",
+          "RECOVERY_INSUFFICIENT",
+          "SPECIALIZATION_PREREQUISITE_MISSING",
+          "LEVEL_TOO_LOW",
+          "LOW_CONFIDENCE"
+        ],
+        "humanReviewRequired": true,
+        "versions": {
+          "aoe": "1.6.0",
+          "ruleCatalog": "1.0.0",
+          "scoring": "1.0.0",
+          "confidence": "1.0.0",
+          "catalogAdapter": "1.3.0",
+          "explainability": "1.0.0",
+          "riskModel": "1.0.0",
+          "humanReviewPolicy": "1.0.0",
+          "validationHardening": "1.0.0",
+          "publicContract": "1.0.0-rc.1",
+          "applicationService": "1.6.0",
+          "persistenceContract": "1.0.0",
+          "auditContract": "1.0.0",
+          "observabilityContract": "1.0.0",
+          "humanReviewContract": "1.0.0",
+          "aplReleases": {
+            "SPRINT_01": "1.0.0",
+            "SPRINT_02": "2.0.0"
+          }
+        }
+      }
+    },
+    {
+      "id": "specialization-without-readiness",
+      "sha256": "6fd0b5b9be66d9387745487d8c10149c784bc4a71a1f3e8acea805ba676fb9a9",
+      "stable": {
+        "status": "HUMAN_REVIEW_REQUIRED",
+        "selectedModel": "APL-M-HIP-M-ABCDE-BASE-01",
+        "alternatives": [
+          "APL-M-HIP-M-ABCDE-PERF-01",
+          "APL-M-HIP-M-UL-BASE-01"
+        ],
+        "scores": {
+          "compatibility": 89.2,
+          "raw": 91.2,
+          "confidence": 87,
+          "risk": 35
+        },
+        "classifications": {
+          "confidence": "MEDIUM",
+          "risk": "MODERATE",
+          "ambiguity": "HIGH"
+        },
+        "reasonCodes": [
+          "PREFERENCE_MISMATCH",
+          "TIE_UNRESOLVED",
+          "SPECIALIZATION_PREREQUISITE_MISSING",
+          "AMBIGUOUS_SELECTION"
+        ],
+        "humanReviewRequired": true,
+        "versions": {
+          "aoe": "1.6.0",
+          "ruleCatalog": "1.0.0",
+          "scoring": "1.0.0",
+          "confidence": "1.0.0",
+          "catalogAdapter": "1.3.0",
+          "explainability": "1.0.0",
+          "riskModel": "1.0.0",
+          "humanReviewPolicy": "1.0.0",
+          "validationHardening": "1.0.0",
+          "publicContract": "1.0.0-rc.1",
+          "applicationService": "1.6.0",
+          "persistenceContract": "1.0.0",
+          "auditContract": "1.0.0",
+          "observabilityContract": "1.0.0",
+          "humanReviewContract": "1.0.0",
+          "aplReleases": {
+            "SPRINT_01": "1.0.0",
+            "SPRINT_02": "2.0.0"
+          }
+        }
+      }
+    }
+  ]
+}

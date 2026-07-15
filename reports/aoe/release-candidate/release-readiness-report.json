@@ -1,0 +1,53 @@
+{
+  "status": "READY_FOR_RC",
+  "blockers": [],
+  "restrictions": [],
+  "checks": [
+    {
+      "name": "implementation inventory",
+      "passed": true,
+      "blocking": true
+    },
+    {
+      "name": "catalog 30 models and 30 checksums",
+      "passed": true,
+      "blocking": true
+    },
+    {
+      "name": "integration validators",
+      "passed": true,
+      "blocking": true
+    },
+    {
+      "name": "contract freeze",
+      "passed": true,
+      "blocking": true
+    },
+    {
+      "name": "golden hashes",
+      "passed": true,
+      "blocking": true
+    },
+    {
+      "name": "performance",
+      "passed": true,
+      "blocking": false
+    },
+    {
+      "name": "concurrency",
+      "passed": true,
+      "blocking": true
+    },
+    {
+      "name": "security",
+      "passed": true,
+      "blocking": true
+    },
+    {
+      "name": "privacy",
+      "passed": true,
+      "blocking": true
+    }
+  ],
+  "generatedAt": "2026-07-15T00:00:00.000Z"
+}

@@ -1,0 +1,115 @@
+{
+  "status": "PASS",
+  "valid": true,
+  "checks": [
+    {
+      "name": "public contract rc version",
+      "passed": true,
+      "blocking": true
+    },
+    {
+      "name": "decision statuses exposed",
+      "passed": true,
+      "blocking": true
+    },
+    {
+      "name": "review statuses exposed",
+      "passed": true,
+      "blocking": true
+    },
+    {
+      "name": "actor roles exposed",
+      "passed": true,
+      "blocking": true
+    },
+    {
+      "name": "error codes exposed",
+      "passed": true,
+      "blocking": true
+    },
+    {
+      "name": "contract freeze parseable",
+      "passed": true,
+      "blocking": true
+    }
+  ],
+  "contractFreeze": {
+    "valid": true,
+    "results": [
+      {
+        "file": "docs/aoe/21_RELEASE_CANDIDATE/contracts/AOE_DECISION_REQUEST_V1.schema.json",
+        "valid": true,
+        "required": [
+          "contractVersion",
+          "requestId",
+          "idempotencyKey",
+          "actor",
+          "student",
+          "options"
+        ]
+      },
+      {
+        "file": "docs/aoe/21_RELEASE_CANDIDATE/contracts/AOE_DECISION_RESPONSE_V1.schema.json",
+        "valid": true,
+        "required": [
+          "contractVersion",
+          "requestId",
+          "decisionId",
+          "status",
+          "selectedModel",
+          "alternatives",
+          "scores",
+          "classification",
+          "explanation",
+          "humanReview",
+          "versions",
+          "createdAt",
+          "links"
+        ]
+      },
+      {
+        "file": "docs/aoe/21_RELEASE_CANDIDATE/contracts/AOE_HUMAN_REVIEW_REQUEST_V1.schema.json",
+        "valid": true,
+        "required": [
+          "contractVersion",
+          "requestId",
+          "idempotencyKey",
+          "actor",
+          "reviewId",
+          "decision",
+          "checklist"
+        ]
+      },
+      {
+        "file": "docs/aoe/21_RELEASE_CANDIDATE/contracts/AOE_HUMAN_REVIEW_RESPONSE_V1.schema.json",
+        "valid": true,
+        "required": [
+          "contractVersion",
+          "requestId",
+          "reviewId",
+          "decisionId",
+          "status",
+          "blocking",
+          "completedAt",
+          "nextActions"
+        ]
+      },
+      {
+        "file": "docs/aoe/21_RELEASE_CANDIDATE/contracts/AOE_ERROR_RESPONSE_V1.schema.json",
+        "valid": true,
+        "required": [
+          "contractVersion",
+          "requestId",
+          "status",
+          "error",
+          "createdAt"
+        ]
+      },
+      {
+        "file": "docs/aoe/21_RELEASE_CANDIDATE/contracts/AOE_PUBLIC_ENUMS_V1.json",
+        "valid": true,
+        "required": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOEDecisionResponseV1",
+  "contractVersion": "1.0.0-rc.1",
+  "type": "object",
+  "required": ["contractVersion", "requestId", "decisionId", "status", "selectedModel", "alternatives", "scores", "classification", "explanation", "humanReview", "versions", "createdAt", "links"],
+  "properties": {
+    "contractVersion": { "const": "1.0.0-rc.1" },
+    "status": { "enum": ["RECOMMENDED", "RECOMMENDED_WITH_WARNINGS", "HUMAN_REVIEW_REQUIRED", "ADDITIONAL_DATA_REQUIRED", "NO_ELIGIBLE_MODEL", "INVALID_REQUEST", "SERVICE_UNAVAILABLE", "DECISION_FAILED"] },
+    "decisionTrace": { "description": "Not present by default; only returned through authorized trace access or explicit option." }
+  }
+}

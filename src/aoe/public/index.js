@@ -1,3 +1,4 @@
+export * from "./public-api.js";
 export * from "./public-contract-version.js";
 export * from "./public-enums.js";
 export * from "./decision-request-contract.js";

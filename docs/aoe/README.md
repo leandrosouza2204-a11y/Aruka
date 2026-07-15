@@ -55,10 +55,11 @@ A medida que a APL cresce, a escolha manual entre dezenas de modelos se torna le
 | `18_APL_CATALOG_ADAPTER` | Adapter oficial de catalogo APL v1.3. |
 | `19_RECOMMENDATION_HARDENING` | Validacao, explicabilidade, risco e review gate v1.4. |
 | `20_APPLICATION_INTEGRATION` | Contratos publicos, Application Service, idempotencia, persistencia, privacidade, auditoria e observabilidade v1.5. |
+| `21_RELEASE_CANDIDATE` | Validacao consolidada, freeze de contratos e AOE v1.0.0-rc.1. |
 
 ## Estado Atual
 
-AOE v1.5 - Application Integration Contracts concluido. A aplicacao agora possui uma fachada publica versionada, Application Service, idempotencia, autorizacao conceitual, persistencia em memoria, redaction, observabilidade, auditoria e workflow de revisao humana sem criar HTTP, UI ou banco real.
+AOE v1.0.0-rc.1 - READY_FOR_RC. O AOE v1.6 concluiu validacao consolidada, freeze de contratos publicos, golden hashes, manifest, performance, concorrencia, seguranca, privacidade e decisao formal de release candidate.
 
 ## Comandos AOE
 
@@ -80,4 +81,12 @@ npm run aoe:test:privacy
 npm run aoe:test:observability
 npm run aoe:test:e2e
 npm run aoe:validate:integration
+npm run aoe:rc -- --all
+npm run aoe:test:rc
+npm run aoe:test:performance
+npm run aoe:test:concurrency
+npm run aoe:test:security
+npm run aoe:test:release-privacy
+npm run aoe:test:contract-freeze
+npm run aoe:validate:rc
 ```

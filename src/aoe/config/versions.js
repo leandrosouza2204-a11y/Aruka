@@ -1,4 +1,4 @@
-export const AOE_VERSION = "1.5.0";
+export const AOE_VERSION = "1.6.0";
 export const RULE_CATALOG_VERSION = "1.0.0";
 export const SCORING_VERSION = "1.0.0";
 export const CONFIDENCE_VERSION = "1.0.0";
@@ -23,8 +23,8 @@ export function getVersionRegistry() {
     riskModel: RISK_MODEL_VERSION,
     humanReviewPolicy: HUMAN_REVIEW_POLICY_VERSION,
     validationHardening: VALIDATION_HARDENING_VERSION,
-    publicContract: "1.0.0",
-    applicationService: "1.5.0",
+    publicContract: "1.0.0-rc.1",
+    applicationService: "1.6.0",
     persistenceContract: "1.0.0",
     auditContract: "1.0.0",
     observabilityContract: "1.0.0",

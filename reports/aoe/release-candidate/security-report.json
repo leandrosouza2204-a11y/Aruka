@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "prototype pollution rejected",
+      "passed": true,
+      "blocking": true
+    },
+    {
+      "name": "student trace forbidden by authorization tests",
+      "passed": true,
+      "blocking": true
+    },
+    {
+      "name": "human review gate covered by hardening tests",
+      "passed": true,
+      "blocking": true
+    },
+    {
+      "name": "public error has no stack",
+      "passed": true,
+      "blocking": true
+    }
+  ],
+  "generatedAt": "2026-07-15T00:00:00.000Z"
+}

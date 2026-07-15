@@ -1,8 +1,8 @@
 {
   "versions": {
-    "publicContractVersion": "1.0.0",
-    "applicationServiceVersion": "1.5.0",
-    "aoeVersion": "1.5.0"
+    "publicContractVersion": "1.0.0-rc.1",
+    "applicationServiceVersion": "1.6.0",
+    "aoeVersion": "1.6.0"
   },
   "total": 21,
   "passed": 21,
@@ -237,7 +237,7 @@
       },
       {
         "name": "aoe_decision_duration_ms",
-        "value": 5537612,
+        "value": 10706072,
         "labels": {}
       },
       {
@@ -252,7 +252,7 @@
       },
       {
         "name": "aoe_decision_duration_ms",
-        "value": 5537618,
+        "value": 10706086,
         "labels": {}
       },
       {
@@ -267,7 +267,7 @@
       },
       {
         "name": "aoe_decision_duration_ms",
-        "value": 5537624,
+        "value": 10706091,
         "labels": {}
       },
       {
@@ -282,7 +282,7 @@
       },
       {
         "name": "aoe_decision_duration_ms",
-        "value": 5537626,
+        "value": 10706095,
         "labels": {}
       },
       {
@@ -297,7 +297,7 @@
       },
       {
         "name": "aoe_decision_duration_ms",
-        "value": 5537630,
+        "value": 10706101,
         "labels": {}
       },
       {
@@ -312,7 +312,7 @@
       },
       {
         "name": "aoe_decision_duration_ms",
-        "value": 5537635,
+        "value": 10706107,
         "labels": {}
       },
       {
@@ -327,7 +327,7 @@
       },
       {
         "name": "aoe_decision_duration_ms",
-        "value": 5537642,
+        "value": 10706112,
         "labels": {}
       },
       {
@@ -342,7 +342,7 @@
       },
       {
         "name": "aoe_decision_duration_ms",
-        "value": 5537647,
+        "value": 10706120,
         "labels": {}
       },
       {
@@ -357,7 +357,7 @@
       },
       {
         "name": "aoe_decision_duration_ms",
-        "value": 5537659,
+        "value": 10706136,
         "labels": {}
       },
       {
@@ -372,7 +372,7 @@
       },
       {
         "name": "aoe_decision_duration_ms",
-        "value": 5537665,
+        "value": 10706142,
         "labels": {}
       },
       {
@@ -387,7 +387,7 @@
       },
       {
         "name": "aoe_decision_duration_ms",
-        "value": 5537674,
+        "value": 10706151,
         "labels": {}
       },
       {
@@ -402,7 +402,7 @@
       },
       {
         "name": "aoe_decision_duration_ms",
-        "value": 5537681,
+        "value": 10706158,
         "labels": {}
       },
       {
@@ -417,7 +417,7 @@
       },
       {
         "name": "aoe_decision_duration_ms",
-        "value": 5537691,
+        "value": 10706170,
         "labels": {}
       },
       {
@@ -432,7 +432,7 @@
       },
       {
         "name": "aoe_decision_duration_ms",
-        "value": 5537697,
+        "value": 10706179,
         "labels": {}
       }
     ],

@@ -1,0 +1,106 @@
+{
+  "status": "PASS",
+  "valid": true,
+  "results": [
+    {
+      "file": "docs/aoe/21_RELEASE_CANDIDATE/contracts/AOE_DECISION_REQUEST_V1.schema.json",
+      "valid": true,
+      "required": [
+        "contractVersion",
+        "requestId",
+        "idempotencyKey",
+        "actor",
+        "student",
+        "options"
+      ]
+    },
+    {
+      "file": "docs/aoe/21_RELEASE_CANDIDATE/contracts/AOE_DECISION_RESPONSE_V1.schema.json",
+      "valid": true,
+      "required": [
+        "contractVersion",
+        "requestId",
+        "decisionId",
+        "status",
+        "selectedModel",
+        "alternatives",
+        "scores",
+        "classification",
+        "explanation",
+        "humanReview",
+        "versions",
+        "createdAt",
+        "links"
+      ]
+    },
+    {
+      "file": "docs/aoe/21_RELEASE_CANDIDATE/contracts/AOE_HUMAN_REVIEW_REQUEST_V1.schema.json",
+      "valid": true,
+      "required": [
+        "contractVersion",
+        "requestId",
+        "idempotencyKey",
+        "actor",
+        "reviewId",
+        "decision",
+        "checklist"
+      ]
+    },
+    {
+      "file": "docs/aoe/21_RELEASE_CANDIDATE/contracts/AOE_HUMAN_REVIEW_RESPONSE_V1.schema.json",
+      "valid": true,
+      "required": [
+        "contractVersion",
+        "requestId",
+        "reviewId",
+        "decisionId",
+        "status",
+        "blocking",
+        "completedAt",
+        "nextActions"
+      ]
+    },
+    {
+      "file": "docs/aoe/21_RELEASE_CANDIDATE/contracts/AOE_ERROR_RESPONSE_V1.schema.json",
+      "valid": true,
+      "required": [
+        "contractVersion",
+        "requestId",
+        "status",
+        "error",
+        "createdAt"
+      ]
+    },
+    {
+      "file": "docs/aoe/21_RELEASE_CANDIDATE/contracts/AOE_PUBLIC_ENUMS_V1.json",
+      "valid": true,
+      "required": []
+    }
+  ],
+  "checksums": [
+    {
+      "file": "docs/aoe/21_RELEASE_CANDIDATE/contracts/AOE_DECISION_REQUEST_V1.schema.json",
+      "sha256": "c31276735a8f4b8c797c51e2a14ba98b80b87ef00d802f38fb2b71e7d8cb2e72"
+    },
+    {
+      "file": "docs/aoe/21_RELEASE_CANDIDATE/contracts/AOE_DECISION_RESPONSE_V1.schema.json",
+      "sha256": "750f43243870904ba791380106624b38a573032ff16cbae319e71fde77390d69"
+    },
+    {
+      "file": "docs/aoe/21_RELEASE_CANDIDATE/contracts/AOE_HUMAN_REVIEW_REQUEST_V1.schema.json",
+      "sha256": "7a4824c1891e53c9e3f7f21987369ec9cb8f77dd517fea71fbd9dec6fb126436"
+    },
+    {
+      "file": "docs/aoe/21_RELEASE_CANDIDATE/contracts/AOE_HUMAN_REVIEW_RESPONSE_V1.schema.json",
+      "sha256": "347c5c7cd6157a8b4a2643d58405fc2f4bf2020a56a21c6de9a8f0b59d8ea0e6"
+    },
+    {
+      "file": "docs/aoe/21_RELEASE_CANDIDATE/contracts/AOE_ERROR_RESPONSE_V1.schema.json",
+      "sha256": "367f6f7819186cb9336f50622034e6891b28fc69ecd3c80b0c206547478b3200"
+    },
+    {
+      "file": "docs/aoe/21_RELEASE_CANDIDATE/contracts/AOE_PUBLIC_ENUMS_V1.json",
+      "sha256": "8c7e67ac0ff8ead49abac1d4a4b15838f3eb3cb0505bebef38b59b6857a3918e"
+    }
+  ]
+}
