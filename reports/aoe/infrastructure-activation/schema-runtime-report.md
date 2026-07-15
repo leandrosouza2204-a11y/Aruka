@@ -1,4 +1,4 @@
-# Idempotency Runtime Report
+# Schema Runtime Report
 
 - Status: BLOCKED
 - Ambiente: INDETERMINATE

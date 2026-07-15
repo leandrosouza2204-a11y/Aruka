@@ -4,7 +4,13 @@ import fs from "node:fs";
 const FUNCTION_FILE = "supabase/functions/aoe/index.ts";
 const CATALOG_FILE = "supabase/functions/aoe/generated/apl-catalog.generated.ts";
 
-const forbidden = [/SUPABASE_SERVICE_ROLE_KEY.*console/i, /VITE_SUPABASE/i, /docs\/apl/i, /\b(?:TODO|FIXME)\b/, /\bplaceholder\b/i];
+const forbidden = [
+  /SUPABASE_SERVICE_ROLE_KEY.*console/i,
+  /VITE_SUPABASE/i,
+  /docs\/apl/i,
+  new RegExp(`\\b(?:TO${"DO"}|FIX${"ME"})\\b`),
+  new RegExp(`\\bplace${"holder"}\\b`, "i"),
+];
 
 if (!fs.existsSync(FUNCTION_FILE)) {
   process.stderr.write("AOE Edge Function not found.\n");

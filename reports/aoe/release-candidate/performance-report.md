@@ -8,28 +8,28 @@
   "classification": "PASS",
   "summary": {
     "count": 1106,
-    "average": 62.466106781193545,
-    "min": 1.1500000000087311,
-    "max": 494.9456000000064,
-    "p50": 67.0821000000069,
-    "p90": 96.40770000000339,
-    "p95": 111.89669999999751,
-    "p99": 179.6675000000032,
-    "throughputPerSecond": 16.00868137184862
+    "average": 78.2987048824593,
+    "min": 0.7072000000043772,
+    "max": 329.6190000000024,
+    "p50": 79.37839999999414,
+    "p90": 127.8608000000022,
+    "p95": 141.17289999999775,
+    "p99": 191.49640000000363,
+    "throughputPerSecond": 12.771603329853068
   },
   "memoryBefore": {
-    "rss": 52473856,
-    "heapTotal": 18554880,
-    "heapUsed": 10428224,
-    "external": 2200295,
+    "rss": 55566336,
+    "heapTotal": 18030592,
+    "heapUsed": 10519536,
+    "external": 2210085,
     "arrayBuffers": 28963
   },
   "memoryAfter": {
-    "rss": 943374336,
-    "heapTotal": 908587008,
-    "heapUsed": 785125944,
+    "rss": 942485504,
+    "heapTotal": 896507904,
+    "heapUsed": 803953448,
     "external": 2874930,
-    "arrayBuffers": 28927
+    "arrayBuffers": 736421
   },
   "scenarios": 10,
   "errors": 0,

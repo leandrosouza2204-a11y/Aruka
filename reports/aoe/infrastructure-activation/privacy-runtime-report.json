@@ -1,14 +1,11 @@
 {
-  "status": "SKIPPED",
-  "environment": {
-    "status": "INDETERMINADO",
-    "requestedEnvironment": "local",
-    "nodeVersion": "v24.16.0",
-    "supabaseCliAvailable": false,
-    "supabaseCliVersion": null,
-    "supabaseConfigPresent": false,
-    "productionBlocked": false
-  },
-  "reason": "Runtime tables unavailable.",
-  "passed": false
+  "status": "BLOCKED",
+  "environment": "INDETERMINATE",
+  "projectRefMasked": "vriz...vdik",
+  "validated": false,
+  "blockers": [
+    "Ambiente remoto nao classificado como staging/desenvolvimento autorizado para escrita.",
+    "Schema real nao inventariado por ausencia de Docker no Supabase CLI e ausencia de credencial Postgres segura no ambiente."
+  ],
+  "warnings": []
 }

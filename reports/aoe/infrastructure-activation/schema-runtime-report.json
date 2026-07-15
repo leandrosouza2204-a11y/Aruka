@@ -1,0 +1,32 @@
+{
+  "status": "BLOCKED",
+  "environment": "INDETERMINATE",
+  "projectRefMasked": "vriz...vdik",
+  "validated": false,
+  "blockers": [
+    "Ambiente remoto nao classificado como staging/desenvolvimento autorizado para escrita.",
+    "Schema real nao inventariado por ausencia de Docker no Supabase CLI e ausencia de credencial Postgres segura no ambiente."
+  ],
+  "warnings": [],
+  "expectedTables": [
+    "aoe_decisions",
+    "aoe_decision_traces",
+    "aoe_human_reviews",
+    "aoe_idempotency_keys",
+    "aoe_audit_events"
+  ],
+  "foundTables": [],
+  "expectedFunctions": [
+    "aoe_user_owns_student",
+    "aoe_idempotency_get_or_create"
+  ],
+  "foundFunctions": [],
+  "checks": {
+    "columns": "NOT_EXECUTED",
+    "constraints": "NOT_EXECUTED",
+    "indexes": "NOT_EXECUTED",
+    "rls": "NOT_EXECUTED",
+    "policies": "NOT_EXECUTED",
+    "grants": "NOT_EXECUTED"
+  }
+}

@@ -1,9 +1,10 @@
 # Environment Report
 
-- Status: INDETERMINADO
-- Environment: INDETERMINADO
-- Blockers: 0
+- Status: INDETERMINATE
+- Ambiente: INDETERMINATE
+- Project Ref: vriz...vdik
+- Validado: nao
 
-## Restrictions
+## Blockers
 
-
+- AOE_INFRA_TEST_ENV local/staging/development nao fornecido ou ambiente nao comprovado.

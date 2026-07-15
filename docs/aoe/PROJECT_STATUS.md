@@ -3,8 +3,8 @@
 ## Identificacao
 
 - Projeto: Aruka Optimization Engine.
-- Versao arquitetural: 1.7.0.
-- Status: Infrastructure Activation & Staging Validation NOT_READY.
+- Versao arquitetural: 1.7.2.
+- Status: Supabase Runtime Validation NOT_READY.
 - Implementacao: concluida para uso local deterministico.
 - Banco: nao iniciado.
 - API: nao iniciada.
@@ -76,7 +76,9 @@
 | Feature Flags | Concluidas |
 | Pilot Foundation | Concluida |
 | Infrastructure Activation | Parcial |
+| Supabase Runtime Validation | NOT_READY |
 | Migration Runtime Validation | Pendente |
+| Schema Validation | Bloqueada |
 | Runtime RLS Validation | Pendente |
 | Edge Runtime Integration | Pendente |
 | Catalog Runtime Bundle | Concluido |
@@ -86,6 +88,7 @@
 | Runtime Persistence | Pendente |
 | Runtime Audit | Pendente |
 | Runtime Privacy | Pendente |
+| Smoke Tests | Pendente |
 | Controlled Pilot Readiness | NOT_READY |
 | Production Deployment | Nao executado |
 | Pilot Execution | Nao iniciado |
@@ -104,4 +107,4 @@
 
 ## Proximo Marco
 
-Saneamento das restricoes de ativacao v1.7.1 antes do AOE v1.8.
+Saneamento dos blockers de runtime v1.7.2 antes do AOE v1.8.

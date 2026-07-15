@@ -1,12 +1,46 @@
 {
-  "status": "INDETERMINADO",
+  "status": "INDETERMINATE",
   "environment": {
-    "status": "INDETERMINADO",
-    "requestedEnvironment": "local",
+    "status": "INDETERMINATE",
+    "requestedEnvironment": "indeterminate",
+    "date": "2026-07-15T17:59:05.430Z",
     "nodeVersion": "v24.16.0",
-    "supabaseCliAvailable": false,
-    "supabaseCliVersion": null,
+    "supabaseCli": {
+      "directAvailable": false,
+      "npxAvailable": true,
+      "version": "2.109.1"
+    },
     "supabaseConfigPresent": false,
-    "productionBlocked": false
-  }
+    "linkedProject": {
+      "refMasked": "vriz...vdik",
+      "linked": {
+        "refMasked": "vriz...vdik",
+        "name": "aruka",
+        "organizationSlugMasked": "ztjg...xlra"
+      }
+    },
+    "edgeFunctionPresent": true,
+    "catalogPresent": true,
+    "migrationFilePresent": true,
+    "runtimeWriteAuthorized": false,
+    "dockerStatus": "UNAVAILABLE",
+    "commandsExecuted": [
+      "node --version",
+      "supabase --version",
+      "npx.cmd supabase --version",
+      "npx.cmd supabase projects list",
+      "npx.cmd supabase status",
+      "npx.cmd supabase db dump --schema public --linked --file reports/aoe/infrastructure-activation/schema-dump-readonly.sql"
+    ],
+    "commandsNotExecuted": [
+      "supabase db reset",
+      "supabase functions deploy aoe",
+      "remote write tests",
+      "test user creation",
+      "production deploy"
+    ]
+  },
+  "blockers": [
+    "AOE_INFRA_TEST_ENV local/staging/development nao fornecido ou ambiente nao comprovado."
+  ]
 }

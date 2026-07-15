@@ -1,9 +1,11 @@
 # Privacy Runtime Report
 
-- Status: SKIPPED
-- Environment: INDETERMINADO
-- Blockers: 0
+- Status: BLOCKED
+- Ambiente: INDETERMINATE
+- Project Ref: vriz...vdik
+- Validado: nao
 
-## Restrictions
+## Blockers
 
-
+- Ambiente remoto nao classificado como staging/desenvolvimento autorizado para escrita.
+- Schema real nao inventariado por ausencia de Docker no Supabase CLI e ausencia de credencial Postgres segura no ambiente.
