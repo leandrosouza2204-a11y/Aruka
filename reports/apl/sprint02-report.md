@@ -33,11 +33,11 @@ INFO          0
 - Target: sprint02
 - Status: PASSED
 - Exit code: 0
-- Started: 2026-07-14T22:22:56.584Z
-- Finished: 2026-07-14T22:22:57.197Z
-- Duration: 613ms
-- Files scanned: 20
-- Documents parsed: 20
+- Started: 2026-07-15T02:08:39.646Z
+- Finished: 2026-07-15T02:08:40.304Z
+- Duration: 659ms
+- Files scanned: 21
+- Documents parsed: 21
 - Rules loaded: 9
 - Rules executed: 9
 
@@ -100,14 +100,14 @@ Nenhuma ocorrencia.
 | Rule | Severity | Scope | Findings | Duration |
 | --- | --- | --- | --- | --- |
 | aqa-001 | error | global | 0 | 2ms |
-| aqa-002 | error | model | 0 | 8ms |
-| aqa-003 | error | model | 0 | 370ms |
-| aqa-004 | error | prescription | 0 | 5ms |
-| aqa-005 | warning | model | 0 | 34ms |
-| aqa-006 | warning | document | 0 | 6ms |
-| aqa-007 | error | global | 0 | 2ms |
+| aqa-002 | error | model | 0 | 10ms |
+| aqa-003 | error | model | 0 | 391ms |
+| aqa-004 | error | prescription | 0 | 10ms |
+| aqa-005 | warning | model | 0 | 32ms |
+| aqa-006 | warning | document | 0 | 4ms |
+| aqa-007 | error | global | 0 | 1ms |
 | aqa-008 | error | model | 0 | 1ms |
-| aqa-009 | warning | model | 0 | 4ms |
+| aqa-009 | warning | model | 0 | 5ms |
 
 ## Findings
 
@@ -164,11 +164,11 @@ Nenhuma ocorrencia.
 ## Performance
 
 - aqa-001: 2ms
-- aqa-002: 8ms
-- aqa-003: 370ms
-- aqa-004: 5ms
-- aqa-005: 34ms
-- aqa-006: 6ms
-- aqa-007: 2ms
+- aqa-002: 10ms
+- aqa-003: 391ms
+- aqa-004: 10ms
+- aqa-005: 32ms
+- aqa-006: 4ms
+- aqa-007: 1ms
 - aqa-008: 1ms
-- aqa-009: 4ms
+- aqa-009: 5ms

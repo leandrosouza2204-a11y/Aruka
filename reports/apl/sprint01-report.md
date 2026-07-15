@@ -33,9 +33,9 @@ INFO          0
 - Target: sprint01
 - Status: PASSED
 - Exit code: 0
-- Started: 2026-07-14T21:43:07.141Z
-- Finished: 2026-07-14T21:43:07.691Z
-- Duration: 549ms
+- Started: 2026-07-15T02:09:00.995Z
+- Finished: 2026-07-15T02:09:01.841Z
+- Duration: 846ms
 - Files scanned: 26
 - Documents parsed: 26
 - Rules loaded: 9
@@ -59,12 +59,12 @@ Nenhuma ocorrencia.
 ## Baseline
 
 - Arquivo: C:\Projetos\ConsultoriaFitness\reports\apl\.baseline.json
-- Findings anterior: 475
+- Findings anterior: 6
 - Findings atual: 0
-- Delta findings: -475
+- Delta findings: -6
 - Delta BLOCKERS: -5
-- Delta ERRORS: -16
-- Delta WARNINGS: -454
+- Delta ERRORS: -1
+- Delta WARNINGS: +0
 - Delta SUGGESTIONS: +0
 
 ## Categories
@@ -100,14 +100,14 @@ Nenhuma ocorrencia.
 | Rule | Severity | Scope | Findings | Duration |
 | --- | --- | --- | --- | --- |
 | aqa-001 | error | global | 0 | 2ms |
-| aqa-002 | error | model | 0 | 7ms |
-| aqa-003 | error | model | 0 | 286ms |
-| aqa-004 | error | prescription | 0 | 7ms |
-| aqa-005 | warning | model | 0 | 27ms |
-| aqa-006 | warning | document | 0 | 6ms |
-| aqa-007 | error | global | 0 | 1ms |
-| aqa-008 | error | model | 0 | 4ms |
-| aqa-009 | warning | model | 0 | 1ms |
+| aqa-002 | error | model | 0 | 16ms |
+| aqa-003 | error | model | 0 | 465ms |
+| aqa-004 | error | prescription | 0 | 10ms |
+| aqa-005 | warning | model | 0 | 43ms |
+| aqa-006 | warning | document | 0 | 7ms |
+| aqa-007 | error | global | 0 | 2ms |
+| aqa-008 | error | model | 0 | 19ms |
+| aqa-009 | warning | model | 0 | 8ms |
 
 ## Findings
 
@@ -164,11 +164,11 @@ Nenhuma ocorrencia.
 ## Performance
 
 - aqa-001: 2ms
-- aqa-002: 7ms
-- aqa-003: 286ms
-- aqa-004: 7ms
-- aqa-005: 27ms
-- aqa-006: 6ms
-- aqa-007: 1ms
-- aqa-008: 4ms
-- aqa-009: 1ms
+- aqa-002: 16ms
+- aqa-003: 465ms
+- aqa-004: 10ms
+- aqa-005: 43ms
+- aqa-006: 7ms
+- aqa-007: 2ms
+- aqa-008: 19ms
+- aqa-009: 8ms

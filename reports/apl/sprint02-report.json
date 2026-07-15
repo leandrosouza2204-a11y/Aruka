@@ -1,11 +1,11 @@
 {
   "version": "1.2.1",
   "target": "sprint02",
-  "startedAt": "2026-07-14T22:22:56.584Z",
-  "finishedAt": "2026-07-14T22:22:57.197Z",
-  "durationMs": 613,
-  "filesScanned": 20,
-  "documentsParsed": 20,
+  "startedAt": "2026-07-15T02:08:39.646Z",
+  "finishedAt": "2026-07-15T02:08:40.304Z",
+  "durationMs": 659,
+  "filesScanned": 21,
+  "documentsParsed": 21,
   "rulesLoaded": 9,
   "rulesAvailable": 12,
   "rulesExecuted": 9,
@@ -176,7 +176,7 @@
       "severity": "error",
       "scope": "model",
       "findings": 0,
-      "durationMs": 8
+      "durationMs": 10
     },
     {
       "id": "aqa-003",
@@ -184,7 +184,7 @@
       "severity": "error",
       "scope": "model",
       "findings": 0,
-      "durationMs": 370
+      "durationMs": 391
     },
     {
       "id": "aqa-004",
@@ -192,7 +192,7 @@
       "severity": "error",
       "scope": "prescription",
       "findings": 0,
-      "durationMs": 5
+      "durationMs": 10
     },
     {
       "id": "aqa-005",
@@ -200,7 +200,7 @@
       "severity": "warning",
       "scope": "model",
       "findings": 0,
-      "durationMs": 34
+      "durationMs": 32
     },
     {
       "id": "aqa-006",
@@ -208,7 +208,7 @@
       "severity": "warning",
       "scope": "document",
       "findings": 0,
-      "durationMs": 6
+      "durationMs": 4
     },
     {
       "id": "aqa-007",
@@ -216,7 +216,7 @@
       "severity": "error",
       "scope": "global",
       "findings": 0,
-      "durationMs": 2
+      "durationMs": 1
     },
     {
       "id": "aqa-008",
@@ -232,7 +232,7 @@
       "severity": "warning",
       "scope": "model",
       "findings": 0,
-      "durationMs": 4
+      "durationMs": 5
     }
   ],
   "findings": [],
@@ -270,25 +270,25 @@
       "byFile": {}
     },
     "targets": {
-      "filesScanned": 20,
-      "documentsParsed": 20
+      "filesScanned": 21,
+      "documentsParsed": 21
     },
     "performance": {
-      "durationMs": 613,
+      "durationMs": 659,
       "byRule": {
         "aqa-001": 2,
-        "aqa-002": 8,
-        "aqa-003": 370,
-        "aqa-004": 5,
-        "aqa-005": 34,
-        "aqa-006": 6,
-        "aqa-007": 2,
+        "aqa-002": 10,
+        "aqa-003": 391,
+        "aqa-004": 10,
+        "aqa-005": 32,
+        "aqa-006": 4,
+        "aqa-007": 1,
         "aqa-008": 1,
-        "aqa-009": 4
+        "aqa-009": 5
       },
       "slowestRule": {
         "id": "aqa-003",
-        "durationMs": 370
+        "durationMs": 391
       }
     },
     "calibration": {
@@ -306,17 +306,17 @@
       "performance": {
         "byRule": {
           "aqa-001": 2,
-          "aqa-002": 8,
-          "aqa-003": 370,
-          "aqa-004": 5,
-          "aqa-005": 34,
-          "aqa-006": 6,
-          "aqa-007": 2,
+          "aqa-002": 10,
+          "aqa-003": 391,
+          "aqa-004": 10,
+          "aqa-005": 32,
+          "aqa-006": 4,
+          "aqa-007": 1,
           "aqa-008": 1,
-          "aqa-009": 4
+          "aqa-009": 5
         },
         "bySprint": {},
-        "totalMs": 613
+        "totalMs": 659
       }
     }
   },
@@ -353,7 +353,7 @@
     "baseline": {
       "baselinePath": "C:\\Projetos\\ConsultoriaFitness\\reports\\apl\\.baseline.json",
       "previous": {
-        "updatedAt": "2026-07-14T22:22:51.709Z",
+        "updatedAt": "2026-07-15T02:08:31.976Z",
         "target": "sprint02",
         "totalFindings": 0,
         "byRule": {},
@@ -362,7 +362,7 @@
         "byBlock": {}
       },
       "current": {
-        "updatedAt": "2026-07-14T22:22:57.205Z",
+        "updatedAt": "2026-07-15T02:08:40.312Z",
         "target": "sprint02",
         "totalFindings": 0,
         "byRule": {},

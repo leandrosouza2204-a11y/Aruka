@@ -33,11 +33,11 @@ INFO         # 0
 - Target: all
 - Status: FAILED
 - Exit code: 1
-- Started: 2026-07-14T22:23:03.323Z
-- Finished: 2026-07-14T22:23:04.652Z
-- Duration: 1330ms
-- Files scanned: 46
-- Documents parsed: 46
+- Started: 2026-07-15T02:08:46.057Z
+- Finished: 2026-07-15T02:08:47.610Z
+- Duration: 1553ms
+- Files scanned: 47
+- Documents parsed: 47
 - Rules loaded: 9
 - Rules executed: 9
 
@@ -142,15 +142,15 @@ Nenhuma ocorrencia.
 
 | Rule | Severity | Scope | Findings | Duration |
 | --- | --- | --- | --- | --- |
-| aqa-001 | error | global | 20 | 6ms |
+| aqa-001 | error | global | 20 | 7ms |
 | aqa-002 | error | model | 0 | 10ms |
-| aqa-003 | error | model | 0 | 798ms |
-| aqa-004 | error | prescription | 0 | 13ms |
-| aqa-005 | warning | model | 0 | 72ms |
-| aqa-006 | warning | document | 0 | 10ms |
-| aqa-007 | error | global | 1 | 1ms |
-| aqa-008 | error | model | 0 | 7ms |
-| aqa-009 | warning | model | 0 | 4ms |
+| aqa-003 | error | model | 0 | 1015ms |
+| aqa-004 | error | prescription | 0 | 18ms |
+| aqa-005 | warning | model | 0 | 87ms |
+| aqa-006 | warning | document | 0 | 12ms |
+| aqa-007 | error | global | 1 | 4ms |
+| aqa-008 | error | model | 0 | 11ms |
+| aqa-009 | warning | model | 0 | 11ms |
 
 ## Findings
 
@@ -222,12 +222,12 @@ Nenhuma ocorrencia.
 
 ## Performance
 
-- aqa-001: 6ms
+- aqa-001: 7ms
 - aqa-002: 10ms
-- aqa-003: 798ms
-- aqa-004: 13ms
-- aqa-005: 72ms
-- aqa-006: 10ms
-- aqa-007: 1ms
-- aqa-008: 7ms
-- aqa-009: 4ms
+- aqa-003: 1015ms
+- aqa-004: 18ms
+- aqa-005: 87ms
+- aqa-006: 12ms
+- aqa-007: 4ms
+- aqa-008: 11ms
+- aqa-009: 11ms

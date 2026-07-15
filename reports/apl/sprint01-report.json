@@ -1,9 +1,9 @@
 {
   "version": "1.2.1",
   "target": "sprint01",
-  "startedAt": "2026-07-14T21:43:07.141Z",
-  "finishedAt": "2026-07-14T21:43:07.691Z",
-  "durationMs": 549,
+  "startedAt": "2026-07-15T02:09:00.995Z",
+  "finishedAt": "2026-07-15T02:09:01.841Z",
+  "durationMs": 846,
   "filesScanned": 26,
   "documentsParsed": 26,
   "rulesLoaded": 9,
@@ -176,7 +176,7 @@
       "severity": "error",
       "scope": "model",
       "findings": 0,
-      "durationMs": 7
+      "durationMs": 16
     },
     {
       "id": "aqa-003",
@@ -184,7 +184,7 @@
       "severity": "error",
       "scope": "model",
       "findings": 0,
-      "durationMs": 286
+      "durationMs": 465
     },
     {
       "id": "aqa-004",
@@ -192,7 +192,7 @@
       "severity": "error",
       "scope": "prescription",
       "findings": 0,
-      "durationMs": 7
+      "durationMs": 10
     },
     {
       "id": "aqa-005",
@@ -200,7 +200,7 @@
       "severity": "warning",
       "scope": "model",
       "findings": 0,
-      "durationMs": 27
+      "durationMs": 43
     },
     {
       "id": "aqa-006",
@@ -208,7 +208,7 @@
       "severity": "warning",
       "scope": "document",
       "findings": 0,
-      "durationMs": 6
+      "durationMs": 7
     },
     {
       "id": "aqa-007",
@@ -216,7 +216,7 @@
       "severity": "error",
       "scope": "global",
       "findings": 0,
-      "durationMs": 1
+      "durationMs": 2
     },
     {
       "id": "aqa-008",
@@ -224,7 +224,7 @@
       "severity": "error",
       "scope": "model",
       "findings": 0,
-      "durationMs": 4
+      "durationMs": 19
     },
     {
       "id": "aqa-009",
@@ -232,7 +232,7 @@
       "severity": "warning",
       "scope": "model",
       "findings": 0,
-      "durationMs": 1
+      "durationMs": 8
     }
   ],
   "findings": [],
@@ -274,21 +274,21 @@
       "documentsParsed": 26
     },
     "performance": {
-      "durationMs": 549,
+      "durationMs": 846,
       "byRule": {
         "aqa-001": 2,
-        "aqa-002": 7,
-        "aqa-003": 286,
-        "aqa-004": 7,
-        "aqa-005": 27,
-        "aqa-006": 6,
-        "aqa-007": 1,
-        "aqa-008": 4,
-        "aqa-009": 1
+        "aqa-002": 16,
+        "aqa-003": 465,
+        "aqa-004": 10,
+        "aqa-005": 43,
+        "aqa-006": 7,
+        "aqa-007": 2,
+        "aqa-008": 19,
+        "aqa-009": 8
       },
       "slowestRule": {
         "id": "aqa-003",
-        "durationMs": 286
+        "durationMs": 465
       }
     },
     "calibration": {
@@ -306,17 +306,17 @@
       "performance": {
         "byRule": {
           "aqa-001": 2,
-          "aqa-002": 7,
-          "aqa-003": 286,
-          "aqa-004": 7,
-          "aqa-005": 27,
-          "aqa-006": 6,
-          "aqa-007": 1,
-          "aqa-008": 4,
-          "aqa-009": 1
+          "aqa-002": 16,
+          "aqa-003": 465,
+          "aqa-004": 10,
+          "aqa-005": 43,
+          "aqa-006": 7,
+          "aqa-007": 2,
+          "aqa-008": 19,
+          "aqa-009": 8
         },
         "bySprint": {},
-        "totalMs": 549
+        "totalMs": 846
       }
     }
   },
@@ -353,35 +353,30 @@
     "baseline": {
       "baselinePath": "C:\\Projetos\\ConsultoriaFitness\\reports\\apl\\.baseline.json",
       "previous": {
-        "updatedAt": "2026-07-14T21:28:52.536Z",
+        "updatedAt": "2026-07-15T02:08:47.625Z",
         "target": "all",
-        "totalFindings": 475,
+        "totalFindings": 6,
         "byRule": {
           "aqa-001": 5,
-          "aqa-002": 90,
-          "aqa-003": 375,
-          "aqa-005": 4,
           "aqa-007": 1
         },
         "bySeverity": {
           "blocker": 5,
-          "error": 16,
-          "warning": 454
+          "error": 1
         },
         "bySprint": {
-          "SPRINT_03": 5,
-          "SPRINT_02": 469
+          "SPRINT_03": 5
         },
         "byBlock": {
-          "ABC": 95,
-          "ABCD": 95,
-          "ABCDE": 95,
-          "FULL_BODY": 94,
-          "UPPER_LOWER": 95
+          "ABC": 1,
+          "ABCD": 1,
+          "ABCDE": 1,
+          "FULL_BODY": 1,
+          "UPPER_LOWER": 1
         }
       },
       "current": {
-        "updatedAt": "2026-07-14T21:43:07.705Z",
+        "updatedAt": "2026-07-15T02:09:01.851Z",
         "target": "sprint01",
         "totalFindings": 0,
         "byRule": {},
@@ -390,12 +385,12 @@
         "byBlock": {}
       },
       "trend": {
-        "findingsDelta": -475,
+        "findingsDelta": -6,
         "blockersDelta": -5,
-        "errorsDelta": -16,
-        "warningsDelta": -454,
+        "errorsDelta": -1,
+        "warningsDelta": 0,
         "suggestionsDelta": 0,
-        "previousTotal": 475,
+        "previousTotal": 6,
         "currentTotal": 0
       }
     }

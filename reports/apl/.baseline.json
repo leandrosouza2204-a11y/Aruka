@@ -1,23 +1,9 @@
 {
-  "updatedAt": "2026-07-14T22:23:04.663Z",
-  "target": "all",
-  "totalFindings": 6,
-  "byRule": {
-    "aqa-001": 5,
-    "aqa-007": 1
-  },
-  "bySeverity": {
-    "blocker": 5,
-    "error": 1
-  },
-  "bySprint": {
-    "SPRINT_03": 5
-  },
-  "byBlock": {
-    "ABC": 1,
-    "ABCD": 1,
-    "ABCDE": 1,
-    "FULL_BODY": 1,
-    "UPPER_LOWER": 1
-  }
+  "updatedAt": "2026-07-15T02:09:01.851Z",
+  "target": "sprint01",
+  "totalFindings": 0,
+  "byRule": {},
+  "bySeverity": {},
+  "bySprint": {},
+  "byBlock": {}
 }

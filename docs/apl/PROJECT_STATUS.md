@@ -6,7 +6,7 @@
 
 # Status Geral
 
-**Versao atual:** 1.0.0
+**Versao atual:** 2.0.0
 
 **Ultima atualizacao:** 14/07/2026
 
@@ -83,7 +83,17 @@ Resumo da release:
 
 # Sprint 02 - Masculino Intermediário
 
-Status Geral: Homologada.
+Status Geral: Homologada - Release 2.0.0 congelada.
+
+Resumo da release:
+
+- Modelos concluidos: 15
+- Modelos homologados: 15
+- Ressalvas abertas: 0
+- AQA Sprint 02: PASSED
+- Freeze: concluido
+- Baseline intermediaria oficial: definida
+- Proximo objetivo: AOE v1.0
 
 ## ABC
 
