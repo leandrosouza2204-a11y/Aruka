@@ -1,0 +1,778 @@
+{
+  "baseline_file": "20260716090000_baseline_aruka_v1.sql",
+  "baseline_sha256": "745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE",
+  "reference_dump_sha256": "637B21F0729CA765BF3573652254EB855A3BC0C8F255A1F1A3DACF73BA1EC541",
+  "summary": {
+    "MATCHED": 140,
+    "EXPECTED_HARDENING_DIFFERENCE": 8,
+    "REQUIRES_RUNTIME_QUERY": 2
+  },
+  "counts": {
+    "baseline": {
+      "tables": 19,
+      "functions": 14,
+      "triggers": 1,
+      "policies": 54,
+      "indexes": 56
+    },
+    "runtime": {
+      "tables": 19,
+      "functions": 14,
+      "triggers": 1,
+      "policies": 54,
+      "indexes": 56
+    }
+  },
+  "comparisons": [
+    {
+      "kind": "tables",
+      "name": "perfis",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "tables",
+      "name": "alunos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "tables",
+      "name": "planos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "tables",
+      "name": "assinaturas",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "tables",
+      "name": "pagamentos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "tables",
+      "name": "admin_logs",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "tables",
+      "name": "aceites_legais",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "tables",
+      "name": "avaliacoes",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "tables",
+      "name": "anamneses",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "tables",
+      "name": "treinos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "tables",
+      "name": "treino_dias",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "tables",
+      "name": "treino_exercicios",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "tables",
+      "name": "acompanhamento_eventos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "tables",
+      "name": "workout_templates",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "tables",
+      "name": "aoe_decisions",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "tables",
+      "name": "aoe_decision_traces",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "tables",
+      "name": "aoe_human_reviews",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "tables",
+      "name": "aoe_idempotency_keys",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "tables",
+      "name": "aoe_audit_events",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "functions",
+      "name": "admin_eh_admin",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "functions",
+      "name": "admin_validar_acesso",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "functions",
+      "name": "admin_registrar_log",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "functions",
+      "name": "admin_listar_logs",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "functions",
+      "name": "admin_listar_usuarios",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "functions",
+      "name": "admin_atualizar_perfil",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "functions",
+      "name": "admin_upsert_assinatura",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "functions",
+      "name": "admin_bloquear_usuario",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "functions",
+      "name": "admin_liberar_beta",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "functions",
+      "name": "admin_liberar_assinante",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "functions",
+      "name": "processar_encerramento_automatico_aluno",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "functions",
+      "name": "aoe_user_owns_student",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "functions",
+      "name": "aoe_idempotency_get_or_create",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "functions",
+      "name": "set_workout_templates_updated_at",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "triggers",
+      "name": "set_workout_templates_updated_at",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "perfis.Usuarios podem listar seu perfil",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "perfis.Usuarios podem criar seu perfil padrao",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "alunos.Usuarios podem listar seus alunos",
+      "classification": "EXPECTED_HARDENING_DIFFERENCE"
+    },
+    {
+      "kind": "policies",
+      "name": "alunos.Usuarios podem cadastrar seus alunos",
+      "classification": "EXPECTED_HARDENING_DIFFERENCE"
+    },
+    {
+      "kind": "policies",
+      "name": "alunos.Usuarios podem atualizar seus alunos",
+      "classification": "EXPECTED_HARDENING_DIFFERENCE"
+    },
+    {
+      "kind": "policies",
+      "name": "alunos.Usuarios podem excluir seus alunos",
+      "classification": "EXPECTED_HARDENING_DIFFERENCE"
+    },
+    {
+      "kind": "policies",
+      "name": "planos.Usuarios podem listar seus planos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "planos.Usuarios podem cadastrar seus planos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "planos.Usuarios podem atualizar seus planos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "planos.Usuarios podem excluir seus planos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "assinaturas.Usuarios podem listar suas assinaturas",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "assinaturas.Usuarios podem cadastrar suas assinaturas",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "pagamentos.Usuarios podem listar seus pagamentos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "pagamentos.Usuarios podem cadastrar seus pagamentos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "pagamentos.Usuarios podem atualizar seus pagamentos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "pagamentos.Usuarios podem excluir seus pagamentos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "admin_logs.Admins podem listar logs administrativos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "admin_logs.Usuarios comuns nao inserem logs administrativos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "aceites_legais.Usuarios podem listar seus aceites legais",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "aceites_legais.Usuarios podem registrar seus aceites legais",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "avaliacoes.Usuarios podem listar suas avaliacoes",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "avaliacoes.Usuarios podem cadastrar suas avaliacoes",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "avaliacoes.Usuarios podem atualizar suas avaliacoes",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "avaliacoes.Usuarios podem excluir suas avaliacoes",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "anamneses.Usuarios podem listar suas anamneses",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "anamneses.Usuarios podem cadastrar suas anamneses",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "anamneses.Usuarios podem atualizar suas anamneses",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "anamneses.Usuarios podem excluir suas anamneses",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "treinos.Usuarios podem listar seus treinos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "treinos.Usuarios podem cadastrar seus treinos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "treinos.Usuarios podem atualizar seus treinos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "treinos.Usuarios podem excluir seus treinos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "treino_dias.Usuarios podem listar dias dos seus treinos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "treino_dias.Usuarios podem cadastrar dias dos seus treinos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "treino_dias.Usuarios podem atualizar dias dos seus treinos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "treino_dias.Usuarios podem excluir dias dos seus treinos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "treino_exercicios.Usuarios podem listar exercicios dos seus treinos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "treino_exercicios.Usuarios podem cadastrar exercicios dos seus treinos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "treino_exercicios.Usuarios podem atualizar exercicios dos seus treinos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "treino_exercicios.Usuarios podem excluir exercicios dos seus treinos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "acompanhamento_eventos.Usuarios podem listar seus eventos de acompanhamento",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "acompanhamento_eventos.Usuarios podem cadastrar seus eventos de acompanhamento",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "workout_templates.Usuarios podem listar seus modelos de treino",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "workout_templates.Usuarios podem cadastrar seus modelos de treino",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "workout_templates.Usuarios podem atualizar seus modelos de treino",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "workout_templates.Usuarios podem excluir seus modelos de treino",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "aoe_decisions.Usuarios podem listar decisoes AOE dos seus alunos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "aoe_decisions.Usuarios podem criar decisoes AOE dos seus alunos",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "aoe_decision_traces.Traces AOE restritos ao profissional autorizado",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "aoe_human_reviews.Usuarios podem consultar reviews AOE autorizadas",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "aoe_human_reviews.Usuarios podem criar reviews AOE autorizadas",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "aoe_human_reviews.Usuarios podem atualizar reviews AOE autorizadas",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "aoe_idempotency_keys.Idempotencia AOE restrita ao ator",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "aoe_audit_events.Auditoria AOE somente admin leitura",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "policies",
+      "name": "alunos.Usuário cadastra seus alunos",
+      "classification": "EXPECTED_HARDENING_DIFFERENCE"
+    },
+    {
+      "kind": "policies",
+      "name": "alunos.Usuário edita seus alunos",
+      "classification": "EXPECTED_HARDENING_DIFFERENCE"
+    },
+    {
+      "kind": "policies",
+      "name": "alunos.Usuário exclui seus alunos",
+      "classification": "EXPECTED_HARDENING_DIFFERENCE"
+    },
+    {
+      "kind": "policies",
+      "name": "alunos.Usuário vê apenas seus alunos",
+      "classification": "EXPECTED_HARDENING_DIFFERENCE"
+    },
+    {
+      "kind": "indexes",
+      "name": "perfis_user_id_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "perfis_tipo_acesso_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "perfis_status_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "alunos_user_vencimento_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "alunos_user_acompanhamento_status_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "planos_user_id_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "planos_ativo_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "planos_user_ativo_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "planos_user_nome_normalizado_unique_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "assinaturas_user_id_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "assinaturas_status_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "assinaturas_data_vencimento_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "assinaturas_user_created_at_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "assinaturas_user_status_vencimento_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "pagamentos_user_id_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "pagamentos_aluno_id_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "pagamentos_data_pagamento_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "pagamentos_user_aluno_data_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "admin_logs_admin_user_id_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "admin_logs_target_user_id_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "admin_logs_acao_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "admin_logs_created_at_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "aceites_legais_user_id_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "aceites_legais_versoes_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "aceites_legais_aceito_em_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "avaliacoes_user_id_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "avaliacoes_aluno_id_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "avaliacoes_data_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "avaliacoes_user_data_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "anamneses_user_id_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "anamneses_aluno_id_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "anamneses_user_created_at_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "treinos_user_id_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "treinos_aluno_id_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "treinos_user_created_at_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "treino_dias_treino_id_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "treino_exercicios_treino_dia_id_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "acompanhamento_eventos_user_id_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "acompanhamento_eventos_aluno_id_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "acompanhamento_eventos_ocorrido_em_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "acompanhamento_eventos_user_aluno_ocorrido_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "acompanhamento_eventos_user_event_key_uidx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "workout_templates_owner_id_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "workout_templates_owner_updated_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "workout_templates_owner_split_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "aoe_idempotency_unique_key",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "aoe_human_reviews_one_active_per_decision",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "aoe_decisions_request_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "aoe_decisions_student_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "aoe_decisions_actor_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "aoe_decisions_org_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "aoe_decisions_model_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "aoe_traces_decision_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "aoe_reviews_decision_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "aoe_idempotency_expires_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "indexes",
+      "name": "aoe_audit_org_event_date_idx",
+      "classification": "MATCHED"
+    },
+    {
+      "kind": "managed_dependency",
+      "name": "storage.buckets",
+      "classification": "REQUIRES_RUNTIME_QUERY"
+    },
+    {
+      "kind": "managed_dependency",
+      "name": "storage.objects policies",
+      "classification": "REQUIRES_RUNTIME_QUERY"
+    }
+  ]
+}

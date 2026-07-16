@@ -36,20 +36,21 @@
 - Riscos: Storage ainda depende de catalog query; baseline ainda precisa validacao em Supabase local descartavel.
 - Decisao de saida: READY_WITH_REMEDIATIONS. Entrada do Ciclo 5 exige usar `supabase/baseline-src` como fonte, validar SQL localmente e confirmar Storage runtime antes de promocao para HML.
 
-## Ciclo 5 - Baseline Implementation
+## Ciclo 5 - Baseline Implementation & Local SQL Validation
 
-- Objetivo: implementar a migration baseline em branch dedicada.
-- Principais entregas: baseline SQL consolidada, README de migrations atualizado e checklist de equivalencia.
-- Dependencias: Ciclo 4, `baseline-src`, `22-schema-drift-decisions.md`, `23-migration-rename-map.md`, `24-environment-dependency-matrix.md`.
-- Criterios de aceite: projeto local vazio sobe com baseline; RLS/RPC/Storage passam em smoke tests; nenhum secret/dado real entra na baseline.
-- Riscos: reaplicacao indevida em ambiente existente.
-- Decisao de saida: baseline validada localmente.
+- Objetivo: consolidar `supabase/baseline-src/` em uma baseline candidate fora de `supabase/migrations/` e validar estaticamente sem executar SQL remoto.
+- Principais entregas: `supabase/baseline-candidate/20260716090000_baseline_aruka_v1.sql`, `manifest.json`, README, scripts de validacao, relatorios em `reports/supabase-baseline-validation/` e documentos 26/27.
+- Dependencias: Ciclo 4, `baseline-src`, dump HML, project-ref HML `xrmqdkpxnfvusmenadnf`.
+- Criterios de aceite: candidate unica, sem dados reais/secrets, sem `schema_migrations`, sem deploy remoto, comparacao contra dump e evidencia de bloqueio quando validacao local nao puder rodar.
+- Riscos: Storage runtime remoto ainda depende de catalog query read-only; cutover precisa impedir reaplicacao indevida em ambientes existentes.
+- Decisao de saida: `BASELINE_CANDIDATE_VALIDATED`.
+- Pos-validacao: Ciclo 5.3 sanitizou evidencias locais e bloqueou artefatos temporarios com credenciais efemeras.
 
 ## Ciclo 6 - Migration Cutover
 
 - Objetivo: definir corte entre baseline e historico para ambientes existentes.
 - Principais entregas: runbook de cutover, estrategia de `schema_migrations`, plano de rollback operacional.
-- Dependencias: baseline validada.
+- Dependencias: baseline candidate validada localmente, Storage runtime remoto verificado por catalog query read-only e runbook de cutover aprovado.
 - Criterios de aceite: HML/producao nao reaplicam DDL destrutivo; historico fica rastreavel.
 - Riscos: drift residual ou reparo incorreto de migrations.
 - Decisao de saida: cutover pronto para HML.

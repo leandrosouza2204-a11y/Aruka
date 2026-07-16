@@ -1,0 +1,10 @@
+﻿copy: exit_code=1
+project-ref: exit_code=1
+supabase-url: exit_code=1
+token: exit_code=1
+duplicate-table: exit_code=1
+duplicate-policy: exit_code=1
+duplicate-trigger: exit_code=1
+security-definer-no-search-path: exit_code=1
+grant-public: exit_code=1
+sha-invalid: exit_code=1

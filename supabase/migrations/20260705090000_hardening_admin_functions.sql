@@ -1,5 +1,5 @@
 ------------------------------------------------------------------
--- CoachFlow Database Migration
+-- Aruka Database Migration
 --
 -- Migration:
 -- 20260705_hardening_admin_functions

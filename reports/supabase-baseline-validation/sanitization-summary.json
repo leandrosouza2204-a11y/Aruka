@@ -1,0 +1,87 @@
+{
+  "backup_dir": "[OS_TEMP]/aruka-supabase-validation-evidence-backup",
+  "processed": [
+    {
+      "file": "comparison.json",
+      "changed": false,
+      "bytes": 19652
+    },
+    {
+      "file": "docker-diagnostics.log",
+      "changed": false,
+      "bytes": 6641
+    },
+    {
+      "file": "execution.log",
+      "changed": false,
+      "bytes": 36836
+    },
+    {
+      "file": "functions.txt",
+      "changed": false,
+      "bytes": 1262
+    },
+    {
+      "file": "grants.txt",
+      "changed": false,
+      "bytes": 23082
+    },
+    {
+      "file": "indexes.txt",
+      "changed": false,
+      "bytes": 3896
+    },
+    {
+      "file": "isolated-public-schema.sql",
+      "changed": false,
+      "bytes": 76938
+    },
+    {
+      "file": "negative-tests.txt",
+      "changed": false,
+      "bytes": 287
+    },
+    {
+      "file": "policies.txt",
+      "changed": false,
+      "bytes": 3554
+    },
+    {
+      "file": "rls.txt",
+      "changed": false,
+      "bytes": 264
+    },
+    {
+      "file": "sanitization-summary.json",
+      "changed": false,
+      "bytes": 1532
+    },
+    {
+      "file": "storage.txt",
+      "changed": false,
+      "bytes": 86
+    },
+    {
+      "file": "summary.md",
+      "changed": false,
+      "bytes": 591
+    },
+    {
+      "file": "tables.txt",
+      "changed": false,
+      "bytes": 264
+    },
+    {
+      "file": "triggers.txt",
+      "changed": false,
+      "bytes": 55
+    }
+  ],
+  "skipped": [],
+  "replacements": {
+    "anon_key": 1,
+    "db_url": 1,
+    "secret_key": 1,
+    "service_role_key": 1
+  }
+}

@@ -1,0 +1,1 @@
+﻿avaliacoes-fotos public=false limit=8388608 mimes=image/jpeg,image/png,image/webp

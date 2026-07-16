@@ -99,7 +99,9 @@
     "aoe:staging:cleanup": "node scripts/aoe/cleanup-staging-fixtures.js",
     "aoe:validate:staging": "node scripts/aoe/staging-env-cli.js --environment=staging && npm run aoe:infra:build-catalog && npm run aoe:infra:build-function",
     "aoe:validate:runtime-evidence": "node scripts/aoe/import-supabase-runtime-evidence.js",
-    "qa:supabase-baseline-src": "node scripts/validate-supabase-baseline-src.mjs"
+    "qa:supabase-baseline-src": "node scripts/validate-supabase-baseline-src.mjs",
+    "qa:supabase-baseline-candidate": "node scripts/validate-supabase-baseline-candidate.mjs",
+    "qa:supabase-validation-evidence": "node scripts/validate-supabase-validation-evidence.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.107.0",

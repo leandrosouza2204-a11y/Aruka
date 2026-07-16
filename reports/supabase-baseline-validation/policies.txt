@@ -1,0 +1,58 @@
+﻿public.aceites_legais.Usuarios podem listar seus aceites legais
+public.aceites_legais.Usuarios podem registrar seus aceites legais
+public.acompanhamento_eventos.Usuarios podem cadastrar seus eventos de acompanhamento
+public.acompanhamento_eventos.Usuarios podem listar seus eventos de acompanhamento
+public.admin_logs.Admins podem listar logs administrativos
+public.admin_logs.Usuarios comuns nao inserem logs administrativos
+public.alunos.Usuarios podem atualizar seus alunos
+public.alunos.Usuarios podem cadastrar seus alunos
+public.alunos.Usuarios podem excluir seus alunos
+public.alunos.Usuarios podem listar seus alunos
+public.anamneses.Usuarios podem atualizar suas anamneses
+public.anamneses.Usuarios podem cadastrar suas anamneses
+public.anamneses.Usuarios podem excluir suas anamneses
+public.anamneses.Usuarios podem listar suas anamneses
+public.aoe_audit_events.Auditoria AOE somente admin leitura
+public.aoe_decision_traces.Traces AOE restritos ao profissional autorizado
+public.aoe_decisions.Usuarios podem criar decisoes AOE dos seus alunos
+public.aoe_decisions.Usuarios podem listar decisoes AOE dos seus alunos
+public.aoe_human_reviews.Usuarios podem atualizar reviews AOE autorizadas
+public.aoe_human_reviews.Usuarios podem consultar reviews AOE autorizadas
+public.aoe_human_reviews.Usuarios podem criar reviews AOE autorizadas
+public.aoe_idempotency_keys.Idempotencia AOE restrita ao ator
+public.assinaturas.Usuarios podem cadastrar suas assinaturas
+public.assinaturas.Usuarios podem listar suas assinaturas
+public.avaliacoes.Usuarios podem atualizar suas avaliacoes
+public.avaliacoes.Usuarios podem cadastrar suas avaliacoes
+public.avaliacoes.Usuarios podem excluir suas avaliacoes
+public.avaliacoes.Usuarios podem listar suas avaliacoes
+public.pagamentos.Usuarios podem atualizar seus pagamentos
+public.pagamentos.Usuarios podem cadastrar seus pagamentos
+public.pagamentos.Usuarios podem excluir seus pagamentos
+public.pagamentos.Usuarios podem listar seus pagamentos
+public.perfis.Usuarios podem criar seu perfil padrao
+public.perfis.Usuarios podem listar seu perfil
+public.planos.Usuarios podem atualizar seus planos
+public.planos.Usuarios podem cadastrar seus planos
+public.planos.Usuarios podem excluir seus planos
+public.planos.Usuarios podem listar seus planos
+public.treino_dias.Usuarios podem atualizar dias dos seus treinos
+public.treino_dias.Usuarios podem cadastrar dias dos seus treinos
+public.treino_dias.Usuarios podem excluir dias dos seus treinos
+public.treino_dias.Usuarios podem listar dias dos seus treinos
+public.treino_exercicios.Usuarios podem atualizar exercicios dos seus treinos
+public.treino_exercicios.Usuarios podem cadastrar exercicios dos seus treinos
+public.treino_exercicios.Usuarios podem excluir exercicios dos seus treinos
+public.treino_exercicios.Usuarios podem listar exercicios dos seus treinos
+public.treinos.Usuarios podem atualizar seus treinos
+public.treinos.Usuarios podem cadastrar seus treinos
+public.treinos.Usuarios podem excluir seus treinos
+public.treinos.Usuarios podem listar seus treinos
+public.workout_templates.Usuarios podem atualizar seus modelos de treino
+public.workout_templates.Usuarios podem cadastrar seus modelos de treino
+public.workout_templates.Usuarios podem excluir seus modelos de treino
+public.workout_templates.Usuarios podem listar seus modelos de treino
+storage.objects.avaliacoes_fotos_delete_own_folder
+storage.objects.avaliacoes_fotos_insert_own_folder
+storage.objects.avaliacoes_fotos_select_own_folder
+storage.objects.avaliacoes_fotos_update_own_folder

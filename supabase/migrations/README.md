@@ -1,4 +1,4 @@
-# CoachFlow Database Migrations
+# Aruka Database Migrations
 
 Todas as alteracoes estruturais do banco devem ser registradas nesta pasta.
 
@@ -27,6 +27,6 @@ Exemplo:
 
 ## Observacoes
 
-- Migrations nesta pasta documentam o historico do banco do CoachFlow.
+- Migrations nesta pasta documentam o historico do banco do Aruka.
 - Scripts auxiliares ou de auditoria podem existir fora desta pasta, mas nao substituem uma migration versionada quando uma alteracao for aplicada ao banco.
 - Mudancas em RLS, indices, funcoes, triggers, tabelas ou constraints devem ser registradas aqui antes de serem consideradas parte oficial do projeto.
