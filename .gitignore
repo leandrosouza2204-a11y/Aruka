@@ -30,3 +30,7 @@ dist-ssr
 .env*
 .env.qa.local
 tmp-responsive-screenshots/
+# Supabase CLI local state
+supabase/.temp/
+# Database runtime evidence
+reports/hml-baseline/*.sql
