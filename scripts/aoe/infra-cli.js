@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const REPORT_DIR = "reports/aoe/infrastructure-pilot";
-const MIGRATION = "supabase/migrations/20260715_aoe_infrastructure_pilot.sql";
+const MIGRATION = "supabase/migrations/20260715090000_aoe_infrastructure_pilot.sql";
 
 function parseArgs(argv) {
   return argv.reduce((acc, arg) => {

@@ -17,9 +17,9 @@ Esta auditoria cobre dados disponiveis para futuros indicadores de retencao, chu
 - `supabase/alunos.sql`
 - `supabase/planos.sql`
 - `supabase/pagamentos.sql`
-- `supabase/migrations/20260711_acompanhamento_alunos.sql`
-- `supabase/migrations/20260711_motivo_encerramento_detalhe.sql`
-- `supabase/migrations/20260711_historico_acompanhamento_alunos.sql`
+- `supabase/migrations/20260711090000_acompanhamento_alunos.sql`
+- `supabase/migrations/20260711092000_motivo_encerramento_detalhe.sql`
+- `supabase/migrations/20260711091000_historico_acompanhamento_alunos.sql`
 - `src/services/acompanhamentoEventosService.js`
 - `src/features/financeiro/constants/tiposEventosAcompanhamento.js`
 - `src/features/financeiro/constants/motivosEncerramento.js`
@@ -314,7 +314,7 @@ where tipo = 'plano_renovado'
 - Encerramentos automaticos por 90 dias nao possuem `ocorrido_em` persistido nem motivo estruturado persistido como evento.
 - O campo `alunos.plano` nao tem FK direta no schema base; para historico, deve-se preferir snapshots dos eventos.
 
-Data de corte recomendada: usar a data de aplicacao em producao da migration `20260711_historico_acompanhamento_alunos.sql`. Como o arquivo esta datado de 2026-07-11, a recomendacao operacional e exibir indicadores de eventos com aviso: "Dados de acompanhamento disponiveis a partir de 11/07/2026", ajustando a data se a aplicacao real da migration ocorreu em outro dia.
+Data de corte recomendada: usar a data de aplicacao em producao da migration `20260711091000_historico_acompanhamento_alunos.sql`. Como o arquivo esta datado de 2026-07-11, a recomendacao operacional e exibir indicadores de eventos com aviso: "Dados de acompanhamento disponiveis a partir de 11/07/2026", ajustando a data se a aplicacao real da migration ocorreu em outro dia.
 
 ## Metricas prontas para uso
 

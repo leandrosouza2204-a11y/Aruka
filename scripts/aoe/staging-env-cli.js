@@ -81,7 +81,7 @@ function validateEnvironment(args) {
   const projects = run("npx.cmd", ["supabase", "projects", "list", "--output", "json"]);
   const missingFlags = REQUIRED_FLAGS.filter((name) => !Object.prototype.hasOwnProperty.call(process.env, name));
   const configPresent = fs.existsSync("supabase/config.toml");
-  const migrationPresent = fs.existsSync("supabase/migrations/20260715_aoe_infrastructure_pilot.sql");
+  const migrationPresent = fs.existsSync("supabase/migrations/20260715090000_aoe_infrastructure_pilot.sql");
   const functionPresent = fs.existsSync("supabase/functions/aoe/index.ts");
   const catalogPresent = fs.existsSync("supabase/functions/aoe/generated/apl-catalog.generated.ts");
   const blockers = [];

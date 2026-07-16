@@ -1,0 +1,53 @@
+grant usage on schema public to anon, authenticated, service_role;
+
+grant select, insert, update, delete on table public.perfis to authenticated;
+grant select, insert, update, delete on table public.alunos to authenticated;
+grant select, insert, update, delete on table public.planos to authenticated;
+grant select, insert, update, delete on table public.assinaturas to authenticated;
+grant select, insert, update, delete on table public.pagamentos to authenticated;
+grant select, insert, update, delete on table public.admin_logs to authenticated;
+grant select, insert, update, delete on table public.aceites_legais to authenticated;
+grant select, insert, update, delete on table public.avaliacoes to authenticated;
+grant select, insert, update, delete on table public.anamneses to authenticated;
+grant select, insert, update, delete on table public.treinos to authenticated;
+grant select, insert, update, delete on table public.treino_dias to authenticated;
+grant select, insert, update, delete on table public.treino_exercicios to authenticated;
+grant select, insert, update, delete on table public.acompanhamento_eventos to authenticated;
+grant select, insert, update, delete on table public.workout_templates to authenticated;
+grant select, insert, update, delete on table public.aoe_decisions to authenticated;
+grant select, insert, update, delete on table public.aoe_decision_traces to authenticated;
+grant select, insert, update, delete on table public.aoe_human_reviews to authenticated;
+grant select, insert, update, delete on table public.aoe_idempotency_keys to authenticated;
+grant select, insert, update, delete on table public.aoe_audit_events to authenticated;
+
+grant all on all tables in schema public to service_role;
+
+revoke all on function public.admin_eh_admin() from public;
+revoke all on function public.admin_validar_acesso() from public;
+revoke all on function public.admin_registrar_log(uuid, text, text, uuid, jsonb, jsonb, text) from public;
+revoke all on function public.admin_listar_logs(text, uuid, date, date, text) from public;
+revoke all on function public.admin_listar_usuarios() from public;
+revoke all on function public.admin_atualizar_perfil(uuid, text, text, text, text, text) from public;
+revoke all on function public.admin_upsert_assinatura(uuid, text, text, date, date, text) from public;
+revoke all on function public.admin_bloquear_usuario(uuid, text) from public;
+revoke all on function public.admin_liberar_beta(uuid, text) from public;
+revoke all on function public.admin_liberar_assinante(uuid, text, date, date, text) from public;
+revoke all on function public.processar_encerramento_automatico_aluno(uuid, uuid, date, date, text, uuid, text, integer, text) from public;
+revoke all on function public.aoe_user_owns_student(uuid) from public;
+revoke all on function public.aoe_idempotency_get_or_create(text, uuid, uuid, text, text, text) from public;
+revoke all on function public.set_workout_templates_updated_at() from public;
+
+grant execute on function public.admin_eh_admin() to authenticated, service_role;
+grant execute on function public.admin_validar_acesso() to authenticated, service_role;
+grant execute on function public.admin_registrar_log(uuid, text, text, uuid, jsonb, jsonb, text) to authenticated, service_role;
+grant execute on function public.admin_listar_logs(text, uuid, date, date, text) to authenticated, service_role;
+grant execute on function public.admin_listar_usuarios() to authenticated, service_role;
+grant execute on function public.admin_atualizar_perfil(uuid, text, text, text, text, text) to authenticated, service_role;
+grant execute on function public.admin_upsert_assinatura(uuid, text, text, date, date, text) to authenticated, service_role;
+grant execute on function public.admin_bloquear_usuario(uuid, text) to authenticated, service_role;
+grant execute on function public.admin_liberar_beta(uuid, text) to authenticated, service_role;
+grant execute on function public.admin_liberar_assinante(uuid, text, date, date, text) to authenticated, service_role;
+grant execute on function public.processar_encerramento_automatico_aluno(uuid, uuid, date, date, text, uuid, text, integer, text) to service_role;
+grant execute on function public.aoe_user_owns_student(uuid) to authenticated, service_role;
+grant execute on function public.aoe_idempotency_get_or_create(text, uuid, uuid, text, text, text) to authenticated, service_role;
+grant execute on function public.set_workout_templates_updated_at() to service_role;

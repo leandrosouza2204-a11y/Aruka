@@ -68,7 +68,7 @@ Nunca colocar o valor real do secret ou da service role no repositorio.
 O agendamento diario fica versionado na migration:
 
 ```text
-supabase/migrations/20260712_agendar_encerramentos_automaticos_dry_run.sql
+supabase/migrations/20260712090000_agendar_encerramentos_automaticos_dry_run.sql
 ```
 
 Job:

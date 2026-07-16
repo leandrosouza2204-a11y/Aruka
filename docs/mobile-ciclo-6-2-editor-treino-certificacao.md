@@ -30,7 +30,7 @@ Data: 2026-07-14
 
 ## Migracao
 
-Aplicar `supabase/migrations/20260714_workout_templates.sql` no ambiente Supabase antes da validacao autenticada dos modelos pessoais.
+Aplicar `supabase/migrations/20260714090000_workout_templates.sql` no ambiente Supabase antes da validacao autenticada dos modelos pessoais.
 
 ## Certificacao Final
 

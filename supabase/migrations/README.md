@@ -13,7 +13,7 @@ YYYYMMDD_descricao.sql
 Exemplo:
 
 ```text
-20260705_rls_indices_multitenant.sql
+20260705091000_rls_indices_multitenant.sql
 ```
 
 ## Regras

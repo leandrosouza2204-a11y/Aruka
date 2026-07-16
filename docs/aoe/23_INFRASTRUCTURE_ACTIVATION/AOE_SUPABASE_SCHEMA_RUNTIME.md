@@ -8,7 +8,7 @@ Status: bloqueado.
 - Supabase CLI: disponivel via `npx.cmd`, versao `2.109.1`.
 - `supabase/config.toml`: ausente.
 - Docker local: indisponivel para `supabase status` e `supabase db dump`.
-- Migration local: `supabase/migrations/20260715_aoe_infrastructure_pilot.sql` presente.
+- Migration local: `supabase/migrations/20260715090000_aoe_infrastructure_pilot.sql` presente.
 
 ## Resultado
 

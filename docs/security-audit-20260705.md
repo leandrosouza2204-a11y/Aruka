@@ -38,7 +38,7 @@ Nenhum problema critico novo foi confirmado no codigo da aplicacao durante esta 
 
 - Funcoes administrativas `SECURITY DEFINER` expostas para `anon`.
   - Risco: chamada anonima via `/rest/v1/rpc/*`.
-  - Correcao: `supabase/migrations/20260705_hardening_admin_functions.sql`.
+  - Correcao: `supabase/migrations/20260705090000_hardening_admin_functions.sql`.
 
 - RPCs administrativas precisam continuar acessiveis a `authenticated`.
   - Risco residual: o Supabase Linter pode manter warning para as RPCs usadas pelo painel.
@@ -97,7 +97,7 @@ Nenhum problema critico novo foi confirmado no codigo da aplicacao durante esta 
 
 ## Migrations Criadas
 
-- `supabase/migrations/20260705_hardening_admin_functions.sql`
+- `supabase/migrations/20260705090000_hardening_admin_functions.sql`
 
 ## Configuracao Manual Necessaria
 

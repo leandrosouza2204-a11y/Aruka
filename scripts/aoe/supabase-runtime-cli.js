@@ -77,7 +77,7 @@ function inspectEnvironment(args) {
   const configPresent = fs.existsSync("supabase/config.toml");
   const catalogPresent = fs.existsSync("supabase/functions/aoe/generated/apl-catalog.generated.ts");
   const edgeFunctionPresent = fs.existsSync("supabase/functions/aoe/index.ts");
-  const migrationPresent = fs.existsSync("supabase/migrations/20260715_aoe_infrastructure_pilot.sql");
+  const migrationPresent = fs.existsSync("supabase/migrations/20260715090000_aoe_infrastructure_pilot.sql");
   const testEnv = process.env.AOE_INFRA_TEST_ENV || null;
   const runtimeCanWrite = classification.explicitRuntimeAllowed && testEnv && testEnv !== "production";
   const dockerStatus = run("npx.cmd", ["supabase", "status"]);
