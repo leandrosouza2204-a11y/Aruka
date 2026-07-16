@@ -23,7 +23,7 @@ Edge Functions existentes usam `service_role` em fluxos especificos: transferenc
 
 ## Possiveis Conflitos
 
-- Duplicidade de objetos entre SQL solto e migrations: indices multi-tenant aparecem tanto em `auditoria_dados_recomendacoes.sql` quanto em `20260705_rls_indices_multitenant.sql`.
+- Duplicidade de objetos entre SQL solto e migrations: indices multi-tenant aparecem tanto em `auditoria_dados_recomendacoes.sql` quanto em `20260705091000_rls_indices_multitenant.sql`.
 - Policies de treinos/avaliacoes/anamneses tambem aparecem em `auditoria_dados_recomendacoes.sql`, sugerindo arquivo de recomendacao ou legado com SQL executavel.
 - `alunos.plano` textual convive com `acompanhamento_eventos.plano_id`, indicando transicao parcial para referencia normalizada.
 - `pagamentos` mantem `observacao` e `observacoes`, com sincronizacao parcial no SQL.

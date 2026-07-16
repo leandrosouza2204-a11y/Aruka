@@ -30,18 +30,18 @@
 ## Ciclo 4 - Schema Drift Resolution
 
 - Objetivo: resolver ou aceitar explicitamente drifts encontrados no Ciclo 3.
-- Principais entregas: decisoes sobre overloads, grants, policies divergentes, SQL legado e Storage runtime.
+- Principais entregas: decisoes sobre overloads, grants, policies divergentes, SQL legado, Storage, `baseline-src`, mapa de renomeio e validacao estatica.
 - Dependencias: Ciclo 3 aprovado.
-- Criterios de aceite: cada drift HIGH/CRITICAL tratado, aceito ou convertido em acao de baseline.
-- Riscos: correcoes podem exigir migrations, revisao de RLS e testes.
-- Decisao de saida: drift bloqueante removido ou plano de baseline ajustado.
+- Criterios de aceite: cada drift HIGH/CRITICAL tratado, aceito, endurecido ou bloqueado com justificativa explicita.
+- Riscos: Storage ainda depende de catalog query; baseline ainda precisa validacao em Supabase local descartavel.
+- Decisao de saida: READY_WITH_REMEDIATIONS. Entrada do Ciclo 5 exige usar `supabase/baseline-src` como fonte, validar SQL localmente e confirmar Storage runtime antes de promocao para HML.
 
 ## Ciclo 5 - Baseline Implementation
 
 - Objetivo: implementar a migration baseline em branch dedicada.
 - Principais entregas: baseline SQL consolidada, README de migrations atualizado e checklist de equivalencia.
-- Dependencias: Ciclo 4.
-- Criterios de aceite: projeto local vazio sobe com baseline; RLS/RPC/Storage passam em smoke tests.
+- Dependencias: Ciclo 4, `baseline-src`, `22-schema-drift-decisions.md`, `23-migration-rename-map.md`, `24-environment-dependency-matrix.md`.
+- Criterios de aceite: projeto local vazio sobe com baseline; RLS/RPC/Storage passam em smoke tests; nenhum secret/dado real entra na baseline.
 - Riscos: reaplicacao indevida em ambiente existente.
 - Decisao de saida: baseline validada localmente.
 

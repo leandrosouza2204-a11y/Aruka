@@ -33,21 +33,21 @@ Motivo: contem indices e policies que tambem aparecem em migrations, alem de com
 
 Devem ser incorporadas porque representam estado atual essencial de um ambiente novo:
 
-- `20260705_hardening_admin_functions.sql`
-- `20260705_rls_indices_multitenant.sql`
-- `20260710_integridade_avaliacoes.sql`
-- `20260710_storage_avaliacoes_fotos.sql`
-- `20260711_acompanhamento_alunos.sql`
-- `20260711_historico_acompanhamento_alunos.sql`
-- `20260711_motivo_encerramento_detalhe.sql`
-- `20260711_planos_nome_unico.sql`
-- `20260711_rpc_processar_encerramento_automatico.sql`
-- `20260714_workout_templates.sql`
-- `20260715_aoe_infrastructure_pilot.sql`
+- `20260705090000_hardening_admin_functions.sql`
+- `20260705091000_rls_indices_multitenant.sql`
+- `20260710090000_integridade_avaliacoes.sql`
+- `20260710091000_storage_avaliacoes_fotos.sql`
+- `20260711090000_acompanhamento_alunos.sql`
+- `20260711091000_historico_acompanhamento_alunos.sql`
+- `20260711092000_motivo_encerramento_detalhe.sql`
+- `20260711093000_planos_nome_unico.sql`
+- `20260711094000_rpc_processar_encerramento_automatico.sql`
+- `20260714090000_workout_templates.sql`
+- `20260715090000_aoe_infrastructure_pilot.sql`
 
 ### Migration que deve permanecer incremental
 
-- `20260712_agendar_encerramentos_automaticos_dry_run.sql`
+- `20260712090000_agendar_encerramentos_automaticos_dry_run.sql`
 
 Motivo: pelo nome e proposito aparente, parece operacional/agendamento/dry-run. Deve permanecer fora da baseline ate confirmacao do conteudo e da necessidade por ambiente.
 
