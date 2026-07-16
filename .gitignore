@@ -37,3 +37,4 @@ reports/hml-baseline/*.sql
 reports/supabase-baseline-validation/credential-scan.txt
 reports/supabase-baseline-validation/negative-tests/
 reports/supabase-baseline-validation/tmp-local-project*/
+reports/supabase-baseline-validation/isolated-public-schema.sql
