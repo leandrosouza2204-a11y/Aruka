@@ -1,5 +1,7 @@
 param(
-  [switch]$KeepTemp
+  [switch]$KeepTemp,
+  [switch]$UseActiveMigrations,
+  [switch]$IncludePostCutoverTest
 )
 
 $ErrorActionPreference = "Stop"
@@ -79,6 +81,7 @@ function Assert-Count($Label, $Expected, $Sql) {
 
 $root = (Resolve-Path ".").Path
 $reportDir = Join-Path $root "reports/supabase-baseline-validation"
+$cutoverReportDir = Join-Path $root "reports/supabase-migration-cutover-validation"
 $runId = Get-Date -Format "yyyyMMddHHmmss"
 $tmpProject = Join-Path $reportDir "tmp-local-project-$runId"
 $tmpSupabase = Join-Path $tmpProject "supabase"
@@ -88,6 +91,7 @@ $candidateDir = Join-Path $root "supabase/baseline-candidate"
 $manifestPath = Join-Path $candidateDir "manifest.json"
 
 New-Item -ItemType Directory -Force $reportDir | Out-Null
+New-Item -ItemType Directory -Force $cutoverReportDir | Out-Null
 $script:ExecutionLog = Join-Path $reportDir "execution.log"
 "Supabase isolated baseline local validation - $(Get-Date -Format o)" | Set-Content -Encoding utf8 $script:ExecutionLog
 
@@ -111,9 +115,10 @@ if (-not (Test-Path $manifestPath)) {
 }
 
 $manifest = Get-Content -Raw $manifestPath | ConvertFrom-Json
-$candidateSql = Join-Path $candidateDir $manifest.main_file
+$sourceMigrationsDir = if ($UseActiveMigrations) { Join-Path $root "supabase/migrations" } else { $candidateDir }
+$candidateSql = Join-Path $sourceMigrationsDir $manifest.main_file
 if (-not (Test-Path $candidateSql)) {
-  throw "Missing baseline candidate SQL: $candidateSql"
+  throw "Missing baseline SQL: $candidateSql"
 }
 
 $resolvedTmp = [System.IO.Path]::GetFullPath($tmpProject)
@@ -134,22 +139,43 @@ New-Item -ItemType Directory -Force $tmpMigrations | Out-Null
 New-Item -ItemType Directory -Force $tmpDockerConfig | Out-Null
 Copy-Item -LiteralPath (Join-Path $root "supabase/config.toml") -Destination (Join-Path $tmpSupabase "config.toml")
 Copy-Item -LiteralPath $candidateSql -Destination (Join-Path $tmpMigrations $manifest.main_file)
+if ($IncludePostCutoverTest) {
+  $smokeSql = @"
+create schema if not exists cutover_validation;
+create table if not exists cutover_validation.post_cutover_smoke (
+  id integer primary key,
+  created_at timestamptz not null default now()
+);
+"@
+  $utf8NoBomSmoke = New-Object System.Text.UTF8Encoding($false)
+  [System.IO.File]::WriteAllText((Join-Path $tmpMigrations "20260717000000_cutover_smoke_test.sql"), $smokeSql, $utf8NoBomSmoke)
+}
 
 $copiedMigrations = @(Get-ChildItem -LiteralPath $tmpMigrations -Filter "*.sql")
-if ($copiedMigrations.Count -ne 1) {
-  throw "Temporary migrations directory must contain exactly one SQL file."
+$expectedMigrationCount = if ($IncludePostCutoverTest) { 2 } else { 1 }
+if ($copiedMigrations.Count -ne $expectedMigrationCount) {
+  throw "Temporary migrations directory must contain exactly $expectedMigrationCount SQL file(s)."
 }
-if ($copiedMigrations[0].Name -ne $manifest.main_file) {
+if (-not ($copiedMigrations.Name -contains $manifest.main_file)) {
   throw "Temporary migration is not the baseline candidate."
 }
 
-$historicalNames = @(Get-ChildItem -LiteralPath (Join-Path $root "supabase/migrations") -Filter "*.sql" | Select-Object -ExpandProperty Name)
+$historicalSourceDir = if ($UseActiveMigrations) { Join-Path $root "supabase/migrations-archive" } else { Join-Path $root "supabase/migrations" }
+$historicalNames = @(Get-ChildItem -LiteralPath $historicalSourceDir -Filter "*.sql" | Select-Object -ExpandProperty Name)
 foreach ($name in $historicalNames) {
   if (Test-Path (Join-Path $tmpMigrations $name)) {
     throw "Historical migration was copied into isolated project: $name"
   }
 }
-Write-Log "Isolation confirmed: temporary migrations contains only $($manifest.main_file)."
+Write-Log "Isolation confirmed: temporary migrations contain $expectedMigrationCount approved SQL file(s)."
+if ($IncludePostCutoverTest) {
+  Write-Log "Post-cutover smoke migration added only inside temporary project."
+}
+if ($UseActiveMigrations) {
+  Write-Log "Validation source: active migrations folder."
+} else {
+  Write-Log "Validation source: baseline candidate."
+}
 
 $configText = Get-Content -Raw (Join-Path $tmpSupabase "config.toml")
 $configText = $configText -replace 'project_id = ".*"', 'project_id = "aruka_baseline_validation"'
@@ -223,6 +249,9 @@ try {
   Assert-Count "public_rls_enabled_tables" 19 "select count(*) from pg_class c join pg_namespace n on n.oid = c.relnamespace where n.nspname = 'public' and c.relkind = 'r' and c.relrowsecurity;"
   Assert-Count "storage_bucket_avaliacoes_fotos" 1 "select count(*) from storage.buckets where id = 'avaliacoes-fotos' and name = 'avaliacoes-fotos' and public = false;"
   Assert-Count "security_definer_without_search_path" 0 "select count(*) from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public' and p.prosecdef and not exists (select 1 from unnest(coalesce(p.proconfig, array[]::text[])) cfg where cfg like 'search_path=%');"
+  if ($IncludePostCutoverTest) {
+    Assert-Count "post_cutover_smoke_table" 1 "select count(*) from information_schema.tables where table_schema = 'cutover_validation' and table_name = 'post_cutover_smoke';"
+  }
 
   Invoke-LocalPsql "select tablename from pg_tables where schemaname = 'public' order by tablename;" | Set-Content -Encoding utf8 (Join-Path $reportDir "tables.txt")
   Invoke-LocalPsql "select p.proname || '(' || pg_get_function_identity_arguments(p.oid) || ')' from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public' order by 1;" | Set-Content -Encoding utf8 (Join-Path $reportDir "functions.txt")
@@ -232,6 +261,8 @@ try {
   Invoke-LocalPsql "select n.nspname || '.' || idx.relname || case when c.oid is null then ' explicit' else ' constraint_backing' end from pg_index i join pg_class idx on idx.oid = i.indexrelid join pg_class tbl on tbl.oid = i.indrelid join pg_namespace n on n.oid = tbl.relnamespace left join pg_constraint c on c.conindid = i.indexrelid where n.nspname = 'public' order by 1;" | Set-Content -Encoding utf8 (Join-Path $reportDir "indexes.txt")
   Invoke-LocalPsql "select table_schema || '.' || table_name || '.' || privilege_type || '.' || grantee from information_schema.table_privileges where table_schema in ('public','storage') order by 1;" | Set-Content -Encoding utf8 (Join-Path $reportDir "grants.txt")
   Invoke-LocalPsql "select id || ' public=' || public::text || ' limit=' || coalesce(file_size_limit::text, '') || ' mimes=' || coalesce(array_to_string(allowed_mime_types, ','), '') from storage.buckets order by id;" | Set-Content -Encoding utf8 (Join-Path $reportDir "storage.txt")
+  Invoke-LocalPsql "select version from supabase_migrations.schema_migrations order by version;" | Set-Content -Encoding utf8 (Join-Path $cutoverReportDir "migration-history.txt")
+  Get-ChildItem -LiteralPath $tmpMigrations -Filter "*.sql" | Sort-Object Name | Select-Object -ExpandProperty Name | Set-Content -Encoding utf8 (Join-Path $cutoverReportDir "active-migrations.txt")
 
   $dumpArgs = $supabaseNpx + @("db", "dump", "--local", "--schema", "public", "--file", $dumpPath)
   Assert-NoRemoteArgs $dumpArgs
