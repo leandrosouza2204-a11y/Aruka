@@ -63,4 +63,8 @@ Storage permanece como dependencia gerenciada que requer query read-only futura,
 
 ## Proxima acao recomendada
 
-Antes do cutover, revisar o runbook do Ciclo 6, preservar a baseline fora de `supabase/migrations/` ate a decisao de corte e coletar catalog query read-only de Storage em HML.
+Apos o cutover de repositorio, executar apenas um ciclo posterior e aprovado para HML/producao, com catalog query read-only de Storage, backup, GO/NO-GO e registro controlado de historico.
+
+## Atualizacao Ciclo 6
+
+A baseline foi promovida para `supabase/migrations/20260716090000_baseline_aruka_v1.sql` com o mesmo SHA da candidate. Migrations historicas foram arquivadas em `supabase/migrations-archive/` e a migration de agendamento foi movida para `supabase/operations/`.

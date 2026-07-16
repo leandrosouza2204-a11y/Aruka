@@ -1,0 +1,12 @@
+﻿{
+    "restart_bootstrap":  "passed",
+    "baseline":  "20260716090000_baseline_aruka_v1.sql",
+    "preflight":  "passed",
+    "restart_validation":  "passed",
+    "first_bootstrap":  "passed",
+    "remote_changes":  "none",
+    "decision":  "LOCAL_REPRODUCIBILITY_WITH_REMEDIATIONS",
+    "worktree":  "not_run_documented_remediation",
+    "baseline_sha256":  "745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE",
+    "validation":  "passed"
+}

@@ -101,7 +101,15 @@
     "aoe:validate:runtime-evidence": "node scripts/aoe/import-supabase-runtime-evidence.js",
     "qa:supabase-baseline-src": "node scripts/validate-supabase-baseline-src.mjs",
     "qa:supabase-baseline-candidate": "node scripts/validate-supabase-baseline-candidate.mjs",
-    "qa:supabase-validation-evidence": "node scripts/validate-supabase-validation-evidence.mjs"
+    "qa:supabase-validation-evidence": "node scripts/validate-supabase-validation-evidence.mjs",
+    "qa:supabase-migration-cutover": "node scripts/validate-supabase-migration-cutover.mjs",
+    "supabase:preflight": "node scripts/supabase-local-cli.mjs preflight",
+    "supabase:bootstrap": "node scripts/supabase-local-cli.mjs bootstrap",
+    "supabase:validate": "node scripts/supabase-local-cli.mjs validate",
+    "supabase:status": "node scripts/supabase-local-cli.mjs status",
+    "supabase:stop": "node scripts/supabase-local-cli.mjs stop",
+    "supabase:clean": "node scripts/supabase-local-cli.mjs clean",
+    "qa:supabase-local-reproducibility": "node scripts/validate-supabase-local-reproducibility.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.107.0",

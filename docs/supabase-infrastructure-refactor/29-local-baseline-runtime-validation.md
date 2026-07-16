@@ -64,6 +64,10 @@ Evidencias foram gravadas em `reports/supabase-baseline-validation/`.
 
 A baseline candidate foi aplicada integralmente em ambiente Supabase local limpo, descartavel e isolado. O ambiente temporario e o Docker config temporario foram removidos ao final. Nenhum banco remoto, Edge Function, Auth remoto, Storage remoto, secret ou `.env` foi alterado.
 
+## Validacao Ciclo 6
+
+O mesmo fluxo local foi executado usando a pasta oficial `supabase/migrations/` apos o cutover. A baseline oficial aplicou com sucesso, as migrations arquivadas nao foram copiadas e uma migration posterior temporaria validou a ordem de evolucao pos-corte.
+
 ## Sanitizacao posterior
 
 O Ciclo 5.3 sanitizou os logs e relatorios locais gerados por esta validacao. As credenciais efemeras do Supabase local foram substituidas por placeholders estaveis e os artefatos temporarios `credential-scan.txt`, `negative-tests/` e `tmp-local-project*/` foram removidos/ignorados para versionamento.

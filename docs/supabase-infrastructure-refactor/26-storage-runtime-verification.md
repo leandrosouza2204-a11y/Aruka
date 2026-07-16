@@ -24,7 +24,7 @@ Este documento registra a verificacao de Storage planejada para a baseline candi
 
 ## Query read-only recomendada para ciclo futuro
 
-Executar apenas em janela autorizada e ambiente explicitamente confirmado:
+Executar apenas em janela autorizada e ambiente explicitamente confirmado antes de qualquer ativacao HML/producao:
 
 ```sql
 select id, name, public, file_size_limit, allowed_mime_types

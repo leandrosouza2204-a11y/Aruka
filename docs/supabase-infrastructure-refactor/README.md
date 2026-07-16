@@ -13,6 +13,8 @@ Escopo executado:
 - Ciclo 5: consolidacao de `baseline-candidate`, validacao estatica e relatorios locais.
 - Ciclo 5.2: validacao runtime local definitiva em Supabase descartavel e isolado.
 - Ciclo 5.3: sanitizacao de evidencias locais e validacao contra credenciais em relatorios.
+- Ciclo 6: cutover de repositorio com baseline oficial ativa, migrations historicas arquivadas e runbooks para ambientes existentes.
+- Ciclo 7: bootstrap local reproduzivel, comandos oficiais e documentacao para desenvolvedores.
 
 Fora de escopo neste ciclo:
 
@@ -52,13 +54,27 @@ Arquivos:
 - [28-coachflow-branding-cleanup.md](28-coachflow-branding-cleanup.md)
 - [29-local-baseline-runtime-validation.md](29-local-baseline-runtime-validation.md)
 - [30-validation-evidence-sanitization.md](30-validation-evidence-sanitization.md)
+- [31-migration-cutover-inventory.md](31-migration-cutover-inventory.md)
+- [32-new-environment-bootstrap.md](32-new-environment-bootstrap.md)
+- [33-existing-environment-cutover.md](33-existing-environment-cutover.md)
+- [34-migration-cutover-runbook.md](34-migration-cutover-runbook.md)
+- [35-migration-cutover-rollback.md](35-migration-cutover-rollback.md)
+- [36-local-config-audit.md](36-local-config-audit.md)
+- [37-local-development-bootstrap.md](37-local-development-bootstrap.md)
+- [38-local-services-and-ports.md](38-local-services-and-ports.md)
+- [39-local-reproducibility-summary.md](39-local-reproducibility-summary.md)
 
 Artefatos de baseline:
 
 - `supabase/baseline-src/`
 - `supabase/baseline-candidate/20260716090000_baseline_aruka_v1.sql`
+- `supabase/migrations/20260716090000_baseline_aruka_v1.sql`
+- `supabase/migrations-archive/`
+- `supabase/operations/`
 - `reports/supabase-baseline-validation/`
+- `reports/supabase-migration-cutover-validation/`
+- `reports/supabase-local-bootstrap/`
 
 Fonte principal: `supabase/*.sql`, `supabase/migrations/*.sql`, `supabase/functions/**`, `src/services/**` e scripts de validacao que usam Supabase.
 
-Observacao: a candidate foi validada estaticamente, comparada ao dump HML e aplicada com sucesso em Supabase local descartavel e isolado no Ciclo 5.2. O Ciclo 6 deve tratar o cutover controlado e as verificacoes read-only remotas pendentes.
+Observacao: a candidate foi promovida a baseline oficial no Ciclo 6 e validada localmente a partir da pasta ativa de migrations. Nenhuma escrita remota foi executada; HML/producao exigem ciclo posterior com runbook e verificacoes read-only.

@@ -48,21 +48,21 @@
 
 ## Ciclo 6 - Migration Cutover
 
-- Objetivo: definir corte entre baseline e historico para ambientes existentes.
-- Principais entregas: runbook de cutover, estrategia de `schema_migrations`, plano de rollback operacional.
-- Dependencias: baseline candidate validada localmente, Storage runtime remoto verificado por catalog query read-only e runbook de cutover aprovado.
-- Criterios de aceite: HML/producao nao reaplicam DDL destrutivo; historico fica rastreavel.
-- Riscos: drift residual ou reparo incorreto de migrations.
-- Decisao de saida: cutover pronto para HML.
+- Objetivo: ativar a baseline oficial no repositorio, arquivar migrations historicas e preparar cutover controlado para ambientes existentes.
+- Principais entregas: baseline em `supabase/migrations/`, `migrations-archive`, `operations`, manifesto, validador, runbooks 31-35 e relatorios locais.
+- Dependencias: baseline candidate validada localmente, evidencias sanitizadas.
+- Criterios de aceite: ambientes novos inicializam pela baseline ativa; HML/producao nao reaplicam DDL; historico fica rastreavel.
+- Riscos: Storage runtime remoto ainda depende de catalog query read-only; registro remoto da baseline exige ciclo posterior.
+- Decisao de saida: `CUTOVER_REPOSITORY_VALIDATED`.
 
 ## Ciclo 7 - Local Reproducibility
 
-- Objetivo: tornar setup local reproduzivel.
-- Principais entregas: guia Supabase CLI/Docker, bootstrap local, validacao de ambiente.
-- Dependencias: baseline e cutover definidos.
-- Criterios de aceite: novo ambiente local sobe com comandos documentados.
-- Riscos: dependencia de secrets ou recursos gerenciados nao simulados.
-- Decisao de saida: setup local padronizado.
+- Objetivo: tornar setup local reproduzivel com comandos oficiais e validacao estrutural.
+- Principais entregas: scripts `supabase:preflight/bootstrap/validate/status/stop/clean`, docs 36-39, `supabase/README.md` e relatorios locais.
+- Dependencias: cutover de repositorio validado.
+- Criterios de aceite: ambiente local sobe pela cadeia ativa, inventario confere e scripts rejeitam caminhos remotos.
+- Riscos: teste de worktree limpo pendente; seeds ficam para Ciclo 8.
+- Decisao de saida: `LOCAL_REPRODUCIBILITY_WITH_REMEDIATIONS`.
 
 ## Ciclo 8 - Seeds & Fixtures
 
