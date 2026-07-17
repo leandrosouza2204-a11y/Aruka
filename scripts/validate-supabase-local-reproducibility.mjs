@@ -30,6 +30,8 @@ const requiredScripts = [
 const requiredReports = [
   "reports/supabase-local-bootstrap/clean-worktree-summary.md",
   "reports/supabase-local-bootstrap/clean-worktree-result.json",
+  "reports/supabase-local-bootstrap/clean-worktree-wrapper-summary.md",
+  "reports/supabase-local-bootstrap/clean-worktree-wrapper-result.json",
   "reports/supabase-local-bootstrap/negative-mutations-summary.md",
   "reports/supabase-local-bootstrap/negative-mutations-result.json",
 ];
@@ -173,7 +175,31 @@ if (requireCycle71Reports) {
   if (worktreeResult?.cleanup?.temp_dir_removed !== true) fail("Clean worktree cleanup did not remove temp directory");
   if (worktreeResult?.remote_access !== "none") fail("Clean worktree reported remote access");
 
-  const negativeResult = existsSync(pathOf(requiredReports[3])) ? readJson(requiredReports[3]) : null;
+  const wrapperResult = existsSync(pathOf(requiredReports[3])) ? readJson(requiredReports[3]) : null;
+  if (wrapperResult?.result !== "CLEAN_WORKTREE_WRAPPER_VALIDATED") fail("Clean worktree wrapper result is not validated");
+  if (wrapperResult?.decision !== "LOCAL_REPRODUCIBILITY_VALIDATED") fail("Clean worktree wrapper decision is not validated");
+  if (wrapperResult?.powershell_exit_code !== 0) fail("Clean worktree wrapper PowerShell exit code is not zero");
+  if (wrapperResult?.powershell_timed_out !== false) fail("Clean worktree wrapper timed out");
+  if (wrapperResult?.close_event_received !== true) fail("Clean worktree wrapper close event was not received");
+  if (wrapperResult?.success_marker_found !== true) fail("Clean worktree wrapper success marker was not found");
+  if (wrapperResult?.powershell_report_found !== true) fail("Clean worktree wrapper did not find PowerShell report");
+  if (wrapperResult?.powershell_summary_found !== true) fail("Clean worktree wrapper did not find PowerShell summary");
+  if (wrapperResult?.powershell_result_validated !== true) fail("Clean worktree wrapper did not validate PowerShell result");
+  if (wrapperResult?.powershell_decision_validated !== true) fail("Clean worktree wrapper did not validate PowerShell decision");
+  if (wrapperResult?.powershell_process_exited !== true) fail("Clean worktree wrapper PowerShell process did not exit");
+  if (wrapperResult?.credential_scan_passed !== true) fail("Clean worktree wrapper credential scan did not pass");
+  if (wrapperResult?.jwt_scan_passed !== true) fail("Clean worktree wrapper JWT scan did not pass");
+  if (wrapperResult?.secret_scan_passed !== true) fail("Clean worktree wrapper secret scan did not pass");
+  if (wrapperResult?.cleanup?.worktree_removed !== true) fail("Clean worktree wrapper cleanup did not remove worktree");
+  if (wrapperResult?.cleanup?.temp_directory_removed !== true) fail("Clean worktree wrapper cleanup did not remove temp directory");
+  if (wrapperResult?.cleanup?.containers_removed !== true) fail("Clean worktree wrapper cleanup did not remove containers");
+  if (wrapperResult?.cleanup?.volumes_removed !== true) fail("Clean worktree wrapper cleanup did not remove volumes");
+  if (wrapperResult?.manual_intervention_required !== false) fail("Clean worktree wrapper required manual intervention");
+  if (wrapperResult?.remote_access_performed !== false) fail("Clean worktree wrapper reported remote access");
+  if (wrapperResult?.edge_functions_deployed !== false) fail("Clean worktree wrapper reported Edge Function deploy");
+  if (wrapperResult?.primary_error !== null) fail("Clean worktree wrapper reported primary error");
+
+  const negativeResult = existsSync(pathOf(requiredReports[5])) ? readJson(requiredReports[5]) : null;
   if (negativeResult?.result !== "MUTATIONS_REJECTED") fail("Negative mutation result is not rejected");
   if (negativeResult?.rejected !== 20 || negativeResult?.total !== 20) fail("Expected 20/20 negative mutations rejected");
 

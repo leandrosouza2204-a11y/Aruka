@@ -56,6 +56,7 @@ npm.cmd run supabase:stop
 - Ciclo 7.1 executou worktree limpo com `npm ci`, bootstrap, validate e stop aprovados em ambiente temporario.
 - Ciclo 7.1 executou mutacoes negativas com `20/20 MUTATIONS_REJECTED`.
 - Ciclo 7.2 corrigiu o wrapper PowerShell; `qa:supabase-clean-worktree`, `qa:supabase-clean-worktree-wrapper` e `qa:supabase-local-reproducibility` passam com exit code 0.
+- Ciclo 7.2.1 completou o contrato de evidencias: relatorio PowerShell completo, relatorio Node independente, newline final, JSON valido, scan de credenciais e validacao consolidada.
 
 ## Riscos residuais
 

@@ -62,7 +62,8 @@
 - Dependencias: cutover de repositorio validado.
 - Criterios de aceite: ambiente local sobe pela cadeia ativa, inventario confere e scripts rejeitam caminhos remotos.
 - Riscos: seeds ficam para Ciclo 8.
-- Decisao de saida apos Ciclo 7.2: `LOCAL_REPRODUCIBILITY_VALIDATED`.
+- Ciclo 7.2 finalizou o wrapper PowerShell; Ciclo 7.2.1 completou as evidencias formais PowerShell/Node.
+- Decisao de saida apos Ciclo 7.2.1: `LOCAL_REPRODUCIBILITY_VALIDATED`.
 
 ## Ciclo 8 - Seeds & Fixtures
 

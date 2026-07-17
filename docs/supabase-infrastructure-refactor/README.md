@@ -17,6 +17,7 @@ Escopo executado:
 - Ciclo 7: bootstrap local reproduzivel, comandos oficiais e documentacao para desenvolvedores.
 - Ciclo 7.1: worktree limpo com evidencia runtime, mutacoes negativas e remediacao pendente no wrapper de finalizacao.
 - Ciclo 7.2: wrapper PowerShell finalizado, falso positivo de URL sanitizada corrigido e reproducibilidade local validada.
+- Ciclo 7.2.1: complemento documental e de auditoria dos relatorios PowerShell/Node do wrapper.
 
 Fora de escopo neste ciclo:
 

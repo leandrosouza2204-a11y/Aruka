@@ -37,3 +37,5 @@ Nenhum comando remoto foi executado. Nao houve `db push`, `db pull`, `migration 
 ## Resultado final
 
 `qa:supabase-clean-worktree-wrapper` e `qa:supabase-local-reproducibility` passaram apos regeneracao real dos logs.
+
+O Ciclo 7.2.1 registrou tambem `20/20 MUTATIONS_REJECTED` e `20/20 URL_CASES_VALIDATED`, com cleanup confirmado por duas camadas: wrapper PowerShell e wrapper Node.

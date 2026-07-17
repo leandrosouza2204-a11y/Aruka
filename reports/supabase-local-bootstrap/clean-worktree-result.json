@@ -1,14 +1,40 @@
 {
+  "cycle": "7.2.1",
   "result": "CLEAN_WORKTREE_VALIDATED",
   "decision": "LOCAL_REPRODUCIBILITY_VALIDATED",
+  "started_at": "2026-07-17T11:13:49.1637354+00:00",
+  "finished_at": "2026-07-17T11:17:29.0364689+00:00",
+  "duration_seconds": 220,
   "project_id": "aruka_clean_worktree_validation",
+  "wrapper_exit_code": 0,
+  "wrapper_timed_out": false,
+  "last_checkpoint": "FINAL_ASSERTIONS_END",
+  "root_cause": "Windows PowerShell 5.1 could not safely execute scriptblock-based DataReceivedEventHandler callbacks on threads without a Runspace; deterministic report serialization was also required.",
+  "correction": "Parallel ReadToEndAsync stdout/stderr capture with explicit timeouts, deterministic JSON generation, idempotent cleanup and explicit exit code handling.",
+  "steps": {
+    "npm_ci_passed": true,
+    "preflight_passed": true,
+    "bootstrap_passed": true,
+    "validate_passed": true,
+    "stop_passed": true
+  },
   "remote_access": "none",
   "timings_seconds": {
-    "npm_ci": 32,
-    "preflight": 21,
-    "bootstrap": 89,
+    "npm_ci": 38,
+    "preflight": 15,
+    "bootstrap": 103,
     "validate": 13,
     "stop": 25
+  },
+  "schema_inventory": {
+    "public_tables": 19,
+    "public_functions": 14,
+    "public_triggers": 1,
+    "public_explicit_indexes": 56,
+    "public_policies": 54,
+    "storage_policies": 4,
+    "public_rls_enabled_tables": 19,
+    "storage_bucket_avaliacoes_fotos": "private"
   },
   "inventory": {
     "public_tables": 19,
@@ -23,14 +49,43 @@
     "archived_migrations_in_history": 0,
     "baseline_in_history": 1
   },
+  "migration_history": ["20260716090000"],
   "migrations": ["20260716090000"],
+  "security": {
+    "report_sanitization_passed": true,
+    "credential_scan_passed": true,
+    "baseline_sha_preserved": true,
+    "hml_project_ref_preserved": true,
+    "remote_access_performed": false,
+    "edge_functions_deployed": false
+  },
   "cleanup": {
     "worktree_removed": true,
     "temp_dir_removed": true,
+    "temp_directory_removed": true,
     "containers_removed": true,
-    "volumes_removed": true
+    "volumes_removed": true,
+    "child_processes_removed": true
   },
+  "child_processes": [
+    {"pid": 8072, "description": "GIT_STATUS", "started": "2026-07-17T08:13:50.0534969-03:00", "finished": "2026-07-17T08:13:50.6037168-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 12496, "description": "DOCKER_VERSION", "started": "2026-07-17T08:13:50.6834240-03:00", "finished": "2026-07-17T08:13:52.5545619-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 14700, "description": "WORKTREE_CREATE", "started": "2026-07-17T08:13:52.6059280-03:00", "finished": "2026-07-17T08:13:59.2813650-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 17020, "description": "NPM_CI", "started": "2026-07-17T08:13:59.9516627-03:00", "finished": "2026-07-17T08:14:38.3860230-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 21640, "description": "INNER_PREFLIGHT", "started": "2026-07-17T08:14:38.3880691-03:00", "finished": "2026-07-17T08:14:53.6060166-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 20212, "description": "INNER_BOOTSTRAP", "started": "2026-07-17T08:14:53.6160234-03:00", "finished": "2026-07-17T08:16:36.5997442-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 19248, "description": "INNER_VALIDATE", "started": "2026-07-17T08:16:36.5997442-03:00", "finished": "2026-07-17T08:16:49.5570334-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 13500, "description": "INNER_STOP", "started": "2026-07-17T08:16:49.5726577-03:00", "finished": "2026-07-17T08:17:14.8237076-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 11004, "description": "WORKTREE_REMOVE", "started": "2026-07-17T08:17:18.4300249-03:00", "finished": "2026-07-17T08:17:27.1045615-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 4608, "description": "WORKTREE_PRUNE", "started": "2026-07-17T08:17:27.1201877-03:00", "finished": "2026-07-17T08:17:27.2674589-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 12496, "description": "WORKTREE_LIST", "started": "2026-07-17T08:17:27.3086059-03:00", "finished": "2026-07-17T08:17:27.4579425-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 15316, "description": "CONTAINER_CHECK", "started": "2026-07-17T08:17:27.4579425-03:00", "finished": "2026-07-17T08:17:28.0649836-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 14900, "description": "VOLUME_CHECK", "started": "2026-07-17T08:17:28.0703516-03:00", "finished": "2026-07-17T08:17:28.8054706-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false}
+  ],
   "process_timeouts": 0,
+  "remote_access_performed": false,
+  "edge_functions_deployed": false,
   "primary_error": null,
-  "cleanup_errors": []
+  "cleanup_errors": [],
+  "residual_risks": []
 }

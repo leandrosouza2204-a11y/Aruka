@@ -40,3 +40,10 @@ npm.cmd run qa:supabase-clean-worktree-wrapper
 ```
 
 Nenhum comando local deve usar `--linked`, `--project-ref`, `--db-url` remoto, `db push` ou `migration repair`.
+
+Relatorios principais:
+
+- `reports/supabase-local-bootstrap/clean-worktree-result.json`
+- `reports/supabase-local-bootstrap/clean-worktree-wrapper-result.json`
+- `reports/supabase-local-bootstrap/clean-worktree-summary.md`
+- `reports/supabase-local-bootstrap/clean-worktree-wrapper-summary.md`

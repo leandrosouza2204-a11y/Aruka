@@ -1,0 +1,33 @@
+{
+  "cycle": "7.2.1",
+  "result": "CLEAN_WORKTREE_WRAPPER_VALIDATED",
+  "decision": "LOCAL_REPRODUCIBILITY_VALIDATED",
+  "started_at": "2026-07-17T11:13:45.973Z",
+  "finished_at": "2026-07-17T11:17:29.257Z",
+  "duration_seconds": 223,
+  "powershell_exit_code": 0,
+  "powershell_timed_out": false,
+  "close_event_received": true,
+  "success_marker_found": true,
+  "success_marker_seen": true,
+  "powershell_report_found": true,
+  "powershell_summary_found": true,
+  "powershell_result_validated": true,
+  "powershell_decision_validated": true,
+  "powershell_process_exited": true,
+  "powershell_process_finished": true,
+  "credential_scan_passed": true,
+  "jwt_scan_passed": true,
+  "secret_scan_passed": true,
+  "cleanup": {
+    "worktree_removed": true,
+    "temp_directory_removed": true,
+    "containers_removed": true,
+    "volumes_removed": true
+  },
+  "manual_intervention_required": false,
+  "remote_access_performed": false,
+  "edge_functions_deployed": false,
+  "primary_error": null,
+  "residual_risks": []
+}

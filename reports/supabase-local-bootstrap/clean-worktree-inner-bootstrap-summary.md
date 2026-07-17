@@ -4,4 +4,4 @@
 - Active migrations source: supabase/migrations
 - Archived migrations applied: no
 - Operations applied automatically: no
-- Duration seconds: 75
+- Duration seconds: 88

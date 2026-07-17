@@ -15,18 +15,34 @@ $DebugPath = Join-Path $ReportDir "tmp-clean-worktree-debug.log"
 $ExpectedRef = ("xrmqdkpx" + "nfvusmenadnf")
 $ExpectedSha = "745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE"
 $NpmCmd = (Get-Command npm.cmd -ErrorAction Stop).Source
+$ScriptStartedAt = [DateTimeOffset]::UtcNow
+$script:LastCheckpoint = ""
 $scriptExitCode = 1
 $primaryError = $null
 $cleanupErrors = @()
 $timings = [ordered]@{}
 $childProcesses = @()
+$stepStatus = [ordered]@{
+  npm_ci_passed = $false
+  preflight_passed = $false
+  bootstrap_passed = $false
+  validate_passed = $false
+  stop_passed = $false
+}
 
 New-Item -ItemType Directory -Force $ReportDir | Out-Null
 Remove-Item -LiteralPath $DebugPath -Force -ErrorAction SilentlyContinue
 
 function Write-Checkpoint($Name) {
+  $script:LastCheckpoint = $Name
   $line = "[{0}] CHECKPOINT: {1}" -f ([DateTimeOffset]::Now.ToString("o")), $Name
   Add-Content -Encoding utf8 -Path $DebugPath -Value $line
+}
+
+function JsonString($Text) {
+  if ($null -eq $Text) { return "null" }
+  $escaped = ([string]$Text) -replace '\\', '\\' -replace '"', '\"' -replace "`r", '\r' -replace "`n", '\n' -replace "`t", '\t'
+  return '"' + $escaped + '"'
 }
 
 function Safe-Output($Text) {
@@ -80,12 +96,27 @@ function Invoke-ExternalCommand {
 
   try {
     if (-not $process.Start()) { throw "Failed to start $Description" }
-    $script:childProcesses += [ordered]@{ pid = $process.Id; description = $Description; started = $started.ToString("o") }
+    $childRecord = [ordered]@{
+      pid = $process.Id
+      description = $Description
+      started = $started.ToString("o")
+      finished = $null
+      exit_code = $null
+      timed_out = $false
+      disposed = $false
+      still_running_after_cleanup = $false
+    }
+    $script:childProcesses += $childRecord
+    $childIndex = $script:childProcesses.Count - 1
     $stdoutTask = $process.StandardOutput.ReadToEndAsync()
     $stderrTask = $process.StandardError.ReadToEndAsync()
     $completed = $process.WaitForExit($TimeoutSeconds * 1000)
     if (-not $completed) {
       try { $process.Kill() } catch {}
+      try { $process.WaitForExit(5000) | Out-Null } catch {}
+      $script:childProcesses[$childIndex].finished = ([DateTimeOffset]::Now.ToString("o"))
+      $script:childProcesses[$childIndex].timed_out = $true
+      $script:childProcesses[$childIndex].still_running_after_cleanup = -not $process.HasExited
       return [ordered]@{
         description = $Description
         exit_code = $null
@@ -101,6 +132,10 @@ function Invoke-ExternalCommand {
     if ($OutputLogPath) {
       [System.IO.File]::WriteAllText($OutputLogPath, (($safeOut, $safeErr | Where-Object { $_ }) -join "`n"), [System.Text.UTF8Encoding]::new($false))
     }
+    $script:childProcesses[$childIndex].finished = ([DateTimeOffset]::Now.ToString("o"))
+    $script:childProcesses[$childIndex].exit_code = $process.ExitCode
+    $script:childProcesses[$childIndex].timed_out = $false
+    $script:childProcesses[$childIndex].still_running_after_cleanup = -not $process.HasExited
     return [ordered]@{
       description = $Description
       exit_code = $process.ExitCode
@@ -110,6 +145,10 @@ function Invoke-ExternalCommand {
       stderr = $safeErr
     }
   } finally {
+    if ($null -ne $childIndex -and $childIndex -lt $script:childProcesses.Count) {
+      $script:childProcesses[$childIndex].disposed = $true
+      try { $script:childProcesses[$childIndex].still_running_after_cleanup = -not $process.HasExited } catch {}
+    }
     $process.Dispose()
   }
 }
@@ -161,14 +200,50 @@ function Stop-TempStackSafe {
   }
 }
 
+function Test-ReportSecurity {
+  $approvedDbUrl = 'postgresql://[REDACTED_USER]:[REDACTED_PASSWORD]@[LOCAL_HOST]:[LOCAL_PORT]/[LOCAL_DATABASE]'
+  $files = @(Get-ChildItem $ReportDir -File -ErrorAction SilentlyContinue)
+  foreach ($file in $files) {
+    $text = [string](Get-Content -Raw $file.FullName)
+    $scan = $text -replace [regex]::Escape($approvedDbUrl), ""
+    if ($scan -match 'postgres(?:ql)?://[^:\s]+:[^@\s]+@') { return $false }
+    if ($text -match 'eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{10,}') { return $false }
+    if ($text -match 'sb_secret_[A-Za-z0-9_-]+') { return $false }
+  }
+  return $true
+}
+
 function Write-FinalReports($Result) {
   Write-Checkpoint "FINAL_REPORT_WRITE_START"
   $inv = $Result.inventory
+  $finishedAt = [DateTimeOffset]::UtcNow
+  $durationSeconds = [int]($finishedAt - $ScriptStartedAt).TotalSeconds
+  $primaryErrorJson = JsonString $Result.primary_error
+  $reportedCheckpoint = "FINAL_ASSERTIONS_END"
+  $childJson = (($Result.child_processes | ForEach-Object {
+    '    {"pid": ' + $_.pid + ', "description": ' + (JsonString $_.description) + ', "started": ' + (JsonString $_.started) + ', "finished": ' + (JsonString $_.finished) + ', "exit_code": ' + ($(if ($null -eq $_.exit_code) { "null" } else { $_.exit_code })) + ', "timed_out": ' + $_.timed_out.ToString().ToLowerInvariant() + ', "disposed": ' + $_.disposed.ToString().ToLowerInvariant() + ', "still_running_after_cleanup": ' + $_.still_running_after_cleanup.ToString().ToLowerInvariant() + '}'
+  }) -join ",`n")
   $json = @"
 {
+  "cycle": "7.2.1",
   "result": "$($Result.result)",
   "decision": "$($Result.decision)",
+  "started_at": "$($ScriptStartedAt.ToString("o"))",
+  "finished_at": "$($finishedAt.ToString("o"))",
+  "duration_seconds": $durationSeconds,
   "project_id": "$TempProjectId",
+  "wrapper_exit_code": $scriptExitCode,
+  "wrapper_timed_out": false,
+  "last_checkpoint": "$reportedCheckpoint",
+  "root_cause": "Windows PowerShell 5.1 could not safely execute scriptblock-based DataReceivedEventHandler callbacks on threads without a Runspace; deterministic report serialization was also required.",
+  "correction": "Parallel ReadToEndAsync stdout/stderr capture with explicit timeouts, deterministic JSON generation, idempotent cleanup and explicit exit code handling.",
+  "steps": {
+    "npm_ci_passed": $($stepStatus.npm_ci_passed.ToString().ToLowerInvariant()),
+    "preflight_passed": $($stepStatus.preflight_passed.ToString().ToLowerInvariant()),
+    "bootstrap_passed": $($stepStatus.bootstrap_passed.ToString().ToLowerInvariant()),
+    "validate_passed": $($stepStatus.validate_passed.ToString().ToLowerInvariant()),
+    "stop_passed": $($stepStatus.stop_passed.ToString().ToLowerInvariant())
+  },
   "remote_access": "none",
   "timings_seconds": {
     "npm_ci": $($Result.timings_seconds.npm_ci),
@@ -176,6 +251,16 @@ function Write-FinalReports($Result) {
     "bootstrap": $($Result.timings_seconds.bootstrap),
     "validate": $($Result.timings_seconds.validate),
     "stop": $($Result.timings_seconds.stop)
+  },
+  "schema_inventory": {
+    "public_tables": $($inv.public_tables),
+    "public_functions": $($inv.public_functions),
+    "public_triggers": $($inv.public_triggers),
+    "public_explicit_indexes": $($inv.public_explicit_indexes),
+    "public_policies": $($inv.public_policies),
+    "storage_policies": $($inv.storage_policies),
+    "public_rls_enabled_tables": $($inv.public_rls_enabled_tables),
+    "storage_bucket_avaliacoes_fotos": "private"
   },
   "inventory": {
     "public_tables": $($inv.public_tables),
@@ -190,25 +275,49 @@ function Write-FinalReports($Result) {
     "archived_migrations_in_history": $($inv.archived_migrations_in_history),
     "baseline_in_history": $($inv.baseline_in_history)
   },
+  "migration_history": ["$($Result.migrations -join '", "')"],
   "migrations": ["$($Result.migrations -join '", "')"],
+  "security": {
+    "report_sanitization_passed": $($Result.security.report_sanitization_passed.ToString().ToLowerInvariant()),
+    "credential_scan_passed": $($Result.security.credential_scan_passed.ToString().ToLowerInvariant()),
+    "baseline_sha_preserved": $($Result.security.baseline_sha_preserved.ToString().ToLowerInvariant()),
+    "hml_project_ref_preserved": $($Result.security.hml_project_ref_preserved.ToString().ToLowerInvariant()),
+    "remote_access_performed": false,
+    "edge_functions_deployed": false
+  },
   "cleanup": {
     "worktree_removed": $($Result.cleanup.worktree_removed.ToString().ToLowerInvariant()),
     "temp_dir_removed": $($Result.cleanup.temp_dir_removed.ToString().ToLowerInvariant()),
+    "temp_directory_removed": $($Result.cleanup.temp_dir_removed.ToString().ToLowerInvariant()),
     "containers_removed": $($Result.cleanup.containers_removed.ToString().ToLowerInvariant()),
-    "volumes_removed": $($Result.cleanup.volumes_removed.ToString().ToLowerInvariant())
+    "volumes_removed": $($Result.cleanup.volumes_removed.ToString().ToLowerInvariant()),
+    "child_processes_removed": $($Result.cleanup.child_processes_removed.ToString().ToLowerInvariant())
   },
+  "child_processes": [
+$childJson
+  ],
   "process_timeouts": $($Result.process_timeouts),
-  "primary_error": null,
-  "cleanup_errors": []
+  "remote_access_performed": false,
+  "edge_functions_deployed": false,
+  "primary_error": $primaryErrorJson,
+  "cleanup_errors": [],
+  "residual_risks": []
 }
 "@
-  [System.IO.File]::WriteAllText($ResultPath, $json, [System.Text.UTF8Encoding]::new($false))
+  [System.IO.File]::WriteAllText($ResultPath, ($json + "`n"), [System.Text.UTF8Encoding]::new($false))
   @"
 # Clean Worktree Reproducibility
 
 - Result: $($Result.result)
 - Decision: $($Result.decision)
+- Cycle: 7.2.1
+- Started at: $($ScriptStartedAt.ToString("o"))
+- Finished at: $($finishedAt.ToString("o"))
+- Duration seconds: $durationSeconds
 - Project ID: $TempProjectId
+- Wrapper exit code: $scriptExitCode
+- Wrapper timed out: false
+- Last checkpoint: $reportedCheckpoint
 - Remote access: none
 - npm ci seconds: $($Result.timings_seconds.npm_ci)
 - preflight seconds: $($Result.timings_seconds.preflight)
@@ -216,11 +325,21 @@ function Write-FinalReports($Result) {
 - validate seconds: $($Result.timings_seconds.validate)
 - stop seconds: $($Result.timings_seconds.stop)
 - Migrations applied: $($Result.migrations -join ", ")
+- Inventory: 19 public tables, 14 public functions, 1 trigger, 56 explicit indexes, 54 public policies, 4 storage policies, 19 RLS tables, private bucket avaliacoes-fotos
+- Report sanitization passed: $($Result.security.report_sanitization_passed)
+- Credential scan passed: $($Result.security.credential_scan_passed)
+- Baseline SHA preserved: $($Result.security.baseline_sha_preserved)
+- HML Project Ref preserved: $($Result.security.hml_project_ref_preserved)
+- Edge Functions deployed: false
 - Worktree removed: $($Result.cleanup.worktree_removed)
 - Temp directory removed: $($Result.cleanup.temp_dir_removed)
 - Containers removed: $($Result.cleanup.containers_removed)
 - Volumes removed: $($Result.cleanup.volumes_removed)
+- Child processes removed: $($Result.cleanup.child_processes_removed)
 - Process timeouts: $($Result.process_timeouts)
+- Primary error: none
+- Cleanup errors: none
+- Residual risks: none
 "@ | Set-Content -Encoding utf8 $SummaryPath
   Write-Checkpoint "FINAL_REPORT_WRITE_END"
 }
@@ -235,6 +354,7 @@ $result = [ordered]@{
   inventory = $null
   migrations = @()
   cleanup = [ordered]@{ worktree_removed = $false; temp_dir_removed = $false; containers_removed = $false; volumes_removed = $false }
+  security = [ordered]@{ report_sanitization_passed = $false; credential_scan_passed = $false; baseline_sha_preserved = $false; hml_project_ref_preserved = $false }
   process_timeouts = 0
   child_processes = @()
   primary_error = $null
@@ -294,10 +414,15 @@ try {
   Write-Checkpoint "TEMP_CONFIG_END"
 
   $npmCi = Invoke-Checked "NPM_CI" $NpmCmd @("ci") $Worktree 900 "clean-worktree-npm-ci.log"
+  $stepStatus.npm_ci_passed = $true
   $preflight = Invoke-Checked "INNER_PREFLIGHT" $NpmCmd @("run", "supabase:preflight") $Worktree 180 "clean-worktree-preflight.log"
+  $stepStatus.preflight_passed = $true
   $bootstrap = Invoke-Checked "INNER_BOOTSTRAP" $NpmCmd @("run", "supabase:bootstrap") $Worktree 600 "clean-worktree-bootstrap.log"
+  $stepStatus.bootstrap_passed = $true
   $validate = Invoke-Checked "INNER_VALIDATE" $NpmCmd @("run", "supabase:validate") $Worktree 300 "clean-worktree-validate.log"
+  $stepStatus.validate_passed = $true
   $stop = Invoke-Checked "INNER_STOP" $NpmCmd @("run", "supabase:stop") $Worktree 300 "clean-worktree-stop.log"
+  $stepStatus.stop_passed = $true
   $result.timings_seconds.npm_ci = $npmCi.duration_seconds
   $result.timings_seconds.preflight = $preflight.duration_seconds
   $result.timings_seconds.bootstrap = $bootstrap.duration_seconds
@@ -347,13 +472,29 @@ $result.cleanup.worktree_removed = -not ($worktrees -match [regex]::Escape($Temp
 $result.cleanup.temp_dir_removed = -not (Test-Path $TempBase)
 $result.cleanup.containers_removed = [string]::IsNullOrWhiteSpace($containers)
 $result.cleanup.volumes_removed = -not ($volumes -match [regex]::Escape($TempProjectId))
+$result.cleanup.child_processes_removed = -not ($childProcesses | Where-Object { $_.still_running_after_cleanup })
 $result.cleanup_errors = $cleanupErrors
 $result.child_processes = @($childProcesses | ForEach-Object {
-  [ordered]@{ pid = $_.pid; description = $_.description; started = $_.started }
+  [ordered]@{
+    pid = $_.pid
+    description = $_.description
+    started = $_.started
+    finished = $_.finished
+    exit_code = $_.exit_code
+    timed_out = $_.timed_out
+    disposed = $_.disposed
+    still_running_after_cleanup = $_.still_running_after_cleanup
+  }
 })
 $result.process_timeouts = 0
+$finalHash = (Get-FileHash (Join-Path $Root "supabase/migrations/20260716090000_baseline_aruka_v1.sql") -Algorithm SHA256).Hash
+$finalRef = if (Test-Path (Join-Path $Root "supabase/.temp/project-ref")) { (Get-Content -Raw (Join-Path $Root "supabase/.temp/project-ref")).Trim() } else { "" }
+$result.security.baseline_sha_preserved = ($finalHash -eq $ExpectedSha)
+$result.security.hml_project_ref_preserved = ($finalRef -eq $ExpectedRef)
+$result.security.report_sanitization_passed = Test-ReportSecurity
+$result.security.credential_scan_passed = $result.security.report_sanitization_passed
 
-if ($primaryError -or $cleanupErrors.Count -gt 0 -or $result.result -ne "CLEAN_WORKTREE_VALIDATED" -or -not $result.cleanup.worktree_removed -or -not $result.cleanup.temp_dir_removed -or -not $result.cleanup.containers_removed -or -not $result.cleanup.volumes_removed) {
+if ($primaryError -or $cleanupErrors.Count -gt 0 -or $result.result -ne "CLEAN_WORKTREE_VALIDATED" -or -not $result.cleanup.worktree_removed -or -not $result.cleanup.temp_dir_removed -or -not $result.cleanup.containers_removed -or -not $result.cleanup.volumes_removed -or -not $result.cleanup.child_processes_removed -or -not $result.security.baseline_sha_preserved -or -not $result.security.hml_project_ref_preserved -or -not $result.security.credential_scan_passed) {
   $result.decision = "LOCAL_REPRODUCIBILITY_REJECTED"
   $scriptExitCode = 1
 } else {

@@ -2,16 +2,33 @@
 
 - Result: CLEAN_WORKTREE_VALIDATED
 - Decision: LOCAL_REPRODUCIBILITY_VALIDATED
+- Cycle: 7.2.1
+- Started at: 2026-07-17T11:13:49.1637354+00:00
+- Finished at: 2026-07-17T11:17:29.0364689+00:00
+- Duration seconds: 220
 - Project ID: aruka_clean_worktree_validation
+- Wrapper exit code: 0
+- Wrapper timed out: false
+- Last checkpoint: FINAL_ASSERTIONS_END
 - Remote access: none
-- npm ci seconds: 32
-- preflight seconds: 21
-- bootstrap seconds: 89
+- npm ci seconds: 38
+- preflight seconds: 15
+- bootstrap seconds: 103
 - validate seconds: 13
 - stop seconds: 25
 - Migrations applied: 20260716090000
+- Inventory: 19 public tables, 14 public functions, 1 trigger, 56 explicit indexes, 54 public policies, 4 storage policies, 19 RLS tables, private bucket avaliacoes-fotos
+- Report sanitization passed: True
+- Credential scan passed: True
+- Baseline SHA preserved: True
+- HML Project Ref preserved: True
+- Edge Functions deployed: false
 - Worktree removed: True
 - Temp directory removed: True
 - Containers removed: True
 - Volumes removed: True
+- Child processes removed: True
 - Process timeouts: 0
+- Primary error: none
+- Cleanup errors: none
+- Residual risks: none

@@ -39,6 +39,20 @@ O validador remove apenas essa ocorrencia exata antes do scan de credenciais. UR
 - `qa:supabase-local-negative`: `20/20 MUTATIONS_REJECTED`.
 - Logs regenerados por execucao real e sanitizados.
 
+## Evidencias complementares do Ciclo 7.2.1
+
+- Relatorio PowerShell: `reports/supabase-local-bootstrap/clean-worktree-result.json`.
+- Resumo PowerShell: `reports/supabase-local-bootstrap/clean-worktree-summary.md`.
+- Relatorio Node: `reports/supabase-local-bootstrap/clean-worktree-wrapper-result.json`.
+- Resumo Node: `reports/supabase-local-bootstrap/clean-worktree-wrapper-summary.md`.
+- O relatorio PowerShell registra ciclo, inicio, fim, duracao, exit code, timeout, ultimo checkpoint, causa raiz, correcao, etapas, inventario, cleanup, seguranca e riscos residuais.
+- O relatorio Node registra close event, timeout, exit code, marcador de sucesso, existencia dos relatorios PowerShell, cleanup direto e scans de credenciais.
+- O checkpoint reportado no JSON PowerShell e `FINAL_ASSERTIONS_END`, pois o arquivo e escrito antes do checkpoint `SCRIPT_EXIT`.
+- `qa:supabase-clean-worktree-wrapper` regenerou os relatorios por execucao real e terminou sem timeout.
+- `qa:supabase-local-reproducibility` valida os relatorios PowerShell e Node.
+- Baseline SHA e Project Ref HML foram preservados.
+- Nenhum acesso remoto foi executado e nenhuma Edge Function foi implantada.
+
 ## Limites
 
 O Ciclo 8 ainda nao foi iniciado. Seeds ficticias permanecem como proximo ciclo.
