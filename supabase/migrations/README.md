@@ -1,32 +1,22 @@
-# Aruka Database Migrations
+# Aruka Active Database Migrations
 
-Todas as alteracoes estruturais do banco devem ser registradas nesta pasta.
+Esta pasta contem somente a cadeia ativa de migrations apos o cutover da baseline.
 
-Cada arquivo representa uma alteracao aplicada ao banco.
-
-## Formato
-
-```text
-YYYYMMDD_descricao.sql
-```
-
-Exemplo:
-
-```text
-20260705091000_rls_indices_multitenant.sql
-```
+Ambientes novos devem aplicar primeiro `20260716090000_baseline_aruka_v1.sql` e depois qualquer migration posterior ao corte.
 
 ## Regras
 
-- Nunca editar migrations antigas.
+- A baseline oficial deve permanecer byte a byte equivalente a `supabase/baseline-candidate/20260716090000_baseline_aruka_v1.sql`.
+- Migrations anteriores ao timestamp da baseline ficam em `supabase/migrations-archive/`.
+- SQL operacional por ambiente fica em `supabase/operations/`.
 - Nunca apagar migrations.
 - Toda alteracao executada no Supabase deve existir aqui.
 - Toda migration deve ser commitada junto com a alteracao correspondente.
 - O SQL deve ser idempotente sempre que possivel.
-- Antes de executar em producao, validar em ambiente de testes.
+- Antes de executar em HML/producao, validar em ambiente local e seguir o runbook de cutover.
 
 ## Observacoes
 
-- Migrations nesta pasta documentam o historico do banco do Aruka.
-- Scripts auxiliares ou de auditoria podem existir fora desta pasta, mas nao substituem uma migration versionada quando uma alteracao for aplicada ao banco.
-- Mudancas em RLS, indices, funcoes, triggers, tabelas ou constraints devem ser registradas aqui antes de serem consideradas parte oficial do projeto.
+- Ambientes existentes nao devem reaplicar a baseline.
+- O registro remoto da baseline em HML/producao exige ciclo posterior, janela aprovada e checklist.
+- `supabase db push`, `migration repair` ou comandos remotos nao foram executados neste cutover de repositorio.

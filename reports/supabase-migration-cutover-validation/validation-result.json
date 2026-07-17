@@ -1,0 +1,15 @@
+﻿{
+    "active_migrations":  [
+                              "20260716090000_baseline_aruka_v1.sql"
+                          ],
+    "operational_files":  [
+                              "20260712090000_agendar_encerramentos_automaticos_dry_run.sql"
+                          ],
+    "baseline":  "20260716090000_baseline_aruka_v1.sql",
+    "archived_count":  11,
+    "local_validation":  "passed",
+    "remote_changes":  "none",
+    "decision":  "CUTOVER_REPOSITORY_VALIDATED",
+    "baseline_sha256":  "745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE",
+    "post_cutover_test":  "passed"
+}
