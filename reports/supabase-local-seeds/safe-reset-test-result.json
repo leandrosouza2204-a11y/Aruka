@@ -1,0 +1,9 @@
+{
+  "cycle": "8",
+  "result": "SAFE_RESET_TEST_VALIDATED",
+  "decision": "LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED",
+  "reset_exit_code": 0,
+  "reset_timed_out": false,
+  "safe_reset_result": "SAFE_RESET_VALIDATED",
+  "primary_error": null
+}

@@ -1,0 +1,107 @@
+{
+  "cycle": "8",
+  "result": "CYCLE_8_CLEAN_WORKTREE_VALIDATED",
+  "decision": "LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED",
+  "started_at": "2026-07-17T13:35:15.641Z",
+  "finished_at": "2026-07-17T13:35:23.859Z",
+  "project_id": "aruka_cycle_8_validation",
+  "npm_ci_exit_code": null,
+  "cycle_8_exit_code": null,
+  "baseline_sha_preserved": true,
+  "cleanup": {
+    "worktree_removed": true,
+    "temp_directory_removed": true,
+    "child_processes_removed": true
+  },
+  "child_processes": [
+    {
+      "command": "git",
+      "args": [
+        "worktree",
+        "add",
+        "--detach",
+        "C:\\Users\\lsdsouza\\AppData\\Local\\Temp\\aruka-cycle-8-1784295315643\\worktree",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "timed_out": false
+    },
+    {
+      "command": "git",
+      "args": [
+        "diff",
+        "--name-only"
+      ],
+      "exit_code": 0,
+      "timed_out": false
+    },
+    {
+      "command": "git",
+      "args": [
+        "ls-files",
+        "--others",
+        "--exclude-standard"
+      ],
+      "exit_code": 0,
+      "timed_out": false
+    },
+    {
+      "command": "npm.cmd",
+      "args": [
+        "ci"
+      ],
+      "exit_code": 1,
+      "timed_out": false
+    },
+    {
+      "command": "npx.cmd",
+      "args": [
+        "supabase",
+        "stop",
+        "--project-id",
+        "aruka_cycle_8_validation",
+        "--no-backup"
+      ],
+      "exit_code": 1,
+      "timed_out": false
+    },
+    {
+      "command": "docker",
+      "args": [
+        "ps",
+        "-a",
+        "--filter",
+        "name=aruka_cycle_8_validation",
+        "--format",
+        "{{.Names}}"
+      ],
+      "exit_code": 0,
+      "timed_out": false
+    },
+    {
+      "command": "docker",
+      "args": [
+        "volume",
+        "ls",
+        "--format",
+        "{{.Name}}"
+      ],
+      "exit_code": 0,
+      "timed_out": false
+    },
+    {
+      "command": "git",
+      "args": [
+        "worktree",
+        "remove",
+        "--force",
+        "C:\\Users\\lsdsouza\\AppData\\Local\\Temp\\aruka-cycle-8-1784295315643\\worktree"
+      ],
+      "exit_code": 0,
+      "timed_out": false
+    }
+  ],
+  "remote_access_performed": false,
+  "edge_functions_deployed": false,
+  "primary_error": ""
+}

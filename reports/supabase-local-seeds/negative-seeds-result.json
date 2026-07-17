@@ -1,0 +1,196 @@
+{
+  "cycle": "8",
+  "result": "SEED_MUTATIONS_REJECTED",
+  "decision": "LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED",
+  "rejected": 30,
+  "total": 30,
+  "all_rejected": true,
+  "remote_mutations_rejected": true,
+  "credential_mutations_rejected": true,
+  "personal_data_mutations_rejected": true,
+  "non_deterministic_mutations_rejected": true,
+  "unsafe_reset_mutations_rejected": true,
+  "mutations": [
+    {
+      "name": "remote_url",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "supabase_host",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "pooler_host",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "linked_flag",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "project_ref_flag",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "remote_db_url_flag",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "db_push",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "db_pull",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "migration_repair",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "hml_project_ref",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "jwt",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "secret",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "password_url",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "real_email",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "cpf",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "phone",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "uuid_out_of_range",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "duplicate_fixture",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "now_function",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "random_function",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "seed_outside_allowlist",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "truncate",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "delete_without_filter",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "baseline_changed",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "migration_added",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "functions_change_marker",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "src_change_marker",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "upload_marker",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "edge_deploy",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    },
+    {
+      "name": "reset_without_guard",
+      "rejected": true,
+      "status": 0,
+      "reason": "mutation rejected by static guard"
+    }
+  ],
+  "primary_error": null
+}

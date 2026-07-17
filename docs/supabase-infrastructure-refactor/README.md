@@ -18,6 +18,7 @@ Escopo executado:
 - Ciclo 7.1: worktree limpo com evidencia runtime, mutacoes negativas e remediacao pendente no wrapper de finalizacao.
 - Ciclo 7.2: wrapper PowerShell finalizado, falso positivo de URL sanitizada corrigido e reproducibilidade local validada.
 - Ciclo 7.2.1: complemento documental e de auditoria dos relatorios PowerShell/Node do wrapper.
+- Ciclo 8: seeds locais deterministicas, fixtures ficticias, reset seguro e evidencias de idempotencia.
 
 Fora de escopo neste ciclo:
 
@@ -68,6 +69,9 @@ Arquivos:
 - [39-local-reproducibility-summary.md](39-local-reproducibility-summary.md)
 - [40-clean-clone-and-negative-validation.md](40-clean-clone-and-negative-validation.md)
 - [41-powershell-wrapper-finalization.md](41-powershell-wrapper-finalization.md)
+- [42-local-seeds-and-deterministic-fixtures.md](42-local-seeds-and-deterministic-fixtures.md)
+- [43-safe-local-reset-validation.md](43-safe-local-reset-validation.md)
+- [44-cycle-8-final-evidence.md](44-cycle-8-final-evidence.md)
 
 Artefatos de baseline:
 
@@ -79,6 +83,7 @@ Artefatos de baseline:
 - `reports/supabase-baseline-validation/`
 - `reports/supabase-migration-cutover-validation/`
 - `reports/supabase-local-bootstrap/`
+- `reports/supabase-local-seeds/`
 
 Fonte principal: `supabase/*.sql`, `supabase/migrations/*.sql`, `supabase/functions/**`, `src/services/**` e scripts de validacao que usam Supabase.
 

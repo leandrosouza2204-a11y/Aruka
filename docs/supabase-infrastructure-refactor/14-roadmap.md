@@ -65,14 +65,14 @@
 - Ciclo 7.2 finalizou o wrapper PowerShell; Ciclo 7.2.1 completou as evidencias formais PowerShell/Node.
 - Decisao de saida apos Ciclo 7.2.1: `LOCAL_REPRODUCIBILITY_VALIDATED`.
 
-## Ciclo 8 - Seeds & Fixtures
+## Ciclo 8 - Local Seeds, Deterministic Fixtures & Safe Reset Validation
 
-- Objetivo: implementar seeds ficticios e fixtures seguras.
-- Principais entregas: admin, personal, aluno, plano, treino, avaliacao, AOE e human review.
-- Dependencias: reproducibilidade local.
-- Criterios de aceite: seed sem dados reais, reexecutavel em ambiente limpo e util para QA.
-- Riscos: dados sensiveis acidentais em fixtures.
-- Decisao de saida: seed aprovado para LOCAL/DEV/HML controlado.
+- Objetivo: implementar seeds locais ficticios, deterministicas e auditaveis, com reset local seguro.
+- Principais entregas: `supabase/seed.sql`, `supabase/seeds/**`, scripts `supabase:seed:local`, `supabase:reset:safe`, validadores de fixtures, testes negativos e relatorios em `reports/supabase-local-seeds/`.
+- Dependencias: `LOCAL_REPRODUCIBILITY_VALIDATED`, baseline oficial unica e Docker/Supabase CLI local.
+- Criterios de aceite: duas cargas idempotentes, dois resets equivalentes, `30/30 SEED_MUTATIONS_REJECTED`, regressao dos Ciclos 7.x e ausencia de acesso remoto.
+- Riscos: dados sensiveis acidentais em fixtures, reset fora do ambiente local e divergencia de Auth local.
+- Decisao de saida: `LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED`.
 
 ## Ciclo 9 - HML Provisioning
 

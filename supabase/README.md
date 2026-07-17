@@ -37,6 +37,7 @@ npm.cmd run qa:supabase-local-reproducibility
 npm.cmd run qa:supabase-local-negative
 npm.cmd run qa:supabase-clean-worktree
 npm.cmd run qa:supabase-clean-worktree-wrapper
+npm.cmd run qa:supabase-cycle-8
 ```
 
 Nenhum comando local deve usar `--linked`, `--project-ref`, `--db-url` remoto, `db push` ou `migration repair`.
@@ -47,3 +48,13 @@ Relatorios principais:
 - `reports/supabase-local-bootstrap/clean-worktree-wrapper-result.json`
 - `reports/supabase-local-bootstrap/clean-worktree-summary.md`
 - `reports/supabase-local-bootstrap/clean-worktree-wrapper-summary.md`
+
+## Seeds locais
+
+```bash
+npm.cmd run supabase:seed:local
+npm.cmd run supabase:fixtures:validate
+npm.cmd run supabase:reset:safe
+```
+
+As seeds do Ciclo 8 ficam em `supabase/seeds/`. O arquivo `supabase/seed.sql` permanece como entrypoint seguro da CLI; a orquestracao real dos arquivos divididos e feita por `npm.cmd run supabase:seed:local`. Elas usam apenas dados ficticios, UUIDs reservados e dominio `example.invalid`.

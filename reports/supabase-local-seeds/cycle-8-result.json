@@ -1,0 +1,58 @@
+{
+  "cycle": "8",
+  "result": "LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED",
+  "decision": "LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED",
+  "started_at": "2026-07-17T13:23:45.793Z",
+  "finished_at": "2026-07-17T13:23:51.344Z",
+  "baseline_sha": "745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE",
+  "baseline_sha_preserved": true,
+  "migration_history": [
+    "20260716090000"
+  ],
+  "structural_inventory": {
+    "public_tables": 19,
+    "public_functions": 14,
+    "public_triggers": 1,
+    "public_indexes": 77,
+    "public_policies": 54,
+    "rls_enabled_tables": 19,
+    "private_assessment_bucket": true
+  },
+  "fixture_counts": {
+    "admin_logs": 1,
+    "anamneses": 1,
+    "aoe_audit": 1,
+    "aoe_decisions": 2,
+    "aoe_idempotency": 1,
+    "aoe_reviews": 2,
+    "aoe_traces": 2,
+    "assessments": 1,
+    "auth_users": 2,
+    "followup_events": 2,
+    "legal_acceptances": 2,
+    "payments": 2,
+    "plans": 3,
+    "profiles": 2,
+    "students": 3,
+    "subscriptions": 1,
+    "workout_days": 1,
+    "workout_exercises": 2,
+    "workout_templates": 1,
+    "workouts": 1
+  },
+  "reset_result": "SAFE_RESET_VALIDATED",
+  "fixtures_result": "DETERMINISTIC_FIXTURES_VALIDATED",
+  "negative_result": "SEED_MUTATIONS_REJECTED",
+  "idempotency_validated": true,
+  "real_personal_data_found": false,
+  "remote_access_performed": false,
+  "edge_functions_deployed": false,
+  "cleanup": {
+    "temporary_files_removed": true,
+    "temporary_processes_removed": true,
+    "temporary_containers_removed": true,
+    "temporary_volumes_removed": true
+  },
+  "errors": [],
+  "primary_error": null
+}

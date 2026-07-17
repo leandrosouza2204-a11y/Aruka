@@ -1,0 +1,57 @@
+{
+  "cycle": "8",
+  "result": "DETERMINISTIC_FIXTURES_VALIDATED",
+  "decision": "LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED",
+  "started_at": "2026-07-17T13:23:26.686Z",
+  "finished_at": "2026-07-17T13:23:37.501Z",
+  "duration_seconds": 10.813,
+  "fixtures_loaded": true,
+  "idempotency_runs": 2,
+  "idempotency_validated": true,
+  "duplicate_records_found": false,
+  "foreign_keys_validated": true,
+  "expected_ids_validated": true,
+  "expected_counts_validated": true,
+  "real_personal_data_found": false,
+  "credential_scan_passed": true,
+  "remote_url_scan_passed": true,
+  "domain_counts": {
+    "admin_logs": 1,
+    "anamneses": 1,
+    "aoe_audit": 1,
+    "aoe_decisions": 2,
+    "aoe_idempotency": 1,
+    "aoe_reviews": 2,
+    "aoe_traces": 2,
+    "assessments": 1,
+    "auth_users": 2,
+    "followup_events": 2,
+    "legal_acceptances": 2,
+    "payments": 2,
+    "plans": 3,
+    "profiles": 2,
+    "students": 3,
+    "subscriptions": 1,
+    "workout_days": 1,
+    "workout_exercises": 2,
+    "workout_templates": 1,
+    "workouts": 1
+  },
+  "inventory": {
+    "migration_history": [
+      "20260716090000"
+    ],
+    "structure": {
+      "public_tables": 19,
+      "public_functions": 14,
+      "public_triggers": 1,
+      "public_indexes": 77,
+      "public_policies": 54,
+      "rls_enabled_tables": 19,
+      "private_assessment_bucket": true
+    }
+  },
+  "errors": [],
+  "primary_error": null,
+  "residual_risks": []
+}
