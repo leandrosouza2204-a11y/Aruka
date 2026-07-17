@@ -38,6 +38,7 @@ npm.cmd run qa:supabase-local-negative
 npm.cmd run qa:supabase-clean-worktree
 npm.cmd run qa:supabase-clean-worktree-wrapper
 npm.cmd run qa:supabase-cycle-8
+npm.cmd run qa:supabase-cycle-9
 ```
 
 Nenhum comando local deve usar `--linked`, `--project-ref`, `--db-url` remoto, `db push` ou `migration repair`.
@@ -58,3 +59,14 @@ npm.cmd run supabase:reset:safe
 ```
 
 As seeds do Ciclo 8 ficam em `supabase/seeds/`. O arquivo `supabase/seed.sql` permanece como entrypoint seguro da CLI; a orquestracao real dos arquivos divididos e feita por `npm.cmd run supabase:seed:local`. Elas usam apenas dados ficticios, UUIDs reservados e dominio `example.invalid`.
+
+## CI local
+
+```bash
+npm.cmd run qa:supabase-ci-static
+npm.cmd run qa:supabase-ci-negative
+npm.cmd run qa:supabase-ci-evidence
+npm.cmd run qa:supabase-cycle-9
+```
+
+O workflow GitHub Actions usa Node 22, Supabase CLI 2.109.1, permissao `contents: read` e ambiente Supabase local efemero sem secrets remotos.

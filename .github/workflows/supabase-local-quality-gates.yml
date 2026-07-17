@@ -1,0 +1,136 @@
+name: Supabase Local Quality Gates
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "supabase/**"
+      - "scripts/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/supabase-local-quality-gates.yml"
+      - "docs/supabase-infrastructure-refactor/**"
+      - "reports/supabase-local-bootstrap/**"
+      - "reports/supabase-local-seeds/**"
+  push:
+    branches:
+      - main
+    paths:
+      - "supabase/**"
+      - "scripts/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/supabase-local-quality-gates.yml"
+      - "docs/supabase-infrastructure-refactor/**"
+      - "reports/supabase-local-bootstrap/**"
+      - "reports/supabase-local-seeds/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: supabase-local-quality-gates-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validation:
+    name: validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      CI: true
+      SUPABASE_CI_LOCAL_ONLY: true
+      SUPABASE_PROJECT_ID: aruka_ci_${{ github.run_id }}_${{ github.run_attempt }}
+      SUPABASE_CLI_VERSION: "2.109.1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Docker diagnostics
+        run: |
+          docker version
+          docker info
+
+      - name: Supabase CLI version
+        run: npx -y supabase@2.109.1 --version
+
+      - name: Configure ephemeral Supabase project
+        run: npm run supabase:ci:configure-project
+
+      - name: Gate 1 and 2 - repository safety and static validation
+        run: npm run qa:supabase-ci-static
+
+      - name: Gate 3 - local bootstrap
+        run: |
+          npm run supabase:preflight
+          npm run supabase:bootstrap
+          npm run supabase:validate
+
+      - name: Gate 4 - deterministic seeds
+        run: |
+          npm run supabase:seed:local
+          npm run supabase:fixtures:validate
+          npm run supabase:seed:local
+          npm run supabase:fixtures:validate
+
+      - name: Gate 5 - safe reset
+        run: npm run qa:supabase-safe-reset
+
+      - name: Gate 6 - negative security tests
+        run: |
+          npm run qa:supabase-seeds-negative
+          npm run qa:supabase-local-negative
+          npm run qa:supabase-ci-negative
+
+      - name: Gate 7 - regression suite
+        run: |
+          npm run qa:supabase-local-reproducibility
+          npm run qa:supabase-clean-worktree-wrapper
+          npm run qa:supabase-cycle-8
+
+      - name: Gate 8 - evidence validation
+        run: npm run qa:supabase-ci-evidence
+
+      - name: Gate 9 - consolidated quality gates
+        run: npm run qa:supabase-cycle-9
+
+      - name: Cleanup
+        if: ${{ always() }}
+        run: npm run supabase:ci:cleanup -- --project-id=${SUPABASE_PROJECT_ID}
+
+      - name: Job summary
+        if: ${{ always() }}
+        run: |
+          if [ -f reports/supabase-ci/cycle-9-summary.md ]; then
+            cat reports/supabase-ci/cycle-9-summary.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ -f reports/supabase-ci/ci-cleanup-summary.md ]; then
+            printf "\n" >> "$GITHUB_STEP_SUMMARY"
+            cat reports/supabase-ci/ci-cleanup-summary.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: supabase-quality-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            reports/supabase-ci/**
+            reports/supabase-local-bootstrap/**
+            reports/supabase-local-seeds/**

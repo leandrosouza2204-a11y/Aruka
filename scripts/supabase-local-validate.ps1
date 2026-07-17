@@ -3,7 +3,9 @@ param()
 $ErrorActionPreference = "Stop"
 $Root = (Resolve-Path ".").Path
 $ReportDir = Join-Path $Root "reports/supabase-local-bootstrap"
-$ProjectId = "ConsultoriaFitness"
+$ConfigText = Get-Content -Raw "supabase/config.toml"
+$ProjectId = ([regex]::Match($ConfigText, '(?m)^project_id\s*=\s*"([^"]+)"')).Groups[1].Value
+if ([string]::IsNullOrWhiteSpace($ProjectId)) { $ProjectId = "ConsultoriaFitness" }
 $DbContainer = "supabase_db_$ProjectId"
 New-Item -ItemType Directory -Force $ReportDir | Out-Null
 

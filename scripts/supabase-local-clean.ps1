@@ -1,7 +1,9 @@
 param([switch]$Force, [switch]$CI)
 
 $ErrorActionPreference = "Stop"
-$ProjectId = "ConsultoriaFitness"
+$ConfigText = Get-Content -Raw "supabase/config.toml"
+$ProjectId = ([regex]::Match($ConfigText, '(?m)^project_id\s*=\s*"([^"]+)"')).Groups[1].Value
+if ([string]::IsNullOrWhiteSpace($ProjectId)) { $ProjectId = "ConsultoriaFitness" }
 if (-not $Force -and -not $CI) {
   $answer = Read-Host "Remove only local Supabase containers/volumes for $ProjectId? Type CLEAN"
   if ($answer -ne "CLEAN") { throw "Clean cancelled." }

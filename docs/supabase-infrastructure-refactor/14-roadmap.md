@@ -74,14 +74,23 @@
 - Riscos: dados sensiveis acidentais em fixtures, reset fora do ambiente local e divergencia de Auth local.
 - Decisao de saida: `LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED`.
 
-## Ciclo 9 - HML Provisioning
+## Ciclo 9 - CI Validation Pipeline
 
-- Objetivo: provisionar HML reprodutivel.
-- Principais entregas: checklist de secrets, migrations aplicadas, Edge Functions implantadas e seed HML controlado.
-- Dependencias: ciclos 5 a 8.
-- Criterios de aceite: HML espelha producao em seguranca e passa QA inicial.
-- Riscos: variaveis de ambiente incompletas ou vinculo CLI incorreto.
-- Decisao de saida: HML pronto para QA de infraestrutura.
+- Objetivo: validar automaticamente baseline, bootstrap local, seeds, reset seguro, negativos, regressao e evidencias em Pull Requests.
+- Principais entregas: workflow `.github/workflows/supabase-local-quality-gates.yml`, scripts de safety/evidence/cleanup/negativos, relatorios `reports/supabase-ci/` e docs 45-48.
+- Dependencias: Ciclo 8 commitado e `LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED`.
+- Criterios de aceite: workflow sem secrets, permissao `contents: read`, Node e Supabase CLI fixados, `40/40 CI_MUTATIONS_REJECTED`, cleanup `always()` e `CI_QUALITY_GATES_VALIDATED`.
+- Riscos: evidencia real de runner GitHub depende de push/PR humano.
+- Decisao de saida: `CI_QUALITY_GATES_VALIDATED`.
+
+## Ciclo 9.1 - Real GitHub Actions Runtime Evidence
+
+- Objetivo: registrar evidencia real do runner GitHub e orientar branch protection manual.
+- Principais entregas: PR de validacao, artifacts revisados e lista final de required checks.
+- Dependencias: Ciclo 9 commitado e workflow executado no GitHub.
+- Criterios de aceite: checks reais aprovados e artifacts sem dados sensiveis.
+- Riscos: diferencas entre runner GitHub e execucao local equivalente.
+- Decisao de saida: CI real aprovada para protecao de branch.
 
 ## Ciclo 10 - Infrastructure QA
 

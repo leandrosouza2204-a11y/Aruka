@@ -27,15 +27,39 @@ let firstSnapshot = null;
 let secondSnapshot = null;
 let payload;
 
+function runSupabaseStartIfNeeded(resetResult) {
+  if (resetResult.status === 0 || !/supabase start is not running/i.test(`${resetResult.stderr}\n${resetResult.stdout}`)) {
+    return resetResult;
+  }
+  commandOutputOrThrow(runCommand(root, process.platform === "win32" ? "npx.cmd" : "npx", ["-y", "supabase@2.109.1", "start"], { timeoutMs: 240000 }), "Local Supabase start");
+  return runSupabaseDbReset(root);
+}
+
+function safeInventory() {
+  try {
+    return collectInventory(root);
+  } catch {
+    return null;
+  }
+}
+
+function safeFixtureCounts() {
+  try {
+    return collectFixtureCounts(root);
+  } catch {
+    return null;
+  }
+}
+
 try {
   const guard = validateLocalGuard(root);
   if (!guard.ok) throw new Error(guard.errors.join("; "));
   if (sha256(root, BASELINE_PATH) !== EXPECTED_BASELINE_SHA) throw new Error("Official baseline SHA mismatch");
 
-  firstReset = commandOutputOrThrow(runSupabaseDbReset(root), "First local Supabase reset");
+  firstReset = commandOutputOrThrow(runSupabaseStartIfNeeded(runSupabaseDbReset(root)), "First local Supabase reset");
   firstSeed = commandOutputOrThrow(runCommand(root, "node", ["scripts/seed-supabase-local.mjs"], { timeoutMs: 180000 }), "First local Cycle 8 seed");
   firstSnapshot = stableSnapshot(root);
-  secondReset = commandOutputOrThrow(runSupabaseDbReset(root), "Second local Supabase reset");
+  secondReset = commandOutputOrThrow(runSupabaseStartIfNeeded(runSupabaseDbReset(root)), "Second local Supabase reset");
   secondSeed = commandOutputOrThrow(runCommand(root, "node", ["scripts/seed-supabase-local.mjs"], { timeoutMs: 180000 }), "Second local Cycle 8 seed");
   secondSnapshot = stableSnapshot(root);
 
@@ -95,8 +119,8 @@ try {
     second_run_timed_out: secondReset?.timed_out ?? false,
     inventories_equal: false,
     fixtures_equal: false,
-    inventory: secondSnapshot?.inventory ?? firstSnapshot?.inventory ?? collectInventory(root),
-    fixtures: secondSnapshot?.fixtures ?? firstSnapshot?.fixtures ?? collectFixtureCounts(root),
+    inventory: secondSnapshot?.inventory ?? firstSnapshot?.inventory ?? safeInventory(),
+    fixtures: secondSnapshot?.fixtures ?? firstSnapshot?.fixtures ?? safeFixtureCounts(),
     remote_access_performed: false,
     edge_functions_deployed: false,
     cleanup: {

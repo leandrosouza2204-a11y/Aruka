@@ -1,0 +1,211 @@
+{
+  "cycle": "9",
+  "result": "CI_MUTATIONS_REJECTED",
+  "decision": "CI_QUALITY_GATES_VALIDATED",
+  "rejected": 40,
+  "total": 40,
+  "all_rejected": true,
+  "mutations": [
+    {
+      "name": "contents_write",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "id_token_write",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "supabase_access_token",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "service_role",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "anon_key_real",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "hml_ref",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "supabase_link",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "linked_flag",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "db_push",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "db_pull",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "migration_repair",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "functions_deploy",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "remote_pg_url",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "pooler",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "supabase_co",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "secret_env",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "secret_with",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "secret_run",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "docker_system_prune",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "docker_volume_prune",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "global_rm",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "empty_project",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "wildcard_project",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "third_party_action",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "unversioned_action",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "persist_credentials",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "upload_env",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "upload_temp",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "upload_dump",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "artifact_jwt",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "pull_request_target",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "unsafe_shell",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "curl_pipe",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "latest_cli",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "remote_package",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "baseline_change_marker",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "migration_change_marker",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "function_change_marker",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "src_change_marker",
+      "rejected": true,
+      "reason": "mutation rejected"
+    },
+    {
+      "name": "missing_cleanup_always",
+      "rejected": true,
+      "reason": "mutation rejected"
+    }
+  ],
+  "primary_error": null
+}

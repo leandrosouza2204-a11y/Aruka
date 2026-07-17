@@ -1,0 +1,30 @@
+{
+  "cycle": "9",
+  "result": "CI_LOCAL_RUNNER_VALIDATED",
+  "decision": "CI_QUALITY_GATES_VALIDATED",
+  "steps": [
+    {
+      "name": "repository_safety",
+      "exit_code": 0,
+      "timed_out": false
+    },
+    {
+      "name": "ci_negative",
+      "exit_code": 0,
+      "timed_out": false
+    },
+    {
+      "name": "ci_evidence",
+      "exit_code": 0,
+      "timed_out": false
+    },
+    {
+      "name": "cycle_9",
+      "exit_code": 0,
+      "timed_out": false
+    }
+  ],
+  "remote_access_performed": false,
+  "edge_functions_deployed": false,
+  "primary_error": null
+}

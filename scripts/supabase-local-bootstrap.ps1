@@ -5,13 +5,17 @@ $Root = (Resolve-Path ".").Path
 $ReportDir = Join-Path $Root "reports/supabase-local-bootstrap"
 New-Item -ItemType Directory -Force $ReportDir | Out-Null
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Root "scripts/supabase-local-preflight.ps1")
+$PowerShellCmd = (Get-Command powershell.exe -ErrorAction SilentlyContinue)
+if (-not $PowerShellCmd) { $PowerShellCmd = Get-Command pwsh -ErrorAction Stop }
+$NpxCmd = (Get-Command npx.cmd -ErrorAction SilentlyContinue)
+if (-not $NpxCmd) { $NpxCmd = Get-Command npx -ErrorAction Stop }
+& $PowerShellCmd.Source -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Root "scripts/supabase-local-preflight.ps1")
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 $startedAt = Get-Date
 $previous = $ErrorActionPreference
 $ErrorActionPreference = "Continue"
-$out = & npx.cmd supabase start 2>&1
+$out = & $NpxCmd.Source -y supabase@2.109.1 start 2>&1
 $code = $LASTEXITCODE
 $ErrorActionPreference = $previous
 $safe = $out | ForEach-Object {
@@ -20,7 +24,7 @@ $safe = $out | ForEach-Object {
 $safe | Set-Content -Encoding utf8 (Join-Path $ReportDir "bootstrap-output.log")
 if ($code -ne 0) { throw "supabase start failed with exit code $code" }
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Root "scripts/supabase-local-validate.ps1")
+& $PowerShellCmd.Source -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Root "scripts/supabase-local-validate.ps1")
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 $elapsed = [int]((Get-Date) - $startedAt).TotalSeconds

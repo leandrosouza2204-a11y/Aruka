@@ -4,7 +4,9 @@ $ErrorActionPreference = "Stop"
 $Root = (Resolve-Path ".").Path
 $ReportDir = Join-Path $Root "reports/supabase-local-bootstrap"
 $LogPath = Join-Path $ReportDir "preflight-summary.json"
-$ProjectId = "ConsultoriaFitness"
+$ConfigText = Get-Content -Raw "supabase/config.toml"
+$ProjectId = ([regex]::Match($ConfigText, '(?m)^project_id\s*=\s*"([^"]+)"')).Groups[1].Value
+if ([string]::IsNullOrWhiteSpace($ProjectId)) { $ProjectId = "ConsultoriaFitness" }
 $ExpectedRef = ("xrmqdkpx" + "nfvusmenadnf")
 $ExpectedSha = "745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE"
 
@@ -39,9 +41,13 @@ if ($dockerVersion.code -ne 0) { Fail "Docker CLI unavailable." }
 $dockerServer = Run "docker" @("version", "--format", "{{.Client.Version}} {{.Server.Version}}")
 if ($dockerServer.code -ne 0) { Fail "Docker Server unavailable." }
 $dockerContext = Run "docker" @("context", "show")
-if ($dockerContext.code -ne 0 -or $dockerContext.output.Trim() -ne "desktop-linux") { Fail "Docker context must be desktop-linux." }
-$supabaseVersion = Run "npx.cmd" @("supabase", "--version")
-if ($supabaseVersion.code -ne 0) { Fail "Supabase CLI unavailable through npx.cmd." }
+$allowedDockerContexts = @("desktop-linux")
+if ($env:SUPABASE_CI_LOCAL_ONLY -eq "true") { $allowedDockerContexts += "default" }
+if ($dockerContext.code -ne 0 -or ($allowedDockerContexts -notcontains $dockerContext.output.Trim())) { Fail "Docker context must be desktop-linux or approved CI default." }
+$NpxCmd = (Get-Command npx.cmd -ErrorAction SilentlyContinue)
+if (-not $NpxCmd) { $NpxCmd = Get-Command npx -ErrorAction Stop }
+$supabaseVersion = Run $NpxCmd.Source @("-y", "supabase@2.109.1", "--version")
+if ($supabaseVersion.code -ne 0) { Fail "Supabase CLI unavailable through npx." }
 
 $activeSql = @(Get-ChildItem "supabase/migrations" -Filter "*.sql" | Select-Object -ExpandProperty Name)
 if ($activeSql.Count -ne 1 -or $activeSql[0] -ne "20260716090000_baseline_aruka_v1.sql") { Fail "Active migrations folder must contain only the official baseline SQL." }

@@ -116,6 +116,13 @@
     "qa:supabase-safe-reset": "node scripts/test-supabase-safe-reset.mjs",
     "qa:supabase-cycle-8": "node scripts/reset-supabase-local-safe.mjs && node scripts/validate-supabase-local-fixtures.mjs && node scripts/test-supabase-local-seeds-negative.mjs && node scripts/validate-supabase-cycle-8.mjs",
     "qa:supabase-cycle-8-worktree": "node scripts/test-supabase-cycle-8-worktree.mjs",
+    "qa:supabase-ci-static": "node scripts/validate-ci-repository-safety.mjs && node scripts/validate-supabase-ci-static.mjs",
+    "qa:supabase-ci-negative": "node scripts/test-supabase-ci-negative.mjs",
+    "qa:supabase-ci-evidence": "node scripts/validate-supabase-ci-evidence.mjs",
+    "qa:supabase-cycle-9": "node scripts/validate-supabase-cycle-9.mjs",
+    "qa:supabase-cycle-9-local": "node scripts/test-supabase-cycle-9-local-runner.mjs",
+    "supabase:ci:configure-project": "node scripts/configure-supabase-ci-project.mjs",
+    "supabase:ci:cleanup": "node scripts/cleanup-supabase-ci.mjs",
     "qa:supabase-local-reproducibility": "node scripts/validate-supabase-local-reproducibility.mjs",
     "qa:supabase-clean-worktree": "powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File ./scripts/test-supabase-clean-worktree.ps1",
     "qa:supabase-clean-worktree-wrapper": "node scripts/test-supabase-clean-worktree-wrapper.mjs",
@@ -137,6 +144,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
-    "vite": "^8.0.12"
+    "vite": "^8.0.12",
+    "yaml": "^2.8.1"
   }
 }

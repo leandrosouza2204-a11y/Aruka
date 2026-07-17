@@ -1,0 +1,14 @@
+{
+  "cycle": "9",
+  "result": "CI_CLEANUP_VALIDATED",
+  "decision": "CI_QUALITY_GATES_VALIDATED",
+  "project_id_sanitized": true,
+  "supabase_stop_attempted": true,
+  "containers_removed": true,
+  "volumes_removed": true,
+  "temporary_directories_removed": true,
+  "tracked_processes_removed": true,
+  "global_prune_used": false,
+  "remote_access_performed": false,
+  "primary_error": null
+}

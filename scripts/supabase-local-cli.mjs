@@ -34,7 +34,8 @@ if (args.some((arg) => blockedPatterns.some((pattern) => pattern.test(arg)))) {
 
 const command = args[0];
 if (command === "status") {
-  const result = spawnSync("npx.cmd", ["supabase", "status"], { stdio: "inherit", shell: false });
+  const npxCommand = process.platform === "win32" ? "npx.cmd" : "npx";
+  const result = spawnSync(npxCommand, ["-y", "supabase@2.109.1", "status"], { stdio: "inherit", shell: false });
   process.exit(result.status ?? 1);
 }
 
@@ -44,7 +45,8 @@ if (!commands[command]) {
 }
 
 const [script, ...scriptArgs] = commands[command];
-const result = spawnSync("powershell.exe", ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", script, ...scriptArgs], {
+const powershellCommand = process.platform === "win32" ? "powershell.exe" : "pwsh";
+const result = spawnSync(powershellCommand, ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", script, ...scriptArgs], {
   stdio: "inherit",
   shell: false,
 });

@@ -1,0 +1,14 @@
+{
+  "cycle": "9",
+  "result": "REPOSITORY_SAFETY_VALIDATED",
+  "decision": "CI_QUALITY_GATES_VALIDATED",
+  "baseline_sha_preserved": true,
+  "active_migrations": [
+    "supabase/migrations/20260716090000_baseline_aruka_v1.sql"
+  ],
+  "forbidden_changes_found": false,
+  "remote_access_performed": false,
+  "edge_functions_deployed": false,
+  "errors": [],
+  "primary_error": null
+}

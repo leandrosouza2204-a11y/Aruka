@@ -276,7 +276,7 @@ export function stableSnapshot(root = process.cwd()) {
 }
 
 export function runSupabaseDbReset(root = process.cwd()) {
-  return runCommand(root, "npx.cmd", ["supabase", "db", "reset"], { timeoutMs: 240000 });
+  return runCommand(root, process.platform === "win32" ? "npx.cmd" : "npx", ["-y", "supabase@2.109.1", "db", "reset"], { timeoutMs: 240000 });
 }
 
 export function stringifyStable(value) {

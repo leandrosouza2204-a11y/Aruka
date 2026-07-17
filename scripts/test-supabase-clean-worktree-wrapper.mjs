@@ -18,7 +18,8 @@ function fail(message) {
 
 function run() {
   return new Promise((resolve) => {
-    const child = spawn("powershell.exe", [
+    const powershellCommand = process.platform === "win32" ? "powershell.exe" : "pwsh";
+    const child = spawn(powershellCommand, [
       "-NoProfile",
       "-NonInteractive",
       "-ExecutionPolicy",
