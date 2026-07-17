@@ -29,6 +29,10 @@ Use `supabase:stop` para parar e `supabase:bootstrap` para subir novamente. A li
 
 Os scripts rejeitam argumentos remotos e nao usam `db push`, `migration repair`, `--linked`, `--project-ref` ou `--db-url`.
 
+## Worktree limpo
+
+O Ciclo 7.1 executou `npm ci`, preflight, bootstrap, validate e stop em ambiente temporario com `project_id` isolado `aruka_clean_worktree_validation` e portas alternativas. A evidencia runtime passou; o wrapper de QA ainda precisa estabilizar a finalizacao PowerShell antes de virar gate obrigatorio.
+
 ## Troubleshooting
 
 - Docker inacessivel: rode `supabase:preflight`.

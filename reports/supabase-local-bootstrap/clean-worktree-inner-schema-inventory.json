@@ -1,0 +1,13 @@
+﻿{
+    "public_tables":  19,
+    "public_functions":  14,
+    "public_triggers":  1,
+    "public_explicit_indexes":  56,
+    "public_policies":  54,
+    "storage_policies":  4,
+    "public_rls_enabled_tables":  19,
+    "storage_bucket_avaliacoes_fotos":  1,
+    "security_definer_without_search_path":  0,
+    "archived_migrations_in_history":  0,
+    "baseline_in_history":  1
+}

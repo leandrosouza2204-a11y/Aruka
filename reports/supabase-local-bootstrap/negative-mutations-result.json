@@ -1,0 +1,128 @@
+{
+  "result": "MUTATIONS_REJECTED",
+  "total": 20,
+  "rejected": 20,
+  "remote_access": "none",
+  "mutations": [
+    {
+      "name": "baseline_missing",
+      "rejected": true,
+      "status": 1,
+      "reason": "Missing official baseline"
+    },
+    {
+      "name": "baseline_sha_changed",
+      "rejected": true,
+      "status": 1,
+      "reason": "Official baseline SHA mismatch"
+    },
+    {
+      "name": "historical_migration_active",
+      "rejected": true,
+      "status": 1,
+      "reason": "Active migrations folder must contain only the official baseline SQL"
+    },
+    {
+      "name": "operational_migration_active",
+      "rejected": true,
+      "status": 1,
+      "reason": "Active migrations folder must contain only the official baseline SQL"
+    },
+    {
+      "name": "config_missing",
+      "rejected": true,
+      "status": 1,
+      "reason": "Missing supabase/config.toml"
+    },
+    {
+      "name": "project_id_empty",
+      "rejected": true,
+      "status": 1,
+      "reason": "Empty project_id in supabase/config.toml"
+    },
+    {
+      "name": "linked_argument",
+      "rejected": true,
+      "status": 1,
+      "reason": "scripts/supabase-local-cli.mjs contains forbidden pattern: linked flag"
+    },
+    {
+      "name": "project_ref_argument",
+      "rejected": true,
+      "status": 1,
+      "reason": "scripts/supabase-local-cli.mjs contains forbidden pattern: project ref flag"
+    },
+    {
+      "name": "db_push_command",
+      "rejected": true,
+      "status": 1,
+      "reason": "scripts/supabase-local-cli.mjs contains forbidden pattern: db push command"
+    },
+    {
+      "name": "migration_repair_command",
+      "rejected": true,
+      "status": 1,
+      "reason": "scripts/supabase-local-cli.mjs contains forbidden pattern: migration repair command"
+    },
+    {
+      "name": "remote_url",
+      "rejected": true,
+      "status": 1,
+      "reason": "scripts/supabase-local-cli.mjs contains forbidden pattern: remote Supabase URL"
+    },
+    {
+      "name": "remote_project_ref",
+      "rejected": true,
+      "status": 1,
+      "reason": "scripts/supabase-local-cli.mjs contains forbidden pattern: HML project ref"
+    },
+    {
+      "name": "secret_in_report",
+      "rejected": true,
+      "status": 1,
+      "reason": "scripts/supabase-local-cli.mjs contains forbidden pattern: secret-like token"
+    },
+    {
+      "name": "port_collision_marker",
+      "rejected": true,
+      "status": 1,
+      "reason": "Invalid local port in supabase/config.toml: 1"
+    },
+    {
+      "name": "inventory_divergent",
+      "rejected": true,
+      "status": 1,
+      "reason": "Active migrations folder must contain only the official baseline SQL"
+    },
+    {
+      "name": "broad_container_clean",
+      "rejected": true,
+      "status": 1,
+      "reason": "Clean script contains broad Docker removal"
+    },
+    {
+      "name": "duplicate_create_table",
+      "rejected": true,
+      "status": 1,
+      "reason": "Active migrations folder must contain only the official baseline SQL"
+    },
+    {
+      "name": "duplicate_create_policy",
+      "rejected": true,
+      "status": 1,
+      "reason": "Active migrations folder must contain only the official baseline SQL"
+    },
+    {
+      "name": "duplicate_create_function",
+      "rejected": true,
+      "status": 1,
+      "reason": "Active migrations folder must contain only the official baseline SQL"
+    },
+    {
+      "name": "invalid_timestamp",
+      "rejected": true,
+      "status": 1,
+      "reason": "Active migrations folder must contain only the official baseline SQL"
+    }
+  ]
+}

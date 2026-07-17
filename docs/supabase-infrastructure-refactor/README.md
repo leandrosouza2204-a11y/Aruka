@@ -15,6 +15,7 @@ Escopo executado:
 - Ciclo 5.3: sanitizacao de evidencias locais e validacao contra credenciais em relatorios.
 - Ciclo 6: cutover de repositorio com baseline oficial ativa, migrations historicas arquivadas e runbooks para ambientes existentes.
 - Ciclo 7: bootstrap local reproduzivel, comandos oficiais e documentacao para desenvolvedores.
+- Ciclo 7.1: worktree limpo com evidencia runtime, mutacoes negativas e remediacao pendente no wrapper de finalizacao.
 
 Fora de escopo neste ciclo:
 
@@ -63,6 +64,7 @@ Arquivos:
 - [37-local-development-bootstrap.md](37-local-development-bootstrap.md)
 - [38-local-services-and-ports.md](38-local-services-and-ports.md)
 - [39-local-reproducibility-summary.md](39-local-reproducibility-summary.md)
+- [40-clean-clone-and-negative-validation.md](40-clean-clone-and-negative-validation.md)
 
 Artefatos de baseline:
 

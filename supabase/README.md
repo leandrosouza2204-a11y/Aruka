@@ -34,6 +34,9 @@ npm.cmd run supabase:clean
 ```bash
 npm.cmd run qa:supabase-migration-cutover
 npm.cmd run qa:supabase-local-reproducibility
+npm.cmd run qa:supabase-local-negative
 ```
 
 Nenhum comando local deve usar `--linked`, `--project-ref`, `--db-url` remoto, `db push` ou `migration repair`.
+
+`qa:supabase-clean-worktree` possui evidencia runtime aprovada no Ciclo 7.1, mas ainda requer estabilizacao do encerramento PowerShell antes de virar gate obrigatorio.

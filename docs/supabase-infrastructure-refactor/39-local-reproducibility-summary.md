@@ -53,11 +53,12 @@ npm.cmd run supabase:stop
 
 - `qa:supabase-local-reproducibility` valida ausencia de comandos remotos proibidos nos scripts oficiais.
 - Varredura de evidencias locais nao encontrou secrets materializados.
-- Worktree/clone limpo isolado nao foi executado neste ciclo; permanece como remediacao planejada.
+- Ciclo 7.1 executou worktree limpo com `npm ci`, bootstrap, validate e stop aprovados em ambiente temporario.
+- Ciclo 7.1 executou mutacoes negativas com `20/20 MUTATIONS_REJECTED`.
 
 ## Riscos residuais
 
-- Teste em worktree/clone limpo fica pendente para ciclo posterior por custo de instalacao isolada.
+- O wrapper `qa:supabase-clean-worktree` ainda trava no pos-processamento/finalizacao PowerShell apos produzir evidencias runtime validas.
 - Seeds ainda nao existem; Ciclo 8 deve preencher dados ficticios.
 - Edge Runtime local esta desativado para manter bootstrap SQL deterministico.
 

@@ -20,6 +20,20 @@
 | `[analytics]` | disabled | LOCAL | Baixo | Desativado por instabilidade local Windows |
 | `[experimental]` | env placeholders | Dependente de ambiente | Medio | Sem secrets reais |
 
+## Matriz Ciclo 7.1
+
+| Servico | Estado local | Necessario no bootstrap | Necessario nos seeds | Necessario no QA | Decisao |
+| --- | --- | --- | --- | --- | --- |
+| Database | Ativo | Sim | Sim | Sim | Manter |
+| API/PostgREST | Ativo | Sim | Sim | Sim | Manter |
+| Auth | Ativo | Sim | Sim | Sim | Manter |
+| Storage | Ativo | Sim | Sim | Sim | Manter |
+| Mailpit/local SMTP | Ativo | Nao bloqueante | Possivel | Baixo | Manter por compatibilidade Auth |
+| Realtime | Desativado | Nao | Nao | Nao neste ciclo | Manter desativado localmente |
+| Studio | Desativado | Nao | Nao | Nao | Manter desativado localmente |
+| Edge Runtime | Desativado | Nao | Nao | Nao neste ciclo | Reativar apenas em ciclo de Edge Functions |
+| Analytics | Desativado | Nao | Nao | Nao | Manter desativado localmente |
+
 ## LOCAL x HML x Producao
 
 - LOCAL usa Docker e portas locais.

@@ -1,0 +1,15 @@
+﻿{
+    "result":  "PREFLIGHT_OK",
+    "project_id":  "aruka_clean_worktree_validation",
+    "docker":  "Docker version 29.6.1, build 8900f1d",
+    "docker_server":  "29.6.1 29.6.1",
+    "docker_context":  "desktop-linux",
+    "supabase_cli":  "2.109.1",
+    "baseline_sha256":  "745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE",
+    "active_migrations":  [
+                              "20260716090000_baseline_aruka_v1.sql"
+                          ],
+    "errors":  [
+
+               ]
+}
