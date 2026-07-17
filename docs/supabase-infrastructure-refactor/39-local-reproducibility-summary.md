@@ -2,7 +2,7 @@
 
 ## Decisao
 
-`LOCAL_REPRODUCIBILITY_WITH_REMEDIATIONS`
+`LOCAL_REPRODUCIBILITY_VALIDATED`
 
 ## Scripts criados
 
@@ -55,10 +55,10 @@ npm.cmd run supabase:stop
 - Varredura de evidencias locais nao encontrou secrets materializados.
 - Ciclo 7.1 executou worktree limpo com `npm ci`, bootstrap, validate e stop aprovados em ambiente temporario.
 - Ciclo 7.1 executou mutacoes negativas com `20/20 MUTATIONS_REJECTED`.
+- Ciclo 7.2 corrigiu o wrapper PowerShell; `qa:supabase-clean-worktree`, `qa:supabase-clean-worktree-wrapper` e `qa:supabase-local-reproducibility` passam com exit code 0.
 
 ## Riscos residuais
 
-- O wrapper `qa:supabase-clean-worktree` ainda trava no pos-processamento/finalizacao PowerShell apos produzir evidencias runtime validas.
 - Seeds ainda nao existem; Ciclo 8 deve preencher dados ficticios.
 - Edge Runtime local esta desativado para manter bootstrap SQL deterministico.
 

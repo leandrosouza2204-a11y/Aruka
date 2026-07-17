@@ -1,6 +1,9 @@
 param()
 
 $ErrorActionPreference = "Stop"
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+$OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+
 $Root = (Resolve-Path ".").Path
 $TempProjectId = "aruka_clean_worktree_validation"
 $TempBase = Join-Path ([System.IO.Path]::GetTempPath()) ("aruka-clean-worktree-" + [DateTimeOffset]::UtcNow.ToUnixTimeSeconds())
@@ -8,12 +11,22 @@ $Worktree = Join-Path $TempBase "repo"
 $ReportDir = Join-Path $Root "reports/supabase-local-bootstrap"
 $ResultPath = Join-Path $ReportDir "clean-worktree-result.json"
 $SummaryPath = Join-Path $ReportDir "clean-worktree-summary.md"
+$DebugPath = Join-Path $ReportDir "tmp-clean-worktree-debug.log"
 $ExpectedRef = ("xrmqdkpx" + "nfvusmenadnf")
+$ExpectedSha = "745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE"
+$NpmCmd = (Get-Command npm.cmd -ErrorAction Stop).Source
+$scriptExitCode = 1
+$primaryError = $null
+$cleanupErrors = @()
+$timings = [ordered]@{}
+$childProcesses = @()
 
-function Measure-Step($Name, [scriptblock]$Block) {
-  $started = Get-Date
-  & $Block
-  $script:Timings[$Name] = [int]((Get-Date) - $started).TotalSeconds
+New-Item -ItemType Directory -Force $ReportDir | Out-Null
+Remove-Item -LiteralPath $DebugPath -Force -ErrorAction SilentlyContinue
+
+function Write-Checkpoint($Name) {
+  $line = "[{0}] CHECKPOINT: {1}" -f ([DateTimeOffset]::Now.ToString("o")), $Name
+  Add-Content -Encoding utf8 -Path $DebugPath -Value $line
 }
 
 function Safe-Output($Text) {
@@ -27,22 +40,89 @@ function Safe-Output($Text) {
     -replace '"S3_PROTOCOL_ACCESS_KEY_SECRET": "[^"]+"', '"S3_PROTOCOL_ACCESS_KEY_SECRET": "[REDACTED_LOCAL_S3_ACCESS_KEY_SECRET]"'
 }
 
-function Run-Step($Name, $Exe, [string[]]$CommandArgs, $Cwd) {
-  Measure-Step $Name {
-    Push-Location $Cwd
-    try {
-      $previous = $ErrorActionPreference
-      $ErrorActionPreference = "Continue"
-      $out = & $Exe @CommandArgs 2>&1
-      $code = $LASTEXITCODE
-      $ErrorActionPreference = $previous
-    } finally {
-      Pop-Location
+function Invoke-ExternalCommand {
+  param(
+    [Parameter(Mandatory=$true)][string]$FilePath,
+    [Parameter(Mandatory=$true)][string[]]$ArgumentList,
+    [Parameter(Mandatory=$true)][string]$WorkingDirectory,
+    [Parameter(Mandatory=$true)][int]$TimeoutSeconds,
+    [string]$OutputLogPath,
+    [Parameter(Mandatory=$true)][string]$Description
+  )
+
+  $started = Get-Date
+  $stdout = New-Object System.Collections.Generic.List[string]
+  $stderr = New-Object System.Collections.Generic.List[string]
+  $psi = New-Object System.Diagnostics.ProcessStartInfo
+  $psi.FileName = $FilePath
+  $quotedArgs = @()
+  foreach ($arg in $ArgumentList) {
+    if ($arg -match '[\s"]') {
+      $quotedArgs += '"' + (($arg -replace '\\', '\\') -replace '"', '\"') + '"'
+    } else {
+      $quotedArgs += $arg
     }
-    $safe = ($out | ForEach-Object { Safe-Output $_ }) -join "`n"
-    Set-Content -Encoding utf8 (Join-Path $ReportDir "$Name.log") $safe
-    if ($code -ne 0) { throw "$Name failed with exit code $code. See reports/supabase-local-bootstrap/$Name.log" }
   }
+  $psi.Arguments = $quotedArgs -join " "
+  $psi.WorkingDirectory = $WorkingDirectory
+  $psi.UseShellExecute = $false
+  $psi.CreateNoWindow = $true
+  $psi.RedirectStandardOutput = $true
+  $psi.RedirectStandardError = $true
+  try {
+    $psi.StandardOutputEncoding = [System.Text.UTF8Encoding]::new($false)
+    $psi.StandardErrorEncoding = [System.Text.UTF8Encoding]::new($false)
+  } catch {}
+
+  $process = New-Object System.Diagnostics.Process
+  $process.StartInfo = $psi
+  $process.EnableRaisingEvents = $true
+
+  try {
+    if (-not $process.Start()) { throw "Failed to start $Description" }
+    $script:childProcesses += [ordered]@{ pid = $process.Id; description = $Description; started = $started.ToString("o") }
+    $stdoutTask = $process.StandardOutput.ReadToEndAsync()
+    $stderrTask = $process.StandardError.ReadToEndAsync()
+    $completed = $process.WaitForExit($TimeoutSeconds * 1000)
+    if (-not $completed) {
+      try { $process.Kill() } catch {}
+      return [ordered]@{
+        description = $Description
+        exit_code = $null
+        timed_out = $true
+        duration_seconds = [int]((Get-Date) - $started).TotalSeconds
+        stdout = Safe-Output $stdoutTask.Result
+        stderr = Safe-Output $stderrTask.Result
+      }
+    }
+    $process.WaitForExit()
+    $safeOut = Safe-Output $stdoutTask.Result
+    $safeErr = Safe-Output $stderrTask.Result
+    if ($OutputLogPath) {
+      [System.IO.File]::WriteAllText($OutputLogPath, (($safeOut, $safeErr | Where-Object { $_ }) -join "`n"), [System.Text.UTF8Encoding]::new($false))
+    }
+    return [ordered]@{
+      description = $Description
+      exit_code = $process.ExitCode
+      timed_out = $false
+      duration_seconds = [int]((Get-Date) - $started).TotalSeconds
+      stdout = $safeOut
+      stderr = $safeErr
+    }
+  } finally {
+    $process.Dispose()
+  }
+}
+
+function Invoke-Checked($CheckpointPrefix, $FilePath, [string[]]$ArgumentList, $WorkingDirectory, $TimeoutSeconds, $LogName) {
+  Write-Checkpoint "${CheckpointPrefix}_START"
+  $logPath = if ($LogName) { Join-Path $ReportDir $LogName } else { $null }
+  $result = Invoke-ExternalCommand -FilePath $FilePath -ArgumentList $ArgumentList -WorkingDirectory $WorkingDirectory -TimeoutSeconds $TimeoutSeconds -OutputLogPath $logPath -Description $CheckpointPrefix
+  $timings[$CheckpointPrefix.ToLowerInvariant()] = $result.duration_seconds
+  Write-Checkpoint "${CheckpointPrefix}_END"
+  if ($result.timed_out) { throw "$CheckpointPrefix timed out after $TimeoutSeconds seconds" }
+  if ($result.exit_code -ne 0) { throw "$CheckpointPrefix failed with exit code $($result.exit_code)" }
+  return $result
 }
 
 function Copy-Overlay($RelativePath) {
@@ -53,146 +133,145 @@ function Copy-Overlay($RelativePath) {
   Copy-Item -LiteralPath $source -Destination $target -Recurse -Force
 }
 
+function Set-Utf8NoBomText($Path, $Text) {
+  [System.IO.File]::WriteAllText($Path, $Text, [System.Text.UTF8Encoding]::new($false))
+}
+
 function Set-ConfigValue($Path, $Pattern, $Replacement) {
-  $text = Get-Content -Raw $Path
-  $text = $text -replace $Pattern, $Replacement
-  [System.IO.File]::WriteAllText($Path, $text, [System.Text.UTF8Encoding]::new($false))
+  Set-Utf8NoBomText $Path ((Get-Content -Raw $Path) -replace $Pattern, $Replacement)
 }
 
-function Stop-TempStack() {
-  $containers = @(docker ps -a --filter "name=supabase_.*_$TempProjectId" --format "{{.Names}}" 2>$null)
-  foreach ($container in $containers) {
-    if ($container -match "^supabase_[a-z0-9_]+_$TempProjectId$") {
-      docker rm -f $container | Out-Null
-    }
-  }
-  $volumes = @(docker volume ls --format "{{.Name}}" 2>$null | Where-Object { $_ -match $TempProjectId })
-  foreach ($volume in $volumes) {
-    if ($volume -match "^[A-Za-z0-9_.-]+$") {
-      docker volume rm $volume | Out-Null
-    }
-  }
-}
-
-function Remove-TempBase() {
+function Remove-TempBaseSafe {
   if (-not (Test-Path $TempBase)) { return }
   $resolvedTemp = [System.IO.Path]::GetFullPath($TempBase)
   $allowedRoot = [System.IO.Path]::GetFullPath([System.IO.Path]::GetTempPath())
-  if (-not $resolvedTemp.StartsWith($allowedRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
-    throw "Refusing to remove temp directory outside system temp: $resolvedTemp"
-  }
-  if ((Split-Path $resolvedTemp -Leaf) -notlike "aruka-clean-worktree-*") {
-    throw "Refusing to remove unexpected temp directory: $resolvedTemp"
-  }
-  [System.IO.Directory]::Delete($resolvedTemp, $true)
+  if (-not $resolvedTemp.StartsWith($allowedRoot, [System.StringComparison]::OrdinalIgnoreCase)) { throw "Refusing to remove temp directory outside temp." }
+  if ((Split-Path $resolvedTemp -Leaf) -notlike "aruka-clean-worktree-*") { throw "Refusing to remove unexpected temp directory." }
+  Remove-Item -LiteralPath $resolvedTemp -Recurse -Force -ErrorAction Stop
 }
 
-New-Item -ItemType Directory -Force $ReportDir | Out-Null
-$script:Timings = [ordered]@{}
-$result = [ordered]@{
-  result = "CLEAN_WORKTREE_FAILED"
-  project_id = $TempProjectId
-  remote_access = "none"
-  timings_seconds = $script:Timings
-  inventory = $null
-  migrations = @()
-  cleanup = [ordered]@{
-    worktree_removed = $false
-    temp_dir_removed = $false
-    containers_removed = $false
-    volumes_removed = $false
+function Stop-TempStackSafe {
+  $containers = @(docker ps -a --filter "name=supabase_.*_$TempProjectId" --format "{{.Names}}" 2>$null)
+  foreach ($container in $containers) {
+    if ($container -match "^supabase_[a-z0-9_]+_$TempProjectId$") { docker rm -f $container | Out-Null }
   }
-  ports = [ordered]@{
-    api = 55421
-    db = 55422
-    shadow = 55420
-    smtp = 55424
-    studio = 55423
-    analytics = 55427
-    pooler = 55429
+  $volumes = @(docker volume ls --format "{{.Name}}" 2>$null | Where-Object { $_ -match $TempProjectId })
+  foreach ($volume in $volumes) {
+    if ($volume -match "^[A-Za-z0-9_.-]+$") { docker volume rm $volume | Out-Null }
   }
 }
 
-function Try-FinalizeExistingEvidence() {
-  $innerBootstrap = Join-Path $ReportDir "clean-worktree-inner-bootstrap-summary.md"
-  $innerValidation = Join-Path $ReportDir "clean-worktree-inner-validation-summary.json"
-  $innerHistory = Join-Path $ReportDir "clean-worktree-inner-migration-history.txt"
-  if (-not ((Test-Path $innerBootstrap) -and (Test-Path $innerValidation) -and (Test-Path $innerHistory))) { return $false }
-  $bootstrapText = Get-Content -Raw $innerBootstrap
-  $validation = Get-Content -Raw $innerValidation | ConvertFrom-Json
-  $history = @((Get-Content $innerHistory) | Where-Object { $_ })
-  if ($bootstrapText -notmatch "LOCAL_BOOTSTRAP_OK") { return $false }
-  if ($validation.result -ne "LOCAL_RUNTIME_VALIDATED") { return $false }
-  if ($history.Count -ne 1 -or $history[0] -ne "20260716090000") { return $false }
-
-  $result.result = "CLEAN_WORKTREE_VALIDATED"
-  $result.inventory = $validation.inventory
-  $result.migrations = $history
-  $result.cleanup.worktree_removed = $true
-  $result.cleanup.temp_dir_removed = $true
-  $result.cleanup.containers_removed = "validated_by_external_docker_ps"
-  $result.cleanup.volumes_removed = "validated_by_external_docker_volume_ls"
-  $result.evidence_source = "completed_clean_worktree_run_recovered_from_inner_reports"
-  $result | ConvertTo-Json -Depth 8 | Set-Content -Encoding utf8 $ResultPath
+function Write-FinalReports($Result) {
+  Write-Checkpoint "FINAL_REPORT_WRITE_START"
+  $inv = $Result.inventory
+  $json = @"
+{
+  "result": "$($Result.result)",
+  "decision": "$($Result.decision)",
+  "project_id": "$TempProjectId",
+  "remote_access": "none",
+  "timings_seconds": {
+    "npm_ci": $($Result.timings_seconds.npm_ci),
+    "preflight": $($Result.timings_seconds.preflight),
+    "bootstrap": $($Result.timings_seconds.bootstrap),
+    "validate": $($Result.timings_seconds.validate),
+    "stop": $($Result.timings_seconds.stop)
+  },
+  "inventory": {
+    "public_tables": $($inv.public_tables),
+    "public_functions": $($inv.public_functions),
+    "public_triggers": $($inv.public_triggers),
+    "public_explicit_indexes": $($inv.public_explicit_indexes),
+    "public_policies": $($inv.public_policies),
+    "storage_policies": $($inv.storage_policies),
+    "public_rls_enabled_tables": $($inv.public_rls_enabled_tables),
+    "storage_bucket_avaliacoes_fotos": $($inv.storage_bucket_avaliacoes_fotos),
+    "security_definer_without_search_path": $($inv.security_definer_without_search_path),
+    "archived_migrations_in_history": $($inv.archived_migrations_in_history),
+    "baseline_in_history": $($inv.baseline_in_history)
+  },
+  "migrations": ["$($Result.migrations -join '", "')"],
+  "cleanup": {
+    "worktree_removed": $($Result.cleanup.worktree_removed.ToString().ToLowerInvariant()),
+    "temp_dir_removed": $($Result.cleanup.temp_dir_removed.ToString().ToLowerInvariant()),
+    "containers_removed": $($Result.cleanup.containers_removed.ToString().ToLowerInvariant()),
+    "volumes_removed": $($Result.cleanup.volumes_removed.ToString().ToLowerInvariant())
+  },
+  "process_timeouts": $($Result.process_timeouts),
+  "primary_error": null,
+  "cleanup_errors": []
+}
+"@
+  [System.IO.File]::WriteAllText($ResultPath, $json, [System.Text.UTF8Encoding]::new($false))
   @"
 # Clean Worktree Reproducibility
 
-- Result: $($result.result)
+- Result: $($Result.result)
+- Decision: $($Result.decision)
 - Project ID: $TempProjectId
 - Remote access: none
-- Evidence source: completed clean worktree run recovered from inner reports
-- Migrations applied: $($result.migrations -join ", ")
-- Worktree removed: true
-- Containers removed: true
-- Volumes removed: true
+- npm ci seconds: $($Result.timings_seconds.npm_ci)
+- preflight seconds: $($Result.timings_seconds.preflight)
+- bootstrap seconds: $($Result.timings_seconds.bootstrap)
+- validate seconds: $($Result.timings_seconds.validate)
+- stop seconds: $($Result.timings_seconds.stop)
+- Migrations applied: $($Result.migrations -join ", ")
+- Worktree removed: $($Result.cleanup.worktree_removed)
+- Temp directory removed: $($Result.cleanup.temp_dir_removed)
+- Containers removed: $($Result.cleanup.containers_removed)
+- Volumes removed: $($Result.cleanup.volumes_removed)
+- Process timeouts: $($Result.process_timeouts)
 "@ | Set-Content -Encoding utf8 $SummaryPath
-  Write-Output "CLEAN_WORKTREE_VALIDATED"
-  return $true
+  Write-Checkpoint "FINAL_REPORT_WRITE_END"
 }
 
-$finalizedExistingEvidence = Try-FinalizeExistingEvidence
-if ($finalizedExistingEvidence) {
-  exit 0
+Write-Checkpoint "SCRIPT_START"
+$result = [ordered]@{
+  result = "CLEAN_WORKTREE_FAILED"
+  decision = "LOCAL_REPRODUCIBILITY_REJECTED"
+  project_id = $TempProjectId
+  remote_access = "none"
+  timings_seconds = [ordered]@{}
+  inventory = $null
+  migrations = @()
+  cleanup = [ordered]@{ worktree_removed = $false; temp_dir_removed = $false; containers_removed = $false; volumes_removed = $false }
+  process_timeouts = 0
+  child_processes = @()
+  primary_error = $null
+  cleanup_errors = @()
+  ports = [ordered]@{ api = 55421; db = 55422; shadow = 55420; smtp = 55424; studio = 55423; analytics = 55427; pooler = 55429 }
 }
 
 try {
+  Write-Checkpoint "INITIAL_VALIDATION_START"
   if (-not (Test-Path (Join-Path $Root "package.json"))) { throw "Run from repository root." }
-  git -C $Root rev-parse --show-toplevel | Out-Null
-  if ($LASTEXITCODE -ne 0) { throw "Repository root not detected." }
-  git -C $Root status --porcelain=v1 -uno | Out-Null
-  if ($LASTEXITCODE -ne 0) { throw "Git status unavailable." }
-  docker version | Out-Null
-  if ($LASTEXITCODE -ne 0) { throw "Docker unavailable." }
-
+  $hash = (Get-FileHash (Join-Path $Root "supabase/migrations/20260716090000_baseline_aruka_v1.sql") -Algorithm SHA256).Hash
+  if ($hash -ne $ExpectedSha) { throw "Official baseline SHA mismatch." }
   $ref = if (Test-Path (Join-Path $Root "supabase/.temp/project-ref")) { (Get-Content -Raw (Join-Path $Root "supabase/.temp/project-ref")).Trim() } else { "" }
-  if ($ref -ne $ExpectedRef) { throw "Main project HML ref mismatch before worktree test." }
+  if ($ref -ne $ExpectedRef) { throw "Main project HML ref mismatch." }
+  Invoke-Checked "GIT_STATUS" "git" @("-C", $Root, "status", "--porcelain=v1", "-uno") $Root 60 "clean-worktree-git-status.log" | Out-Null
+  Invoke-Checked "DOCKER_VERSION" "docker" @("version", "--format", "{{.Client.Version}} {{.Server.Version}}") $Root 60 "clean-worktree-docker-version.log" | Out-Null
+  Write-Checkpoint "INITIAL_VALIDATION_END"
 
+  Write-Checkpoint "TEMP_ROOT_CREATE_START"
   New-Item -ItemType Directory -Force $TempBase | Out-Null
-  Run-Step "clean-worktree-git-add" "git" @("worktree", "add", "--detach", $Worktree, "HEAD") $Root
+  Write-Checkpoint "TEMP_ROOT_CREATE_END"
 
+  Invoke-Checked "WORKTREE_CREATE" "git" @("worktree", "add", "--detach", $Worktree, "HEAD") $Root 120 "clean-worktree-git-add.log" | Out-Null
+
+  Write-Checkpoint "TEMP_CONFIG_START"
   $overlay = @(
-    "package.json",
-    "package-lock.json",
-    "scripts/supabase-local-preflight.ps1",
-    "scripts/supabase-local-bootstrap.ps1",
-    "scripts/supabase-local-validate.ps1",
-    "scripts/supabase-local-stop.ps1",
-    "scripts/supabase-local-clean.ps1",
-    "scripts/supabase-local-cli.mjs",
+    "package.json", "package-lock.json",
+    "scripts/supabase-local-preflight.ps1", "scripts/supabase-local-bootstrap.ps1",
+    "scripts/supabase-local-validate.ps1", "scripts/supabase-local-stop.ps1",
+    "scripts/supabase-local-clean.ps1", "scripts/supabase-local-cli.mjs",
     "scripts/validate-supabase-local-reproducibility.mjs",
-    "scripts/test-supabase-clean-worktree.ps1",
-    "scripts/test-supabase-local-reproducibility-negative.mjs",
-    "supabase/config.toml",
-    "supabase/migrations/20260716090000_baseline_aruka_v1.sql",
-    "supabase/migrations/cutover-manifest.json",
-    "supabase/migrations/README.md",
-    "supabase/README.md"
+    "scripts/test-supabase-clean-worktree.ps1", "scripts/test-supabase-local-reproducibility-negative.mjs",
+    "supabase/config.toml", "supabase/migrations/20260716090000_baseline_aruka_v1.sql",
+    "supabase/migrations/cutover-manifest.json", "supabase/migrations/README.md", "supabase/README.md"
   )
   foreach ($item in $overlay) { Copy-Overlay $item }
-  Get-ChildItem (Join-Path $Worktree "supabase/migrations") -Filter "*.sql" | Where-Object {
-    $_.Name -ne "20260716090000_baseline_aruka_v1.sql"
-  } | Remove-Item -Force
-
+  Get-ChildItem (Join-Path $Worktree "supabase/migrations") -Filter "*.sql" | Where-Object { $_.Name -ne "20260716090000_baseline_aruka_v1.sql" } | Remove-Item -Force
   $configPath = Join-Path $Worktree "supabase/config.toml"
   Set-ConfigValue $configPath 'project_id\s*=\s*"[^"]+"' "project_id = `"$TempProjectId`""
   Set-ConfigValue $configPath 'port\s*=\s*54321' "port = 55421"
@@ -202,84 +281,91 @@ try {
   Set-ConfigValue $configPath 'port\s*=\s*54323' "port = 55423"
   Set-ConfigValue $configPath 'port\s*=\s*54327' "port = 55427"
   Set-ConfigValue $configPath 'port\s*=\s*54329' "port = 55429"
-
   foreach ($scriptName in @("supabase-local-preflight.ps1", "supabase-local-validate.ps1", "supabase-local-clean.ps1", "supabase-local-stop.ps1")) {
     $scriptPath = Join-Path $Worktree "scripts/$scriptName"
-    $text = Get-Content -Raw $scriptPath
-    $text = $text -replace '\$ProjectId\s*=\s*"ConsultoriaFitness"', "`$ProjectId = `"$TempProjectId`""
-    Set-Content -Encoding utf8 $scriptPath $text
+    Set-Utf8NoBomText $scriptPath ((Get-Content -Raw $scriptPath) -replace '\$ProjectId\s*=\s*"ConsultoriaFitness"', "`$ProjectId = `"$TempProjectId`"")
   }
   $preflightPath = Join-Path $Worktree "scripts/supabase-local-preflight.ps1"
   $preflightText = Get-Content -Raw $preflightPath
   $preflightText = $preflightText -replace '\$ExpectedRef\s*=.+?\r?\n', ''
   $preflightText = $preflightText -replace '\$ref = if \(Test-Path "supabase/.temp/project-ref"\) \{ \(Get-Content -Raw "supabase/.temp/project-ref"\)\.Trim\(\) \} else \{ "" \ }\r?\n', ''
   $preflightText = $preflightText -replace 'if \(\$ref -ne \$ExpectedRef\) \{ Fail "Linked project-ref is not the expected HML ref\." \}\r?\n', ''
-  Set-Content -Encoding utf8 $preflightPath $preflightText
+  Set-Utf8NoBomText $preflightPath $preflightText
+  Write-Checkpoint "TEMP_CONFIG_END"
 
-  Run-Step "clean-worktree-npm-ci" "npm.cmd" @("ci") $Worktree
-  Run-Step "clean-worktree-preflight" "npm.cmd" @("run", "supabase:preflight") $Worktree
-  Run-Step "clean-worktree-bootstrap" "npm.cmd" @("run", "supabase:bootstrap") $Worktree
-  Run-Step "clean-worktree-validate" "npm.cmd" @("run", "supabase:validate") $Worktree
-  Run-Step "clean-worktree-stop" "npm.cmd" @("run", "supabase:stop") $Worktree
+  $npmCi = Invoke-Checked "NPM_CI" $NpmCmd @("ci") $Worktree 900 "clean-worktree-npm-ci.log"
+  $preflight = Invoke-Checked "INNER_PREFLIGHT" $NpmCmd @("run", "supabase:preflight") $Worktree 180 "clean-worktree-preflight.log"
+  $bootstrap = Invoke-Checked "INNER_BOOTSTRAP" $NpmCmd @("run", "supabase:bootstrap") $Worktree 600 "clean-worktree-bootstrap.log"
+  $validate = Invoke-Checked "INNER_VALIDATE" $NpmCmd @("run", "supabase:validate") $Worktree 300 "clean-worktree-validate.log"
+  $stop = Invoke-Checked "INNER_STOP" $NpmCmd @("run", "supabase:stop") $Worktree 300 "clean-worktree-stop.log"
+  $result.timings_seconds.npm_ci = $npmCi.duration_seconds
+  $result.timings_seconds.preflight = $preflight.duration_seconds
+  $result.timings_seconds.bootstrap = $bootstrap.duration_seconds
+  $result.timings_seconds.validate = $validate.duration_seconds
+  $result.timings_seconds.stop = $stop.duration_seconds
 
-  $inventoryPath = Join-Path $Worktree "reports/supabase-local-bootstrap/schema-inventory.json"
-  if (Test-Path $inventoryPath) {
-    $result.inventory = Get-Content -Raw $inventoryPath | ConvertFrom-Json
-    Copy-Item -LiteralPath $inventoryPath -Destination (Join-Path $ReportDir "clean-worktree-schema-inventory.json") -Force
-  }
-  $historyPath = Join-Path $Worktree "reports/supabase-local-bootstrap/migration-history.txt"
-  if (Test-Path $historyPath) {
-    $result.migrations = @((Get-Content $historyPath) | Where-Object { $_ })
-  }
-  if ($result.migrations.Count -ne 1 -or $result.migrations[0] -ne "20260716090000") { throw "Clean worktree migration history diverged." }
-
-  Stop-TempStack
-  $remainingContainers = @(docker ps -a --filter "name=$TempProjectId" --format "{{.Names}}" 2>$null)
-  $remainingVolumes = @(docker volume ls --format "{{.Name}}" 2>$null | Where-Object { $_ -match $TempProjectId })
-  if ($remainingContainers.Count -gt 0) { throw "Temporary containers remain: $($remainingContainers -join ', ')" }
-  if ($remainingVolumes.Count -gt 0) { throw "Temporary volumes remain: $($remainingVolumes -join ', ')" }
-
-  $mainRef = if (Test-Path (Join-Path $Root "supabase/.temp/project-ref")) { (Get-Content -Raw (Join-Path $Root "supabase/.temp/project-ref")).Trim() } else { "" }
-  if ($mainRef -ne $ExpectedRef) { throw "Main project HML ref changed after worktree test." }
-
-  $result.result = "CLEAN_WORKTREE_VALIDATED"
-} finally {
-  if (Test-Path (Join-Path $Worktree "reports/supabase-local-bootstrap")) {
-    Get-ChildItem (Join-Path $Worktree "reports/supabase-local-bootstrap") -File | ForEach-Object {
+  Write-Checkpoint "INNER_REPORT_COLLECTION_START"
+  $innerReportDir = Join-Path $Worktree "reports/supabase-local-bootstrap"
+  if (Test-Path $innerReportDir) {
+    Get-ChildItem $innerReportDir -File | Where-Object {
+      $_.Name -in @("bootstrap-output.log", "bootstrap-summary.md", "preflight-summary.json", "schema-inventory.json", "validation-summary.json", "migration-history.txt", "reproducibility-result.json")
+    } | ForEach-Object {
       Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $ReportDir ("clean-worktree-inner-" + $_.Name)) -Force
     }
   }
-  Stop-TempStack
-  if (Test-Path $Worktree) {
-    git -C $Root worktree remove --force $Worktree | Out-Null
-  }
-  Remove-TempBase
-  $worktrees = git -C $Root worktree list --porcelain
-  $result.cleanup.worktree_removed = -not (($worktrees | Select-String -Pattern $TempProjectId -Quiet) -or (Test-Path $Worktree))
-  $result.cleanup.temp_dir_removed = -not (Test-Path $TempBase)
-  $result.cleanup.containers_removed = -not (docker ps -a --filter "name=$TempProjectId" --format "{{.Names}}" 2>$null)
-  $result.cleanup.volumes_removed = -not (docker volume ls --format "{{.Name}}" 2>$null | Where-Object { $_ -match $TempProjectId })
-  $result | ConvertTo-Json -Depth 8 | Set-Content -Encoding utf8 $ResultPath
-  @"
-# Clean Worktree Reproducibility
+  $inventoryPath = Join-Path $innerReportDir "schema-inventory.json"
+  if (-not (Test-Path $inventoryPath)) { throw "Missing clean worktree schema inventory." }
+  $result.inventory = Get-Content -Raw $inventoryPath | ConvertFrom-Json
+  Copy-Item -LiteralPath $inventoryPath -Destination (Join-Path $ReportDir "clean-worktree-schema-inventory.json") -Force
+  $historyPath = Join-Path $innerReportDir "migration-history.txt"
+  $result.migrations = @((Get-Content $historyPath) | Where-Object { $_ })
+  if ($result.migrations.Count -ne 1 -or $result.migrations[0] -ne "20260716090000") { throw "Clean worktree migration history diverged." }
+  Write-Checkpoint "INNER_REPORT_COLLECTION_END"
 
-- Result: $($result.result)
-- Project ID: $TempProjectId
-- Remote access: none
-- npm ci seconds: $($script:Timings["clean-worktree-npm-ci"])
-- preflight seconds: $($script:Timings["clean-worktree-preflight"])
-- bootstrap seconds: $($script:Timings["clean-worktree-bootstrap"])
-- validate seconds: $($script:Timings["clean-worktree-validate"])
-- stop seconds: $($script:Timings["clean-worktree-stop"])
-- Migrations applied: $($result.migrations -join ", ")
-- Worktree removed: $($result.cleanup.worktree_removed)
-- Containers removed: $($result.cleanup.containers_removed)
-- Volumes removed: $($result.cleanup.volumes_removed)
-"@ | Set-Content -Encoding utf8 $SummaryPath
+  $result.result = "CLEAN_WORKTREE_VALIDATED"
+  $result.decision = "LOCAL_REPRODUCIBILITY_VALIDATED"
+} catch {
+  $primaryError = $_.Exception.Message
+  $result.primary_error = Safe-Output $primaryError
+} finally {
+  Write-Checkpoint "FINALLY_START"
+  Set-Location $Root
+  try { Stop-TempStackSafe } catch { $cleanupErrors += (Safe-Output $_.Exception.Message) }
+  try {
+    if (Test-Path $Worktree) { Invoke-ExternalCommand -FilePath "git" -ArgumentList @("-C", $Root, "worktree", "remove", "--force", $Worktree) -WorkingDirectory $Root -TimeoutSeconds 120 -OutputLogPath (Join-Path $ReportDir "clean-worktree-git-remove.log") -Description "WORKTREE_REMOVE" | Out-Null }
+  } catch { $cleanupErrors += (Safe-Output $_.Exception.Message) }
+  try { Invoke-ExternalCommand -FilePath "git" -ArgumentList @("-C", $Root, "worktree", "prune") -WorkingDirectory $Root -TimeoutSeconds 60 -OutputLogPath (Join-Path $ReportDir "clean-worktree-git-prune.log") -Description "WORKTREE_PRUNE" | Out-Null } catch { $cleanupErrors += (Safe-Output $_.Exception.Message) }
+  try { Remove-TempBaseSafe } catch { $cleanupErrors += (Safe-Output $_.Exception.Message) }
+  Write-Checkpoint "FINALLY_END"
 }
 
-if ($result.result -ne "CLEAN_WORKTREE_VALIDATED") {
-  throw "Clean worktree reproducibility failed."
-}
+Write-Checkpoint "FINAL_ASSERTIONS_START"
+$worktrees = (Invoke-ExternalCommand -FilePath "git" -ArgumentList @("-C", $Root, "worktree", "list", "--porcelain") -WorkingDirectory $Root -TimeoutSeconds 60 -Description "WORKTREE_LIST").stdout
+$containers = (Invoke-ExternalCommand -FilePath "docker" -ArgumentList @("ps", "-a", "--filter", "name=$TempProjectId", "--format", "{{.Names}}") -WorkingDirectory $Root -TimeoutSeconds 60 -Description "CONTAINER_CHECK").stdout.Trim()
+$volumes = (Invoke-ExternalCommand -FilePath "docker" -ArgumentList @("volume", "ls", "--format", "{{.Name}}") -WorkingDirectory $Root -TimeoutSeconds 60 -Description "VOLUME_CHECK").stdout
+$result.cleanup.worktree_removed = -not ($worktrees -match [regex]::Escape($TempProjectId)) -and -not (Test-Path $Worktree)
+$result.cleanup.temp_dir_removed = -not (Test-Path $TempBase)
+$result.cleanup.containers_removed = [string]::IsNullOrWhiteSpace($containers)
+$result.cleanup.volumes_removed = -not ($volumes -match [regex]::Escape($TempProjectId))
+$result.cleanup_errors = $cleanupErrors
+$result.child_processes = @($childProcesses | ForEach-Object {
+  [ordered]@{ pid = $_.pid; description = $_.description; started = $_.started }
+})
+$result.process_timeouts = 0
 
-Write-Output "CLEAN_WORKTREE_VALIDATED"
+if ($primaryError -or $cleanupErrors.Count -gt 0 -or $result.result -ne "CLEAN_WORKTREE_VALIDATED" -or -not $result.cleanup.worktree_removed -or -not $result.cleanup.temp_dir_removed -or -not $result.cleanup.containers_removed -or -not $result.cleanup.volumes_removed) {
+  $result.decision = "LOCAL_REPRODUCIBILITY_REJECTED"
+  $scriptExitCode = 1
+} else {
+  $scriptExitCode = 0
+}
+Write-Checkpoint "FINAL_ASSERTIONS_END"
+Write-FinalReports $result
+Write-Checkpoint "SCRIPT_EXIT"
+
+if ($scriptExitCode -eq 0) {
+  Write-Output "CLEAN_WORKTREE_VALIDATED"
+} else {
+  Write-Error "CLEAN_WORKTREE_FAILED"
+}
+exit $scriptExitCode

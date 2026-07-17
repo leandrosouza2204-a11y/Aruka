@@ -14,6 +14,8 @@ const errors = [];
 const expectedSha = "745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE";
 const baseline = "supabase/migrations/20260716090000_baseline_aruka_v1.sql";
 const forbiddenProjectRef = "xrmqdkpx" + "nfvusmenadnf";
+const APPROVED_REDACTED_DB_URL =
+  "postgresql://[REDACTED_USER]:[REDACTED_PASSWORD]@[LOCAL_HOST]:[LOCAL_PORT]/[LOCAL_DATABASE]";
 const requiredScripts = [
   "scripts/supabase-local-preflight.ps1",
   "scripts/supabase-local-bootstrap.ps1",
@@ -22,6 +24,7 @@ const requiredScripts = [
   "scripts/supabase-local-clean.ps1",
   "scripts/supabase-local-cli.mjs",
   "scripts/test-supabase-clean-worktree.ps1",
+  "scripts/test-supabase-clean-worktree-wrapper.mjs",
   "scripts/test-supabase-local-reproducibility-negative.mjs",
 ];
 const requiredReports = [
@@ -86,6 +89,7 @@ if (!existsSync(pathOf("package.json"))) {
     "supabase:clean",
     "qa:supabase-local-reproducibility",
     "qa:supabase-clean-worktree",
+    "qa:supabase-clean-worktree-wrapper",
     "qa:supabase-local-negative",
   ];
   for (const name of expected) {
@@ -176,8 +180,9 @@ if (requireCycle71Reports) {
   const reports = listFiles("reports/supabase-local-bootstrap");
   for (const report of reports) {
     const text = read(report);
+    const textWithoutApprovedDbUrl = text.split(APPROVED_REDACTED_DB_URL).join("");
     if (/eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{10,}/.test(text)) fail(`${report} contains JWT-like token`);
-    if (/postgres(?:ql)?:\/\/[^:\s]+:[^@\s]+@/i.test(text)) fail(`${report} contains credentialed DB URL`);
+    if (/postgres(?:ql)?:\/\/[^:\s]+:[^@\s]+@/i.test(textWithoutApprovedDbUrl)) fail(`${report} contains credentialed DB URL`);
     if (/sb_secret_[A-Za-z0-9_-]+/i.test(text)) fail(`${report} contains secret-like token`);
   }
 

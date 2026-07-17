@@ -2,6 +2,133 @@
   "result": "MUTATIONS_REJECTED",
   "total": 20,
   "rejected": 20,
+  "url_tests": {
+    "result": "URL_CASES_VALIDATED",
+    "total": 20,
+    "passed": 20,
+    "cases": [
+      {
+        "name": "accept_placeholder",
+        "passed": true,
+        "expected_rejection": false,
+        "actual_rejection": false
+      },
+      {
+        "name": "accept_placeholder_table",
+        "passed": true,
+        "expected_rejection": false,
+        "actual_rejection": false
+      },
+      {
+        "name": "accept_placeholder_json",
+        "passed": true,
+        "expected_rejection": false,
+        "actual_rejection": false
+      },
+      {
+        "name": "accept_multiple_placeholders",
+        "passed": true,
+        "expected_rejection": false,
+        "actual_rejection": false
+      },
+      {
+        "name": "accept_no_url",
+        "passed": true,
+        "expected_rejection": false,
+        "actual_rejection": false
+      },
+      {
+        "name": "reject_postgresql_real",
+        "passed": true,
+        "expected_rejection": true,
+        "actual_rejection": true
+      },
+      {
+        "name": "reject_postgres_real",
+        "passed": true,
+        "expected_rejection": true,
+        "actual_rejection": true
+      },
+      {
+        "name": "reject_user_pass_real",
+        "passed": true,
+        "expected_rejection": true,
+        "actual_rejection": true
+      },
+      {
+        "name": "reject_real_user_redacted_password",
+        "passed": true,
+        "expected_rejection": true,
+        "actual_rejection": true
+      },
+      {
+        "name": "reject_redacted_user_real_password",
+        "passed": true,
+        "expected_rejection": true,
+        "actual_rejection": true
+      },
+      {
+        "name": "reject_real_host_redacted_user_password",
+        "passed": true,
+        "expected_rejection": true,
+        "actual_rejection": true
+      },
+      {
+        "name": "reject_redacted_host_real_user_password",
+        "passed": true,
+        "expected_rejection": true,
+        "actual_rejection": true
+      },
+      {
+        "name": "reject_url_encoded_password",
+        "passed": true,
+        "expected_rejection": true,
+        "actual_rejection": true
+      },
+      {
+        "name": "reject_special_password",
+        "passed": true,
+        "expected_rejection": true,
+        "actual_rejection": true
+      },
+      {
+        "name": "reject_partial_database",
+        "passed": true,
+        "expected_rejection": true,
+        "actual_rejection": true
+      },
+      {
+        "name": "reject_json_real",
+        "passed": true,
+        "expected_rejection": true,
+        "actual_rejection": true
+      },
+      {
+        "name": "reject_table_real",
+        "passed": true,
+        "expected_rejection": true,
+        "actual_rejection": true
+      },
+      {
+        "name": "reject_trailing_comma",
+        "passed": true,
+        "expected_rejection": true,
+        "actual_rejection": true
+      },
+      {
+        "name": "reject_trailing_unicode",
+        "passed": true,
+        "expected_rejection": true,
+        "actual_rejection": true
+      },
+      {
+        "name": "reject_mixed_real_and_placeholder",
+        "passed": true,
+        "expected_rejection": true,
+        "actual_rejection": true
+      }
+    ]
+  },
   "remote_access": "none",
   "mutations": [
     {

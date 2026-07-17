@@ -2,6 +2,7 @@
 
 - Result: MUTATIONS_REJECTED
 - Rejected: 20/20
+- URL tests: 20/20
 - Remote access: none
 
 | Mutation | Rejected | Reason |
@@ -26,3 +27,26 @@
 | duplicate_create_policy | yes | Active migrations folder must contain only the official baseline SQL |
 | duplicate_create_function | yes | Active migrations folder must contain only the official baseline SQL |
 | invalid_timestamp | yes | Active migrations folder must contain only the official baseline SQL |
+
+| URL Case | Passed | Expected Rejection | Actual Rejection |
+| --- | --- | --- | --- |
+| accept_placeholder | yes | no | no |
+| accept_placeholder_table | yes | no | no |
+| accept_placeholder_json | yes | no | no |
+| accept_multiple_placeholders | yes | no | no |
+| accept_no_url | yes | no | no |
+| reject_postgresql_real | yes | yes | yes |
+| reject_postgres_real | yes | yes | yes |
+| reject_user_pass_real | yes | yes | yes |
+| reject_real_user_redacted_password | yes | yes | yes |
+| reject_redacted_user_real_password | yes | yes | yes |
+| reject_real_host_redacted_user_password | yes | yes | yes |
+| reject_redacted_host_real_user_password | yes | yes | yes |
+| reject_url_encoded_password | yes | yes | yes |
+| reject_special_password | yes | yes | yes |
+| reject_partial_database | yes | yes | yes |
+| reject_json_real | yes | yes | yes |
+| reject_table_real | yes | yes | yes |
+| reject_trailing_comma | yes | yes | yes |
+| reject_trailing_unicode | yes | yes | yes |
+| reject_mixed_real_and_placeholder | yes | yes | yes |

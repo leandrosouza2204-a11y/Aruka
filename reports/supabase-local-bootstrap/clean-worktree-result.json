@@ -1,18 +1,14 @@
 {
-  "result": "CLEAN_WORKTREE_WITH_REMEDIATION",
+  "result": "CLEAN_WORKTREE_VALIDATED",
+  "decision": "LOCAL_REPRODUCIBILITY_VALIDATED",
   "project_id": "aruka_clean_worktree_validation",
   "remote_access": "none",
-  "npm_ci": "passed",
-  "preflight": "passed",
-  "bootstrap": "passed",
-  "validate": "passed",
-  "stop": "passed",
-  "wrapper_exit": "failed_post_processing_hang",
-  "remediation": "stabilize PowerShell post-processing/finalizer for clean worktree QA command",
   "timings_seconds": {
-    "npm_ci": 33,
-    "preflight": 14,
-    "bootstrap": 71
+    "npm_ci": 32,
+    "preflight": 21,
+    "bootstrap": 89,
+    "validate": 13,
+    "stop": 25
   },
   "inventory": {
     "public_tables": 19,
@@ -27,13 +23,14 @@
     "archived_migrations_in_history": 0,
     "baseline_in_history": 1
   },
-  "migrations": [
-    "20260716090000"
-  ],
+  "migrations": ["20260716090000"],
   "cleanup": {
     "worktree_removed": true,
     "temp_dir_removed": true,
     "containers_removed": true,
     "volumes_removed": true
-  }
+  },
+  "process_timeouts": 0,
+  "primary_error": null,
+  "cleanup_errors": []
 }

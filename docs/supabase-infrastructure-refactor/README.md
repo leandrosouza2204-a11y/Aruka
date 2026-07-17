@@ -16,6 +16,7 @@ Escopo executado:
 - Ciclo 6: cutover de repositorio com baseline oficial ativa, migrations historicas arquivadas e runbooks para ambientes existentes.
 - Ciclo 7: bootstrap local reproduzivel, comandos oficiais e documentacao para desenvolvedores.
 - Ciclo 7.1: worktree limpo com evidencia runtime, mutacoes negativas e remediacao pendente no wrapper de finalizacao.
+- Ciclo 7.2: wrapper PowerShell finalizado, falso positivo de URL sanitizada corrigido e reproducibilidade local validada.
 
 Fora de escopo neste ciclo:
 
@@ -65,6 +66,7 @@ Arquivos:
 - [38-local-services-and-ports.md](38-local-services-and-ports.md)
 - [39-local-reproducibility-summary.md](39-local-reproducibility-summary.md)
 - [40-clean-clone-and-negative-validation.md](40-clean-clone-and-negative-validation.md)
+- [41-powershell-wrapper-finalization.md](41-powershell-wrapper-finalization.md)
 
 Artefatos de baseline:
 

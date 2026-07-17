@@ -110,7 +110,8 @@
     "supabase:stop": "node scripts/supabase-local-cli.mjs stop",
     "supabase:clean": "node scripts/supabase-local-cli.mjs clean",
     "qa:supabase-local-reproducibility": "node scripts/validate-supabase-local-reproducibility.mjs",
-    "qa:supabase-clean-worktree": "powershell.exe -ExecutionPolicy Bypass -File ./scripts/test-supabase-clean-worktree.ps1",
+    "qa:supabase-clean-worktree": "powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File ./scripts/test-supabase-clean-worktree.ps1",
+    "qa:supabase-clean-worktree-wrapper": "node scripts/test-supabase-clean-worktree-wrapper.mjs",
     "qa:supabase-local-negative": "node scripts/test-supabase-local-reproducibility-negative.mjs"
   },
   "dependencies": {

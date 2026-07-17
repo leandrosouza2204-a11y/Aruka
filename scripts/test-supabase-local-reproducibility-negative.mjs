@@ -8,6 +8,7 @@ const tempRoot = join(tmpdir(), `aruka-negative-${Date.now()}`);
 const reportDir = join(root, "reports", "supabase-local-bootstrap");
 const resultPath = join(reportDir, "negative-mutations-result.json");
 const summaryPath = join(reportDir, "negative-mutations-summary.md");
+const approvedDbUrl = "postgresql://[REDACTED_USER]:[REDACTED_PASSWORD]@[LOCAL_HOST]:[LOCAL_PORT]/[LOCAL_DATABASE]";
 
 const copyTargets = [
   "package.json",
@@ -18,6 +19,7 @@ const copyTargets = [
   "scripts/supabase-local-clean.ps1",
   "scripts/supabase-local-cli.mjs",
   "scripts/test-supabase-clean-worktree.ps1",
+  "scripts/test-supabase-clean-worktree-wrapper.mjs",
   "scripts/test-supabase-local-reproducibility-negative.mjs",
   "scripts/validate-supabase-local-reproducibility.mjs",
   "supabase/config.toml",
@@ -93,10 +95,48 @@ try {
 }
 
 const rejected = results.filter((item) => item.rejected).length;
+function containsCredentialedDbUrl(text) {
+  const scan = text.split(approvedDbUrl).join("");
+  return /postgres(?:ql)?:\/\/[^:\s]+:[^@\s]+@/i.test(scan);
+}
+
+const urlCases = [
+  ["accept_placeholder", approvedDbUrl, false],
+  ["accept_placeholder_table", `| DB_URL | ${approvedDbUrl} |`, false],
+  ["accept_placeholder_json", `{"DB_URL":"${approvedDbUrl}"}`, false],
+  ["accept_multiple_placeholders", `${approvedDbUrl}\n${approvedDbUrl}`, false],
+  ["accept_no_url", "no database url here", false],
+  ["reject_postgresql_real", "postgresql://postgres:postgres@127.0.0.1:54322/postgres", true],
+  ["reject_postgres_real", "postgres://usuario:senha@localhost:5432/banco", true],
+  ["reject_user_pass_real", "postgresql://admin:secret@localhost:5432/db", true],
+  ["reject_real_user_redacted_password", "postgresql://postgres:[REDACTED_PASSWORD]@127.0.0.1:54322/postgres", true],
+  ["reject_redacted_user_real_password", "postgresql://[REDACTED_USER]:senha@127.0.0.1:54322/postgres", true],
+  ["reject_real_host_redacted_user_password", "postgresql://[REDACTED_USER]:[REDACTED_PASSWORD]@127.0.0.1:54322/postgres", true],
+  ["reject_redacted_host_real_user_password", "postgresql://postgres:postgres@[LOCAL_HOST]:[LOCAL_PORT]/[LOCAL_DATABASE]", true],
+  ["reject_url_encoded_password", "postgresql://postgres:p%40ss@localhost:5432/postgres", true],
+  ["reject_special_password", "postgresql://postgres:p@ss!@localhost:5432/postgres", true],
+  ["reject_partial_database", "postgresql://[REDACTED_USER]:[REDACTED_PASSWORD]@[LOCAL_HOST]:[LOCAL_PORT]/postgres", true],
+  ["reject_json_real", '{"DB_URL":"postgresql://postgres:postgres@127.0.0.1:54322/postgres"}', true],
+  ["reject_table_real", "| DB_URL | postgresql://postgres:postgres@127.0.0.1:54322/postgres |", true],
+  ["reject_trailing_comma", "postgresql://postgres:postgres@127.0.0.1:54322/postgres,", true],
+  ["reject_trailing_unicode", "postgresql://postgres:postgres@127.0.0.1:54322/postgresç", true],
+  ["reject_mixed_real_and_placeholder", `${approvedDbUrl}\npostgresql://postgres:postgres@127.0.0.1:54322/postgres`, true],
+];
+const urlResults = urlCases.map(([name, text, expected]) => {
+  const actual = containsCredentialedDbUrl(text);
+  return { name, passed: actual === expected, expected_rejection: expected, actual_rejection: actual };
+});
+const urlPassed = urlResults.filter((item) => item.passed).length;
 const payload = {
   result: rejected === mutations.length ? "MUTATIONS_REJECTED" : "MUTATIONS_ACCEPTED",
   total: mutations.length,
   rejected,
+  url_tests: {
+    result: urlPassed === urlResults.length ? "URL_CASES_VALIDATED" : "URL_CASES_FAILED",
+    total: urlResults.length,
+    passed: urlPassed,
+    cases: urlResults,
+  },
   remote_access: "none",
   mutations: results,
 };
@@ -106,17 +146,23 @@ writeFileSync(summaryPath, [
   "",
   `- Result: ${payload.result}`,
   `- Rejected: ${rejected}/${mutations.length}`,
+  `- URL tests: ${urlPassed}/${urlResults.length}`,
   "- Remote access: none",
   "",
   "| Mutation | Rejected | Reason |",
   "| --- | --- | --- |",
   ...results.map((item) => `| ${item.name} | ${item.rejected ? "yes" : "no"} | ${String(item.reason).replaceAll("|", "/")} |`),
   "",
+  "| URL Case | Passed | Expected Rejection | Actual Rejection |",
+  "| --- | --- | --- | --- |",
+  ...urlResults.map((item) => `| ${item.name} | ${item.passed ? "yes" : "no"} | ${item.expected_rejection ? "yes" : "no"} | ${item.actual_rejection ? "yes" : "no"} |`),
+  "",
 ].join("\n"), "utf8");
 
-if (payload.result !== "MUTATIONS_REJECTED") {
+if (payload.result !== "MUTATIONS_REJECTED" || payload.url_tests.result !== "URL_CASES_VALIDATED") {
   console.error(`Expected ${mutations.length}/${mutations.length} mutations rejected, got ${rejected}.`);
   process.exit(1);
 }
 
 console.log(`${rejected}/${mutations.length} MUTATIONS_REJECTED`);
+console.log(`${urlPassed}/${urlResults.length} URL_CASES_VALIDATED`);

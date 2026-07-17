@@ -61,8 +61,8 @@
 - Principais entregas: scripts `supabase:preflight/bootstrap/validate/status/stop/clean`, docs 36-39, `supabase/README.md` e relatorios locais.
 - Dependencias: cutover de repositorio validado.
 - Criterios de aceite: ambiente local sobe pela cadeia ativa, inventario confere e scripts rejeitam caminhos remotos.
-- Riscos: teste de worktree limpo pendente; seeds ficam para Ciclo 8.
-- Decisao de saida: `LOCAL_REPRODUCIBILITY_WITH_REMEDIATIONS`.
+- Riscos: seeds ficam para Ciclo 8.
+- Decisao de saida apos Ciclo 7.2: `LOCAL_REPRODUCIBILITY_VALIDATED`.
 
 ## Ciclo 8 - Seeds & Fixtures
 

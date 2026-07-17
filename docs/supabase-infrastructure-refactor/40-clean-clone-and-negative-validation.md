@@ -2,7 +2,7 @@
 
 ## Decisao
 
-`LOCAL_REPRODUCIBILITY_WITH_REMEDIATIONS`
+`LOCAL_REPRODUCIBILITY_VALIDATED`
 
 ## Worktree limpo
 
@@ -18,9 +18,11 @@ Resultados observados:
 - Migration history: `20260716090000`.
 - Inventario: 19 tabelas public, 14 funcoes public, 1 trigger, 56 indices explicitos, 54 policies public, 4 policies Storage, 19 tabelas public com RLS e bucket privado `avaliacoes-fotos`.
 
-## Limitacao
+## Finalizacao do wrapper
 
-O executor `qa:supabase-clean-worktree` ainda trava no pos-processamento/finalizacao PowerShell depois de produzir evidencias internas validas. O cleanup foi confirmado por comandos externos: sem worktree temporario registrado, sem diretorio temporario, sem containers e sem volumes do `project_id` temporario.
+O Ciclo 7.2 corrigiu o encerramento do wrapper. `qa:supabase-clean-worktree` retorna ao prompt sem intervencao manual, imprime `CLEAN_WORKTREE_VALIDATED` e retorna exit code 0.
+
+A causa raiz confirmada foi incompatibilidade do Windows PowerShell 5.1 com handlers assincronos baseados em scriptblock em threads sem Runspace. A captura foi substituida por `ReadToEndAsync()` em stdout/stderr iniciados em paralelo, com `WaitForExit(timeout)`. A escrita final do JSON tambem foi tornada deterministica para evitar serializacao reflexiva de objetos aninhados.
 
 ## Mutacoes negativas
 
@@ -32,6 +34,6 @@ As mutacoes cobriram baseline ausente, SHA alterado, migrations historicas/opera
 
 Nenhum comando remoto foi executado. Nao houve `db push`, `db pull`, `migration repair` remoto, `--linked`, `--project-ref`, `--db-url` remoto, deploy de Edge Functions, alteracao de Auth remoto, Storage remoto ou secrets.
 
-## Proxima remediacao
+## Resultado final
 
-Estabilizar o encerramento do wrapper `scripts/test-supabase-clean-worktree.ps1` para que `npm.cmd run qa:supabase-clean-worktree` retorne sucesso automaticamente sem depender de consolidacao manual de evidencias.
+`qa:supabase-clean-worktree-wrapper` e `qa:supabase-local-reproducibility` passaram apos regeneracao real dos logs.
