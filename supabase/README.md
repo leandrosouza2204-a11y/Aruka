@@ -39,6 +39,7 @@ npm.cmd run qa:supabase-clean-worktree
 npm.cmd run qa:supabase-clean-worktree-wrapper
 npm.cmd run qa:supabase-cycle-8
 npm.cmd run qa:supabase-cycle-9
+npm.cmd run qa:supabase-cycle-9-1:prepare
 ```
 
 Nenhum comando local deve usar `--linked`, `--project-ref`, `--db-url` remoto, `db push` ou `migration repair`.
@@ -70,3 +71,16 @@ npm.cmd run qa:supabase-cycle-9
 ```
 
 O workflow GitHub Actions usa Node 22, Supabase CLI 2.109.1, permissao `contents: read` e ambiente Supabase local efemero sem secrets remotos.
+
+## Evidencia real do GitHub Actions
+
+```bash
+npm.cmd run supabase:ci:collect-runtime -- --run-id=<RUN_ID>
+npm.cmd run supabase:ci:download-artifacts -- --run-id=<RUN_ID>
+npm.cmd run qa:supabase-ci-runtime-artifacts
+npm.cmd run qa:supabase-ci-runtime-cleanup
+npm.cmd run supabase:ci:collect-branch-protection
+npm.cmd run qa:supabase-branch-protection
+```
+
+Antes da execucao real, `qa:supabase-cycle-9-1:prepare` deve retornar `CYCLE_9_1_RUNTIME_EVIDENCE_REQUIRED`.

@@ -1,0 +1,19 @@
+{
+  "cycle": "9.1",
+  "result": "MANUAL_COLLECTION_REQUIRED",
+  "decision": "CYCLE_9_1_RUNTIME_EVIDENCE_REQUIRED",
+  "real_github_actions_evidence_present": false,
+  "primary_error": "GitHub CLI is unavailable, unauthenticated, or repository slug could not be resolved.",
+  "repository": "leandrosouza2204-a11y/Aruka",
+  "workflow_name": "Supabase Local Quality Gates",
+  "workflow_file": ".github/workflows/supabase-local-quality-gates.yml",
+  "branch": "main",
+  "head_sha": "f6c1a193572e8b0a5d8841c018a18e062d433455",
+  "gh_available": false,
+  "gh_authenticated": false,
+  "manual_commands": [
+    "gh run list --workflow supabase-local-quality-gates.yml --limit 10",
+    "gh run view <RUN_ID> --json databaseId,number,name,event,status,conclusion,headBranch,headSha,url,jobs,createdAt,updatedAt",
+    "gh pr checks <PR_NUMBER>"
+  ]
+}

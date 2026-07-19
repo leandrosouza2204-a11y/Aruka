@@ -20,6 +20,7 @@ Escopo executado:
 - Ciclo 7.2.1: complemento documental e de auditoria dos relatorios PowerShell/Node do wrapper.
 - Ciclo 8: seeds locais deterministicas, fixtures ficticias, reset seguro e evidencias de idempotencia.
 - Ciclo 9: workflow de CI para quality gates locais Supabase, ambiente efemero, evidencias e cleanup.
+- Ciclo 9.1: preparacao de coleta read-only de evidencias reais do GitHub Actions e branch protection.
 
 Fora de escopo neste ciclo:
 
@@ -77,6 +78,11 @@ Arquivos:
 - [46-ephemeral-supabase-ci-environment.md](46-ephemeral-supabase-ci-environment.md)
 - [47-pull-request-quality-gates.md](47-pull-request-quality-gates.md)
 - [48-cycle-9-final-evidence.md](48-cycle-9-final-evidence.md)
+- [49-github-actions-runtime-evidence.md](49-github-actions-runtime-evidence.md)
+- [50-ci-controlled-failure-and-cleanup-proof.md](50-ci-controlled-failure-and-cleanup-proof.md)
+- [51-main-branch-protection-configuration.md](51-main-branch-protection-configuration.md)
+- [52-required-check-merge-block-validation.md](52-required-check-merge-block-validation.md)
+- [53-cycle-9-1-final-evidence.md](53-cycle-9-1-final-evidence.md)
 
 Artefatos de baseline:
 
@@ -90,6 +96,7 @@ Artefatos de baseline:
 - `reports/supabase-local-bootstrap/`
 - `reports/supabase-local-seeds/`
 - `reports/supabase-ci/`
+- `reports/supabase-ci-runtime/`
 
 Fonte principal: `supabase/*.sql`, `supabase/migrations/*.sql`, `supabase/functions/**`, `src/services/**` e scripts de validacao que usam Supabase.
 
