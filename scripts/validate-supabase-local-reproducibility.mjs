@@ -180,6 +180,13 @@ if (requireCycle71Reports) {
   }
   const worktreeResult = existsSync(pathOf(requiredReports[1])) ? readJson(requiredReports[1]) : null;
   if (worktreeResult?.result !== "CLEAN_WORKTREE_VALIDATED") fail("Clean worktree result is not validated");
+  if (!["LOCAL", "ISOLATED_CI", undefined].includes(worktreeResult?.mode)) fail("Clean worktree mode is invalid");
+  if (worktreeResult?.assertion_passed === false) fail("Clean worktree HML preservation assertion did not pass");
+  if (typeof worktreeResult?.expected_hml_preservation === "boolean" && typeof worktreeResult?.actual_hml_preservation === "boolean") {
+    if (worktreeResult.expected_hml_preservation !== worktreeResult.actual_hml_preservation) {
+      fail("Clean worktree HML preservation expectation does not match actual result");
+    }
+  }
   if (worktreeResult?.cleanup?.worktree_removed !== true) fail("Clean worktree cleanup did not remove worktree");
   if (worktreeResult?.cleanup?.temp_dir_removed !== true) fail("Clean worktree cleanup did not remove temp directory");
   if (worktreeResult?.remote_access !== "none") fail("Clean worktree reported remote access");

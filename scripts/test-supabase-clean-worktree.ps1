@@ -5,7 +5,13 @@ $ErrorActionPreference = "Stop"
 $OutputEncoding = [System.Text.UTF8Encoding]::new($false)
 
 $Root = (Resolve-Path ".").Path
-$TempProjectId = "aruka_clean_worktree_validation"
+$IsCi = $env:CI -eq "true"
+$IsCiLocalOnly = $env:SUPABASE_CI_LOCAL_ONLY -eq "true"
+$IsIsolatedCi = $IsCi -and $IsCiLocalOnly
+$Mode = if ($IsIsolatedCi) { "ISOLATED_CI" } else { "LOCAL" }
+$ExpectedHmlPreservation = -not $IsIsolatedCi
+$CiProjectId = if ($null -eq $env:SUPABASE_PROJECT_ID) { "" } else { $env:SUPABASE_PROJECT_ID.Trim() }
+$TempProjectId = if ($IsIsolatedCi -and -not [string]::IsNullOrWhiteSpace($CiProjectId)) { $CiProjectId } else { "aruka_clean_worktree_validation" }
 $TempBase = Join-Path ([System.IO.Path]::GetTempPath()) ("aruka-clean-worktree-" + [DateTimeOffset]::UtcNow.ToUnixTimeSeconds())
 $Worktree = Join-Path $TempBase "repo"
 $ReportDir = Join-Path $Root "reports/supabase-local-bootstrap"
@@ -45,6 +51,11 @@ function JsonString($Text) {
   if ($null -eq $Text) { return "null" }
   $escaped = ([string]$Text) -replace '\\', '\\' -replace '"', '\"' -replace "`r", '\r' -replace "`n", '\n' -replace "`t", '\t'
   return '"' + $escaped + '"'
+}
+
+function JsonNumber($Value) {
+  if ($null -eq $Value -or $Value -eq "") { return "null" }
+  return [string]$Value
 }
 
 function Safe-Output($Text) {
@@ -232,6 +243,7 @@ function Write-FinalReports($Result) {
   $finishedAt = [DateTimeOffset]::UtcNow
   $durationSeconds = [int]($finishedAt - $ScriptStartedAt).TotalSeconds
   $primaryErrorJson = JsonString $Result.primary_error
+  $primaryErrorText = if ([string]::IsNullOrWhiteSpace($Result.primary_error)) { "none" } else { $Result.primary_error }
   $reportedCheckpoint = "FINAL_ASSERTIONS_END"
   $childJson = (($Result.child_processes | ForEach-Object {
     '    {"pid": ' + $_.pid + ', "description": ' + (JsonString $_.description) + ', "started": ' + (JsonString $_.started) + ', "finished": ' + (JsonString $_.finished) + ', "exit_code": ' + ($(if ($null -eq $_.exit_code) { "null" } else { $_.exit_code })) + ', "timed_out": ' + $_.timed_out.ToString().ToLowerInvariant() + ', "disposed": ' + $_.disposed.ToString().ToLowerInvariant() + ', "still_running_after_cleanup": ' + $_.still_running_after_cleanup.ToString().ToLowerInvariant() + '}'
@@ -244,7 +256,11 @@ function Write-FinalReports($Result) {
   "started_at": "$($ScriptStartedAt.ToString("o"))",
   "finished_at": "$($finishedAt.ToString("o"))",
   "duration_seconds": $durationSeconds,
+  "mode": "$Mode",
   "project_id": "$TempProjectId",
+  "expected_hml_preservation": $($Result.expected_hml_preservation.ToString().ToLowerInvariant()),
+  "actual_hml_preservation": $($Result.actual_hml_preservation.ToString().ToLowerInvariant()),
+  "assertion_passed": $($Result.assertion_passed.ToString().ToLowerInvariant()),
   "wrapper_exit_code": $scriptExitCode,
   "wrapper_timed_out": false,
   "last_checkpoint": "$reportedCheckpoint",
@@ -259,34 +275,34 @@ function Write-FinalReports($Result) {
   },
   "remote_access": "none",
   "timings_seconds": {
-    "npm_ci": $($Result.timings_seconds.npm_ci),
-    "preflight": $($Result.timings_seconds.preflight),
-    "bootstrap": $($Result.timings_seconds.bootstrap),
-    "validate": $($Result.timings_seconds.validate),
-    "stop": $($Result.timings_seconds.stop)
+    "npm_ci": $(JsonNumber $Result.timings_seconds.npm_ci),
+    "preflight": $(JsonNumber $Result.timings_seconds.preflight),
+    "bootstrap": $(JsonNumber $Result.timings_seconds.bootstrap),
+    "validate": $(JsonNumber $Result.timings_seconds.validate),
+    "stop": $(JsonNumber $Result.timings_seconds.stop)
   },
   "schema_inventory": {
-    "public_tables": $($inv.public_tables),
-    "public_functions": $($inv.public_functions),
-    "public_triggers": $($inv.public_triggers),
-    "public_explicit_indexes": $($inv.public_explicit_indexes),
-    "public_policies": $($inv.public_policies),
-    "storage_policies": $($inv.storage_policies),
-    "public_rls_enabled_tables": $($inv.public_rls_enabled_tables),
+    "public_tables": $(JsonNumber $inv.public_tables),
+    "public_functions": $(JsonNumber $inv.public_functions),
+    "public_triggers": $(JsonNumber $inv.public_triggers),
+    "public_explicit_indexes": $(JsonNumber $inv.public_explicit_indexes),
+    "public_policies": $(JsonNumber $inv.public_policies),
+    "storage_policies": $(JsonNumber $inv.storage_policies),
+    "public_rls_enabled_tables": $(JsonNumber $inv.public_rls_enabled_tables),
     "storage_bucket_avaliacoes_fotos": "private"
   },
   "inventory": {
-    "public_tables": $($inv.public_tables),
-    "public_functions": $($inv.public_functions),
-    "public_triggers": $($inv.public_triggers),
-    "public_explicit_indexes": $($inv.public_explicit_indexes),
-    "public_policies": $($inv.public_policies),
-    "storage_policies": $($inv.storage_policies),
-    "public_rls_enabled_tables": $($inv.public_rls_enabled_tables),
-    "storage_bucket_avaliacoes_fotos": $($inv.storage_bucket_avaliacoes_fotos),
-    "security_definer_without_search_path": $($inv.security_definer_without_search_path),
-    "archived_migrations_in_history": $($inv.archived_migrations_in_history),
-    "baseline_in_history": $($inv.baseline_in_history)
+    "public_tables": $(JsonNumber $inv.public_tables),
+    "public_functions": $(JsonNumber $inv.public_functions),
+    "public_triggers": $(JsonNumber $inv.public_triggers),
+    "public_explicit_indexes": $(JsonNumber $inv.public_explicit_indexes),
+    "public_policies": $(JsonNumber $inv.public_policies),
+    "storage_policies": $(JsonNumber $inv.storage_policies),
+    "public_rls_enabled_tables": $(JsonNumber $inv.public_rls_enabled_tables),
+    "storage_bucket_avaliacoes_fotos": $(JsonNumber $inv.storage_bucket_avaliacoes_fotos),
+    "security_definer_without_search_path": $(JsonNumber $inv.security_definer_without_search_path),
+    "archived_migrations_in_history": $(JsonNumber $inv.archived_migrations_in_history),
+    "baseline_in_history": $(JsonNumber $inv.baseline_in_history)
   },
   "migration_history": ["$($Result.migrations -join '", "')"],
   "migrations": ["$($Result.migrations -join '", "')"],
@@ -327,7 +343,11 @@ $childJson
 - Started at: $($ScriptStartedAt.ToString("o"))
 - Finished at: $($finishedAt.ToString("o"))
 - Duration seconds: $durationSeconds
+- Mode: $Mode
 - Project ID: $TempProjectId
+- Expected HML preservation: $($Result.expected_hml_preservation)
+- Actual HML preservation: $($Result.actual_hml_preservation)
+- Assertion passed: $($Result.assertion_passed)
 - Wrapper exit code: $scriptExitCode
 - Wrapper timed out: false
 - Last checkpoint: $reportedCheckpoint
@@ -350,7 +370,7 @@ $childJson
 - Volumes removed: $($Result.cleanup.volumes_removed)
 - Child processes removed: $($Result.cleanup.child_processes_removed)
 - Process timeouts: $($Result.process_timeouts)
-- Primary error: none
+- Primary error: $primaryErrorText
 - Cleanup errors: none
 - Residual risks: none
 "@ | Set-Content -Encoding utf8 $SummaryPath
@@ -361,7 +381,11 @@ Write-Checkpoint "SCRIPT_START"
 $result = [ordered]@{
   result = "CLEAN_WORKTREE_FAILED"
   decision = "LOCAL_REPRODUCIBILITY_REJECTED"
+  mode = $Mode
   project_id = $TempProjectId
+  expected_hml_preservation = $ExpectedHmlPreservation
+  actual_hml_preservation = $false
+  assertion_passed = $false
   remote_access = "none"
   timings_seconds = [ordered]@{}
   inventory = $null
@@ -381,7 +405,14 @@ try {
   $hash = Get-CanonicalTextSha256 (Join-Path $Root "supabase/migrations/20260716090000_baseline_aruka_v1.sql")
   if ($hash -ne $ExpectedSha) { throw "Official baseline SHA mismatch." }
   $ref = if (Test-Path (Join-Path $Root "supabase/.temp/project-ref")) { (Get-Content -Raw (Join-Path $Root "supabase/.temp/project-ref")).Trim() } else { "" }
-  if ($ref -ne $ExpectedRef) { throw "Main project HML ref mismatch." }
+  if ($IsIsolatedCi) {
+    if ([string]::IsNullOrWhiteSpace($CiProjectId)) { throw "SUPABASE_PROJECT_ID is required in isolated CI clean worktree validation." }
+    if ($CiProjectId -notmatch '^aruka_ci_[A-Za-z0-9_-]+$') { throw "SUPABASE_PROJECT_ID must be ephemeral in isolated CI clean worktree validation." }
+    if ($CiProjectId -eq $ExpectedRef) { throw "Protected HML project ref is forbidden in isolated CI clean worktree validation." }
+    if ($ref -eq $ExpectedRef) { throw "Protected HML project ref must not be preserved in isolated CI clean worktree validation." }
+  } else {
+    if ($ref -ne $ExpectedRef) { throw "Main project HML ref mismatch." }
+  }
   Invoke-Checked "GIT_STATUS" "git" @("-C", $Root, "status", "--porcelain=v1", "-uno") $Root 60 "clean-worktree-git-status.log" | Out-Null
   Invoke-Checked "DOCKER_VERSION" "docker" @("version", "--format", "{{.Client.Version}} {{.Server.Version}}") $Root 60 "clean-worktree-docker-version.log" | Out-Null
   Write-Checkpoint "INITIAL_VALIDATION_END"
@@ -418,14 +449,14 @@ try {
     $scriptPath = Join-Path $Worktree "scripts/$scriptName"
     Set-Utf8NoBomText $scriptPath ((Get-Content -Raw $scriptPath) -replace '\$ProjectId\s*=\s*"ConsultoriaFitness"', "`$ProjectId = `"$TempProjectId`"")
   }
-  $preflightPath = Join-Path $Worktree "scripts/supabase-local-preflight.ps1"
-  $preflightText = Get-Content -Raw $preflightPath
-  $preflightText = $preflightText -replace '\$ExpectedRef\s*=.+?\r?\n', ''
-  $preflightText = $preflightText -replace '\$ref = if \(Test-Path "supabase/.temp/project-ref"\) \{ \(Get-Content -Raw "supabase/.temp/project-ref"\)\.Trim\(\) \} else \{ "" \ }\r?\n', ''
-  $preflightText = $preflightText -replace 'if \(\$ref -ne \$ExpectedRef\) \{ Fail "Linked project-ref is not the expected HML ref\." \}\r?\n', ''
-  Set-Utf8NoBomText $preflightPath $preflightText
   Write-Checkpoint "TEMP_CONFIG_END"
 
+  $previousCi = $env:CI
+  $previousCiLocalOnly = $env:SUPABASE_CI_LOCAL_ONLY
+  $previousProjectId = $env:SUPABASE_PROJECT_ID
+  $env:CI = "true"
+  $env:SUPABASE_CI_LOCAL_ONLY = "true"
+  $env:SUPABASE_PROJECT_ID = $TempProjectId
   $npmCi = Invoke-Checked "NPM_CI" $NpmCmd @("ci") $Worktree 900 "clean-worktree-npm-ci.log"
   $stepStatus.npm_ci_passed = $true
   $preflight = Invoke-Checked "INNER_PREFLIGHT" $NpmCmd @("run", "supabase:preflight") $Worktree 180 "clean-worktree-preflight.log"
@@ -436,6 +467,9 @@ try {
   $stepStatus.validate_passed = $true
   $stop = Invoke-Checked "INNER_STOP" $NpmCmd @("run", "supabase:stop") $Worktree 300 "clean-worktree-stop.log"
   $stepStatus.stop_passed = $true
+  $env:CI = $previousCi
+  $env:SUPABASE_CI_LOCAL_ONLY = $previousCiLocalOnly
+  $env:SUPABASE_PROJECT_ID = $previousProjectId
   $result.timings_seconds.npm_ci = $npmCi.duration_seconds
   $result.timings_seconds.preflight = $preflight.duration_seconds
   $result.timings_seconds.bootstrap = $bootstrap.duration_seconds
@@ -504,10 +538,17 @@ $finalHash = Get-CanonicalTextSha256 (Join-Path $Root "supabase/migrations/20260
 $finalRef = if (Test-Path (Join-Path $Root "supabase/.temp/project-ref")) { (Get-Content -Raw (Join-Path $Root "supabase/.temp/project-ref")).Trim() } else { "" }
 $result.security.baseline_sha_preserved = ($finalHash -eq $ExpectedSha)
 $result.security.hml_project_ref_preserved = ($finalRef -eq $ExpectedRef)
+$result.expected_hml_preservation = $ExpectedHmlPreservation
+$result.actual_hml_preservation = $result.security.hml_project_ref_preserved
+$result.assertion_passed = ($result.actual_hml_preservation -eq $result.expected_hml_preservation)
 $result.security.report_sanitization_passed = Test-ReportSecurity
 $result.security.credential_scan_passed = $result.security.report_sanitization_passed
 
-if ($primaryError -or $cleanupErrors.Count -gt 0 -or $result.result -ne "CLEAN_WORKTREE_VALIDATED" -or -not $result.cleanup.worktree_removed -or -not $result.cleanup.temp_dir_removed -or -not $result.cleanup.containers_removed -or -not $result.cleanup.volumes_removed -or -not $result.cleanup.child_processes_removed -or -not $result.security.baseline_sha_preserved -or -not $result.security.hml_project_ref_preserved -or -not $result.security.credential_scan_passed) {
+if (-not $result.assertion_passed -and [string]::IsNullOrWhiteSpace($result.primary_error)) {
+  $result.primary_error = if ($IsIsolatedCi) { "Expected HML preservation=false in isolated CI." } else { "Expected HML preservation=true in LOCAL mode." }
+}
+
+if ($primaryError -or $cleanupErrors.Count -gt 0 -or $result.result -ne "CLEAN_WORKTREE_VALIDATED" -or -not $result.cleanup.worktree_removed -or -not $result.cleanup.temp_dir_removed -or -not $result.cleanup.containers_removed -or -not $result.cleanup.volumes_removed -or -not $result.cleanup.child_processes_removed -or -not $result.security.baseline_sha_preserved -or -not $result.assertion_passed -or -not $result.security.credential_scan_passed) {
   $result.decision = "LOCAL_REPRODUCIBILITY_REJECTED"
   $scriptExitCode = 1
 } else {
@@ -520,6 +561,7 @@ Write-Checkpoint "SCRIPT_EXIT"
 if ($scriptExitCode -eq 0) {
   Write-Output "CLEAN_WORKTREE_VALIDATED"
 } else {
-  Write-Error "CLEAN_WORKTREE_FAILED"
+  if (-not [string]::IsNullOrWhiteSpace($result.primary_error)) { Write-Error $result.primary_error }
+  else { Write-Error "CLEAN_WORKTREE_FAILED" }
 }
 exit $scriptExitCode
