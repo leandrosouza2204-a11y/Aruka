@@ -85,12 +85,13 @@
 
 ## Ciclo 9.1 - Real GitHub Actions Runtime Evidence
 
-- Objetivo: registrar evidencia real do runner GitHub e orientar branch protection manual.
-- Principais entregas: PR de validacao, artifacts revisados e lista final de required checks.
+- Objetivo: preparar e executar coleta read-only de evidencia real do runner GitHub e orientar branch protection manual.
+- Principais entregas: scripts de coleta/validacao de run, artifacts, cleanup, branch protection e merge-block; docs 49-53; relatorios `reports/supabase-ci-runtime/`.
 - Dependencias: Ciclo 9 commitado e workflow executado no GitHub.
 - Criterios de aceite: checks reais aprovados e artifacts sem dados sensiveis.
-- Riscos: diferencas entre runner GitHub e execucao local equivalente.
-- Decisao de saida: CI real aprovada para protecao de branch.
+- Riscos: diferencas entre runner GitHub e execucao local equivalente; a primeira execucao do PR #1 falhou no check `validation` por `Official baseline SHA mismatch` causado por finais de linha nao canonicos, sem alteracao semantica da baseline SQL.
+- Decisao de preparacao: `CYCLE_9_1_RUNTIME_EVIDENCE_REQUIRED`.
+- Decisao final pendente: nao declarar `GITHUB_ACTIONS_RUNTIME_AND_BRANCH_PROTECTION_VALIDATED` ate novo run real bem-sucedido e configuracao/validacao de branch protection.
 
 ## Ciclo 10 - Infrastructure QA
 

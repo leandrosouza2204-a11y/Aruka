@@ -6,7 +6,7 @@ import {
   collectFixtureCounts,
   collectInventory,
   nowIso,
-  sha256,
+  sha256CanonicalText,
   validateLocalGuard,
   writeJsonReport,
   writeMarkdownReport,
@@ -17,7 +17,7 @@ const startedAt = nowIso();
 const errors = [];
 const guard = validateLocalGuard(root);
 if (!guard.ok) errors.push(...guard.errors);
-if (sha256(root, BASELINE_PATH) !== EXPECTED_BASELINE_SHA) errors.push("Baseline SHA mismatch");
+if (sha256CanonicalText(root, BASELINE_PATH) !== EXPECTED_BASELINE_SHA) errors.push("Baseline SHA mismatch");
 
 function readJson(file) {
   try {
@@ -45,8 +45,8 @@ const payload = {
   decision: ok ? DECISION : "LOCAL_SEEDS_AND_SAFE_RESET_REJECTED",
   started_at: startedAt,
   finished_at: nowIso(),
-  baseline_sha: sha256(root, BASELINE_PATH),
-  baseline_sha_preserved: sha256(root, BASELINE_PATH) === EXPECTED_BASELINE_SHA,
+  baseline_sha: sha256CanonicalText(root, BASELINE_PATH),
+  baseline_sha_preserved: sha256CanonicalText(root, BASELINE_PATH) === EXPECTED_BASELINE_SHA,
   migration_history: inventory.migration_history,
   structural_inventory: inventory.structure,
   fixture_counts: fixtureCounts,

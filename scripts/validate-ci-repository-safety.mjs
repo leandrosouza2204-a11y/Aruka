@@ -9,7 +9,7 @@ import {
   WORKFLOW_PATH,
   assertNoForbiddenContent,
   listFiles,
-  sha256,
+  sha256CanonicalText,
   writeJsonReport,
   writeMarkdownReport,
 } from "./supabase-cycle-9-lib.mjs";
@@ -17,9 +17,11 @@ import {
 const root = process.cwd();
 const errors = [];
 const fail = (message) => errors.push(message);
+const baselineExists = existsSync(join(root, BASELINE_PATH));
+const actualBaselineSha = baselineExists ? sha256CanonicalText(root, BASELINE_PATH) : null;
 
-if (!existsSync(join(root, BASELINE_PATH))) fail("Official baseline missing");
-else if (sha256(root, BASELINE_PATH) !== EXPECTED_BASELINE_SHA) fail("Official baseline SHA mismatch");
+if (!baselineExists) fail("Official baseline missing");
+else if (actualBaselineSha !== EXPECTED_BASELINE_SHA) fail("Official baseline SHA mismatch");
 
 const activeMigrations = listFiles(root, "supabase/migrations").filter((file) => file.endsWith(".sql"));
 if (activeMigrations.length !== 1 || activeMigrations[0] !== BASELINE_PATH) fail("Active migrations must contain only the official baseline SQL");
@@ -82,7 +84,9 @@ const payload = {
   cycle: "9",
   result: errors.length ? "REPOSITORY_SAFETY_REJECTED" : "REPOSITORY_SAFETY_VALIDATED",
   decision: errors.length ? "CI_QUALITY_GATES_REJECTED" : CYCLE_9_DECISION,
-  baseline_sha_preserved: errors.every((error) => !/baseline/i.test(error)),
+  baseline_sha: actualBaselineSha,
+  expected_baseline_sha: EXPECTED_BASELINE_SHA,
+  baseline_sha_preserved: actualBaselineSha === EXPECTED_BASELINE_SHA,
   active_migrations: activeMigrations,
   forbidden_changes_found: false,
   remote_access_performed: false,
@@ -97,7 +101,9 @@ writeMarkdownReport(root, "repository-safety-summary.md", [
   "",
   `- Result: ${payload.result}`,
   `- Decision: ${payload.decision}`,
-  `- Baseline SHA preserved: ${payload.baseline_sha_preserved ? "yes" : "no"}`,
+  `- Baseline SHA: ${payload.baseline_sha ?? "missing"}`,
+  `- Expected baseline SHA: ${payload.expected_baseline_sha}`,
+  `- Baseline preserved: ${payload.baseline_sha_preserved ? "yes" : "no"}`,
   `- Active migrations: ${activeMigrations.join(", ")}`,
   `- Primary error: ${payload.primary_error ?? "none"}`,
 ]);

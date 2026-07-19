@@ -1,0 +1,151 @@
+{
+  "cycle": "9.1",
+  "result": "CI_RUNTIME_MUTATIONS_REJECTED",
+  "decision": "CYCLE_9_1_RUNTIME_EVIDENCE_REQUIRED",
+  "rejected": 35,
+  "total": 35,
+  "all_rejected": true,
+  "mutations": [
+    {
+      "name": "missing_run_id",
+      "rejected": true
+    },
+    {
+      "name": "bad_conclusion",
+      "rejected": true
+    },
+    {
+      "name": "missing_check",
+      "rejected": true
+    },
+    {
+      "name": "missing_validation_job",
+      "rejected": true
+    },
+    {
+      "name": "missing_cleanup",
+      "rejected": true
+    },
+    {
+      "name": "cleanup_without_always",
+      "rejected": true
+    },
+    {
+      "name": "missing_artifact",
+      "rejected": true
+    },
+    {
+      "name": "empty_artifact",
+      "rejected": true
+    },
+    {
+      "name": "invalid_json",
+      "rejected": true
+    },
+    {
+      "name": "baseline_changed",
+      "rejected": true
+    },
+    {
+      "name": "hml_remote_ref",
+      "rejected": true
+    },
+    {
+      "name": "remote_url",
+      "rejected": true
+    },
+    {
+      "name": "access_token",
+      "rejected": true
+    },
+    {
+      "name": "service_role",
+      "rejected": true
+    },
+    {
+      "name": "db_password",
+      "rejected": true
+    },
+    {
+      "name": "wrong_branch",
+      "rejected": true
+    },
+    {
+      "name": "protection_disabled",
+      "rejected": true
+    },
+    {
+      "name": "pr_not_required",
+      "rejected": true
+    },
+    {
+      "name": "status_not_required",
+      "rejected": true
+    },
+    {
+      "name": "wrong_check",
+      "rejected": true
+    },
+    {
+      "name": "force_push_allowed",
+      "rejected": true
+    },
+    {
+      "name": "delete_allowed",
+      "rejected": true
+    },
+    {
+      "name": "missing_merge_negative",
+      "rejected": true
+    },
+    {
+      "name": "merge_allowed_failure",
+      "rejected": true
+    },
+    {
+      "name": "missing_pr",
+      "rejected": true
+    },
+    {
+      "name": "missing_failed_run",
+      "rejected": true
+    },
+    {
+      "name": "missing_timestamp",
+      "rejected": true
+    },
+    {
+      "name": "path_traversal",
+      "rejected": true
+    },
+    {
+      "name": "symlink",
+      "rejected": true
+    },
+    {
+      "name": "false_approval",
+      "rejected": true
+    },
+    {
+      "name": "gh_patch",
+      "rejected": true
+    },
+    {
+      "name": "gh_merge",
+      "rejected": true
+    },
+    {
+      "name": "gh_workflow_run",
+      "rejected": true
+    },
+    {
+      "name": "migration_change",
+      "rejected": true
+    },
+    {
+      "name": "env_change",
+      "rejected": true
+    }
+  ],
+  "primary_error": null
+}

@@ -4,7 +4,7 @@ import { join } from "node:path";
 
 const errors = [];
 const baseline = "20260716090000_baseline_aruka_v1.sql";
-const expectedSha = "745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE";
+const expectedSha = "F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A";
 
 function fail(message) {
   errors.push(message);
@@ -12,6 +12,15 @@ function fail(message) {
 
 function sha256(path) {
   return createHash("sha256").update(readFileSync(path)).digest("hex").toUpperCase();
+}
+
+function sha256CanonicalText(path) {
+  let bytes = readFileSync(path);
+  if (bytes.length >= 3 && bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf) {
+    bytes = bytes.subarray(3);
+  }
+  const text = bytes.toString("utf8").replace(/\r\n?/g, "\n");
+  return createHash("sha256").update(Buffer.from(text, "utf8")).digest("hex").toUpperCase();
 }
 
 function sqlFiles(dir) {
@@ -35,9 +44,9 @@ if (!existsSync(join(archiveDir, "README.md"))) fail("Missing migrations-archive
 if (!existsSync(join(operationsDir, "README.md"))) fail("Missing operations README");
 if (!existsSync(manifestPath)) fail("Missing cutover manifest");
 
-if (existsSync(baselinePath) && sha256(baselinePath) !== expectedSha) fail("Active baseline SHA does not match expected SHA");
-if (existsSync(candidatePath) && existsSync(baselinePath) && sha256(candidatePath) !== sha256(baselinePath)) {
-  fail("Active baseline is not byte-equivalent to candidate baseline");
+if (existsSync(baselinePath) && sha256CanonicalText(baselinePath) !== expectedSha) fail("Active baseline SHA does not match expected SHA");
+if (existsSync(candidatePath) && existsSync(baselinePath) && sha256CanonicalText(candidatePath) !== sha256CanonicalText(baselinePath)) {
+  fail("Active baseline is not canonically equivalent to candidate baseline");
 }
 
 let manifest = null;

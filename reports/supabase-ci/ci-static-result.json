@@ -2,7 +2,7 @@
   "cycle": "9",
   "result": "CI_STATIC_VALIDATED",
   "decision": "CI_QUALITY_GATES_VALIDATED",
-  "node_files_checked": 87,
+  "node_files_checked": 99,
   "powershell_files_checked": 8,
   "json_reports_checked": 26,
   "errors": [],

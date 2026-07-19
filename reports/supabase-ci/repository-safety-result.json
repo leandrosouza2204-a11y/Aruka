@@ -2,6 +2,8 @@
   "cycle": "9",
   "result": "REPOSITORY_SAFETY_VALIDATED",
   "decision": "CI_QUALITY_GATES_VALIDATED",
+  "baseline_sha": "F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A",
+  "expected_baseline_sha": "F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A",
   "baseline_sha_preserved": true,
   "active_migrations": [
     "supabase/migrations/20260716090000_baseline_aruka_v1.sql"

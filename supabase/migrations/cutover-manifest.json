@@ -4,7 +4,7 @@
   "cutover_date": "2026-07-16",
   "baseline_file": "20260716090000_baseline_aruka_v1.sql",
   "baseline_timestamp": "20260716090000",
-  "baseline_sha256": "745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE",
+  "baseline_sha256": "F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A",
   "archived_migrations": [
     "20260705090000_hardening_admin_functions.sql",
     "20260705091000_rls_indices_multitenant.sql",

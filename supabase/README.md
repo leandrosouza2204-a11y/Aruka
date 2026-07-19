@@ -39,6 +39,7 @@ npm.cmd run qa:supabase-clean-worktree
 npm.cmd run qa:supabase-clean-worktree-wrapper
 npm.cmd run qa:supabase-cycle-8
 npm.cmd run qa:supabase-cycle-9
+npm.cmd run qa:supabase-cycle-9-1:prepare
 ```
 
 Nenhum comando local deve usar `--linked`, `--project-ref`, `--db-url` remoto, `db push` ou `migration repair`.
@@ -70,3 +71,18 @@ npm.cmd run qa:supabase-cycle-9
 ```
 
 O workflow GitHub Actions usa Node 22, Supabase CLI 2.109.1, permissao `contents: read` e ambiente Supabase local efemero sem secrets remotos.
+
+A baseline ativa `migrations/20260716090000_baseline_aruka_v1.sql` e validada por SHA-256 textual canonico com LF: `F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A`. O PR #1 falhou inicialmente no check `validation` porque o hash antigo foi calculado sobre uma representacao Windows com finais mistos; nao houve alteracao semantica da SQL.
+
+## Evidencia real do GitHub Actions
+
+```bash
+npm.cmd run supabase:ci:collect-runtime -- --run-id=<RUN_ID>
+npm.cmd run supabase:ci:download-artifacts -- --run-id=<RUN_ID>
+npm.cmd run qa:supabase-ci-runtime-artifacts
+npm.cmd run qa:supabase-ci-runtime-cleanup
+npm.cmd run supabase:ci:collect-branch-protection
+npm.cmd run qa:supabase-branch-protection
+```
+
+Antes da execucao real, `qa:supabase-cycle-9-1:prepare` deve retornar `CYCLE_9_1_RUNTIME_EVIDENCE_REQUIRED`.

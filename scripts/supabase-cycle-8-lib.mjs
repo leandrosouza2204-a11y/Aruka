@@ -3,7 +3,7 @@ import { execFileSync, spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
 
-export const EXPECTED_BASELINE_SHA = "745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE";
+export const EXPECTED_BASELINE_SHA = "F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A";
 export const BASELINE_PATH = "supabase/migrations/20260716090000_baseline_aruka_v1.sql";
 export const PROTECTED_PROJECT_REF = "xrmqdkpx" + "nfvusmenadnf";
 export const DECISION = "LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED";
@@ -39,6 +39,15 @@ export function writeMarkdownReport(root, file, lines) {
 
 export function sha256(root, file) {
   return createHash("sha256").update(readFileSync(join(root, file))).digest("hex").toUpperCase();
+}
+
+export function sha256CanonicalText(root, file) {
+  let bytes = readFileSync(join(root, file));
+  if (bytes.length >= 3 && bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf) {
+    bytes = bytes.subarray(3);
+  }
+  const text = bytes.toString("utf8").replace(/\r\n?/g, "\n");
+  return createHash("sha256").update(Buffer.from(text, "utf8")).digest("hex").toUpperCase();
 }
 
 export function readText(root, file) {
@@ -156,7 +165,7 @@ export function validateLocalGuard(root = process.cwd(), args = process.argv.sli
   for (const [pattern, label] of blocked) {
     if (pattern.test(scan)) errors.push(`Rejected unsafe local seed context: ${label}`);
   }
-  const baselineSha = sha256(root, BASELINE_PATH);
+  const baselineSha = sha256CanonicalText(root, BASELINE_PATH);
   if (baselineSha !== EXPECTED_BASELINE_SHA) errors.push("Official baseline SHA mismatch");
   const projectId = getProjectId(root);
   if (projectId === PROTECTED_PROJECT_REF) errors.push("Local project_id matches protected HML project ref");

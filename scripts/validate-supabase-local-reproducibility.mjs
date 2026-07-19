@@ -11,7 +11,7 @@ const mode = modeArg ? modeArg.slice("--mode=".length) : "normal";
 const requireCycle71Reports = mode !== "negative-fixture";
 const errors = [];
 
-const expectedSha = "745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE";
+const expectedSha = "F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A";
 const baseline = "supabase/migrations/20260716090000_baseline_aruka_v1.sql";
 const forbiddenProjectRef = "xrmqdkpx" + "nfvusmenadnf";
 const APPROVED_REDACTED_DB_URL =
@@ -74,6 +74,15 @@ function sha256(file) {
   return createHash("sha256").update(readFileSync(pathOf(file))).digest("hex").toUpperCase();
 }
 
+function sha256CanonicalText(file) {
+  let bytes = readFileSync(pathOf(file));
+  if (bytes.length >= 3 && bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf) {
+    bytes = bytes.subarray(3);
+  }
+  const text = bytes.toString("utf8").replace(/\r\n?/g, "\n");
+  return createHash("sha256").update(Buffer.from(text, "utf8")).digest("hex").toUpperCase();
+}
+
 for (const script of requiredScripts) {
   if (!existsSync(pathOf(script))) fail(`Missing ${script}`);
 }
@@ -133,7 +142,7 @@ if (!existsSync(pathOf("supabase/config.toml"))) {
 
 if (!existsSync(pathOf(baseline))) {
   fail("Missing official baseline");
-} else if (sha256(baseline) !== expectedSha) {
+} else if (sha256CanonicalText(baseline) !== expectedSha) {
   fail("Official baseline SHA mismatch");
 }
 
@@ -171,6 +180,13 @@ if (requireCycle71Reports) {
   }
   const worktreeResult = existsSync(pathOf(requiredReports[1])) ? readJson(requiredReports[1]) : null;
   if (worktreeResult?.result !== "CLEAN_WORKTREE_VALIDATED") fail("Clean worktree result is not validated");
+  if (!["LOCAL", "ISOLATED_CI", undefined].includes(worktreeResult?.mode)) fail("Clean worktree mode is invalid");
+  if (worktreeResult?.assertion_passed === false) fail("Clean worktree HML preservation assertion did not pass");
+  if (typeof worktreeResult?.expected_hml_preservation === "boolean" && typeof worktreeResult?.actual_hml_preservation === "boolean") {
+    if (worktreeResult.expected_hml_preservation !== worktreeResult.actual_hml_preservation) {
+      fail("Clean worktree HML preservation expectation does not match actual result");
+    }
+  }
   if (worktreeResult?.cleanup?.worktree_removed !== true) fail("Clean worktree cleanup did not remove worktree");
   if (worktreeResult?.cleanup?.temp_dir_removed !== true) fail("Clean worktree cleanup did not remove temp directory");
   if (worktreeResult?.remote_access !== "none") fail("Clean worktree reported remote access");

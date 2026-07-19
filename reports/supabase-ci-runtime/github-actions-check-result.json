@@ -1,0 +1,8 @@
+{
+  "cycle": "9.1",
+  "result": "NOT_EXECUTED",
+  "decision": "CYCLE_9_1_RUNTIME_EVIDENCE_REQUIRED",
+  "cleanup_step_found": false,
+  "cleanup_conclusion": null,
+  "primary_error": "Cleanup evidence from a real GitHub Actions run is pending."
+}
