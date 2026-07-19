@@ -8,7 +8,7 @@ import {
   nowIso,
   runCommand,
   runSupabaseDbReset,
-  sha256,
+  sha256CanonicalText,
   stableSnapshot,
   stringifyStable,
   validateLocalGuard,
@@ -54,7 +54,7 @@ function safeFixtureCounts() {
 try {
   const guard = validateLocalGuard(root);
   if (!guard.ok) throw new Error(guard.errors.join("; "));
-  if (sha256(root, BASELINE_PATH) !== EXPECTED_BASELINE_SHA) throw new Error("Official baseline SHA mismatch");
+  if (sha256CanonicalText(root, BASELINE_PATH) !== EXPECTED_BASELINE_SHA) throw new Error("Official baseline SHA mismatch");
 
   firstReset = commandOutputOrThrow(runSupabaseStartIfNeeded(runSupabaseDbReset(root)), "First local Supabase reset");
   firstSeed = commandOutputOrThrow(runCommand(root, "node", ["scripts/seed-supabase-local.mjs"], { timeoutMs: 180000 }), "First local Cycle 8 seed");
@@ -77,7 +77,7 @@ try {
     duration_seconds: Number(((Date.now() - started) / 1000).toFixed(3)),
     reset_runs: 2,
     baseline_sha_preserved: true,
-    baseline_sha: sha256(root, BASELINE_PATH),
+    baseline_sha: sha256CanonicalText(root, BASELINE_PATH),
     baseline_history_validated: firstSnapshot.inventory.migration_history.length === 1 && firstSnapshot.inventory.migration_history[0] === "20260716090000",
     archived_migrations_applied: false,
     first_run_exit_code: firstReset.status,
@@ -110,7 +110,7 @@ try {
     finished_at: nowIso(),
     duration_seconds: Number(((Date.now() - started) / 1000).toFixed(3)),
     reset_runs: Number(Boolean(firstReset)) + Number(Boolean(secondReset)),
-    baseline_sha_preserved: sha256(root, BASELINE_PATH) === EXPECTED_BASELINE_SHA,
+    baseline_sha_preserved: sha256CanonicalText(root, BASELINE_PATH) === EXPECTED_BASELINE_SHA,
     first_run_exit_code: firstReset?.status ?? null,
     second_run_exit_code: secondReset?.status ?? null,
     first_seed_exit_code: firstSeed?.status ?? null,

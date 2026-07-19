@@ -6,7 +6,7 @@ import YAML from "yaml";
 
 export const CYCLE_9_DECISION = "CI_QUALITY_GATES_VALIDATED";
 export const BASELINE_PATH = "supabase/migrations/20260716090000_baseline_aruka_v1.sql";
-export const EXPECTED_BASELINE_SHA = "745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE";
+export const EXPECTED_BASELINE_SHA = "F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A";
 export const PROTECTED_PROJECT_REF = "xrmqdkpx" + "nfvusmenadnf";
 export const WORKFLOW_PATH = ".github/workflows/supabase-local-quality-gates.yml";
 export const REPORT_DIR = "reports/supabase-ci";
@@ -29,6 +29,15 @@ export function writeMarkdownReport(root, file, lines) {
 
 export function sha256(root, file) {
   return createHash("sha256").update(readFileSync(join(root, file))).digest("hex").toUpperCase();
+}
+
+export function sha256CanonicalText(root, file) {
+  let bytes = readFileSync(join(root, file));
+  if (bytes.length >= 3 && bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf) {
+    bytes = bytes.subarray(3);
+  }
+  const text = bytes.toString("utf8").replace(/\r\n?/g, "\n");
+  return createHash("sha256").update(Buffer.from(text, "utf8")).digest("hex").toUpperCase();
 }
 
 export function readText(root, file) {

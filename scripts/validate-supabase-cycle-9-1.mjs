@@ -1,4 +1,4 @@
-import { DECISION_FINAL, DECISION_PREPARE, EXPECTED_BASELINE_SHA, BASELINE_PATH, readJson, run, sha256, writeJson, writeMarkdown } from "./supabase-cycle-9-1-lib.mjs";
+import { DECISION_FINAL, DECISION_PREPARE, EXPECTED_BASELINE_SHA, BASELINE_PATH, readJson, run, sha256CanonicalText, writeJson, writeMarkdown } from "./supabase-cycle-9-1-lib.mjs";
 
 const root = process.cwd();
 const mode = process.argv.includes("--final") ? "final" : "prepare";
@@ -23,7 +23,7 @@ const cycle9 = readJson(root, "reports/supabase-ci/cycle-9-result.json", {});
 const cycle8 = readJson(root, "reports/supabase-local-seeds/cycle-8-result.json", {});
 const wrapper = readJson(root, "reports/supabase-local-bootstrap/clean-worktree-wrapper-result.json", {});
 
-if (sha256(root, BASELINE_PATH) !== EXPECTED_BASELINE_SHA) errors.push("Baseline SHA mismatch");
+if (sha256CanonicalText(root, BASELINE_PATH) !== EXPECTED_BASELINE_SHA) errors.push("Baseline SHA mismatch");
 if (cycle9.result !== "CI_QUALITY_GATES_VALIDATED") errors.push("Cycle 9 regression evidence missing");
 if (cycle8.result !== "LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED") errors.push("Cycle 8 regression evidence missing");
 if (wrapper.result !== "CLEAN_WORKTREE_WRAPPER_VALIDATED") errors.push("Cycle 7.2.1 wrapper evidence missing");
@@ -47,7 +47,7 @@ const payload = {
   cleanup_result: cleanup.result ?? "NOT_EXECUTED",
   branch_protection_result: protection.validation?.result ?? protection.result ?? "NOT_EXECUTED",
   merge_block_result: mergeBlock.result ?? "NOT_EXECUTED",
-  baseline_sha_preserved: sha256(root, BASELINE_PATH) === EXPECTED_BASELINE_SHA,
+  baseline_sha_preserved: sha256CanonicalText(root, BASELINE_PATH) === EXPECTED_BASELINE_SHA,
   remote_access_performed: false,
   edge_functions_deployed: false,
   errors,

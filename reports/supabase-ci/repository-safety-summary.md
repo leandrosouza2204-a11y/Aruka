@@ -2,6 +2,8 @@
 
 - Result: REPOSITORY_SAFETY_VALIDATED
 - Decision: CI_QUALITY_GATES_VALIDATED
-- Baseline SHA preserved: yes
+- Baseline SHA: F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A
+- Expected baseline SHA: F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A
+- Baseline preserved: yes
 - Active migrations: supabase/migrations/20260716090000_baseline_aruka_v1.sql
 - Primary error: none

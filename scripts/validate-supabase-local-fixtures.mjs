@@ -8,7 +8,7 @@ import {
   nowIso,
   queryJson,
   scanFilesForUnsafeContent,
-  sha256,
+  sha256CanonicalText,
   validateLocalGuard,
   writeJsonReport,
   writeMarkdownReport,
@@ -35,7 +35,7 @@ let fkViolations = [];
 try {
   const guard = validateLocalGuard(root);
   if (!guard.ok) guard.errors.forEach(fail);
-  if (sha256(root, BASELINE_PATH) !== EXPECTED_BASELINE_SHA) fail("Official baseline SHA mismatch");
+  if (sha256CanonicalText(root, BASELINE_PATH) !== EXPECTED_BASELINE_SHA) fail("Official baseline SHA mismatch");
 
   inventory = collectInventory(root);
   if (inventory.migration_history.length !== 1 || inventory.migration_history[0] !== "20260716090000") {

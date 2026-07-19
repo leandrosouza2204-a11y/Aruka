@@ -9,7 +9,7 @@ import {
   WORKFLOW_PATH,
   assertNoForbiddenContent,
   readYaml,
-  sha256,
+  sha256CanonicalText,
   writeJsonReport,
   writeMarkdownReport,
 } from "./supabase-cycle-9-lib.mjs";
@@ -89,7 +89,7 @@ else {
   }
 }
 
-if (sha256(root, BASELINE_PATH) !== EXPECTED_BASELINE_SHA) fail("Baseline SHA mismatch");
+if (sha256CanonicalText(root, BASELINE_PATH) !== EXPECTED_BASELINE_SHA) fail("Baseline SHA mismatch");
 
 const safety = readJson("reports/supabase-ci/repository-safety-result.json");
 const negative = readJson("reports/supabase-ci/ci-negative-result.json");
@@ -130,7 +130,7 @@ const payload = {
   regression_suite_passed: evidence?.regressions_validated === true,
   evidence_validation_passed: evidence?.result === "CI_EVIDENCE_VALIDATED",
   cleanup_validated: cleanup ? cleanup.result === "CI_CLEANUP_VALIDATED" : true,
-  baseline_sha_preserved: sha256(root, BASELINE_PATH) === EXPECTED_BASELINE_SHA,
+  baseline_sha_preserved: sha256CanonicalText(root, BASELINE_PATH) === EXPECTED_BASELINE_SHA,
   remote_access_performed: false,
   edge_functions_deployed: false,
   remote_secrets_used: false,

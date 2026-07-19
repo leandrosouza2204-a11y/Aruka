@@ -8,7 +8,18 @@ $ConfigText = Get-Content -Raw "supabase/config.toml"
 $ProjectId = ([regex]::Match($ConfigText, '(?m)^project_id\s*=\s*"([^"]+)"')).Groups[1].Value
 if ([string]::IsNullOrWhiteSpace($ProjectId)) { $ProjectId = "ConsultoriaFitness" }
 $ExpectedRef = ("xrmqdkpx" + "nfvusmenadnf")
-$ExpectedSha = "745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE"
+$ExpectedSha = "F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A"
+
+function Get-CanonicalTextSha256($Path) {
+  $bytes = [System.IO.File]::ReadAllBytes((Resolve-Path $Path).Path)
+  if ($bytes.Length -ge 3 -and $bytes[0] -eq 0xef -and $bytes[1] -eq 0xbb -and $bytes[2] -eq 0xbf) {
+    if ($bytes.Length -eq 3) { $bytes = @() } else { $bytes = $bytes[3..($bytes.Length - 1)] }
+  }
+  $text = [System.Text.Encoding]::UTF8.GetString($bytes) -replace "`r`n?", "`n"
+  $normalizedBytes = [System.Text.Encoding]::UTF8.GetBytes($text)
+  $hashBytes = [System.Security.Cryptography.SHA256]::Create().ComputeHash($normalizedBytes)
+  return (($hashBytes | ForEach-Object { $_.ToString("x2") }) -join "").ToUpperInvariant()
+}
 
 function Fail($Message) {
   $script:Errors += $Message
@@ -33,7 +44,7 @@ if (-not (Test-Path "supabase/migrations/cutover-manifest.json")) { Fail "Missin
 $ref = if (Test-Path "supabase/.temp/project-ref") { (Get-Content -Raw "supabase/.temp/project-ref").Trim() } else { "" }
 if ($ref -ne $ExpectedRef) { Fail "Linked project-ref is not the expected HML ref." }
 
-$hash = if (Test-Path "supabase/migrations/20260716090000_baseline_aruka_v1.sql") { (Get-FileHash "supabase/migrations/20260716090000_baseline_aruka_v1.sql" -Algorithm SHA256).Hash } else { "" }
+$hash = if (Test-Path "supabase/migrations/20260716090000_baseline_aruka_v1.sql") { Get-CanonicalTextSha256 "supabase/migrations/20260716090000_baseline_aruka_v1.sql" } else { "" }
 if ($hash -ne $ExpectedSha) { Fail "Official baseline SHA mismatch." }
 
 $dockerVersion = Run "docker" @("--version")

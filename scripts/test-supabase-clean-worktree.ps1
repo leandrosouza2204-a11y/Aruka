@@ -13,7 +13,7 @@ $ResultPath = Join-Path $ReportDir "clean-worktree-result.json"
 $SummaryPath = Join-Path $ReportDir "clean-worktree-summary.md"
 $DebugPath = Join-Path $ReportDir "tmp-clean-worktree-debug.log"
 $ExpectedRef = ("xrmqdkpx" + "nfvusmenadnf")
-$ExpectedSha = "745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE"
+$ExpectedSha = "F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A"
 $NpmCmdCommand = Get-Command npm.cmd -ErrorAction SilentlyContinue
 if (-not $NpmCmdCommand) { $NpmCmdCommand = Get-Command npm -ErrorAction Stop }
 $NpmCmd = $NpmCmdCommand.Source
@@ -56,6 +56,17 @@ function Safe-Output($Text) {
     -replace '"PUBLISHABLE_KEY": "[^"]+"', '"PUBLISHABLE_KEY": "[REDACTED_LOCAL_PUBLISHABLE_KEY]"' `
     -replace '"S3_PROTOCOL_ACCESS_KEY_ID": "[^"]+"', '"S3_PROTOCOL_ACCESS_KEY_ID": "[REDACTED_LOCAL_S3_ACCESS_KEY_ID]"' `
     -replace '"S3_PROTOCOL_ACCESS_KEY_SECRET": "[^"]+"', '"S3_PROTOCOL_ACCESS_KEY_SECRET": "[REDACTED_LOCAL_S3_ACCESS_KEY_SECRET]"'
+}
+
+function Get-CanonicalTextSha256($Path) {
+  $bytes = [System.IO.File]::ReadAllBytes((Resolve-Path $Path).Path)
+  if ($bytes.Length -ge 3 -and $bytes[0] -eq 0xef -and $bytes[1] -eq 0xbb -and $bytes[2] -eq 0xbf) {
+    if ($bytes.Length -eq 3) { $bytes = @() } else { $bytes = $bytes[3..($bytes.Length - 1)] }
+  }
+  $text = [System.Text.Encoding]::UTF8.GetString($bytes) -replace "`r`n?", "`n"
+  $normalizedBytes = [System.Text.Encoding]::UTF8.GetBytes($text)
+  $hashBytes = [System.Security.Cryptography.SHA256]::Create().ComputeHash($normalizedBytes)
+  return (($hashBytes | ForEach-Object { $_.ToString("x2") }) -join "").ToUpperInvariant()
 }
 
 function Invoke-ExternalCommand {
@@ -367,7 +378,7 @@ $result = [ordered]@{
 try {
   Write-Checkpoint "INITIAL_VALIDATION_START"
   if (-not (Test-Path (Join-Path $Root "package.json"))) { throw "Run from repository root." }
-  $hash = (Get-FileHash (Join-Path $Root "supabase/migrations/20260716090000_baseline_aruka_v1.sql") -Algorithm SHA256).Hash
+  $hash = Get-CanonicalTextSha256 (Join-Path $Root "supabase/migrations/20260716090000_baseline_aruka_v1.sql")
   if ($hash -ne $ExpectedSha) { throw "Official baseline SHA mismatch." }
   $ref = if (Test-Path (Join-Path $Root "supabase/.temp/project-ref")) { (Get-Content -Raw (Join-Path $Root "supabase/.temp/project-ref")).Trim() } else { "" }
   if ($ref -ne $ExpectedRef) { throw "Main project HML ref mismatch." }
@@ -489,7 +500,7 @@ $result.child_processes = @($childProcesses | ForEach-Object {
   }
 })
 $result.process_timeouts = 0
-$finalHash = (Get-FileHash (Join-Path $Root "supabase/migrations/20260716090000_baseline_aruka_v1.sql") -Algorithm SHA256).Hash
+$finalHash = Get-CanonicalTextSha256 (Join-Path $Root "supabase/migrations/20260716090000_baseline_aruka_v1.sql")
 $finalRef = if (Test-Path (Join-Path $Root "supabase/.temp/project-ref")) { (Get-Content -Raw (Join-Path $Root "supabase/.temp/project-ref")).Trim() } else { "" }
 $result.security.baseline_sha_preserved = ($finalHash -eq $ExpectedSha)
 $result.security.hml_project_ref_preserved = ($finalRef -eq $ExpectedRef)

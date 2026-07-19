@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import YAML from "yaml";
-import { BASELINE_PATH, EXPECTED_BASELINE_SHA, WORKFLOW_FILE, sha256, writeJson, writeMarkdown } from "./supabase-cycle-9-1-lib.mjs";
+import { BASELINE_PATH, EXPECTED_BASELINE_SHA, WORKFLOW_FILE, sha256CanonicalText, writeJson, writeMarkdown } from "./supabase-cycle-9-1-lib.mjs";
 
 const root = process.cwd();
 const errors = [];
@@ -29,7 +29,7 @@ for (const file of [...requiredScripts, ...requiredDocs]) {
   if (!existsSync(join(root, file))) errors.push(`Missing ${file}`);
 }
 if (!existsSync(join(root, "reports/supabase-ci-runtime"))) errors.push("Missing reports/supabase-ci-runtime");
-if (sha256(root, BASELINE_PATH) !== EXPECTED_BASELINE_SHA) errors.push("Baseline SHA mismatch");
+if (sha256CanonicalText(root, BASELINE_PATH) !== EXPECTED_BASELINE_SHA) errors.push("Baseline SHA mismatch");
 
 try {
   const workflow = YAML.parse(readFileSync(join(root, WORKFLOW_FILE), "utf8"));

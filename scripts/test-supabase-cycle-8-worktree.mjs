@@ -2,7 +2,7 @@ import { spawnSync } from "node:child_process";
 import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { tmpdir } from "node:os";
-import { DECISION, EXPECTED_BASELINE_SHA, sha256, writeJsonReport, writeMarkdownReport } from "./supabase-cycle-8-lib.mjs";
+import { DECISION, EXPECTED_BASELINE_SHA, sha256CanonicalText, writeJsonReport, writeMarkdownReport } from "./supabase-cycle-8-lib.mjs";
 
 const root = process.cwd();
 const startedAt = new Date().toISOString();
@@ -61,7 +61,7 @@ try {
   );
   const configPath = join(worktreeDir, "supabase/config.toml");
   writeFileSync(configPath, readFileSync(configPath, "utf8").replace(/^project_id\s*=\s*"[^"]+"/m, `project_id = "${projectId}"`), "utf8");
-  if (sha256(worktreeDir, "supabase/migrations/20260716090000_baseline_aruka_v1.sql") !== EXPECTED_BASELINE_SHA) {
+  if (sha256CanonicalText(worktreeDir, "supabase/migrations/20260716090000_baseline_aruka_v1.sql") !== EXPECTED_BASELINE_SHA) {
     throw new Error("Baseline SHA mismatch in cycle 8 worktree");
   }
   npmCi = run("npm.cmd", ["ci"], worktreeDir, 600000);

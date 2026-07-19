@@ -8,7 +8,13 @@ Collect real, read-only evidence from the GitHub Actions execution of `Supabase 
 
 Preparation state: `CYCLE_9_1_RUNTIME_EVIDENCE_REQUIRED`.
 
-Final approval requires a real run with conclusion `success`, downloaded artifacts, cleanup evidence, branch protection evidence and merge-block validation.
+Initial GitHub Actions execution for PR #1 failed in check `validation` with primary error `Official baseline SHA mismatch`.
+
+Confirmed cause: the official SHA had been calculated from a Windows working tree representation with mixed line endings, while the Git blob and the Linux runner use LF. The baseline SQL had no semantic change. The active canonical LF SHA is `F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A`; the historical unstable Windows working-tree SHA was `745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE`.
+
+Correction: baseline identity validation normalizes UTF-8 text to LF before SHA-256 and `.gitattributes` pins the active baseline to LF.
+
+Final approval still requires a real run with conclusion `success`, downloaded artifacts, cleanup evidence, branch protection evidence and merge-block validation. Main branch protection has not been configured yet.
 
 ## Manual Runtime Procedure
 
