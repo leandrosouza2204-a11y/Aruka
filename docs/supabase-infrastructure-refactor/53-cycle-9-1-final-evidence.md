@@ -32,6 +32,14 @@ The failure was caused by hashing a non-canonical line-ending representation: Gi
 
 Cycle 9.1 remains incomplete and main branch protection has not been configured.
 
+## Gate 3 Runtime Failure
+
+After the SHA correction, PR #1 passed Gates 1 and 2 and then failed Gate 3 in `npm run supabase:preflight` with `PREFLIGHT_FAILED`.
+
+The failure was caused by local preflight requirements leaking into isolated CI: the script required HML-linked state even though the workflow uses `SUPABASE_CI_LOCAL_ONLY=true` and an ephemeral `SUPABASE_PROJECT_ID`. Isolated CI must not be linked to HML and must not require `supabase/.temp/project-ref` before bootstrap.
+
+The correction separates `local` and `isolated_ci`, keeps the local HML guardrail intact, validates the CI project ID/config pairing, rejects protected HML refs in CI, validates Docker context by mode and prints detailed errors to the GitHub Actions log. No remote Supabase access or Edge Function deploy was performed.
+
 ## Final Decision Gate
 
 Do not replace this state with `GITHUB_ACTIONS_RUNTIME_AND_BRANCH_PROTECTION_VALIDATED` until the real GitHub Actions run, artifacts, cleanup, branch protection and merge block evidence are all validated.

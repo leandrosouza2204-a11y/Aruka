@@ -14,6 +14,12 @@ Confirmed cause: the official SHA had been calculated from a Windows working tre
 
 Correction: baseline identity validation normalizes UTF-8 text to LF before SHA-256 and `.gitattributes` pins the active baseline to LF.
 
+Second GitHub Actions execution after the SHA correction passed Gates 1 and 2, then failed Gate 3 during `npm run supabase:preflight` with `PREFLIGHT_FAILED`.
+
+Confirmed cause: the preflight script still enforced local HML-linked state during isolated CI. The workflow runs with `SUPABASE_CI_LOCAL_ONLY=true` and an ephemeral `SUPABASE_PROJECT_ID`, so it must not require `supabase/.temp/project-ref` to exist before bootstrap and must not require the protected HML ref.
+
+Correction: preflight now separates `local` and `isolated_ci` modes, validates the ephemeral CI project ID against `supabase/config.toml`, keeps protected HML refs forbidden in CI, validates Docker context per mode, and emits detailed `::error::` messages in GitHub Actions logs. No remote Supabase access or Edge Function deploy was performed.
+
 Final approval still requires a real run with conclusion `success`, downloaded artifacts, cleanup evidence, branch protection evidence and merge-block validation. Main branch protection has not been configured yet.
 
 ## Manual Runtime Procedure
