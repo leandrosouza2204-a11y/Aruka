@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   buildBranchProtectionEvidence,
+  buildValidationCheckRun,
   collectProtectMainRuleset,
   validateArtifacts,
   validateRuleset,
@@ -169,6 +170,13 @@ test("rejects Protect main ruleset scoped away from main", () => {
 
 test("accepts successful GitHub Actions validation check run", () => {
   assert.equal(validateSuccessfulValidationCheckRun(validationCheckRun()).name, "validation");
+});
+
+test("builds validation check run with app.name object shape", () => {
+  const checkRun = buildValidationCheckRun({ name: "validation", conclusion: "success" });
+  assert.equal(checkRun.app.name, "GitHub Actions");
+  assert.equal(typeof checkRun.app, "object");
+  assert.equal(validateSuccessfulValidationCheckRun(checkRun).app.name, "GitHub Actions");
 });
 
 test("rejects string app but includes safe diagnostic", () => {

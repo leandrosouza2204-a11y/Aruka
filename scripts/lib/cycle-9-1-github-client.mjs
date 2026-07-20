@@ -25,6 +25,17 @@ export function validationJob(run) {
   return (run.jobs ?? []).find((job) => job.name === VALIDATION_CHECK_NAME);
 }
 
+export function buildValidationCheckRun(job) {
+  return {
+    name: job.name,
+    app: {
+      name: GITHUB_ACTIONS_APP_NAME,
+    },
+    status: "completed",
+    conclusion: job.conclusion,
+  };
+}
+
 export function validationCheckRunDiagnostic(checkRun) {
   const app = checkRun && typeof checkRun === "object" ? checkRun.app : null;
   const appObject = app && typeof app === "object" ? app : null;
@@ -222,12 +233,7 @@ export function collectRunEvidence({ runId, pr, branch, sha } = {}) {
     head_sha: full.headSha,
     url: full.url,
     check_name_real: `${WORKFLOW_NAME} / ${job.name}`,
-    check_run: {
-      name: job.name,
-      app: GITHUB_ACTIONS_APP_NAME,
-      status: "completed",
-      conclusion: job.conclusion,
-    },
+    check_run: buildValidationCheckRun(job),
     jobs: full.jobs,
     primary_error: null,
   };
