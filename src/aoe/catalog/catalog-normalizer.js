@@ -11,7 +11,7 @@ import {
   parseFrequency,
   specializationFrom,
 } from "./metadata-extractor.js";
-import { Strategy, TrainingSplit } from "../domain/enums.js";
+import { Strategy } from "../domain/enums.js";
 
 function pick(document, names) {
   for (const name of names) {

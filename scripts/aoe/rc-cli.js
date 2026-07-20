@@ -8,7 +8,6 @@ import {
   buildImplementationInventory,
   buildReleaseManifest,
   evaluateReleaseReadiness,
-  getReleaseIdentity,
   loadAPLCatalog,
   runAOEDecision,
   runConcurrencyValidation,
@@ -153,7 +152,7 @@ async function runAll() {
   return { readiness, catalog, performance, concurrency, security, privacy, manifest };
 }
 
-function writeDocs({ manifest, readiness, catalog, performance, concurrency, checksums }) {
+function writeDocs({ readiness, catalog, performance, concurrency, checksums }) {
   const status = readiness.status;
   fs.writeFileSync(path.join(DOC_DIR, "AOE_V1_RC_MANIFEST.md"), `# AOE v1 RC Manifest\n\n## Identificação\n\n- Nome: Aruka Optimization Engine\n- Versão RC: 1.0.0-rc.1\n- Data: 2026-07-15\n- Status: ${status}\n- Node: ${process.version}\n- Contrato público: 1.0.0-rc.1\n- Application Service: 1.6.0\n- AOE Core: 1.6.0\n- Catalog Adapter: 1.3.0\n- APL: SPRINT_01@1.0.0, SPRINT_02@2.0.0\n\n## Componentes\n\n| Componente | Versão | Status |\n|---|---|---|\n| Public Contract | 1.0.0-rc.1 | Frozen |\n| Application Service | 1.6.0 | Implemented |\n| AOE Core | 1.6.0 | Implemented |\n| Catalog Adapter | 1.3.0 | Implemented |\n\n## Checksums\n\n${checksums.map((item) => `- ${item.file}: ${item.sha256}`).join("\n")}\n\n## APL\n\n- Releases ativas: ${catalog.releasesActive}\n- Modelos válidos: ${catalog.modelsValid}\n- Checksums válidos: ${catalog.checksumsValid}\n\n## Testes\n\n- Golden scenarios: 15\n- Adversarial scenarios: 30\n- End-to-end RC scenarios: 30\n- Performance scenarios: ${performance.scenarios}\n\n## Resultado\n\n${status}\n`);
   fs.writeFileSync(path.join(DOC_DIR, "AOE_V1_RC_FREEZE.md"), `# AOE v1 RC Freeze\n\nVersão congelada: 1.0.0-rc.1.\n\nContratos congelados em \`contracts/\`. Mudanças incompatíveis exigem novo RC.\n`);

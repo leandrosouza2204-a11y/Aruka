@@ -105,7 +105,9 @@ async function openTreinos(client) {
   await client.send("Page.navigate", { url: appUrl });
   await waitFor(client, "document.querySelector('[data-testid=\"treinos-page\"], .treinos-page')", 25000);
   await waitFor(client, "!document.body.textContent.includes('Verificando acesso')", 30000);
+  await waitFor(client, "!document.body.textContent.includes('Verificando documentos')", 30000);
   await waitFor(client, "!document.body.textContent.includes('Carregando treinos')", 30000);
+  await waitFor(client, "document.querySelector('[data-testid=\"treino-new-button\"]')", 30000);
   await sleep(700);
 }
 

@@ -38,7 +38,11 @@ export function ConfirmProvider({ children }) {
           description={dialog.descricao}
           size="sm"
           role="alertdialog"
-          data-testid={`${dialog.testIdPrefix}-confirmation-dialog`}
+          data-testid={
+            dialog.testIdPrefix === "workout-template-unsaved"
+              ? "workout-template-unsaved-dialog"
+              : `${dialog.testIdPrefix}-confirmation-dialog`
+          }
           initialFocusRef={cancelarRef}
           closeOnOverlayClick={false}
           footer={
@@ -47,7 +51,11 @@ export function ConfirmProvider({ children }) {
                 ref={cancelarRef}
                 type="button"
                 className="btn btn-secondary"
-                data-testid={`${dialog.testIdPrefix}-confirmation-cancel`}
+                data-testid={
+                  dialog.testIdPrefix === "workout-template-unsaved"
+                    ? "workout-template-keep-editing"
+                    : `${dialog.testIdPrefix}-confirmation-cancel`
+                }
                 onClick={() => fechar(false)}
               >
                 {dialog.textoCancelar}
@@ -55,7 +63,11 @@ export function ConfirmProvider({ children }) {
               <button
                 type="button"
                 className={`btn ${dialog.variante === "perigo" ? "btn-danger" : "btn-primary"}`}
-                data-testid={`${dialog.testIdPrefix}-confirmation-confirm`}
+                data-testid={
+                  dialog.testIdPrefix === "workout-template-unsaved"
+                    ? "workout-template-discard"
+                    : `${dialog.testIdPrefix}-confirmation-confirm`
+                }
                 onClick={() => fechar(true)}
               >
                 {dialog.textoConfirmar}

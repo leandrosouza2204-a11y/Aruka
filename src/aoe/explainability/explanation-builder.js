@@ -5,7 +5,7 @@ import { explainExclusions } from "./exclusion-explanation.js";
 import { explainAlternatives } from "./candidate-explanation.js";
 import { explainWarnings } from "./warning-explanation.js";
 
-export function buildExplanation({ decision, risk, ambiguity, conflicts, versions }) {
+export function buildExplanation({ decision, risk, conflicts, versions }) {
   const reasons = resolveReasons(decision.reasonCodes ?? []);
   const selectedCodes = [...new Set([...(decision.warnings ?? []), ...(decision.humanReview?.reasonCodes ?? [])])];
   const selectedReasons = resolveReasons(selectedCodes);
