@@ -1,24 +1,29 @@
 # Cycle 9.1 - Main Branch Protection Configuration
 
+## Reported Active Ruleset
+
+- Ruleset: `Protect main`
+- Enforcement: Active
+- Target branch: `main`
+- Bypass list: empty
+- Require pull request before merging: enabled
+- Require status checks to pass: enabled
+- Required check: `validation`
+- Displayed required check: `Supabase Local Quality Gates / validation (pull_request)`
+- Block force pushes: enabled
+- Restrict deletions: enabled
+
+Do not record conversation resolution, branches up to date, or required approvals as enabled unless they are explicitly captured in GitHub evidence.
+
 ## Manual Path
 
 GitHub repository settings:
 
-Settings -> Branches or Rules -> Branch protection rules / Rulesets -> `main`
+Settings -> Rules -> Rulesets -> `Protect main`
 
-## Required
+## Validator State
 
-- Require a pull request before merging.
-- Require status checks to pass before merging.
-- Require branches to be up to date before merging.
-- Select the real check collected from the run.
-- Require conversation resolution before merging.
-- Block force pushes.
-- Block branch deletion.
-
-Expected check, subject to real run confirmation:
-
-`Supabase Local Quality Gates / validation`
+The operational state above was reported after PR #1 validation, but the versioned `reports/supabase-ci-runtime/branch-protection-result.json` still contains `BRANCH_PROTECTION_MANUAL_VALIDATION_REQUIRED`. The final validator therefore still reports `CYCLE_9_1_RUNTIME_EVIDENCE_REQUIRED` until branch protection evidence is collected by a supported read-only mechanism or committed as validator-approved evidence.
 
 ## Recommended
 
