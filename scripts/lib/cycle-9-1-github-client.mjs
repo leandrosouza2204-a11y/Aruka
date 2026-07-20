@@ -90,17 +90,24 @@ export function validateArtifacts(artifacts) {
   return evidence;
 }
 
-export function parseChecks(checks) {
+export function parseChecks(checks, options = {}) {
   const list = Array.isArray(checks) ? checks : checks.checks ?? [];
   return list.map((check) => ({
     name: check.name,
+    workflow: check.workflow ?? null,
+    bucket: check.bucket ?? null,
+    link: check.link ?? null,
     state: check.state ?? check.conclusion,
-    required: Boolean(check.required ?? /required/i.test(check.bucket ?? "")),
+    required: Boolean(check.required ?? options.requiredBySelection ?? /required/i.test(check.bucket ?? "")),
   }));
 }
 
-export function requiredValidationCheck(checks) {
-  return parseChecks(checks).find((check) => (check.name === VALIDATION_CHECK_NAME || check.name === LEGACY_REQUIRED_CHECK_CONTEXT) && check.required);
+export function requiredValidationCheck(checks, options = {}) {
+  return parseChecks(checks, options).find((check) => {
+    const validName = check.name === VALIDATION_CHECK_NAME || check.name === LEGACY_REQUIRED_CHECK_CONTEXT;
+    const validWorkflow = !check.workflow || check.workflow === WORKFLOW_NAME;
+    return validName && validWorkflow && check.required;
+  });
 }
 
 export function validateRuleset(rulesets) {
@@ -189,12 +196,14 @@ export function collectProtectMainRuleset(options = {}) {
   return detail;
 }
 
-export function validateMergeBlocked({ pr, checks, run, logText = "" }) {
-  const required = requiredValidationCheck(checks);
-  const requiredFailed = required && /fail|failure|failed|unsuccessful/i.test(required.state ?? "");
+export function validateMergeBlocked({ pr, checks, run, logText = "", expectedHeadBranch = null, checksRequiredBySelection = false }) {
+  const required = requiredValidationCheck(checks, { requiredBySelection: checksRequiredBySelection });
+  const requiredFailed = required && /fail|failure|failed|unsuccessful/i.test(`${required.state ?? ""} ${required.bucket ?? ""}`);
   const mergeBlocked = pr.mergeStateStatus ? !/clean|has_hooks/i.test(pr.mergeStateStatus) : pr.mergeable === "MERGEABLE" ? false : true;
   const conflict = /dirty|conflict/i.test(`${pr.mergeStateStatus ?? ""} ${pr.mergeable ?? ""}`);
   const controlled = logText.includes(MARKER_OUTPUT) || run?.controlled_failure === true;
+  if (pr.state && pr.state !== "OPEN") throw new Error("PR is not open.");
+  if (expectedHeadBranch && pr.headRefName !== expectedHeadBranch) throw new Error("PR head branch does not match controlled branch.");
   if (!requiredFailed) throw new Error("Required validation check is not failed.");
   if (!mergeBlocked) throw new Error("PR is not merge-blocked.");
   if (conflict) throw new Error("PR appears blocked by conflict, not required check.");
@@ -204,6 +213,10 @@ export function validateMergeBlocked({ pr, checks, run, logText = "" }) {
     merge_blocked: true,
     blocked_by_required_check: true,
   };
+}
+
+export function requiredPrChecksArgs(prNumber) {
+  return ["pr", "checks", String(prNumber), "--required", "--json", "name,state,bucket,workflow,link"];
 }
 
 export function ghJson(args, label, options = {}) {
