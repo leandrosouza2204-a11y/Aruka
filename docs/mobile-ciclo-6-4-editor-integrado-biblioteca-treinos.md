@@ -78,7 +78,7 @@ Implementar e validar a jornada completa de criacao e edicao de modelos pessoais
 - `npm.cmd run qa:treino-template-editor-flow`: aprovado com Supabase autenticado e `cleanup=0`.
 - `npm.cmd run qa:treino-library-cycle-6-4`: aprovado.
 - `npm.cmd run build`: aprovado.
-- `npm.cmd run lint`: NOT_READY por falhas preexistentes fora do ciclo em arquivos AOE com `process`/unused vars.
+- `npm.cmd run lint`: aprovado com 0 errors e 0 warnings apos conclusao da pendencia de qualidade.
 
 ## Evidencias
 
@@ -88,16 +88,65 @@ Implementar e validar a jornada completa de criacao e edicao de modelos pessoais
 - Dados temporarios: prefixo `QA_CYCLE_6_4_`; removidos com `cleanup=0`.
 - Mobile: `qa:treino-templates-mobile` e `qa:treino-exercises-mobile` reportaram `failures: []` e `overflowing: []`.
 
+## Conclusao da pendencia de lint global
+
+Estado inicial da pendencia:
+
+- `npm.cmd run lint`: 107 errors e 1 warning.
+- Regras envolvidas: `no-undef`, `no-unused-vars`, `react-hooks/exhaustive-deps` e `react-hooks/set-state-in-effect`.
+- Grupos afetados: `scripts/aoe`, `src/aoe`, `tests/aoe/catalog` e `src/features/treinos/hooks/useTreinosPage.js`.
+
+Causa raiz:
+
+- A configuracao ESLint aplicava `globals.browser` a todos os arquivos `.js/.jsx`, incluindo scripts e testes Node.
+- Alguns imports/parametros AOE estavam realmente sem uso.
+- `useTreinosPage.js` carregava dados a partir de um `useEffect` com dependencia ausente.
+- O QA consolidado expunha uma corrida no script de exercicios mobile, que nao aguardava o estado transitorio `Verificando documentos`.
+
+Correcoes realizadas:
+
+- `eslint.config.js`: adicionados overrides por ambiente para `scripts/**/*.js`, `tests/**/*.js` e `src/aoe/**/*.js`. Nenhum diretorio foi removido do lint e nenhuma regra foi reduzida.
+- `scripts/aoe/rc-cli.js`: removido import nao utilizado e parametro nao usado em `writeDocs`.
+- `src/aoe/catalog/catalog-normalizer.js`: removido import nao utilizado.
+- `src/aoe/explainability/explanation-builder.js`: removido parametro nao utilizado.
+- `src/features/treinos/hooks/useTreinosPage.js`: `carregarModelosPessoais` e `carregarDados` foram estabilizados com `useCallback`; o carregamento inicial foi agendado com `setTimeout` e cleanup para evitar chamada sincrona de setState no effect.
+- `scripts/validate-treino-exercises-mobile-cdp.mjs`: passou a aguardar `Verificando documentos` sair da tela e o botao `treino-new-button` existir antes de continuar.
+
+Excecoes localizadas:
+
+- Nenhum `eslint-disable` foi adicionado.
+- Nenhuma regra foi desativada globalmente.
+- Nenhum caminho foi ignorado.
+
+Testes AOE executados:
+
+- `node --check scripts/aoe/rc-cli.js`: aprovado.
+- `npm.cmd run aoe:test`: aprovado, 39/39.
+- `npm.cmd run aoe:validate`: aprovado, `AOE RC readiness: READY_FOR_RC`.
+- `npm.cmd run aoe:test:explainability`: aprovado, 2/2.
+
+Regressao do editor:
+
+- `node --check scripts/validate-treino-template-editor-flow-cdp.mjs`: aprovado.
+- `node --test src/features/treinos/utils/workoutTemplateEditorState.test.js`: aprovado, 4/4.
+- `npm.cmd run qa:workout-template-sanitization`: aprovado.
+- `npm.cmd run qa:workout-templates-data`: aprovado.
+- `npm.cmd run qa:treino-templates-mobile`: aprovado com `failures: []` e `overflowing: []`.
+- `npm.cmd run qa:treino-exercises-mobile`: aprovado com `failures: []` e `overflowing: []`.
+- `npm.cmd run qa:treino-template-editor-flow`: aprovado com `cleanup=0`.
+- `npm.cmd run qa:treino-library-cycle-6-4`: aprovado.
+- `npm.cmd run lint`: aprovado com 0 errors e 0 warnings.
+- `npm.cmd run build`: aprovado.
+
 ## Limitacoes reais
 
 - O script integrado valida persistencia real via Supabase e smoke responsivo por CDP, mas nao automatiza todos os cliques do editor novo na UI.
-- `npm run lint` global permanece bloqueado por erros preexistentes em AOE, fora da Biblioteca de Treinos.
 - Nao houve migration ou alteracao de schema.
 
 ## Criterios de aceite
 
-Criacao, edicao, persistencia, ordem, sanitizacao, limpeza QA, build e bateria consolidada do ciclo passaram. Como o lint global obrigatorio falhou, a decisao final do ciclo nao pode ser READY.
+Criacao, edicao, persistencia, ordem, sanitizacao, limpeza QA, testes AOE, lint global, build e bateria consolidada do ciclo passaram. O lint global terminou com 0 errors e 0 warnings.
 
 ## Decisao
 
-NOT_READY
+READY

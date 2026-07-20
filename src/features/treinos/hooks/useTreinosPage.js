@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { formatarData } from "../../../data/formatters";
 import { criarModeloTreino } from "../../../data/treinosModelos";
 import { useConfirm } from "../../../hooks/useConfirm";
@@ -41,10 +41,6 @@ export function useTreinosPage() {
   const [erro, setErro] = useState("");
   const toast = useToast();
   const { confirmar } = useConfirm();
-
-  useEffect(() => {
-    carregarDados();
-  }, []);
 
   const opcoesFiltro = useMemo(() => {
     const unicos = (campo) =>
@@ -91,7 +87,22 @@ export function useTreinosPage() {
     [treinoSelecionado]
   );
 
-  async function carregarDados() {
+  const carregarModelosPessoais = useCallback(async function carregarModelosPessoais() {
+    setCarregandoModelos(true);
+
+    try {
+      setErroModelos("");
+      return await buscarModelosPessoaisSupabase();
+    } catch (error) {
+      console.error(error);
+      setErroModelos(error.message || "Nao foi possivel carregar seus modelos.");
+      return [];
+    } finally {
+      setCarregandoModelos(false);
+    }
+  }, []);
+
+  const carregarDados = useCallback(async function carregarDados() {
     setCarregando(true);
     setErro("");
 
@@ -114,22 +125,15 @@ export function useTreinosPage() {
     } finally {
       setCarregando(false);
     }
-  }
+  }, [carregarModelosPessoais]);
 
-  async function carregarModelosPessoais() {
-    setCarregandoModelos(true);
+  useEffect(() => {
+    const carregamentoInicial = window.setTimeout(() => {
+      carregarDados();
+    }, 0);
 
-    try {
-      setErroModelos("");
-      return await buscarModelosPessoaisSupabase();
-    } catch (error) {
-      console.error(error);
-      setErroModelos(error.message || "Nao foi possivel carregar seus modelos.");
-      return [];
-    } finally {
-      setCarregandoModelos(false);
-    }
-  }
+    return () => window.clearTimeout(carregamentoInicial);
+  }, [carregarDados]);
 
   function abrirNovoTreino() {
     setTreinoEditando(null);
