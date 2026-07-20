@@ -83,6 +83,7 @@ Arquivos:
 - [51-main-branch-protection-configuration.md](51-main-branch-protection-configuration.md)
 - [52-required-check-merge-block-validation.md](52-required-check-merge-block-validation.md)
 - [53-cycle-9-1-final-evidence.md](53-cycle-9-1-final-evidence.md)
+- [54-cycle-9-1-automated-github-evidence.md](54-cycle-9-1-automated-github-evidence.md)
 
 Artefatos de baseline:
 

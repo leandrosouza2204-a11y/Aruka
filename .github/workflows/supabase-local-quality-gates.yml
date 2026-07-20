@@ -10,6 +10,7 @@ on:
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/supabase-local-quality-gates.yml"
+      - ".ci/**"
       - "docs/supabase-infrastructure-refactor/**"
       - "reports/supabase-local-bootstrap/**"
       - "reports/supabase-local-seeds/**"
@@ -22,6 +23,7 @@ on:
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/supabase-local-quality-gates.yml"
+      - ".ci/**"
       - "docs/supabase-infrastructure-refactor/**"
       - "reports/supabase-local-bootstrap/**"
       - "reports/supabase-local-seeds/**"
@@ -107,6 +109,12 @@ jobs:
 
       - name: Gate 9 - consolidated quality gates
         run: npm run qa:supabase-cycle-9
+
+      - name: Cycle 9.1 controlled failure proof
+        if: ${{ github.event_name == 'pull_request' && hashFiles('.ci/force-supabase-cycle-9-1-failure') != '' }}
+        run: |
+          echo "CYCLE_9_1_CONTROLLED_FAILURE_TRIGGERED"
+          exit 1
 
       - name: Cleanup
         if: ${{ always() }}
