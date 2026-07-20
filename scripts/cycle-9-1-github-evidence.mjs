@@ -12,6 +12,7 @@ import {
   REPOSITORY,
   WORKFLOW_NAME,
   buildBranchProtectionEvidence,
+  collectProtectMainRuleset,
   collectRunEvidence,
   ghJson,
   validateArtifacts,
@@ -83,8 +84,8 @@ function collectCleanup(runEvidence) {
 }
 
 function collectRuleset(runEvidence) {
-  const rulesets = ghJson(["api", `repos/${REPOSITORY}/rulesets`], "rulesets");
-  return buildBranchProtectionEvidence(rulesets, { checkRun: runEvidence.check_run });
+  const ruleset = collectProtectMainRuleset();
+  return buildBranchProtectionEvidence([ruleset], { checkRun: runEvidence.check_run });
 }
 
 function collectSuccess() {

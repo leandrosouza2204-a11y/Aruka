@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   buildBranchProtectionEvidence,
+  collectProtectMainRuleset,
   validateArtifacts,
   validateRuleset,
   validateSuccessfulRun,
@@ -195,4 +196,114 @@ test("does not reject unknown extra required status checks", () => {
   });
 
   assert.equal(validateRuleset([ruleset]).validation_context.context, "validation");
+});
+
+test("collects detailed Protect main ruleset after list endpoint returns summary", () => {
+  const calls = [];
+  const detail = protectMainRuleset();
+  const ruleset = collectProtectMainRuleset({
+    ghJson(args) {
+      calls.push(args);
+      if (args[1] === "repos/leandrosouza2204-a11y/Aruka/rulesets") {
+        return [{ id: 19182738, name: "Protect main", target: "branch", enforcement: "active" }];
+      }
+      if (args[1] === "repos/leandrosouza2204-a11y/Aruka/rulesets/19182738") return detail;
+      throw new Error(`unexpected gh api call: ${args.join(" ")}`);
+    },
+  });
+
+  assert.equal(ruleset.conditions.ref_name.include[0], "refs/heads/main");
+  assert.deepEqual(calls, [
+    ["api", "repos/leandrosouza2204-a11y/Aruka/rulesets"],
+    ["api", "repos/leandrosouza2204-a11y/Aruka/rulesets/19182738"],
+  ]);
+});
+
+test("builds validated branch protection evidence from detailed ruleset", () => {
+  const summary = [{ id: 19182738, name: "Protect main", target: "branch", enforcement: "active" }];
+  const detail = protectMainRuleset();
+  const ruleset = collectProtectMainRuleset({
+    ghJson(args) {
+      return args[1].endsWith("/19182738") ? detail : summary;
+    },
+  });
+  const evidence = buildBranchProtectionEvidence([ruleset], { checkRun: validationCheckRun() });
+
+  assert.equal(evidence.result, "BRANCH_PROTECTION_COLLECTED");
+  assert.equal(evidence.validation.result, "BRANCH_PROTECTION_VALIDATED");
+});
+
+test("does not validate list endpoint summary as a complete ruleset", () => {
+  const summaryOnly = [{ id: 19182738, name: "Protect main", target: "branch", enforcement: "active" }];
+  assert.throws(() => buildBranchProtectionEvidence(summaryOnly, { checkRun: validationCheckRun() }), /refs\/heads\/main/);
+
+  const ruleset = collectProtectMainRuleset({
+    ghJson(args) {
+      return args[1].endsWith("/19182738") ? protectMainRuleset() : summaryOnly;
+    },
+  });
+  assert.equal(buildBranchProtectionEvidence([ruleset], { checkRun: validationCheckRun() }).validation.result, "BRANCH_PROTECTION_VALIDATED");
+});
+
+test("rejects Protect main summary without id clearly", () => {
+  assert.throws(
+    () => collectProtectMainRuleset({
+      ghJson() {
+        return [{ name: "Protect main", target: "branch", enforcement: "active" }];
+      },
+    }),
+    /summary is missing id/,
+  );
+});
+
+test("reports detailed Protect main ruleset retrieval failure clearly", () => {
+  assert.throws(
+    () => collectProtectMainRuleset({
+      ghJson(args) {
+        if (args[1].endsWith("/rulesets")) return [{ id: 19182738, name: "Protect main", target: "branch", enforcement: "active" }];
+        throw new Error("HTTP 404");
+      },
+    }),
+    /Unable to retrieve detailed Protect main ruleset: HTTP 404/,
+  );
+});
+
+test("rejects detailed Protect main ruleset scoped away from main", () => {
+  const detail = protectMainRuleset({ conditions: { ref_name: { exclude: [], include: ["refs/heads/develop"] } } });
+  const ruleset = collectProtectMainRuleset({
+    ghJson(args) {
+      return args[1].endsWith("/19182738") ? detail : [{ id: 19182738, name: "Protect main", target: "branch", enforcement: "active" }];
+    },
+  });
+
+  assert.throws(() => buildBranchProtectionEvidence([ruleset], { checkRun: validationCheckRun() }), /refs\/heads\/main/);
+});
+
+test("approves detailed real Protect main ruleset returned by ruleset detail endpoint", () => {
+  const ruleset = collectProtectMainRuleset({
+    ghJson(args) {
+      return args[1].endsWith("/19182738")
+        ? protectMainRuleset({
+            rules: [
+              { type: "deletion" },
+              { type: "non_fast_forward" },
+              { type: "pull_request" },
+              {
+                type: "required_status_checks",
+                parameters: {
+                  required_status_checks: [
+                    { context: "validation", integration_id: 15368 },
+                    { context: "Supabase Local Quality Gates / validation" },
+                  ],
+                },
+              },
+            ],
+          })
+        : [{ id: 19182738, name: "Protect main", target: "branch", enforcement: "active" }];
+    },
+  });
+  const evidence = buildBranchProtectionEvidence([ruleset], { checkRun: validationCheckRun() });
+
+  assert.equal(evidence.result, "BRANCH_PROTECTION_COLLECTED");
+  assert.equal(evidence.validation.result, "BRANCH_PROTECTION_VALIDATED");
 });

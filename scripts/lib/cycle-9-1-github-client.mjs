@@ -139,6 +139,23 @@ export function buildBranchProtectionEvidence(rulesets, options = {}) {
   };
 }
 
+export function collectProtectMainRuleset(options = {}) {
+  const githubJson = options.ghJson ?? ghJson;
+  const listResponse = githubJson(["api", `repos/${REPOSITORY}/rulesets`], "rulesets");
+  const list = Array.isArray(listResponse) ? listResponse : listResponse.rulesets ?? [];
+  const summary = list.find((item) => item.name === "Protect main" && item.enforcement === "active");
+  if (!summary) throw new Error("Active Protect main ruleset was not found.");
+  if (!summary.id) throw new Error("Protect main ruleset summary is missing id.");
+  let detail;
+  try {
+    detail = githubJson(["api", `repos/${REPOSITORY}/rulesets/${summary.id}`], "ruleset detail");
+  } catch (error) {
+    throw new Error(`Unable to retrieve detailed Protect main ruleset: ${error.message}`);
+  }
+  if (!detail || typeof detail !== "object") throw new Error("Unable to retrieve detailed Protect main ruleset.");
+  return detail;
+}
+
 export function validateMergeBlocked({ pr, checks, run, logText = "" }) {
   const required = requiredValidationCheck(checks);
   const requiredFailed = required && /fail|failure|failed|unsuccessful/i.test(required.state ?? "");
