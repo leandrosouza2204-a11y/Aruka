@@ -171,6 +171,57 @@ test("accepts successful GitHub Actions validation check run", () => {
   assert.equal(validateSuccessfulValidationCheckRun(validationCheckRun()).name, "validation");
 });
 
+test("rejects string app but includes safe diagnostic", () => {
+  assert.throws(
+    () => validateSuccessfulValidationCheckRun(validationCheckRun({ app: "GitHub Actions" })),
+    /app mismatch\. Received check run: .*"app":"GitHub Actions".*"app_type":"string"/,
+  );
+});
+
+test("diagnoses null check run app", () => {
+  assert.throws(
+    () => validateSuccessfulValidationCheckRun(validationCheckRun({ app: null })),
+    /"app":null.*"app_type":"object"/,
+  );
+});
+
+test("diagnoses object app name mismatch", () => {
+  assert.throws(
+    () => validateSuccessfulValidationCheckRun(validationCheckRun({ app: { name: "Other App", slug: "other", id: 42 } })),
+    /"app_name":"Other App"/,
+  );
+});
+
+test("diagnoses missing check run without secondary serialization errors", () => {
+  assert.throws(
+    () => validateSuccessfulValidationCheckRun(null),
+    /validation check run missing\. Received check run: .*"keys":\[\]/,
+  );
+});
+
+test("does not dump secret-like fields from check run or app objects", () => {
+  assert.throws(
+    () => validateSuccessfulValidationCheckRun({
+      name: "validation",
+      status: "completed",
+      conclusion: "success",
+      token: "github_pat_should_not_appear",
+      app: {
+        name: "Other App",
+        slug: "other",
+        id: 42,
+        private_key: "-----BEGIN PRIVATE KEY-----",
+      },
+    }),
+    (error) => {
+      assert.match(error.message, /"app_name":"Other App"/);
+      assert.doesNotMatch(error.message, /github_pat_should_not_appear/);
+      assert.doesNotMatch(error.message, /PRIVATE KEY/);
+      return true;
+    },
+  );
+});
+
 test("rejects failed validation check run for success collection", () => {
   assert.throws(() => validateSuccessfulValidationCheckRun(validationCheckRun({ conclusion: "failure" })), /conclusion is not success/);
 });

@@ -25,6 +25,26 @@ export function validationJob(run) {
   return (run.jobs ?? []).find((job) => job.name === VALIDATION_CHECK_NAME);
 }
 
+export function validationCheckRunDiagnostic(checkRun) {
+  const app = checkRun && typeof checkRun === "object" ? checkRun.app : null;
+  const appObject = app && typeof app === "object" ? app : null;
+  return {
+    name: checkRun && typeof checkRun === "object" ? checkRun.name ?? null : null,
+    status: checkRun && typeof checkRun === "object" ? checkRun.status ?? null : null,
+    conclusion: checkRun && typeof checkRun === "object" ? checkRun.conclusion ?? null : null,
+    app: appObject ? {
+      name: appObject.name ?? null,
+      slug: appObject.slug ?? null,
+      id: appObject.id ?? null,
+    } : app ?? null,
+    app_name: appObject ? appObject.name ?? null : null,
+    app_slug: appObject ? appObject.slug ?? null : null,
+    app_id: appObject ? appObject.id ?? null : null,
+    app_type: typeof app,
+    keys: checkRun && typeof checkRun === "object" ? Object.keys(checkRun) : [],
+  };
+}
+
 export function validateSuccessfulValidationCheckRun(checkRun) {
   const errors = [];
   if (!checkRun) errors.push("validation check run missing");
@@ -32,7 +52,9 @@ export function validateSuccessfulValidationCheckRun(checkRun) {
   if (checkRun && checkRun.app?.name !== GITHUB_ACTIONS_APP_NAME) errors.push("validation check run app mismatch");
   if (checkRun && checkRun.status && checkRun.status !== "completed") errors.push("validation check run is not completed");
   if (checkRun && checkRun.conclusion !== "success") errors.push("validation check run conclusion is not success");
-  if (errors.length) throw new Error(`Validation check run is not acceptable evidence: ${errors.join("; ")}`);
+  if (errors.length) {
+    throw new Error(`Validation check run is not acceptable evidence: ${errors.join("; ")}. Received check run: ${JSON.stringify(validationCheckRunDiagnostic(checkRun))}`);
+  }
   return checkRun;
 }
 
