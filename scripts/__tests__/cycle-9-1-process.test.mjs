@@ -1,0 +1,126 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import {
+  buildSpawnOptions,
+  formatExecutionFailure,
+  resolveCommandInvocation,
+  resolveExecutable,
+  runCommand,
+} from "../lib/cycle-9-1-process.mjs";
+
+test("resolves package manager shims on Windows", () => {
+  assert.equal(resolveExecutable("npm", "win32"), "npm.cmd");
+  assert.equal(resolveExecutable("npx", "win32"), "npx.cmd");
+  assert.equal(resolveExecutable("pnpm", "win32"), "pnpm.cmd");
+  assert.equal(resolveExecutable("yarn", "win32"), "yarn.cmd");
+});
+
+test("preserves explicit Windows executable extensions", () => {
+  assert.equal(resolveExecutable("npm.cmd", "win32"), "npm.cmd");
+  assert.equal(resolveExecutable("tool.exe", "win32"), "tool.exe");
+  assert.equal(resolveExecutable("script.bat", "win32"), "script.bat");
+  assert.equal(resolveExecutable("legacy.com", "win32"), "legacy.com");
+});
+
+test("preserves git node and gh on Windows", () => {
+  assert.equal(resolveExecutable("git", "win32"), "git");
+  assert.equal(resolveExecutable("node", "win32"), "node");
+  assert.equal(resolveExecutable("gh", "win32"), "gh");
+});
+
+test("does not add Windows shims on POSIX platforms", () => {
+  assert.equal(resolveExecutable("npm", "linux"), "npm");
+  assert.equal(resolveExecutable("npx", "darwin"), "npx");
+});
+
+test("runs resolved executable with separated arguments and shell disabled", () => {
+  const calls = [];
+  const result = runCommand("npm", ["run", "qa"], {
+    platform: "win32",
+    env: { PATH: "/node-bin", CYCLE_9_1_TEST_VAR: "present" },
+    existsSync(path) {
+      return path === "\\node-bin\\npm.cmd" || path === "\\node-bin\\node_modules\\npm\\bin\\npm-cli.js";
+    },
+    spawnSync(executable, args, options) {
+      calls.push({ executable, args, options });
+      return { status: 0, stdout: "ok\n", stderr: "" };
+    },
+  });
+
+  assert.equal(result.executable, "npm.cmd");
+  assert.equal(result.spawned_executable, process.execPath);
+  assert.equal(result.stdout, "ok\n");
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].executable, process.execPath);
+  assert.deepEqual(calls[0].args, ["\\node-bin\\node_modules\\npm\\bin\\npm-cli.js", "run", "qa"]);
+  assert.equal(calls[0].options.shell, false);
+  assert.equal(calls[0].options.env.PATH, "/node-bin");
+  assert.equal(calls[0].options.env.CYCLE_9_1_TEST_VAR, "present");
+});
+
+test("resolves npm and npx command invocations through Node without shell on Windows", () => {
+  const env = { PATH: "/node-bin" };
+  const exists = (path) => [
+    "\\node-bin\\npm.cmd",
+    "\\node-bin\\npx.cmd",
+    "\\node-bin\\node_modules\\npm\\bin\\npm-cli.js",
+    "\\node-bin\\node_modules\\npm\\bin\\npx-cli.js",
+  ].includes(path);
+
+  assert.deepEqual(resolveCommandInvocation("npm", ["--version"], { platform: "win32", env, existsSync: exists }), {
+    executable: process.execPath,
+    args: ["\\node-bin\\node_modules\\npm\\bin\\npm-cli.js", "--version"],
+    displayExecutable: "npm.cmd",
+  });
+  assert.deepEqual(resolveCommandInvocation("npx", ["--version"], { platform: "win32", env, existsSync: exists }), {
+    executable: process.execPath,
+    args: ["\\node-bin\\node_modules\\npm\\bin\\npx-cli.js", "--version"],
+    displayExecutable: "npx.cmd",
+  });
+});
+
+test("builds spawn options without replacing process.env", () => {
+  const options = buildSpawnOptions({ env: { CYCLE_9_1_EXTRA: "yes" } });
+  assert.equal(options.shell, false);
+  assert.equal(options.env.PATH, process.env.PATH);
+  assert.equal(options.env.CYCLE_9_1_EXTRA, "yes");
+});
+
+test("reports ENOENT as executable not found with resolved executable", () => {
+  const result = runCommand("npm", ["--version"], {
+    platform: "win32",
+    spawnSync() {
+      const error = new Error("spawnSync npm.cmd ENOENT");
+      error.code = "ENOENT";
+      return { status: null, stdout: "", stderr: "", error };
+    },
+  });
+
+  assert.equal(result.failure_kind, "not_found");
+  assert.match(formatExecutionFailure(result), /npm executable was not found: npm\.cmd/);
+});
+
+test("reports non-zero status separately from ENOENT", () => {
+  const result = runCommand("npm", ["--version"], {
+    platform: "win32",
+    spawnSync() {
+      return { status: 1, stdout: "", stderr: "npm config error" };
+    },
+  });
+
+  assert.equal(result.failure_kind, "non_zero");
+  assert.match(formatExecutionFailure(result), /npm returned non-zero status 1: npm config error/);
+});
+
+test("reports timeout separately", () => {
+  const result = runCommand("gh", ["auth", "status"], {
+    spawnSync() {
+      const error = new Error("operation timed out");
+      error.code = "ETIMEDOUT";
+      return { status: null, stdout: "", stderr: "", error };
+    },
+  });
+
+  assert.equal(result.failure_kind, "timeout");
+  assert.equal(result.timed_out, true);
+});

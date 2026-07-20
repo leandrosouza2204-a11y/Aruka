@@ -1,7 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
-import { execFileSync } from "node:child_process";
 import { join } from "node:path";
-import { parseArgs, printDryRun, runCommand, runOrThrow } from "./lib/cycle-9-1-process.mjs";
+import { formatExecutionFailure, parseArgs, printDryRun, runCommand, runOrThrow } from "./lib/cycle-9-1-process.mjs";
 import {
   REPOSITORY,
   WORKFLOW_NAME,
@@ -25,10 +24,10 @@ function assertCleanTrackedWorktree() {
 function assertPrerequisites() {
   for (const tool of ["git", "node", "npm", "gh"]) {
     const version = runCommand(tool, tool === "gh" ? ["--version"] : ["--version"], { cwd: root, timeoutMs: 30000 });
-    if (version.status !== 0) throw new Error(`${tool} is unavailable: ${version.stderr || version.stdout}`);
+    if (version.status !== 0) throw new Error(formatExecutionFailure(version));
   }
   const auth = runCommand("gh", ["auth", "status"], { cwd: root, timeoutMs: 30000 });
-  if (auth.status !== 0) throw new Error(`gh auth status is not valid: ${auth.stderr || auth.stdout}`);
+  if (auth.status !== 0) throw new Error(`gh auth status is not valid: ${formatExecutionFailure(auth)}`);
   const origin = runOrThrow("git", ["remote", "get-url", "origin"], { cwd: root });
   if (!/github\.com[:/]leandrosouza2204-a11y\/Aruka(?:\.git)?$/i.test(origin)) throw new Error(`origin does not point to ${REPOSITORY}: ${origin}`);
   runOrThrow("git", ["rev-parse", "--verify", "origin/main"], { cwd: root });
