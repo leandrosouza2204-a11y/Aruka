@@ -1,13 +1,20 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { formatExecutionFailure, parseArgs, printDryRun, runCommand, runOrThrow } from "./lib/cycle-9-1-process.mjs";
+import {
+  assertTrackedWorktreeAllowsOnlyEvidence,
+  formatExecutionFailure,
+  parseArgs,
+  printDryRun,
+  runCommand,
+  runOrThrow,
+} from "./lib/cycle-9-1-process.mjs";
 import {
   REPOSITORY,
   WORKFLOW_NAME,
+  buildBranchProtectionEvidence,
   collectRunEvidence,
   ghJson,
   validateArtifacts,
-  validateRuleset,
 } from "./lib/cycle-9-1-github-client.mjs";
 import { nowIso, writeEvidence } from "./lib/cycle-9-1-evidence-writer.mjs";
 
@@ -18,7 +25,7 @@ const dryRun = Boolean(args["dry-run"]);
 
 function assertCleanTrackedWorktree() {
   const status = runOrThrow("git", ["status", "--porcelain=v1", "-uno"], { cwd: root });
-  if (status.trim()) throw new Error(`Tracked worktree changes must be committed or restored first:\n${status}`);
+  assertTrackedWorktreeAllowsOnlyEvidence(status, "Tracked worktree");
 }
 
 function assertPrerequisites() {
@@ -77,27 +84,7 @@ function collectCleanup(runEvidence) {
 
 function collectRuleset() {
   const rulesets = ghJson(["api", `repos/${REPOSITORY}/rulesets`], "rulesets");
-  const ruleset = validateRuleset(rulesets);
-  return {
-    cycle: "9.1",
-    result: "BRANCH_PROTECTION_COLLECTED",
-    decision: "CYCLE_9_1_RUNTIME_EVIDENCE_REQUIRED",
-    collected_at: nowIso(),
-    repository: REPOSITORY,
-    branch: "main",
-    validation: {
-      result: "BRANCH_PROTECTION_VALIDATED",
-      ruleset_id: ruleset.id,
-      name: ruleset.name,
-      enforcement: ruleset.enforcement,
-      bypass_list_empty: !ruleset.bypass_actors?.length,
-      required_check: "validation",
-      pull_request_required: true,
-      force_push_blocked: true,
-      deletion_blocked: true,
-    },
-    primary_error: null,
-  };
+  return buildBranchProtectionEvidence(rulesets);
 }
 
 function collectSuccess() {

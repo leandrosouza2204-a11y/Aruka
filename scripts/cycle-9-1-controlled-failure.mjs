@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { parseArgs, printDryRun, runOrThrow } from "./lib/cycle-9-1-process.mjs";
+import { assertTrackedWorktreeAllowsOnlyEvidence, parseArgs, printDryRun, runOrThrow } from "./lib/cycle-9-1-process.mjs";
 import { MARKER_OUTPUT, MARKER_PATH, REPOSITORY, validateMergeBlocked, ghJson } from "./lib/cycle-9-1-github-client.mjs";
 import { nowIso, writeEvidence } from "./lib/cycle-9-1-evidence-writer.mjs";
 
@@ -22,7 +22,7 @@ function writeState(state) {
 
 function ensureCleanTracked() {
   const status = runOrThrow("git", ["status", "--porcelain=v1", "-uno"], { cwd: root });
-  if (status.trim()) throw new Error(`Tracked worktree must be clean before GitHub mutation:\n${status}`);
+  assertTrackedWorktreeAllowsOnlyEvidence(status, "Tracked worktree before GitHub mutation");
 }
 
 function createFailure() {

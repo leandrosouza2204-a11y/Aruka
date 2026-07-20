@@ -69,6 +69,30 @@ export function validateRuleset(rulesets) {
   return ruleset;
 }
 
+export function buildBranchProtectionEvidence(rulesets, options = {}) {
+  const ruleset = validateRuleset(rulesets);
+  return {
+    cycle: "9.1",
+    result: "BRANCH_PROTECTION_COLLECTED",
+    decision: "CYCLE_9_1_RUNTIME_EVIDENCE_REQUIRED",
+    collected_at: options.collectedAt ?? nowIso(),
+    repository: options.repository ?? REPOSITORY,
+    branch: "main",
+    validation: {
+      result: "BRANCH_PROTECTION_VALIDATED",
+      ruleset_id: ruleset.id,
+      name: ruleset.name,
+      enforcement: ruleset.enforcement,
+      bypass_list_empty: !ruleset.bypass_actors?.length,
+      required_check: "validation",
+      pull_request_required: true,
+      force_push_blocked: true,
+      deletion_blocked: true,
+    },
+    primary_error: null,
+  };
+}
+
 export function validateMergeBlocked({ pr, checks, run, logText = "" }) {
   const required = requiredValidationCheck(checks);
   const requiredFailed = required && /fail|failure|failed|unsuccessful/i.test(required.state ?? "");

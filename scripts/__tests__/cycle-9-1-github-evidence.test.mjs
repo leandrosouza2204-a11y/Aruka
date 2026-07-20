@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { validateArtifacts, validateRuleset, validateSuccessfulRun } from "../lib/cycle-9-1-github-client.mjs";
+import { buildBranchProtectionEvidence, validateArtifacts, validateRuleset, validateSuccessfulRun } from "../lib/cycle-9-1-github-client.mjs";
 
 test("accepts the expected successful pull_request validation job", () => {
   const run = {
@@ -43,4 +43,27 @@ test("validates Protect main ruleset essentials", () => {
     },
   ]);
   assert.equal(ruleset.id, 7);
+});
+
+test("builds branch protection evidence after ruleset becomes available", () => {
+  const evidence = buildBranchProtectionEvidence(
+    [
+      {
+        id: 9,
+        name: "Protect main",
+        enforcement: "active",
+        bypass_actors: [],
+        rules: [
+          { type: "pull_request" },
+          { type: "required_status_checks", parameters: { required_status_checks: [{ context: "validation" }] } },
+        ],
+      },
+    ],
+    { collectedAt: "2026-07-19T00:00:00.000Z" },
+  );
+
+  assert.equal(evidence.result, "BRANCH_PROTECTION_COLLECTED");
+  assert.equal(evidence.validation.result, "BRANCH_PROTECTION_VALIDATED");
+  assert.equal(evidence.validation.ruleset_id, 9);
+  assert.equal(evidence.collected_at, "2026-07-19T00:00:00.000Z");
 });

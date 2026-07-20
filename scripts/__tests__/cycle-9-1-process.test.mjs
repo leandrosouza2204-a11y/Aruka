@@ -6,6 +6,7 @@ import {
   resolveCommandInvocation,
   resolveExecutable,
   runCommand,
+  trackedWorktreeViolations,
 } from "../lib/cycle-9-1-process.mjs";
 
 test("resolves package manager shims on Windows", () => {
@@ -123,4 +124,26 @@ test("reports timeout separately", () => {
 
   assert.equal(result.failure_kind, "timeout");
   assert.equal(result.timed_out, true);
+});
+
+test("allows tracked worktree changes limited to cycle 9.1 evidence files", () => {
+  const status = [
+    " M reports/supabase-ci-runtime/github-actions-run-result.json",
+    " M reports/supabase-ci-runtime/github-actions-artifacts-result.json",
+    " M reports/supabase-ci-runtime/github-actions-check-result.json",
+    " M reports/supabase-ci-runtime/cleanup-result.json",
+    " M reports/supabase-ci-runtime/branch-protection-result.json",
+    " M reports/supabase-ci-runtime/merge-block-negative-result.json",
+  ].join("\n");
+
+  assert.deepEqual(trackedWorktreeViolations(status), []);
+});
+
+test("blocks tracked worktree changes outside cycle 9.1 evidence files", () => {
+  const status = [
+    " M reports/supabase-ci-runtime/github-actions-run-result.json",
+    " M docs/supabase-infrastructure-refactor/14-roadmap.md",
+  ].join("\n");
+
+  assert.deepEqual(trackedWorktreeViolations(status), [" M docs/supabase-infrastructure-refactor/14-roadmap.md"]);
 });

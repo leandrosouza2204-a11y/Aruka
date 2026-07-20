@@ -24,6 +24,15 @@ const forbiddenCommandText = [
   /gh\s+pr\s+merge/i,
 ];
 
+export const cycle91RuntimeEvidencePaths = [
+  "reports/supabase-ci-runtime/github-actions-run-result.json",
+  "reports/supabase-ci-runtime/github-actions-artifacts-result.json",
+  "reports/supabase-ci-runtime/github-actions-check-result.json",
+  "reports/supabase-ci-runtime/cleanup-result.json",
+  "reports/supabase-ci-runtime/branch-protection-result.json",
+  "reports/supabase-ci-runtime/merge-block-negative-result.json",
+];
+
 export function parseArgs(argv = process.argv.slice(2)) {
   const args = { _: [] };
   for (let index = 0; index < argv.length; index += 1) {
@@ -44,6 +53,32 @@ export function assertSafeCommand(command, args = []) {
   const text = [command, ...args].join(" ");
   for (const pattern of forbiddenCommandText) {
     if (pattern.test(text)) throw new Error(`Forbidden command rejected: ${text}`);
+  }
+}
+
+function normalizeGitPath(path) {
+  return path.replace(/\\/g, "/");
+}
+
+function porcelainPath(line) {
+  const path = line.slice(3);
+  const renameSeparator = " -> ";
+  if (path.includes(renameSeparator)) return path.slice(path.lastIndexOf(renameSeparator) + renameSeparator.length);
+  return path;
+}
+
+export function trackedWorktreeViolations(statusText, allowedPaths = cycle91RuntimeEvidencePaths) {
+  const allowed = new Set(allowedPaths.map(normalizeGitPath));
+  return statusText
+    .split(/\r?\n/)
+    .filter(Boolean)
+    .filter((line) => !allowed.has(normalizeGitPath(porcelainPath(line))));
+}
+
+export function assertTrackedWorktreeAllowsOnlyEvidence(statusText, label = "Tracked worktree") {
+  const violations = trackedWorktreeViolations(statusText);
+  if (violations.length) {
+    throw new Error(`${label} has non-evidence changes that must be committed or restored first:\n${violations.join("\n")}`);
   }
 }
 
