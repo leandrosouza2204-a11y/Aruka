@@ -1,8 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  assertTrackedWorktreeAllowsOnlyEvidence,
   buildSpawnOptions,
+  cycle91RuntimeEvidencePaths,
   formatExecutionFailure,
+  normalizeGitStatusPath,
   resolveCommandInvocation,
   resolveExecutable,
   runCommand,
@@ -126,15 +129,34 @@ test("reports timeout separately", () => {
   assert.equal(result.timed_out, true);
 });
 
-test("allows tracked worktree changes limited to cycle 9.1 evidence files", () => {
+test("normalizes git status paths", () => {
+  assert.equal(normalizeGitStatusPath(" ./reports\\supabase-ci-runtime\\github-actions-artifacts-result.json "), "reports/supabase-ci-runtime/github-actions-artifacts-result.json");
+  assert.equal(normalizeGitStatusPath("\"reports/supabase-ci-runtime/github-actions-artifacts-result.json\""), "reports/supabase-ci-runtime/github-actions-artifacts-result.json");
+  assert.equal(normalizeGitStatusPath("old.json -> reports/supabase-ci-runtime/github-actions-artifacts-result.json"), "reports/supabase-ci-runtime/github-actions-artifacts-result.json");
+});
+
+for (const evidencePath of cycle91RuntimeEvidencePaths) {
+  test(`allows cycle 9.1 evidence path ${evidencePath}`, () => {
+    assert.deepEqual(trackedWorktreeViolations(` M ${evidencePath}`), []);
+  });
+}
+
+test("allows artifacts evidence when status has no leading index-space", () => {
+  assert.deepEqual(trackedWorktreeViolations("M reports/supabase-ci-runtime/github-actions-artifacts-result.json"), []);
+});
+
+test("allows evidence paths with backslashes prefix and quotes", () => {
   const status = [
-    " M reports/supabase-ci-runtime/github-actions-run-result.json",
-    " M reports/supabase-ci-runtime/github-actions-artifacts-result.json",
-    " M reports/supabase-ci-runtime/github-actions-check-result.json",
-    " M reports/supabase-ci-runtime/cleanup-result.json",
-    " M reports/supabase-ci-runtime/branch-protection-result.json",
-    " M reports/supabase-ci-runtime/merge-block-negative-result.json",
+    " M reports\\supabase-ci-runtime\\github-actions-artifacts-result.json",
+    " M ./reports/supabase-ci-runtime/github-actions-check-result.json",
+    " M \"reports/supabase-ci-runtime/github-actions-run-result.json\"",
   ].join("\n");
+
+  assert.deepEqual(trackedWorktreeViolations(status), []);
+});
+
+test("allows multiple cycle 9.1 evidence files simultaneously", () => {
+  const status = cycle91RuntimeEvidencePaths.map((path) => ` M ${path}`).join("\n");
 
   assert.deepEqual(trackedWorktreeViolations(status), []);
 });
@@ -145,5 +167,38 @@ test("blocks tracked worktree changes outside cycle 9.1 evidence files", () => {
     " M docs/supabase-infrastructure-refactor/14-roadmap.md",
   ].join("\n");
 
-  assert.deepEqual(trackedWorktreeViolations(status), [" M docs/supabase-infrastructure-refactor/14-roadmap.md"]);
+  assert.deepEqual(trackedWorktreeViolations(status), ["docs/supabase-infrastructure-refactor/14-roadmap.md"]);
+});
+
+test("reports normalized paths when blocking worktree changes", () => {
+  assert.throws(
+    () => assertTrackedWorktreeAllowsOnlyEvidence(" M .\\docs\\supabase-infrastructure-refactor\\14-roadmap.md"),
+    /docs\/supabase-infrastructure-refactor\/14-roadmap\.md/,
+  );
+});
+
+test("blocks lookalike artifact evidence names", () => {
+  assert.deepEqual(
+    trackedWorktreeViolations(" M reports/supabase-ci-runtime/github-actions-artifact-result.json"),
+    ["reports/supabase-ci-runtime/github-actions-artifact-result.json"],
+  );
+});
+
+test("blocks arbitrary files inside the evidence directory", () => {
+  assert.deepEqual(
+    trackedWorktreeViolations(" M reports/supabase-ci-runtime/arbitrary.json"),
+    ["reports/supabase-ci-runtime/arbitrary.json"],
+  );
+});
+
+test("allows current regression state because tracked changes are authorized evidence", () => {
+  const status = [
+    " M reports/supabase-ci-runtime/github-actions-artifacts-result.json",
+    " M reports/supabase-ci-runtime/github-actions-check-result.json",
+    " M reports/supabase-ci-runtime/github-actions-run-result.json",
+    "?? reports/supabase-ci-runtime/cleanup-result.json",
+    "?? tmp/",
+  ].join("\n");
+
+  assert.deepEqual(trackedWorktreeViolations(status), []);
 });

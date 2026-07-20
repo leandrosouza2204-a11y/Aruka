@@ -56,23 +56,39 @@ export function assertSafeCommand(command, args = []) {
   }
 }
 
-function normalizeGitPath(path) {
-  return path.replace(/\\/g, "/");
+export function normalizeGitStatusPath(path) {
+  let normalized = path.trim();
+  const renameSeparator = " -> ";
+  if (normalized.includes(renameSeparator)) normalized = normalized.slice(normalized.lastIndexOf(renameSeparator) + renameSeparator.length);
+  normalized = normalized.trim();
+  if (
+    (normalized.startsWith("\"") && normalized.endsWith("\"")) ||
+    (normalized.startsWith("'") && normalized.endsWith("'"))
+  ) {
+    normalized = normalized.slice(1, -1);
+  }
+  normalized = normalized.replace(/\\/g, "/");
+  while (normalized.startsWith("./")) normalized = normalized.slice(2);
+  return normalized;
 }
 
 function porcelainPath(line) {
-  const path = line.slice(3);
-  const renameSeparator = " -> ";
-  if (path.includes(renameSeparator)) return path.slice(path.lastIndexOf(renameSeparator) + renameSeparator.length);
-  return path;
+  const trimmed = line.trimStart();
+  if (/^\?\? /.test(trimmed)) return null;
+  if (/^[ MADRCU?!]{2} /.test(line)) return line.slice(3);
+  if (/^[MADRCU?!] /.test(trimmed)) return trimmed.slice(2);
+  return trimmed;
 }
 
 export function trackedWorktreeViolations(statusText, allowedPaths = cycle91RuntimeEvidencePaths) {
-  const allowed = new Set(allowedPaths.map(normalizeGitPath));
+  const allowed = new Set(allowedPaths.map(normalizeGitStatusPath));
   return statusText
     .split(/\r?\n/)
     .filter(Boolean)
-    .filter((line) => !allowed.has(normalizeGitPath(porcelainPath(line))));
+    .map((line) => porcelainPath(line))
+    .filter((path) => path !== null)
+    .map((path) => normalizeGitStatusPath(path))
+    .filter((path) => !allowed.has(path));
 }
 
 export function assertTrackedWorktreeAllowsOnlyEvidence(statusText, label = "Tracked worktree") {
