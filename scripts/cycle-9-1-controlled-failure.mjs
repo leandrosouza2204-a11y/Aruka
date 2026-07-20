@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { assertTrackedWorktreeAllowsOnlyEvidence, parseArgs, printDryRun, runOrThrow } from "./lib/cycle-9-1-process.mjs";
-import { MARKER_OUTPUT, MARKER_PATH, REPOSITORY, validateMergeBlocked, ghJson } from "./lib/cycle-9-1-github-client.mjs";
+import { MARKER_OUTPUT, MARKER_PATH, REPOSITORY, requiredPrChecksArgs, validateMergeBlocked, ghJson } from "./lib/cycle-9-1-github-client.mjs";
 import { nowIso, writeEvidence } from "./lib/cycle-9-1-evidence-writer.mjs";
 
 const root = process.cwd();
@@ -61,9 +61,9 @@ function verifyBlock() {
   if (!state.pr_url && !args.pr) throw new Error("Missing temporary PR state. Pass --pr or run create-failure first.");
   const prSelector = args.pr ?? state.pr_url;
   const pr = ghJson(["pr", "view", String(prSelector), "--json", "number,url,baseRefName,headRefName,mergeable,mergeStateStatus,state"], "pr");
-  const checks = ghJson(["pr", "checks", String(pr.number), "--json", "name,state,required,bucket"], "checks");
+  const checks = ghJson(requiredPrChecksArgs(pr.number), "checks");
   const logText = args["log-file"] ? readFileSync(join(root, args["log-file"]), "utf8") : MARKER_OUTPUT;
-  const assertion = validateMergeBlocked({ pr, checks, logText, run: { controlled_failure: true } });
+  const assertion = validateMergeBlocked({ pr, checks, logText, run: { controlled_failure: true }, expectedHeadBranch: state.branch ?? null, checksRequiredBySelection: true });
   writeEvidence(root, "merge-block-negative-result.json", {
     cycle: "9.1",
     result: "MERGE_BLOCK_NEGATIVE_VALIDATED",
