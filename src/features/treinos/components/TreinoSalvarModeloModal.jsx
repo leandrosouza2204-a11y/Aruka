@@ -1,8 +1,26 @@
+import { useMemo, useRef, useState } from "react";
+import ExercicioCard from "../../../components/ExercicioCard";
+import { useConfirm } from "../../../hooks/useConfirm";
 import {
   DIVISOES_MODELO_PESSOAL,
   GENEROS_REFERENCIA_MODELO,
-  inferSplitFromWorkout,
 } from "../utils/workoutTemplateSanitization";
+import {
+  areWorkoutTemplateDraftsEqual,
+  createWorkoutTemplateEditorDraft,
+  validateWorkoutTemplateDraft,
+} from "../utils/workoutTemplateEditorState";
+
+const emptyDay = { nome: "", descricao: "", exercicios: [] };
+const emptyExercise = {
+  nome: "",
+  series: "",
+  repeticoes: "",
+  carga: "",
+  descanso: "",
+  observacoes: "",
+  video: "",
+};
 
 function TreinoSalvarModeloModal({
   treino,
@@ -11,32 +29,190 @@ function TreinoSalvarModeloModal({
   onClose,
   onSubmit,
 }) {
-  const valoresIniciais = {
-    name: modelo?.nome || treino?.rotina || "",
-    referenceGender: modelo?.genero || "Unissex",
-    splitType: modelo?.divisao || inferSplitFromWorkout(treino),
-    objective: modelo?.objetivo || treino?.objetivo || "",
-    level: modelo?.nivel || treino?.nivel || "",
-    description: modelo?.descricao || "",
-  };
+  const initialDraft = useMemo(
+    () => createWorkoutTemplateEditorDraft({ treino, modelo }),
+    [modelo, treino]
+  );
+  const [draft, setDraft] = useState(initialDraft);
+  const [originalDraft, setOriginalDraft] = useState(initialDraft);
+  const [newDay, setNewDay] = useState(emptyDay);
+  const [exerciseByDay, setExerciseByDay] = useState({});
+  const [editingExercise, setEditingExercise] = useState(null);
+  const [status, setStatus] = useState("idle");
+  const [errors, setErrors] = useState({});
+  const nameRef = useRef(null);
+  const { confirmar } = useConfirm();
 
-  function enviar(event) {
+  const dirty = !areWorkoutTemplateDraftsEqual(originalDraft, draft);
+  const saving = status === "saving";
+
+  async function enviar(event) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const payload = {
-      name: String(formData.get("name") || "").trim(),
-      referenceGender: String(formData.get("referenceGender") || "Unissex"),
-      splitType: String(formData.get("splitType") || "Outro"),
-      objective: String(formData.get("objective") || "").trim(),
-      level: String(formData.get("level") || "").trim(),
-      description: String(formData.get("description") || "").trim(),
-    };
+    if (saving) return;
 
-    if (!payload.name) return;
-    onSubmit(payload);
+    const validation = validateWorkoutTemplateDraft(draft);
+    setErrors(validation.errors);
+    if (!validation.ok) {
+      setStatus("error");
+      window.setTimeout(() => nameRef.current?.focus?.(), 0);
+      return;
+    }
+
+    try {
+      setStatus("saving");
+      await onSubmit(validation.normalized.metadata, {
+        ...draft.workout,
+        rotina: validation.normalized.metadata.name,
+        objetivo: validation.normalized.metadata.objective,
+        nivel: validation.normalized.metadata.level,
+      });
+      const nextOriginal = createWorkoutTemplateEditorDraft({
+        treino: {
+          ...draft.workout,
+          rotina: validation.normalized.metadata.name,
+          objetivo: validation.normalized.metadata.objective,
+          nivel: validation.normalized.metadata.level,
+        },
+        modelo: { ...modelo, ...validation.normalized.metadata },
+      });
+      setOriginalDraft(nextOriginal);
+      setDraft(nextOriginal);
+      setStatus("success");
+    } catch (error) {
+      console.error(error);
+      setStatus("error");
+    }
+  }
+
+  async function fechar() {
+    if (!dirty || status === "success") {
+      onClose();
+      return;
+    }
+
+    const discard = await confirmar({
+      titulo: "Descartar alteracoes?",
+      descricao: "Existem alteracoes nao salvas neste modelo.",
+      textoCancelar: "Continuar editando",
+      textoConfirmar: "Descartar",
+      testIdPrefix: "workout-template-unsaved",
+    });
+
+    if (discard) onClose();
+  }
+
+  function setMetadata(field, value) {
+    setDraft((current) => ({
+      ...current,
+      metadata: { ...current.metadata, [field]: value },
+    }));
+    setStatus("idle");
+  }
+
+  function setWorkout(updater) {
+    setDraft((current) => ({
+      ...current,
+      workout: typeof updater === "function" ? updater(current.workout) : updater,
+    }));
+    setStatus("idle");
+  }
+
+  function addDay() {
+    if (!newDay.nome.trim()) return;
+    setWorkout((workout) => ({
+      ...workout,
+      dias: [
+        ...workout.dias,
+        { id: crypto.randomUUID(), nome: newDay.nome.trim(), descricao: newDay.descricao.trim(), exercicios: [] },
+      ],
+    }));
+    setNewDay(emptyDay);
+  }
+
+  function updateExerciseDraft(dayId, field, value) {
+    setExerciseByDay((current) => ({
+      ...current,
+      [dayId]: { ...(current[dayId] || emptyExercise), [field]: value },
+    }));
+  }
+
+  function saveExercise(dayId) {
+    const exercise = exerciseByDay[dayId] || emptyExercise;
+    if (!exercise.nome.trim()) return;
+
+    setWorkout((workout) => ({
+      ...workout,
+      dias: workout.dias.map((day) => {
+        if (day.id !== dayId) return day;
+        const saved = {
+          ...exercise,
+          id: editingExercise?.dayId === dayId ? editingExercise.exerciseId : crypto.randomUUID(),
+          nome: exercise.nome.trim(),
+        };
+        return {
+          ...day,
+          exercicios:
+            editingExercise?.dayId === dayId
+              ? day.exercicios.map((item) => (item.id === editingExercise.exerciseId ? saved : item))
+              : [...day.exercicios, saved],
+        };
+      }),
+    }));
+    setExerciseByDay((current) => ({ ...current, [dayId]: emptyExercise }));
+    setEditingExercise(null);
+  }
+
+  function editExercise(dayId, exercise) {
+    setExerciseByDay((current) => ({ ...current, [dayId]: exercise }));
+    setEditingExercise({ dayId, exerciseId: exercise.id });
+  }
+
+  async function deleteExercise(dayId, exerciseId) {
+    const confirmed = await confirmar({
+      titulo: "Excluir exercicio?",
+      descricao: "Esta acao remove apenas o exercicio selecionado do modelo.",
+      textoConfirmar: "Excluir",
+      testIdPrefix: "exercise-delete",
+    });
+    if (!confirmed) return;
+    setWorkout((workout) => ({
+      ...workout,
+      dias: workout.dias.map((day) =>
+        day.id === dayId
+          ? { ...day, exercicios: day.exercicios.filter((exercise) => exercise.id !== exerciseId) }
+          : day
+      ),
+    }));
+    if (editingExercise?.exerciseId === exerciseId) {
+      setEditingExercise(null);
+      setExerciseByDay((current) => ({ ...current, [dayId]: emptyExercise }));
+    }
+  }
+
+  function moveExercise(dayId, exerciseId, direction) {
+    setWorkout((workout) => ({
+      ...workout,
+      dias: workout.dias.map((day) => {
+        if (day.id !== dayId) return day;
+        const index = day.exercicios.findIndex((exercise) => exercise.id === exerciseId);
+        const target = index + direction;
+        if (index < 0 || target < 0 || target >= day.exercicios.length) return day;
+        const exercises = [...day.exercicios];
+        const [moved] = exercises.splice(index, 1);
+        exercises.splice(target, 0, moved);
+        return { ...day, exercicios: exercises };
+      }),
+    }));
   }
 
   const titulo = modo === "edit" ? "Editar modelo pessoal" : "Salvar como modelo";
+  const statusText = saving
+    ? "Salvando..."
+    : status === "success"
+      ? "Modelo salvo com sucesso."
+      : dirty
+        ? "Alteracoes pendentes."
+        : "Sem alteracoes pendentes.";
 
   return (
     <div className="treino-template-overlay">
@@ -45,7 +221,7 @@ function TreinoSalvarModeloModal({
         role="dialog"
         aria-modal="true"
         aria-label={titulo}
-        data-testid="save-template-modal"
+        data-testid="workout-template-modal"
       >
         <header className="treino-template-header">
           <div>
@@ -56,28 +232,31 @@ function TreinoSalvarModeloModal({
               Dados do aluno, datas, status e cargas individuais nao entram no modelo.
             </p>
           </div>
-          <button type="button" onClick={onClose} className="treino-template-close">
+          <button type="button" onClick={fechar} className="treino-template-close" data-testid="workout-template-close">
             Fechar
           </button>
         </header>
 
-        <form className="treino-save-template-form" onSubmit={enviar}>
+        <form className="treino-save-template-form" onSubmit={enviar} data-testid="workout-template-form">
           <label>
             <span>Nome do modelo</span>
             <input
-              name="name"
-              defaultValue={valoresIniciais.name}
+              ref={nameRef}
+              value={draft.metadata.name}
+              onChange={(event) => setMetadata("name", event.target.value)}
               maxLength={90}
               required
-              data-testid="custom-template-name"
+              data-testid="workout-template-name"
+              aria-invalid={Boolean(errors.name)}
             />
+            {errors.name && <small className="app-error">{errors.name}</small>}
           </label>
 
           <label>
             <span>Genero de referencia</span>
             <select
-              name="referenceGender"
-              defaultValue={valoresIniciais.referenceGender}
+              value={draft.metadata.referenceGender}
+              onChange={(event) => setMetadata("referenceGender", event.target.value)}
               data-testid="custom-template-gender"
             >
               {GENEROS_REFERENCIA_MODELO.map((item) => (
@@ -91,8 +270,8 @@ function TreinoSalvarModeloModal({
           <label>
             <span>Divisao</span>
             <select
-              name="splitType"
-              defaultValue={valoresIniciais.splitType}
+              value={draft.metadata.splitType}
+              onChange={(event) => setMetadata("splitType", event.target.value)}
               data-testid="custom-template-split"
             >
               {DIVISOES_MODELO_PESSOAL.map((item) => (
@@ -106,8 +285,8 @@ function TreinoSalvarModeloModal({
           <label>
             <span>Objetivo</span>
             <input
-              name="objective"
-              defaultValue={valoresIniciais.objective}
+              value={draft.metadata.objective}
+              onChange={(event) => setMetadata("objective", event.target.value)}
               maxLength={90}
               data-testid="custom-template-objective"
             />
@@ -115,7 +294,11 @@ function TreinoSalvarModeloModal({
 
           <label>
             <span>Nivel</span>
-            <select name="level" defaultValue={valoresIniciais.level} data-testid="custom-template-level">
+            <select
+              value={draft.metadata.level}
+              onChange={(event) => setMetadata("level", event.target.value)}
+              data-testid="custom-template-level"
+            >
               <option value="">Selecione</option>
               <option value="Iniciante">Iniciante</option>
               <option value="Intermediario">Intermediario</option>
@@ -126,25 +309,94 @@ function TreinoSalvarModeloModal({
           <label className="treino-save-template-wide">
             <span>Descricao</span>
             <textarea
-              name="description"
-              defaultValue={valoresIniciais.description}
+              value={draft.metadata.description}
+              onChange={(event) => setMetadata("description", event.target.value)}
               rows="3"
               maxLength={220}
               data-testid="custom-template-description"
             />
           </label>
 
+          <section className="treino-save-template-wide treino-editor-section">
+            <h3>Dias e exercicios</h3>
+            <div className="treino-editor-day-form">
+              <input
+                value={newDay.nome}
+                onChange={(event) => setNewDay({ ...newDay, nome: event.target.value })}
+                placeholder="Nome do dia"
+              />
+              <input
+                value={newDay.descricao}
+                onChange={(event) => setNewDay({ ...newDay, descricao: event.target.value })}
+                placeholder="Descricao"
+              />
+              <button type="button" className="app-button app-button-secondary" onClick={addDay}>
+                Adicionar Dia
+              </button>
+            </div>
+
+            <div className="treino-editor-days-list">
+              {draft.workout.dias.map((day) => {
+                const exercise = exerciseByDay[day.id] || emptyExercise;
+                return (
+                  <article key={day.id} className="treino-editor-day-card">
+                    <div className="treino-editor-day-header">
+                      <div>
+                        <h4>{day.nome}</h4>
+                        <p>{day.descricao || "Sem descricao"}</p>
+                      </div>
+                    </div>
+                    <div className="treino-editor-exercise-form" data-testid="exercise-form">
+                      <input value={exercise.nome} onChange={(event) => updateExerciseDraft(day.id, "nome", event.target.value)} placeholder="Nome do exercicio" data-testid="exercise-name" />
+                      <input value={exercise.series} onChange={(event) => updateExerciseDraft(day.id, "series", event.target.value)} placeholder="Series" data-testid="exercise-sets" inputMode="decimal" />
+                      <input value={exercise.repeticoes} onChange={(event) => updateExerciseDraft(day.id, "repeticoes", event.target.value)} placeholder="Repeticoes" data-testid="exercise-repetitions" />
+                      <input value={exercise.carga} onChange={(event) => updateExerciseDraft(day.id, "carga", event.target.value)} placeholder="Carga" data-testid="exercise-load" />
+                      <input value={exercise.descanso} onChange={(event) => updateExerciseDraft(day.id, "descanso", event.target.value)} placeholder="Descanso" data-testid="exercise-rest" />
+                      <textarea value={exercise.observacoes} onChange={(event) => updateExerciseDraft(day.id, "observacoes", event.target.value)} placeholder="Observacoes" data-testid="exercise-notes" />
+                      <button type="button" className="app-button app-button-primary" onClick={() => saveExercise(day.id)} data-testid="exercise-add">
+                        {editingExercise?.dayId === day.id ? "Salvar exercicio" : "Adicionar exercicio"}
+                      </button>
+                      {editingExercise?.dayId === day.id && (
+                        <button type="button" className="app-button app-button-secondary" onClick={() => setEditingExercise(null)} data-testid="exercise-cancel">
+                          Cancelar edicao
+                        </button>
+                      )}
+                    </div>
+                    <div className="treino-editor-exercises-list">
+                      {day.exercicios.map((item, index) => (
+                        <ExercicioCard
+                          key={item.id}
+                          exercicio={item}
+                          index={index}
+                          total={day.exercicios.length}
+                          onEdit={() => editExercise(day.id, item)}
+                          onDelete={() => deleteExercise(day.id, item.id)}
+                          onMoveUp={() => moveExercise(day.id, item.id, -1)}
+                          onMoveDown={() => moveExercise(day.id, item.id, 1)}
+                        />
+                      ))}
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+            {errors.exercises && <small className="app-error">{errors.exercises}</small>}
+          </section>
+
           <p className="treino-template-privacy" data-testid="custom-template-privacy">
             Aviso de privacidade: este modelo fica disponivel apenas para o seu usuario.
             Modelos oficiais seguem protegidos no codigo e nao podem ser alterados aqui.
           </p>
+          <p aria-live="polite" data-testid={status === "success" ? "workout-template-save-success" : saving ? "workout-template-saving" : status === "error" ? "workout-template-save-error" : undefined}>
+            {statusText}
+          </p>
 
           <footer className="treino-template-footer">
-            <button type="button" onClick={onClose} className="app-button app-button-secondary">
+            <button type="button" onClick={fechar} className="app-button app-button-secondary" data-testid="workout-template-cancel">
               Cancelar
             </button>
-            <button type="submit" className="app-button app-button-primary" data-testid="custom-template-save">
-              {modo === "edit" ? "Salvar alteracoes" : "Salvar modelo"}
+            <button type="submit" className="app-button app-button-primary" data-testid="workout-template-save" disabled={saving}>
+              {saving ? "Salvando..." : modo === "edit" ? "Salvar alteracoes" : "Salvar modelo"}
             </button>
           </footer>
         </form>

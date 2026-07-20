@@ -238,7 +238,7 @@ function TreinoTemplatesModal({
                                 setMenuAbertoId("");
                               }}
                             >
-                              Editar metadados
+                              Editar modelo
                             </span>
                             <span
                               role="button"

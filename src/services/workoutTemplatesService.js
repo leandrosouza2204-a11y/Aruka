@@ -67,19 +67,26 @@ export async function criarModeloPessoalSupabase(metadata, treino) {
   return rowParaModeloPessoal(data);
 }
 
-export async function atualizarModeloPessoalSupabase(id, metadata) {
+export async function atualizarModeloPessoalSupabase(id, metadata, treino) {
   const user = await buscarUsuarioLogado();
+  const payload = {
+    name: metadata.name,
+    reference_gender: metadata.referenceGender,
+    split_type: metadata.splitType,
+    objective: metadata.objective,
+    level: metadata.level,
+    description: metadata.description,
+  };
+
+  if (treino) {
+    const templateData = sanitizeWorkoutForTemplate(treino);
+    validarTemplate(templateData);
+    payload.template_data = templateData;
+  }
 
   const { data, error } = await supabase
     .from("workout_templates")
-    .update({
-      name: metadata.name,
-      reference_gender: metadata.referenceGender,
-      split_type: metadata.splitType,
-      objective: metadata.objective,
-      level: metadata.level,
-      description: metadata.description,
-    })
+    .update(payload)
     .eq("id", id)
     .eq("owner_id", user.id)
     .eq("is_system", false)

@@ -172,14 +172,14 @@ export function useTreinosPage() {
     }
   }
 
-  async function atualizarModeloPessoal(id, metadata) {
+  async function atualizarModeloPessoal(id, metadata, treino) {
     try {
       setErroModelos("");
-      const modelo = await atualizarModeloPessoalSupabase(id, metadata);
+      const modelo = await atualizarModeloPessoalSupabase(id, metadata, treino);
       setModelosPessoais((atuais) =>
         atuais.map((item) => (item.id === id ? modelo : item))
       );
-      toast.sucesso("Modelo atualizado", "Os metadados foram atualizados.");
+      toast.sucesso("Modelo atualizado", "O modelo pessoal foi atualizado.");
     } catch (error) {
       console.error(error);
       setErroModelos(error.message || "Nao foi possivel atualizar o modelo.");
