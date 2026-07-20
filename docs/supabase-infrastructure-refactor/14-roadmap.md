@@ -89,9 +89,13 @@
 - Principais entregas: scripts de coleta/validacao de run, artifacts, cleanup, branch protection e merge-block; docs 49-53; relatorios `reports/supabase-ci-runtime/`.
 - Dependencias: Ciclo 9 commitado e workflow executado no GitHub.
 - Criterios de aceite: checks reais aprovados e artifacts sem dados sensiveis.
-- Riscos: diferencas entre runner GitHub e execucao local equivalente; a primeira execucao do PR #1 falhou no check `validation` por `Official baseline SHA mismatch` causado por finais de linha nao canonicos, sem alteracao semantica da baseline SQL.
-- Decisao de preparacao: `CYCLE_9_1_RUNTIME_EVIDENCE_REQUIRED`.
-- Decisao final pendente: nao declarar `GITHUB_ACTIONS_RUNTIME_AND_BRANCH_PROTECTION_VALIDATED` ate novo run real bem-sucedido e configuracao/validacao de branch protection.
+- Evidencia operacional informada: PR #1 na branch `chore/supabase-ci-runtime-validation`, workflow `Supabase Local Quality Gates`, check `Supabase Local Quality Gates / validation (pull_request)` marcado como Required, execucao final `success`, artifact gerado, `CI_QUALITY_GATES_VALIDATED`, `CI_CLEANUP_VALIDATED`, 40/40 negativos, sem acesso remoto Supabase e sem deploy de Edge Functions.
+- Branch protection informada: ruleset `Protect main` ativo para `main`, pull request obrigatorio, required status check `validation`, force push bloqueado e exclusao bloqueada.
+- Correcoes durante o ciclo: SHA canonica LF da baseline, preflight `isolated_ci` e clean worktree `isolated_ci`.
+- Pendencia do contrato automatizado: `npm.cmd run qa:supabase-cycle-9-1 -- --final` ainda retorna `CYCLE_9_1_RUNTIME_EVIDENCE_REQUIRED`, pois os JSONs versionados de run/artifacts/cleanup/branch protection permanecem pendentes e `merge-block-negative-result.json` esta `NOT_EXECUTED`.
+- Riscos residuais: repositorio precisou permanecer publico para enforcement no GitHub Free; retorno futuro a private pode alterar enforcement conforme plano; aviso futuro de runtime Node em actions de terceiros deve ser monitorado.
+- Decisao atual pelo validador: `CYCLE_9_1_RUNTIME_EVIDENCE_REQUIRED`.
+- Decisao final pendente: nao declarar `GITHUB_ACTIONS_RUNTIME_AND_BRANCH_PROTECTION_VALIDATED` ate que as evidencias verificaveis exigidas pelo validador sejam coletadas ou registradas por mecanismo legitimo.
 
 ## Ciclo 10 - Infrastructure QA
 

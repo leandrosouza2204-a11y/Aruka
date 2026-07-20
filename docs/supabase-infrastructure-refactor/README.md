@@ -20,7 +20,7 @@ Escopo executado:
 - Ciclo 7.2.1: complemento documental e de auditoria dos relatorios PowerShell/Node do wrapper.
 - Ciclo 8: seeds locais deterministicas, fixtures ficticias, reset seguro e evidencias de idempotencia.
 - Ciclo 9: workflow de CI para quality gates locais Supabase, ambiente efemero, evidencias e cleanup.
-- Ciclo 9.1: preparacao de coleta read-only de evidencias reais do GitHub Actions e branch protection; PR #1 falhou inicialmente em `validation` por `Official baseline SHA mismatch` causado por finais de linha nao canonicos, sem alteracao semantica da baseline.
+- Ciclo 9.1: coleta/readiness de evidencias reais do GitHub Actions e branch protection. PR #1 registrou hardening por SHA canonica LF, preflight `isolated_ci` e clean worktree `isolated_ci`; a execucao final foi reportada como `success` com required check `validation`, mas o validador do repositorio ainda exige JSONs verificaveis e merge-block negativo antes de `GITHUB_ACTIONS_RUNTIME_AND_BRANCH_PROTECTION_VALIDATED`.
 
 Fora de escopo neste ciclo:
 
@@ -83,6 +83,7 @@ Arquivos:
 - [51-main-branch-protection-configuration.md](51-main-branch-protection-configuration.md)
 - [52-required-check-merge-block-validation.md](52-required-check-merge-block-validation.md)
 - [53-cycle-9-1-final-evidence.md](53-cycle-9-1-final-evidence.md)
+- [54-cycle-9-1-automated-github-evidence.md](54-cycle-9-1-automated-github-evidence.md)
 
 Artefatos de baseline:
 
@@ -100,4 +101,4 @@ Artefatos de baseline:
 
 Fonte principal: `supabase/*.sql`, `supabase/migrations/*.sql`, `supabase/functions/**`, `src/services/**` e scripts de validacao que usam Supabase.
 
-Observacao: a candidate foi promovida a baseline oficial no Ciclo 6 e validada localmente a partir da pasta ativa de migrations. A SHA oficial vigente da baseline ativa e a SHA textual canonica LF `F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A`; a SHA `745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE` permanece apenas como evidencia historica de uma representacao Windows com finais mistos. Nenhuma escrita remota foi executada; HML/producao exigem ciclo posterior com runbook e verificacoes read-only.
+Observacao: a candidate foi promovida a baseline oficial no Ciclo 6 e validada localmente a partir da pasta ativa de migrations. A SHA oficial vigente da baseline ativa e a SHA textual canonica LF `F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A`; a SHA `745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE` permanece apenas como evidencia historica de uma representacao Windows com finais mistos. Nenhuma escrita remota foi executada; HML/producao exigem ciclo posterior com runbook e verificacoes read-only. O ruleset `Protect main` e o required check `validation` foram reportados como ativos, mas a decisao automatizada atual do Ciclo 9.1 permanece `CYCLE_9_1_RUNTIME_EVIDENCE_REQUIRED`.
