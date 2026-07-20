@@ -1,6 +1,62 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildBranchProtectionEvidence, validateArtifacts, validateRuleset, validateSuccessfulRun } from "../lib/cycle-9-1-github-client.mjs";
+import {
+  buildBranchProtectionEvidence,
+  validateArtifacts,
+  validateRuleset,
+  validateSuccessfulRun,
+  validateSuccessfulValidationCheckRun,
+} from "../lib/cycle-9-1-github-client.mjs";
+
+function protectMainRuleset(overrides = {}) {
+  return {
+    conditions: {
+      ref_name: {
+        exclude: [],
+        include: ["refs/heads/main"],
+      },
+    },
+    enforcement: "active",
+    id: 19182738,
+    name: "Protect main",
+    rules: [
+      {
+        type: "pull_request",
+        parameters: {
+          required_approving_review_count: 0,
+        },
+      },
+      {
+        type: "required_status_checks",
+        parameters: {
+          do_not_enforce_on_create: false,
+          required_status_checks: [
+            {
+              context: "validation",
+              integration_id: 15368,
+            },
+            {
+              context: "Supabase Local Quality Gates / validation",
+            },
+          ],
+          strict_required_status_checks_policy: false,
+        },
+      },
+    ],
+    target: "branch",
+    ...overrides,
+  };
+}
+
+function validationCheckRun(overrides = {}) {
+  return {
+    app: { name: "GitHub Actions" },
+    name: "validation",
+    conclusion: "success",
+    status: "completed",
+    ...overrides,
+  };
+}
 
 test("accepts the expected successful pull_request validation job", () => {
   const run = {
@@ -30,40 +86,113 @@ test("rejects missing evidence artifacts", () => {
 });
 
 test("validates Protect main ruleset essentials", () => {
-  const ruleset = validateRuleset([
-    {
-      id: 7,
-      name: "Protect main",
-      enforcement: "active",
-      bypass_actors: [],
-      rules: [
-        { type: "pull_request" },
-        { type: "required_status_checks", parameters: { required_status_checks: [{ context: "validation" }] } },
-      ],
-    },
-  ]);
-  assert.equal(ruleset.id, 7);
+  const ruleset = validateRuleset([protectMainRuleset({ id: 7 })]);
+  assert.equal(ruleset.ruleset.id, 7);
+  assert.equal(ruleset.validation_context.context, "validation");
 });
 
 test("builds branch protection evidence after ruleset becomes available", () => {
   const evidence = buildBranchProtectionEvidence(
-    [
-      {
-        id: 9,
-        name: "Protect main",
-        enforcement: "active",
-        bypass_actors: [],
-        rules: [
-          { type: "pull_request" },
-          { type: "required_status_checks", parameters: { required_status_checks: [{ context: "validation" }] } },
-        ],
-      },
-    ],
-    { collectedAt: "2026-07-19T00:00:00.000Z" },
+    [protectMainRuleset({ id: 9 })],
+    { collectedAt: "2026-07-19T00:00:00.000Z", checkRun: validationCheckRun() },
   );
 
   assert.equal(evidence.result, "BRANCH_PROTECTION_COLLECTED");
   assert.equal(evidence.validation.result, "BRANCH_PROTECTION_VALIDATED");
   assert.equal(evidence.validation.ruleset_id, 9);
+  assert.equal(evidence.validation.validated_context, "validation");
+  assert.equal(evidence.validation.integration_id, 15368);
+  assert.equal(evidence.validation.check_run.name, "validation");
   assert.equal(evidence.collected_at, "2026-07-19T00:00:00.000Z");
+});
+
+test("approves the real Protect main ruleset shape", () => {
+  const evidence = buildBranchProtectionEvidence([protectMainRuleset()], { checkRun: validationCheckRun() });
+  assert.equal(evidence.validation.target, "branch");
+  assert.deepEqual(evidence.validation.target_branches, ["refs/heads/main"]);
+  assert.equal(evidence.validation.required_status_checks_found.length, 2);
+  assert.equal(evidence.validation.redundant_required_status_checks.length, 1);
+});
+
+test("approves validation context with GitHub Actions integration id", () => {
+  const ruleset = protectMainRuleset({
+    rules: [
+      { type: "pull_request" },
+      { type: "required_status_checks", parameters: { required_status_checks: [{ context: "validation", integration_id: 15368 }] } },
+    ],
+  });
+
+  assert.equal(validateRuleset([ruleset]).validation_context.integration_id, 15368);
+});
+
+test("approves validation context plus redundant workflow context", () => {
+  const result = validateRuleset([protectMainRuleset()]);
+  assert.equal(result.validation_context.context, "validation");
+  assert.equal(result.redundant_required_status_checks[0].context, "Supabase Local Quality Gates / validation");
+});
+
+test("rejects legacy workflow context without validation context", () => {
+  const ruleset = protectMainRuleset({
+    rules: [
+      { type: "pull_request" },
+      { type: "required_status_checks", parameters: { required_status_checks: [{ context: "Supabase Local Quality Gates / validation" }] } },
+    ],
+  });
+
+  assert.throws(() => validateRuleset([ruleset]), /missing required pull request\/status check/);
+});
+
+test("rejects Protect main without pull request rule", () => {
+  const ruleset = protectMainRuleset({
+    rules: [{ type: "required_status_checks", parameters: { required_status_checks: [{ context: "validation", integration_id: 15368 }] } }],
+  });
+
+  assert.throws(() => validateRuleset([ruleset]), /missing required pull request\/status check/);
+});
+
+test("rejects Protect main without required status checks rule", () => {
+  const ruleset = protectMainRuleset({ rules: [{ type: "pull_request" }] });
+
+  assert.throws(() => validateRuleset([ruleset]), /missing required pull request\/status check/);
+});
+
+test("rejects disabled Protect main ruleset", () => {
+  assert.throws(() => validateRuleset([protectMainRuleset({ enforcement: "disabled" })]), /Active Protect main ruleset/);
+});
+
+test("rejects Protect main ruleset scoped away from main", () => {
+  const ruleset = protectMainRuleset({ conditions: { ref_name: { exclude: [], include: ["refs/heads/develop"] } } });
+
+  assert.throws(() => validateRuleset([ruleset]), /refs\/heads\/main/);
+});
+
+test("accepts successful GitHub Actions validation check run", () => {
+  assert.equal(validateSuccessfulValidationCheckRun(validationCheckRun()).name, "validation");
+});
+
+test("rejects failed validation check run for success collection", () => {
+  assert.throws(() => validateSuccessfulValidationCheckRun(validationCheckRun({ conclusion: "failure" })), /conclusion is not success/);
+});
+
+test("rejects lookalike validation check run name", () => {
+  assert.throws(() => validateSuccessfulValidationCheckRun(validationCheckRun({ name: "validations" })), /name mismatch/);
+});
+
+test("does not reject unknown extra required status checks", () => {
+  const ruleset = protectMainRuleset({
+    rules: [
+      { type: "pull_request" },
+      {
+        type: "required_status_checks",
+        parameters: {
+          required_status_checks: [
+            { context: "validation", integration_id: 15368 },
+            { context: "some-other-check" },
+          ],
+        },
+      },
+    ],
+  });
+
+  assert.equal(validateRuleset([ruleset]).validation_context.context, "validation");
 });

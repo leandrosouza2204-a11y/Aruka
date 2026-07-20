@@ -82,9 +82,9 @@ function collectCleanup(runEvidence) {
   };
 }
 
-function collectRuleset() {
+function collectRuleset(runEvidence) {
   const rulesets = ghJson(["api", `repos/${REPOSITORY}/rulesets`], "rulesets");
-  return buildBranchProtectionEvidence(rulesets);
+  return buildBranchProtectionEvidence(rulesets, { checkRun: runEvidence.check_run });
 }
 
 function collectSuccess() {
@@ -104,7 +104,7 @@ function collectSuccess() {
   writeEvidence(root, "github-actions-artifacts-result.json", collectArtifacts(run.run_id));
   writeEvidence(root, "github-actions-check-result.json", cleanup);
   writeEvidence(root, "cleanup-result.json", { ...cleanup, result: "CLEANUP_VALIDATED" });
-  writeEvidence(root, "branch-protection-result.json", collectRuleset());
+  writeEvidence(root, "branch-protection-result.json", collectRuleset(run));
   console.log("CYCLE_9_1_GITHUB_SUCCESS_EVIDENCE_COLLECTED");
 }
 

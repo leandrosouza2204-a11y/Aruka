@@ -4,7 +4,12 @@ import { nowIso } from "./cycle-9-1-evidence-writer.mjs";
 export const REPOSITORY = "leandrosouza2204-a11y/Aruka";
 export const WORKFLOW_NAME = "Supabase Local Quality Gates";
 export const WORKFLOW_FILE = "supabase-local-quality-gates.yml";
-export const REQUIRED_CHECK = "Supabase Local Quality Gates / validation";
+export const VALIDATION_CHECK_NAME = "validation";
+export const REQUIRED_RULESET_CONTEXT = "validation";
+export const GITHUB_ACTIONS_APP_NAME = "GitHub Actions";
+export const GITHUB_ACTIONS_INTEGRATION_ID = 15368;
+export const LEGACY_REQUIRED_CHECK_CONTEXT = `${WORKFLOW_NAME} / ${VALIDATION_CHECK_NAME}`;
+export const REQUIRED_CHECK = LEGACY_REQUIRED_CHECK_CONTEXT;
 export const MARKER_PATH = ".ci/force-supabase-cycle-9-1-failure";
 export const MARKER_OUTPUT = "CYCLE_9_1_CONTROLLED_FAILURE_TRIGGERED";
 
@@ -17,7 +22,18 @@ export function parseJson(text, label = "JSON") {
 }
 
 export function validationJob(run) {
-  return (run.jobs ?? []).find((job) => job.name === "validation" || /\/ validation$/.test(job.name));
+  return (run.jobs ?? []).find((job) => job.name === VALIDATION_CHECK_NAME);
+}
+
+export function validateSuccessfulValidationCheckRun(checkRun) {
+  const errors = [];
+  if (!checkRun) errors.push("validation check run missing");
+  if (checkRun && checkRun.name !== VALIDATION_CHECK_NAME) errors.push("validation check run name mismatch");
+  if (checkRun && checkRun.app?.name !== GITHUB_ACTIONS_APP_NAME) errors.push("validation check run app mismatch");
+  if (checkRun && checkRun.status && checkRun.status !== "completed") errors.push("validation check run is not completed");
+  if (checkRun && checkRun.conclusion !== "success") errors.push("validation check run conclusion is not success");
+  if (errors.length) throw new Error(`Validation check run is not acceptable evidence: ${errors.join("; ")}`);
+  return checkRun;
 }
 
 export function validateSuccessfulRun(run, options = {}) {
@@ -51,26 +67,42 @@ export function parseChecks(checks) {
 }
 
 export function requiredValidationCheck(checks) {
-  return parseChecks(checks).find((check) => /validation/i.test(check.name ?? "") && check.required);
+  return parseChecks(checks).find((check) => (check.name === VALIDATION_CHECK_NAME || check.name === LEGACY_REQUIRED_CHECK_CONTEXT) && check.required);
 }
 
 export function validateRuleset(rulesets) {
   const list = Array.isArray(rulesets) ? rulesets : rulesets.rulesets ?? [];
   const ruleset = list.find((item) => item.name === "Protect main" && item.enforcement === "active");
   if (!ruleset) throw new Error("Active Protect main ruleset was not found.");
+  if (ruleset.target !== "branch") throw new Error("Protect main ruleset target is not branch.");
+  const targetBranches = ruleset.conditions?.ref_name?.include ?? [];
+  if (!targetBranches.includes("refs/heads/main")) throw new Error("Protect main ruleset does not target refs/heads/main.");
   const rules = ruleset.rules ?? [];
-  const hasPullRequest = rules.some((rule) => rule.type === "pull_request");
-  const hasRequiredStatus = rules.some((rule) => rule.type === "required_status_checks");
-  const hasValidation = JSON.stringify(rules).includes("validation");
-  const hasNoBypass = !ruleset.bypass_actors || ruleset.bypass_actors.length === 0;
-  if (!hasPullRequest || !hasRequiredStatus || !hasValidation || !hasNoBypass) {
+  const pullRequestRule = rules.find((rule) => rule.type === "pull_request");
+  const requiredStatusRule = rules.find((rule) => rule.type === "required_status_checks");
+  const requiredChecks = requiredStatusRule?.parameters?.required_status_checks ?? [];
+  const validationContext = requiredChecks.find((check) =>
+    check.context === REQUIRED_RULESET_CONTEXT &&
+    (check.integration_id === undefined || check.integration_id === GITHUB_ACTIONS_INTEGRATION_ID)
+  );
+  if (!pullRequestRule || !requiredStatusRule || !validationContext) {
     throw new Error("Protect main ruleset is missing required pull request/status check constraints.");
   }
-  return ruleset;
+  return {
+    ruleset,
+    target_branches: targetBranches,
+    pull_request_rule: pullRequestRule,
+    required_status_rule: requiredStatusRule,
+    required_status_checks: requiredChecks,
+    validation_context: validationContext,
+    redundant_required_status_checks: requiredChecks.filter((check) => check.context === LEGACY_REQUIRED_CHECK_CONTEXT),
+  };
 }
 
 export function buildBranchProtectionEvidence(rulesets, options = {}) {
-  const ruleset = validateRuleset(rulesets);
+  const validation = validateRuleset(rulesets);
+  const ruleset = validation.ruleset;
+  const checkRun = options.checkRun ? validateSuccessfulValidationCheckRun(options.checkRun) : null;
   return {
     cycle: "9.1",
     result: "BRANCH_PROTECTION_COLLECTED",
@@ -83,8 +115,22 @@ export function buildBranchProtectionEvidence(rulesets, options = {}) {
       ruleset_id: ruleset.id,
       name: ruleset.name,
       enforcement: ruleset.enforcement,
+      target: ruleset.target,
+      target_branches: validation.target_branches,
       bypass_list_empty: !ruleset.bypass_actors?.length,
-      required_check: "validation",
+      pull_request_rule_found: true,
+      required_status_checks_found: validation.required_status_checks,
+      required_check: REQUIRED_RULESET_CONTEXT,
+      validated_context: validation.validation_context.context,
+      integration_id: validation.validation_context.integration_id ?? null,
+      workflow_name: WORKFLOW_NAME,
+      check_run: checkRun ? {
+        name: checkRun.name,
+        app: checkRun.app?.name ?? null,
+        status: checkRun.status ?? null,
+        conclusion: checkRun.conclusion,
+      } : null,
+      redundant_required_status_checks: validation.redundant_required_status_checks,
       pull_request_required: true,
       force_push_blocked: true,
       deletion_blocked: true,
@@ -137,6 +183,12 @@ export function collectRunEvidence({ runId, pr, branch, sha } = {}) {
     head_sha: full.headSha,
     url: full.url,
     check_name_real: `${WORKFLOW_NAME} / ${job.name}`,
+    check_run: {
+      name: job.name,
+      app: GITHUB_ACTIONS_APP_NAME,
+      status: "completed",
+      conclusion: job.conclusion,
+    },
     jobs: full.jobs,
     primary_error: null,
   };
