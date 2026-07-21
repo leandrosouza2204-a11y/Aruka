@@ -4,16 +4,6 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - "supabase/**"
-      - "scripts/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/supabase-local-quality-gates.yml"
-      - ".ci/**"
-      - "docs/supabase-infrastructure-refactor/**"
-      - "reports/supabase-local-bootstrap/**"
-      - "reports/supabase-local-seeds/**"
   push:
     branches:
       - main
@@ -33,7 +23,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: supabase-local-quality-gates-${{ github.workflow }}-${{ github.ref }}
+  group: supabase-local-quality-gates-${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -51,7 +41,88 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: false
-          fetch-depth: 2
+          fetch-depth: 0
+
+      - name: Detect Supabase-relevant changes
+        id: detect_changes
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          event_name="${{ github.event_name }}"
+          base_sha=""
+          head_sha=""
+
+          if [ "$event_name" = "pull_request" ]; then
+            base_sha="${{ github.event.pull_request.base.sha }}"
+            head_sha="${{ github.sha }}"
+          elif [ "$event_name" = "push" ]; then
+            base_sha="${{ github.event.before }}"
+            head_sha="${{ github.sha }}"
+          else
+            head_sha="${{ github.sha }}"
+          fi
+
+          if [ "$event_name" = "workflow_dispatch" ]; then
+            supabase_relevant="true"
+            git diff-tree --no-commit-id --name-only -r "$head_sha" > changed-files.txt || true
+          else
+            if [ -z "$base_sha" ] || [ "$base_sha" = "0000000000000000000000000000000000000000" ]; then
+              git diff-tree --no-commit-id --name-only -r "$head_sha" > changed-files.txt
+            else
+              git diff --name-only "$base_sha" "$head_sha" > changed-files.txt
+            fi
+
+            supabase_relevant="false"
+            : > supabase-relevant-files.txt
+
+            while IFS= read -r file; do
+              case "$file" in
+                supabase/*|scripts/*|.ci/*|docs/supabase-infrastructure-refactor/*|reports/supabase-local-bootstrap/*|reports/supabase-local-seeds/*|package.json|package-lock.json|.github/workflows/supabase-local-quality-gates.yml)
+                  supabase_relevant="true"
+                  printf '%s\n' "$file" >> supabase-relevant-files.txt
+                  ;;
+              esac
+            done < changed-files.txt
+          fi
+
+          if [ "$event_name" = "workflow_dispatch" ]; then
+            cp changed-files.txt supabase-relevant-files.txt
+          fi
+
+          changed_count="$(wc -l < changed-files.txt | tr -d ' ')"
+          relevant_count="$(wc -l < supabase-relevant-files.txt | tr -d ' ')"
+
+          {
+            echo "supabase_relevant=$supabase_relevant"
+            echo "changed_count=$changed_count"
+            echo "relevant_count=$relevant_count"
+          } >> "$GITHUB_OUTPUT"
+
+          {
+            echo "## Supabase relevance detection"
+            echo
+            echo "- Event: $event_name"
+            echo "- Base SHA: ${base_sha:-not applicable}"
+            echo "- Head SHA: ${head_sha:-not applicable}"
+            echo "- Changed files: $changed_count"
+            echo "- Supabase-relevant files: $relevant_count"
+            echo "- Supabase gates: $([ "$supabase_relevant" = "true" ] && echo "will run" || echo "skipped")"
+            echo
+            echo "### Changed files"
+            if [ "$changed_count" -gt 0 ]; then
+              sed 's/^/- /' changed-files.txt
+            else
+              echo "- none detected"
+            fi
+            echo
+            echo "### Supabase-relevant files"
+            if [ "$relevant_count" -gt 0 ]; then
+              sed 's/^/- /' supabase-relevant-files.txt
+            else
+              echo "- none"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -62,27 +133,48 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Lightweight repository validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          event_name="${{ github.event_name }}"
+          if [ "$event_name" = "pull_request" ]; then
+            git diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.sha }}"
+          elif [ "$event_name" = "push" ] && [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
+            git diff --check "${{ github.event.before }}" "${{ github.sha }}"
+          else
+            git diff-tree --check --no-commit-id -r "${{ github.sha }}"
+          fi
+          npm run lint
+          npm run build
+
       - name: Docker diagnostics
+        if: ${{ steps.detect_changes.outputs.supabase_relevant == 'true' }}
         run: |
           docker version
           docker info
 
       - name: Supabase CLI version
+        if: ${{ steps.detect_changes.outputs.supabase_relevant == 'true' }}
         run: npx -y supabase@2.109.1 --version
 
       - name: Configure ephemeral Supabase project
+        if: ${{ steps.detect_changes.outputs.supabase_relevant == 'true' }}
         run: npm run supabase:ci:configure-project
 
       - name: Gate 1 and 2 - repository safety and static validation
+        if: ${{ steps.detect_changes.outputs.supabase_relevant == 'true' }}
         run: npm run qa:supabase-ci-static
 
       - name: Gate 3 - local bootstrap
+        if: ${{ steps.detect_changes.outputs.supabase_relevant == 'true' }}
         run: |
           npm run supabase:preflight
           npm run supabase:bootstrap
           npm run supabase:validate
 
       - name: Gate 4 - deterministic seeds
+        if: ${{ steps.detect_changes.outputs.supabase_relevant == 'true' }}
         run: |
           npm run supabase:seed:local
           npm run supabase:fixtures:validate
@@ -90,34 +182,39 @@ jobs:
           npm run supabase:fixtures:validate
 
       - name: Gate 5 - safe reset
+        if: ${{ steps.detect_changes.outputs.supabase_relevant == 'true' }}
         run: npm run qa:supabase-safe-reset
 
       - name: Gate 6 - negative security tests
+        if: ${{ steps.detect_changes.outputs.supabase_relevant == 'true' }}
         run: |
           npm run qa:supabase-seeds-negative
           npm run qa:supabase-local-negative
           npm run qa:supabase-ci-negative
 
       - name: Gate 7 - regression suite
+        if: ${{ steps.detect_changes.outputs.supabase_relevant == 'true' }}
         run: |
           npm run qa:supabase-local-reproducibility
           npm run qa:supabase-clean-worktree-wrapper
           npm run qa:supabase-cycle-8
 
       - name: Gate 8 - evidence validation
+        if: ${{ steps.detect_changes.outputs.supabase_relevant == 'true' }}
         run: npm run qa:supabase-ci-evidence
 
       - name: Gate 9 - consolidated quality gates
+        if: ${{ steps.detect_changes.outputs.supabase_relevant == 'true' }}
         run: npm run qa:supabase-cycle-9
 
       - name: Cycle 9.1 controlled failure proof
-        if: ${{ github.event_name == 'pull_request' && hashFiles('.ci/force-supabase-cycle-9-1-failure') != '' }}
+        if: ${{ steps.detect_changes.outputs.supabase_relevant == 'true' && github.event_name == 'pull_request' && hashFiles('.ci/force-supabase-cycle-9-1-failure') != '' }}
         run: |
           echo "CYCLE_9_1_CONTROLLED_FAILURE_TRIGGERED"
           exit 1
 
       - name: Cleanup
-        if: ${{ always() }}
+        if: ${{ always() && steps.detect_changes.outputs.supabase_relevant == 'true' }}
         run: npm run supabase:ci:cleanup -- --project-id=${SUPABASE_PROJECT_ID}
 
       - name: Job summary
@@ -130,9 +227,13 @@ jobs:
             printf "\n" >> "$GITHUB_STEP_SUMMARY"
             cat reports/supabase-ci/ci-cleanup-summary.md >> "$GITHUB_STEP_SUMMARY"
           fi
+          if [ "${{ steps.detect_changes.outputs.supabase_relevant }}" != "true" ]; then
+            printf "\n## Supabase quality gates skipped\n\n" >> "$GITHUB_STEP_SUMMARY"
+            printf "The required check ran lightweight validation only because no Supabase/CI-relevant files were detected.\n" >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: Upload evidence
-        if: ${{ always() }}
+        if: ${{ always() && steps.detect_changes.outputs.supabase_relevant == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: supabase-quality-evidence-${{ github.run_id }}-${{ github.run_attempt }}
