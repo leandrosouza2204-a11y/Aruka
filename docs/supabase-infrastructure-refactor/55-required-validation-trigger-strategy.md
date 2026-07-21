@@ -110,6 +110,20 @@ heavy path and keeps the existing artifact retention.
 For non-relevant PRs, the summary records that Supabase gates were skipped
 because no relevant files were detected.
 
+## Gate 9 validator compatibility
+
+The first required-validation PR run exposed a static validator false negative:
+Gate 9 still expected cleanup and evidence upload to match `if: ${{ always() }}`
+literally. Cycle 9.2 now uses the safer composed condition
+`${{ always() && steps.detect_changes.outputs.supabase_relevant == 'true' }}`.
+
+The Cycle 9 validator now checks the condition semantically. Cleanup and
+artifact upload must include a real `always()` call and must also require
+`steps.detect_changes.outputs.supabase_relevant == 'true'`. Unsafe variants
+that remove either requirement, use a different output, reintroduce
+`continue-on-error`, rename the `validation` job, or add `paths` back to
+`pull_request` continue to fail.
+
 ## Diagnosing an Expected check
 
 If a PR shows `Expected - Waiting for status to be reported` for `validation`:

@@ -37,6 +37,11 @@ request or merge is performed by this cycle.
 ## Expected remote proof
 
 - Infrastructure PR: `validation` appears and runs full Supabase gates.
+- PR #8 run `29796367085` failed in Gate 9 because the static validator still
+  required literal `if: ${{ always() }}` for cleanup and artifact upload. The
+  next push must prove the validator accepts the composed
+  `${{ always() && steps.detect_changes.outputs.supabase_relevant == 'true' }}`
+  condition while still rejecting unsafe variants.
 - Documentation PR: `validation` appears and skips heavy Supabase gates with a
   summary reason.
 - No duplicate `validation` check appears.
