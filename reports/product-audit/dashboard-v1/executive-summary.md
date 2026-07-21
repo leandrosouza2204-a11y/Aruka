@@ -1,64 +1,61 @@
-﻿# Resumo Executivo - Dashboard v1 (Baseline Técnica)
+# Resumo Executivo - Dashboard v1
 
-> **Status:** as notas e conclusões deste documento são provisórias até a conclusão da auditoria funcional autenticada no ambiente de homologação.
+## Resultado
 
-## Nota Geral
+Auditoria funcional autenticada concluida em `LOCAL_QA`.
 
-- Desktop: 3/5
-- Mobile: 3/5, com limitacao porque nao houve screenshot autenticado nesta execucao.
+Decisao: `PRODUCT_READY_WITH_IMPROVEMENTS`.
 
-## Leitura Executiva
+O Dashboard esta pronto para ser apresentado como modulo funcional com melhorias direcionadas. A decisao se aplica ao Dashboard, nao ao produto inteiro.
 
-O Dashboard atual e um painel informativo funcional, com sinais claros de SaaS: onboarding, metricas financeiras, alertas e check-in. Ele ajuda o profissional a comecar e fornece uma visao inicial da operacao, mas ainda nao e uma central de decisao madura porque exige que o usuario interprete os numeros e procure contexto em outros modulos.
+## Ambiente
 
-## Tres Pontos Fortes
+- LOCAL_QA operacional.
+- Frontend: `http://127.0.0.1:5173`
+- Supabase local: `http://127.0.0.1:54321`
+- Producao: nao utilizada.
+- Supabase Cloud: nao utilizado.
 
-1. Checklist de primeiros passos reduz a friccao de uma conta nova.
-2. Alertas de vencimentos e financeiro conectam informacao com acao.
-3. Check-in semanal traduz um indicador em rotina operacional.
+## Notas Finais
 
-## Cinco Principais Problemas
+| Criterio | Nota |
+| --- | ---: |
+| Clareza | 4/5 |
+| Facilidade de uso | 4/5 |
+| Percepcao de valor | 4/5 |
+| Desktop | 4/5 |
+| Tablet | 4/5 |
+| Mobile | 3/5 |
+| Acessibilidade | 3/5 |
+| Estabilidade | 5/5 |
+| Maturidade geral | 4/5 |
 
-1. Periodo das metricas financeiras nao esta explicito.
-2. QA visual autenticado nao rodou por ausencia de `.env.qa.local`.
-3. Grafico de Receita Mensal nao tem alternativa textual acessivel.
-4. Erros de carregamento podem expor mensagem tecnica.
-5. Dashboard nao incorpora sinais de treinos e avaliacoes, apesar de serem parte do valor esperado.
+## Cinco Principais Achados
 
-## Quick Wins
+1. Metricas financeiras precisam explicitar periodo e criterio.
+2. Alertas sao uteis, mas destinos ainda nao abrem contexto filtrado.
+3. Grafico de receita precisa alternativa textual acessivel.
+4. Check-in funciona, mas seu criterio de aptidao nao e transparente.
+5. Treinos e avaliacoes nao aparecem como sinais da central.
 
-- Explicitar periodo/criterio das metricas.
-- Adicionar estado positivo sem alertas.
-- Melhorar loading dos cards.
-- Adicionar ultima atualizacao e retry.
-- Criar alternativa textual para Receita Mensal.
+## Cinco Principais Pontos Fortes
 
-## Melhorias Estruturais
+1. Estabilidade: sem overflow, sem falhas de rede e sem erros de console.
+2. Desktop forte, com boa densidade e leitura clara.
+3. Mobile funcional, com alertas e bottom nav acessiveis.
+4. Check-in semanal agrega valor operacional real.
+5. Alertas conectam vencimentos e financeiro a acoes.
 
-- Criar fila "Hoje" com tarefas recomendadas.
-- Levar alertas para telas ja filtradas.
-- Incorporar sinais de treinos e avaliacoes.
-- Definir comparativos de evolucao do negocio.
+## Principal Risco
 
-## Primeiro Ciclo Recomendado
+O usuario interpretar metricas financeiras sem entender periodo/denominador.
 
-Ciclo Dashboard 1.1 - Confianca e clareza:
+## Principal Oportunidade
 
-- Reexecutar QA visual autenticado.
-- Explicitar periodo das metricas.
-- Melhorar loading, erro e retry.
-- Adicionar alternativa textual do grafico.
-- Informar ultima atualizacao.
+Transformar o painel em central de decisao diaria com prioridades claras e destinos contextuais.
 
-## Decisao Por Bloco
+## Ciclo Recomendado
 
-| Bloco | Decisao |
-| --- | --- |
-| Cabecalho | Manter, com ajuste futuro de contexto temporal. |
-| Checklist | Manter e evoluir microcopy de primeiro uso. |
-| Cards de metricas | Ajustar semantica de periodo e loading. |
-| Check-in semanal | Manter, explicar criterio e melhorar destino/lista. |
-| Alertas | Ajustar para destinos contextuais e estado positivo. |
-| Receita Mensal | Ajustar acessibilidade e leitura mobile. |
-| Navegacao | Manter, revalidar mobile autenticado. |
+`Dashboard Cycle 1 - Clareza Acionavel`.
 
+Escopo: periodo das metricas, destinos dos alertas, alternativa textual do grafico e criterio do check-in.

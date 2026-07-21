@@ -1,0 +1,1017 @@
+{
+  "startedAt": "2026-07-21T20:31:55.491Z",
+  "environment": {
+    "frontendUrl": "http://127.0.0.1:5173",
+    "supabaseUrl": "http://127.0.0.1:54321"
+  },
+  "viewports": [
+    {
+      "id": "desktop-1366",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "documentWidth": 1351,
+      "viewportWidth": 1351,
+      "horizontalOverflow": 0,
+      "bodyOverflow": 0,
+      "fatalError": false,
+      "hasDashboard": true,
+      "hasSidebar": false,
+      "hasBottomNav": true,
+      "hasChecklist": true,
+      "hasFinancialMetrics": true,
+      "hasAlerts": true,
+      "hasChart": true,
+      "hasCheckin": true,
+      "headings": [
+        "Dashboard",
+        "Primeiros passos na Aruka",
+        "Alertas da consultoria",
+        "Receita Mensal"
+      ],
+      "cards": [
+        "Total de Alunos...Alunos cadastrados",
+        "Receita Prevista...Total previsto no período",
+        "Receita Recebida...Pagamentos já confirmados",
+        "Receita Pendente...Valores ainda pendentes",
+        "Alunos Vencendo...Próximos do vencimento",
+        "Alunos Vencidos...Necessitam atenção",
+        "Check-in semanal...Alunos aptos para contato semanalEnviar check-ins"
+      ],
+      "firstFoldText": "Dashboard\nAlunos\nFinanceiro\nPlanos\nAvaliações\nTreinos\nPrivacidade\n•\nTermos\nVersão 1.7\nVISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos na Aruka\n\nComplete estas etapas para configurar sua consultoria e começar a acompanhar seus alunos.\n\n0/3\nCriar primeiro plano\nDefina valores, duração e regras de parcelamento antes de cadastrar alunos.\nCriar plano\nCadastrar primeiro aluno\nAdicione os dados do aluno e vincule um plano ativo para iniciar o acompanhamento.\nCadastrar aluno\nRegistrar primeiro pagamento ou acessar financeiro\nAcesse o financeiro para acompanhar recebimentos, pendências e confirmar pagamentos.\nIr para financeiro\nTotal de Alunos\n\n...\n\nAlunos cadastrados\nReceita Prevista\n\n...\n\nTotal previsto no período\nReceita Recebida\n\n...\n\nPagamentos já confirmados\nReceita Pendente\n\n...\n\nValores ainda pendentes\nAlunos Vencendo\n\n...\n\nPróximos do vencimento\nAlunos Vencidos\n\n...\n\nNecessitam atenção\nCheck-in semanal\n\n...\n\nAlunos aptos para contato semanal\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nCarregando alertas...\n\nReceita Mensal\n\nEvolução dos pagamentos confirmados nos últimos 6 meses.\n\n",
+      "touchTargetsBelow44": [
+        {
+          "text": "Abrir menu da conta",
+          "width": 38,
+          "height": 38,
+          "top": 16,
+          "visible": true
+        },
+        {
+          "text": "Dashboard",
+          "width": 227,
+          "height": 43,
+          "top": 77,
+          "visible": true
+        },
+        {
+          "text": "Alunos",
+          "width": 227,
+          "height": 43,
+          "top": 125,
+          "visible": true
+        },
+        {
+          "text": "Financeiro",
+          "width": 227,
+          "height": 43,
+          "top": 173,
+          "visible": true
+        },
+        {
+          "text": "Planos",
+          "width": 227,
+          "height": 43,
+          "top": 221,
+          "visible": true
+        },
+        {
+          "text": "Avaliações",
+          "width": 227,
+          "height": 43,
+          "top": 269,
+          "visible": true
+        },
+        {
+          "text": "Treinos",
+          "width": 227,
+          "height": 43,
+          "top": 317,
+          "visible": true
+        },
+        {
+          "text": "Privacidade",
+          "width": 60,
+          "height": 15,
+          "top": 709,
+          "visible": true
+        },
+        {
+          "text": "Termos",
+          "width": 37,
+          "height": 15,
+          "top": 709,
+          "visible": true
+        },
+        {
+          "text": "Criar plano",
+          "width": 113,
+          "height": 39,
+          "top": 354,
+          "visible": true
+        },
+        {
+          "text": "Cadastrar aluno",
+          "width": 150,
+          "height": 39,
+          "top": 437,
+          "visible": true
+        },
+        {
+          "text": "Ir para financeiro",
+          "width": 162,
+          "height": 39,
+          "top": 520,
+          "visible": true
+        }
+      ],
+      "visibleActions": [
+        "Abrir menu da conta",
+        "Dashboard",
+        "Alunos",
+        "Financeiro",
+        "Planos",
+        "Avaliações",
+        "Treinos",
+        "Privacidade",
+        "Termos",
+        "Criar plano",
+        "Cadastrar aluno",
+        "Ir para financeiro"
+      ],
+      "overflowing": []
+    },
+    {
+      "id": "desktop-1440",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "documentWidth": 1425,
+      "viewportWidth": 1425,
+      "horizontalOverflow": 0,
+      "bodyOverflow": 0,
+      "fatalError": false,
+      "hasDashboard": true,
+      "hasSidebar": false,
+      "hasBottomNav": true,
+      "hasChecklist": true,
+      "hasFinancialMetrics": true,
+      "hasAlerts": true,
+      "hasChart": true,
+      "hasCheckin": true,
+      "headings": [
+        "Dashboard",
+        "Alertas da consultoria",
+        "Receita Mensal"
+      ],
+      "cards": [
+        "Total de Alunos10Alunos cadastrados",
+        "Receita PrevistaR$ 3.699,50Total previsto no período",
+        "Receita RecebidaR$ 1.139,70Pagamentos já confirmados",
+        "Receita PendenteR$ 2.559,80Valores ainda pendentes",
+        "Alunos Vencendo2Próximos do vencimento",
+        "Alunos Vencidos2Necessitam atenção",
+        "Check-in semanal8Alunos aptos para contato semanalEnviar check-ins"
+      ],
+      "firstFoldText": "Dashboard\nAlunos\nFinanceiro\nPlanos\nAvaliações\nTreinos\nPrivacidade\n•\nTermos\nVersão 1.7\nVISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nTotal previsto no período\nReceita Recebida\n\nR$ 1.139,70\n\nPagamentos já confirmados\nReceita Pendente\n\nR$ 2.559,80\n\nValores ainda pendentes\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtenção\nRegularizar alunos vencidos\n\nPriorize contato e renegociação para evitar perda de acompanhamento.\n\nVer alunos\nAgenda\nEnviar lembretes de vencimento\n\nHá contratos ou parcelas próximos do vencimento que podem ser tratados com antecedência.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos já confirmados.\n\nAbrir financeiro\nReceita Mensal\n\nEvolução dos pagamentos confirmados nos últimos 6 meses.\n\nHistórico de pagamentos\nR$ 199,90\nFev De 26\nR$ 180,00\nMar De 26\nR$ 180,00\nAbr De 26\nR$ 199,90\nMai De ",
+      "touchTargetsBelow44": [
+        {
+          "text": "Abrir menu da conta",
+          "width": 38,
+          "height": 38,
+          "top": 16,
+          "visible": true
+        },
+        {
+          "text": "Dashboard",
+          "width": 227,
+          "height": 43,
+          "top": 77,
+          "visible": true
+        },
+        {
+          "text": "Alunos",
+          "width": 227,
+          "height": 43,
+          "top": 125,
+          "visible": true
+        },
+        {
+          "text": "Financeiro",
+          "width": 227,
+          "height": 43,
+          "top": 173,
+          "visible": true
+        },
+        {
+          "text": "Planos",
+          "width": 227,
+          "height": 43,
+          "top": 221,
+          "visible": true
+        },
+        {
+          "text": "Avaliações",
+          "width": 227,
+          "height": 43,
+          "top": 269,
+          "visible": true
+        },
+        {
+          "text": "Treinos",
+          "width": 227,
+          "height": 43,
+          "top": 317,
+          "visible": true
+        },
+        {
+          "text": "Privacidade",
+          "width": 60,
+          "height": 15,
+          "top": 841,
+          "visible": true
+        },
+        {
+          "text": "Termos",
+          "width": 37,
+          "height": 15,
+          "top": 841,
+          "visible": true
+        },
+        {
+          "text": "Enviar check-ins",
+          "width": 513,
+          "height": 40,
+          "top": 606,
+          "visible": true
+        }
+      ],
+      "visibleActions": [
+        "Abrir menu da conta",
+        "Dashboard",
+        "Alunos",
+        "Financeiro",
+        "Planos",
+        "Avaliações",
+        "Treinos",
+        "Privacidade",
+        "Termos",
+        "Enviar check-ins"
+      ],
+      "overflowing": []
+    },
+    {
+      "id": "desktop-1920",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "documentWidth": 1905,
+      "viewportWidth": 1905,
+      "horizontalOverflow": 0,
+      "bodyOverflow": 0,
+      "fatalError": false,
+      "hasDashboard": true,
+      "hasSidebar": false,
+      "hasBottomNav": true,
+      "hasChecklist": true,
+      "hasFinancialMetrics": true,
+      "hasAlerts": true,
+      "hasChart": true,
+      "hasCheckin": true,
+      "headings": [
+        "Dashboard",
+        "Alertas da consultoria",
+        "Receita Mensal"
+      ],
+      "cards": [
+        "Total de Alunos10Alunos cadastrados",
+        "Receita PrevistaR$ 3.699,50Total previsto no período",
+        "Receita RecebidaR$ 1.139,70Pagamentos já confirmados",
+        "Receita PendenteR$ 2.559,80Valores ainda pendentes",
+        "Alunos Vencendo2Próximos do vencimento",
+        "Alunos Vencidos2Necessitam atenção",
+        "Check-in semanal8Alunos aptos para contato semanalEnviar check-ins"
+      ],
+      "firstFoldText": "Dashboard\nAlunos\nFinanceiro\nPlanos\nAvaliações\nTreinos\nPrivacidade\n•\nTermos\nVersão 1.7\nVISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nTotal previsto no período\nReceita Recebida\n\nR$ 1.139,70\n\nPagamentos já confirmados\nReceita Pendente\n\nR$ 2.559,80\n\nValores ainda pendentes\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtenção\nRegularizar alunos vencidos\n\nPriorize contato e renegociação para evitar perda de acompanhamento.\n\nVer alunos\nAgenda\nEnviar lembretes de vencimento\n\nHá contratos ou parcelas próximos do vencimento que podem ser tratados com antecedência.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos já confirmados.\n\nAbrir financeiro\nReceita Mensal\n\nEvolução dos pagamentos confirmados nos últimos 6 meses.\n\nHistórico de pagamentos\nR$ 199,90\nFev De 26\nR$ 180,00\nMar De 26\nR$ 180,00\nAbr De 26\nR$ 199,90\nMai De ",
+      "touchTargetsBelow44": [
+        {
+          "text": "Abrir menu da conta",
+          "width": 38,
+          "height": 38,
+          "top": 16,
+          "visible": true
+        },
+        {
+          "text": "Dashboard",
+          "width": 227,
+          "height": 43,
+          "top": 77,
+          "visible": true
+        },
+        {
+          "text": "Alunos",
+          "width": 227,
+          "height": 43,
+          "top": 125,
+          "visible": true
+        },
+        {
+          "text": "Financeiro",
+          "width": 227,
+          "height": 43,
+          "top": 173,
+          "visible": true
+        },
+        {
+          "text": "Planos",
+          "width": 227,
+          "height": 43,
+          "top": 221,
+          "visible": true
+        },
+        {
+          "text": "Avaliações",
+          "width": 227,
+          "height": 43,
+          "top": 269,
+          "visible": true
+        },
+        {
+          "text": "Treinos",
+          "width": 227,
+          "height": 43,
+          "top": 317,
+          "visible": true
+        },
+        {
+          "text": "Privacidade",
+          "width": 60,
+          "height": 15,
+          "top": 1021,
+          "visible": true
+        },
+        {
+          "text": "Termos",
+          "width": 37,
+          "height": 15,
+          "top": 1021,
+          "visible": true
+        },
+        {
+          "text": "Enviar check-ins",
+          "width": 484,
+          "height": 40,
+          "top": 606,
+          "visible": true
+        },
+        {
+          "text": "Ver alunos",
+          "width": 85,
+          "height": 34,
+          "top": 898,
+          "visible": true
+        },
+        {
+          "text": "Ver vencimentos",
+          "width": 121,
+          "height": 34,
+          "top": 898,
+          "visible": true
+        }
+      ],
+      "visibleActions": [
+        "Abrir menu da conta",
+        "Dashboard",
+        "Alunos",
+        "Financeiro",
+        "Planos",
+        "Avaliações",
+        "Treinos",
+        "Privacidade",
+        "Termos",
+        "Enviar check-ins",
+        "Ver alunos",
+        "Ver vencimentos",
+        "Abrir financeiro"
+      ],
+      "overflowing": []
+    },
+    {
+      "id": "desktop-1366-zoom-125",
+      "viewport": {
+        "width": 1093,
+        "height": 614
+      },
+      "documentWidth": 1078,
+      "viewportWidth": 1078,
+      "horizontalOverflow": 0,
+      "bodyOverflow": 0,
+      "fatalError": false,
+      "hasDashboard": true,
+      "hasSidebar": false,
+      "hasBottomNav": true,
+      "hasChecklist": true,
+      "hasFinancialMetrics": true,
+      "hasAlerts": true,
+      "hasChart": true,
+      "hasCheckin": true,
+      "headings": [
+        "Dashboard",
+        "Alertas da consultoria",
+        "Receita Mensal"
+      ],
+      "cards": [
+        "Total de Alunos10Alunos cadastrados",
+        "Receita PrevistaR$ 3.699,50Total previsto no período",
+        "Receita RecebidaR$ 1.139,70Pagamentos já confirmados",
+        "Receita PendenteR$ 2.559,80Valores ainda pendentes",
+        "Alunos Vencendo2Próximos do vencimento",
+        "Alunos Vencidos2Necessitam atenção",
+        "Check-in semanal8Alunos aptos para contato semanalEnviar check-ins"
+      ],
+      "firstFoldText": "VISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nTotal previsto no período\nReceita Recebida\n\nR$ 1.139,70\n\nPagamentos já confirmados\nReceita Pendente\n\nR$ 2.559,80\n\nValores ainda pendentes\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtenção\nRegularizar alunos vencidos\n\nPriorize contato e renegociação para evitar perda de acompanhamento.\n\nVer alunos\nAgenda\nEnviar lembretes de vencimento\n\nHá contratos ou parcelas próximos do vencimento que podem ser tratados com antecedência.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos já confirmados.\n\nAbrir financeiro\nReceita Mensal\n\nEvolução dos pagamentos confirmados nos últimos 6 meses.\n\nHistórico de pagamentos\nFev De 26\nR$ 199,90\nMar De 26\nR$ 180,00\nAbr De 26\nR$ 180,00\nMai De 26\nR$ 199,90\nJun De 26\nR$ 199,90\nJul De 26\nR$ 180,00",
+      "touchTargetsBelow44": [
+        {
+          "text": "Abrir menu da conta",
+          "width": 38,
+          "height": 38,
+          "top": 16,
+          "visible": true
+        },
+        {
+          "text": "Dashboard",
+          "width": 49,
+          "height": 43,
+          "top": 75,
+          "visible": true
+        },
+        {
+          "text": "Alunos",
+          "width": 49,
+          "height": 43,
+          "top": 75,
+          "visible": true
+        },
+        {
+          "text": "Financeiro",
+          "width": 49,
+          "height": 43,
+          "top": 75,
+          "visible": true
+        },
+        {
+          "text": "Planos",
+          "width": 49,
+          "height": 43,
+          "top": 75,
+          "visible": true
+        },
+        {
+          "text": "Avaliações",
+          "width": 49,
+          "height": 43,
+          "top": 75,
+          "visible": true
+        },
+        {
+          "text": "Treinos",
+          "width": 49,
+          "height": 43,
+          "top": 75,
+          "visible": true
+        }
+      ],
+      "visibleActions": [
+        "Abrir menu da conta",
+        "Dashboard",
+        "Alunos",
+        "Financeiro",
+        "Planos",
+        "Avaliações",
+        "Treinos"
+      ],
+      "overflowing": []
+    },
+    {
+      "id": "tablet-768-portrait",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "documentWidth": 768,
+      "viewportWidth": 768,
+      "horizontalOverflow": 0,
+      "bodyOverflow": 0,
+      "fatalError": false,
+      "hasDashboard": true,
+      "hasSidebar": false,
+      "hasBottomNav": true,
+      "hasChecklist": true,
+      "hasFinancialMetrics": true,
+      "hasAlerts": true,
+      "hasChart": true,
+      "hasCheckin": true,
+      "headings": [
+        "Dashboard",
+        "Alertas da consultoria",
+        "Receita Mensal"
+      ],
+      "cards": [
+        "Total de Alunos10Alunos cadastrados",
+        "Receita PrevistaR$ 3.699,50Total previsto no período",
+        "Receita RecebidaR$ 1.139,70Pagamentos já confirmados",
+        "Receita PendenteR$ 2.559,80Valores ainda pendentes",
+        "Alunos Vencendo2Próximos do vencimento",
+        "Alunos Vencidos2Necessitam atenção",
+        "Check-in semanal8Alunos aptos para contato semanalEnviar check-ins"
+      ],
+      "firstFoldText": "VISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nTotal previsto no período\nReceita Recebida\n\nR$ 1.139,70\n\nPagamentos já confirmados\nReceita Pendente\n\nR$ 2.559,80\n\nValores ainda pendentes\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtenção\nRegularizar alunos vencidos\n\nPriorize contato e renegociação para evitar perda de acompanhamento.\n\nVer alunos\nAgenda\nEnviar lembretes de vencimento\n\nHá contratos ou parcelas próximos do vencimento que podem ser tratados com antecedência.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos já confirmados.\n\nAbrir financeiro\nReceita Mensal\n\nEvolução dos pagamentos confirmados nos últimos 6 meses.\n\nHistórico de pagamentos\nFev De 26\nR$ 199,90\nMar De 26\nR$ 180,00\nAbr De 26\nR$ 180,00\nMai De 26\nR$ 199,90\nJun De 26\nR$ 199,90\nJul De 26\nR$ 180,00",
+      "touchTargetsBelow44": [
+        {
+          "text": "Abrir menu da conta",
+          "width": 38,
+          "height": 38,
+          "top": 16,
+          "visible": true
+        },
+        {
+          "text": "Dashboard",
+          "width": 49,
+          "height": 43,
+          "top": 75,
+          "visible": true
+        },
+        {
+          "text": "Alunos",
+          "width": 49,
+          "height": 43,
+          "top": 75,
+          "visible": true
+        },
+        {
+          "text": "Financeiro",
+          "width": 49,
+          "height": 43,
+          "top": 75,
+          "visible": true
+        },
+        {
+          "text": "Planos",
+          "width": 49,
+          "height": 43,
+          "top": 75,
+          "visible": true
+        },
+        {
+          "text": "Avaliações",
+          "width": 49,
+          "height": 43,
+          "top": 75,
+          "visible": true
+        },
+        {
+          "text": "Treinos",
+          "width": 49,
+          "height": 43,
+          "top": 75,
+          "visible": true
+        }
+      ],
+      "visibleActions": [
+        "Abrir menu da conta",
+        "Dashboard",
+        "Alunos",
+        "Financeiro",
+        "Planos",
+        "Avaliações",
+        "Treinos",
+        "Ver alunos",
+        "Ver vencimentos",
+        "Abrir financeiro"
+      ],
+      "overflowing": []
+    },
+    {
+      "id": "tablet-1024-landscape",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "documentWidth": 1024,
+      "viewportWidth": 1024,
+      "horizontalOverflow": 0,
+      "bodyOverflow": 0,
+      "fatalError": false,
+      "hasDashboard": true,
+      "hasSidebar": false,
+      "hasBottomNav": true,
+      "hasChecklist": true,
+      "hasFinancialMetrics": true,
+      "hasAlerts": true,
+      "hasChart": true,
+      "hasCheckin": true,
+      "headings": [
+        "Dashboard",
+        "Alertas da consultoria",
+        "Receita Mensal"
+      ],
+      "cards": [
+        "Total de Alunos10Alunos cadastrados",
+        "Receita PrevistaR$ 3.699,50Total previsto no período",
+        "Receita RecebidaR$ 1.139,70Pagamentos já confirmados",
+        "Receita PendenteR$ 2.559,80Valores ainda pendentes",
+        "Alunos Vencendo2Próximos do vencimento",
+        "Alunos Vencidos2Necessitam atenção",
+        "Check-in semanal8Alunos aptos para contato semanalEnviar check-ins"
+      ],
+      "firstFoldText": "VISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nTotal previsto no período\nReceita Recebida\n\nR$ 1.139,70\n\nPagamentos já confirmados\nReceita Pendente\n\nR$ 2.559,80\n\nValores ainda pendentes\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtenção\nRegularizar alunos vencidos\n\nPriorize contato e renegociação para evitar perda de acompanhamento.\n\nVer alunos\nAgenda\nEnviar lembretes de vencimento\n\nHá contratos ou parcelas próximos do vencimento que podem ser tratados com antecedência.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos já confirmados.\n\nAbrir financeiro\nReceita Mensal\n\nEvolução dos pagamentos confirmados nos últimos 6 meses.\n\nHistórico de pagamentos\nFev De 26\nR$ 199,90\nMar De 26\nR$ 180,00\nAbr De 26\nR$ 180,00\nMai De 26\nR$ 199,90\nJun De 26\nR$ 199,90\nJul De 26\nR$ 180,00",
+      "touchTargetsBelow44": [
+        {
+          "text": "Abrir menu da conta",
+          "width": 38,
+          "height": 38,
+          "top": 16,
+          "visible": true
+        },
+        {
+          "text": "Dashboard",
+          "width": 49,
+          "height": 43,
+          "top": 75,
+          "visible": true
+        },
+        {
+          "text": "Alunos",
+          "width": 49,
+          "height": 43,
+          "top": 75,
+          "visible": true
+        },
+        {
+          "text": "Financeiro",
+          "width": 49,
+          "height": 43,
+          "top": 75,
+          "visible": true
+        },
+        {
+          "text": "Planos",
+          "width": 49,
+          "height": 43,
+          "top": 75,
+          "visible": true
+        },
+        {
+          "text": "Avaliações",
+          "width": 49,
+          "height": 43,
+          "top": 75,
+          "visible": true
+        },
+        {
+          "text": "Treinos",
+          "width": 49,
+          "height": 43,
+          "top": 75,
+          "visible": true
+        }
+      ],
+      "visibleActions": [
+        "Abrir menu da conta",
+        "Dashboard",
+        "Alunos",
+        "Financeiro",
+        "Planos",
+        "Avaliações",
+        "Treinos"
+      ],
+      "overflowing": []
+    },
+    {
+      "id": "mobile-360",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "documentWidth": 360,
+      "viewportWidth": 360,
+      "horizontalOverflow": 0,
+      "bodyOverflow": 0,
+      "fatalError": false,
+      "hasDashboard": true,
+      "hasSidebar": false,
+      "hasBottomNav": true,
+      "hasChecklist": true,
+      "hasFinancialMetrics": true,
+      "hasAlerts": true,
+      "hasChart": true,
+      "hasCheckin": true,
+      "headings": [
+        "Dashboard",
+        "Alertas da consultoria",
+        "Receita Mensal"
+      ],
+      "cards": [
+        "Total de Alunos10Alunos cadastrados",
+        "Receita PrevistaR$ 3.699,50Total previsto no período",
+        "Receita RecebidaR$ 1.139,70Pagamentos já confirmados",
+        "Receita PendenteR$ 2.559,80Valores ainda pendentes",
+        "Alunos Vencendo2Próximos do vencimento",
+        "Alunos Vencidos2Necessitam atenção",
+        "Check-in semanal8Alunos aptos para contato semanalEnviar check-ins"
+      ],
+      "firstFoldText": "VISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nTotal previsto no período\nReceita Recebida\n\nR$ 1.139,70\n\nPagamentos já confirmados\nReceita Pendente\n\nR$ 2.559,80\n\nValores ainda pendentes\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtenção\nRegularizar alunos vencidos\n\nPriorize contato e renegociação para evitar perda de acompanhamento.\n\nVer alunos\nAgenda\nEnviar lembretes de vencimento\n\nHá contratos ou parcelas próximos do vencimento que podem ser tratados com antecedência.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos já confirmados.\n\nAbrir financeiro\nReceita Mensal\n\nEvolução dos pagamentos confirmados nos últimos 6 meses.\n\nHistórico de pagamentos\nFev De 26\nR$ 199,90\nMar De 26\nR$ 180,00\nAbr De 26\nR$ 180,00\nMai De 26\nR$ 199,90\nJun De 26\nR$ 199,90\nJul De 26\nR$ 180,00\nInício\nAlunos\nTreinos\nFinanceiro\nMais",
+      "touchTargetsBelow44": [
+        {
+          "text": "Abrir menu da conta",
+          "width": 38,
+          "height": 38,
+          "top": 8,
+          "visible": true
+        }
+      ],
+      "visibleActions": [
+        "Abrir menu da conta",
+        "Ver alunos",
+        "Ver vencimentos",
+        "Início",
+        "Alunos",
+        "Treinos",
+        "Financeiro",
+        "Mais"
+      ],
+      "overflowing": []
+    },
+    {
+      "id": "mobile-390",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "documentWidth": 390,
+      "viewportWidth": 390,
+      "horizontalOverflow": 0,
+      "bodyOverflow": 0,
+      "fatalError": false,
+      "hasDashboard": true,
+      "hasSidebar": false,
+      "hasBottomNav": true,
+      "hasChecklist": true,
+      "hasFinancialMetrics": true,
+      "hasAlerts": true,
+      "hasChart": true,
+      "hasCheckin": true,
+      "headings": [
+        "Dashboard",
+        "Alertas da consultoria",
+        "Receita Mensal"
+      ],
+      "cards": [
+        "Total de Alunos10Alunos cadastrados",
+        "Receita PrevistaR$ 3.699,50Total previsto no período",
+        "Receita RecebidaR$ 1.139,70Pagamentos já confirmados",
+        "Receita PendenteR$ 2.559,80Valores ainda pendentes",
+        "Alunos Vencendo2Próximos do vencimento",
+        "Alunos Vencidos2Necessitam atenção",
+        "Check-in semanal8Alunos aptos para contato semanalEnviar check-ins"
+      ],
+      "firstFoldText": "VISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nTotal previsto no período\nReceita Recebida\n\nR$ 1.139,70\n\nPagamentos já confirmados\nReceita Pendente\n\nR$ 2.559,80\n\nValores ainda pendentes\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtenção\nRegularizar alunos vencidos\n\nPriorize contato e renegociação para evitar perda de acompanhamento.\n\nVer alunos\nAgenda\nEnviar lembretes de vencimento\n\nHá contratos ou parcelas próximos do vencimento que podem ser tratados com antecedência.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos já confirmados.\n\nAbrir financeiro\nReceita Mensal\n\nEvolução dos pagamentos confirmados nos últimos 6 meses.\n\nHistórico de pagamentos\nFev De 26\nR$ 199,90\nMar De 26\nR$ 180,00\nAbr De 26\nR$ 180,00\nMai De 26\nR$ 199,90\nJun De 26\nR$ 199,90\nJul De 26\nR$ 180,00\nInício\nAlunos\nTreinos\nFinanceiro\nMais",
+      "touchTargetsBelow44": [
+        {
+          "text": "Abrir menu da conta",
+          "width": 38,
+          "height": 38,
+          "top": 8,
+          "visible": true
+        }
+      ],
+      "visibleActions": [
+        "Abrir menu da conta",
+        "Ver alunos",
+        "Ver vencimentos",
+        "Início",
+        "Alunos",
+        "Treinos",
+        "Financeiro",
+        "Mais"
+      ],
+      "overflowing": []
+    },
+    {
+      "id": "mobile-412",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "documentWidth": 412,
+      "viewportWidth": 412,
+      "horizontalOverflow": 0,
+      "bodyOverflow": 0,
+      "fatalError": false,
+      "hasDashboard": true,
+      "hasSidebar": false,
+      "hasBottomNav": true,
+      "hasChecklist": true,
+      "hasFinancialMetrics": true,
+      "hasAlerts": true,
+      "hasChart": true,
+      "hasCheckin": true,
+      "headings": [
+        "Dashboard",
+        "Alertas da consultoria",
+        "Receita Mensal"
+      ],
+      "cards": [
+        "Total de Alunos10Alunos cadastrados",
+        "Receita PrevistaR$ 3.699,50Total previsto no período",
+        "Receita RecebidaR$ 1.139,70Pagamentos já confirmados",
+        "Receita PendenteR$ 2.559,80Valores ainda pendentes",
+        "Alunos Vencendo2Próximos do vencimento",
+        "Alunos Vencidos2Necessitam atenção",
+        "Check-in semanal8Alunos aptos para contato semanalEnviar check-ins"
+      ],
+      "firstFoldText": "VISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nTotal previsto no período\nReceita Recebida\n\nR$ 1.139,70\n\nPagamentos já confirmados\nReceita Pendente\n\nR$ 2.559,80\n\nValores ainda pendentes\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtenção\nRegularizar alunos vencidos\n\nPriorize contato e renegociação para evitar perda de acompanhamento.\n\nVer alunos\nAgenda\nEnviar lembretes de vencimento\n\nHá contratos ou parcelas próximos do vencimento que podem ser tratados com antecedência.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos já confirmados.\n\nAbrir financeiro\nReceita Mensal\n\nEvolução dos pagamentos confirmados nos últimos 6 meses.\n\nHistórico de pagamentos\nFev De 26\nR$ 199,90\nMar De 26\nR$ 180,00\nAbr De 26\nR$ 180,00\nMai De 26\nR$ 199,90\nJun De 26\nR$ 199,90\nJul De 26\nR$ 180,00\nInício\nAlunos\nTreinos\nFinanceiro\nMais",
+      "touchTargetsBelow44": [
+        {
+          "text": "Abrir menu da conta",
+          "width": 38,
+          "height": 38,
+          "top": 8,
+          "visible": true
+        }
+      ],
+      "visibleActions": [
+        "Abrir menu da conta",
+        "Ver alunos",
+        "Ver vencimentos",
+        "Abrir financeiro",
+        "Início",
+        "Alunos",
+        "Treinos",
+        "Financeiro",
+        "Mais"
+      ],
+      "overflowing": []
+    }
+  ],
+  "console": [
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    }
+  ],
+  "network": [],
+  "scenario": {
+    "alertRoutes": [
+      {
+        "text": "Alunos",
+        "href": "http://127.0.0.1:5173/alunos"
+      },
+      {
+        "text": "Financeiro",
+        "href": "http://127.0.0.1:5173/financeiro"
+      },
+      {
+        "text": "Ver alunos",
+        "href": "http://127.0.0.1:5173/alunos"
+      },
+      {
+        "text": "Abrir financeiro",
+        "href": "http://127.0.0.1:5173/financeiro"
+      },
+      {
+        "text": "Alunos",
+        "href": "http://127.0.0.1:5173/alunos"
+      },
+      {
+        "text": "Financeiro",
+        "href": "http://127.0.0.1:5173/financeiro"
+      }
+    ],
+    "checkin": {
+      "opened": true,
+      "cta": "Enviar check-ins",
+      "modalVisible": true,
+      "text": "Dashboard\nAlunos\nFinanceiro\nPlanos\nAvaliações\nTreinos\nPrivacidade\n•\nTermos\nVersão 1.7\nVISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nTotal previsto no período\nReceita Recebida\n\nR$ 1.139,70\n\nPagamentos já confirmados\nReceita Pendente\n\nR$ 2.559,80\n\nValores ainda pendentes\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtenção\nRegularizar alunos vencidos\n\nPriorize contato e renegociação para evitar perda de acompanhamento.\n\nVer alunos\nAgenda\nEnviar lembretes de vencimento\n\nH"
+    }
+  },
+  "accessibility": {
+    "keyboard": "PARTIAL",
+    "focusableSample": [
+      {
+        "tag": "button",
+        "text": "Abrir menu da conta",
+        "hasName": true
+      },
+      {
+        "tag": "a",
+        "text": "Dashboard",
+        "hasName": true
+      },
+      {
+        "tag": "a",
+        "text": "Alunos",
+        "hasName": true
+      },
+      {
+        "tag": "a",
+        "text": "Financeiro",
+        "hasName": true
+      },
+      {
+        "tag": "a",
+        "text": "Planos",
+        "hasName": true
+      },
+      {
+        "tag": "a",
+        "text": "Avaliações",
+        "hasName": true
+      },
+      {
+        "tag": "a",
+        "text": "Treinos",
+        "hasName": true
+      },
+      {
+        "tag": "a",
+        "text": "Privacidade",
+        "hasName": true
+      },
+      {
+        "tag": "a",
+        "text": "Termos",
+        "hasName": true
+      },
+      {
+        "tag": "button",
+        "text": "Enviar check-ins",
+        "hasName": true
+      },
+      {
+        "tag": "a",
+        "text": "Ver alunos",
+        "hasName": true
+      },
+      {
+        "tag": "a",
+        "text": "Ver vencimentos",
+        "hasName": true
+      },
+      {
+        "tag": "a",
+        "text": "Abrir financeiro",
+        "hasName": true
+      },
+      {
+        "tag": "button",
+        "text": "Fechar modal",
+        "hasName": true
+      },
+      {
+        "tag": "button",
+        "text": "Enviar",
+        "hasName": true
+      },
+      {
+        "tag": "button",
+        "text": "Enviar",
+        "hasName": true
+      },
+      {
+        "tag": "button",
+        "text": "Enviar",
+        "hasName": true
+      },
+      {
+        "tag": "button",
+        "text": "Enviar",
+        "hasName": true
+      },
+      {
+        "tag": "button",
+        "text": "Enviar",
+        "hasName": true
+      },
+      {
+        "tag": "button",
+        "text": "Enviar",
+        "hasName": true
+      }
+    ],
+    "chartAlternative": "PARTIAL",
+    "touchTargets": "PARTIAL",
+    "contrast": "NOT_TESTED_AUTOMATED"
+  }
+}
