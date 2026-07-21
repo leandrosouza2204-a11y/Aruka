@@ -165,3 +165,18 @@ merged.
 - Heavy gates skipped unexpectedly: workflow and package files remain relevant.
 - Cleanup skipped for heavy runs: preserved with `if: always()`.
 - Excessive CI cost: heavy Docker/Supabase gates run only for relevant files.
+
+## Documentation-only PR validation
+
+This section records the validation of the lightweight pull request path.
+
+For a pull request containing documentation changes only, the required
+alidation check must still be published. Supabase-heavy gates must be
+skipped because no relevant infrastructure files were changed.
+
+Expected result:
+
+- the alidation status is reported;
+- the required check completes successfully;
+- the workflow records that Supabase gates were skipped;
+- no duplicate alidation check is created.
