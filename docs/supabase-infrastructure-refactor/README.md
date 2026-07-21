@@ -21,6 +21,7 @@ Escopo executado:
 - Ciclo 8: seeds locais deterministicas, fixtures ficticias, reset seguro e evidencias de idempotencia.
 - Ciclo 9: workflow de CI para quality gates locais Supabase, ambiente efemero, evidencias e cleanup.
 - Ciclo 9.1: coleta/readiness de evidencias reais do GitHub Actions e branch protection. PR #1 registrou hardening por SHA canonica LF, preflight `isolated_ci` e clean worktree `isolated_ci`; a execucao final foi reportada como `success` com required check `validation`, mas o validador do repositorio ainda exige JSONs verificaveis e merge-block negativo antes de `GITHUB_ACTIONS_RUNTIME_AND_BRANCH_PROTECTION_VALIDATED`.
+- Ciclo 9.2: correcao estrutural para que todo PR para `main` publique o required check `validation`, com validacao leve sempre ativa e gates Supabase condicionados por deteccao interna de caminhos.
 
 Fora de escopo neste ciclo:
 
@@ -84,6 +85,7 @@ Arquivos:
 - [52-required-check-merge-block-validation.md](52-required-check-merge-block-validation.md)
 - [53-cycle-9-1-final-evidence.md](53-cycle-9-1-final-evidence.md)
 - [54-cycle-9-1-automated-github-evidence.md](54-cycle-9-1-automated-github-evidence.md)
+- [55-required-validation-trigger-strategy.md](55-required-validation-trigger-strategy.md)
 
 Artefatos de baseline:
 
