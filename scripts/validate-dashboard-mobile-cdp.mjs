@@ -1,5 +1,37 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import {
+  buildQaUrl,
+  loadQaEnvFile,
+  maskIdentifier,
+  QaEnvironmentError,
+  validateQaEnvironment,
+} from "./lib/qa-environment-guard.mjs";
+
+const envFile = loadQaEnvFile();
+let qaEnvironment;
+
+try {
+  qaEnvironment = validateQaEnvironment();
+} catch (error) {
+  if (error instanceof QaEnvironmentError) {
+    const details = error.details || {};
+    console.error(
+      [
+        error.message,
+        `Codigo: ${error.code}`,
+        `Variavel: ${details.variable || "-"}`,
+        `Ambiente declarado: ${details.declaredEnvironment || process.env.QA_ENVIRONMENT || "missing"}`,
+        `Host detectado: ${details.host || "-"}`,
+        "Acao necessaria: configure .env.qa.local com staging inequivoco e sem secrets versionados.",
+        `Arquivo .env.qa.local carregado: ${envFile.loaded ? "sim" : "nao"}`,
+      ].join("\n")
+    );
+    process.exit(2);
+  }
+
+  throw error;
+}
 
 const viewports = [
   { name: "dashboard-320", width: 320, height: 800, mobile: true },
@@ -16,8 +48,8 @@ const viewports = [
 const cdpPort = process.env.CDP_PORT || "9222";
 const chromeVersionUrl = `http://127.0.0.1:${cdpPort}/json/version`;
 const chromeNewTargetUrl = `http://127.0.0.1:${cdpPort}/json/new`;
-const appUrl = "http://127.0.0.1:5173/dashboard";
-const screenshotDir = join("tmp-responsive-screenshots", "dashboard-mobile");
+const appUrl = buildQaUrl("/dashboard");
+const screenshotDir = join("reports", "product-audit", "dashboard-v1", "evidence", "authenticated");
 const tolerance = 1;
 
 validateQaCredentials();
@@ -307,6 +339,9 @@ async function run() {
   try {
     await client.send("Page.enable");
     await client.send("Runtime.enable");
+    console.log(
+      `Ambiente QA validado: ${qaEnvironment.declaredEnvironment}; host=${qaEnvironment.host}; supabase=${maskIdentifier(qaEnvironment.expectedProjectRef)}`
+    );
     let authDone = false;
     const results = [];
     for (const viewport of viewports) {

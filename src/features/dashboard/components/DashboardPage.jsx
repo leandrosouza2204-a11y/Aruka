@@ -6,6 +6,7 @@ import DashboardCards from "./DashboardCards";
 import DashboardCheckin from "./DashboardCheckin";
 import DashboardHeader from "./DashboardHeader";
 import DashboardOnboardingChecklist from "./DashboardOnboardingChecklist";
+import DashboardSinaisFitness from "./DashboardSinaisFitness";
 
 function DashboardPage() {
   const dashboard = useDashboardPage();
@@ -43,11 +44,19 @@ function DashboardPage() {
           />
         </div>
 
+        <DashboardSinaisFitness
+          aviso={dashboard.avisoSinais}
+          carregando={dashboard.carregando}
+          sinais={dashboard.sinaisFitness}
+          styles={styles}
+        />
+
         <div className="dashboard-chart-section">
           <DashboardAtalhos
             carregando={dashboard.carregando}
             maiorReceitaMensal={dashboard.maiorReceitaMensal}
             receitaMensal={dashboard.receitaMensal}
+            resumoReceitaMensal={dashboard.resumoReceitaMensal}
             styles={styles}
           />
         </div>
@@ -116,6 +125,14 @@ const metricHint = {
   color: "#6b7280",
   display: "block",
   fontSize: "13px",
+  marginTop: "6px",
+};
+
+const metricContext = {
+  color: "#4b5563",
+  display: "block",
+  fontSize: "12px",
+  lineHeight: 1.4,
   marginTop: "6px",
 };
 
@@ -259,6 +276,33 @@ const estadoVazio = {
   marginTop: "18px",
 };
 
+const chartSummary = {
+  background: "#f8fafc",
+  border: "1px solid #e5e7eb",
+  borderRadius: "8px",
+  color: "#374151",
+  display: "grid",
+  fontSize: "13px",
+  gap: "6px",
+  lineHeight: 1.45,
+  marginTop: "16px",
+  padding: "12px",
+};
+
+const chartTable = {
+  borderCollapse: "collapse",
+  marginTop: "14px",
+  width: "100%",
+};
+
+const chartCell = {
+  borderTop: "1px solid #e5e7eb",
+  color: "#374151",
+  fontSize: "13px",
+  padding: "8px 0",
+  textAlign: "left",
+};
+
 const alertasGrid = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
@@ -320,6 +364,48 @@ const estadoVazioPremium = {
   fontWeight: "800",
   marginTop: "18px",
   padding: "14px",
+};
+
+const avisoSinais = {
+  background: "#fef2f2",
+  border: "1px solid #fecaca",
+  borderRadius: "8px",
+  color: "#991b1b",
+  fontSize: "14px",
+  fontWeight: "700",
+  marginTop: "16px",
+  marginBottom: "0",
+  padding: "12px",
+};
+
+const sinaisGrid = {
+  display: "grid",
+  gap: "12px",
+  gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))",
+  marginTop: "18px",
+};
+
+const sinalItem = {
+  border: "1px solid #e5e7eb",
+  borderRadius: "8px",
+  display: "flex",
+  flexDirection: "column",
+  gap: "10px",
+  minHeight: "100%",
+  padding: "14px",
+};
+
+const sinalValor = {
+  color: "#111827",
+  fontSize: "28px",
+  fontWeight: "850",
+};
+
+const sinalTexto = {
+  color: "#6b7280",
+  fontSize: "13px",
+  lineHeight: 1.45,
+  margin: 0,
 };
 
 const erroBox = {
@@ -458,6 +544,10 @@ const styles = {
   erroBox,
   estadoVazio,
   estadoVazioPremium,
+  avisoSinais,
+  chartCell,
+  chartSummary,
+  chartTable,
   grafico,
   graficoCard,
   graficoMobile,
@@ -467,6 +557,7 @@ const styles = {
   linhaMobileTopo,
   listaCheckin,
   metricHeader,
+  metricContext,
   metricHint,
   metricIcon,
   metricLabel,
@@ -481,6 +572,10 @@ const styles = {
   secaoLegenda,
   secaoTitulo,
   secaoTopo,
+  sinaisGrid,
+  sinalItem,
+  sinalTexto,
+  sinalValor,
   trilhoMobile,
   whatsappCheckin,
 };

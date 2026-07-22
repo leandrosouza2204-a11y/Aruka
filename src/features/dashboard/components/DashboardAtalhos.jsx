@@ -1,8 +1,20 @@
 import { formatarMoeda } from "../../../data/alunosUtils";
 
-function DashboardAtalhos({ carregando, maiorReceitaMensal, receitaMensal, styles }) {
+function DashboardAtalhos({
+  carregando,
+  maiorReceitaMensal,
+  receitaMensal,
+  resumoReceitaMensal,
+  styles,
+}) {
+  const temReceita = receitaMensal.some((mes) => mes.total > 0);
+
   return (
-    <section className="dashboard-panel" style={styles.graficoCard}>
+    <section
+      className="dashboard-panel"
+      style={styles.graficoCard}
+      aria-describedby={temReceita ? "dashboard-receita-resumo" : undefined}
+    >
       <div style={styles.secaoTopo}>
         <div>
           <h2 style={styles.secaoTitulo}>Receita Mensal</h2>
@@ -13,9 +25,40 @@ function DashboardAtalhos({ carregando, maiorReceitaMensal, receitaMensal, style
         <span style={styles.historicoTag}>Histórico de pagamentos</span>
       </div>
 
-      {receitaMensal.some((mes) => mes.total > 0) ? (
+      {temReceita ? (
         <>
-          <div className="dashboard-chart-desktop" style={styles.grafico}>
+          <div id="dashboard-receita-resumo" style={styles.chartSummary}>
+            <span>
+              Periodo: {resumoReceitaMensal.periodo}. Total confirmado:{" "}
+              <strong>{formatarMoeda(resumoReceitaMensal.total)}</strong>.
+            </span>
+            <span>
+              Melhor mes: {resumoReceitaMensal.melhorMes.rotulo} com{" "}
+              <strong>{formatarMoeda(resumoReceitaMensal.melhorMes.total)}</strong>.
+              {resumoReceitaMensal.mesesSemReceita > 0
+                ? ` Meses sem recebimento no periodo: ${resumoReceitaMensal.mesesSemReceita}.`
+                : " Todos os meses do periodo possuem recebimento registrado."}
+            </span>
+          </div>
+
+          <table style={styles.chartTable} aria-label="Receita mensal em texto">
+            <thead>
+              <tr>
+                <th style={styles.chartCell}>Mes</th>
+                <th style={styles.chartCell}>Receita confirmada</th>
+              </tr>
+            </thead>
+            <tbody>
+              {resumoReceitaMensal.linhas.map((mes) => (
+                <tr key={mes.chave}>
+                  <td style={styles.chartCell}>{mes.rotulo}</td>
+                  <td style={styles.chartCell}>{mes.valorFormatado}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <div className="dashboard-chart-desktop" style={styles.grafico} aria-hidden="true">
             {receitaMensal.map((mes) => {
               const altura =
                 maiorReceitaMensal > 0
@@ -34,7 +77,7 @@ function DashboardAtalhos({ carregando, maiorReceitaMensal, receitaMensal, style
             })}
           </div>
 
-          <div className="dashboard-chart-mobile" style={styles.graficoMobile}>
+          <div className="dashboard-chart-mobile" style={styles.graficoMobile} aria-hidden="true">
             {receitaMensal.map((mes) => {
               const largura =
                 maiorReceitaMensal > 0

@@ -29,6 +29,7 @@ dist-ssr
 .vercel
 .env*
 .env.qa.local
+.qa-local-credentials.txt
 tmp-responsive-screenshots/
 # Supabase CLI local state
 supabase/.temp/
