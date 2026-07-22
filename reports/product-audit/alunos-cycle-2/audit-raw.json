@@ -1,0 +1,157 @@
+{
+  "assertions": [
+    {
+      "name": "erro controlado de carregamento exibe mensagem",
+      "ok": true
+    },
+    {
+      "name": "salvar vazio mantem modal aberto",
+      "ok": true
+    },
+    {
+      "name": "foco vai para nome",
+      "ok": true
+    },
+    {
+      "name": "erros inline associados",
+      "ok": true
+    },
+    {
+      "name": "salvar invalido nao dispara rede",
+      "ok": true
+    },
+    {
+      "name": "telefone incompleto bloqueado",
+      "ok": true
+    },
+    {
+      "name": "telefone duplicado bloqueado",
+      "ok": true
+    },
+    {
+      "name": "nome duplicado bloqueado",
+      "ok": true
+    },
+    {
+      "name": "aluno valido cadastrado",
+      "ok": true
+    },
+    {
+      "name": "edicao sem falso positivo contra proprio registro",
+      "ok": true
+    },
+    {
+      "name": "edicao detecta telefone de outro aluno",
+      "ok": true
+    }
+  ],
+  "events": {
+    "console": [
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      }
+    ],
+    "exceptions": [],
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+        "kind": "leitura"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+        "kind": "leitura"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+        "kind": "leitura"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+        "kind": "leitura"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+        "kind": "leitura"
+      },
+      {
+        "method": "POST",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*",
+        "kind": "criacao"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*",
+        "kind": "leitura"
+      },
+      {
+        "method": "PATCH",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?id=eq.5d1bd51d-2870-4141-bdfe-7eca913e605e&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&select=*",
+        "kind": "edicao"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?id=eq.5d1bd51d-2870-4141-bdfe-7eca913e605e&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&select=*",
+        "kind": "leitura"
+      }
+    ]
+  }
+}

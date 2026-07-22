@@ -25,6 +25,7 @@ import {
   montarQueryAlunos,
   normalizarFiltrosAlunosDaUrl,
 } from "../utils/alunosQueryParams";
+import { validarCadastroAluno } from "../utils/alunosCadastroValidacoes";
 
 export const formInicial = {
   id: "",
@@ -53,6 +54,8 @@ export function useAlunosPage() {
   const [alunoSelecionadoId, setAlunoSelecionadoId] = useState("");
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
+  const [formErrors, setFormErrors] = useState({});
+  const [validationAttempt, setValidationAttempt] = useState(0);
   const [salvando, setSalvando] = useState(false);
   const toast = useToast();
   const { confirmar } = useConfirm();
@@ -122,12 +125,18 @@ export function useAlunosPage() {
   );
 
   function atualizarForm(campo, valor) {
+    if (formErrors[campo]) {
+      setFormErrors((errosAtuais) => ({ ...errosAtuais, [campo]: "" }));
+    }
     setForm((atual) => ({ ...atual, [campo]: valor }));
   }
 
   function handlePlano(e) {
     const planoSelecionado = e.target.value;
     const plano = planos.find((item) => item.id === planoSelecionado);
+    if (formErrors.plano) {
+      setFormErrors((errosAtuais) => ({ ...errosAtuais, plano: "" }));
+    }
 
     if (!plano) {
       setForm({
@@ -157,6 +166,9 @@ export function useAlunosPage() {
 
   function handleInicio(e) {
     const inicio = e.target.value;
+    if (formErrors.inicio) {
+      setFormErrors((errosAtuais) => ({ ...errosAtuais, inicio: "" }));
+    }
 
     if (!form.plano) {
       setForm({
@@ -177,11 +189,15 @@ export function useAlunosPage() {
   }
 
   function handleWhatsApp(e) {
+    if (formErrors.whatsapp) {
+      setFormErrors((errosAtuais) => ({ ...errosAtuais, whatsapp: "" }));
+    }
     setForm({ ...form, whatsapp: formatarWhatsApp(e.target.value) });
   }
 
   function abrirCadastro() {
     setForm(formInicial);
+    setFormErrors({});
     setAlunoEditandoId("");
     setModalCadastroAberto(true);
   }
@@ -191,6 +207,7 @@ export function useAlunosPage() {
       ...formInicial,
       ...normalizarAluno(aluno),
     });
+    setFormErrors({});
     setAlunoEditandoId(aluno.id);
     setModalCadastroAberto(true);
   }
@@ -198,10 +215,19 @@ export function useAlunosPage() {
   function fecharModal() {
     setModalCadastroAberto(false);
     setForm(formInicial);
+    setFormErrors({});
     setAlunoEditandoId("");
   }
 
   async function salvarAluno() {
+    const erros = validarCadastroAluno(form, alunos, alunoEditandoId);
+    if (Object.values(erros).some(Boolean)) {
+      setFormErrors(erros);
+      setValidationAttempt((valor) => valor + 1);
+      toast.aviso("Revise os campos", "Corrija os dados destacados antes de salvar.");
+      return;
+    }
+
     if (!form.nome.trim()) {
       toast.aviso("Nome obrigatório", "Informe o nome do aluno.");
       return;
@@ -341,6 +367,7 @@ export function useAlunosPage() {
     filtroPlano,
     filtroStatus,
     form,
+    formErrors,
     handleInicio,
     handlePlano,
     handleWhatsApp,
@@ -358,6 +385,7 @@ export function useAlunosPage() {
     setFiltroStatus,
     setModalCadastroAberto,
     atualizarForm,
+    validationAttempt,
   };
 }
 

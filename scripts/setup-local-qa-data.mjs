@@ -11,6 +11,7 @@ validateQaEnvironment(process.env, { detectedSupabaseUrl: runtime.apiUrl });
 const supabase = createClient(runtime.apiUrl, runtime.serviceRoleKey, {
   auth: { autoRefreshToken: false, persistSession: false },
 });
+const mode = process.argv.includes("--empty-alunos") ? "empty-alunos" : "default";
 
 const email = process.env.QA_USER_EMAIL;
 const user = await findUserByEmail(email);
@@ -19,10 +20,10 @@ if (!user) throw new Error("Usuario QA local nao encontrado. Execute npm run qa:
 await cleanupQaData(user.id);
 
 const plans = await insertPlans(user.id);
-const students = await insertStudents(user.id, plans);
-const payments = await insertPayments(user.id, students);
-const workout = await insertWorkout(user.id, students[0].id);
-const assessment = await insertAssessment(user.id, students[1].id);
+const students = mode === "empty-alunos" ? [] : await insertStudents(user.id, plans);
+const payments = students.length ? await insertPayments(user.id, students) : [];
+const workout = students[0] ? await insertWorkout(user.id, students[0].id) : null;
+const assessment = students[1] ? await insertAssessment(user.id, students[1].id) : null;
 mkdirSync("reports/product-audit/dashboard-v1/evidence/local-qa", { recursive: true });
 writeFileSync(join("reports/product-audit/dashboard-v1/evidence/local-qa", "local-qa-data-summary.md"), [
   "# LOCAL_QA Data Summary",
@@ -34,11 +35,13 @@ writeFileSync(join("reports/product-audit/dashboard-v1/evidence/local-qa", "loca
   `- Treinos ficticios: ${workout ? 1 : 0}`,
   `- Avaliacoes ficticias: ${assessment ? 1 : 0}`,
   "- Fonte: dados locais `.test`, sem copia de producao",
+  `- Modo: ${mode}`,
   "",
 ].join("\n"));
 
 console.log(JSON.stringify({
   status: "LOCAL_QA_DATA_READY",
+  mode,
   alunos: students.length,
   planos: plans.length,
   pagamentos: payments.length,
