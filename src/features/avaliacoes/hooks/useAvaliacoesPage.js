@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { calcularComposicaoCorporal } from "../../../data/calculosCorporais";
 import { formatarData, formatarDataCurta } from "../../../data/formatters";
 import { useConfirm } from "../../../hooks/useConfirm";
@@ -21,6 +22,8 @@ import { formatarEscala } from "../utils/formatters";
 export { formatarData, formatarDataCurta, formatarEscala };
 
 export function useAvaliacoesPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const alunoIdContexto = searchParams.get("alunoId") || "";
   const [alunos, setAlunos] = useState([]);
   const [avaliacoes, setAvaliacoes] = useState([]);
   const [anamneses, setAnamneses] = useState([]);
@@ -28,10 +31,10 @@ export function useAvaliacoesPage() {
   const [modalAnamnese, setModalAnamnese] = useState(false);
   const [avaliacaoEditando, setAvaliacaoEditando] = useState(null);
   const [anamneseEditando, setAnamneseEditando] = useState(null);
-  const [alunoSelecionadoId, setAlunoSelecionadoId] = useState("");
+  const [alunoSelecionadoManualId, setAlunoSelecionadoId] = useState("");
   const [relatorioAtivo, setRelatorioAtivo] = useState(null);
   const [busca, setBusca] = useState("");
-  const [filtroAluno, setFiltroAluno] = useState("todos");
+  const filtroAluno = alunoIdContexto || "todos";
   const [abaAtiva, setAbaAtiva] = useState("avaliacoes");
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
@@ -41,6 +44,8 @@ export function useAvaliacoesPage() {
   useEffect(() => {
     carregarDados();
   }, []);
+
+  const alunoSelecionadoId = alunoSelecionadoManualId || alunoIdContexto;
 
   async function carregarDados() {
     setCarregando(true);
@@ -122,6 +127,7 @@ export function useAvaliacoesPage() {
     historicoAluno.length > 1 ? historicoAluno[historicoAluno.length - 2] : null;
   const primeiraAvaliacao = historicoAluno[0] || null;
   const alunoCadastro = alunos.find((aluno) => aluno.id === alunoSelecionadoId);
+  const alunoContextual = alunos.find((aluno) => aluno.id === filtroAluno) || null;
   const alunoSelecionado = alunoCadastro?.nome || ultimaAvaliacao?.aluno || "";
   const anamneseAluno =
     [...anamneses]
@@ -303,6 +309,13 @@ export function useAvaliacoesPage() {
     setRelatorioAtivo(null);
   }
 
+  function setFiltroAluno(valor) {
+    const proximos = new URLSearchParams(searchParams);
+    if (!valor || valor === "todos") proximos.delete("alunoId");
+    else proximos.set("alunoId", valor);
+    setSearchParams(proximos, { replace: false });
+  }
+
   function abrirRelatorioAnamnese(anamnese) {
     setAlunoSelecionadoId(anamnese.alunoId || "");
     setRelatorioAtivo("anamnese");
@@ -347,6 +360,7 @@ export function useAvaliacoesPage() {
     abaAtiva,
     alertas,
     alunoCadastro,
+    alunoContextual,
     alunoSelecionado,
     alunoSelecionadoId,
     anamneseAluno,

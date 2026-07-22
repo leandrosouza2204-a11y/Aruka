@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useConfirm } from "../../../hooks/useConfirm";
 import { useToast } from "../../../hooks/useToast";
@@ -13,6 +13,12 @@ import {
   abrirWhatsApp,
   gerarMensagemCheckinSemanal,
 } from "../../../services/whatsappService";
+import { buscarTreinosPorAlunoSupabase } from "../../../services/treinosService";
+import { buscarAvaliacoesPorAlunoSupabase } from "../../../services/avaliacoesService";
+import {
+  buscarPagamentosPorAluno,
+  montarResumoFinanceiroAluno,
+} from "../../../services/pagamentosService";
 import {
   calcularDatas,
   calcularStatus,
@@ -26,6 +32,9 @@ import {
   normalizarFiltrosAlunosDaUrl,
 } from "../utils/alunosQueryParams";
 import { validarCadastroAluno } from "../utils/alunosCadastroValidacoes";
+import {
+  montarUrlContextualAluno,
+} from "../utils/alunosContextNavigation";
 
 export const formInicial = {
   id: "",
@@ -56,6 +65,7 @@ export function useAlunosPage() {
   const [erro, setErro] = useState("");
   const [formErrors, setFormErrors] = useState({});
   const [validationAttempt, setValidationAttempt] = useState(0);
+  const [resumoOperacional, setResumoOperacional] = useState(criarResumoInicial());
   const [salvando, setSalvando] = useState(false);
   const toast = useToast();
   const { confirmar } = useConfirm();
@@ -123,6 +133,57 @@ export function useAlunosPage() {
         .find((aluno) => aluno.id === alunoSelecionadoId),
     [alunos, alunoSelecionadoId]
   );
+
+  const alunoContextUrls = useMemo(() => {
+    if (!alunoSelecionado?.id) return { treinos: "", avaliacoes: "", financeiro: "" };
+    return {
+      treinos: montarUrlContextualAluno("treinos", alunoSelecionado.id, searchParams),
+      avaliacoes: montarUrlContextualAluno("avaliacoes", alunoSelecionado.id, searchParams),
+      financeiro: montarUrlContextualAluno("financeiro", alunoSelecionado.id, searchParams),
+    };
+  }, [alunoSelecionado, searchParams]);
+
+  const carregarResumoOperacional = useCallback(async function carregarResumoOperacional() {
+    if (!alunoSelecionado?.id) {
+      setResumoOperacional(criarResumoInicial());
+      return;
+    }
+
+    setResumoOperacional(criarResumoCarregando());
+    const plano = planos.find((item) => item.id === alunoSelecionado.plano) || null;
+
+    const [treinos, avaliacoes, pagamentos] = await Promise.allSettled([
+      executarResumoComFalhaControlada("treinos", () =>
+        buscarTreinosPorAlunoSupabase(alunoSelecionado.id)
+      ),
+      executarResumoComFalhaControlada("avaliacoes", () =>
+        buscarAvaliacoesPorAlunoSupabase(alunoSelecionado.id)
+      ),
+      executarResumoComFalhaControlada("financeiro", () =>
+        buscarPagamentosPorAluno(alunoSelecionado.id)
+      ),
+    ]);
+
+    setResumoOperacional({
+      treinos: normalizarResultadoResumo(treinos),
+      avaliacoes: normalizarResultadoResumo(avaliacoes),
+      financeiro:
+        pagamentos.status === "fulfilled"
+          ? {
+              status: "success",
+              data: montarResumoFinanceiroAluno(alunoSelecionado, pagamentos.value, plano),
+            }
+          : { status: "error", error: pagamentos.reason?.message || "Erro ao carregar financeiro." },
+    });
+  }, [alunoSelecionado, planos]);
+
+  useEffect(() => {
+    const carregamentoResumo = window.setTimeout(() => {
+      carregarResumoOperacional();
+    }, 0);
+
+    return () => window.clearTimeout(carregamentoResumo);
+  }, [carregarResumoOperacional]);
 
   function atualizarForm(campo, valor) {
     if (formErrors[campo]) {
@@ -354,6 +415,7 @@ export function useAlunosPage() {
   return {
     alunos,
     alunoEditandoId,
+    alunoContextUrls,
     alunoSelecionado,
     alunoSelecionadoId,
     alunosFiltrados,
@@ -376,6 +438,8 @@ export function useAlunosPage() {
     nomePlano,
     planos,
     planosAtivos,
+    recarregarResumoOperacional: carregarResumoOperacional,
+    resumoOperacional,
     salvarAluno,
     salvando,
     enviarCheckinSemanal,
@@ -403,4 +467,43 @@ function formatarWhatsApp(valor) {
   }
 
   return `(${ddd}) ${numero.slice(0, 5)}-${numero.slice(5)}`;
+}
+
+function criarResumoInicial() {
+  return {
+    treinos: { status: "idle", data: [] },
+    avaliacoes: { status: "idle", data: [] },
+    financeiro: { status: "idle", data: null },
+  };
+}
+
+function criarResumoCarregando() {
+  return {
+    treinos: { status: "loading", data: [] },
+    avaliacoes: { status: "loading", data: [] },
+    financeiro: { status: "loading", data: null },
+  };
+}
+
+function normalizarResultadoResumo(resultado) {
+  if (resultado.status === "fulfilled") {
+    return { status: "success", data: resultado.value };
+  }
+
+  return {
+    status: "error",
+    error: resultado.reason?.message || "Erro ao carregar resumo.",
+  };
+}
+
+function executarResumoComFalhaControlada(tipo, executar) {
+  if (typeof window !== "undefined") {
+    const local = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+    const falha = window.localStorage?.getItem("ARUKA_QA_ALUNOS_SUMMARY_FAIL");
+    if (local && (falha === tipo || falha === "all")) {
+      return Promise.reject(new Error("Falha controlada LOCAL_QA no resumo da ficha."));
+    }
+  }
+
+  return executar();
 }

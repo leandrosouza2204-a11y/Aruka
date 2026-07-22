@@ -28,7 +28,7 @@ function AvaliacoesList() {
     <div className="app-shell" style={{ display: "flex" }}>
       <Sidebar />
 
-      <div className="avaliacoes-page app-main page-container" style={styles.conteudo}>
+      <div className="avaliacoes-page app-main page-container" data-testid="avaliacoes-page" style={styles.conteudo}>
         <AvaliacoesHeader
           abaAtiva={avaliacoesPage.abaAtiva}
           quantidadeAnamneses={avaliacoesPage.anamnesesFiltradas.length}
@@ -55,6 +55,12 @@ function AvaliacoesList() {
 
         {avaliacoesPage.erro && (
           <div className="app-error">{avaliacoesPage.erro}</div>
+        )}
+
+        {avaliacoesPage.alunoContextual && (
+          <section className="app-alert" data-testid="avaliacoes-context-aluno" style={styles.contextoAluno}>
+            Avaliacoes contextualizadas para {avaliacoesPage.alunoContextual.nome}.
+          </section>
         )}
 
         {avaliacoesPage.abaAtiva === "avaliacoes" ? (
@@ -222,6 +228,13 @@ const listaCard = {
   border: "1px solid #e5e7eb",
   borderRadius: "8px",
   padding: "22px",
+};
+
+const contextoAluno = {
+  fontSize: "14px",
+  fontWeight: "800",
+  marginTop: "16px",
+  padding: "12px 14px",
 };
 
 const listaTopo = {
@@ -554,6 +567,7 @@ const styles = {
   botaoPrimario,
   botaoSecundario,
   campo,
+  contextoAluno,
   conteudo,
   detalhesCard,
   detalhesGrid,

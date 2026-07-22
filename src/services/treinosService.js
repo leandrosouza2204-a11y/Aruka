@@ -25,6 +25,30 @@ export async function buscarTreinosSupabase() {
   return (data || []).map(rowParaTreino);
 }
 
+export async function buscarTreinosPorAlunoSupabase(alunoId) {
+  const user = await buscarUsuarioLogado();
+
+  const { data, error } = await supabase
+    .from("treinos")
+    .select(
+      `
+        *,
+        aluno:alunos(id, nome, whatsapp),
+        dias:treino_dias(
+          *,
+          exercicios:treino_exercicios(*)
+        )
+      `
+    )
+    .eq("user_id", user.id)
+    .eq("aluno_id", alunoId)
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+
+  return (data || []).map(rowParaTreino);
+}
+
 export async function buscarTreinoPorIdSupabase(id) {
   const user = await buscarUsuarioLogado();
 

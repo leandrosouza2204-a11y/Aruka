@@ -15,8 +15,14 @@ function FinanceiroList() {
     <div className="app-shell" style={{ display: "flex" }}>
       <Sidebar />
 
-      <div className="financeiro-page app-main page-container" style={styles.conteudo}>
+      <div className="financeiro-page app-main page-container" data-testid="financeiro-page" style={styles.conteudo}>
         <FinanceiroHeader onRelatorios={page.abrirRelatorioGeral} />
+
+        {page.alunoContextual && (
+          <section className="app-alert" data-testid="financeiro-context-aluno" style={styles.contextoAluno}>
+            Financeiro contextualizado para {page.alunoContextual.nome}.
+          </section>
+        )}
 
         <FinanceiroCards resumo={page.resumo} styles={styles} />
 

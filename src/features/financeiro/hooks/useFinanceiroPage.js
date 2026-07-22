@@ -64,11 +64,12 @@ export const encerramentoInicial = {
 };
 
 export function useFinanceiroPage() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [alunos, setAlunos] = useState([]);
   const [pagamentos, setPagamentos] = useState([]);
   const [planos, setPlanos] = useState([]);
   const [busca, setBusca] = useState("");
+  const filtroAluno = searchParams.get("alunoId") || "todos";
   const [filtroStatus, setFiltroStatus] = useState("todos");
   const [filtroPagamento, setFiltroPagamento] = useState(
     searchParams.get("pagamento") || "todos"
@@ -153,6 +154,7 @@ export function useFinanceiroPage() {
     return registrosFinanceiros
       .filter((registro) => {
         const combinaBusca = registro.aluno.nome.toLowerCase().includes(termo);
+        const combinaAluno = filtroAluno === "todos" || registro.aluno.id === filtroAluno;
         const combinaVisao = registro.grupoAcompanhamento === visaoAcompanhamento;
         const combinaStatus =
           filtroStatus === "todos" || registro.statusAcompanhamento === filtroStatus;
@@ -161,12 +163,12 @@ export function useFinanceiroPage() {
           (filtroPagamento === "recebidos" && registro.pagamentoRecebido) ||
           (filtroPagamento === "pendentes" && !registro.pagamentoRecebido);
 
-        return combinaBusca && combinaVisao && combinaStatus && combinaPagamento;
+        return combinaBusca && combinaAluno && combinaVisao && combinaStatus && combinaPagamento;
       })
       .sort((a, b) =>
         String(a.aluno.vencimento).localeCompare(String(b.aluno.vencimento))
       );
-  }, [busca, filtroPagamento, filtroStatus, registrosFinanceiros, visaoAcompanhamento]);
+  }, [busca, filtroAluno, filtroPagamento, filtroStatus, registrosFinanceiros, visaoAcompanhamento]);
 
   const contadoresAcompanhamento = useMemo(
     () => ({
@@ -218,6 +220,11 @@ export function useFinanceiroPage() {
   const planosAtivos = useMemo(
     () => planos.filter((plano) => plano.ativo !== false),
     [planos]
+  );
+
+  const alunoContextual = useMemo(
+    () => alunos.find((aluno) => aluno.id === filtroAluno) || null,
+    [alunos, filtroAluno]
   );
 
   const planoRenovacaoSelecionado = useMemo(
@@ -680,9 +687,17 @@ export function useFinanceiroPage() {
 
   function limparFiltros() {
     setBusca("");
+    setFiltroAluno("todos");
     setFiltroStatus("todos");
     setFiltroPagamento("todos");
     setVisaoAcompanhamento("em_acompanhamento");
+  }
+
+  function setFiltroAluno(valor) {
+    const proximos = new URLSearchParams(searchParams);
+    if (!valor || valor === "todos") proximos.delete("alunoId");
+    else proximos.set("alunoId", valor);
+    setSearchParams(proximos, { replace: false });
   }
 
   function enviarAvisoWhatsApp(registro) {
@@ -696,6 +711,7 @@ export function useFinanceiroPage() {
     abrirRelatorioAluno,
     abrirRenovacaoPlano,
     abrirRelatorioGeral: () => setModalRelatorioGeral(true),
+    alunoContextual,
     atualizandoId,
     busca,
     carregando,
@@ -713,6 +729,7 @@ export function useFinanceiroPage() {
     fecharRelatorioAluno: () => setModalRelatorioAluno(null),
     fecharRelatorioGeral: () => setModalRelatorioGeral(false),
     filtroPagamento,
+    filtroAluno,
     filtroStatus,
     erroDataPagamento,
     formPagamento,
@@ -734,6 +751,7 @@ export function useFinanceiroPage() {
     resumo,
     setBusca,
     setFiltroPagamento,
+    setFiltroAluno,
     setFiltroStatus,
     setFormPagamento: atualizarFormPagamento,
     setFormEncerramento,

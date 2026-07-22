@@ -18,6 +18,16 @@ export async function buscarAvaliacoesSupabase() {
   return Promise.all((data || []).map(rowParaAvaliacaoComPreview));
 }
 
+export async function buscarAvaliacoesPorAlunoSupabase(alunoId) {
+  const user = await buscarUsuarioLogado();
+  const { data, error } = await supabase.from("avaliacoes").select("*")
+    .eq("user_id", user.id)
+    .eq("aluno_id", alunoId)
+    .order("data_avaliacao", { ascending: false, nullsFirst: false });
+  if (error) throw error;
+  return Promise.all((data || []).map(rowParaAvaliacaoComPreview));
+}
+
 export async function adicionarAvaliacaoSupabase(avaliacao) {
   const user = await buscarUsuarioLogado();
   const payload = avaliacaoParaPayload(avaliacao, user.id);
