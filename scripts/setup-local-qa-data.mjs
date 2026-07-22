@@ -19,7 +19,7 @@ if (!user) throw new Error("Usuario QA local nao encontrado. Execute npm run qa:
 await cleanupQaData(user.id);
 
 const plans = await insertPlans(user.id);
-const students = await insertStudents(user.id);
+const students = await insertStudents(user.id, plans);
 const payments = await insertPayments(user.id, students);
 const workout = await insertWorkout(user.id, students[0].id);
 const assessment = await insertAssessment(user.id, students[1].id);
@@ -85,7 +85,7 @@ async function insertPlans(userId) {
   return data;
 }
 
-async function insertStudents(userId) {
+async function insertStudents(userId, plans) {
   const base = [
     ["Ana Teste", -40, 15, "Ativo", true],
     ["Bruno Demo", -80, 4, "Ativo", false],
@@ -111,7 +111,7 @@ async function insertStudents(userId) {
     vencimento: dateOffset(dueOffset),
     aviso7: dateOffset(dueOffset - 7),
     aviso1: dateOffset(dueOffset - 1),
-    plano: nome === "LOCAL_QA Sem plano" ? "" : index % 2 === 0 ? "Plano Local Mensal" : "Plano Local Trimestral",
+    plano: nome === "LOCAL_QA Sem plano" ? "" : plans[index % 2]?.id,
     valor: nome === "LOCAL_QA Sem plano" ? 0 : index % 2 === 0 ? 199.9 : 540,
     status,
     pagamento_recebido: pago,
