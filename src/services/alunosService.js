@@ -3,6 +3,7 @@ import { buscarUsuarioLogado } from "./authSessionService";
 import { supabase } from "./supabase";
 
 export async function buscarAlunosSupabase() {
+  falharAlunosLocalQa("load");
   const user = await buscarUsuarioLogado();
 
   const { data, error } = await supabase
@@ -17,6 +18,7 @@ export async function buscarAlunosSupabase() {
 }
 
 export async function adicionarAlunoSupabase(aluno) {
+  falharAlunosLocalQa("save");
   const user = await buscarUsuarioLogado();
 
   const { data, error } = await supabase
@@ -31,6 +33,7 @@ export async function adicionarAlunoSupabase(aluno) {
 }
 
 export async function atualizarAlunoSupabase(id, aluno) {
+  falharAlunosLocalQa("save");
   const user = await buscarUsuarioLogado();
 
   const { data, error } = await supabase
@@ -121,4 +124,11 @@ function alunoParaPayload(aluno, userId) {
   }
 
   return payload;
+}
+
+function falharAlunosLocalQa(tipo) {
+  if (typeof window === "undefined") return;
+  if (!["localhost", "127.0.0.1"].includes(window.location.hostname)) return;
+  if (window.localStorage?.getItem("ARUKA_QA_ALUNOS_FAIL") !== tipo) return;
+  throw new Error("Falha controlada LOCAL_QA no modulo Alunos.");
 }

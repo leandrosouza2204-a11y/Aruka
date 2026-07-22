@@ -141,6 +141,7 @@ function AlunosList() {
 
 function AlunoModal({ page, styles }) {
   const form = page.form;
+  const errors = page.formErrors || {};
   const tituloId = "aluno-form-title";
   const descricaoId = "aluno-form-description";
 
@@ -152,6 +153,15 @@ function AlunoModal({ page, styles }) {
       document.body.style.overflow = overflowAnterior;
     };
   }, []);
+
+  useEffect(() => {
+    if (!page.validationAttempt) return;
+    const primeiroInvalido = document.querySelector(
+      '[data-testid="aluno-form-modal"] [aria-invalid="true"]'
+    );
+    primeiroInvalido?.focus();
+    primeiroInvalido?.scrollIntoView({ block: "center", inline: "nearest" });
+  }, [page.validationAttempt]);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -195,20 +205,24 @@ function AlunoModal({ page, styles }) {
             style={styles.formScroll}
           >
             <div className="aluno-form-grid" style={styles.formGrid}>
-          <Campo label="Nome do aluno" styles={styles}>
+          <Campo error={errors.nome} errorId="aluno-name-error" label="Nome do aluno" styles={styles}>
             <input
+              aria-describedby={errors.nome ? "aluno-name-error" : undefined}
+              aria-invalid={errors.nome ? "true" : undefined}
               autoComplete="name"
               data-testid="aluno-name"
               enterKeyHint="next"
               placeholder="Ex: Maria Silva"
               value={form.nome}
               onChange={(e) => page.atualizarForm("nome", e.target.value)}
-              style={styles.campo}
+              style={errors.nome ? { ...styles.campo, ...styles.campoErro } : styles.campo}
             />
           </Campo>
 
-          <Campo label="WhatsApp" styles={styles}>
+          <Campo error={errors.whatsapp} errorId="aluno-phone-error" label="WhatsApp" styles={styles}>
             <input
+              aria-describedby={errors.whatsapp ? "aluno-phone-error" : undefined}
+              aria-invalid={errors.whatsapp ? "true" : undefined}
               autoComplete="tel"
               data-testid="aluno-phone"
               enterKeyHint="next"
@@ -217,7 +231,7 @@ function AlunoModal({ page, styles }) {
               type="tel"
               value={form.whatsapp}
               onChange={page.handleWhatsApp}
-              style={styles.campo}
+              style={errors.whatsapp ? { ...styles.campo, ...styles.campoErro } : styles.campo}
             />
           </Campo>
 
@@ -232,23 +246,27 @@ function AlunoModal({ page, styles }) {
             />
           </Campo>
 
-          <Campo label="Início do plano" styles={styles}>
+          <Campo error={errors.inicio} errorId="aluno-plan-start-error" label="Início do plano" styles={styles}>
             <input
+              aria-describedby={errors.inicio ? "aluno-plan-start-error" : undefined}
+              aria-invalid={errors.inicio ? "true" : undefined}
               data-testid="aluno-plan-start"
               enterKeyHint="next"
               type="date"
               value={form.inicio}
               onChange={page.handleInicio}
-              style={styles.campo}
+              style={errors.inicio ? { ...styles.campo, ...styles.campoErro } : styles.campo}
             />
           </Campo>
 
-          <Campo label="Plano contratado" styles={styles}>
+          <Campo error={errors.plano} errorId="aluno-plan-error" label="Plano contratado" styles={styles}>
             <select
+              aria-describedby={errors.plano ? "aluno-plan-error" : undefined}
+              aria-invalid={errors.plano ? "true" : undefined}
               data-testid="aluno-plan"
               value={form.plano}
               onChange={page.handlePlano}
-              style={styles.campo}
+              style={errors.plano ? { ...styles.campo, ...styles.campoErro } : styles.campo}
             >
               <option value="">Selecione o plano</option>
               {page.planosAtivos.map((plano) => (
@@ -460,11 +478,16 @@ function InfoResponsivo({ label, valor, styles }) {
   );
 }
 
-function Campo({ label, children, styles }) {
+function Campo({ error = "", errorId = "", label, children, styles }) {
   return (
     <label style={styles.campoGrupo}>
       <span style={styles.labelCampo}>{label}</span>
       {children}
+      {error && (
+        <span data-testid={errorId} id={errorId} style={styles.mensagemErroCampo}>
+          {error}
+        </span>
+      )}
     </label>
   );
 }
@@ -583,6 +606,17 @@ const styles = {
     background: "white",
     color: "#111827",
     outline: "none",
+  },
+  campoErro: {
+    border: "1px solid #dc2626",
+    boxShadow: "0 0 0 1px rgba(220, 38, 38, 0.18)",
+  },
+  mensagemErroCampo: {
+    color: "#b91c1c",
+    fontSize: "12px",
+    fontWeight: "700",
+    lineHeight: 1.35,
+    overflowWrap: "anywhere",
   },
   tabela: {
     width: "100%",
