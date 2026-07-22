@@ -97,22 +97,29 @@ async function insertStudents(userId) {
     ["Hugo QA", -130, 7, "Ativo", true],
     ["Isabela Demo", -150, 90, "Ativo", false],
     ["Joao Exemplo", -180, 120, "Ativo", true],
+    ["LOCAL_QA Nome muito longo para validar quebra visual em cards e tabela", -12, 18, "Ativo", false],
+    ["LOCAL_QA Dados minimos", 0, 30, "Ativo", false],
+    ["LOCAL_QA Sem plano", -5, 0, "Ativo", false],
+    ["LOCAL_QA Observacoes longas", -30, 30, "Ativo", true],
   ];
   const rows = base.map(([nome, startOffset, dueOffset, status, pago], index) => ({
     user_id: userId,
     nome,
-    whatsapp: `119900000${String(index).padStart(2, "0")}`,
-    nascimento: "1995-01-01",
+    whatsapp: nome === "LOCAL_QA Dados minimos" ? "" : `119900000${String(index).padStart(2, "0")}`,
+    nascimento: nome === "LOCAL_QA Dados minimos" ? null : "1995-01-01",
     inicio: dateOffset(startOffset),
     vencimento: dateOffset(dueOffset),
     aviso7: dateOffset(dueOffset - 7),
     aviso1: dateOffset(dueOffset - 1),
-    plano: index % 2 === 0 ? "Plano Local Mensal" : "Plano Local Trimestral",
-    valor: index % 2 === 0 ? 199.9 : 540,
+    plano: nome === "LOCAL_QA Sem plano" ? "" : index % 2 === 0 ? "Plano Local Mensal" : "Plano Local Trimestral",
+    valor: nome === "LOCAL_QA Sem plano" ? 0 : index % 2 === 0 ? 199.9 : 540,
     status,
     pagamento_recebido: pago,
     data_pagamento: pago ? dateOffset(startOffset + 1) : null,
-    observacoes: "Fixture ficticio LOCAL_QA",
+    observacoes:
+      nome === "LOCAL_QA Observacoes longas"
+        ? "Fixture ficticio LOCAL_QA com observacoes longas para validar legibilidade, quebra de linha e preservacao de conteudo em detalhe e edicao do aluno."
+        : "Fixture ficticio LOCAL_QA",
   }));
   const { data, error } = await supabase.from("alunos").insert(rows).select("id,nome");
   if (error) throw error;
