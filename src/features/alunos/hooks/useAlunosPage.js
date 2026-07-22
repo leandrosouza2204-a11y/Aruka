@@ -20,6 +20,11 @@ import {
   normalizarAluno,
   ordenarPorVencimento,
 } from "../../../data/alunosUtils";
+import {
+  limparQueryFiltrosAlunos,
+  montarQueryAlunos,
+  normalizarFiltrosAlunosDaUrl,
+} from "../utils/alunosQueryParams";
 
 export const formInicial = {
   id: "",
@@ -39,18 +44,13 @@ export const formInicial = {
 };
 
 export function useAlunosPage() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [alunos, setAlunos] = useState([]);
   const [planos, setPlanos] = useState([]);
   const [form, setForm] = useState(formInicial);
   const [modalCadastroAberto, setModalCadastroAberto] = useState(false);
   const [alunoEditandoId, setAlunoEditandoId] = useState("");
   const [alunoSelecionadoId, setAlunoSelecionadoId] = useState("");
-  const [busca, setBusca] = useState("");
-  const [filtroStatus, setFiltroStatus] = useState(
-    searchParams.get("status") || "todos"
-  );
-  const [filtroPlano, setFiltroPlano] = useState("todos");
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
   const [salvando, setSalvando] = useState(false);
@@ -85,6 +85,15 @@ export function useAlunosPage() {
     () => planos.filter((plano) => plano.ativo),
     [planos]
   );
+
+  const filtrosUrl = useMemo(
+    () => normalizarFiltrosAlunosDaUrl(searchParams, planos),
+    [planos, searchParams]
+  );
+
+  const busca = filtrosUrl.busca;
+  const filtroStatus = filtrosUrl.status;
+  const filtroPlano = filtrosUrl.plano;
 
   const alunosFiltrados = useMemo(() => {
     const termoBusca = busca.trim().toLowerCase();
@@ -281,9 +290,31 @@ export function useAlunosPage() {
   }
 
   function limparFiltros() {
-    setBusca("");
-    setFiltroStatus("todos");
-    setFiltroPlano("todos");
+    setSearchParams(limparQueryFiltrosAlunos(searchParams), { replace: true });
+  }
+
+  function atualizarFiltrosUrl(proximosFiltros, options = {}) {
+    setSearchParams(
+      montarQueryAlunos(searchParams, {
+        busca,
+        status: filtroStatus,
+        plano: filtroPlano,
+        ...proximosFiltros,
+      }),
+      { replace: Boolean(options.replace) }
+    );
+  }
+
+  function setBusca(valor) {
+    atualizarFiltrosUrl({ busca: valor }, { replace: true });
+  }
+
+  function setFiltroStatus(valor) {
+    atualizarFiltrosUrl({ status: valor });
+  }
+
+  function setFiltroPlano(valor) {
+    atualizarFiltrosUrl({ plano: valor });
   }
 
   function nomePlano(plano) {
