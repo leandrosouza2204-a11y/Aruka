@@ -32,7 +32,7 @@ function MetricCard({ metrica, styles }) {
   return (
     <div className="dashboard-metric-card dashboard-stat-card" style={styles.card}>
       <div style={styles.metricHeader}>
-        <span style={styles.metricIcon}>
+        <span style={styles.metricIcon} aria-hidden="true">
           <Icone size={18} />
         </span>
         <span style={styles.metricLabel}>{metrica.titulo}</span>
@@ -44,6 +44,9 @@ function MetricCard({ metrica, styles }) {
         {metrica.valor}
       </p>
       <span style={styles.metricHint}>{metrica.legenda}</span>
+      {metrica.contexto && (
+        <span style={styles.metricContext}>{metrica.contexto}</span>
+      )}
     </div>
   );
 }

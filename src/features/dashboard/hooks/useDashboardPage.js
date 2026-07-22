@@ -8,40 +8,86 @@ import {
   statusEstaVencendo,
 } from "../../../data/alunosUtils";
 import { buscarAlunosSupabase } from "../../../services/alunosService";
+import { buscarAvaliacoesSupabase } from "../../../services/avaliacoesService";
 import { buscarPagamentosSupabase } from "../../../services/pagamentosService";
 import { buscarPlanosSupabase } from "../../../services/planosService";
+import { buscarTreinosSupabase } from "../../../services/treinosService";
+import {
+  gerarResumoReceitaMensal,
+  montarAlertasConsultoria,
+  montarSinaisFitness,
+} from "../utils/dashboardInsights";
 
 export function useDashboardPage() {
   const [alunos, setAlunos] = useState([]);
   const [pagamentos, setPagamentos] = useState([]);
   const [planos, setPlanos] = useState([]);
+  const [treinos, setTreinos] = useState([]);
+  const [avaliacoes, setAvaliacoes] = useState([]);
   const [modalCheckinAberto, setModalCheckinAberto] = useState(false);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
+  const [avisoSinais, setAvisoSinais] = useState("");
 
   useEffect(() => {
     async function carregarDashboard() {
       setCarregando(true);
       setErro("");
+      setAvisoSinais("");
 
-      try {
-        const [alunosSupabase, pagamentosSupabase, planosSupabase] = await Promise.all([
+      const [
+        alunosResultado,
+        pagamentosResultado,
+        planosResultado,
+        treinosResultado,
+        avaliacoesResultado,
+      ] = await Promise.allSettled([
           buscarAlunosSupabase(),
           buscarPagamentosSupabase(),
           buscarPlanosSupabase(),
-        ]);
+          buscarTreinosSupabase(),
+          buscarAvaliacoesSupabase(),
+      ]);
 
-        setAlunos(alunosSupabase.map(normalizarAluno));
-        setPagamentos(pagamentosSupabase);
-        setPlanos(planosSupabase);
-      } catch (error) {
-        setErro(`Erro ao carregar dashboard: ${error.message}`);
+      if (
+        alunosResultado.status === "fulfilled" &&
+        pagamentosResultado.status === "fulfilled" &&
+        planosResultado.status === "fulfilled"
+      ) {
+        setAlunos(alunosResultado.value.map(normalizarAluno));
+        setPagamentos(pagamentosResultado.value);
+        setPlanos(planosResultado.value);
+      } else {
+        const falhaPrincipal = [
+          alunosResultado,
+          pagamentosResultado,
+          planosResultado,
+        ].find((resultado) => resultado.status === "rejected");
+        setErro(`Erro ao carregar dashboard: ${falhaPrincipal.reason.message}`);
         setAlunos([]);
         setPagamentos([]);
         setPlanos([]);
-      } finally {
-        setCarregando(false);
       }
+
+      if (treinosResultado.status === "fulfilled") {
+        setTreinos(treinosResultado.value);
+      } else {
+        setTreinos([]);
+        setAvisoSinais("Sinais de treinos indisponiveis nesta carga.");
+      }
+
+      if (avaliacoesResultado.status === "fulfilled") {
+        setAvaliacoes(avaliacoesResultado.value);
+      } else {
+        setAvaliacoes([]);
+        setAvisoSinais((atual) =>
+          atual
+            ? `${atual} Sinais de avaliacoes indisponiveis nesta carga.`
+            : "Sinais de avaliacoes indisponiveis nesta carga."
+        );
+      }
+
+      setCarregando(false);
     }
 
     carregarDashboard();
@@ -140,9 +186,24 @@ export function useDashboardPage() {
   );
 
   const receitaMensal = useMemo(() => gerarReceitaMensal(pagamentos), [pagamentos]);
+  const resumoReceitaMensal = useMemo(
+    () => gerarResumoReceitaMensal(receitaMensal),
+    [receitaMensal]
+  );
   const maiorReceitaMensal = Math.max(
     ...receitaMensal.map((mes) => mes.total),
     0
+  );
+
+  const sinaisFitness = useMemo(
+    () =>
+      montarSinaisFitness({
+        alunos,
+        avaliacoes,
+        statusPorAluno,
+        treinos,
+      }),
+    [alunos, avaliacoes, statusPorAluno, treinos]
   );
 
   const alertasConsultoria = useMemo(
@@ -176,20 +237,23 @@ export function useDashboardPage() {
       {
         titulo: "Receita Prevista",
         valor: carregando ? "..." : formatarMoeda(receitaPrevista),
-        legenda: "Total previsto no período",
+        legenda: "Contratos atuais cadastrados",
+        contexto: "Soma do valor vigente de cada aluno.",
         tipo: "prevista",
       },
       {
         titulo: "Receita Recebida",
         valor: carregando ? "..." : formatarMoeda(receitaRecebida),
-        legenda: "Pagamentos já confirmados",
+        legenda: "Historico carregado de pagamentos",
+        contexto: "Inclui recebimentos confirmados registrados.",
         tipo: "recebida",
         destaque: "#16a34a",
       },
       {
         titulo: "Receita Pendente",
         valor: carregando ? "..." : formatarMoeda(receitaPendente),
-        legenda: "Valores ainda pendentes",
+        legenda: "Em aberto nos contratos atuais",
+        contexto: "Desconta pagamentos vinculados ao contrato vigente.",
         tipo: "pendente",
         destaque: "#dc2626",
       },
@@ -237,6 +301,9 @@ export function useDashboardPage() {
     modalCheckinAberto,
     onboardingStatus,
     receitaMensal,
+    resumoReceitaMensal,
+    sinaisFitness,
+    avisoSinais,
     abrirModalCheckin,
     fecharModalCheckin,
   };
@@ -282,58 +349,6 @@ function filtrarPagamentosContratoAtual(aluno, pagamentosAluno) {
 
     return true;
   });
-}
-
-export function montarAlertasConsultoria({
-  alunosVencidos,
-  alunosVencendo,
-  receitaPendente,
-}) {
-  const alertas = [];
-
-  if (alunosVencidos > 0) {
-    alertas.push({
-      titulo: "Regularizar alunos vencidos",
-      texto: "Priorize contato e renegociação para evitar perda de acompanhamento.",
-      rotulo: "Atenção",
-      tom: "danger",
-      acao: {
-        label: "Ver alunos",
-        to: "/alunos",
-        ariaLabel: "Ver alunos vencidos na tela de alunos",
-      },
-    });
-  }
-
-  if (alunosVencendo > 0) {
-    alertas.push({
-      titulo: "Enviar lembretes de vencimento",
-      texto: "Há contratos ou parcelas próximos do vencimento que podem ser tratados com antecedência.",
-      rotulo: "Agenda",
-      tom: "warning",
-      acao: {
-        label: "Ver vencimentos",
-        to: "/alunos",
-        ariaLabel: "Ver alunos próximos do vencimento",
-      },
-    });
-  }
-
-  if (receitaPendente > 0) {
-    alertas.push({
-      titulo: "Revisar pagamentos pendentes",
-      texto: "Confira o financeiro e registre recebimentos já confirmados.",
-      rotulo: "Financeiro",
-      tom: "info",
-      acao: {
-        label: "Abrir financeiro",
-        to: "/financeiro",
-        ariaLabel: "Abrir financeiro para revisar pagamentos pendentes",
-      },
-    });
-  }
-
-  return alertas;
 }
 
 export function gerarReceitaMensal(pagamentos) {
