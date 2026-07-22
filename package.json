@@ -29,6 +29,7 @@
     "qa:alunos-functional-audit": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-alunos-module-cdp.mjs",
     "qa:alunos-query-context": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-alunos-query-context-cdp.mjs",
     "qa:alunos-cadastro-validacoes": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-alunos-cadastro-validacoes-cdp.mjs",
+    "qa:alunos-ficha-acoes-contextuais": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-alunos-ficha-acoes-contextuais-cdp.mjs",
     "test:alunos": "node --test src/features/alunos/utils/*.test.js",
     "qa:treinos-mobile": "node --env-file=.env.qa.local scripts/validate-treinos-mobile-cdp.mjs",
     "qa:treino-editor-mobile": "node --env-file=.env.qa.local scripts/validate-treino-editor-mobile-cdp.mjs",

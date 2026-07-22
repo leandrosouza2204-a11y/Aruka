@@ -32,6 +32,12 @@ const styles = {
     ...card,
     marginTop: "30px",
   },
+  contextoAluno: {
+    fontSize: "14px",
+    fontWeight: "800",
+    marginTop: "16px",
+    padding: "12px 14px",
+  },
   secaoTitulo: {
     margin: 0,
     fontSize: "22px",

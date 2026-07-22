@@ -1,0 +1,560 @@
+{
+  "assertions": [
+    {
+      "name": "ficha renderiza identificacao",
+      "ok": true
+    },
+    {
+      "name": "resumo operacional visivel",
+      "ok": true
+    },
+    {
+      "name": "indicador de treino visivel",
+      "ok": true
+    },
+    {
+      "name": "indicador de avaliacao visivel",
+      "ok": true
+    },
+    {
+      "name": "indicador financeiro visivel",
+      "ok": true
+    },
+    {
+      "name": "links incluem alunoId",
+      "ok": true
+    },
+    {
+      "name": "links incluem returnTo",
+      "ok": true
+    },
+    {
+      "name": "treinos abre contextualizado",
+      "ok": true
+    },
+    {
+      "name": "treinos preserva contexto apos refresh",
+      "ok": true
+    },
+    {
+      "name": "avaliacoes abre contextualizado",
+      "ok": true
+    },
+    {
+      "name": "avaliacoes preserva contexto apos refresh",
+      "ok": true
+    },
+    {
+      "name": "financeiro abre contextualizado",
+      "ok": true
+    },
+    {
+      "name": "financeiro preserva contexto apos refresh",
+      "ok": true
+    },
+    {
+      "name": "erro controlado parcial aparece na ficha",
+      "ok": true
+    },
+    {
+      "name": "mobile sem overflow horizontal",
+      "ok": true
+    }
+  ],
+  "events": {
+    "console": [
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      }
+    ],
+    "exceptions": [],
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&aluno_id=eq.4a367c08-3570-4ad7-9418-13dddef5d7e5&order=created_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&aluno_id=eq.4a367c08-3570-4ad7-9418-13dddef5d7e5&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/avaliacoes?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&aluno_id=eq.4a367c08-3570-4ad7-9418-13dddef5d7e5&order=data_avaliacao.desc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/avaliacoes?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&aluno_id=eq.4a367c08-3570-4ad7-9418-13dddef5d7e5&order=data_avaliacao.desc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/pagamentos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&aluno_id=eq.4a367c08-3570-4ad7-9418-13dddef5d7e5&order=data_pagamento.desc%2Ccreated_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/pagamentos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&aluno_id=eq.4a367c08-3570-4ad7-9418-13dddef5d7e5&order=data_pagamento.desc%2Ccreated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&aluno_id=eq.4a367c08-3570-4ad7-9418-13dddef5d7e5&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/avaliacoes?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_avaliacao.desc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/avaliacoes?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_avaliacao.desc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/avaliacoes?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_avaliacao.desc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/avaliacoes?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_avaliacao.desc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/avaliacoes?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_avaliacao.desc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/avaliacoes?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_avaliacao.desc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/avaliacoes?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_avaliacao.desc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/avaliacoes?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_avaliacao.desc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/pagamentos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_pagamento.desc%2Ccreated_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/pagamentos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_pagamento.desc%2Ccreated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/pagamentos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_pagamento.desc%2Ccreated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/pagamentos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_pagamento.desc%2Ccreated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/pagamentos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_pagamento.desc%2Ccreated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/pagamentos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_pagamento.desc%2Ccreated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/pagamentos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_pagamento.desc%2Ccreated_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/pagamentos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_pagamento.desc%2Ccreated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/avaliacoes?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&aluno_id=eq.4a367c08-3570-4ad7-9418-13dddef5d7e5&order=data_avaliacao.desc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/avaliacoes?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&aluno_id=eq.4a367c08-3570-4ad7-9418-13dddef5d7e5&order=data_avaliacao.desc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/pagamentos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&aluno_id=eq.4a367c08-3570-4ad7-9418-13dddef5d7e5&order=data_pagamento.desc%2Ccreated_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/pagamentos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&aluno_id=eq.4a367c08-3570-4ad7-9418-13dddef5d7e5&order=data_pagamento.desc%2Ccreated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      }
+    ]
+  }
+}

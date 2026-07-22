@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { formatarData } from "../../../data/formatters";
 import { criarModeloTreino } from "../../../data/treinosModelos";
 import { useConfirm } from "../../../hooks/useConfirm";
@@ -22,6 +23,7 @@ import { templateDataToWorkout } from "../utils/workoutTemplateSanitization";
 export { formatarData };
 
 export function useTreinosPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [treinos, setTreinos] = useState([]);
   const [alunos, setAlunos] = useState([]);
   const [modalAberto, setModalAberto] = useState(false);
@@ -33,7 +35,7 @@ export function useTreinosPage() {
   const [treinoBase, setTreinoBase] = useState(null);
   const [treinoSelecionadoId, setTreinoSelecionadoId] = useState("");
   const [busca, setBusca] = useState("");
-  const [filtroAluno, setFiltroAluno] = useState("todos");
+  const filtroAluno = searchParams.get("alunoId") || "todos";
   const [filtroObjetivo, setFiltroObjetivo] = useState("todos");
   const [filtroNivel, setFiltroNivel] = useState("todos");
   const [filtroStatus, setFiltroStatus] = useState("todos");
@@ -80,6 +82,11 @@ export function useTreinosPage() {
   const treinoSelecionado = useMemo(
     () => treinos.find((treino) => treino.id === treinoSelecionadoId),
     [treinoSelecionadoId, treinos]
+  );
+
+  const alunoContextual = useMemo(
+    () => alunos.find((aluno) => aluno.id === filtroAluno) || null,
+    [alunos, filtroAluno]
   );
 
   const fichaTreino = useMemo(
@@ -324,6 +331,13 @@ export function useTreinosPage() {
     setFiltroStatus("todos");
   }
 
+  function setFiltroAluno(valor) {
+    const proximos = new URLSearchParams(searchParams);
+    if (!valor || valor === "todos") proximos.delete("alunoId");
+    else proximos.set("alunoId", valor);
+    setSearchParams(proximos, { replace: false });
+  }
+
   function copiarTreinoWhatsApp() {
     if (!fichaTreino || !treinoSelecionado) return;
 
@@ -350,6 +364,7 @@ export function useTreinosPage() {
 
   return {
     alunos,
+    alunoContextual,
     busca,
     carregando,
     erro,

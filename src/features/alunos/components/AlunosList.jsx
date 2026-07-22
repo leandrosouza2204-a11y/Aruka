@@ -5,6 +5,7 @@ import Sidebar from "../../../components/Sidebar";
 import InlineDetails from "../../../components/InlineDetails";
 import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
 import { classeStatusAluno } from "../../../data/statusHelpers";
+import { montarResumoOperacionalAluno } from "../utils/alunosResumoOperacional";
 import { useAlunosPage } from "../hooks/useAlunosPage";
 import AlunoCardMobile from "./AlunoCardMobile";
 import AlunosFilters from "./AlunosFilters";
@@ -113,9 +114,12 @@ function AlunosList() {
                 >
                   <AlunoDetalhesResponsivo
                     aluno={aluno}
+                    contextUrls={page.alunoContextUrls}
                     nomePlano={page.nomePlano}
                     onEditar={page.abrirEdicao}
                     onFechar={() => page.setAlunoSelecionadoId("")}
+                    onRecarregarResumo={page.recarregarResumoOperacional}
+                    resumoOperacional={page.resumoOperacional}
                     styles={styles}
                   />
                 </InlineDetails>
@@ -128,9 +132,12 @@ function AlunosList() {
           <AlunoDetalhesResponsivo
             aluno={page.alunoSelecionado}
             className="desktop-detail-panel"
+            contextUrls={page.alunoContextUrls}
             nomePlano={page.nomePlano}
             onEditar={page.abrirEdicao}
             onFechar={() => page.setAlunoSelecionadoId("")}
+            onRecarregarResumo={page.recarregarResumoOperacional}
+            resumoOperacional={page.resumoOperacional}
             styles={styles}
           />
         )}
@@ -371,11 +378,16 @@ function AlunoDetalhes({ aluno, className = "", nomePlano, onFechar, styles }) {
 function AlunoDetalhesResponsivo({
   aluno,
   className = "",
+  contextUrls = {},
   nomePlano,
   onEditar,
   onFechar,
+  onRecarregarResumo,
+  resumoOperacional,
   styles,
 }) {
+  const indicadores = montarResumoOperacionalAluno(aluno, resumoOperacional);
+
   return (
     <section
       className={`aluno-details ${className}`.trim()}
@@ -404,6 +416,69 @@ function AlunoDetalhesResponsivo({
       </div>
 
       <div className="aluno-details-content" data-testid="aluno-details-content">
+        <section
+          className="aluno-details-section"
+          data-testid="student-summary"
+          style={styles.resumoOperacional}
+        >
+          <div style={styles.resumoOperacionalTopo}>
+            <div>
+              <h3>Resumo operacional</h3>
+              <p style={styles.resumoLista}>Sinais rapidos para orientar a proxima acao.</p>
+            </div>
+            <button
+              className="table-button table-button-secondary"
+              data-testid="student-summary-retry"
+              onClick={onRecarregarResumo}
+              type="button"
+            >
+              Tentar novamente
+            </button>
+          </div>
+
+          <div data-testid="student-summary-grid" style={styles.resumoIndicadoresGrid}>
+            <ResumoIndicador indicador={indicadores.plano} testId="student-summary-plan" styles={styles} />
+            <ResumoIndicador indicador={indicadores.tempo} testId="student-summary-time" styles={styles} />
+            <ResumoIndicador indicador={indicadores.treino} testId="student-summary-training" styles={styles} />
+            <ResumoIndicador indicador={indicadores.avaliacao} testId="student-summary-assessment" styles={styles} />
+            <ResumoIndicador indicador={indicadores.financeiro} testId="student-summary-financial" styles={styles} />
+          </div>
+        </section>
+
+        <section
+          className="aluno-details-section"
+          data-testid="student-context-actions"
+          style={styles.acoesContextuais}
+        >
+          <h3>Acoes contextuais</h3>
+          <div style={styles.acoesContextuaisGrid}>
+            <Link
+              className="table-button table-button-primary"
+              data-testid="student-action-training"
+              to={contextUrls.treinos}
+              style={styles.acaoContextualLink}
+            >
+              Ver treinos
+            </Link>
+            <Link
+              className="table-button table-button-primary"
+              data-testid="student-action-assessment"
+              to={contextUrls.avaliacoes}
+              style={styles.acaoContextualLink}
+            >
+              Ver avaliacoes
+            </Link>
+            <Link
+              className="table-button table-button-primary"
+              data-testid="student-action-financial"
+              to={contextUrls.financeiro}
+              style={styles.acaoContextualLink}
+            >
+              Ver financeiro
+            </Link>
+          </div>
+        </section>
+
         <section className="aluno-details-section" data-testid="aluno-details-plan">
           <h3>Plano e vencimento</h3>
           <div style={styles.detalhesGrid}>
@@ -466,6 +541,16 @@ function AlunoDetalhesResponsivo({
         </div>
       </div>
     </section>
+  );
+}
+
+function ResumoIndicador({ indicador, testId, styles }) {
+  return (
+    <article data-state={indicador.tom} data-testid={testId} style={styles.resumoIndicador}>
+      <span style={styles.infoLabel}>{indicador.titulo}</span>
+      <strong style={styles.infoValor}>{indicador.estado}</strong>
+      <p style={styles.resumoIndicadorTexto}>{indicador.detalhe}</p>
+    </article>
   );
 }
 
@@ -725,6 +810,54 @@ const styles = {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
     gap: "12px",
+  },
+  resumoOperacional: {
+    display: "grid",
+    gap: "14px",
+  },
+  resumoOperacionalTopo: {
+    alignItems: "flex-start",
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "12px",
+    justifyContent: "space-between",
+  },
+  resumoIndicadoresGrid: {
+    display: "grid",
+    gap: "10px",
+    gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+  },
+  resumoIndicador: {
+    background: "#f9fafb",
+    border: "1px solid #e5e7eb",
+    borderRadius: "8px",
+    minWidth: 0,
+    padding: "12px",
+  },
+  resumoIndicadorTexto: {
+    color: "#4b5563",
+    fontSize: "13px",
+    lineHeight: 1.4,
+    margin: "6px 0 0",
+    overflowWrap: "anywhere",
+  },
+  acoesContextuais: {
+    display: "grid",
+    gap: "12px",
+  },
+  acoesContextuaisGrid: {
+    display: "grid",
+    gap: "10px",
+    gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+  },
+  acaoContextualLink: {
+    alignItems: "center",
+    display: "inline-flex",
+    justifyContent: "center",
+    minHeight: "42px",
+    textAlign: "center",
+    textDecoration: "none",
+    whiteSpace: "normal",
   },
   infoItem: {
     border: "1px solid #eef2f7",

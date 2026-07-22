@@ -45,6 +45,12 @@ function TreinosList() {
           styles={styles}
         />
 
+        {treinosPage.alunoContextual && (
+          <section className="app-alert" data-testid="treinos-context-aluno" style={styles.contextoAluno}>
+            Treinos contextualizados para {treinosPage.alunoContextual.nome}.
+          </section>
+        )}
+
         {treinosPage.erro && <div className="app-error">{treinosPage.erro}</div>}
 
         <section className="treinos-library-section" style={styles.librarySection}>
@@ -277,6 +283,13 @@ const filterCard = {
   boxShadow: "0 12px 28px rgba(15, 23, 42, 0.045)",
   marginBottom: "18px",
   padding: "14px",
+};
+
+const contextoAluno = {
+  fontSize: "14px",
+  fontWeight: "800",
+  marginTop: "16px",
+  padding: "12px 14px",
 };
 
 const libraryGrid = {
@@ -806,6 +819,7 @@ const styles = {
   botaoSecundario,
   botaoWhatsApp,
   campo,
+  contextoAluno,
   conteudo,
   detalhesAcoes,
   detalhesCard,
