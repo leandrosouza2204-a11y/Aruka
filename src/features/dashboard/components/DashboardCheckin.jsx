@@ -21,7 +21,7 @@ function DashboardCheckin({
         style={{ ...styles.card, ...styles.checkinCard }}
       >
         <div style={styles.metricHeader}>
-          <span style={styles.metricIcon}>
+          <span style={styles.metricIcon} aria-hidden="true">
             <ClipboardCheck size={18} />
           </span>
           <span style={styles.metricLabel}>Check-in semanal</span>
@@ -30,6 +30,9 @@ function DashboardCheckin({
           {carregando ? "..." : alunos.length}
         </p>
         <span style={styles.metricHint}>Alunos aptos para contato semanal</span>
+        <span style={styles.metricContext}>
+          Inclui alunos sem contrato vencido. Vencidos ficam fora ate a regularizacao.
+        </span>
         <button
           type="button"
           onClick={onAbrirModal}
@@ -57,7 +60,7 @@ function CheckinModal({ alunos, onClose, styles }) {
       isOpen
       onClose={onClose}
       title="Check-in semanal"
-      description="Abra o WhatsApp aluno por aluno para manter o envio manual."
+      description="Abra o WhatsApp aluno por aluno para manter o envio manual. A lista inclui apenas alunos sem contrato vencido."
       size="lg"
     >
       <div style={styles.listaCheckin}>

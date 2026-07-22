@@ -1,5 +1,5 @@
 {
-  "startedAt": "2026-07-21T20:31:55.491Z",
+  "startedAt": "2026-07-21T22:01:27.907Z",
   "environment": {
     "frontendUrl": "http://127.0.0.1:5173",
     "supabaseUrl": "http://127.0.0.1:54321"
@@ -28,18 +28,19 @@
         "Dashboard",
         "Primeiros passos na Aruka",
         "Alertas da consultoria",
+        "Treinos e avaliacoes",
         "Receita Mensal"
       ],
       "cards": [
         "Total de Alunos...Alunos cadastrados",
-        "Receita Prevista...Total previsto no período",
-        "Receita Recebida...Pagamentos já confirmados",
-        "Receita Pendente...Valores ainda pendentes",
+        "Receita Prevista...Contratos atuais cadastradosSoma do valor vigente de cada aluno.",
+        "Receita Recebida...Historico carregado de pagamentosInclui recebimentos confirmados registrados.",
+        "Receita Pendente...Em aberto nos contratos atuaisDesconta pagamentos vinculados ao contrato vigente.",
         "Alunos Vencendo...Próximos do vencimento",
         "Alunos Vencidos...Necessitam atenção",
-        "Check-in semanal...Alunos aptos para contato semanalEnviar check-ins"
+        "Check-in semanal...Alunos aptos para contato semanalInclui alunos sem contrato vencido. Vencidos ficam fora ate a regula"
       ],
-      "firstFoldText": "Dashboard\nAlunos\nFinanceiro\nPlanos\nAvaliações\nTreinos\nPrivacidade\n•\nTermos\nVersão 1.7\nVISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos na Aruka\n\nComplete estas etapas para configurar sua consultoria e começar a acompanhar seus alunos.\n\n0/3\nCriar primeiro plano\nDefina valores, duração e regras de parcelamento antes de cadastrar alunos.\nCriar plano\nCadastrar primeiro aluno\nAdicione os dados do aluno e vincule um plano ativo para iniciar o acompanhamento.\nCadastrar aluno\nRegistrar primeiro pagamento ou acessar financeiro\nAcesse o financeiro para acompanhar recebimentos, pendências e confirmar pagamentos.\nIr para financeiro\nTotal de Alunos\n\n...\n\nAlunos cadastrados\nReceita Prevista\n\n...\n\nTotal previsto no período\nReceita Recebida\n\n...\n\nPagamentos já confirmados\nReceita Pendente\n\n...\n\nValores ainda pendentes\nAlunos Vencendo\n\n...\n\nPróximos do vencimento\nAlunos Vencidos\n\n...\n\nNecessitam atenção\nCheck-in semanal\n\n...\n\nAlunos aptos para contato semanal\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nCarregando alertas...\n\nReceita Mensal\n\nEvolução dos pagamentos confirmados nos últimos 6 meses.\n\n",
+      "firstFoldText": "Dashboard\nAlunos\nFinanceiro\nPlanos\nAvaliações\nTreinos\nPrivacidade\n•\nTermos\nVersão 1.7\nVISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos na Aruka\n\nComplete estas etapas para configurar sua consultoria e começar a acompanhar seus alunos.\n\n0/3\nCriar primeiro plano\nDefina valores, duração e regras de parcelamento antes de cadastrar alunos.\nCriar plano\nCadastrar primeiro aluno\nAdicione os dados do aluno e vincule um plano ativo para iniciar o acompanhamento.\nCadastrar aluno\nRegistrar primeiro pagamento ou acessar financeiro\nAcesse o financeiro para acompanhar recebimentos, pendências e confirmar pagamentos.\nIr para financeiro\nTotal de Alunos\n\n...\n\nAlunos cadastrados\nReceita Prevista\n\n...\n\nContratos atuais cadastrados\nSoma do valor vigente de cada aluno.\nReceita Recebida\n\n...\n\nHistorico carregado de pagamentos\nInclui recebimentos confirmados registrados.\nReceita Pendente\n\n...\n\nEm aberto nos contratos atuais\nDesconta pagamentos vinculados ao contrato vigente.\nAlunos Vencendo\n\n...\n\nPróximos do vencimento\nAlunos Vencidos\n\n...\n\nNecessitam atenção\nCheck-in semanal\n\n...\n\nAlunos aptos para contato semanal\nInclui alunos sem contrato vencido.",
       "touchTargetsBelow44": [
         {
           "text": "Abrir menu da conta",
@@ -164,18 +165,19 @@
       "headings": [
         "Dashboard",
         "Alertas da consultoria",
+        "Treinos e avaliacoes",
         "Receita Mensal"
       ],
       "cards": [
         "Total de Alunos10Alunos cadastrados",
-        "Receita PrevistaR$ 3.699,50Total previsto no período",
-        "Receita RecebidaR$ 1.139,70Pagamentos já confirmados",
-        "Receita PendenteR$ 2.559,80Valores ainda pendentes",
+        "Receita PrevistaR$ 3.699,50Contratos atuais cadastradosSoma do valor vigente de cada aluno.",
+        "Receita RecebidaR$ 1.139,70Historico carregado de pagamentosInclui recebimentos confirmados registrados.",
+        "Receita PendenteR$ 2.559,80Em aberto nos contratos atuaisDesconta pagamentos vinculados ao contrato vigente.",
         "Alunos Vencendo2Próximos do vencimento",
         "Alunos Vencidos2Necessitam atenção",
-        "Check-in semanal8Alunos aptos para contato semanalEnviar check-ins"
+        "Check-in semanal8Alunos aptos para contato semanalInclui alunos sem contrato vencido. Vencidos ficam fora ate a regulari"
       ],
-      "firstFoldText": "Dashboard\nAlunos\nFinanceiro\nPlanos\nAvaliações\nTreinos\nPrivacidade\n•\nTermos\nVersão 1.7\nVISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nTotal previsto no período\nReceita Recebida\n\nR$ 1.139,70\n\nPagamentos já confirmados\nReceita Pendente\n\nR$ 2.559,80\n\nValores ainda pendentes\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtenção\nRegularizar alunos vencidos\n\nPriorize contato e renegociação para evitar perda de acompanhamento.\n\nVer alunos\nAgenda\nEnviar lembretes de vencimento\n\nHá contratos ou parcelas próximos do vencimento que podem ser tratados com antecedência.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos já confirmados.\n\nAbrir financeiro\nReceita Mensal\n\nEvolução dos pagamentos confirmados nos últimos 6 meses.\n\nHistórico de pagamentos\nR$ 199,90\nFev De 26\nR$ 180,00\nMar De 26\nR$ 180,00\nAbr De 26\nR$ 199,90\nMai De ",
+      "firstFoldText": "Dashboard\nAlunos\nFinanceiro\nPlanos\nAvaliações\nTreinos\nPrivacidade\n•\nTermos\nVersão 1.7\nVISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nContratos atuais cadastrados\nSoma do valor vigente de cada aluno.\nReceita Recebida\n\nR$ 1.139,70\n\nHistorico carregado de pagamentos\nInclui recebimentos confirmados registrados.\nReceita Pendente\n\nR$ 2.559,80\n\nEm aberto nos contratos atuais\nDesconta pagamentos vinculados ao contrato vigente.\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nInclui alunos sem contrato vencido. Vencidos ficam fora ate a regularizacao.\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtencao\nRegularizar alunos vencidos\n\nPriorize contato e renegociacao para evitar perda de acompanhamento.\n\nVer vencidos\nAgenda\nEnviar lembretes de vencimento\n\nHa contratos ou parcelas proximos do vencimento que podem ser tratados com antecedencia.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e ",
       "touchTargetsBelow44": [
         {
           "text": "Abrir menu da conta",
@@ -244,7 +246,7 @@
           "text": "Enviar check-ins",
           "width": 513,
           "height": 40,
-          "top": 606,
+          "top": 656,
           "visible": true
         }
       ],
@@ -284,18 +286,19 @@
       "headings": [
         "Dashboard",
         "Alertas da consultoria",
+        "Treinos e avaliacoes",
         "Receita Mensal"
       ],
       "cards": [
         "Total de Alunos10Alunos cadastrados",
-        "Receita PrevistaR$ 3.699,50Total previsto no período",
-        "Receita RecebidaR$ 1.139,70Pagamentos já confirmados",
-        "Receita PendenteR$ 2.559,80Valores ainda pendentes",
+        "Receita PrevistaR$ 3.699,50Contratos atuais cadastradosSoma do valor vigente de cada aluno.",
+        "Receita RecebidaR$ 1.139,70Historico carregado de pagamentosInclui recebimentos confirmados registrados.",
+        "Receita PendenteR$ 2.559,80Em aberto nos contratos atuaisDesconta pagamentos vinculados ao contrato vigente.",
         "Alunos Vencendo2Próximos do vencimento",
         "Alunos Vencidos2Necessitam atenção",
-        "Check-in semanal8Alunos aptos para contato semanalEnviar check-ins"
+        "Check-in semanal8Alunos aptos para contato semanalInclui alunos sem contrato vencido. Vencidos ficam fora ate a regulari"
       ],
-      "firstFoldText": "Dashboard\nAlunos\nFinanceiro\nPlanos\nAvaliações\nTreinos\nPrivacidade\n•\nTermos\nVersão 1.7\nVISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nTotal previsto no período\nReceita Recebida\n\nR$ 1.139,70\n\nPagamentos já confirmados\nReceita Pendente\n\nR$ 2.559,80\n\nValores ainda pendentes\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtenção\nRegularizar alunos vencidos\n\nPriorize contato e renegociação para evitar perda de acompanhamento.\n\nVer alunos\nAgenda\nEnviar lembretes de vencimento\n\nHá contratos ou parcelas próximos do vencimento que podem ser tratados com antecedência.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos já confirmados.\n\nAbrir financeiro\nReceita Mensal\n\nEvolução dos pagamentos confirmados nos últimos 6 meses.\n\nHistórico de pagamentos\nR$ 199,90\nFev De 26\nR$ 180,00\nMar De 26\nR$ 180,00\nAbr De 26\nR$ 199,90\nMai De ",
+      "firstFoldText": "Dashboard\nAlunos\nFinanceiro\nPlanos\nAvaliações\nTreinos\nPrivacidade\n•\nTermos\nVersão 1.7\nVISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nContratos atuais cadastrados\nSoma do valor vigente de cada aluno.\nReceita Recebida\n\nR$ 1.139,70\n\nHistorico carregado de pagamentos\nInclui recebimentos confirmados registrados.\nReceita Pendente\n\nR$ 2.559,80\n\nEm aberto nos contratos atuais\nDesconta pagamentos vinculados ao contrato vigente.\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nInclui alunos sem contrato vencido. Vencidos ficam fora ate a regularizacao.\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtencao\nRegularizar alunos vencidos\n\nPriorize contato e renegociacao para evitar perda de acompanhamento.\n\nVer vencidos\nAgenda\nEnviar lembretes de vencimento\n\nHa contratos ou parcelas proximos do vencimento que podem ser tratados com antecedencia.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e ",
       "touchTargetsBelow44": [
         {
           "text": "Abrir menu da conta",
@@ -364,21 +367,21 @@
           "text": "Enviar check-ins",
           "width": 484,
           "height": 40,
-          "top": 606,
+          "top": 656,
           "visible": true
         },
         {
-          "text": "Ver alunos",
-          "width": 85,
+          "text": "Ver vencidos",
+          "width": 98,
           "height": 34,
-          "top": 898,
+          "top": 948,
           "visible": true
         },
         {
           "text": "Ver vencimentos",
           "width": 121,
           "height": 34,
-          "top": 898,
+          "top": 948,
           "visible": true
         }
       ],
@@ -393,9 +396,9 @@
         "Privacidade",
         "Termos",
         "Enviar check-ins",
-        "Ver alunos",
+        "Ver vencidos",
         "Ver vencimentos",
-        "Abrir financeiro"
+        "Ver pendentes"
       ],
       "overflowing": []
     },
@@ -421,18 +424,19 @@
       "headings": [
         "Dashboard",
         "Alertas da consultoria",
+        "Treinos e avaliacoes",
         "Receita Mensal"
       ],
       "cards": [
         "Total de Alunos10Alunos cadastrados",
-        "Receita PrevistaR$ 3.699,50Total previsto no período",
-        "Receita RecebidaR$ 1.139,70Pagamentos já confirmados",
-        "Receita PendenteR$ 2.559,80Valores ainda pendentes",
+        "Receita PrevistaR$ 3.699,50Contratos atuais cadastradosSoma do valor vigente de cada aluno.",
+        "Receita RecebidaR$ 1.139,70Historico carregado de pagamentosInclui recebimentos confirmados registrados.",
+        "Receita PendenteR$ 2.559,80Em aberto nos contratos atuaisDesconta pagamentos vinculados ao contrato vigente.",
         "Alunos Vencendo2Próximos do vencimento",
         "Alunos Vencidos2Necessitam atenção",
-        "Check-in semanal8Alunos aptos para contato semanalEnviar check-ins"
+        "Check-in semanal8Alunos aptos para contato semanalInclui alunos sem contrato vencido. Vencidos ficam fora ate a regulari"
       ],
-      "firstFoldText": "VISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nTotal previsto no período\nReceita Recebida\n\nR$ 1.139,70\n\nPagamentos já confirmados\nReceita Pendente\n\nR$ 2.559,80\n\nValores ainda pendentes\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtenção\nRegularizar alunos vencidos\n\nPriorize contato e renegociação para evitar perda de acompanhamento.\n\nVer alunos\nAgenda\nEnviar lembretes de vencimento\n\nHá contratos ou parcelas próximos do vencimento que podem ser tratados com antecedência.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos já confirmados.\n\nAbrir financeiro\nReceita Mensal\n\nEvolução dos pagamentos confirmados nos últimos 6 meses.\n\nHistórico de pagamentos\nFev De 26\nR$ 199,90\nMar De 26\nR$ 180,00\nAbr De 26\nR$ 180,00\nMai De 26\nR$ 199,90\nJun De 26\nR$ 199,90\nJul De 26\nR$ 180,00",
+      "firstFoldText": "VISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nContratos atuais cadastrados\nSoma do valor vigente de cada aluno.\nReceita Recebida\n\nR$ 1.139,70\n\nHistorico carregado de pagamentos\nInclui recebimentos confirmados registrados.\nReceita Pendente\n\nR$ 2.559,80\n\nEm aberto nos contratos atuais\nDesconta pagamentos vinculados ao contrato vigente.\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nInclui alunos sem contrato vencido. Vencidos ficam fora ate a regularizacao.\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtencao\nRegularizar alunos vencidos\n\nPriorize contato e renegociacao para evitar perda de acompanhamento.\n\nVer vencidos\nAgenda\nEnviar lembretes de vencimento\n\nHa contratos ou parcelas proximos do vencimento que podem ser tratados com antecedencia.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos ja confirmados.\n\nVer pendentes\nTreinos e avaliacoes\n\nSinais oper",
       "touchTargetsBelow44": [
         {
           "text": "Abrir menu da conta",
@@ -517,18 +521,19 @@
       "headings": [
         "Dashboard",
         "Alertas da consultoria",
+        "Treinos e avaliacoes",
         "Receita Mensal"
       ],
       "cards": [
         "Total de Alunos10Alunos cadastrados",
-        "Receita PrevistaR$ 3.699,50Total previsto no período",
-        "Receita RecebidaR$ 1.139,70Pagamentos já confirmados",
-        "Receita PendenteR$ 2.559,80Valores ainda pendentes",
+        "Receita PrevistaR$ 3.699,50Contratos atuais cadastradosSoma do valor vigente de cada aluno.",
+        "Receita RecebidaR$ 1.139,70Historico carregado de pagamentosInclui recebimentos confirmados registrados.",
+        "Receita PendenteR$ 2.559,80Em aberto nos contratos atuaisDesconta pagamentos vinculados ao contrato vigente.",
         "Alunos Vencendo2Próximos do vencimento",
         "Alunos Vencidos2Necessitam atenção",
-        "Check-in semanal8Alunos aptos para contato semanalEnviar check-ins"
+        "Check-in semanal8Alunos aptos para contato semanalInclui alunos sem contrato vencido. Vencidos ficam fora ate a regulari"
       ],
-      "firstFoldText": "VISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nTotal previsto no período\nReceita Recebida\n\nR$ 1.139,70\n\nPagamentos já confirmados\nReceita Pendente\n\nR$ 2.559,80\n\nValores ainda pendentes\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtenção\nRegularizar alunos vencidos\n\nPriorize contato e renegociação para evitar perda de acompanhamento.\n\nVer alunos\nAgenda\nEnviar lembretes de vencimento\n\nHá contratos ou parcelas próximos do vencimento que podem ser tratados com antecedência.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos já confirmados.\n\nAbrir financeiro\nReceita Mensal\n\nEvolução dos pagamentos confirmados nos últimos 6 meses.\n\nHistórico de pagamentos\nFev De 26\nR$ 199,90\nMar De 26\nR$ 180,00\nAbr De 26\nR$ 180,00\nMai De 26\nR$ 199,90\nJun De 26\nR$ 199,90\nJul De 26\nR$ 180,00",
+      "firstFoldText": "VISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nContratos atuais cadastrados\nSoma do valor vigente de cada aluno.\nReceita Recebida\n\nR$ 1.139,70\n\nHistorico carregado de pagamentos\nInclui recebimentos confirmados registrados.\nReceita Pendente\n\nR$ 2.559,80\n\nEm aberto nos contratos atuais\nDesconta pagamentos vinculados ao contrato vigente.\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nInclui alunos sem contrato vencido. Vencidos ficam fora ate a regularizacao.\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtencao\nRegularizar alunos vencidos\n\nPriorize contato e renegociacao para evitar perda de acompanhamento.\n\nVer vencidos\nAgenda\nEnviar lembretes de vencimento\n\nHa contratos ou parcelas proximos do vencimento que podem ser tratados com antecedencia.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos ja confirmados.\n\nVer pendentes\nTreinos e avaliacoes\n\nSinais oper",
       "touchTargetsBelow44": [
         {
           "text": "Abrir menu da conta",
@@ -578,6 +583,27 @@
           "height": 43,
           "top": 75,
           "visible": true
+        },
+        {
+          "text": "Abrir Treinos",
+          "width": 87,
+          "height": 34,
+          "top": 383,
+          "visible": true
+        },
+        {
+          "text": "Abrir Treinos",
+          "width": 87,
+          "height": 34,
+          "top": 580,
+          "visible": true
+        },
+        {
+          "text": "Abrir Avaliacoes",
+          "width": 105,
+          "height": 34,
+          "top": 777,
+          "visible": true
         }
       ],
       "visibleActions": [
@@ -588,9 +614,9 @@
         "Planos",
         "Avaliações",
         "Treinos",
-        "Ver alunos",
-        "Ver vencimentos",
-        "Abrir financeiro"
+        "Abrir Treinos",
+        "Abrir Treinos",
+        "Abrir Avaliacoes"
       ],
       "overflowing": []
     },
@@ -616,18 +642,19 @@
       "headings": [
         "Dashboard",
         "Alertas da consultoria",
+        "Treinos e avaliacoes",
         "Receita Mensal"
       ],
       "cards": [
         "Total de Alunos10Alunos cadastrados",
-        "Receita PrevistaR$ 3.699,50Total previsto no período",
-        "Receita RecebidaR$ 1.139,70Pagamentos já confirmados",
-        "Receita PendenteR$ 2.559,80Valores ainda pendentes",
+        "Receita PrevistaR$ 3.699,50Contratos atuais cadastradosSoma do valor vigente de cada aluno.",
+        "Receita RecebidaR$ 1.139,70Historico carregado de pagamentosInclui recebimentos confirmados registrados.",
+        "Receita PendenteR$ 2.559,80Em aberto nos contratos atuaisDesconta pagamentos vinculados ao contrato vigente.",
         "Alunos Vencendo2Próximos do vencimento",
         "Alunos Vencidos2Necessitam atenção",
-        "Check-in semanal8Alunos aptos para contato semanalEnviar check-ins"
+        "Check-in semanal8Alunos aptos para contato semanalInclui alunos sem contrato vencido. Vencidos ficam fora ate a regulari"
       ],
-      "firstFoldText": "VISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nTotal previsto no período\nReceita Recebida\n\nR$ 1.139,70\n\nPagamentos já confirmados\nReceita Pendente\n\nR$ 2.559,80\n\nValores ainda pendentes\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtenção\nRegularizar alunos vencidos\n\nPriorize contato e renegociação para evitar perda de acompanhamento.\n\nVer alunos\nAgenda\nEnviar lembretes de vencimento\n\nHá contratos ou parcelas próximos do vencimento que podem ser tratados com antecedência.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos já confirmados.\n\nAbrir financeiro\nReceita Mensal\n\nEvolução dos pagamentos confirmados nos últimos 6 meses.\n\nHistórico de pagamentos\nFev De 26\nR$ 199,90\nMar De 26\nR$ 180,00\nAbr De 26\nR$ 180,00\nMai De 26\nR$ 199,90\nJun De 26\nR$ 199,90\nJul De 26\nR$ 180,00",
+      "firstFoldText": "VISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nContratos atuais cadastrados\nSoma do valor vigente de cada aluno.\nReceita Recebida\n\nR$ 1.139,70\n\nHistorico carregado de pagamentos\nInclui recebimentos confirmados registrados.\nReceita Pendente\n\nR$ 2.559,80\n\nEm aberto nos contratos atuais\nDesconta pagamentos vinculados ao contrato vigente.\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nInclui alunos sem contrato vencido. Vencidos ficam fora ate a regularizacao.\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtencao\nRegularizar alunos vencidos\n\nPriorize contato e renegociacao para evitar perda de acompanhamento.\n\nVer vencidos\nAgenda\nEnviar lembretes de vencimento\n\nHa contratos ou parcelas proximos do vencimento que podem ser tratados com antecedencia.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos ja confirmados.\n\nVer pendentes\nTreinos e avaliacoes\n\nSinais oper",
       "touchTargetsBelow44": [
         {
           "text": "Abrir menu da conta",
@@ -712,18 +739,19 @@
       "headings": [
         "Dashboard",
         "Alertas da consultoria",
+        "Treinos e avaliacoes",
         "Receita Mensal"
       ],
       "cards": [
         "Total de Alunos10Alunos cadastrados",
-        "Receita PrevistaR$ 3.699,50Total previsto no período",
-        "Receita RecebidaR$ 1.139,70Pagamentos já confirmados",
-        "Receita PendenteR$ 2.559,80Valores ainda pendentes",
+        "Receita PrevistaR$ 3.699,50Contratos atuais cadastradosSoma do valor vigente de cada aluno.",
+        "Receita RecebidaR$ 1.139,70Historico carregado de pagamentosInclui recebimentos confirmados registrados.",
+        "Receita PendenteR$ 2.559,80Em aberto nos contratos atuaisDesconta pagamentos vinculados ao contrato vigente.",
         "Alunos Vencendo2Próximos do vencimento",
         "Alunos Vencidos2Necessitam atenção",
-        "Check-in semanal8Alunos aptos para contato semanalEnviar check-ins"
+        "Check-in semanal8Alunos aptos para contato semanalInclui alunos sem contrato vencido. Vencidos ficam fora ate a regulari"
       ],
-      "firstFoldText": "VISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nTotal previsto no período\nReceita Recebida\n\nR$ 1.139,70\n\nPagamentos já confirmados\nReceita Pendente\n\nR$ 2.559,80\n\nValores ainda pendentes\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtenção\nRegularizar alunos vencidos\n\nPriorize contato e renegociação para evitar perda de acompanhamento.\n\nVer alunos\nAgenda\nEnviar lembretes de vencimento\n\nHá contratos ou parcelas próximos do vencimento que podem ser tratados com antecedência.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos já confirmados.\n\nAbrir financeiro\nReceita Mensal\n\nEvolução dos pagamentos confirmados nos últimos 6 meses.\n\nHistórico de pagamentos\nFev De 26\nR$ 199,90\nMar De 26\nR$ 180,00\nAbr De 26\nR$ 180,00\nMai De 26\nR$ 199,90\nJun De 26\nR$ 199,90\nJul De 26\nR$ 180,00\nInício\nAlunos\nTreinos\nFinanceiro\nMais",
+      "firstFoldText": "VISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nContratos atuais cadastrados\nSoma do valor vigente de cada aluno.\nReceita Recebida\n\nR$ 1.139,70\n\nHistorico carregado de pagamentos\nInclui recebimentos confirmados registrados.\nReceita Pendente\n\nR$ 2.559,80\n\nEm aberto nos contratos atuais\nDesconta pagamentos vinculados ao contrato vigente.\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nInclui alunos sem contrato vencido. Vencidos ficam fora ate a regularizacao.\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtencao\nRegularizar alunos vencidos\n\nPriorize contato e renegociacao para evitar perda de acompanhamento.\n\nVer vencidos\nAgenda\nEnviar lembretes de vencimento\n\nHa contratos ou parcelas proximos do vencimento que podem ser tratados com antecedencia.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos ja confirmados.\n\nVer pendentes\nTreinos e avaliacoes\n\nSinais oper",
       "touchTargetsBelow44": [
         {
           "text": "Abrir menu da conta",
@@ -731,12 +759,34 @@
           "height": 38,
           "top": 8,
           "visible": true
+        },
+        {
+          "text": "Abrir Treinos",
+          "width": 87,
+          "height": 34,
+          "top": 375,
+          "visible": true
+        },
+        {
+          "text": "Abrir Treinos",
+          "width": 87,
+          "height": 34,
+          "top": 572,
+          "visible": true
+        },
+        {
+          "text": "Abrir Avaliacoes",
+          "width": 105,
+          "height": 34,
+          "top": 788,
+          "visible": true
         }
       ],
       "visibleActions": [
         "Abrir menu da conta",
-        "Ver alunos",
-        "Ver vencimentos",
+        "Abrir Treinos",
+        "Abrir Treinos",
+        "Abrir Avaliacoes",
         "Início",
         "Alunos",
         "Treinos",
@@ -767,18 +817,19 @@
       "headings": [
         "Dashboard",
         "Alertas da consultoria",
+        "Treinos e avaliacoes",
         "Receita Mensal"
       ],
       "cards": [
         "Total de Alunos10Alunos cadastrados",
-        "Receita PrevistaR$ 3.699,50Total previsto no período",
-        "Receita RecebidaR$ 1.139,70Pagamentos já confirmados",
-        "Receita PendenteR$ 2.559,80Valores ainda pendentes",
+        "Receita PrevistaR$ 3.699,50Contratos atuais cadastradosSoma do valor vigente de cada aluno.",
+        "Receita RecebidaR$ 1.139,70Historico carregado de pagamentosInclui recebimentos confirmados registrados.",
+        "Receita PendenteR$ 2.559,80Em aberto nos contratos atuaisDesconta pagamentos vinculados ao contrato vigente.",
         "Alunos Vencendo2Próximos do vencimento",
         "Alunos Vencidos2Necessitam atenção",
-        "Check-in semanal8Alunos aptos para contato semanalEnviar check-ins"
+        "Check-in semanal8Alunos aptos para contato semanalInclui alunos sem contrato vencido. Vencidos ficam fora ate a regulari"
       ],
-      "firstFoldText": "VISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nTotal previsto no período\nReceita Recebida\n\nR$ 1.139,70\n\nPagamentos já confirmados\nReceita Pendente\n\nR$ 2.559,80\n\nValores ainda pendentes\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtenção\nRegularizar alunos vencidos\n\nPriorize contato e renegociação para evitar perda de acompanhamento.\n\nVer alunos\nAgenda\nEnviar lembretes de vencimento\n\nHá contratos ou parcelas próximos do vencimento que podem ser tratados com antecedência.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos já confirmados.\n\nAbrir financeiro\nReceita Mensal\n\nEvolução dos pagamentos confirmados nos últimos 6 meses.\n\nHistórico de pagamentos\nFev De 26\nR$ 199,90\nMar De 26\nR$ 180,00\nAbr De 26\nR$ 180,00\nMai De 26\nR$ 199,90\nJun De 26\nR$ 199,90\nJul De 26\nR$ 180,00\nInício\nAlunos\nTreinos\nFinanceiro\nMais",
+      "firstFoldText": "VISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nContratos atuais cadastrados\nSoma do valor vigente de cada aluno.\nReceita Recebida\n\nR$ 1.139,70\n\nHistorico carregado de pagamentos\nInclui recebimentos confirmados registrados.\nReceita Pendente\n\nR$ 2.559,80\n\nEm aberto nos contratos atuais\nDesconta pagamentos vinculados ao contrato vigente.\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nInclui alunos sem contrato vencido. Vencidos ficam fora ate a regularizacao.\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtencao\nRegularizar alunos vencidos\n\nPriorize contato e renegociacao para evitar perda de acompanhamento.\n\nVer vencidos\nAgenda\nEnviar lembretes de vencimento\n\nHa contratos ou parcelas proximos do vencimento que podem ser tratados com antecedencia.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos ja confirmados.\n\nVer pendentes\nTreinos e avaliacoes\n\nSinais oper",
       "touchTargetsBelow44": [
         {
           "text": "Abrir menu da conta",
@@ -786,12 +837,34 @@
           "height": 38,
           "top": 8,
           "visible": true
+        },
+        {
+          "text": "Abrir Treinos",
+          "width": 87,
+          "height": 34,
+          "top": 375,
+          "visible": true
+        },
+        {
+          "text": "Abrir Treinos",
+          "width": 87,
+          "height": 34,
+          "top": 572,
+          "visible": true
+        },
+        {
+          "text": "Abrir Avaliacoes",
+          "width": 105,
+          "height": 34,
+          "top": 769,
+          "visible": true
         }
       ],
       "visibleActions": [
         "Abrir menu da conta",
-        "Ver alunos",
-        "Ver vencimentos",
+        "Abrir Treinos",
+        "Abrir Treinos",
+        "Abrir Avaliacoes",
         "Início",
         "Alunos",
         "Treinos",
@@ -822,18 +895,19 @@
       "headings": [
         "Dashboard",
         "Alertas da consultoria",
+        "Treinos e avaliacoes",
         "Receita Mensal"
       ],
       "cards": [
         "Total de Alunos10Alunos cadastrados",
-        "Receita PrevistaR$ 3.699,50Total previsto no período",
-        "Receita RecebidaR$ 1.139,70Pagamentos já confirmados",
-        "Receita PendenteR$ 2.559,80Valores ainda pendentes",
+        "Receita PrevistaR$ 3.699,50Contratos atuais cadastradosSoma do valor vigente de cada aluno.",
+        "Receita RecebidaR$ 1.139,70Historico carregado de pagamentosInclui recebimentos confirmados registrados.",
+        "Receita PendenteR$ 2.559,80Em aberto nos contratos atuaisDesconta pagamentos vinculados ao contrato vigente.",
         "Alunos Vencendo2Próximos do vencimento",
         "Alunos Vencidos2Necessitam atenção",
-        "Check-in semanal8Alunos aptos para contato semanalEnviar check-ins"
+        "Check-in semanal8Alunos aptos para contato semanalInclui alunos sem contrato vencido. Vencidos ficam fora ate a regulari"
       ],
-      "firstFoldText": "VISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nTotal previsto no período\nReceita Recebida\n\nR$ 1.139,70\n\nPagamentos já confirmados\nReceita Pendente\n\nR$ 2.559,80\n\nValores ainda pendentes\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtenção\nRegularizar alunos vencidos\n\nPriorize contato e renegociação para evitar perda de acompanhamento.\n\nVer alunos\nAgenda\nEnviar lembretes de vencimento\n\nHá contratos ou parcelas próximos do vencimento que podem ser tratados com antecedência.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos já confirmados.\n\nAbrir financeiro\nReceita Mensal\n\nEvolução dos pagamentos confirmados nos últimos 6 meses.\n\nHistórico de pagamentos\nFev De 26\nR$ 199,90\nMar De 26\nR$ 180,00\nAbr De 26\nR$ 180,00\nMai De 26\nR$ 199,90\nJun De 26\nR$ 199,90\nJul De 26\nR$ 180,00\nInício\nAlunos\nTreinos\nFinanceiro\nMais",
+      "firstFoldText": "VISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nContratos atuais cadastrados\nSoma do valor vigente de cada aluno.\nReceita Recebida\n\nR$ 1.139,70\n\nHistorico carregado de pagamentos\nInclui recebimentos confirmados registrados.\nReceita Pendente\n\nR$ 2.559,80\n\nEm aberto nos contratos atuais\nDesconta pagamentos vinculados ao contrato vigente.\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nInclui alunos sem contrato vencido. Vencidos ficam fora ate a regularizacao.\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtencao\nRegularizar alunos vencidos\n\nPriorize contato e renegociacao para evitar perda de acompanhamento.\n\nVer vencidos\nAgenda\nEnviar lembretes de vencimento\n\nHa contratos ou parcelas proximos do vencimento que podem ser tratados com antecedencia.\n\nVer vencimentos\nFinanceiro\nRevisar pagamentos pendentes\n\nConfira o financeiro e registre recebimentos ja confirmados.\n\nVer pendentes\nTreinos e avaliacoes\n\nSinais oper",
       "touchTargetsBelow44": [
         {
           "text": "Abrir menu da conta",
@@ -841,13 +915,34 @@
           "height": 38,
           "top": 8,
           "visible": true
+        },
+        {
+          "text": "Abrir Treinos",
+          "width": 87,
+          "height": 34,
+          "top": 375,
+          "visible": true
+        },
+        {
+          "text": "Abrir Treinos",
+          "width": 87,
+          "height": 34,
+          "top": 572,
+          "visible": true
+        },
+        {
+          "text": "Abrir Avaliacoes",
+          "width": 105,
+          "height": 34,
+          "top": 769,
+          "visible": true
         }
       ],
       "visibleActions": [
         "Abrir menu da conta",
-        "Ver alunos",
-        "Ver vencimentos",
-        "Abrir financeiro",
+        "Abrir Treinos",
+        "Abrir Treinos",
+        "Abrir Avaliacoes",
         "Início",
         "Alunos",
         "Treinos",
@@ -883,12 +978,12 @@
         "href": "http://127.0.0.1:5173/financeiro"
       },
       {
-        "text": "Ver alunos",
-        "href": "http://127.0.0.1:5173/alunos"
+        "text": "Ver vencidos",
+        "href": "http://127.0.0.1:5173/alunos?status=Vencido"
       },
       {
-        "text": "Abrir financeiro",
-        "href": "http://127.0.0.1:5173/financeiro"
+        "text": "Ver pendentes",
+        "href": "http://127.0.0.1:5173/financeiro?pagamento=pendentes"
       },
       {
         "text": "Alunos",
@@ -903,7 +998,7 @@
       "opened": true,
       "cta": "Enviar check-ins",
       "modalVisible": true,
-      "text": "Dashboard\nAlunos\nFinanceiro\nPlanos\nAvaliações\nTreinos\nPrivacidade\n•\nTermos\nVersão 1.7\nVISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nTotal previsto no período\nReceita Recebida\n\nR$ 1.139,70\n\nPagamentos já confirmados\nReceita Pendente\n\nR$ 2.559,80\n\nValores ainda pendentes\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nEnviar check-ins\nAlertas da consultoria\n\nPendências que merecem uma revisão rápida hoje.\n\nAtenção\nRegularizar alunos vencidos\n\nPriorize contato e renegociação para evitar perda de acompanhamento.\n\nVer alunos\nAgenda\nEnviar lembretes de vencimento\n\nH"
+      "text": "Dashboard\nAlunos\nFinanceiro\nPlanos\nAvaliações\nTreinos\nPrivacidade\n•\nTermos\nVersão 1.7\nVISÃO GERAL\nDashboard\n\nAcompanhe métricas, vencimentos e movimentações da consultoria.\n\nPrimeiros passos concluídos\n3/3\nTotal de Alunos\n\n10\n\nAlunos cadastrados\nReceita Prevista\n\nR$ 3.699,50\n\nContratos atuais cadastrados\nSoma do valor vigente de cada aluno.\nReceita Recebida\n\nR$ 1.139,70\n\nHistorico carregado de pagamentos\nInclui recebimentos confirmados registrados.\nReceita Pendente\n\nR$ 2.559,80\n\nEm aberto nos contratos atuais\nDesconta pagamentos vinculados ao contrato vigente.\nAlunos Vencendo\n\n2\n\nPróximos do vencimento\nAlunos Vencidos\n\n2\n\nNecessitam atenção\nCheck-in semanal\n\n8\n\nAlunos aptos para contato semanal\nInclui alunos sem contrato vencido. Vencidos ficam fora ate a regularizacao.\nEnviar check-ins\nAl"
     }
   },
   "accessibility": {
@@ -961,7 +1056,7 @@
       },
       {
         "tag": "a",
-        "text": "Ver alunos",
+        "text": "Ver vencidos",
         "hasName": true
       },
       {
@@ -971,27 +1066,27 @@
       },
       {
         "tag": "a",
-        "text": "Abrir financeiro",
+        "text": "Ver pendentes",
+        "hasName": true
+      },
+      {
+        "tag": "a",
+        "text": "Abrir Treinos",
+        "hasName": true
+      },
+      {
+        "tag": "a",
+        "text": "Abrir Treinos",
+        "hasName": true
+      },
+      {
+        "tag": "a",
+        "text": "Abrir Avaliacoes",
         "hasName": true
       },
       {
         "tag": "button",
         "text": "Fechar modal",
-        "hasName": true
-      },
-      {
-        "tag": "button",
-        "text": "Enviar",
-        "hasName": true
-      },
-      {
-        "tag": "button",
-        "text": "Enviar",
-        "hasName": true
-      },
-      {
-        "tag": "button",
-        "text": "Enviar",
         "hasName": true
       },
       {

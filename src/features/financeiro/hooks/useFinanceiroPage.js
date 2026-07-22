@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useConfirm } from "../../../hooks/useConfirm";
 import { useToast } from "../../../hooks/useToast";
 import {
@@ -63,12 +64,15 @@ export const encerramentoInicial = {
 };
 
 export function useFinanceiroPage() {
+  const [searchParams] = useSearchParams();
   const [alunos, setAlunos] = useState([]);
   const [pagamentos, setPagamentos] = useState([]);
   const [planos, setPlanos] = useState([]);
   const [busca, setBusca] = useState("");
   const [filtroStatus, setFiltroStatus] = useState("todos");
-  const [filtroPagamento, setFiltroPagamento] = useState("todos");
+  const [filtroPagamento, setFiltroPagamento] = useState(
+    searchParams.get("pagamento") || "todos"
+  );
   const [visaoAcompanhamento, setVisaoAcompanhamento] = useState("em_acompanhamento");
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");

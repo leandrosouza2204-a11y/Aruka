@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useConfirm } from "../../../hooks/useConfirm";
 import { useToast } from "../../../hooks/useToast";
 import {
@@ -38,6 +39,7 @@ export const formInicial = {
 };
 
 export function useAlunosPage() {
+  const [searchParams] = useSearchParams();
   const [alunos, setAlunos] = useState([]);
   const [planos, setPlanos] = useState([]);
   const [form, setForm] = useState(formInicial);
@@ -45,7 +47,9 @@ export function useAlunosPage() {
   const [alunoEditandoId, setAlunoEditandoId] = useState("");
   const [alunoSelecionadoId, setAlunoSelecionadoId] = useState("");
   const [busca, setBusca] = useState("");
-  const [filtroStatus, setFiltroStatus] = useState("todos");
+  const [filtroStatus, setFiltroStatus] = useState(
+    searchParams.get("status") || "todos"
+  );
   const [filtroPlano, setFiltroPlano] = useState("todos");
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
