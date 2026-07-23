@@ -1,8 +1,13 @@
-﻿import { useMemo, useState } from "react";
+﻿import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ExercicioCard from "./ExercicioCard";
 import TreinoSalvarModeloModal from "../features/treinos/components/TreinoSalvarModeloModal";
 import { useConfirm } from "../hooks/useConfirm";
 import { useToast } from "../hooks/useToast";
+import {
+  areTreinoEditorStatesEqual,
+  normalizeTreinoEditorState,
+  validateTreinoEditorState,
+} from "../features/treinos/utils/treinoEditorState";
 
 const treinoVazio = {
   alunoId: "",
@@ -40,10 +45,27 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
     ...treino,
     dias: treino?.dias?.length ? treino.dias : [],
   }));
+  const [initialSnapshot, setInitialSnapshot] = useState(() =>
+    normalizeTreinoEditorState({
+      form: {
+        ...treinoVazio,
+        ...treino,
+        dias: treino?.dias?.length ? treino.dias : [],
+      },
+      exerciseDrafts: {},
+    })
+  );
   const [novoDia, setNovoDia] = useState(diaVazio);
   const [exercicioPorDia, setExercicioPorDia] = useState({});
   const [edicaoExercicio, setEdicaoExercicio] = useState(null);
   const [salvandoModelo, setSalvandoModelo] = useState(false);
+  const [salvandoTreino, setSalvandoTreino] = useState(false);
+  const [errosValidacao, setErrosValidacao] = useState({});
+  const modalRef = useRef(null);
+  const alunoRef = useRef(null);
+  const rotinaRef = useRef(null);
+  const adicionarDiaRef = useRef(null);
+  const adicionarExercicioRef = useRef(null);
   const toast = useToast();
   const { confirmar } = useConfirm();
 
@@ -53,9 +75,72 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
     () => new Map(alunos.map((aluno) => [aluno.id, aluno])),
     [alunos]
   );
+  const estadoAtual = useMemo(
+    () => ({ form, exerciseDrafts: exercicioPorDia }),
+    [exercicioPorDia, form]
+  );
+  const isDirty = useMemo(
+    () => !areTreinoEditorStatesEqual(initialSnapshot, estadoAtual),
+    [estadoAtual, initialSnapshot]
+  );
+  const requestCloseEditor = useCallback(async (reason) => {
+    if (!isDirty) {
+      onClose(reason);
+      return true;
+    }
+
+    const discard = await confirmar({
+      titulo: "Descartar alteracoes?",
+      descricao: "Voce possui alteracoes nao salvas. Ao sair, essas alteracoes serao perdidas.",
+      textoCancelar: "Continuar editando",
+      textoConfirmar: "Descartar alteracoes",
+      variante: "perigo",
+      testIdPrefix: "treino-discard",
+    });
+
+    if (!discard) return false;
+    onClose(reason);
+    return true;
+  }, [confirmar, isDirty, onClose]);
+
+  useEffect(() => {
+    modalRef.current?.querySelector("select, input, textarea, button")?.focus?.();
+  }, []);
+
+  useEffect(() => {
+    if (!isDirty) return undefined;
+
+    function handleBeforeUnload(event) {
+      event.preventDefault();
+      event.returnValue = "";
+    }
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [isDirty]);
+
+  useEffect(() => {
+    if (!isDirty) return undefined;
+
+    window.history.pushState({ treinoEditorGuard: true }, "", window.location.href);
+
+    function handlePopState() {
+      requestCloseEditor("history").then((closed) => {
+        if (closed) window.setTimeout(() => window.history.back(), 0);
+        else window.history.pushState({ treinoEditorGuard: true }, "", window.location.href);
+      });
+    }
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [isDirty, requestCloseEditor]);
 
   function atualizarCampo(campo, valor) {
     setForm({ ...form, [campo]: valor });
+    setErrosValidacao((atuais) => ({
+      ...atuais,
+      [campo === "alunoId" ? "student" : campo === "rotina" ? "name" : campo]: undefined,
+    }));
   }
 
   function adicionarDia() {
@@ -78,6 +163,7 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
       ],
     });
     setNovoDia(diaVazio);
+    setErrosValidacao((atuais) => ({ ...atuais, days: undefined }));
   }
 
   async function removerDia(id) {
@@ -139,6 +225,7 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
     setForm({ ...form, dias: diasAtualizados });
     setExercicioPorDia({ ...exercicioPorDia, [diaId]: exercicioVazio });
     setEdicaoExercicio(null);
+    setErrosValidacao((atuais) => ({ ...atuais, exercises: undefined }));
   }
 
   function editarExercicio(diaId, exercicio) {
@@ -203,28 +290,59 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
     });
   }
 
-  function salvarTreino() {
-    const alunoSelecionado = alunosPorId.get(form.alunoId);
+  async function salvarTreino() {
+    if (salvandoTreino) return;
+    const validacao = validateTreinoEditorState(estadoAtual, alunos);
 
-    if (!alunoSelecionado || !form.rotina.trim()) {
-      toast.aviso("Treino incompleto", "Informe o aluno e o nome da rotina.");
+    if (!validacao.ok) {
+      setErrosValidacao(validacao.errors);
+      toast.aviso("Treino incompleto", Object.values(validacao.errors)[0]);
+      window.setTimeout(() => focarPrimeiroErro(validacao.errors), 0);
       return;
     }
 
-    onSave({
-      ...form,
-      alunoId: alunoSelecionado.id,
-      aluno: alunoSelecionado.nome,
-      nomeAluno: alunoSelecionado.nome,
-      rotina: form.rotina.trim(),
-      objetivo: form.objetivo.trim(),
-      nivel: form.nivel.trim(),
-      status: form.status || "Ativo",
-      dataInicio: form.dataInicio,
-      dataRevisao: form.dataRevisao,
-      observacoes: form.observacoes.trim(),
-      diasPorSemana: Number(form.diasPorSemana || form.dias.length || 0),
-    });
+    const alunoSelecionado = alunosPorId.get(form.alunoId);
+
+    setSalvandoTreino(true);
+    try {
+      const salvo = await onSave({
+        ...form,
+        alunoId: alunoSelecionado.id,
+        aluno: alunoSelecionado.nome,
+        nomeAluno: alunoSelecionado.nome,
+        rotina: form.rotina.trim(),
+        objetivo: form.objetivo.trim(),
+        nivel: form.nivel.trim(),
+        status: form.status || "Ativo",
+        dataInicio: form.dataInicio,
+        dataRevisao: form.dataRevisao,
+        observacoes: form.observacoes.trim(),
+        diasPorSemana: Number(form.diasPorSemana || form.dias.length || 0),
+      });
+      if (salvo !== false) {
+        setInitialSnapshot(normalizeTreinoEditorState(estadoAtual));
+      }
+    } finally {
+      setSalvandoTreino(false);
+    }
+  }
+
+  function focarPrimeiroErro(errors) {
+    if (errors.name) rotinaRef.current?.focus();
+    else if (errors.student) alunoRef.current?.focus();
+    else if (errors.days) adicionarDiaRef.current?.focus();
+    else if (errors.exercises) adicionarExercicioRef.current?.focus();
+  }
+
+  function handleOverlayMouseDown(event) {
+    if (event.target === event.currentTarget) requestCloseEditor("backdrop");
+  }
+
+  function handleKeyDown(event) {
+    if (event.key === "Escape") {
+      event.stopPropagation();
+      requestCloseEditor("escape");
+    }
   }
 
   function abrirSalvarModelo() {
@@ -252,27 +370,61 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
   }
 
   return (
-    <div className="treino-modal-overlay" style={overlay}>
-      <div className="treino-editor-modal" style={modal} data-testid="treino-editor-modal">
+    <div className="treino-modal-overlay" style={overlay} onMouseDown={handleOverlayMouseDown}>
+      <div
+        ref={modalRef}
+        className="treino-editor-modal"
+        style={modal}
+        data-testid="treino-editor-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="treino-editor-title"
+        onKeyDown={handleKeyDown}
+      >
         <div className="treino-editor-header" style={modalTopo}>
           <div>
-            <h2 style={tituloModal}>{titulo}</h2>
+            <div style={tituloLinha}>
+              <h2 id="treino-editor-title" style={tituloModal}>{titulo}</h2>
+              {isDirty && (
+                <span style={dirtyIndicator} data-testid="treino-editor-dirty-indicator">
+                  Alteracoes nao salvas
+                </span>
+              )}
+            </div>
             <p style={subtitulo}>Monte a rotina, os dias e os exercícios.</p>
           </div>
 
-          <button onClick={onClose} style={botaoSecundario}>
+          <button onClick={() => requestCloseEditor("close")} style={botaoSecundario} data-testid="treino-editor-close">
             Fechar
           </button>
         </div>
 
         <div className="treino-editor-scroll" data-testid="treino-editor-scroll">
+          {Object.values(errosValidacao).filter(Boolean).length > 0 && (
+            <div
+              style={validationSummary}
+              data-testid="treino-editor-validation-summary"
+              role="alert"
+              tabIndex={-1}
+            >
+              <strong>Revise o treino antes de salvar.</strong>
+              <ul style={validationList}>
+                {Object.values(errosValidacao).filter(Boolean).map((erro) => (
+                  <li key={erro}>{erro}</li>
+                ))}
+              </ul>
+            </div>
+          )}
           <div className="treino-editor-form-grid" style={formGrid}>
           <Campo label="Aluno">
             <select
+              ref={alunoRef}
               value={form.alunoId || ""}
               onChange={(e) => atualizarCampo("alunoId", e.target.value)}
-              style={campo}
+              style={campoComErro(errosValidacao.student)}
               data-testid="treino-form-student"
+              aria-invalid={Boolean(errosValidacao.student)}
+              aria-describedby={errosValidacao.student ? "treino-editor-error-student" : undefined}
             >
               <option value="">Selecione</option>
               {alunos.map((aluno) => (
@@ -281,15 +433,21 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
                 </option>
               ))}
             </select>
+            {errosValidacao.student && <ErroCampo id="treino-editor-error-student">{errosValidacao.student}</ErroCampo>}
           </Campo>
 
           <Campo label="Nome da rotina">
             <input
+              ref={rotinaRef}
               placeholder="Ex: Hipertrofia - Fase 1"
               value={form.rotina}
               onChange={(e) => atualizarCampo("rotina", e.target.value)}
-              style={campo}
+              style={campoComErro(errosValidacao.name)}
+              data-testid="treino-editor-name"
+              aria-invalid={Boolean(errosValidacao.name)}
+              aria-describedby={errosValidacao.name ? "treino-editor-error-name" : undefined}
             />
+            {errosValidacao.name && <ErroCampo id="treino-editor-error-name">{errosValidacao.name}</ErroCampo>}
           </Campo>
 
           <Campo label="Objetivo">
@@ -383,10 +541,11 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
               }
               style={campo}
             />
-            <button onClick={adicionarDia} style={botaoSecundario}>
+            <button onClick={adicionarDia} style={botaoSecundario} data-testid="treino-day-add" ref={adicionarDiaRef}>
               Adicionar Dia
             </button>
           </div>
+          {errosValidacao.days && <ErroCampo id="treino-editor-error-days">{errosValidacao.days}</ErroCampo>}
 
           <div className="treino-editor-days-list" style={diasLista}>
             {form.dias.map((dia) => {
@@ -513,10 +672,12 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
                       aria-label="Observações do exercício"
                     />
                     <button
+                      ref={adicionarExercicioRef}
                       type="button"
                       onClick={() => salvarExercicio(dia.id)}
                       style={botaoPrimario}
                       data-testid="exercise-add"
+                      data-qa="treino-exercise-add"
                     >
                       {editando}
                     </button>
@@ -557,13 +718,14 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
             {form.dias.length === 0 && (
               <p style={vazio}>Adicione pelo menos um dia de treino.</p>
             )}
+            {errosValidacao.exercises && <ErroCampo id="treino-editor-error-exercises">{errosValidacao.exercises}</ErroCampo>}
           </div>
         </section>
 
         </div>
 
         <div className="treino-editor-footer" style={rodape} data-testid="treino-editor-footer">
-          <button onClick={onClose} style={botaoSecundario}>
+          <button onClick={() => requestCloseEditor("cancel")} style={botaoSecundario} data-testid="treino-editor-cancel">
             Cancelar
           </button>
           {onSaveTemplate && (
@@ -575,8 +737,13 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
               Salvar como modelo
             </button>
           )}
-          <button onClick={salvarTreino} style={botaoPrimario}>
-            Salvar Treino
+          <button
+            onClick={salvarTreino}
+            style={salvandoTreino ? botaoDesabilitado : botaoPrimario}
+            disabled={salvandoTreino}
+            data-testid="treino-editor-save"
+          >
+            {salvandoTreino ? "Salvando..." : "Salvar Treino"}
           </button>
         </div>
       </div>
@@ -599,6 +766,18 @@ function Campo({ label, children }) {
       {children}
     </label>
   );
+}
+
+function ErroCampo({ id, children }) {
+  return (
+    <span id={id} style={erroCampo}>
+      {children}
+    </span>
+  );
+}
+
+function campoComErro(erro) {
+  return erro ? { ...campo, ...campoErro } : campo;
 }
 
 const overlay = {
@@ -632,6 +811,23 @@ const modalTopo = {
 const tituloModal = {
   margin: 0,
   fontSize: "22px",
+};
+
+const tituloLinha = {
+  alignItems: "center",
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "8px",
+};
+
+const dirtyIndicator = {
+  background: "#fff7ed",
+  border: "1px solid #fed7aa",
+  borderRadius: "999px",
+  color: "#9a3412",
+  fontSize: "12px",
+  fontWeight: "800",
+  padding: "5px 8px",
 };
 
 const subtitulo = {
@@ -668,6 +864,31 @@ const campo = {
   background: "white",
   color: "#111827",
   outline: "none",
+};
+
+const campoErro = {
+  border: "1px solid #dc2626",
+  boxShadow: "0 0 0 3px rgba(220, 38, 38, 0.12)",
+};
+
+const erroCampo = {
+  color: "#991b1b",
+  fontSize: "12px",
+  fontWeight: "750",
+};
+
+const validationSummary = {
+  background: "#fef2f2",
+  border: "1px solid #fecaca",
+  borderRadius: "8px",
+  color: "#991b1b",
+  marginTop: "18px",
+  padding: "12px",
+};
+
+const validationList = {
+  margin: "8px 0 0",
+  paddingLeft: "18px",
 };
 
 const bloco = {
@@ -746,6 +967,12 @@ const botaoPrimario = {
   borderRadius: "8px",
   cursor: "pointer",
   fontWeight: "700",
+};
+
+const botaoDesabilitado = {
+  ...botaoPrimario,
+  cursor: "not-allowed",
+  opacity: 0.62,
 };
 
 const botaoSecundario = {

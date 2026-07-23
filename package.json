@@ -44,6 +44,7 @@
     "qa:treino-template-editor-flow": "node --env-file=.env --env-file=.env.local --env-file=.env.qa.local scripts/validate-treino-template-editor-flow-cdp.mjs",
     "qa:treinos-functional-audit": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-treinos-functional-audit-cdp.mjs",
     "qa:treinos-context-onboarding": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-treinos-context-onboarding-cdp.mjs",
+    "qa:treinos-editor-integrity": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-treinos-editor-integrity-cdp.mjs",
     "qa:treino-library-cycle-6-4": "npm run qa:workout-template-sanitization && npm run qa:workout-templates-data && npm run qa:treino-templates-mobile && npm run qa:treino-exercises-mobile && npm run qa:treino-template-editor-flow",
     "qa:apl": "node scripts/apl/audit.mjs",
     "qa:apl:sprint01": "node scripts/apl/audit.mjs --sprint=1",
