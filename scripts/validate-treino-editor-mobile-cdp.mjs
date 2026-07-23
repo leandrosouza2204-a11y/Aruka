@@ -404,6 +404,11 @@ function validate(item) {
 
 async function cancelEditor(client) {
   await clickText(client, "Cancelar", "button");
+  await sleep(300);
+  const hasDiscard = await evaluate(client, "Boolean(document.querySelector('[data-testid=\"treino-discard-dialog\"]'))");
+  if (hasDiscard) {
+    await evaluate(client, `document.querySelector('[data-testid="treino-discard-confirm"]').click()`);
+  }
   await waitFor(client, "!document.querySelector('[data-testid=\"treino-editor-modal\"]')");
 }
 

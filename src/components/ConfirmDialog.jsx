@@ -41,6 +41,8 @@ export function ConfirmProvider({ children }) {
           data-testid={
             dialog.testIdPrefix === "workout-template-unsaved"
               ? "workout-template-unsaved-dialog"
+              : dialog.testIdPrefix === "treino-discard"
+                ? "treino-discard-dialog"
               : `${dialog.testIdPrefix}-confirmation-dialog`
           }
           initialFocusRef={cancelarRef}
@@ -54,6 +56,8 @@ export function ConfirmProvider({ children }) {
                 data-testid={
                   dialog.testIdPrefix === "workout-template-unsaved"
                     ? "workout-template-keep-editing"
+                    : dialog.testIdPrefix === "treino-discard"
+                      ? "treino-discard-continue"
                     : `${dialog.testIdPrefix}-confirmation-cancel`
                 }
                 onClick={() => fechar(false)}
@@ -66,6 +70,8 @@ export function ConfirmProvider({ children }) {
                 data-testid={
                   dialog.testIdPrefix === "workout-template-unsaved"
                     ? "workout-template-discard"
+                    : dialog.testIdPrefix === "treino-discard"
+                      ? "treino-discard-confirm"
                     : `${dialog.testIdPrefix}-confirmation-confirm`
                 }
                 onClick={() => fechar(true)}

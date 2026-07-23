@@ -256,6 +256,7 @@ export function useTreinosPage() {
       setTreinoSelecionadoId(treinoSalvo?.id || "");
       fecharModal();
       toast.sucesso("Treino salvo", "A ficha foi salva com sucesso.");
+      return true;
     } catch (error) {
       console.error(error);
       setErro(error.message || "Não foi possível salvar o treino.");
@@ -263,6 +264,7 @@ export function useTreinosPage() {
         "Não foi possível salvar o treino",
         "Tente novamente em alguns instantes."
       );
+      return false;
     }
   }
 
