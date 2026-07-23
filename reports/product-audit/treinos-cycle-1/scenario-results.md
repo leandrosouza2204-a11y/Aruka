@@ -1,0 +1,24 @@
+# Scenario Results
+
+- PASS: fixtures incluem aluno com treino
+- PASS: fixtures incluem aluno sem treino
+- PASS: sem query nao exibe banner contextual
+- PASS: alunoId valido exibe banner
+- PASS: nome contextual visivel
+- PASS: retorno visual aparece
+- PASS: retorno preserva filtros
+- PASS: novo treino contextual pre-seleciona aluno
+- PASS: retorno navega para alunos
+- PASS: retorno preserva filtro busca
+- PASS: refresh preserva banner contextual
+- PASS: aluno sem treino exibe vazio contextual
+- PASS: vazio contextual pre-seleciona aluno
+- PASS: alunoId malformado mostra erro controlado
+- PASS: alunoId malformado nao abre aluno selecionado
+- PASS: alunoId inexistente mostra erro controlado
+- PASS: remover contexto volta para visao geral
+- PASS: returnTo externo nao mostra botao
+- PASS: mobile exibe contexto
+- PASS: mobile sem overflow horizontal
+- PASS: mobile exibe vazio contextual
+- PASS: mobile vazio sem overflow horizontal

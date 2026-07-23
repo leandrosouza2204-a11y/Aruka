@@ -272,6 +272,7 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
               value={form.alunoId || ""}
               onChange={(e) => atualizarCampo("alunoId", e.target.value)}
               style={campo}
+              data-testid="treino-form-student"
             >
               <option value="">Selecione</option>
               {alunos.map((aluno) => (

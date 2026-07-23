@@ -18,6 +18,11 @@ import {
   excluirModeloPessoalSupabase,
 } from "../../../services/workoutTemplatesService";
 import { abrirWhatsApp } from "../../../services/whatsappService";
+import {
+  criarTreinoBaseContextual,
+  removerAlunoIdDoContexto,
+  resolverContextoAlunoTreinos,
+} from "../utils/treinosContextoAluno";
 import { templateDataToWorkout } from "../utils/workoutTemplateSanitization";
 
 export { formatarData };
@@ -35,11 +40,15 @@ export function useTreinosPage() {
   const [treinoBase, setTreinoBase] = useState(null);
   const [treinoSelecionadoId, setTreinoSelecionadoId] = useState("");
   const [busca, setBusca] = useState("");
-  const filtroAluno = searchParams.get("alunoId") || "todos";
+  const [carregando, setCarregando] = useState(true);
+  const contextoAluno = useMemo(
+    () => resolverContextoAlunoTreinos({ searchParams, alunos, carregando }),
+    [alunos, carregando, searchParams]
+  );
+  const filtroAluno = contextoAluno.alunoId || "todos";
   const [filtroObjetivo, setFiltroObjetivo] = useState("todos");
   const [filtroNivel, setFiltroNivel] = useState("todos");
   const [filtroStatus, setFiltroStatus] = useState("todos");
-  const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
   const toast = useToast();
   const { confirmar } = useConfirm();
@@ -84,10 +93,7 @@ export function useTreinosPage() {
     [treinoSelecionadoId, treinos]
   );
 
-  const alunoContextual = useMemo(
-    () => alunos.find((aluno) => aluno.id === filtroAluno) || null,
-    [alunos, filtroAluno]
-  );
+  const alunoContextual = contextoAluno.aluno;
 
   const fichaTreino = useMemo(
     () => (treinoSelecionado ? formatarTreinoWhatsApp(treinoSelecionado) : ""),
@@ -144,7 +150,7 @@ export function useTreinosPage() {
 
   function abrirNovoTreino() {
     setTreinoEditando(null);
-    setTreinoBase(null);
+    setTreinoBase(criarTreinoBaseContextual(alunoContextual));
     setModalAberto(true);
   }
 
@@ -338,6 +344,10 @@ export function useTreinosPage() {
     setSearchParams(proximos, { replace: false });
   }
 
+  function limparContextoAluno() {
+    setSearchParams(removerAlunoIdDoContexto(searchParams), { replace: false });
+  }
+
   function copiarTreinoWhatsApp() {
     if (!fichaTreino || !treinoSelecionado) return;
 
@@ -365,6 +375,7 @@ export function useTreinosPage() {
   return {
     alunos,
     alunoContextual,
+    contextoAluno,
     busca,
     carregando,
     erro,
@@ -393,6 +404,7 @@ export function useTreinosPage() {
     fecharModal,
     gerarTreinoBase,
     limparFiltros,
+    limparContextoAluno,
     removerTreino,
     removerModeloPessoal,
     salvarModeloPessoal,
