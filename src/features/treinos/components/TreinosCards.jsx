@@ -21,6 +21,7 @@ function TreinosCards({
   onEditar,
   onDuplicar,
   onExcluir,
+  alunoContextual,
   onNovoTreino,
   onUsarModelo,
   styles,
@@ -36,6 +37,7 @@ function TreinosCards({
   if (treinos.length === 0) {
     return (
       <TreinosEmptyState
+        alunoContextual={alunoContextual}
         onNovoTreino={onNovoTreino}
         onUsarModelo={onUsarModelo}
       />
