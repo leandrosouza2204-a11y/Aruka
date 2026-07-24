@@ -1,0 +1,611 @@
+{
+  "decision": "READY",
+  "results": [
+    {
+      "name": "falha na carga inicial mostra erro recuperavel",
+      "status": "PASS",
+      "start": "2026-07-24T01:55:59.960Z",
+      "end": "2026-07-24T01:56:05.378Z"
+    },
+    {
+      "name": "retry com sucesso preserva URL e recupera biblioteca",
+      "status": "PASS",
+      "start": "2026-07-24T01:56:05.378Z",
+      "end": "2026-07-24T01:56:08.708Z"
+    },
+    {
+      "name": "retry com nova falha desbloqueia nova tentativa",
+      "status": "PASS",
+      "start": "2026-07-24T01:56:08.708Z",
+      "end": "2026-07-24T01:56:16.078Z"
+    },
+    {
+      "name": "falha ao duplicar preserva original e desbloqueia acoes",
+      "status": "PASS",
+      "start": "2026-07-24T01:56:16.078Z",
+      "end": "2026-07-24T01:56:25.879Z"
+    },
+    {
+      "name": "falha ao excluir preserva treino e desbloqueia acoes",
+      "status": "PASS",
+      "start": "2026-07-24T01:56:25.879Z",
+      "end": "2026-07-24T01:56:32.527Z"
+    },
+    {
+      "name": "contexto via URL sobrevive a erro, retry e refresh",
+      "status": "PASS",
+      "start": "2026-07-24T01:56:32.527Z",
+      "end": "2026-07-24T01:56:40.531Z"
+    },
+    {
+      "name": "mobile/responsivo 320px com erro sem overflow",
+      "status": "PASS",
+      "start": "2026-07-24T01:56:40.531Z",
+      "end": "2026-07-24T01:56:44.086Z"
+    },
+    {
+      "name": "mobile/responsivo 375px com erro sem overflow",
+      "status": "PASS",
+      "start": "2026-07-24T01:56:44.086Z",
+      "end": "2026-07-24T01:56:47.827Z"
+    },
+    {
+      "name": "mobile/responsivo 390px com erro sem overflow",
+      "status": "PASS",
+      "start": "2026-07-24T01:56:47.827Z",
+      "end": "2026-07-24T01:56:51.370Z"
+    },
+    {
+      "name": "mobile/responsivo 768px com erro sem overflow",
+      "status": "PASS",
+      "start": "2026-07-24T01:56:51.370Z",
+      "end": "2026-07-24T01:56:56.203Z"
+    },
+    {
+      "name": "mobile/responsivo 1366px com erro sem overflow",
+      "status": "PASS",
+      "start": "2026-07-24T01:56:56.203Z",
+      "end": "2026-07-24T01:57:00.214Z"
+    }
+  ],
+  "consoleEvents": [
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    },
+    {
+      "type": "error",
+      "text": "Falha controlada LOCAL_QA capturada durante cenarios de resiliencia."
+    }
+  ],
+  "networkEvents": [
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&aluno_id=eq.7503006f-f171-4d48-a817-c9925b3e5cab&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&aluno_id=eq.7503006f-f171-4d48-a817-c9925b3e5cab&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&aluno_id=eq.7503006f-f171-4d48-a817-c9925b3e5cab&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&aluno_id=eq.7503006f-f171-4d48-a817-c9925b3e5cab&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    }
+  ]
+}

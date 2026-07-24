@@ -31,6 +31,7 @@ import {
   lerFiltrosTreinosDaUrl,
   limparFiltrosTreinosDaUrl,
 } from "../utils/treinosListQueryState";
+import { criarErroTreinos } from "../utils/treinosErrorState";
 import { templateDataToWorkout } from "../utils/workoutTemplateSanitization";
 
 export { formatarData };
@@ -62,7 +63,8 @@ export function useTreinosPage() {
     () => normalizarAlunoIdContextual(searchParams),
     [searchParams]
   );
-  const [erro, setErro] = useState("");
+  const [erro, setErro] = useState(null);
+  const [retryEmAndamento, setRetryEmAndamento] = useState(false);
   const [acaoTreino, setAcaoTreino] = useState(null);
   const toast = useToast();
   const { confirmar } = useConfirm();
@@ -129,9 +131,10 @@ export function useTreinosPage() {
     }
   }, []);
 
-  const carregarDados = useCallback(async function carregarDados() {
-    setCarregando(true);
-    setErro("");
+  const carregarDados = useCallback(async function carregarDados(options = {}) {
+    const silencioso = Boolean(options.silencioso);
+    if (!silencioso) setCarregando(true);
+    setErro(null);
 
     try {
       const buscarTreinos = idAlunoBemFormado(alunoIdParametro)
@@ -150,10 +153,11 @@ export function useTreinosPage() {
       setModelosPessoais(modelosSupabase);
       return treinosNormalizados;
     } catch (error) {
-      setErro(error.message || "Não foi possível carregar os treinos.");
+      console.error(error);
+      setErro(criarErroTreinos("load", error));
       return [];
     } finally {
-      setCarregando(false);
+      if (!silencioso) setCarregando(false);
     }
   }, [alunoIdParametro, carregarModelosPessoais]);
 
@@ -179,6 +183,19 @@ export function useTreinosPage() {
 
   function abrirBibliotecaModelos() {
     setModalModelosAberto(true);
+  }
+
+  async function tentarCarregarNovamente() {
+    if (retryEmAndamento || carregando) return;
+
+    setRetryEmAndamento(true);
+    try {
+      await aguardarProximoFrame();
+      await aguardarFeedbackRetry();
+      await carregarDados({ silencioso: treinos.length > 0 || alunos.length > 0 });
+    } finally {
+      setRetryEmAndamento(false);
+    }
   }
 
   function gerarTreinoBase(modelo, opcoes = {}) {
@@ -256,7 +273,7 @@ export function useTreinosPage() {
     }
 
     try {
-      setErro("");
+      setErro(null);
 
       const payload = {
         ...treino,
@@ -276,7 +293,7 @@ export function useTreinosPage() {
       return true;
     } catch (error) {
       console.error(error);
-      setErro(error.message || "Não foi possível salvar o treino.");
+      setErro(criarErroTreinos("save", error));
       toast.erro(
         "Não foi possível salvar o treino",
         "Tente novamente em alguns instantes."
@@ -305,7 +322,7 @@ export function useTreinosPage() {
     };
 
     try {
-      setErro("");
+      setErro(null);
       setAcaoTreino({ id: treino.id, tipo: "duplicar" });
       const novoTreino = await adicionarTreinoSupabase(treinoDuplicado);
       await carregarDados();
@@ -313,7 +330,7 @@ export function useTreinosPage() {
       toast.sucesso("Treino duplicado", "Uma cópia foi criada para edição.");
     } catch (error) {
       console.error(error);
-      setErro(error.message || "Não foi possível duplicar o treino.");
+      setErro(criarErroTreinos("duplicate", error));
       toast.erro(
         "Não foi possível duplicar o treino",
         "Tente novamente em alguns instantes."
@@ -336,7 +353,7 @@ export function useTreinosPage() {
     if (!confirmado) return;
 
     try {
-      setErro("");
+      setErro(null);
       setAcaoTreino({ id, tipo: "excluir" });
       await excluirTreinoSupabase(id);
       await carregarDados();
@@ -348,7 +365,7 @@ export function useTreinosPage() {
       toast.sucesso("Treino excluído", "A ficha foi removida com sucesso.");
     } catch (error) {
       console.error(error);
-      setErro(error.message || "Não foi possível excluir o treino.");
+      setErro(criarErroTreinos("delete", error));
       toast.erro(
         "Não foi possível excluir o treino",
         "Tente novamente em alguns instantes."
@@ -429,6 +446,7 @@ export function useTreinosPage() {
     busca,
     carregando,
     erro,
+    retryEmAndamento,
     filtroAluno,
     filtroNivel,
     filtroObjetivo,
@@ -459,6 +477,7 @@ export function useTreinosPage() {
     removerModeloPessoal,
     salvarModeloPessoal,
     salvarTreino,
+    tentarCarregarNovamente,
     atualizarModeloPessoal,
     setBusca,
     setFiltroAluno,
@@ -578,4 +597,20 @@ function criarSearchParamsAtuais(fallback) {
   }
 
   return new URLSearchParams(fallback);
+}
+
+function aguardarProximoFrame() {
+  if (typeof window === "undefined") return Promise.resolve();
+
+  return new Promise((resolve) => {
+    window.requestAnimationFrame(() => resolve());
+  });
+}
+
+function aguardarFeedbackRetry() {
+  if (typeof window === "undefined") return Promise.resolve();
+
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, 120);
+  });
 }
