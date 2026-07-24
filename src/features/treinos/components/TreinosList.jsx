@@ -88,6 +88,7 @@ function TreinosList() {
           </div>
 
           <TreinosCards
+            acaoTreino={treinosPage.acaoTreino}
             carregando={treinosPage.carregando}
             selectedId={treinoSelecionadoId}
             treinos={treinosPage.treinosFiltrados}

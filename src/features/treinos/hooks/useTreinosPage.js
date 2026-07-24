@@ -8,6 +8,7 @@ import { buscarAlunosSupabase } from "../../../services/alunosService";
 import {
   adicionarTreinoSupabase,
   atualizarTreinoSupabase,
+  buscarTreinosPorAlunoSupabase,
   buscarTreinosSupabase,
   excluirTreinoSupabase,
 } from "../../../services/treinosService";
@@ -20,9 +21,16 @@ import {
 import { abrirWhatsApp } from "../../../services/whatsappService";
 import {
   criarTreinoBaseContextual,
+  idAlunoBemFormado,
+  normalizarAlunoIdContextual,
   removerAlunoIdDoContexto,
   resolverContextoAlunoTreinos,
 } from "../utils/treinosContextoAluno";
+import {
+  atualizarFiltroTreinosNaUrl,
+  lerFiltrosTreinosDaUrl,
+  limparFiltrosTreinosDaUrl,
+} from "../utils/treinosListQueryState";
 import { templateDataToWorkout } from "../utils/workoutTemplateSanitization";
 
 export { formatarData };
@@ -39,17 +47,23 @@ export function useTreinosPage() {
   const [treinoEditando, setTreinoEditando] = useState(null);
   const [treinoBase, setTreinoBase] = useState(null);
   const [treinoSelecionadoId, setTreinoSelecionadoId] = useState("");
-  const [busca, setBusca] = useState("");
   const [carregando, setCarregando] = useState(true);
   const contextoAluno = useMemo(
     () => resolverContextoAlunoTreinos({ searchParams, alunos, carregando }),
     [alunos, carregando, searchParams]
   );
   const filtroAluno = contextoAluno.alunoId || "todos";
-  const [filtroObjetivo, setFiltroObjetivo] = useState("todos");
-  const [filtroNivel, setFiltroNivel] = useState("todos");
-  const [filtroStatus, setFiltroStatus] = useState("todos");
+  const filtrosUrl = useMemo(() => lerFiltrosTreinosDaUrl(searchParams), [searchParams]);
+  const busca = filtrosUrl.busca;
+  const filtroObjetivo = filtrosUrl.objetivo;
+  const filtroNivel = filtrosUrl.nivel;
+  const filtroStatus = filtrosUrl.status;
+  const alunoIdParametro = useMemo(
+    () => normalizarAlunoIdContextual(searchParams),
+    [searchParams]
+  );
   const [erro, setErro] = useState("");
+  const [acaoTreino, setAcaoTreino] = useState(null);
   const toast = useToast();
   const { confirmar } = useConfirm();
 
@@ -120,9 +134,12 @@ export function useTreinosPage() {
     setErro("");
 
     try {
+      const buscarTreinos = idAlunoBemFormado(alunoIdParametro)
+        ? buscarTreinosPorAlunoSupabase(alunoIdParametro)
+        : buscarTreinosSupabase();
       const [alunosSupabase, treinosSupabase, modelosSupabase] = await Promise.all([
         buscarAlunosSupabase(),
-        buscarTreinosSupabase(),
+        buscarTreinos,
         carregarModelosPessoais(),
       ]);
 
@@ -138,7 +155,7 @@ export function useTreinosPage() {
     } finally {
       setCarregando(false);
     }
-  }, [carregarModelosPessoais]);
+  }, [alunoIdParametro, carregarModelosPessoais]);
 
   useEffect(() => {
     const carregamentoInicial = window.setTimeout(() => {
@@ -269,6 +286,8 @@ export function useTreinosPage() {
   }
 
   async function duplicarTreino(treino) {
+    if (acaoTreino) return;
+
     const treinoDuplicado = {
       ...JSON.parse(JSON.stringify(treino)),
       id: undefined,
@@ -287,6 +306,7 @@ export function useTreinosPage() {
 
     try {
       setErro("");
+      setAcaoTreino({ id: treino.id, tipo: "duplicar" });
       const novoTreino = await adicionarTreinoSupabase(treinoDuplicado);
       await carregarDados();
       setTreinoSelecionadoId(novoTreino.id);
@@ -298,10 +318,14 @@ export function useTreinosPage() {
         "Não foi possível duplicar o treino",
         "Tente novamente em alguns instantes."
       );
+    } finally {
+      setAcaoTreino(null);
     }
   }
 
   async function removerTreino(id) {
+    if (acaoTreino) return;
+
     const confirmado = await confirmar({
       titulo: "Excluir treino?",
       descricao: "Esta ação remove a ficha de treino selecionada.",
@@ -313,6 +337,7 @@ export function useTreinosPage() {
 
     try {
       setErro("");
+      setAcaoTreino({ id, tipo: "excluir" });
       await excluirTreinoSupabase(id);
       await carregarDados();
 
@@ -328,22 +353,44 @@ export function useTreinosPage() {
         "Não foi possível excluir o treino",
         "Tente novamente em alguns instantes."
       );
+    } finally {
+      setAcaoTreino(null);
     }
   }
 
   function limparFiltros() {
-    setBusca("");
-    setFiltroAluno("todos");
-    setFiltroObjetivo("todos");
-    setFiltroNivel("todos");
-    setFiltroStatus("todos");
+    setSearchParams(limparFiltrosTreinosDaUrl(searchParams), { replace: false });
   }
 
   function setFiltroAluno(valor) {
-    const proximos = new URLSearchParams(searchParams);
+    const proximos = criarSearchParamsAtuais(searchParams);
     if (!valor || valor === "todos") proximos.delete("alunoId");
     else proximos.set("alunoId", valor);
     setSearchParams(proximos, { replace: false });
+  }
+
+  function setBusca(valor) {
+    setSearchParams(atualizarFiltroTreinosNaUrl(criarSearchParamsAtuais(searchParams), "busca", valor), {
+      replace: true,
+    });
+  }
+
+  function setFiltroObjetivo(valor) {
+    setSearchParams(atualizarFiltroTreinosNaUrl(criarSearchParamsAtuais(searchParams), "objetivo", valor), {
+      replace: false,
+    });
+  }
+
+  function setFiltroNivel(valor) {
+    setSearchParams(atualizarFiltroTreinosNaUrl(criarSearchParamsAtuais(searchParams), "nivel", valor), {
+      replace: false,
+    });
+  }
+
+  function setFiltroStatus(valor) {
+    setSearchParams(atualizarFiltroTreinosNaUrl(criarSearchParamsAtuais(searchParams), "status", valor), {
+      replace: false,
+    });
   }
 
   function limparContextoAluno() {
@@ -377,6 +424,7 @@ export function useTreinosPage() {
   return {
     alunos,
     alunoContextual,
+    acaoTreino,
     contextoAluno,
     busca,
     carregando,
@@ -522,4 +570,12 @@ function obterAlunoUnicoPorNome(nome, alunosPorNome) {
 
 function normalizarNome(nome) {
   return String(nome || "").trim().toLowerCase();
+}
+
+function criarSearchParamsAtuais(fallback) {
+  if (typeof window !== "undefined") {
+    return new URLSearchParams(window.location.search);
+  }
+
+  return new URLSearchParams(fallback);
 }
