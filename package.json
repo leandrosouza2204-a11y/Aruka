@@ -44,6 +44,7 @@
     "qa:treino-template-editor-flow": "node --env-file=.env --env-file=.env.local --env-file=.env.qa.local scripts/validate-treino-template-editor-flow-cdp.mjs",
     "qa:treinos-functional-audit": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-treinos-functional-audit-cdp.mjs",
     "qa:avaliacoes-functional-audit": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-avaliacoes-functional-audit-cdp.mjs",
+    "qa:avaliacoes-context-onboarding": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-avaliacoes-context-onboarding-cdp.mjs",
     "qa:treinos-context-onboarding": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-treinos-context-onboarding-cdp.mjs",
     "qa:treinos-editor-integrity": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-treinos-editor-integrity-cdp.mjs",
     "qa:treinos-operabilidade-gestao": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-treinos-operabilidade-gestao-cdp.mjs",

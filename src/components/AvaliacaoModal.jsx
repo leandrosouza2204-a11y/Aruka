@@ -47,9 +47,10 @@ const dobrasCampos = [
   ["axilarMedia", "Axilar média"],
 ];
 
-function AvaliacaoModal({ alunos, avaliacao, onClose, onSave }) {
+function AvaliacaoModal({ alunos, avaliacao, alunoIdInicial = "", onClose, onSave }) {
   const [form, setForm] = useState(() => ({
     ...avaliacaoVazia,
+    alunoId: avaliacao?.alunoId || alunoIdInicial || "",
     ...avaliacao,
     medidas: { ...avaliacaoVazia.medidas, ...avaliacao?.medidas },
     dobras: { ...avaliacaoVazia.dobras, ...avaliacao?.dobras },
@@ -145,7 +146,7 @@ function AvaliacaoModal({ alunos, avaliacao, onClose, onSave }) {
 
   return (
     <div style={overlay}>
-      <div style={modal}>
+      <div style={modal} data-testid="avaliacao-form">
         <div style={modalTopo}>
           <div>
             <h2 style={titulo}>Avaliação Física</h2>
@@ -155,10 +156,13 @@ function AvaliacaoModal({ alunos, avaliacao, onClose, onSave }) {
         </div>
 
         <Secao titulo="Dados básicos">
-          <Campo label="Aluno">
+          <Campo label="Aluno *" helper="Obrigatorio. O aluno contextual vem selecionado quando o fluxo parte da ficha do aluno.">
             <select
+              id="avaliacao-student"
+              data-testid="avaliacao-student"
               value={form.alunoId || ""}
               onChange={(e) => atualizar("alunoId", e.target.value)}
+              required
               style={campo}
             >
               <option value="">Selecione</option>
@@ -186,11 +190,12 @@ function AvaliacaoModal({ alunos, avaliacao, onClose, onSave }) {
               <option value="final">Final</option>
             </select>
           </Campo>
-          <Input label="Altura (cm)" value={form.altura} onChange={(valor) => atualizar("altura", valor)} />
-          <Input label="Peso atual (kg)" value={form.peso} onChange={(valor) => atualizar("peso", valor)} />
+          <Input label="Altura (cm)" value={form.altura} onChange={(valor) => atualizar("altura", valor)} helper="Unidade: cm. Exemplo: 168." />
+          <Input label="Peso atual (kg)" value={form.peso} onChange={(valor) => atualizar("peso", valor)} helper="Unidade: kg. Exemplo: 72,5." />
         </Secao>
 
         <Secao titulo="Medidas corporais (cm)">
+          <p style={avisoFotos}>Unidade: cm.</p>
           {medidasCampos.map(([chave, label]) => (
             <Input
               key={chave}
@@ -202,6 +207,7 @@ function AvaliacaoModal({ alunos, avaliacao, onClose, onSave }) {
         </Secao>
 
         <Secao titulo="Dobras cutâneas (opcional)">
+          <p style={avisoFotos}>Unidade: mm.</p>
           {dobrasCampos.map(([chave, label]) => (
             <Input
               key={chave}
@@ -213,6 +219,9 @@ function AvaliacaoModal({ alunos, avaliacao, onClose, onSave }) {
         </Secao>
 
         <Secao titulo="Fotos (opcional)">
+          <p style={avisoFotos}>
+            As fotos sao opcionais e ajudam na comparacao visual da evolucao.
+          </p>
           <AvaliacaoFotoField
             id="avaliacao-foto-frente"
             label="Foto frente"
@@ -274,19 +283,26 @@ function Secao({ titulo, children }) {
   );
 }
 
-function Campo({ label, children }) {
+function Campo({ label, children, helper }) {
   return (
     <label style={campoGrupo}>
       <span style={labelCampo}>{label}</span>
       {children}
+      {helper && <span style={textoAuxiliar}>{helper}</span>}
     </label>
   );
 }
 
-function Input({ label, value, onChange, type = "text" }) {
+function Input({ label, value, onChange, type = "text", helper, required = false }) {
   return (
-    <Campo label={label}>
-      <input type={type} value={value} onChange={(e) => onChange(e.target.value)} style={campo} />
+    <Campo label={label} helper={helper || (type === "date" ? "Obrigatorio. Informe a data do registro." : "")}>
+      <input
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        required={required || type === "date"}
+        style={campo}
+      />
     </Campo>
   );
 }
@@ -338,6 +354,11 @@ const grid = {
 
 const campoGrupo = { display: "flex", flexDirection: "column", gap: "6px" };
 const labelCampo = { color: "#374151", fontSize: "13px", fontWeight: "700" };
+const textoAuxiliar = {
+  color: "#64748b",
+  fontSize: "12px",
+  lineHeight: 1.35,
+};
 
 const campo = {
   width: "100%",

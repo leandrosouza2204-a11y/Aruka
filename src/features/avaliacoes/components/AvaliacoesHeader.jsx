@@ -14,16 +14,26 @@ function AvaliacoesHeader({
   return (
     <>
       <PageHero
-        eyebrow="AVALIAÇÕES"
-        title="Avaliações e anamneses"
-        description="Registre medidas, histórico, hábitos e evolução corporal dos alunos."
+        eyebrow="AVALIACOES"
+        title="Avaliacoes e anamneses"
+        description="Registre medidas, composicao corporal, fotos e informacoes de contexto para acompanhar seus alunos."
         meta={`${quantidadeExibida} registros exibidos`}
         actions={
           <>
-            <button className="app-button app-button-primary" onClick={onNovaAvaliacao} style={styles.botaoPrimario}>
-              + Nova avaliação
+            <button
+              className="app-button app-button-primary"
+              onClick={onNovaAvaliacao}
+              style={styles.botaoPrimario}
+              type="button"
+            >
+              + Nova avaliacao
             </button>
-            <button className="app-button app-button-secondary" onClick={onNovaAnamnese} style={styles.botaoSecundario}>
+            <button
+              className="app-button app-button-secondary"
+              onClick={onNovaAnamnese}
+              style={styles.botaoSecundario}
+              type="button"
+            >
               + Nova anamnese
             </button>
           </>
@@ -33,16 +43,21 @@ function AvaliacoesHeader({
       <section className="avaliacoes-list-card app-card" style={styles.listaCard}>
         <div style={styles.moduloCards}>
           <div style={styles.moduloCard}>
-            <span style={styles.moduloBadge}>Avaliação física</span>
-            <h2 style={styles.moduloTitulo}>Avaliação física</h2>
+            <span style={styles.moduloBadge}>Avaliacao fisica</span>
+            <h2 style={styles.moduloTitulo}>Avaliacao fisica</h2>
             <p style={styles.moduloTexto}>
-              Registre medidas, fotos, indicadores corporais e acompanhe a evolução do aluno.
+              Registre medidas, composicao corporal e fotos para acompanhar a evolucao ao longo do tempo.
             </p>
             <p className="app-muted" style={styles.moduloAjuda}>
-              Use para acompanhar medidas, composição corporal, evolução e resultados ao longo do tempo.
+              Use como historico de acompanhamento, sem prometer resultado automatico.
             </p>
-            <button className="app-button app-button-primary" onClick={onNovaAvaliacao} style={styles.botaoPrimario}>
-              Nova avaliação
+            <button
+              className="app-button app-button-primary"
+              onClick={onNovaAvaliacao}
+              style={styles.botaoPrimario}
+              type="button"
+            >
+              Nova avaliacao
             </button>
           </div>
 
@@ -50,12 +65,17 @@ function AvaliacoesHeader({
             <span style={styles.moduloBadge}>Anamnese</span>
             <h2 style={styles.moduloTitulo}>Anamnese</h2>
             <p style={styles.moduloTexto}>
-              Registre histórico, rotina, saúde, hábitos, preferências e informações importantes.
+              Reuna informacoes sobre objetivos, historico e condicoes relevantes antes do acompanhamento.
             </p>
             <p className="app-muted" style={styles.moduloAjuda}>
-              Use para entender histórico, restrições, dores, saúde e contexto antes de prescrever.
+              Use para organizar contexto, rotina e preferencias sem linguagem de diagnostico medico.
             </p>
-            <button className="app-button app-button-secondary" onClick={onNovaAnamnese} style={styles.botaoSecundario}>
+            <button
+              className="app-button app-button-secondary"
+              onClick={onNovaAnamnese}
+              style={styles.botaoSecundario}
+              type="button"
+            >
               Nova anamnese
             </button>
           </div>
@@ -70,7 +90,7 @@ function AvaliacoesHeader({
               ...(abaAtiva === "avaliacoes" ? styles.tabButtonActive : {}),
             }}
           >
-            Avaliações físicas ({quantidadeAvaliacoes})
+            Avaliacoes fisicas ({quantidadeAvaliacoes})
           </button>
           <button
             type="button"

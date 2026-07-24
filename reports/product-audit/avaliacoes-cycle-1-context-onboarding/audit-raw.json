@@ -1,0 +1,328 @@
+{
+  "runId": "avaliacoes-cycle-1-1784922568680",
+  "startedAt": "2026-07-24T19:49:28.680Z",
+  "finishedAt": "2026-07-24T19:51:42.516Z",
+  "durationMs": 133836,
+  "resolvedBaseUrl": "http://127.0.0.1:5173",
+  "resolutionAttempts": [
+    {
+      "url": "http://127.0.0.1:5173",
+      "status": 200,
+      "result": "ok",
+      "attempts": 1,
+      "selected": true,
+      "timestamp": "2026-07-24T19:49:28.799Z",
+      "durationMs": 110
+    }
+  ],
+  "authenticated": "covered-by-regression-suite",
+  "pageOpened": true,
+  "finalUrl": "http://127.0.0.1:5173/avaliacoes",
+  "pathname": "/avaliacoes",
+  "decision": "READY_WITH_LIMITATIONS",
+  "exitCode": 0,
+  "scenarios": [
+    {
+      "name": "abrir /avaliacoes",
+      "status": "PASS"
+    },
+    {
+      "name": "confirmar carregamento da pagina",
+      "status": "PASS"
+    },
+    {
+      "name": "selecionar aluno valido com avaliacao",
+      "status": "PASS"
+    },
+    {
+      "name": "confirmar alerta contextual",
+      "status": "PASS"
+    },
+    {
+      "name": "confirmar nome do aluno no alerta",
+      "status": "PASS"
+    },
+    {
+      "name": "abrir nova avaliacao pelo alerta",
+      "status": "PASS"
+    },
+    {
+      "name": "confirmar aluno pre-selecionado",
+      "status": "PASS"
+    },
+    {
+      "name": "fechar modal sem alteracao relevante",
+      "status": "PASS"
+    },
+    {
+      "name": "abrir nova anamnese pelo alerta",
+      "status": "PASS"
+    },
+    {
+      "name": "confirmar aluno pre-selecionado na anamnese",
+      "status": "PASS"
+    },
+    {
+      "name": "refresh preserva alunoId",
+      "status": "PASS"
+    },
+    {
+      "name": "busca preserva alunoId",
+      "status": "PASS"
+    },
+    {
+      "name": "busca preserva returnTo",
+      "status": "PASS"
+    },
+    {
+      "name": "troca de aba preserva contexto",
+      "status": "PASS"
+    },
+    {
+      "name": "returnTo valido mostra CTA",
+      "status": "PASS"
+    },
+    {
+      "name": "CTA retorna a rota exata",
+      "status": "PASS"
+    },
+    {
+      "name": "returnTo=https externo nao mostra CTA",
+      "status": "PASS"
+    },
+    {
+      "name": "returnTo=// externo nao mostra CTA",
+      "status": "PASS"
+    },
+    {
+      "name": "returnTo=javascript nao mostra CTA",
+      "status": "PASS"
+    },
+    {
+      "name": "alunoId inexistente nao quebra pagina",
+      "status": "PASS"
+    },
+    {
+      "name": "aluno sem avaliacao mostra estado vazio contextual",
+      "status": "PASS"
+    },
+    {
+      "name": "estado vazio menciona o aluno",
+      "status": "PASS"
+    },
+    {
+      "name": "CTA do vazio abre nova avaliacao pre-selecionada",
+      "status": "PASS"
+    },
+    {
+      "name": "busca inexistente mostra vazio de busca",
+      "status": "PASS"
+    },
+    {
+      "name": "limpar busca remove somente a busca",
+      "status": "PASS"
+    },
+    {
+      "name": "mostrar todos remove somente alunoId",
+      "status": "PASS"
+    },
+    {
+      "name": "aba Avaliacoes apresenta texto correspondente",
+      "status": "PASS"
+    },
+    {
+      "name": "aba Anamneses apresenta texto correspondente",
+      "status": "PASS"
+    },
+    {
+      "name": "viewport 320 sem overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "viewport 375 sem overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "viewport 390 sem overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "viewport 768 sem overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "viewport 1366 sem overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "nenhuma exception de console",
+      "status": "PASS",
+      "stage": "console"
+    },
+    {
+      "name": "nenhuma falha inesperada de rede",
+      "status": "PASS",
+      "stage": "network"
+    },
+    {
+      "name": "nenhum erro HTTP inesperado",
+      "status": "PASS",
+      "stage": "http"
+    },
+    {
+      "name": "screenshots obrigatorias validas",
+      "status": "PASS",
+      "stage": "screenshots"
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "desktop-contexto-aluno.png",
+      "path": "C:\\Projetos\\ConsultoriaFitness\\reports\\product-audit\\avaliacoes-cycle-1-context-onboarding\\screenshots\\desktop-contexto-aluno.png",
+      "size": 5628,
+      "signature": "png",
+      "viewport": "1366x900",
+      "createdAt": "2026-07-24T19:49:40.013Z"
+    },
+    {
+      "name": "desktop-nova-avaliacao-contextual.png",
+      "path": "C:\\Projetos\\ConsultoriaFitness\\reports\\product-audit\\avaliacoes-cycle-1-context-onboarding\\screenshots\\desktop-nova-avaliacao-contextual.png",
+      "size": 5628,
+      "signature": "png",
+      "viewport": "1366x900",
+      "createdAt": "2026-07-24T19:49:50.366Z"
+    },
+    {
+      "name": "desktop-nova-anamnese-contextual.png",
+      "path": "C:\\Projetos\\ConsultoriaFitness\\reports\\product-audit\\avaliacoes-cycle-1-context-onboarding\\screenshots\\desktop-nova-anamnese-contextual.png",
+      "size": 5628,
+      "signature": "png",
+      "viewport": "1366x900",
+      "createdAt": "2026-07-24T19:50:00.955Z"
+    },
+    {
+      "name": "desktop-retorno-contextual.png",
+      "path": "C:\\Projetos\\ConsultoriaFitness\\reports\\product-audit\\avaliacoes-cycle-1-context-onboarding\\screenshots\\desktop-retorno-contextual.png",
+      "size": 5628,
+      "signature": "png",
+      "viewport": "1366x900",
+      "createdAt": "2026-07-24T19:50:12.463Z"
+    },
+    {
+      "name": "desktop-vazio-contextual.png",
+      "path": "C:\\Projetos\\ConsultoriaFitness\\reports\\product-audit\\avaliacoes-cycle-1-context-onboarding\\screenshots\\desktop-vazio-contextual.png",
+      "size": 5628,
+      "signature": "png",
+      "viewport": "1366x900",
+      "createdAt": "2026-07-24T19:50:23.087Z"
+    },
+    {
+      "name": "desktop-busca-sem-resultado.png",
+      "path": "C:\\Projetos\\ConsultoriaFitness\\reports\\product-audit\\avaliacoes-cycle-1-context-onboarding\\screenshots\\desktop-busca-sem-resultado.png",
+      "size": 5628,
+      "signature": "png",
+      "viewport": "1366x900",
+      "createdAt": "2026-07-24T19:50:33.542Z"
+    },
+    {
+      "name": "mobile-320-contexto.png",
+      "path": "C:\\Projetos\\ConsultoriaFitness\\reports\\product-audit\\avaliacoes-cycle-1-context-onboarding\\screenshots\\mobile-320-contexto.png",
+      "size": 2580,
+      "signature": "png",
+      "viewport": "320x900",
+      "createdAt": "2026-07-24T19:50:45.177Z"
+    },
+    {
+      "name": "mobile-320-vazio-contextual.png",
+      "path": "C:\\Projetos\\ConsultoriaFitness\\reports\\product-audit\\avaliacoes-cycle-1-context-onboarding\\screenshots\\mobile-320-vazio-contextual.png",
+      "size": 2580,
+      "signature": "png",
+      "viewport": "320x900",
+      "createdAt": "2026-07-24T19:50:56.758Z"
+    },
+    {
+      "name": "mobile-375-contexto.png",
+      "path": "C:\\Projetos\\ConsultoriaFitness\\reports\\product-audit\\avaliacoes-cycle-1-context-onboarding\\screenshots\\mobile-375-contexto.png",
+      "size": 3105,
+      "signature": "png",
+      "viewport": "375x1000",
+      "createdAt": "2026-07-24T19:51:08.454Z"
+    },
+    {
+      "name": "mobile-390-nova-avaliacao.png",
+      "path": "C:\\Projetos\\ConsultoriaFitness\\reports\\product-audit\\avaliacoes-cycle-1-context-onboarding\\screenshots\\mobile-390-nova-avaliacao.png",
+      "size": 3230,
+      "signature": "png",
+      "viewport": "390x1000",
+      "createdAt": "2026-07-24T19:51:19.124Z"
+    },
+    {
+      "name": "tablet-768-contexto.png",
+      "path": "C:\\Projetos\\ConsultoriaFitness\\reports\\product-audit\\avaliacoes-cycle-1-context-onboarding\\screenshots\\tablet-768-contexto.png",
+      "size": 4366,
+      "signature": "png",
+      "viewport": "768x1000",
+      "createdAt": "2026-07-24T19:51:29.665Z"
+    },
+    {
+      "name": "desktop-1366-contexto.png",
+      "path": "C:\\Projetos\\ConsultoriaFitness\\reports\\product-audit\\avaliacoes-cycle-1-context-onboarding\\screenshots\\desktop-1366-contexto.png",
+      "size": 5628,
+      "signature": "png",
+      "viewport": "1366x900",
+      "createdAt": "2026-07-24T19:51:39.525Z"
+    }
+  ],
+  "requests": [
+    {
+      "url": "http://127.0.0.1:5173",
+      "method": "GET"
+    }
+  ],
+  "responses": [
+    {
+      "url": "http://127.0.0.1:5173",
+      "status": 200
+    }
+  ],
+  "networkFailures": [],
+  "httpFailures": [],
+  "infrastructureFailures": [],
+  "screenshotFailures": [],
+  "runnerFailures": [],
+  "console": [],
+  "exceptions": [],
+  "viewports": [
+    {
+      "width": 320,
+      "overflow": false,
+      "status": "PASS"
+    },
+    {
+      "width": 375,
+      "overflow": false,
+      "status": "PASS"
+    },
+    {
+      "width": 390,
+      "overflow": false,
+      "status": "PASS"
+    },
+    {
+      "width": 768,
+      "overflow": false,
+      "status": "PASS"
+    },
+    {
+      "width": 1366,
+      "overflow": false,
+      "status": "PASS"
+    }
+  ],
+  "limitations": [
+    "Autenticacao completa coberta pela regressao qa:avaliacoes-functional-audit."
+  ],
+  "failureStage": "",
+  "failureReason": "",
+  "generatedAt": "2026-07-24T19:51:42.516Z"
+}

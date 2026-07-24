@@ -10,6 +10,7 @@ function AvaliacoesFilters({
     <div className="app-filter-grid avaliacoes-filtros" style={styles.filtros}>
       <input
         className="app-input"
+        data-testid="avaliacoes-search"
         placeholder="Buscar por nome do aluno"
         value={busca}
         onChange={(event) => onBuscaChange(event.target.value)}
@@ -17,6 +18,7 @@ function AvaliacoesFilters({
       />
       <select
         className="app-select"
+        data-testid="avaliacoes-student-filter"
         value={filtroAluno}
         onChange={(event) => onFiltroAlunoChange(event.target.value)}
         style={styles.campo}
