@@ -1,0 +1,1011 @@
+{
+  "assertions": [
+    {
+      "name": "fixtures incluem aluno com treino",
+      "ok": true
+    },
+    {
+      "name": "fixtures incluem aluno sem treino",
+      "ok": true
+    },
+    {
+      "name": "sem query nao exibe banner contextual",
+      "ok": true
+    },
+    {
+      "name": "alunoId valido exibe banner",
+      "ok": true
+    },
+    {
+      "name": "nome contextual visivel",
+      "ok": true
+    },
+    {
+      "name": "retorno visual aparece",
+      "ok": true
+    },
+    {
+      "name": "retorno preserva filtros",
+      "ok": true
+    },
+    {
+      "name": "novo treino contextual pre-seleciona aluno",
+      "ok": true
+    },
+    {
+      "name": "retorno navega para alunos",
+      "ok": true
+    },
+    {
+      "name": "retorno preserva filtro busca",
+      "ok": true
+    },
+    {
+      "name": "refresh preserva banner contextual",
+      "ok": true
+    },
+    {
+      "name": "aluno sem treino exibe vazio contextual",
+      "ok": true
+    },
+    {
+      "name": "vazio contextual pre-seleciona aluno",
+      "ok": true
+    },
+    {
+      "name": "alunoId malformado mostra erro controlado",
+      "ok": true
+    },
+    {
+      "name": "alunoId malformado nao abre aluno selecionado",
+      "ok": true
+    },
+    {
+      "name": "alunoId inexistente mostra erro controlado",
+      "ok": true
+    },
+    {
+      "name": "remover contexto volta para visao geral",
+      "ok": true
+    },
+    {
+      "name": "returnTo externo nao mostra botao",
+      "ok": true
+    },
+    {
+      "name": "mobile exibe contexto",
+      "ok": true
+    },
+    {
+      "name": "mobile sem overflow horizontal",
+      "ok": true
+    },
+    {
+      "name": "mobile exibe vazio contextual",
+      "ok": true
+    },
+    {
+      "name": "mobile vazio sem overflow horizontal",
+      "ok": true
+    }
+  ],
+  "events": {
+    "console": [
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connecting..."
+        ]
+      },
+      {
+        "type": "debug",
+        "args": [
+          "[vite] connected."
+        ]
+      },
+      {
+        "type": "info",
+        "args": [
+          "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+          "font-weight:bold"
+        ]
+      }
+    ],
+    "exceptions": [],
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "OPTIONS",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      }
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc"
+      }
+    ]
+  }
+}

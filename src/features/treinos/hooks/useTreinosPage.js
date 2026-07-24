@@ -8,6 +8,7 @@ import { buscarAlunosSupabase } from "../../../services/alunosService";
 import {
   adicionarTreinoSupabase,
   atualizarTreinoSupabase,
+  buscarTreinosPorAlunoSupabase,
   buscarTreinosSupabase,
   excluirTreinoSupabase,
 } from "../../../services/treinosService";
@@ -18,6 +19,19 @@ import {
   excluirModeloPessoalSupabase,
 } from "../../../services/workoutTemplatesService";
 import { abrirWhatsApp } from "../../../services/whatsappService";
+import {
+  criarTreinoBaseContextual,
+  idAlunoBemFormado,
+  normalizarAlunoIdContextual,
+  removerAlunoIdDoContexto,
+  resolverContextoAlunoTreinos,
+} from "../utils/treinosContextoAluno";
+import {
+  atualizarFiltroTreinosNaUrl,
+  lerFiltrosTreinosDaUrl,
+  limparFiltrosTreinosDaUrl,
+} from "../utils/treinosListQueryState";
+import { criarErroTreinos } from "../utils/treinosErrorState";
 import { templateDataToWorkout } from "../utils/workoutTemplateSanitization";
 
 export { formatarData };
@@ -34,13 +48,24 @@ export function useTreinosPage() {
   const [treinoEditando, setTreinoEditando] = useState(null);
   const [treinoBase, setTreinoBase] = useState(null);
   const [treinoSelecionadoId, setTreinoSelecionadoId] = useState("");
-  const [busca, setBusca] = useState("");
-  const filtroAluno = searchParams.get("alunoId") || "todos";
-  const [filtroObjetivo, setFiltroObjetivo] = useState("todos");
-  const [filtroNivel, setFiltroNivel] = useState("todos");
-  const [filtroStatus, setFiltroStatus] = useState("todos");
   const [carregando, setCarregando] = useState(true);
-  const [erro, setErro] = useState("");
+  const contextoAluno = useMemo(
+    () => resolverContextoAlunoTreinos({ searchParams, alunos, carregando }),
+    [alunos, carregando, searchParams]
+  );
+  const filtroAluno = contextoAluno.alunoId || "todos";
+  const filtrosUrl = useMemo(() => lerFiltrosTreinosDaUrl(searchParams), [searchParams]);
+  const busca = filtrosUrl.busca;
+  const filtroObjetivo = filtrosUrl.objetivo;
+  const filtroNivel = filtrosUrl.nivel;
+  const filtroStatus = filtrosUrl.status;
+  const alunoIdParametro = useMemo(
+    () => normalizarAlunoIdContextual(searchParams),
+    [searchParams]
+  );
+  const [erro, setErro] = useState(null);
+  const [retryEmAndamento, setRetryEmAndamento] = useState(false);
+  const [acaoTreino, setAcaoTreino] = useState(null);
   const toast = useToast();
   const { confirmar } = useConfirm();
 
@@ -84,10 +109,7 @@ export function useTreinosPage() {
     [treinoSelecionadoId, treinos]
   );
 
-  const alunoContextual = useMemo(
-    () => alunos.find((aluno) => aluno.id === filtroAluno) || null,
-    [alunos, filtroAluno]
-  );
+  const alunoContextual = contextoAluno.aluno;
 
   const fichaTreino = useMemo(
     () => (treinoSelecionado ? formatarTreinoWhatsApp(treinoSelecionado) : ""),
@@ -109,14 +131,18 @@ export function useTreinosPage() {
     }
   }, []);
 
-  const carregarDados = useCallback(async function carregarDados() {
-    setCarregando(true);
-    setErro("");
+  const carregarDados = useCallback(async function carregarDados(options = {}) {
+    const silencioso = Boolean(options.silencioso);
+    if (!silencioso) setCarregando(true);
+    setErro(null);
 
     try {
+      const buscarTreinos = idAlunoBemFormado(alunoIdParametro)
+        ? buscarTreinosPorAlunoSupabase(alunoIdParametro)
+        : buscarTreinosSupabase();
       const [alunosSupabase, treinosSupabase, modelosSupabase] = await Promise.all([
         buscarAlunosSupabase(),
-        buscarTreinosSupabase(),
+        buscarTreinos,
         carregarModelosPessoais(),
       ]);
 
@@ -127,12 +153,13 @@ export function useTreinosPage() {
       setModelosPessoais(modelosSupabase);
       return treinosNormalizados;
     } catch (error) {
-      setErro(error.message || "Não foi possível carregar os treinos.");
+      console.error(error);
+      setErro(criarErroTreinos("load", error));
       return [];
     } finally {
-      setCarregando(false);
+      if (!silencioso) setCarregando(false);
     }
-  }, [carregarModelosPessoais]);
+  }, [alunoIdParametro, carregarModelosPessoais]);
 
   useEffect(() => {
     const carregamentoInicial = window.setTimeout(() => {
@@ -144,7 +171,7 @@ export function useTreinosPage() {
 
   function abrirNovoTreino() {
     setTreinoEditando(null);
-    setTreinoBase(null);
+    setTreinoBase(criarTreinoBaseContextual(alunoContextual));
     setModalAberto(true);
   }
 
@@ -156,6 +183,19 @@ export function useTreinosPage() {
 
   function abrirBibliotecaModelos() {
     setModalModelosAberto(true);
+  }
+
+  async function tentarCarregarNovamente() {
+    if (retryEmAndamento || carregando) return;
+
+    setRetryEmAndamento(true);
+    try {
+      await aguardarProximoFrame();
+      await aguardarFeedbackRetry();
+      await carregarDados({ silencioso: treinos.length > 0 || alunos.length > 0 });
+    } finally {
+      setRetryEmAndamento(false);
+    }
   }
 
   function gerarTreinoBase(modelo, opcoes = {}) {
@@ -233,7 +273,7 @@ export function useTreinosPage() {
     }
 
     try {
-      setErro("");
+      setErro(null);
 
       const payload = {
         ...treino,
@@ -250,17 +290,21 @@ export function useTreinosPage() {
       setTreinoSelecionadoId(treinoSalvo?.id || "");
       fecharModal();
       toast.sucesso("Treino salvo", "A ficha foi salva com sucesso.");
+      return true;
     } catch (error) {
       console.error(error);
-      setErro(error.message || "Não foi possível salvar o treino.");
+      setErro(criarErroTreinos("save", error));
       toast.erro(
         "Não foi possível salvar o treino",
         "Tente novamente em alguns instantes."
       );
+      return false;
     }
   }
 
   async function duplicarTreino(treino) {
+    if (acaoTreino) return;
+
     const treinoDuplicado = {
       ...JSON.parse(JSON.stringify(treino)),
       id: undefined,
@@ -278,22 +322,27 @@ export function useTreinosPage() {
     };
 
     try {
-      setErro("");
+      setErro(null);
+      setAcaoTreino({ id: treino.id, tipo: "duplicar" });
       const novoTreino = await adicionarTreinoSupabase(treinoDuplicado);
       await carregarDados();
       setTreinoSelecionadoId(novoTreino.id);
       toast.sucesso("Treino duplicado", "Uma cópia foi criada para edição.");
     } catch (error) {
       console.error(error);
-      setErro(error.message || "Não foi possível duplicar o treino.");
+      setErro(criarErroTreinos("duplicate", error));
       toast.erro(
         "Não foi possível duplicar o treino",
         "Tente novamente em alguns instantes."
       );
+    } finally {
+      setAcaoTreino(null);
     }
   }
 
   async function removerTreino(id) {
+    if (acaoTreino) return;
+
     const confirmado = await confirmar({
       titulo: "Excluir treino?",
       descricao: "Esta ação remove a ficha de treino selecionada.",
@@ -304,7 +353,8 @@ export function useTreinosPage() {
     if (!confirmado) return;
 
     try {
-      setErro("");
+      setErro(null);
+      setAcaoTreino({ id, tipo: "excluir" });
       await excluirTreinoSupabase(id);
       await carregarDados();
 
@@ -315,27 +365,53 @@ export function useTreinosPage() {
       toast.sucesso("Treino excluído", "A ficha foi removida com sucesso.");
     } catch (error) {
       console.error(error);
-      setErro(error.message || "Não foi possível excluir o treino.");
+      setErro(criarErroTreinos("delete", error));
       toast.erro(
         "Não foi possível excluir o treino",
         "Tente novamente em alguns instantes."
       );
+    } finally {
+      setAcaoTreino(null);
     }
   }
 
   function limparFiltros() {
-    setBusca("");
-    setFiltroAluno("todos");
-    setFiltroObjetivo("todos");
-    setFiltroNivel("todos");
-    setFiltroStatus("todos");
+    setSearchParams(limparFiltrosTreinosDaUrl(searchParams), { replace: false });
   }
 
   function setFiltroAluno(valor) {
-    const proximos = new URLSearchParams(searchParams);
+    const proximos = criarSearchParamsAtuais(searchParams);
     if (!valor || valor === "todos") proximos.delete("alunoId");
     else proximos.set("alunoId", valor);
     setSearchParams(proximos, { replace: false });
+  }
+
+  function setBusca(valor) {
+    setSearchParams(atualizarFiltroTreinosNaUrl(criarSearchParamsAtuais(searchParams), "busca", valor), {
+      replace: true,
+    });
+  }
+
+  function setFiltroObjetivo(valor) {
+    setSearchParams(atualizarFiltroTreinosNaUrl(criarSearchParamsAtuais(searchParams), "objetivo", valor), {
+      replace: false,
+    });
+  }
+
+  function setFiltroNivel(valor) {
+    setSearchParams(atualizarFiltroTreinosNaUrl(criarSearchParamsAtuais(searchParams), "nivel", valor), {
+      replace: false,
+    });
+  }
+
+  function setFiltroStatus(valor) {
+    setSearchParams(atualizarFiltroTreinosNaUrl(criarSearchParamsAtuais(searchParams), "status", valor), {
+      replace: false,
+    });
+  }
+
+  function limparContextoAluno() {
+    setSearchParams(removerAlunoIdDoContexto(searchParams), { replace: false });
   }
 
   function copiarTreinoWhatsApp() {
@@ -365,9 +441,12 @@ export function useTreinosPage() {
   return {
     alunos,
     alunoContextual,
+    acaoTreino,
+    contextoAluno,
     busca,
     carregando,
     erro,
+    retryEmAndamento,
     filtroAluno,
     filtroNivel,
     filtroObjetivo,
@@ -393,10 +472,12 @@ export function useTreinosPage() {
     fecharModal,
     gerarTreinoBase,
     limparFiltros,
+    limparContextoAluno,
     removerTreino,
     removerModeloPessoal,
     salvarModeloPessoal,
     salvarTreino,
+    tentarCarregarNovamente,
     atualizarModeloPessoal,
     setBusca,
     setFiltroAluno,
@@ -508,4 +589,28 @@ function obterAlunoUnicoPorNome(nome, alunosPorNome) {
 
 function normalizarNome(nome) {
   return String(nome || "").trim().toLowerCase();
+}
+
+function criarSearchParamsAtuais(fallback) {
+  if (typeof window !== "undefined") {
+    return new URLSearchParams(window.location.search);
+  }
+
+  return new URLSearchParams(fallback);
+}
+
+function aguardarProximoFrame() {
+  if (typeof window === "undefined") return Promise.resolve();
+
+  return new Promise((resolve) => {
+    window.requestAnimationFrame(() => resolve());
+  });
+}
+
+function aguardarFeedbackRetry() {
+  if (typeof window === "undefined") return Promise.resolve();
+
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, 120);
+  });
 }

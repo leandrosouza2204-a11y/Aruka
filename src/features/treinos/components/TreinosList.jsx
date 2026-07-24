@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
-import { Dumbbell } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ArrowLeft, Dumbbell, UserRound, X } from "lucide-react";
 import Sidebar from "../../../components/Sidebar";
 import { useTreinosPage } from "../hooks/useTreinosPage";
 import TreinosCards from "./TreinosCards";
@@ -45,15 +46,18 @@ function TreinosList() {
           styles={styles}
         />
 
-        {treinosPage.alunoContextual && (
-          <section className="app-alert" data-testid="treinos-context-aluno" style={styles.contextoAluno}>
-            Treinos contextualizados para {treinosPage.alunoContextual.nome}.
-          </section>
-        )}
+        <TreinosContextoAluno
+          contexto={treinosPage.contextoAluno}
+          onCriarTreino={treinosPage.abrirNovoTreino}
+          onLimparContexto={treinosPage.limparContextoAluno}
+          styles={styles}
+        />
 
-        {treinosPage.erro && <div className="app-error">{treinosPage.erro}</div>}
-
-        <section className="treinos-library-section" style={styles.librarySection}>
+        <section
+          className="treinos-library-section"
+          style={styles.librarySection}
+          aria-busy={treinosPage.retryEmAndamento}
+        >
           <div className="app-card-header" style={styles.libraryHeader}>
             <div>
               <span style={styles.libraryEyebrow}>Biblioteca</span>
@@ -85,18 +89,31 @@ function TreinosList() {
             />
           </div>
 
-          <TreinosCards
-            carregando={treinosPage.carregando}
-            selectedId={treinoSelecionadoId}
-            treinos={treinosPage.treinosFiltrados}
-            onVisualizar={alternarTreino}
-            onEditar={treinosPage.abrirEdicao}
-            onDuplicar={treinosPage.duplicarTreino}
-            onExcluir={treinosPage.removerTreino}
-            onNovoTreino={treinosPage.abrirNovoTreino}
-            onUsarModelo={focarModelos}
-            styles={styles}
-          />
+          {treinosPage.erro && (
+            <TreinosErroBiblioteca
+              erro={treinosPage.erro}
+              onRetry={treinosPage.tentarCarregarNovamente}
+              retryEmAndamento={treinosPage.retryEmAndamento}
+              styles={styles}
+            />
+          )}
+
+          {!(treinosPage.erro && !treinosPage.carregando && treinosPage.treinos.length === 0) && (
+            <TreinosCards
+              acaoTreino={treinosPage.acaoTreino}
+              carregando={treinosPage.carregando}
+              selectedId={treinoSelecionadoId}
+              treinos={treinosPage.treinosFiltrados}
+              onVisualizar={alternarTreino}
+              onEditar={treinosPage.abrirEdicao}
+              onDuplicar={treinosPage.duplicarTreino}
+              onExcluir={treinosPage.removerTreino}
+              alunoContextual={treinosPage.alunoContextual}
+              onNovoTreino={treinosPage.abrirNovoTreino}
+              onUsarModelo={focarModelos}
+              styles={styles}
+            />
+          )}
         </section>
 
         <div className="treinos-detail-panel">
@@ -108,7 +125,9 @@ function TreinosList() {
           />
         </div>
 
-        {!treinosPage.treinoSelecionado && !treinosPage.carregando && (
+        {!treinosPage.treinoSelecionado &&
+          !treinosPage.carregando &&
+          !(treinosPage.erro && treinosPage.treinos.length === 0) && (
           <section
             className="app-empty-state treinos-empty-card app-card"
             data-testid="treinos-empty-state"
@@ -161,6 +180,137 @@ function TreinosList() {
           </Suspense>
         )}
       </div>
+    </div>
+  );
+}
+
+function TreinosContextoAluno({ contexto, onCriarTreino, onLimparContexto, styles }) {
+  if (contexto?.pendente) {
+    return (
+      <section
+        className="app-alert"
+        data-testid="treinos-context-loading"
+        style={styles.contextoAluno}
+        aria-live="polite"
+      >
+        Carregando contexto do aluno...
+      </section>
+    );
+  }
+
+  if (contexto?.invalido) {
+    return (
+      <section
+        className="app-alert"
+        data-testid="treinos-context-error"
+        style={{ ...styles.contextoAluno, ...styles.contextoAlunoErro }}
+      >
+        <div style={styles.contextoAlunoTexto}>
+          <strong>Aluno nao encontrado.</strong>
+          <span>Confira o link recebido ou volte para a visao geral de treinos.</span>
+        </div>
+        <button
+          type="button"
+          className="app-button app-button-secondary"
+          data-testid="treinos-context-clear"
+          onClick={onLimparContexto}
+          style={styles.botaoSecundario}
+        >
+          Ver todos os treinos
+        </button>
+      </section>
+    );
+  }
+
+  if (!contexto?.temContexto) return null;
+
+  return (
+    <section
+      className="app-alert"
+      data-testid="treinos-context-banner"
+      style={styles.contextoAluno}
+      aria-labelledby="treinos-context-title"
+    >
+      <span data-testid="treinos-context-aluno" style={styles.contextoCompat} aria-hidden="true">
+        Treinos contextualizados para {contexto.aluno.nome}.
+      </span>
+      <div style={styles.contextoAlunoTexto}>
+        <span style={styles.contextoAlunoIcone} aria-hidden="true">
+          <UserRound size={18} />
+        </span>
+        <div>
+          <span id="treinos-context-title" style={styles.contextoAlunoLabel}>
+            Treinos filtrados para
+          </span>
+          <strong data-testid="treinos-context-student-name" style={styles.contextoAlunoNome}>
+            {contexto.aluno.nome}
+          </strong>
+        </div>
+      </div>
+
+      <div style={styles.contextoAlunoAcoes}>
+        {contexto.returnTo && (
+          <Link
+            className="app-button app-button-secondary"
+            data-testid="treinos-context-back"
+            to={contexto.returnTo}
+            style={styles.contextoLink}
+          >
+            <ArrowLeft size={15} />
+            Voltar para o aluno
+          </Link>
+        )}
+        <button
+          type="button"
+          className="app-button app-button-primary"
+          data-testid="treinos-context-create"
+          onClick={onCriarTreino}
+          style={styles.botaoPrimario}
+        >
+          Criar treino para este aluno
+        </button>
+        <button
+          type="button"
+          className="app-button app-button-secondary"
+          data-testid="treinos-context-clear"
+          onClick={onLimparContexto}
+          style={styles.contextoIconButton}
+          aria-label="Ver todos os treinos"
+          title="Ver todos os treinos"
+        >
+          <X size={15} />
+        </button>
+      </div>
+    </section>
+  );
+}
+
+function TreinosErroBiblioteca({ erro, onRetry, retryEmAndamento, styles }) {
+  return (
+    <div
+      className="app-error treinos-library-error"
+      data-testid="treinos-load-error"
+      role="alert"
+      aria-live="assertive"
+      style={styles.libraryError}
+    >
+      <div style={styles.libraryErrorText}>
+        <strong data-testid="treinos-load-error-title">{erro.title}</strong>
+        <span data-testid="treinos-load-error-description">{erro.description}</span>
+      </div>
+      {erro.retryable && (
+        <button
+          type="button"
+          className="app-button app-button-secondary"
+          data-testid="treinos-retry-load"
+          onClick={onRetry}
+          disabled={retryEmAndamento}
+          aria-busy={retryEmAndamento}
+          style={styles.botaoSecundario}
+        >
+          {retryEmAndamento ? "Tentando novamente..." : "Tentar novamente"}
+        </button>
+      )}
     </div>
   );
 }
@@ -285,11 +435,103 @@ const filterCard = {
   padding: "14px",
 };
 
+const libraryError = {
+  alignItems: "center",
+  display: "flex",
+  gap: "12px",
+  justifyContent: "space-between",
+  marginBottom: "18px",
+};
+
+const libraryErrorText = {
+  display: "grid",
+  gap: "4px",
+  minWidth: 0,
+};
+
 const contextoAluno = {
+  alignItems: "center",
+  display: "flex",
+  gap: "14px",
+  justifyContent: "space-between",
+  flexWrap: "wrap",
   fontSize: "14px",
-  fontWeight: "800",
   marginTop: "16px",
+  minWidth: 0,
   padding: "12px 14px",
+};
+
+const contextoAlunoErro = {
+  background: "#fff7ed",
+  border: "1px solid #fed7aa",
+  color: "#9a3412",
+};
+
+const contextoAlunoTexto = {
+  alignItems: "center",
+  display: "flex",
+  gap: "10px",
+  minWidth: 0,
+};
+
+const contextoAlunoIcone = {
+  alignItems: "center",
+  background: "#eff6ff",
+  borderRadius: "8px",
+  color: "#2563eb",
+  display: "inline-flex",
+  flex: "0 0 auto",
+  height: "34px",
+  justifyContent: "center",
+  width: "34px",
+};
+
+const contextoAlunoLabel = {
+  color: "#64748b",
+  display: "block",
+  fontSize: "12px",
+  fontWeight: "850",
+  textTransform: "uppercase",
+};
+
+const contextoAlunoNome = {
+  color: "#0f172a",
+  display: "block",
+  fontSize: "15px",
+  lineHeight: 1.25,
+  overflowWrap: "anywhere",
+};
+
+const contextoAlunoAcoes = {
+  alignItems: "center",
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "8px",
+  justifyContent: "flex-end",
+  minWidth: 0,
+};
+
+const contextoLink = {
+  alignItems: "center",
+  display: "inline-flex",
+  gap: "7px",
+  textDecoration: "none",
+};
+
+const contextoIconButton = {
+  alignItems: "center",
+  display: "inline-flex",
+  justifyContent: "center",
+  minHeight: "38px",
+  padding: "9px 10px",
+};
+
+const contextoCompat = {
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  whiteSpace: "nowrap",
+  width: 1,
 };
 
 const libraryGrid = {
@@ -820,6 +1062,15 @@ const styles = {
   botaoWhatsApp,
   campo,
   contextoAluno,
+  contextoAlunoAcoes,
+  contextoAlunoErro,
+  contextoAlunoIcone,
+  contextoAlunoLabel,
+  contextoAlunoNome,
+  contextoAlunoTexto,
+  contextoIconButton,
+  contextoCompat,
+  contextoLink,
   conteudo,
   detalhesAcoes,
   detalhesCard,
@@ -857,6 +1108,8 @@ const styles = {
   listaTopo,
   libraryCounter,
   libraryEyebrow,
+  libraryError,
+  libraryErrorText,
   libraryGrid,
   libraryHeader,
   libraryLoading,

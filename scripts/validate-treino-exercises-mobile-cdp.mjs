@@ -262,6 +262,12 @@ async function runFlow(client, viewport) {
   results.push(validate(await measure(client, viewport, "final")));
   await captureScreenshot(client, `exercises-${viewport.name}-final.png`);
   await clickText(client, "Cancelar");
+  await sleep(300);
+  const hasDiscard = await evaluate(client, "Boolean(document.querySelector('[data-testid=\"treino-discard-dialog\"]'))");
+  if (hasDiscard) {
+    await evaluate(client, `document.querySelector('[data-testid="treino-discard-confirm"]').click()`);
+  }
+  await waitFor(client, "!document.querySelector('[data-testid=\"treino-editor-modal\"]')");
   await sleep(500);
   const afterCount = await countPersistedWorkouts(client);
   if (afterCount !== beforeCount) results.push(failure(viewport, "persistencia", `quantidade de treinos mudou ${beforeCount} -> ${afterCount}`));

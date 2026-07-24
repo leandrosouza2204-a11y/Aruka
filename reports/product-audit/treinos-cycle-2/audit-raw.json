@@ -1,0 +1,2421 @@
+﻿{
+  "decision": "READY",
+  "results": [
+    {
+      "name": "cancelar novo treino limpo fecha sem confirmacao",
+      "status": "PASS",
+      "start": "2026-07-23T03:23:19.512Z",
+      "end": "2026-07-23T03:23:20.846Z"
+    },
+    {
+      "name": "salvar sem dias mostra validacao e nao fecha",
+      "status": "PASS",
+      "start": "2026-07-23T03:23:20.846Z",
+      "end": "2026-07-23T03:23:22.712Z"
+    },
+    {
+      "name": "salvar com dia sem exercicio mostra validacao",
+      "status": "PASS",
+      "start": "2026-07-23T03:23:22.712Z",
+      "end": "2026-07-23T03:23:25.093Z"
+    },
+    {
+      "name": "dirty pede descarte e continuar preserva conteudo",
+      "status": "PASS",
+      "start": "2026-07-23T03:23:25.094Z",
+      "end": "2026-07-23T03:23:27.589Z"
+    },
+    {
+      "name": "salvar treino valido preserva contexto",
+      "status": "PASS",
+      "start": "2026-07-23T03:23:27.589Z",
+      "end": "2026-07-23T03:23:40.735Z"
+    },
+    {
+      "name": "mobile mostra validacao e descarte sem overflow",
+      "status": "PASS",
+      "start": "2026-07-23T03:23:40.813Z",
+      "end": "2026-07-23T03:23:49.928Z"
+    }
+  ],
+  "consoleEvents": [
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    }
+  ],
+  "networkEvents": [
+    {
+      "url": "http://127.0.0.1:5173/treinos",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/main.jsx?t=1784776747876",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/@vite/client",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/@react-refresh",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/App.jsx?t=1784776747876",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/ConfirmDialog.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/ToastProvider.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/theme/ThemeContext.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/index.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/vite/dist/client/env.mjs",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-router-dom.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/ProtectedRoute.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-CZunmVaX.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/AdminRoute.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/LegalRoute.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/AccessibleModal.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/MobileBottomNavigation.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/contexts/ConfirmContext.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/contexts/ToastContext.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/theme/themeContext.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/Toast.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/SubscriptionRoute.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/AutoLogoutProvider.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/supabase.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/perfisService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/legalService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/development-CLFnk4pl.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/hooks/useAutoLogout.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/SessionTimeoutModal.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/assinaturasService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/authSessionService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/config/sessionConfig.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/lucide-react.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/@supabase_supabase-js.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/Login.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/favicon.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/favicon.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/BrandLogo.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/FooterLegal.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/brand/aruka-logo-primary.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/login",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/@vite/client",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/main.jsx?t=1784776747876",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/@react-refresh",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-CZunmVaX.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/vite/dist/client/env.mjs",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/App.jsx?t=1784776747876",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/ToastProvider.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/ConfirmDialog.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-router-dom.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/theme/ThemeContext.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/development-CLFnk4pl.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/index.css",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/ProtectedRoute.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/SubscriptionRoute.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/AdminRoute.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/LegalRoute.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/MobileBottomNavigation.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/contexts/ToastContext.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/lucide-react.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/Toast.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/AccessibleModal.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/contexts/ConfirmContext.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/theme/themeContext.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/AutoLogoutProvider.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/supabase.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/perfisService.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/legalService.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/hooks/useAutoLogout.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/@supabase_supabase-js.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/SessionTimeoutModal.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/assinaturasService.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/authSessionService.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/config/sessionConfig.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/Login.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/BrandLogo.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/FooterLegal.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/brand/aruka-logo-primary.png",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/token?grant_type=[redacted]",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/token?grant_type=[redacted]",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/assinaturas?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/assinaturas?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/assinaturas?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/Dashboard.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/dashboard/components/DashboardPage.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/Sidebar.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/dashboard/components/DashboardAlertas.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/dashboard/hooks/useDashboardPage.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/dashboard/components/DashboardAtalhos.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/dashboard/components/DashboardCards.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/dashboard/components/DashboardCheckin.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/dashboard/components/DashboardHeader.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/dashboard/components/DashboardSinaisFitness.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/dashboard/components/DashboardOnboardingChecklist.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/theme/useTheme.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/data/alunosUtils.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/alunosService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/avaliacoesService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/pagamentosService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/treinosService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/planosService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/dashboard/utils/dashboardInsights.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/whatsappService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/PageHero.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/data/formatters.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/planos/utils/normalizarNomePlano.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/financeiro/utils/validarDataPagamento.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/avaliacoesFotosService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/avaliacoesMapper.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/data/calculosCorporais.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/brand/aruka-logo-sidebar.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/pagamentos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_pagamento.desc%2Ccreated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/pagamentos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_pagamento.desc%2Ccreated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/planos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/planos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/avaliacoes?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_avaliacao.desc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/avaliacoes?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_avaliacao.desc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/pagamentos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=data_pagamento.desc%2Ccreated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/treinos",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/@vite/client",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/main.jsx?t=1784776747876",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-CZunmVaX.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/@react-refresh",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/vite/dist/client/env.mjs",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/App.jsx?t=1784776747876",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-router-dom.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/ConfirmDialog.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/ToastProvider.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/theme/ThemeContext.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/development-CLFnk4pl.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/index.css",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/ProtectedRoute.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/SubscriptionRoute.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/AdminRoute.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/LegalRoute.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/MobileBottomNavigation.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/AccessibleModal.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/contexts/ConfirmContext.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/lucide-react.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/contexts/ToastContext.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/Toast.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/theme/themeContext.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/AutoLogoutProvider.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/supabase.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/perfisService.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/@supabase_supabase-js.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/legalService.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/SessionTimeoutModal.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/assinaturasService.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/authSessionService.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/hooks/useAutoLogout.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/config/sessionConfig.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/assinaturas?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/assinaturas?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/Treinos.jsx?t=1784776747876",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinosList.jsx?t=1784776747876",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/Sidebar.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinosCards.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinoDetalhesModal.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/hooks/useTreinosPage.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinosFilters.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/theme/useTheme.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/BrandLogo.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinosHeader.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/LoadingState.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/hooks/useConfirm.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinosEmptyState.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/TableActions.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/data/treinosModelos.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/ExercicioCard.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/hooks/useToast.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/data/formatters.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/alunosService.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/treinosService.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/PageHero.jsx",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/whatsappService.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/utils/treinosContextoAluno.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/workoutTemplatesService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/utils/workoutTemplateSanitization.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/alunos/utils/alunosContextNavigation.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/brand/aruka-logo-sidebar.png",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/assinaturas?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/assinaturas?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/TreinoModal.jsx?t=1784776747876",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/utils/treinoEditorState.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinoSalvarModeloModal.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/utils/workoutTemplateEditorState.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNSIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJXaW5kb3dUZXh0IiBkPSJNMjAgM2gtMVYxaC0ydjJIN1YxSDV2Mkg0Yy0xLjEgMC0yIC45LTIgMnYxNmMwIDEuMS45IDIgMiAyaDE2YzEuMSAwIDItLjkgMi0yVjVjMC0xLjEtLjktMi0yLTJ6bTAgMThINFY4aDE2djEzeiIvPjxwYXRoIGZpbGw9Im5vbmUiIGQ9Ik0wIDBoMjR2MjRIMHoiLz48L3N2Zz4=",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/treinos?alunoId=2191d796-3bc2-405f-8d4d-dbba31f1d3c2&returnTo=%2Falunos%3Fbusca%3DAna",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/main.jsx?t=1784776747876",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-CZunmVaX.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/@react-refresh",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/@vite/client",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/App.jsx?t=1784776747876",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-router-dom.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/development-CLFnk4pl.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/ConfirmDialog.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/ToastProvider.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/theme/ThemeContext.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/index.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/vite/dist/client/env.mjs",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/ProtectedRoute.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/LegalRoute.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/SubscriptionRoute.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/AdminRoute.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/MobileBottomNavigation.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/contexts/ConfirmContext.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/lucide-react.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/AccessibleModal.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/contexts/ToastContext.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/Toast.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/theme/themeContext.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/AutoLogoutProvider.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/supabase.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/legalService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/@supabase_supabase-js.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/perfisService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/hooks/useAutoLogout.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/SessionTimeoutModal.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/authSessionService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/config/sessionConfig.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/assinaturasService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/assinaturas?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/assinaturas?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/assinaturas?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/Treinos.jsx?t=1784776747876",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinosList.jsx?t=1784776747876",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/Sidebar.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/hooks/useTreinosPage.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinosCards.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinoDetalhesModal.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinosFilters.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinosHeader.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/BrandLogo.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/theme/useTheme.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/data/formatters.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/hooks/useConfirm.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/hooks/useToast.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/data/treinosModelos.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/alunosService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/treinosService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/workoutTemplatesService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/utils/workoutTemplateSanitization.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/utils/treinosContextoAluno.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/whatsappService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/LoadingState.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/TableActions.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/PageHero.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinosEmptyState.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/ExercicioCard.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/alunos/utils/alunosContextNavigation.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/brand/aruka-logo-sidebar.png",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/assinaturas?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/brand/aruka-logo-sidebar.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/TreinoModal.jsx?t=1784776747876",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinoSalvarModeloModal.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/utils/treinoEditorState.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/utils/workoutTemplateEditorState.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNSIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJXaW5kb3dUZXh0IiBkPSJNMjAgM2gtMVYxaC0ydjJIN1YxSDV2Mkg0Yy0xLjEgMC0yIC45LTIgMnYxNmMwIDEuMS45IDIgMiAyaDE2YzEuMSAwIDItLjkgMi0yVjVjMC0xLjEtLjktMi0yLTJ6bTAgMThINFY4aDE2djEzeiIvPjxwYXRoIGZpbGw9Im5vbmUiIGQ9Ik0wIDBoMjR2MjRIMHoiLz48L3N2Zz4=",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=id",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=id",
+      "status": 201
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treino_dias?select=id",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treino_dias?select=id",
+      "status": 201
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treino_exercicios?columns=%22treino_dia_id%22%2C%22nome%22%2C%22series%22%2C%22repeticoes%22%2C%22carga%22%2C%22descanso%22%2C%22observacoes%22%2C%22video_url%22%2C%22ordem%22",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treino_exercicios?columns=%22treino_dia_id%22%2C%22nome%22%2C%22series%22%2C%22repeticoes%22%2C%22carga%22%2C%22descanso%22%2C%22observacoes%22%2C%22video_url%22%2C%22ordem%22",
+      "status": 201
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&id=eq.00d3ad5a-6acc-42b9-a189-cf88f7a923a7&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&id=eq.00d3ad5a-6acc-42b9-a189-cf88f7a923a7&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/treinos",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/main.jsx?t=1784776747876",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/@vite/client",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-CZunmVaX.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-dom.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/@react-refresh",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/App.jsx?t=1784776747876",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/ConfirmDialog.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/vite/dist/client/env.mjs",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/index.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/theme/ThemeContext.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/ToastProvider.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/react-router-dom.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/development-CLFnk4pl.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/ProtectedRoute.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/SubscriptionRoute.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/AdminRoute.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/auth/LegalRoute.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/MobileBottomNavigation.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/lucide-react.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/AccessibleModal.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/theme/themeContext.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/contexts/ConfirmContext.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/contexts/ToastContext.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/Toast.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/AutoLogoutProvider.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/supabase.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/perfisService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/node_modules/.vite/deps/@supabase_supabase-js.js?v=0029fe30",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/legalService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/hooks/useAutoLogout.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/SessionTimeoutModal.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/assinaturasService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/config/sessionConfig.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/authSessionService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/assinaturas?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/assinaturas?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/assinaturas?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/pages/Treinos.jsx?t=1784776747876",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinosList.jsx?t=1784776747876",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/hooks/useTreinosPage.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinosCards.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinoDetalhesModal.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinosFilters.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinosHeader.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/data/formatters.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/hooks/useConfirm.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/LoadingState.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/workoutTemplatesService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/whatsappService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/utils/treinosContextoAluno.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/utils/workoutTemplateSanitization.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinosEmptyState.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/PageHero.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/data/treinosModelos.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/TableActions.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/ExercicioCard.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/alunos/utils/alunosContextNavigation.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/treinosService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/hooks/useToast.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/services/alunosService.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/Sidebar.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/BrandLogo.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/theme/useTheme.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/brand/aruka-logo-sidebar.png",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/assinaturas?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/aceites_legais?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&politica_versao=eq.1.0&termos_versao=eq.1.0&politica_aceita=eq.true&termos_aceitos=eq.true&order=aceito_em.desc.nullslast&limit=1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/alunos?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=vencimento.asc.nullslast",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/treinos?select=*%2Caluno%3Aalunos%28id%2Cnome%2Cwhatsapp%29%2Cdias%3Atreino_dias%28*%2Cexercicios%3Atreino_exercicios%28*%29%29&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&order=created_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/workout_templates?select=*&owner_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9&is_active=eq.true&is_system=eq.false&order=updated_at.desc",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/components/TreinoModal.jsx?t=1784776747876",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/components/TreinoSalvarModeloModal.jsx",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/utils/treinoEditorState.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/src/features/treinos/utils/workoutTemplateEditorState.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/auth/v1/user",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:54321/rest/v1/perfis?select=*&user_id=eq.6960d405-3d50-4ef9-9f7f-c46b2a3da8b9",
+      "status": 200
+    },
+    {
+      "url": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNSIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJXaW5kb3dUZXh0IiBkPSJNMjAgM2gtMVYxaC0ydjJIN1YxSDV2Mkg0Yy0xLjEgMC0yIC45LTIgMnYxNmMwIDEuMS45IDIgMiAyaDE2YzEuMSAwIDItLjkgMi0yVjVjMC0xLjEtLjktMi0yLTJ6bTAgMThINFY4aDE2djEzeiIvPjxwYXRoIGZpbGw9Im5vbmUiIGQ9Ik0wIDBoMjR2MjRIMHoiLz48L3N2Zz4=",
+      "status": 200
+    }
+  ]
+}

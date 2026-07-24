@@ -1,21 +1,33 @@
 import { spawnSync } from "node:child_process";
 
-export function readLocalSupabaseRuntime() {
-  const command = process.platform === "win32" ? "npx.cmd" : "npx";
-  const result = spawnSync(command, ["supabase", "status"], {
+function runSupabaseStatus(command, args = ["supabase", "status", "--output", "json"]) {
+  return spawnSync(command, args, {
     encoding: "utf8",
     shell: process.platform === "win32",
   });
+}
+
+export function readLocalSupabaseRuntime() {
+  const command = process.platform === "win32" ? "npx.cmd" : "npx";
+  let result = runSupabaseStatus(command);
   const output = `${result.stdout || ""}\n${result.stderr || ""}`;
+  let jsonStart = output.indexOf("{");
+  let jsonEnd = output.lastIndexOf("}");
+  if (result.status !== 0 || jsonStart === -1 || jsonEnd === -1) {
+    result = runSupabaseStatus(command, ["supabase", "status"]);
+  }
+  const fallbackOutput = `${result.stdout || ""}\n${result.stderr || ""}`;
   if (result.status !== 0) {
-    throw new Error(`Supabase local indisponivel. npx supabase status falhou: ${sanitize(output)}`);
+    throw new Error(`Supabase local indisponivel. npx supabase status falhou: ${sanitize(fallbackOutput)}`);
   }
-  const jsonStart = output.indexOf("{");
-  const jsonEnd = output.lastIndexOf("}");
+  jsonStart = fallbackOutput.indexOf("{");
+  jsonEnd = fallbackOutput.lastIndexOf("}");
   if (jsonStart === -1 || jsonEnd === -1) {
-    throw new Error("Supabase local indisponivel: status sem bloco JSON.");
+    throw new Error(
+      `Supabase local indisponivel.\nO comando "supabase status" nao retornou um bloco JSON valido.\n\nSaida recebida:\n${sanitize(fallbackOutput).slice(0, 500)}`,
+    );
   }
-  const data = JSON.parse(output.slice(jsonStart, jsonEnd + 1));
+  const data = JSON.parse(fallbackOutput.slice(jsonStart, jsonEnd + 1));
   const apiUrl = String(data.API_URL || "");
   if (!apiUrl.startsWith("http://127.0.0.1:54321") && !apiUrl.startsWith("http://localhost:54321")) {
     throw new Error("Supabase bloqueado: API_URL local esperada nao confirmada.");

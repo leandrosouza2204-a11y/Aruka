@@ -1,0 +1,27 @@
+# Scenario Results
+
+- PASS: abrir Treinos sem contexto
+- PASS: acao principal visivel
+- PASS: modelo rapido visivel
+- PASS: lista ou vazio renderizado
+- PASS: abrir Treinos com alunoId valido
+- PASS: aluno selecionado claro no contexto
+- PASS: refresh preserva alunoId
+- PASS: abrir Treinos com alunoId invalido nao quebra
+- PASS: alunoId invalido nao comunica contexto
+- PASS: aluno sem treino mostra estado vazio
+- PASS: abrir detalhe de treino
+- PASS: menu contextual do card abre
+- PASS: editar treino abre editor
+- PASS: editor tem campos de exercicio
+- PASS: editor permite reordenacao visual
+- PASS: cancelar edicao fecha editor
+- PASS: criar primeiro/novo treino abre editor
+- OBS: novo treino contextual nao pre-seleciona aluno
+- PASS: campos invalidos exibem feedback
+- PASS: criar treino por modelo abre wizard
+- PASS: mobile 390 renderiza modulo
+- PASS: mobile sem overflow horizontal
+- PASS: mobile abre editor completo
+- PASS: mobile editor sem overflow horizontal
+- PASS: mobile 320 sem overflow horizontal
