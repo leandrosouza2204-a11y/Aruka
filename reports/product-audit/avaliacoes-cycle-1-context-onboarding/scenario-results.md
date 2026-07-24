@@ -1,0 +1,40 @@
+# Scenario Results
+
+- PASS: abrir /avaliacoes
+- PASS: confirmar carregamento da pagina
+- PASS: selecionar aluno valido com avaliacao
+- PASS: confirmar alerta contextual
+- PASS: confirmar nome do aluno no alerta
+- PASS: abrir nova avaliacao pelo alerta
+- PASS: confirmar aluno pre-selecionado
+- PASS: fechar modal sem alteracao relevante
+- PASS: abrir nova anamnese pelo alerta
+- PASS: confirmar aluno pre-selecionado na anamnese
+- PASS: refresh preserva alunoId
+- PASS: busca preserva alunoId
+- PASS: busca preserva returnTo
+- PASS: troca de aba preserva contexto
+- PASS: returnTo valido mostra CTA
+- PASS: CTA retorna a rota exata
+- PASS: returnTo=https externo nao mostra CTA
+- PASS: returnTo=// externo nao mostra CTA
+- PASS: returnTo=javascript nao mostra CTA
+- PASS: alunoId inexistente nao quebra pagina
+- PASS: aluno sem avaliacao mostra estado vazio contextual
+- PASS: estado vazio menciona o aluno
+- PASS: CTA do vazio abre nova avaliacao pre-selecionada
+- PASS: busca inexistente mostra vazio de busca
+- PASS: limpar busca remove somente a busca
+- PASS: mostrar todos remove somente alunoId
+- PASS: aba Avaliacoes apresenta texto correspondente
+- PASS: aba Anamneses apresenta texto correspondente
+- PASS: viewport 320 sem overflow
+- PASS: viewport 375 sem overflow
+- PASS: viewport 390 sem overflow
+- PASS: viewport 768 sem overflow
+- PASS: viewport 1366 sem overflow
+- PASS: nenhuma exception de console
+- PASS: nenhuma falha inesperada de rede
+- PASS: nenhum erro HTTP inesperado
+- PASS: screenshots obrigatorias validas
+

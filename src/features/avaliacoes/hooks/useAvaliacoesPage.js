@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { calcularComposicaoCorporal } from "../../../data/calculosCorporais";
 import { formatarData, formatarDataCurta } from "../../../data/formatters";
 import { useConfirm } from "../../../hooks/useConfirm";
@@ -18,12 +18,20 @@ import {
   formatarErroSupabase,
 } from "../../../services/avaliacoesService";
 import { formatarEscala } from "../utils/formatters";
+import {
+  classifyAvaliacoesEmptyState,
+  removeOnlyAlunoId,
+  resolveContextStudentId,
+  resolveInitialStudentId,
+  sanitizeReturnTo,
+  updateSearchParamsPreservingContext,
+} from "../utils/avaliacoesContext";
 
 export { formatarData, formatarDataCurta, formatarEscala };
 
 export function useAvaliacoesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const alunoIdContexto = searchParams.get("alunoId") || "";
+  const navigate = useNavigate();
   const [alunos, setAlunos] = useState([]);
   const [avaliacoes, setAvaliacoes] = useState([]);
   const [anamneses, setAnamneses] = useState([]);
@@ -31,11 +39,13 @@ export function useAvaliacoesPage() {
   const [modalAnamnese, setModalAnamnese] = useState(false);
   const [avaliacaoEditando, setAvaliacaoEditando] = useState(null);
   const [anamneseEditando, setAnamneseEditando] = useState(null);
+  const [alunoIdInicialAvaliacao, setAlunoIdInicialAvaliacao] = useState("");
+  const [alunoIdInicialAnamnese, setAlunoIdInicialAnamnese] = useState("");
   const [alunoSelecionadoManualId, setAlunoSelecionadoId] = useState("");
   const [relatorioAtivo, setRelatorioAtivo] = useState(null);
-  const [busca, setBusca] = useState("");
-  const filtroAluno = alunoIdContexto || "todos";
-  const [abaAtiva, setAbaAtiva] = useState("avaliacoes");
+  const busca = searchParams.get("busca") || "";
+  const abaParam = searchParams.get("aba");
+  const abaAtiva = abaParam === "anamneses" ? "anamneses" : "avaliacoes";
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
   const toast = useToast();
@@ -45,7 +55,17 @@ export function useAvaliacoesPage() {
     carregarDados();
   }, []);
 
-  const alunoSelecionadoId = alunoSelecionadoManualId || alunoIdContexto;
+  const alunoIdParam = searchParams.get("alunoId") || "";
+  const alunoIdContextual = useMemo(
+    () => resolveContextStudentId({ alunoIdParam, alunos }),
+    [alunoIdParam, alunos]
+  );
+  const filtroAluno = alunoIdContextual || "todos";
+  const returnToSeguro = useMemo(
+    () => sanitizeReturnTo(searchParams.get("returnTo")),
+    [searchParams]
+  );
+  const alunoSelecionadoId = alunoSelecionadoManualId || alunoIdContextual;
 
   async function carregarDados() {
     setCarregando(true);
@@ -163,7 +183,7 @@ export function useAvaliacoesPage() {
 
       await carregarDados();
       setAlunoSelecionadoId(aluno.id);
-      setAbaAtiva("avaliacoes");
+      selecionarAba("avaliacoes", { replace: true });
       fecharModalAvaliacao();
       toast.sucesso("Avaliação salva", "Os dados da avaliação foram atualizados.");
     } catch (error) {
@@ -174,7 +194,7 @@ export function useAvaliacoesPage() {
       if (erroFotosParcial && error.avaliacaoSalva) {
         await carregarDados();
         setAlunoSelecionadoId(aluno.id);
-        setAbaAtiva("avaliacoes");
+        selecionarAba("avaliacoes", { replace: true });
         fecharModalAvaliacao();
       }
       toast.erro(
@@ -216,7 +236,7 @@ export function useAvaliacoesPage() {
 
       await carregarDados();
       setAlunoSelecionadoId(aluno.id);
-      setAbaAtiva("anamneses");
+      selecionarAba("anamneses", { replace: true });
       fecharModalAnamnese();
       toast.sucesso("Anamnese salva", "As informações foram atualizadas.");
     } catch (error) {
@@ -231,35 +251,69 @@ export function useAvaliacoesPage() {
 
   function abrirNovaAvaliacao() {
     setAvaliacaoEditando(null);
+    setAlunoIdInicialAvaliacao(
+      resolveInitialStudentId({
+        contextualStudentId: alunoIdContextual,
+        alunos,
+      })
+    );
     setRelatorioAtivo(null);
     setModalAvaliacao(true);
   }
 
   function abrirNovaAnamnese() {
     setAnamneseEditando(null);
+    setAlunoIdInicialAnamnese(
+      resolveInitialStudentId({
+        contextualStudentId: alunoIdContextual,
+        alunos,
+      })
+    );
     setRelatorioAtivo(null);
     setModalAnamnese(true);
   }
 
   function abrirEdicaoAvaliacao(avaliacao) {
     setAvaliacaoEditando(avaliacao);
+    setAlunoIdInicialAvaliacao(
+      resolveInitialStudentId({
+        editingStudentId: avaliacao?.alunoId,
+        contextualStudentId: alunoIdContextual,
+        alunos,
+      })
+    );
     setRelatorioAtivo(null);
     setModalAvaliacao(true);
   }
 
   function editarAnamneseAluno(alunoId) {
-    setRelatorioAtivo(null);
-    setAnamneseEditando(
+    const anamneseAtual =
       [...anamneses]
         .filter((anamnese) => anamnese.alunoId === alunoId)
         .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)))[0] ||
-        null
+      null;
+
+    setRelatorioAtivo(null);
+    setAnamneseEditando(anamneseAtual);
+    setAlunoIdInicialAnamnese(
+      resolveInitialStudentId({
+        editingStudentId: anamneseAtual?.alunoId || alunoId,
+        contextualStudentId: alunoIdContextual,
+        alunos,
+      })
     );
     setModalAnamnese(true);
   }
 
   function abrirEdicaoAnamnese(anamnese) {
     setAnamneseEditando(anamnese);
+    setAlunoIdInicialAnamnese(
+      resolveInitialStudentId({
+        editingStudentId: anamnese?.alunoId,
+        contextualStudentId: alunoIdContextual,
+        alunos,
+      })
+    );
     setRelatorioAtivo(null);
     setModalAnamnese(true);
   }
@@ -310,10 +364,41 @@ export function useAvaliacoesPage() {
   }
 
   function setFiltroAluno(valor) {
-    const proximos = new URLSearchParams(searchParams);
-    if (!valor || valor === "todos") proximos.delete("alunoId");
-    else proximos.set("alunoId", valor);
+    const proximos = updateSearchParamsPreservingContext({
+      currentParams: criarSearchParamsAtuais(searchParams),
+      updates: { alunoId: valor },
+    });
     setSearchParams(proximos, { replace: false });
+  }
+
+  function limparContextoAluno() {
+    setSearchParams(removeOnlyAlunoId(criarSearchParamsAtuais(searchParams)), {
+      replace: false,
+    });
+  }
+
+  function limparBusca() {
+    setSearchParams(
+      updateSearchParamsPreservingContext({
+        currentParams: criarSearchParamsAtuais(searchParams),
+        removals: ["busca"],
+      }),
+      { replace: true }
+    );
+  }
+
+  function limparFiltros() {
+    setSearchParams(
+      updateSearchParamsPreservingContext({
+        currentParams: criarSearchParamsAtuais(searchParams),
+        removals: ["alunoId", "busca"],
+      }),
+      { replace: false }
+    );
+  }
+
+  function voltarParaOrigem() {
+    if (returnToSeguro) navigate(returnToSeguro);
   }
 
   function abrirRelatorioAnamnese(anamnese) {
@@ -340,20 +425,65 @@ export function useAvaliacoesPage() {
     setRelatorioAtivo(null);
   }
 
-  function selecionarAba(aba) {
-    setAbaAtiva(aba);
+  function selecionarAba(aba, options = {}) {
+    setSearchParams(
+      updateSearchParamsPreservingContext({
+        currentParams: criarSearchParamsAtuais(searchParams),
+        updates: { aba: aba === "anamneses" ? "anamneses" : "avaliacoes" },
+      }),
+      { replace: Boolean(options.replace) }
+    );
     setRelatorioAtivo(null);
   }
 
   function fecharModalAvaliacao() {
     setModalAvaliacao(false);
     setAvaliacaoEditando(null);
+    setAlunoIdInicialAvaliacao("");
   }
 
   function fecharModalAnamnese() {
     setModalAnamnese(false);
     setAnamneseEditando(null);
+    setAlunoIdInicialAnamnese("");
   }
+
+  function setBuscaUrl(valor) {
+    setSearchParams(
+      updateSearchParamsPreservingContext({
+        currentParams: criarSearchParamsAtuais(searchParams),
+        updates: { busca: valor },
+      }),
+      { replace: true }
+    );
+  }
+
+  const emptyState = useMemo(() => {
+    const totalRecords =
+      abaAtiva === "anamneses" ? anamneses.length : ultimasAvaliacoes.length;
+    const filteredRecords =
+      abaAtiva === "anamneses"
+        ? anamnesesFiltradas.length
+        : avaliacoesFiltradas.length;
+
+    return classifyAvaliacoesEmptyState({
+      totalRecords,
+      filteredRecords,
+      searchTerm: busca,
+      contextualStudent: alunoContextual,
+      activeTab: abaAtiva,
+      hasStudentFilter: filtroAluno !== "todos",
+    });
+  }, [
+    abaAtiva,
+    alunoContextual,
+    anamneses.length,
+    anamnesesFiltradas.length,
+    avaliacoesFiltradas.length,
+    busca,
+    filtroAluno,
+    ultimasAvaliacoes.length,
+  ]);
 
   return {
     alunos,
@@ -361,6 +491,9 @@ export function useAvaliacoesPage() {
     alertas,
     alunoCadastro,
     alunoContextual,
+    alunoIdContextual,
+    alunoIdInicialAnamnese,
+    alunoIdInicialAvaliacao,
     alunoSelecionado,
     alunoSelecionadoId,
     anamneseAluno,
@@ -374,12 +507,14 @@ export function useAvaliacoesPage() {
     busca,
     carregando,
     erro,
+    emptyState,
     filtroAluno,
     historicoAluno,
     modalAnamnese,
     modalAvaliacao,
     primeiraAvaliacao,
     relatorioAtivo,
+    returnToSeguro,
     ultimaAvaliacao,
     abrirEdicaoAvaliacao,
     abrirEdicaoAnamnese,
@@ -398,9 +533,13 @@ export function useAvaliacoesPage() {
     salvarAvaliacao,
     selecionarPerfilAluno,
     fecharRelatorio,
+    limparBusca,
+    limparContextoAluno,
+    limparFiltros,
     setAbaAtiva: selecionarAba,
-    setBusca,
+    setBusca: setBuscaUrl,
     setFiltroAluno,
+    voltarParaOrigem,
   };
 }
 
@@ -447,6 +586,14 @@ function obterAlunoUnicoPorNome(nome, alunosPorNome) {
 
 function normalizarNome(nome) {
   return String(nome || "").trim().toLowerCase();
+}
+
+function criarSearchParamsAtuais(fallback) {
+  if (typeof window !== "undefined") {
+    return new URLSearchParams(window.location.search);
+  }
+
+  return new URLSearchParams(fallback);
 }
 
 export function gerarResumoWhatsApp(avaliacao, anterior, anamnese) {

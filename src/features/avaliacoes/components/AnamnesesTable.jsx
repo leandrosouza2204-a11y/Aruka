@@ -11,6 +11,14 @@ function AnamnesesTable({
   onRelatorio,
   onNovaAvaliacao,
   onNovaAnamnese,
+  emptyState,
+  contextualStudent,
+  searchTerm,
+  returnToSeguro,
+  onClearContext,
+  onClearFilters,
+  onClearSearch,
+  onReturn,
   styles,
 }) {
   return (
@@ -31,7 +39,11 @@ function AnamnesesTable({
         <tbody>
           {!carregando &&
             anamneses.map((anamnese) => (
-              <tr key={anamnese.id}>
+              <tr
+                key={anamnese.id}
+                data-testid="anamnese-row"
+                data-aluno-id={anamnese.alunoId || ""}
+              >
                 <td className="cell-wide" style={styles.tabelaCelula}>
                   {anamnese.aluno}
                 </td>
@@ -76,11 +88,20 @@ function AnamnesesTable({
           )}
 
           {!carregando && anamneses.length === 0 && (
-            <tr>
+            <tr data-testid="avaliacoes-empty-row">
               <td style={styles.estadoVazio} colSpan="7">
                 <AvaliacoesEmptyState
+                  activeTab="anamneses"
+                  contextualStudent={contextualStudent}
+                  returnToSeguro={returnToSeguro}
+                  searchTerm={searchTerm}
+                  state={emptyState}
+                  onClearContext={onClearContext}
+                  onClearFilters={onClearFilters}
+                  onClearSearch={onClearSearch}
                   onNovaAvaliacao={onNovaAvaliacao}
                   onNovaAnamnese={onNovaAnamnese}
+                  onReturn={onReturn}
                 />
               </td>
             </tr>
