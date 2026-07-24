@@ -53,9 +53,11 @@ function TreinosList() {
           styles={styles}
         />
 
-        {treinosPage.erro && <div className="app-error">{treinosPage.erro}</div>}
-
-        <section className="treinos-library-section" style={styles.librarySection}>
+        <section
+          className="treinos-library-section"
+          style={styles.librarySection}
+          aria-busy={treinosPage.retryEmAndamento}
+        >
           <div className="app-card-header" style={styles.libraryHeader}>
             <div>
               <span style={styles.libraryEyebrow}>Biblioteca</span>
@@ -87,20 +89,31 @@ function TreinosList() {
             />
           </div>
 
-          <TreinosCards
-            acaoTreino={treinosPage.acaoTreino}
-            carregando={treinosPage.carregando}
-            selectedId={treinoSelecionadoId}
-            treinos={treinosPage.treinosFiltrados}
-            onVisualizar={alternarTreino}
-            onEditar={treinosPage.abrirEdicao}
-            onDuplicar={treinosPage.duplicarTreino}
-            onExcluir={treinosPage.removerTreino}
-            alunoContextual={treinosPage.alunoContextual}
-            onNovoTreino={treinosPage.abrirNovoTreino}
-            onUsarModelo={focarModelos}
-            styles={styles}
-          />
+          {treinosPage.erro && (
+            <TreinosErroBiblioteca
+              erro={treinosPage.erro}
+              onRetry={treinosPage.tentarCarregarNovamente}
+              retryEmAndamento={treinosPage.retryEmAndamento}
+              styles={styles}
+            />
+          )}
+
+          {!(treinosPage.erro && !treinosPage.carregando && treinosPage.treinos.length === 0) && (
+            <TreinosCards
+              acaoTreino={treinosPage.acaoTreino}
+              carregando={treinosPage.carregando}
+              selectedId={treinoSelecionadoId}
+              treinos={treinosPage.treinosFiltrados}
+              onVisualizar={alternarTreino}
+              onEditar={treinosPage.abrirEdicao}
+              onDuplicar={treinosPage.duplicarTreino}
+              onExcluir={treinosPage.removerTreino}
+              alunoContextual={treinosPage.alunoContextual}
+              onNovoTreino={treinosPage.abrirNovoTreino}
+              onUsarModelo={focarModelos}
+              styles={styles}
+            />
+          )}
         </section>
 
         <div className="treinos-detail-panel">
@@ -112,7 +125,9 @@ function TreinosList() {
           />
         </div>
 
-        {!treinosPage.treinoSelecionado && !treinosPage.carregando && (
+        {!treinosPage.treinoSelecionado &&
+          !treinosPage.carregando &&
+          !(treinosPage.erro && treinosPage.treinos.length === 0) && (
           <section
             className="app-empty-state treinos-empty-card app-card"
             data-testid="treinos-empty-state"
@@ -270,6 +285,36 @@ function TreinosContextoAluno({ contexto, onCriarTreino, onLimparContexto, style
   );
 }
 
+function TreinosErroBiblioteca({ erro, onRetry, retryEmAndamento, styles }) {
+  return (
+    <div
+      className="app-error treinos-library-error"
+      data-testid="treinos-load-error"
+      role="alert"
+      aria-live="assertive"
+      style={styles.libraryError}
+    >
+      <div style={styles.libraryErrorText}>
+        <strong data-testid="treinos-load-error-title">{erro.title}</strong>
+        <span data-testid="treinos-load-error-description">{erro.description}</span>
+      </div>
+      {erro.retryable && (
+        <button
+          type="button"
+          className="app-button app-button-secondary"
+          data-testid="treinos-retry-load"
+          onClick={onRetry}
+          disabled={retryEmAndamento}
+          aria-busy={retryEmAndamento}
+          style={styles.botaoSecundario}
+        >
+          {retryEmAndamento ? "Tentando novamente..." : "Tentar novamente"}
+        </button>
+      )}
+    </div>
+  );
+}
+
 const conteudo = {
   padding: "24px",
   marginLeft: "260px",
@@ -388,6 +433,20 @@ const filterCard = {
   boxShadow: "0 12px 28px rgba(15, 23, 42, 0.045)",
   marginBottom: "18px",
   padding: "14px",
+};
+
+const libraryError = {
+  alignItems: "center",
+  display: "flex",
+  gap: "12px",
+  justifyContent: "space-between",
+  marginBottom: "18px",
+};
+
+const libraryErrorText = {
+  display: "grid",
+  gap: "4px",
+  minWidth: 0,
 };
 
 const contextoAluno = {
@@ -1049,6 +1108,8 @@ const styles = {
   listaTopo,
   libraryCounter,
   libraryEyebrow,
+  libraryError,
+  libraryErrorText,
   libraryGrid,
   libraryHeader,
   libraryLoading,

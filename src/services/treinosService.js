@@ -3,6 +3,7 @@ import { buscarUsuarioLogado } from "./authSessionService";
 import { supabase } from "./supabase";
 
 export async function buscarTreinosSupabase() {
+  falharTreinosLocalQa("load");
   const user = await buscarUsuarioLogado();
 
   const { data, error } = await supabase
@@ -26,6 +27,7 @@ export async function buscarTreinosSupabase() {
 }
 
 export async function buscarTreinosPorAlunoSupabase(alunoId) {
+  falharTreinosLocalQa("load");
   const user = await buscarUsuarioLogado();
 
   const { data, error } = await supabase
@@ -74,6 +76,7 @@ export async function buscarTreinoPorIdSupabase(id) {
 }
 
 export async function adicionarTreinoSupabase(treino) {
+  falharTreinosLocalQa("duplicate");
   const user = await buscarUsuarioLogado();
 
   const { data, error } = await supabase
@@ -113,6 +116,7 @@ export async function atualizarTreinoSupabase(id, treino) {
 }
 
 export async function excluirTreinoSupabase(id) {
+  falharTreinosLocalQa("delete");
   const user = await buscarUsuarioLogado();
 
   const { error } = await supabase
@@ -218,4 +222,11 @@ function treinoParaPayload(treino, userId) {
 
 function ordenarPorOrdem(lista) {
   return [...lista].sort((a, b) => Number(a.ordem || 0) - Number(b.ordem || 0));
+}
+
+function falharTreinosLocalQa(tipo) {
+  if (typeof window === "undefined") return;
+  if (!["localhost", "127.0.0.1"].includes(window.location.hostname)) return;
+  if (window.localStorage?.getItem("ARUKA_QA_TREINOS_FAIL") !== tipo) return;
+  throw new Error("Falha controlada LOCAL_QA no modulo Treinos.");
 }
