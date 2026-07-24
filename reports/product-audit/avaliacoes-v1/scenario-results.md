@@ -1,0 +1,23 @@
+# Scenario Results
+
+- PASS: Entrada no modulo
+- PASS: Acao principal visivel
+- PASS: Aba de anamneses visivel
+- PASS: Lista, tabela ou estado vazio renderizado
+- PASS: Contexto por aluno valido renderiza
+- PASS: Contexto preserva alunoId no refresh
+- PASS: alunoId inexistente nao quebra pagina
+- PASS: alunoId inexistente nao exibe contexto falso
+- FAIL_PRODUCT: Estado vazio por aluno aparece
+- PASS: Detalhe do perfil abre
+- PASS: Historico e graficos aparecem quando ha dados
+- PASS: Relatorio da avaliacao disponivel
+- PASS: Formulario de nova avaliacao abre
+- PASS: Formulario contem campos essenciais
+- PASS: Formulario contem fotos opcionais
+- PASS: Salvar vazio mostra feedback
+- PASS: 320px sem overflow horizontal
+- PASS: 375px sem overflow horizontal
+- PASS: 390px sem overflow horizontal
+- PASS: 768px sem overflow horizontal
+- PASS: 1366px sem overflow horizontal
