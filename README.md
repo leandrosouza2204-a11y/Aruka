@@ -82,6 +82,10 @@ Visualizar build local:
 npm run preview
 ```
 
+## Documentacao
+
+- [Roadmap Estrategico v2](docs/roadmap-v2/README.md): visao de produto, inventario de maturidade, epicos priorizados, dependencias, riscos, governanca de entrega e painel oficial de progresso.
+
 ## Configuracao
 
 O frontend espera as variaveis de ambiente do Supabase:
