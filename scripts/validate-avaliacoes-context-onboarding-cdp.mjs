@@ -7,8 +7,10 @@ import {
   buildAuditRaw,
   captureScreenshotWithRetry,
   classifyDecision,
+  createScreenshotEvidenceAttempt,
   createFailureRecorder,
   createResolutionAttempt,
+  evaluateScreenshotReadiness,
   getEvidenceCounts,
   isPngSignature,
   recordScenario,
@@ -22,7 +24,7 @@ const screenshotsDir = resolve(join(reportDir, "screenshots"));
 const chromeProfilesDir = join(tmpdir(), "aruka-avaliacoes-cycle-1");
 const SCREENSHOT_MAX_ATTEMPTS = envNumber("AVALIACOES_SCREENSHOT_MAX_ATTEMPTS", 2, { min: 1, max: 5 });
 const SCREENSHOT_RETRY_DELAY_MS = envNumber("AVALIACOES_SCREENSHOT_RETRY_DELAY_MS", 1500, { min: 1000, max: 5000 });
-const SCREENSHOT_TIMEOUT_MS = envNumber("AVALIACOES_SCREENSHOT_TIMEOUT_MS", 20000, { min: 5000, max: 60000 });
+const FIXTURE_SETUP_TIMEOUT_MS = envNumber("AVALIACOES_FIXTURE_SETUP_TIMEOUT_MS", 180000, { min: 30000, max: 300000 });
 const runId = `avaliacoes-cycle-1-${Date.now()}`;
 const startedAt = new Date();
 const scenarios = [];
@@ -34,9 +36,10 @@ const resolutionAttempts = [];
 const consoleEvents = [];
 const exceptions = [];
 const viewports = [];
-const limitations = [
-  "Autenticacao completa coberta pela regressao qa:avaliacoes-functional-audit.",
-];
+const authenticationRecoveryAttempts = [];
+const functionalStateWaitAttempts = [];
+const cleanupWarnings = [];
+const limitations = [];
 const failureRecorder = createFailureRecorder();
 
 let resolvedBaseUrl = "";
@@ -46,6 +49,7 @@ let failureReason = "";
 let decision = DECISIONS.FAIL_TEST_INFRASTRUCTURE;
 let exitCode = 1;
 let chromeProcess;
+let client;
 
 mkdirSync(screenshotsDir, { recursive: true });
 
@@ -57,9 +61,15 @@ try {
   log(`Aplicacao disponivel: ${resolvedBaseUrl}`);
 
   runFunctionalContractScenarios();
+  await ensureFixtures();
 
   log("Validando Chrome CDP");
   await ensureChrome();
+  client = createCdpClient(await getWebSocketUrl());
+  await client.ready;
+  await attachBlankTarget();
+  await enableInstrumentation();
+  await authenticateForScreenshots();
 
   log("Abrindo Avaliacoes");
   await captureRequiredScreenshots();
@@ -120,8 +130,10 @@ try {
   );
   logFailure("Execucao da suite CDP", DECISIONS.FAIL_TEST_INFRASTRUCTURE, failureReason, failureStage);
 } finally {
+  client?.close();
   chromeProcess?.kill();
-  rmSync(chromeProfilesDir, { recursive: true, force: true });
+  await sleep(800);
+  cleanupChromeProfiles();
 
   const result = classifyDecision({
     scenarios,
@@ -129,6 +141,7 @@ try {
     networkFailures: failureRecorder.networkFailures,
     httpFailures: failureRecorder.httpFailures,
     infrastructureFailures: failureRecorder.infrastructureFailures,
+    authenticationFailures: failureRecorder.authenticationFailures,
     screenshotFailures: failureRecorder.screenshotFailures,
     runnerFailures: failureRecorder.runnerFailures,
   });
@@ -238,11 +251,56 @@ async function ensureChrome() {
     throw error;
   }
 
-  chromeProcess = spawn(chrome, ["--headless=new", "--remote-debugging-port=9223", "about:blank"], {
+  chromeProcess = spawn(chrome, [
+    "--headless=new",
+    "--no-sandbox",
+    "--disable-gpu",
+    "--disable-dev-shm-usage",
+    "--no-first-run",
+    "--remote-allow-origins=*",
+    `--user-data-dir=${join(chromeProfilesDir, "authenticated-cdp-profile")}`,
+    "--remote-debugging-port=9223",
+    "about:blank",
+  ], {
     stdio: "ignore",
     windowsHide: true,
   });
-  await sleep(500);
+  await waitUntil(() => canFetch("http://127.0.0.1:9223/json/version"), 20000, "Chrome CDP indisponivel.");
+}
+
+async function ensureFixtures() {
+  log("Preparando fixtures LOCAL_QA");
+  await runCommand("cmd.exe", ["/c", "npm.cmd", "run", "qa:local:data"], FIXTURE_SETUP_TIMEOUT_MS);
+}
+
+function runCommand(command, args, timeout) {
+  return new Promise((resolvePromise, reject) => {
+    const child = spawn(command, args, { cwd: process.cwd(), shell: false, stdio: "ignore", windowsHide: true });
+    const timer = setTimeout(() => {
+      child.kill("SIGTERM");
+      reject(new Error(`${command} ${args.join(" ")} excedeu timeout.`));
+    }, timeout);
+    child.on("exit", (code) => {
+      clearTimeout(timer);
+      code === 0 ? resolvePromise() : reject(new Error(`${command} ${args.join(" ")} falhou com codigo ${code}.`));
+    });
+    child.on("error", (error) => {
+      clearTimeout(timer);
+      reject(error);
+    });
+  });
+}
+
+function cleanupChromeProfiles() {
+  try {
+    rmSync(chromeProfilesDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 300 });
+  } catch (error) {
+    cleanupWarnings.push({
+      stage: "cleanupChromeProfiles",
+      message: `Falha ao limpar perfil temporario do Chrome: ${sanitize(error.message)}`,
+      timestamp: new Date().toISOString(),
+    });
+  }
 }
 
 async function captureRequiredScreenshots() {
@@ -253,12 +311,11 @@ async function captureRequiredScreenshots() {
 
 async function capture({ name, width, height, path }) {
   log(`Capturando screenshot: ${name}`);
-  const chrome = chromePath();
   const out = join(screenshotsDir, name);
-  const profileDir = join(chromeProfilesDir, `profile-${name.replace(/[^a-z0-9-]/gi, "-")}`);
-  mkdirSync(profileDir, { recursive: true });
   rmSync(out, { force: true });
   const startedAtMs = Date.now();
+  const scenario = await resolveScreenshotScenario({ name, path });
+  const urlBeforeCapture = await currentUrl();
 
   const result = await captureScreenshotWithRetry({
     filename: name,
@@ -281,22 +338,19 @@ async function capture({ name, width, height, path }) {
     removeInvalidFile: async () => {
       rmSync(out, { force: true });
     },
-    capture: async () =>
-      runChrome(
-        chrome,
-        [
-          "--headless=new",
-          "--no-sandbox",
-          "--disable-gpu",
-          "--disable-dev-shm-usage",
-          "--no-first-run",
-          `--user-data-dir=${profileDir}`,
-          `--window-size=${width},${height}`,
-          `--screenshot=${out}`,
-          `${resolvedBaseUrl}${path}`,
-        ],
-        SCREENSHOT_TIMEOUT_MS
-      ),
+    capture: async ({ attempt, maxAttempts }) => {
+      const prepared = await prepareSemanticScreenshotState({ scenario, width, height, attempt, maxAttempts });
+      const screenshot = await client.send("Page.captureScreenshot", { format: "png", fromSurface: true });
+      writeFileSync(out, Buffer.from(screenshot.data, "base64"));
+      return {
+        path: out,
+        urlBeforeCapture,
+        urlAfterPreparation: prepared.urlAfterPreparation,
+        authenticationState: prepared.authenticationState,
+        readinessSelector: prepared.readinessSelector,
+        semanticValidated: true,
+      };
+    },
     validate: async ({ result: captureResult }) =>
       validateScreenshotFile({ name, out, width, height, startedAtMs, captureResult }),
   });
@@ -309,31 +363,8 @@ async function capture({ name, width, height, path }) {
   screenshots.push(result.screenshot);
 }
 
-function runChrome(chrome, args, timeoutMs = SCREENSHOT_TIMEOUT_MS) {
-  return new Promise((resolve) => {
-    const child = spawn(chrome, args, { stdio: "ignore", windowsHide: true });
-    let settled = false;
-    const timer = setTimeout(() => {
-      settled = true;
-      child.kill();
-      resolve({ timedOut: true, exitCode: null });
-    }, timeoutMs);
-
-    child.on("exit", (exitCode) => {
-      if (settled) return;
-      clearTimeout(timer);
-      resolve({ timedOut: false, exitCode });
-    });
-    child.on("error", (error) => {
-      if (settled) return;
-      clearTimeout(timer);
-      resolve({ timedOut: false, exitCode: null, error: sanitize(error.message) });
-    });
-  });
-}
-
 function validateScreenshotFile({ name, out, width, height, startedAtMs, captureResult }) {
-  if (captureResult?.error || captureResult?.timedOut || captureResult?.exitCode !== 0) {
+  if (captureResult?.error || captureResult?.timedOut || captureResult?.exitCode !== undefined && captureResult?.exitCode !== 0) {
     return {
       ok: false,
       reason:
@@ -348,22 +379,528 @@ function validateScreenshotFile({ name, out, width, height, startedAtMs, capture
   const signatureValid = exists ? isPngSignature(readFileSync(out)) : false;
   const validation = validateScreenshotMetadata({ name, path: exists ? out : "", size, signatureValid });
 
-  if (!validation.ok) return { ok: false, reason: validation.reason };
+  const attemptMetadata = {
+    urlBeforeCapture: captureResult.urlBeforeCapture,
+    urlAfterPreparation: captureResult.urlAfterPreparation,
+    authenticationState: captureResult.authenticationState,
+    readinessSelector: captureResult.readinessSelector,
+    semanticValidated: Boolean(captureResult.semanticValidated),
+  };
+
+  if (!validation.ok) return { ok: false, reason: validation.reason, attemptMetadata };
   if (!stat || stat.mtimeMs < startedAtMs - 1000) {
-    return { ok: false, reason: "Screenshot nao foi criada na execucao atual." };
+    return { ok: false, reason: "Screenshot nao foi criada na execucao atual.", attemptMetadata };
   }
 
   return {
     ok: true,
+    attemptMetadata,
     screenshot: {
       name,
       path: out,
       size,
       signature: "png",
       viewport: `${width}x${height}`,
+      urlBeforeCapture: captureResult.urlBeforeCapture,
+      urlAfterPreparation: captureResult.urlAfterPreparation,
+      authenticationState: captureResult.authenticationState,
+      readinessSelector: captureResult.readinessSelector,
+      semanticValidated: Boolean(captureResult.semanticValidated),
       createdAt: new Date().toISOString(),
     },
   };
+}
+
+async function getWebSocketUrl() {
+  const version = await (await fetch("http://127.0.0.1:9223/json/version")).json();
+  return version.webSocketDebuggerUrl;
+}
+
+async function attachBlankTarget() {
+  const target = await client.send("Target.createTarget", { url: "about:blank" }, null);
+  const attached = await client.send("Target.attachToTarget", { targetId: target.targetId, flatten: true }, null);
+  client.setDefaultSession(attached.sessionId);
+}
+
+async function enableInstrumentation() {
+  await client.send("Page.enable");
+  await client.send("Runtime.enable");
+  await client.send("Network.enable");
+  client.on("Runtime.consoleAPICalled", (event) => {
+    consoleEvents.push({
+      type: event.type,
+      message: (event.args || []).map((arg) => sanitize(arg.value || arg.description || "")).join(" ").slice(0, 1000),
+    });
+  });
+  client.on("Runtime.exceptionThrown", (event) => {
+    exceptions.push({
+      text: sanitize(event.exceptionDetails?.text || ""),
+      url: sanitizeUrl(event.exceptionDetails?.url || ""),
+    });
+  });
+  client.on("Network.requestWillBeSent", (event) => {
+    if (isRelevantRequest(event.request.url)) {
+      requests.push({ method: event.request.method, url: sanitizeUrl(event.request.url), type: event.type });
+    }
+  });
+  client.on("Network.responseReceived", (event) => {
+    if (isRelevantRequest(event.response.url)) {
+      responses.push({ status: event.response.status, url: sanitizeUrl(event.response.url), mimeType: event.response.mimeType });
+    }
+  });
+  client.on("Network.loadingFailed", (event) => {
+    failureRecorder.addNetworkFailure({
+      stage: "Network.loadingFailed",
+      message: event.errorText,
+      errorText: event.errorText,
+    });
+  });
+}
+
+function createCdpClient(url) {
+  const socket = new WebSocket(url);
+  let nextId = 1;
+  let defaultSessionId = null;
+  const pending = new Map();
+  const handlers = new Map();
+  const rejectAll = (error) => {
+    for (const { reject, timer } of pending.values()) {
+      clearTimeout(timer);
+      reject(error);
+    }
+    pending.clear();
+  };
+  socket.addEventListener("message", (event) => {
+    const message = JSON.parse(event.data);
+    if (message.method) handlers.get(message.method)?.forEach((handler) => handler(message.params || {}));
+    if (!message.id || !pending.has(message.id)) return;
+    const { resolve, reject, method, timer } = pending.get(message.id);
+    clearTimeout(timer);
+    pending.delete(message.id);
+    message.error ? reject(new Error(`${method}: ${message.error.message}`)) : resolve(message.result);
+  });
+  socket.addEventListener("close", () => rejectAll(new Error("WebSocket CDP fechado antes da resposta.")));
+  socket.addEventListener("error", () => rejectAll(new Error("Erro no WebSocket CDP.")));
+  return {
+    ready: new Promise((resolve, reject) => {
+      socket.addEventListener("open", resolve, { once: true });
+      socket.addEventListener("error", reject, { once: true });
+    }),
+    on(method, handler) {
+      handlers.set(method, [...(handlers.get(method) || []), handler]);
+    },
+    setDefaultSession(sessionId) {
+      defaultSessionId = sessionId;
+    },
+    send(method, params = {}, sessionId = defaultSessionId) {
+      const id = nextId++;
+      if (socket.readyState !== WebSocket.OPEN) {
+        return Promise.reject(new Error(`CDP socket nao esta aberto para ${method}. Estado=${socket.readyState}`));
+      }
+      socket.send(JSON.stringify({ id, method, params, ...(sessionId ? { sessionId } : {}) }));
+      return new Promise((resolve, reject) => {
+        const timer = setTimeout(() => {
+          pending.delete(id);
+          const error = new Error(`Timeout CDP aguardando resposta de ${method}.`);
+          error.stage = "cdp-send";
+          reject(error);
+        }, 15000);
+        pending.set(id, { resolve, reject, method, timer });
+      });
+    },
+    close() {
+      socket.close();
+    },
+  };
+}
+
+async function navigate(url) {
+  await client.send("Page.navigate", { url });
+  await waitFor("document.readyState === 'complete'", 30000, "navigate-readyState");
+  await sleep(500);
+}
+
+async function setViewport(width, height, mobile) {
+  await client.send("Emulation.setDeviceMetricsOverride", { width, height, deviceScaleFactor: 1, mobile });
+}
+
+async function evaluate(expression) {
+  const result = await client.send("Runtime.evaluate", { expression, awaitPromise: true, returnByValue: true });
+  if (result.exceptionDetails) {
+    const error = new Error(result.exceptionDetails.exception?.description || result.exceptionDetails.text || "Erro ao avaliar expressao.");
+    error.stage = "Runtime.evaluate";
+    throw error;
+  }
+  return result.result.value;
+}
+
+async function waitFor(expression, timeout = 20000, stage = "waitFor") {
+  const started = Date.now();
+  while (Date.now() - started < timeout) {
+    if (await evaluate(`Boolean(${expression})`)) return true;
+    await sleep(250);
+  }
+  const error = new Error(`Timeout aguardando: ${expression}`);
+  error.stage = stage;
+  throw error;
+}
+
+function click(selector) {
+  return evaluate(`document.querySelector(${JSON.stringify(selector)})?.click(); true`);
+}
+
+function clickVisible(selector) {
+  return evaluate(`(() => {
+    const normalize = (value) => String(value || '').normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').toLowerCase();
+    const elements = [...document.querySelectorAll(${JSON.stringify(selector)})];
+    const wanted = ${JSON.stringify(selector.includes("new-anamnese") ? "nova anamnese" : selector.includes("new-assessment") ? "nova avaliacao" : "")};
+    const element = elements.find((item) => {
+      const rect = item.getBoundingClientRect();
+      const style = getComputedStyle(item);
+      const visible = rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
+      if (!visible) return false;
+      if (!wanted) return true;
+      return normalize(item.textContent).includes(wanted) || item.matches(${JSON.stringify(selector.split(",")[0])});
+    });
+    if (!element) return false;
+    element.scrollIntoView({ block: 'center', inline: 'nearest' });
+    for (const type of ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click']) {
+      element.dispatchEvent(new MouseEvent(type, { bubbles: true, cancelable: true, view: window }));
+    }
+    return true;
+  })()`);
+}
+
+function scrollIntoView(selector) {
+  return evaluate(`(() => {
+    const elements = [...document.querySelectorAll(${JSON.stringify(selector)})];
+    const element = elements.find((item) => {
+      const rect = item.getBoundingClientRect();
+      const style = getComputedStyle(item);
+      return rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
+    }) || elements[0];
+    if (!element) return false;
+    element.scrollIntoView({ block: 'center', inline: 'nearest' });
+    return true;
+  })()`);
+}
+
+function setInput(selector, value) {
+  return evaluate(`(() => {
+    const input = document.querySelector(${JSON.stringify(selector)});
+    if (!input) return false;
+    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+    setter.call(input, ${JSON.stringify(value)});
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+    return true;
+  })()`);
+}
+
+function currentUrl() {
+  return evaluate("location.href");
+}
+
+function isLoginVisible() {
+  return evaluate("location.pathname.includes('/login') || Boolean(document.querySelector('input[type=\"email\"], input[type=\"password\"]'))");
+}
+
+async function getPageSemanticState() {
+  return evaluate(`(() => {
+    const text = (document.body?.innerText || document.body?.textContent || '').replace(/\\s+/g, ' ').trim();
+    const hasLogin = location.pathname.includes('/login') || Boolean(document.querySelector('input[type="email"], input[type="password"]'));
+    const hasLoading = /Carregando(\\.\\.\\.)?|Carregando avalia/i.test(text) || Boolean(document.querySelector('[aria-busy="true"], [data-loading="true"]'));
+    const hasAvaliacoesPage = Boolean(document.querySelector('[data-testid="avaliacoes-page"], .avaliacoes-page'));
+    const hasFatalRenderError = Boolean(document.querySelector('.app-error')) || /erro fatal|failed to render/i.test(text);
+    const authenticated = !hasLogin && location.pathname !== '/login';
+    const studentOptions = document.querySelectorAll('[data-testid="avaliacoes-student-filter"] option[value]:not([value="todos"])').length;
+    const rows = document.querySelectorAll('[data-testid="avaliacao-row"], [data-testid="anamnese-row"]').length;
+    const hasEmpty = Boolean(document.querySelector('[data-testid="avaliacoes-empty-state"], [data-testid="avaliacoes-empty-row"]'));
+    const hasFunctionalContent = studentOptions > 0 && (rows > 0 || hasEmpty);
+    return {
+      currentUrl: location.href,
+      pathname: location.pathname,
+      search: location.search,
+      hasLogin,
+      hasLoading,
+      hasAvaliacoesPage,
+      hasFatalRenderError,
+      hasFunctionalContent,
+      studentOptions,
+      rows,
+      hasEmpty,
+      authenticated,
+      authenticationState: { authenticated, hasLogin, pathname: location.pathname },
+      visibleText: text.slice(0, 800)
+    };
+  })()`);
+}
+
+async function pickStudent({ withAssessment }) {
+  await navigate(`${resolvedBaseUrl}/avaliacoes`);
+  await waitForAvaliacoesReady({ name: "pick-student" });
+  const student = await evaluate(`(() => {
+    const options = [...document.querySelectorAll('[data-testid="avaliacoes-student-filter"] option, .avaliacoes-filtros select option')]
+      .map((option) => ({ id: option.value, name: option.textContent.trim() }))
+      .filter((option) => option.id && option.id !== 'todos');
+    const rows = [...document.querySelectorAll('[data-testid="avaliacao-row"], .avaliacoes-table tbody tr')]
+      .map((row) => row.textContent || '');
+    if (${Boolean(withAssessment)}) return options.find((option) => rows.some((row) => row.includes(option.name))) || options[0] || null;
+    return options.find((option) => !rows.some((row) => row.includes(option.name))) || options.at(-1) || null;
+  })()`);
+  if (!student?.id) {
+    const error = new Error("Fixture de aluno QA nao encontrada para screenshot semantica.");
+    error.stage = "pickStudent";
+    throw error;
+  }
+  return student;
+}
+
+async function waitUntil(fn, timeout, message) {
+  const start = Date.now();
+  while (Date.now() - start < timeout) {
+    if (await fn()) return true;
+    await sleep(500);
+  }
+  throw new Error(message);
+}
+
+async function canFetch(url) {
+  try {
+    const response = await fetch(url);
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
+function isRelevantRequest(url) {
+  return /\/rest\/v1\/(alunos|avaliacoes|anamneses)|\/storage\/v1\/object\/avaliacoes-fotos|\/avaliacoes|\/login/.test(url);
+}
+
+async function resolveScreenshotScenario({ name, path }) {
+  const base = { name, path, expectedPath: "/avaliacoes", readinessSelector: "[data-testid=\"avaliacoes-page\"]" };
+  if (/contexto-aluno|contexto\.png|1366-contexto/.test(name)) {
+    const student = await pickStudent({ withAssessment: true });
+    return {
+      ...base,
+      path: `/avaliacoes?alunoId=${encodeURIComponent(student?.id || "")}&returnTo=${encodeURIComponent("/alunos?busca=Ana")}`,
+      prepare: async () => {},
+      checks: [
+        { selector: "[data-testid='avaliacoes-context-aluno']", message: "Alerta contextual de aluno ausente." },
+        { selector: "[data-testid='avaliacoes-context-student-name']", message: "Nome do aluno contextual ausente." },
+      ],
+      focusSelector: "[data-testid='avaliacoes-context-aluno']",
+    };
+  }
+  if (/nova-avaliacao/.test(name)) {
+    const student = await pickStudent({ withAssessment: true });
+    return {
+      ...base,
+      path: `/avaliacoes?alunoId=${encodeURIComponent(student?.id || "")}`,
+      prepare: async () => clickVisible("[data-testid='avaliacoes-context-new-assessment'], button"),
+      checks: [
+        { selector: "[data-testid='avaliacao-form']", message: "Modal de nova avaliacao ausente." },
+        { selector: "[data-testid='avaliacao-student']", value: student?.id || "", message: "Aluno contextual nao foi pre-selecionado na avaliacao.", classification: DECISIONS.FAIL_PRODUCT },
+      ],
+      focusSelector: "[data-testid='avaliacao-form']",
+    };
+  }
+  if (/nova-anamnese/.test(name)) {
+    const student = await pickStudent({ withAssessment: true });
+    return {
+      ...base,
+      path: `/avaliacoes?alunoId=${encodeURIComponent(student?.id || "")}&aba=anamneses`,
+      prepare: async () => clickVisible("[data-testid='avaliacoes-context-new-anamnese'], button"),
+      checks: [
+        { selector: "[data-testid='anamnese-form']", message: "Modal de nova anamnese ausente." },
+        { selector: "[data-testid='anamnese-student']", value: student?.id || "", message: "Aluno contextual nao foi pre-selecionado na anamnese.", classification: DECISIONS.FAIL_PRODUCT },
+      ],
+      focusSelector: "[data-testid='anamnese-form']",
+    };
+  }
+  if (/retorno-contextual/.test(name)) {
+    const student = await pickStudent({ withAssessment: true });
+    return {
+      ...base,
+      path: `/avaliacoes?alunoId=${encodeURIComponent(student?.id || "")}&returnTo=${encodeURIComponent("/alunos?busca=Ana")}`,
+      checks: [{ selector: "[data-testid='avaliacoes-context-return']", message: "CTA de retorno contextual ausente." }],
+      focusSelector: "[data-testid='avaliacoes-context-aluno']",
+    };
+  }
+  if (/vazio-contextual/.test(name)) {
+    const student = await pickStudent({ withAssessment: false });
+    return {
+      ...base,
+      path: `/avaliacoes?alunoId=${encodeURIComponent(student?.id || "")}`,
+      checks: [{ selector: "[data-testid='avaliacoes-empty-state'], [data-testid='avaliacoes-empty-row']", message: "Estado vazio contextual ausente.", classification: DECISIONS.FAIL_PRODUCT }],
+      focusSelector: "[data-testid='avaliacoes-empty-state']",
+    };
+  }
+  if (/busca-sem-resultado/.test(name)) {
+    return {
+      ...base,
+      path: "/avaliacoes?busca=resultado-inexistente-cycle-1",
+      checks: [{ selector: "[data-testid='avaliacoes-empty-state'], [data-testid='avaliacoes-empty-row']", message: "Estado vazio de busca sem resultado ausente.", classification: DECISIONS.FAIL_PRODUCT }],
+      focusSelector: "[data-testid='avaliacoes-empty-state']",
+    };
+  }
+  return {
+    ...base,
+    checks: [{ selector: "[data-testid='avaliacoes-page']", message: "Pagina Avaliacoes ausente." }],
+  };
+}
+
+async function prepareSemanticScreenshotState({ scenario, width, height, attempt, maxAttempts }) {
+  await setViewport(width, height, width < 900);
+  const targetUrl = `${resolvedBaseUrl}${scenario.path}`;
+  await ensureAuthenticated({ filename: scenario.name, attempt, maxAttempts });
+  await navigate(targetUrl);
+  await ensureAuthenticated({ filename: scenario.name, attempt, maxAttempts });
+  if (await isLoginVisible()) {
+    await recoverAuthentication({ filename: scenario.name, attempt, maxAttempts, targetUrl });
+  }
+  await waitForAvaliacoesReady(scenario);
+  if (scenario.prepare) {
+    await scenario.prepare();
+    await waitForAvaliacoesReady(scenario);
+  }
+  const state = await getPageSemanticState();
+  const checks = await evaluateScenarioChecks(scenario.checks || []);
+  const readiness = evaluateScreenshotReadiness({
+    state,
+    expectedPath: scenario.expectedPath,
+    scenarioChecks: checks,
+  });
+  functionalStateWaitAttempts.push(
+    createScreenshotEvidenceAttempt({
+      filename: scenario.name,
+      attempt,
+      maxAttempts,
+      stage: "semantic-readiness",
+      status: readiness.ok ? "PASS" : readiness.classification,
+      message: readiness.reason,
+      urlBeforeCapture: targetUrl,
+      urlAfterPreparation: state.currentUrl,
+      authenticationState: state.authenticationState,
+      readinessSelector: scenario.readinessSelector,
+      semanticValidated: readiness.ok,
+      terminal: !readiness.ok,
+    })
+  );
+  if (!readiness.ok) {
+    const error = new Error(readiness.reason);
+    error.stage = "semantic-readiness";
+    error.classification = readiness.classification;
+    throw error;
+  }
+  if (scenario.focusSelector) {
+    await scrollIntoView(scenario.focusSelector);
+  }
+  await sleep(300);
+  return {
+    urlAfterPreparation: state.currentUrl,
+    authenticationState: state.authenticationState,
+    readinessSelector: scenario.readinessSelector,
+  };
+}
+
+async function authenticateForScreenshots() {
+  if (!process.env.QA_USER_EMAIL || !process.env.QA_USER_PASSWORD) {
+    const message = "Credenciais QA ausentes. Configure QA_USER_EMAIL e QA_USER_PASSWORD em .env.qa.local.";
+    failureRecorder.addAuthenticationFailure({ stage: "authenticateForScreenshots", message });
+    const error = new Error(message);
+    error.stage = "authenticateForScreenshots";
+    throw error;
+  }
+  await navigate(`${resolvedBaseUrl}/avaliacoes`);
+  await ensureAuthenticated({ filename: "initial-authentication", attempt: 1, maxAttempts: 1 });
+}
+
+async function ensureAuthenticated({ filename, attempt, maxAttempts }) {
+  const state = await getPageSemanticState();
+  if (state.authenticated && !state.hasLogin) return true;
+  if (!state.hasLogin && state.pathname !== "/login") return true;
+  await recoverAuthentication({ filename, attempt, maxAttempts, targetUrl: `${resolvedBaseUrl}/avaliacoes` });
+  return true;
+}
+
+async function recoverAuthentication({ filename, attempt, maxAttempts, targetUrl }) {
+  const before = await currentUrl();
+  await navigate(`${resolvedBaseUrl}/login`);
+  await waitFor("document.querySelector('input[type=\"email\"]') && document.querySelector('input[type=\"password\"]')", 20000, "wait-login-form");
+  await setInput('input[type="email"], input[name="email"], #email', process.env.QA_USER_EMAIL);
+  await setInput('input[type="password"], input[name="password"], #password', process.env.QA_USER_PASSWORD);
+  await click('button[type="submit"], button');
+  await waitFor("!location.pathname.includes('/login') && !document.querySelector('input[type=\"email\"]')", 25000, "wait-authenticated");
+  const afterLogin = await currentUrl();
+  authenticationRecoveryAttempts.push(
+    createScreenshotEvidenceAttempt({
+      filename,
+      attempt,
+      maxAttempts,
+      stage: "authentication-recovery",
+      status: "PASS",
+      message: "Autenticacao restaurada de forma controlada.",
+      urlBeforeCapture: before,
+      urlAfterPreparation: afterLogin,
+      authenticationState: { authenticated: true, recovered: true },
+      recovered: true,
+    })
+  );
+  await navigate(targetUrl);
+}
+
+async function waitForAvaliacoesReady(scenario, timeout = 30000) {
+  const started = Date.now();
+  let lastState = {};
+  while (Date.now() - started < timeout) {
+    lastState = await getPageSemanticState();
+    if (
+      !lastState.hasLogin &&
+      !lastState.hasLoading &&
+      lastState.pathname === "/avaliacoes" &&
+      lastState.hasAvaliacoesPage &&
+      lastState.hasFunctionalContent
+    ) {
+      return true;
+    }
+    await sleep(250);
+  }
+  const message = `Timeout aguardando estado funcional para ${scenario.name}.`;
+  functionalStateWaitAttempts.push({ filename: scenario.name, stage: "wait-functional-state", status: DECISIONS.FAIL_TEST_INFRASTRUCTURE, message, lastState });
+  const error = new Error(message);
+  error.stage = "wait-functional-state";
+  throw error;
+}
+
+async function evaluateScenarioChecks(checks) {
+  const results = [];
+  for (const check of checks) {
+    const ok = await waitForScenarioCheck(check);
+    results.push({ ...check, ok });
+  }
+  return results;
+}
+
+async function waitForScenarioCheck(check, timeout = 8000) {
+  const started = Date.now();
+  while (Date.now() - started < timeout) {
+    const ok = await evaluate(`(() => {
+      const elements = [...document.querySelectorAll(${JSON.stringify(check.selector)})];
+      return elements.some((element) => {
+        const rect = element.getBoundingClientRect();
+        const style = getComputedStyle(element);
+        const visible = rect.width > 0 && rect.height > 0 && style.visibility !== 'hidden' && style.display !== 'none';
+        if (!visible) return false;
+        if (${JSON.stringify(check.value || "")}) return element.value === ${JSON.stringify(check.value || "")};
+        return true;
+      });
+    })()`);
+    if (ok) return true;
+    await sleep(250);
+  }
+  return false;
 }
 
 function validateRequiredScreenshots() {
@@ -438,11 +975,15 @@ function writeEvidence() {
     scenarios,
     screenshots,
     screenshotAttempts,
+    authenticationRecoveryAttempts,
+    functionalStateWaitAttempts,
+    cleanupWarnings,
     requests,
     responses,
     networkFailures: failureRecorder.networkFailures,
     httpFailures: failureRecorder.httpFailures,
     infrastructureFailures: failureRecorder.infrastructureFailures,
+    authenticationFailures: failureRecorder.authenticationFailures,
     screenshotFailures: failureRecorder.screenshotFailures,
     runnerFailures: failureRecorder.runnerFailures,
     console: consoleEvents,
@@ -561,6 +1102,7 @@ function evidenceCounts(raw = {}) {
     networkFailures: raw.networkFailures || failureRecorder.networkFailures,
     httpFailures: raw.httpFailures || failureRecorder.httpFailures,
     infrastructureFailures: raw.infrastructureFailures || failureRecorder.infrastructureFailures,
+    authenticationFailures: raw.authenticationFailures || failureRecorder.authenticationFailures,
     screenshotFailures: raw.screenshotFailures || failureRecorder.screenshotFailures,
     runnerFailures: raw.runnerFailures || failureRecorder.runnerFailures,
     screenshotAttempts: raw.screenshotAttempts || screenshotAttempts,

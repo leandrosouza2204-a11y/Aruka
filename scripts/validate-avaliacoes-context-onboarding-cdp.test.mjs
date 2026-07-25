@@ -6,8 +6,10 @@ import {
   captureScreenshotWithRetry,
   classifyDecision,
   countRecoveredScreenshotRetries,
+  createScreenshotEvidenceAttempt,
   createFailureRecorder,
   createResolutionAttempt,
+  evaluateScreenshotReadiness,
   getEvidenceCounts,
   isPngSignature,
   recordScenario,
@@ -328,6 +330,144 @@ describe("avaliacoes context onboarding runner utils", () => {
     assert.equal(countRecoveredScreenshotRetries(result.attempts), 1);
     assert.equal(decision.decision, DECISIONS.READY_WITH_LIMITATIONS);
     assert.equal(decision.exitCode, 0);
+  });
+
+  it("redirecionamento para login detectado gera FAIL_TEST_INFRASTRUCTURE", () => {
+    const readiness = evaluateScreenshotReadiness({
+      state: { pathname: "/login", hasLogin: true, hasAvaliacoesPage: false, authenticated: false },
+      expectedPath: "/avaliacoes",
+    });
+    const decision = classifyDecision({
+      scenarios: [{ name: "login inesperado", status: readiness.classification }],
+    });
+
+    assert.equal(readiness.ok, false);
+    assert.equal(readiness.failures[0].code, "unexpected-login");
+    assert.equal(decision.decision, DECISIONS.FAIL_TEST_INFRASTRUCTURE);
+  });
+
+  it("loading persistente gera FAIL_TEST_INFRASTRUCTURE", () => {
+    const readiness = evaluateScreenshotReadiness({
+      state: { pathname: "/avaliacoes", hasLoading: true, hasAvaliacoesPage: true, authenticated: true },
+      expectedPath: "/avaliacoes",
+    });
+
+    assert.equal(readiness.ok, false);
+    assert.equal(readiness.classification, DECISIONS.FAIL_TEST_INFRASTRUCTURE);
+    assert.equal(readiness.failures.some((item) => item.code === "persistent-loading"), true);
+  });
+
+  it("rota incorreta gera FAIL_TEST_INFRASTRUCTURE", () => {
+    const readiness = evaluateScreenshotReadiness({
+      state: { pathname: "/alunos", hasAvaliacoesPage: false, authenticated: true },
+      expectedPath: "/avaliacoes",
+    });
+
+    assert.equal(readiness.ok, false);
+    assert.equal(readiness.failures.some((item) => item.code === "wrong-route"), true);
+  });
+
+  it("PNG valido com conteudo em estado invalido nao e aceito", () => {
+    const png = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, ...Array(600).fill(1)]);
+    const metadata = validateScreenshotMetadata({
+      name: "login.png",
+      path: "login.png",
+      size: png.length,
+      signatureValid: isPngSignature(png),
+    });
+    const readiness = evaluateScreenshotReadiness({
+      state: { pathname: "/login", hasLogin: true, hasAvaliacoesPage: false, authenticated: false },
+      expectedPath: "/avaliacoes",
+    });
+
+    assert.equal(metadata.ok, true);
+    assert.equal(readiness.ok, false);
+  });
+
+  it("estado especifico ausente por falha funcional gera FAIL_PRODUCT quando aplicavel", () => {
+    const readiness = evaluateScreenshotReadiness({
+      state: { pathname: "/avaliacoes", hasAvaliacoesPage: true, authenticated: true },
+      scenarioChecks: [
+        {
+          ok: false,
+          selector: "[data-testid='avaliacao-student']",
+          classification: DECISIONS.FAIL_PRODUCT,
+          message: "Aluno contextual nao foi pre-selecionado.",
+        },
+      ],
+    });
+    const decision = classifyDecision({
+      scenarios: [{ name: "pre-selecao produto", status: readiness.classification }],
+    });
+
+    assert.equal(readiness.classification, DECISIONS.FAIL_PRODUCT);
+    assert.equal(decision.decision, DECISIONS.FAIL_PRODUCT);
+  });
+
+  it("autenticacao restaurada e cenario reconstruido registra recuperacao sem screenshotFailure", async () => {
+    const recorder = createFailureRecorder();
+    const recovery = createScreenshotEvidenceAttempt({
+      filename: "desktop-contexto-aluno.png",
+      attempt: 1,
+      maxAttempts: 2,
+      stage: "authentication-recovery",
+      status: "PASS",
+      message: "Autenticacao restaurada de forma controlada.",
+      urlBeforeCapture: "http://127.0.0.1:5173/login",
+      urlAfterPreparation: "http://127.0.0.1:5173/avaliacoes?alunoId=abc",
+      authenticationState: { authenticated: true, recovered: true },
+      recovered: true,
+    });
+    const result = await captureScreenshotWithRetry({
+      filename: "desktop-contexto-aluno.png",
+      capture: async () => ({ path: "ok.png", semanticValidated: true }),
+      validate: async () => ({
+        ok: true,
+        screenshot: { name: "desktop-contexto-aluno.png" },
+        attemptMetadata: { semanticValidated: true, authenticationRecovered: true },
+      }),
+      sleep: async () => {},
+      now: fixedClock(),
+    });
+
+    assert.equal(recovery.recovered, true);
+    assert.equal(result.ok, true);
+    assert.equal(result.attempts[0].semanticValidated, true);
+    assert.equal(recorder.screenshotFailures.length, 0);
+  });
+
+  it("login persistente apos tentativas gera FAIL_TEST_INFRASTRUCTURE", async () => {
+    const recorder = createFailureRecorder();
+    const result = await captureScreenshotWithRetry({
+      filename: "desktop-contexto-aluno.png",
+      capture: async () => ({ path: "login.png" }),
+      validate: async () => ({
+        ok: false,
+        reason: "Pagina permaneceu em /login ou formulario de login visivel.",
+        attemptMetadata: { semanticValidated: false },
+      }),
+      sleep: async () => {},
+      now: fixedClock(),
+    });
+    recorder.addScreenshotFailure(result.failure);
+    const decision = classifyDecision({ scenarios: [], ...recorder });
+
+    assert.equal(result.ok, false);
+    assert.equal(decision.decision, DECISIONS.FAIL_TEST_INFRASTRUCTURE);
+  });
+
+  it("falha semantica nao e contada duas vezes", () => {
+    const recorder = createFailureRecorder();
+    recorder.addScreenshotFailure({
+      filename: "desktop-contexto-aluno.png",
+      stage: "semantic-readiness",
+      message: "Pagina permaneceu em /login.",
+    });
+    const counts = getEvidenceCounts({ ...recorder });
+
+    assert.equal(recorder.infrastructureFailures.length, 0);
+    assert.equal(counts.screenshotFailures, 1);
+    assert.equal(counts.testInfrastructureFailuresTotal, 1);
   });
 });
 
