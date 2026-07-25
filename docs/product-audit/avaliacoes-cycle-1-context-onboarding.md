@@ -76,6 +76,20 @@ O exit code passou a seguir a decisao: `READY` e `READY_WITH_LIMITATIONS` retorn
 
 Tambem foram adicionados logs estruturados no terminal com prefixo `[avaliacoes-cycle-1]`, evidencias em JSON com categorias separadas e validacao de screenshot por assinatura PNG. O runner nao grava mais texto com extensao `.png` quando a captura falha.
 
+### Resiliencia de screenshots
+
+As capturas obrigatorias agora usam retry controlado no runner, sem alterar o produto. Cada screenshot pode ser tentada novamente quando a falha e recuperavel, como timeout do Chrome headless, arquivo ausente, arquivo vazio ou PNG invalido.
+
+Cada tentativa e registrada em `audit-raw.json` no array `screenshotAttempts`, com arquivo, numero da tentativa, status, mensagem, timestamp, duracao, indicador `recovered` e marcador `terminal` quando a falha esgota as tentativas. Uma tentativa recuperada nao entra em `screenshotFailures` e nao reprova o ciclo; ela aparece apenas como metrica de resiliencia.
+
+Uma screenshot obrigatoria so gera `FAIL_TEST_INFRASTRUCTURE` quando todas as tentativas falham ou quando a validacao final encontra arquivo ausente, vazio ou sem assinatura PNG. Essas falhas terminais ficam exclusivamente em `screenshotFailures`, separadas de `infrastructureFailures`, para evitar dupla contagem.
+
+Parametros de ajuste do runner:
+
+- `AVALIACOES_SCREENSHOT_MAX_ATTEMPTS`: padrao `2`.
+- `AVALIACOES_SCREENSHOT_RETRY_DELAY_MS`: padrao `1500`.
+- `AVALIACOES_SCREENSHOT_TIMEOUT_MS`: padrao `20000`.
+
 Testes adicionados:
 
 - `scripts/avaliacoes-context-onboarding-runner-utils.mjs`

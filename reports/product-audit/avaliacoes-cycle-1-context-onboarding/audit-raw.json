@@ -1,8 +1,8 @@
 {
-  "runId": "avaliacoes-cycle-1-1784922568680",
-  "startedAt": "2026-07-24T19:49:28.680Z",
-  "finishedAt": "2026-07-24T19:51:42.516Z",
-  "durationMs": 133836,
+  "runId": "avaliacoes-cycle-1-1784927255092",
+  "startedAt": "2026-07-24T21:07:35.092Z",
+  "finishedAt": "2026-07-24T21:10:06.646Z",
+  "durationMs": 151554,
   "resolvedBaseUrl": "http://127.0.0.1:5173",
   "resolutionAttempts": [
     {
@@ -11,8 +11,8 @@
       "result": "ok",
       "attempts": 1,
       "selected": true,
-      "timestamp": "2026-07-24T19:49:28.799Z",
-      "durationMs": 110
+      "timestamp": "2026-07-24T21:07:35.223Z",
+      "durationMs": 123
     }
   ],
   "authenticated": "covered-by-regression-suite",
@@ -182,7 +182,7 @@
       "size": 5628,
       "signature": "png",
       "viewport": "1366x900",
-      "createdAt": "2026-07-24T19:49:40.013Z"
+      "createdAt": "2026-07-24T21:07:50.782Z"
     },
     {
       "name": "desktop-nova-avaliacao-contextual.png",
@@ -190,7 +190,7 @@
       "size": 5628,
       "signature": "png",
       "viewport": "1366x900",
-      "createdAt": "2026-07-24T19:49:50.366Z"
+      "createdAt": "2026-07-24T21:08:04.950Z"
     },
     {
       "name": "desktop-nova-anamnese-contextual.png",
@@ -198,7 +198,7 @@
       "size": 5628,
       "signature": "png",
       "viewport": "1366x900",
-      "createdAt": "2026-07-24T19:50:00.955Z"
+      "createdAt": "2026-07-24T21:08:16.458Z"
     },
     {
       "name": "desktop-retorno-contextual.png",
@@ -206,7 +206,7 @@
       "size": 5628,
       "signature": "png",
       "viewport": "1366x900",
-      "createdAt": "2026-07-24T19:50:12.463Z"
+      "createdAt": "2026-07-24T21:08:27.408Z"
     },
     {
       "name": "desktop-vazio-contextual.png",
@@ -214,7 +214,7 @@
       "size": 5628,
       "signature": "png",
       "viewport": "1366x900",
-      "createdAt": "2026-07-24T19:50:23.087Z"
+      "createdAt": "2026-07-24T21:08:37.940Z"
     },
     {
       "name": "desktop-busca-sem-resultado.png",
@@ -222,7 +222,7 @@
       "size": 5628,
       "signature": "png",
       "viewport": "1366x900",
-      "createdAt": "2026-07-24T19:50:33.542Z"
+      "createdAt": "2026-07-24T21:08:50.484Z"
     },
     {
       "name": "mobile-320-contexto.png",
@@ -230,7 +230,7 @@
       "size": 2580,
       "signature": "png",
       "viewport": "320x900",
-      "createdAt": "2026-07-24T19:50:45.177Z"
+      "createdAt": "2026-07-24T21:09:01.303Z"
     },
     {
       "name": "mobile-320-vazio-contextual.png",
@@ -238,7 +238,7 @@
       "size": 2580,
       "signature": "png",
       "viewport": "320x900",
-      "createdAt": "2026-07-24T19:50:56.758Z"
+      "createdAt": "2026-07-24T21:09:12.104Z"
     },
     {
       "name": "mobile-375-contexto.png",
@@ -246,7 +246,7 @@
       "size": 3105,
       "signature": "png",
       "viewport": "375x1000",
-      "createdAt": "2026-07-24T19:51:08.454Z"
+      "createdAt": "2026-07-24T21:09:23.786Z"
     },
     {
       "name": "mobile-390-nova-avaliacao.png",
@@ -254,7 +254,7 @@
       "size": 3230,
       "signature": "png",
       "viewport": "390x1000",
-      "createdAt": "2026-07-24T19:51:19.124Z"
+      "createdAt": "2026-07-24T21:09:35.411Z"
     },
     {
       "name": "tablet-768-contexto.png",
@@ -262,7 +262,7 @@
       "size": 4366,
       "signature": "png",
       "viewport": "768x1000",
-      "createdAt": "2026-07-24T19:51:29.665Z"
+      "createdAt": "2026-07-24T21:09:48.174Z"
     },
     {
       "name": "desktop-1366-contexto.png",
@@ -270,7 +270,141 @@
       "size": 5628,
       "signature": "png",
       "viewport": "1366x900",
-      "createdAt": "2026-07-24T19:51:39.525Z"
+      "createdAt": "2026-07-24T21:10:02.943Z"
+    }
+  ],
+  "screenshotAttempts": [
+    {
+      "filename": "desktop-contexto-aluno.png",
+      "attempt": 1,
+      "maxAttempts": 2,
+      "status": "PASS",
+      "message": "Screenshot capturada.",
+      "timestamp": "2026-07-24T21:07:50.782Z",
+      "durationMs": 14893,
+      "recovered": false,
+      "terminal": false
+    },
+    {
+      "filename": "desktop-nova-avaliacao-contextual.png",
+      "attempt": 1,
+      "maxAttempts": 2,
+      "status": "PASS",
+      "message": "Screenshot capturada.",
+      "timestamp": "2026-07-24T21:08:04.950Z",
+      "durationMs": 14163,
+      "recovered": false,
+      "terminal": false
+    },
+    {
+      "filename": "desktop-nova-anamnese-contextual.png",
+      "attempt": 1,
+      "maxAttempts": 2,
+      "status": "PASS",
+      "message": "Screenshot capturada.",
+      "timestamp": "2026-07-24T21:08:16.458Z",
+      "durationMs": 11490,
+      "recovered": false,
+      "terminal": false
+    },
+    {
+      "filename": "desktop-retorno-contextual.png",
+      "attempt": 1,
+      "maxAttempts": 2,
+      "status": "PASS",
+      "message": "Screenshot capturada.",
+      "timestamp": "2026-07-24T21:08:27.408Z",
+      "durationMs": 10946,
+      "recovered": false,
+      "terminal": false
+    },
+    {
+      "filename": "desktop-vazio-contextual.png",
+      "attempt": 1,
+      "maxAttempts": 2,
+      "status": "PASS",
+      "message": "Screenshot capturada.",
+      "timestamp": "2026-07-24T21:08:37.940Z",
+      "durationMs": 10530,
+      "recovered": false,
+      "terminal": false
+    },
+    {
+      "filename": "desktop-busca-sem-resultado.png",
+      "attempt": 1,
+      "maxAttempts": 2,
+      "status": "PASS",
+      "message": "Screenshot capturada.",
+      "timestamp": "2026-07-24T21:08:50.484Z",
+      "durationMs": 12541,
+      "recovered": false,
+      "terminal": false
+    },
+    {
+      "filename": "mobile-320-contexto.png",
+      "attempt": 1,
+      "maxAttempts": 2,
+      "status": "PASS",
+      "message": "Screenshot capturada.",
+      "timestamp": "2026-07-24T21:09:01.303Z",
+      "durationMs": 10815,
+      "recovered": false,
+      "terminal": false
+    },
+    {
+      "filename": "mobile-320-vazio-contextual.png",
+      "attempt": 1,
+      "maxAttempts": 2,
+      "status": "PASS",
+      "message": "Screenshot capturada.",
+      "timestamp": "2026-07-24T21:09:12.104Z",
+      "durationMs": 10796,
+      "recovered": false,
+      "terminal": false
+    },
+    {
+      "filename": "mobile-375-contexto.png",
+      "attempt": 1,
+      "maxAttempts": 2,
+      "status": "PASS",
+      "message": "Screenshot capturada.",
+      "timestamp": "2026-07-24T21:09:23.787Z",
+      "durationMs": 11677,
+      "recovered": false,
+      "terminal": false
+    },
+    {
+      "filename": "mobile-390-nova-avaliacao.png",
+      "attempt": 1,
+      "maxAttempts": 2,
+      "status": "PASS",
+      "message": "Screenshot capturada.",
+      "timestamp": "2026-07-24T21:09:35.411Z",
+      "durationMs": 11608,
+      "recovered": false,
+      "terminal": false
+    },
+    {
+      "filename": "tablet-768-contexto.png",
+      "attempt": 1,
+      "maxAttempts": 2,
+      "status": "PASS",
+      "message": "Screenshot capturada.",
+      "timestamp": "2026-07-24T21:09:48.174Z",
+      "durationMs": 12760,
+      "recovered": false,
+      "terminal": false
+    },
+    {
+      "filename": "desktop-1366-contexto.png",
+      "attempt": 1,
+      "maxAttempts": 2,
+      "status": "PASS",
+      "message": "Screenshot capturada.",
+      "timestamp": "2026-07-24T21:10:02.943Z",
+      "durationMs": 14764,
+      "recovered": false,
+      "terminal": false
     }
   ],
   "requests": [
@@ -324,5 +458,5 @@
   ],
   "failureStage": "",
   "failureReason": "",
-  "generatedAt": "2026-07-24T19:51:42.516Z"
+  "generatedAt": "2026-07-24T21:10:06.646Z"
 }

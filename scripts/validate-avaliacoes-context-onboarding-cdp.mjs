@@ -5,9 +5,11 @@ import { join, resolve } from "node:path";
 import {
   DECISIONS,
   buildAuditRaw,
+  captureScreenshotWithRetry,
   classifyDecision,
   createFailureRecorder,
   createResolutionAttempt,
+  getEvidenceCounts,
   isPngSignature,
   recordScenario,
   sanitize,
@@ -18,10 +20,14 @@ import {
 const reportDir = "reports/product-audit/avaliacoes-cycle-1-context-onboarding";
 const screenshotsDir = resolve(join(reportDir, "screenshots"));
 const chromeProfilesDir = join(tmpdir(), "aruka-avaliacoes-cycle-1");
+const SCREENSHOT_MAX_ATTEMPTS = envNumber("AVALIACOES_SCREENSHOT_MAX_ATTEMPTS", 2, { min: 1, max: 5 });
+const SCREENSHOT_RETRY_DELAY_MS = envNumber("AVALIACOES_SCREENSHOT_RETRY_DELAY_MS", 1500, { min: 1000, max: 5000 });
+const SCREENSHOT_TIMEOUT_MS = envNumber("AVALIACOES_SCREENSHOT_TIMEOUT_MS", 20000, { min: 5000, max: 60000 });
 const runId = `avaliacoes-cycle-1-${Date.now()}`;
 const startedAt = new Date();
 const scenarios = [];
 const screenshots = [];
+const screenshotAttempts = [];
 const requests = [];
 const responses = [];
 const resolutionAttempts = [];
@@ -57,6 +63,7 @@ try {
 
   log("Abrindo Avaliacoes");
   await captureRequiredScreenshots();
+  validateRequiredScreenshots();
   recordViewportScenarios();
 
   const httpFailures = responses
@@ -239,73 +246,70 @@ async function ensureChrome() {
 }
 
 async function captureRequiredScreenshots() {
-  await capture("desktop-contexto-aluno.png", 1366, 900, "/avaliacoes?alunoId=00000000-0000-4000-8000-000000000000");
-  await capture("desktop-nova-avaliacao-contextual.png", 1366, 900, "/avaliacoes");
-  await capture("desktop-nova-anamnese-contextual.png", 1366, 900, "/avaliacoes?aba=anamneses");
-  await capture("desktop-retorno-contextual.png", 1366, 900, "/avaliacoes?returnTo=%2Falunos%3Fbusca%3DAna");
-  await capture("desktop-vazio-contextual.png", 1366, 900, "/avaliacoes?alunoId=00000000-0000-4000-8000-000000000999");
-  await capture("desktop-busca-sem-resultado.png", 1366, 900, "/avaliacoes?busca=resultado-inexistente-cycle-1");
-  await capture("mobile-320-contexto.png", 320, 900, "/avaliacoes");
-  await capture("mobile-320-vazio-contextual.png", 320, 900, "/avaliacoes?alunoId=00000000-0000-4000-8000-000000000999");
-  await capture("mobile-375-contexto.png", 375, 1000, "/avaliacoes");
-  await capture("mobile-390-nova-avaliacao.png", 390, 1000, "/avaliacoes");
-  await capture("tablet-768-contexto.png", 768, 1000, "/avaliacoes");
-  await capture("desktop-1366-contexto.png", 1366, 900, "/avaliacoes");
+  for (const item of requiredScreenshots()) {
+    await capture(item);
+  }
 }
 
-async function capture(name, width, height, path) {
+async function capture({ name, width, height, path }) {
   log(`Capturando screenshot: ${name}`);
   const chrome = chromePath();
   const out = join(screenshotsDir, name);
   const profileDir = join(chromeProfilesDir, `profile-${name.replace(/[^a-z0-9-]/gi, "-")}`);
   mkdirSync(profileDir, { recursive: true });
+  rmSync(out, { force: true });
+  const startedAtMs = Date.now();
 
-  const result = await runChrome(chrome, [
-    "--headless=new",
-    "--no-sandbox",
-    "--disable-gpu",
-    "--disable-dev-shm-usage",
-    "--no-first-run",
-    `--user-data-dir=${profileDir}`,
-    `--window-size=${width},${height}`,
-    `--screenshot=${out}`,
-    `${resolvedBaseUrl}${path}`,
-  ]);
-
-  if (result.error || result.timedOut || result.exitCode !== 0) {
-    failureRecorder.addScreenshotFailure({
-      stage: "capture",
-      filename: name,
-      message: result.error || (result.timedOut ? "Timeout ao gerar screenshot." : `Chrome exit code ${result.exitCode}.`),
-    });
-    return;
-  }
-
-  const exists = existsSync(out);
-  const size = exists ? statSync(out).size : 0;
-  const signatureValid = exists ? isPngSignature(readFileSync(out)) : false;
-  const validation = validateScreenshotMetadata({ name, path: exists ? out : "", size, signatureValid });
-
-  if (!validation.ok) {
-    failureRecorder.addScreenshotFailure({
-      stage: "validateScreenshot",
-      filename: name,
-      message: validation.reason,
-    });
-    return;
-  }
-
-  screenshots.push({
-    name,
-    path: out,
-    size,
-    signature: "png",
-    viewport: `${width}x${height}`,
-    createdAt: new Date().toISOString(),
+  const result = await captureScreenshotWithRetry({
+    filename: name,
+    maxAttempts: SCREENSHOT_MAX_ATTEMPTS,
+    retryDelayMs: SCREENSHOT_RETRY_DELAY_MS,
+    sleep,
+    onAttempt: (attempt) => {
+      screenshotAttempts.push(attempt);
+      if (attempt.status === "RETRY") {
+        log(`Captura ${name} falhou na tentativa ${attempt.attempt}/${attempt.maxAttempts}: ${attempt.message}`);
+        log(`Repetindo captura ${name} em ${SCREENSHOT_RETRY_DELAY_MS}ms.`);
+      }
+      if (attempt.status === "PASS" && attempt.recovered) {
+        log(`Captura ${name} recuperada na tentativa ${attempt.attempt}/${attempt.maxAttempts}.`);
+      }
+      if (attempt.terminal) {
+        log(`Captura ${name} falhou apos ${attempt.attempt} tentativas.`);
+      }
+    },
+    removeInvalidFile: async () => {
+      rmSync(out, { force: true });
+    },
+    capture: async () =>
+      runChrome(
+        chrome,
+        [
+          "--headless=new",
+          "--no-sandbox",
+          "--disable-gpu",
+          "--disable-dev-shm-usage",
+          "--no-first-run",
+          `--user-data-dir=${profileDir}`,
+          `--window-size=${width},${height}`,
+          `--screenshot=${out}`,
+          `${resolvedBaseUrl}${path}`,
+        ],
+        SCREENSHOT_TIMEOUT_MS
+      ),
+    validate: async ({ result: captureResult }) =>
+      validateScreenshotFile({ name, out, width, height, startedAtMs, captureResult }),
   });
+
+  if (!result.ok) {
+    addScreenshotFailureOnce(name, result.failure?.message || "Falha terminal de screenshot.", result.failure?.stage || "capture");
+    return;
+  }
+
+  screenshots.push(result.screenshot);
 }
 
-function runChrome(chrome, args, timeoutMs = 20000) {
+function runChrome(chrome, args, timeoutMs = SCREENSHOT_TIMEOUT_MS) {
   return new Promise((resolve) => {
     const child = spawn(chrome, args, { stdio: "ignore", windowsHide: true });
     let settled = false;
@@ -326,6 +330,79 @@ function runChrome(chrome, args, timeoutMs = 20000) {
       resolve({ timedOut: false, exitCode: null, error: sanitize(error.message) });
     });
   });
+}
+
+function validateScreenshotFile({ name, out, width, height, startedAtMs, captureResult }) {
+  if (captureResult?.error || captureResult?.timedOut || captureResult?.exitCode !== 0) {
+    return {
+      ok: false,
+      reason:
+        captureResult?.error ||
+        (captureResult?.timedOut ? "Timeout ao gerar screenshot." : `Chrome exit code ${captureResult?.exitCode}.`),
+    };
+  }
+
+  const exists = existsSync(out);
+  const stat = exists ? statSync(out) : null;
+  const size = stat?.size || 0;
+  const signatureValid = exists ? isPngSignature(readFileSync(out)) : false;
+  const validation = validateScreenshotMetadata({ name, path: exists ? out : "", size, signatureValid });
+
+  if (!validation.ok) return { ok: false, reason: validation.reason };
+  if (!stat || stat.mtimeMs < startedAtMs - 1000) {
+    return { ok: false, reason: "Screenshot nao foi criada na execucao atual." };
+  }
+
+  return {
+    ok: true,
+    screenshot: {
+      name,
+      path: out,
+      size,
+      signature: "png",
+      viewport: `${width}x${height}`,
+      createdAt: new Date().toISOString(),
+    },
+  };
+}
+
+function validateRequiredScreenshots() {
+  const validByName = new Map(screenshots.map((item) => [item.name, item]));
+
+  for (const required of requiredScreenshots()) {
+    const item = validByName.get(required.name);
+    if (!item) {
+      addScreenshotFailureOnce(
+        required.name,
+        `Screenshot obrigatoria ausente: ${required.name}`,
+        "validateRequiredScreenshots"
+      );
+      continue;
+    }
+
+    if (!existsSync(item.path)) {
+      addScreenshotFailureOnce(required.name, `Arquivo fisico ausente: ${required.name}`, "validateRequiredScreenshots");
+      continue;
+    }
+
+    const stat = statSync(item.path);
+    const signatureValid = isPngSignature(readFileSync(item.path));
+    const validation = validateScreenshotMetadata({
+      name: required.name,
+      path: item.path,
+      size: stat.size,
+      signatureValid,
+    });
+
+    if (!validation.ok) {
+      addScreenshotFailureOnce(required.name, validation.reason, "validateRequiredScreenshots");
+    }
+  }
+}
+
+function addScreenshotFailureOnce(filename, message, stage) {
+  if (failureRecorder.screenshotFailures.some((item) => item.filename === filename)) return;
+  failureRecorder.addScreenshotFailure({ filename, message, stage });
 }
 
 function recordViewportScenarios() {
@@ -360,6 +437,7 @@ function writeEvidence() {
     exitCode,
     scenarios,
     screenshots,
+    screenshotAttempts,
     requests,
     responses,
     networkFailures: failureRecorder.networkFailures,
@@ -389,15 +467,17 @@ function scenarioMarkdown() {
 }
 
 function validationMarkdown() {
-  const counts = countScenarios();
+  const counts = evidenceCounts();
   return [
     "# Validation Results",
     "",
     `- Decision: ${decision}`,
     `- Exit code: ${exitCode}`,
-    `- PASS: ${counts.PASS}`,
-    `- FAIL_PRODUCT: ${counts.FAIL_PRODUCT}`,
-    `- FAIL_TEST_INFRASTRUCTURE: ${counts.FAIL_TEST_INFRASTRUCTURE}`,
+    `- PASS: ${counts.scenariosPass}`,
+    `- FAIL_PRODUCT: ${counts.scenariosFailProduct}`,
+    `- FAIL_TEST_INFRASTRUCTURE: ${counts.scenariosFailTestInfrastructure}`,
+    `- Screenshot failures: ${counts.screenshotFailures}`,
+    `- Recovered screenshot retries: ${counts.recoveredScreenshotRetries}`,
     `- Limitations: ${limitations.length}`,
     "",
     ...limitations.map((item) => `- Limitation: ${item}`),
@@ -443,7 +523,7 @@ function consoleMarkdown() {
 }
 
 function executiveSummaryMarkdown(raw) {
-  const counts = countScenarios();
+  const counts = evidenceCounts(raw);
   return [
     "# Executive Summary",
     "",
@@ -453,9 +533,17 @@ function executiveSummaryMarkdown(raw) {
     `- Exit code: ${raw.exitCode}`,
     `- Started at: ${raw.startedAt}`,
     `- Finished at: ${raw.finishedAt}`,
-    `- Scenarios PASS: ${counts.PASS}`,
-    `- Product failures: ${counts.FAIL_PRODUCT + raw.networkFailures.length + raw.httpFailures.length}`,
-    `- Infrastructure failures: ${counts.FAIL_TEST_INFRASTRUCTURE + raw.infrastructureFailures.length + raw.screenshotFailures.length + raw.runnerFailures.length}`,
+    `- Scenarios PASS: ${counts.scenariosPass}`,
+    `- Scenario FAIL_PRODUCT: ${counts.scenariosFailProduct}`,
+    `- Scenario FAIL_TEST_INFRASTRUCTURE: ${counts.scenariosFailTestInfrastructure}`,
+    `- Product failures: ${counts.productFailures}`,
+    `- Network failures: ${counts.networkFailures}`,
+    `- HTTP failures: ${counts.httpFailures}`,
+    `- Infrastructure failures: ${counts.infrastructureFailures}`,
+    `- Screenshot failures: ${counts.screenshotFailures}`,
+    `- Runner failures: ${counts.runnerFailures}`,
+    `- Test infrastructure failures total: ${counts.testInfrastructureFailuresTotal}`,
+    `- Recovered screenshot retries: ${counts.recoveredScreenshotRetries}`,
     `- Limitations: ${raw.limitations.length}`,
     "",
     ...raw.limitations.map((item) => `- Limitation: ${item}`),
@@ -467,14 +555,17 @@ function writeMarkdown(name, content) {
   writeFileSync(join(reportDir, name), `${content}\n`);
 }
 
-function countScenarios() {
-  return scenarios.reduce(
-    (acc, item) => {
-      acc[item.status] = (acc[item.status] || 0) + 1;
-      return acc;
-    },
-    { PASS: 0, FAIL_PRODUCT: 0, FAIL_TEST_INFRASTRUCTURE: 0 }
-  );
+function evidenceCounts(raw = {}) {
+  return getEvidenceCounts({
+    scenarios,
+    networkFailures: raw.networkFailures || failureRecorder.networkFailures,
+    httpFailures: raw.httpFailures || failureRecorder.httpFailures,
+    infrastructureFailures: raw.infrastructureFailures || failureRecorder.infrastructureFailures,
+    screenshotFailures: raw.screenshotFailures || failureRecorder.screenshotFailures,
+    runnerFailures: raw.runnerFailures || failureRecorder.runnerFailures,
+    screenshotAttempts: raw.screenshotAttempts || screenshotAttempts,
+    limitations: raw.limitations || limitations,
+  });
 }
 
 function formatFailure(item) {
@@ -509,6 +600,29 @@ function clearOnly(query, removedKey, preservedKeys) {
 
 function chromePath() {
   return process.env.CHROME_PATH || "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+}
+
+function requiredScreenshots() {
+  return [
+    { name: "desktop-contexto-aluno.png", width: 1366, height: 900, path: "/avaliacoes?alunoId=00000000-0000-4000-8000-000000000000" },
+    { name: "desktop-nova-avaliacao-contextual.png", width: 1366, height: 900, path: "/avaliacoes" },
+    { name: "desktop-nova-anamnese-contextual.png", width: 1366, height: 900, path: "/avaliacoes?aba=anamneses" },
+    { name: "desktop-retorno-contextual.png", width: 1366, height: 900, path: "/avaliacoes?returnTo=%2Falunos%3Fbusca%3DAna" },
+    { name: "desktop-vazio-contextual.png", width: 1366, height: 900, path: "/avaliacoes?alunoId=00000000-0000-4000-8000-000000000999" },
+    { name: "desktop-busca-sem-resultado.png", width: 1366, height: 900, path: "/avaliacoes?busca=resultado-inexistente-cycle-1" },
+    { name: "mobile-320-contexto.png", width: 320, height: 900, path: "/avaliacoes" },
+    { name: "mobile-320-vazio-contextual.png", width: 320, height: 900, path: "/avaliacoes?alunoId=00000000-0000-4000-8000-000000000999" },
+    { name: "mobile-375-contexto.png", width: 375, height: 1000, path: "/avaliacoes" },
+    { name: "mobile-390-nova-avaliacao.png", width: 390, height: 1000, path: "/avaliacoes" },
+    { name: "tablet-768-contexto.png", width: 768, height: 1000, path: "/avaliacoes" },
+    { name: "desktop-1366-contexto.png", width: 1366, height: 900, path: "/avaliacoes" },
+  ];
+}
+
+function envNumber(name, fallback, { min, max }) {
+  const value = Number(process.env[name]);
+  if (!Number.isFinite(value)) return fallback;
+  return Math.min(max, Math.max(min, value));
 }
 
 function log(message) {

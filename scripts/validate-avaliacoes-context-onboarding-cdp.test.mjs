@@ -3,9 +3,12 @@ import { describe, it } from "node:test";
 import {
   DECISIONS,
   buildAuditRaw,
+  captureScreenshotWithRetry,
   classifyDecision,
+  countRecoveredScreenshotRetries,
   createFailureRecorder,
   createResolutionAttempt,
+  getEvidenceCounts,
   isPngSignature,
   recordScenario,
   validateScreenshotMetadata,
@@ -153,4 +156,182 @@ describe("avaliacoes context onboarding runner utils", () => {
       false
     );
   });
+
+  it("primeira captura passa com uma tentativa e nenhuma falha terminal", async () => {
+    const result = await captureScreenshotWithRetry({
+      filename: "desktop-contexto-aluno.png",
+      capture: async () => ({ path: "ok.png" }),
+      validate: async () => ({ ok: true, screenshot: { name: "desktop-contexto-aluno.png" } }),
+      sleep: async () => {},
+      now: fixedClock(),
+    });
+
+    assert.equal(result.ok, true);
+    assert.equal(result.attempts.length, 1);
+    assert.equal(result.attempts[0].status, "PASS");
+    assert.equal(result.recovered, false);
+  });
+
+  it("timeout na primeira captura e sucesso na segunda nao vira falha terminal", async () => {
+    let calls = 0;
+    const result = await captureScreenshotWithRetry({
+      filename: "mobile-320-contexto.png",
+      capture: async () => {
+        calls += 1;
+        return calls === 1 ? { timedOut: true } : { path: "ok.png" };
+      },
+      validate: async ({ result: captureResult }) =>
+        captureResult.timedOut
+          ? { ok: false, reason: "Timeout ao gerar screenshot." }
+          : { ok: true, screenshot: { name: "mobile-320-contexto.png" } },
+      sleep: async () => {},
+      now: fixedClock(),
+    });
+    const decision = classifyDecision({
+      scenarios: [{ name: "screenshots obrigatorias validas", status: "PASS" }],
+      limitations: ["Autenticacao coberta pela regressao original."],
+      screenshotFailures: [],
+      screenshotAttempts: result.attempts,
+    });
+
+    assert.equal(result.ok, true);
+    assert.equal(result.attempts.length, 2);
+    assert.equal(result.attempts[0].status, "RETRY");
+    assert.equal(result.attempts[1].status, "PASS");
+    assert.equal(result.attempts[1].recovered, true);
+    assert.equal(decision.decision, DECISIONS.READY_WITH_LIMITATIONS);
+    assert.equal(decision.exitCode, 0);
+  });
+
+  it("duas capturas falham e geram uma screenshotFailure terminal", async () => {
+    const recorder = createFailureRecorder();
+    const result = await captureScreenshotWithRetry({
+      filename: "mobile-320-contexto.png",
+      capture: async () => ({ timedOut: true }),
+      validate: async () => ({ ok: false, reason: "Timeout ao gerar screenshot." }),
+      sleep: async () => {},
+      now: fixedClock(),
+    });
+    recorder.addScreenshotFailure(result.failure);
+    const decision = classifyDecision({ scenarios: [], ...recorder });
+
+    assert.equal(result.ok, false);
+    assert.equal(result.attempts.length, 2);
+    assert.equal(result.attempts[1].status, DECISIONS.FAIL_TEST_INFRASTRUCTURE);
+    assert.equal(recorder.screenshotFailures.length, 1);
+    assert.equal(decision.decision, DECISIONS.FAIL_TEST_INFRASTRUCTURE);
+    assert.equal(decision.exitCode, 1);
+  });
+
+  it("PNG invalido na primeira tentativa e sucesso na segunda remove invalido e recupera", async () => {
+    let calls = 0;
+    let removed = 0;
+    const result = await captureScreenshotWithRetry({
+      filename: "desktop-vazio-contextual.png",
+      capture: async () => {
+        calls += 1;
+        return { path: "capture.png" };
+      },
+      validate: async () =>
+        calls === 1
+          ? { ok: false, reason: "Assinatura PNG invalida." }
+          : { ok: true, screenshot: { name: "desktop-vazio-contextual.png" } },
+      removeInvalidFile: async () => {
+        removed += 1;
+      },
+      sleep: async () => {},
+      now: fixedClock(),
+    });
+
+    assert.equal(result.ok, true);
+    assert.equal(result.recovered, true);
+    assert.equal(removed, 1);
+  });
+
+  it("screenshot obrigatoria ausente gera falha terminal nominal", () => {
+    const recorder = createFailureRecorder();
+    recorder.addScreenshotFailure({
+      stage: "validateRequiredScreenshots",
+      filename: "mobile-320-contexto.png",
+      message: "Screenshot obrigatoria ausente: mobile-320-contexto.png",
+    });
+    const decision = classifyDecision({ scenarios: [], ...recorder });
+
+    assert.equal(recorder.screenshotFailures[0].filename, "mobile-320-contexto.png");
+    assert.equal(decision.decision, DECISIONS.FAIL_TEST_INFRASTRUCTURE);
+  });
+
+  it("screenshotFailure nao duplica em infrastructureFailures", () => {
+    const recorder = createFailureRecorder();
+    recorder.addScreenshotFailure({
+      stage: "capture",
+      filename: "mobile-320-contexto.png",
+      message: "Timeout ao gerar screenshot.",
+    });
+    const counts = getEvidenceCounts({ ...recorder });
+
+    assert.equal(recorder.screenshotFailures.length, 1);
+    assert.equal(recorder.infrastructureFailures.length, 0);
+    assert.equal(counts.testInfrastructureFailuresTotal, 1);
+  });
+
+  it("executive summary pode usar contagens separadas e corretas", () => {
+    const counts = getEvidenceCounts({
+      scenarios: [
+        { name: "ok", status: "PASS" },
+        { name: "screenshots obrigatorias validas", status: DECISIONS.FAIL_TEST_INFRASTRUCTURE },
+      ],
+      screenshotFailures: [{ filename: "mobile-320-contexto.png" }],
+      infrastructureFailures: [],
+      runnerFailures: [],
+      networkFailures: [],
+      httpFailures: [],
+      screenshotAttempts: [],
+      limitations: ["auth"],
+    });
+
+    assert.equal(counts.scenariosPass, 1);
+    assert.equal(counts.scenariosFailTestInfrastructure, 1);
+    assert.equal(counts.screenshotFailures, 1);
+    assert.equal(counts.infrastructureFailures, 0);
+  });
+
+  it("audit raw mantem screenshotAttempts sem dupla contagem", () => {
+    const raw = buildAuditRaw({
+      screenshotAttempts: [{ filename: "x.png", status: "RETRY" }],
+      screenshotFailures: [{ filename: "x.png" }],
+      infrastructureFailures: [],
+      runnerFailures: [],
+    });
+
+    assert.equal(raw.screenshotAttempts.length, 1);
+    assert.equal(raw.screenshotFailures.length, 1);
+    assert.equal(raw.infrastructureFailures.length, 0);
+    assert.equal(raw.runnerFailures.length, 0);
+  });
+
+  it("retry recuperado com limitacao de autenticacao retorna READY_WITH_LIMITATIONS", async () => {
+    const result = await captureScreenshotWithRetry({
+      filename: "x.png",
+      capture: async ({ attempt }) => (attempt === 1 ? { timedOut: true } : { path: "ok.png" }),
+      validate: async ({ result: captureResult }) =>
+        captureResult.timedOut ? { ok: false, reason: "Timeout" } : { ok: true, screenshot: { name: "x.png" } },
+      sleep: async () => {},
+      now: fixedClock(),
+    });
+    const decision = classifyDecision({
+      scenarios: [{ name: "ok", status: "PASS" }],
+      limitations: ["auth"],
+      screenshotAttempts: result.attempts,
+    });
+
+    assert.equal(countRecoveredScreenshotRetries(result.attempts), 1);
+    assert.equal(decision.decision, DECISIONS.READY_WITH_LIMITATIONS);
+    assert.equal(decision.exitCode, 0);
+  });
 });
+
+function fixedClock() {
+  let tick = 0;
+  return () => new Date(Date.UTC(2026, 6, 24, 12, 0, tick++));
+}

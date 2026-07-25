@@ -154,6 +154,146 @@ export function validateScreenshotMetadata({ name, path, size, signatureValid, m
   return { ok: true };
 }
 
+export async function captureScreenshotWithRetry({
+  filename,
+  capture,
+  validate,
+  removeInvalidFile = async () => {},
+  maxAttempts = 2,
+  retryDelayMs = 1500,
+  sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
+  now = () => new Date(),
+  onAttempt = () => {},
+  isRecoverable = () => true,
+} = {}) {
+  const attempts = [];
+  const totalAttempts = Math.max(1, Number(maxAttempts) || 1);
+
+  for (let attempt = 1; attempt <= totalAttempts; attempt += 1) {
+    const startedAt = now();
+    let result = {};
+    let validation = { ok: false, reason: "Captura nao retornou resultado." };
+
+    try {
+      result = await capture({ attempt, maxAttempts: totalAttempts, filename });
+      validation = await validate({ attempt, maxAttempts: totalAttempts, filename, result });
+    } catch (error) {
+      validation = {
+        ok: false,
+        reason: sanitize(error.message || "Erro inesperado ao capturar screenshot."),
+        terminal: false,
+      };
+    }
+
+    const durationMs = Math.max(0, now() - startedAt);
+
+    if (validation.ok) {
+      const entry = {
+        filename,
+        attempt,
+        maxAttempts: totalAttempts,
+        status: "PASS",
+        message: attempt > 1 ? "Screenshot capturada apos retry." : "Screenshot capturada.",
+        timestamp: now().toISOString(),
+        durationMs,
+        recovered: attempt > 1,
+        terminal: false,
+      };
+      attempts.push(entry);
+      onAttempt(entry);
+      return {
+        ok: true,
+        attempts,
+        recovered: attempt > 1,
+        screenshot: validation.screenshot || result.screenshot || result,
+      };
+    }
+
+    const terminal = attempt >= totalAttempts || validation.terminal === true || !isRecoverable(validation);
+    const entry = {
+      filename,
+      attempt,
+      maxAttempts: totalAttempts,
+      status: terminal ? DECISIONS.FAIL_TEST_INFRASTRUCTURE : "RETRY",
+      message: sanitize(validation.reason || validation.message || "Falha ao capturar screenshot."),
+      timestamp: now().toISOString(),
+      durationMs,
+      recovered: false,
+      terminal,
+    };
+    attempts.push(entry);
+    onAttempt(entry);
+    await removeInvalidFile({ filename, attempt, terminal, validation });
+
+    if (terminal) {
+      return {
+        ok: false,
+        attempts,
+        failure: {
+          stage: "captureScreenshotWithRetry",
+          filename,
+          message: entry.message,
+        },
+      };
+    }
+
+    await sleep(retryDelayMs);
+  }
+
+  return {
+    ok: false,
+    attempts,
+    failure: {
+      stage: "captureScreenshotWithRetry",
+      filename,
+      message: "Falha ao capturar screenshot.",
+    },
+  };
+}
+
+export function countRecoveredScreenshotRetries(screenshotAttempts = []) {
+  return screenshotAttempts.filter((attempt) => attempt.status === "PASS" && attempt.recovered).length;
+}
+
+export function getScenarioCounts(scenarios = []) {
+  return scenarios.reduce(
+    (acc, item) => {
+      acc[item.status] = (acc[item.status] || 0) + 1;
+      return acc;
+    },
+    { PASS: 0, FAIL_PRODUCT: 0, FAIL_TEST_INFRASTRUCTURE: 0 }
+  );
+}
+
+export function getEvidenceCounts({
+  scenarios = [],
+  networkFailures = [],
+  httpFailures = [],
+  infrastructureFailures = [],
+  screenshotFailures = [],
+  runnerFailures = [],
+  screenshotAttempts = [],
+  limitations = [],
+} = {}) {
+  const scenarioCounts = getScenarioCounts(scenarios);
+
+  return {
+    scenariosPass: scenarioCounts.PASS,
+    scenariosFailProduct: scenarioCounts.FAIL_PRODUCT,
+    scenariosFailTestInfrastructure: scenarioCounts.FAIL_TEST_INFRASTRUCTURE,
+    productFailures: scenarioCounts.FAIL_PRODUCT,
+    networkFailures: networkFailures.length,
+    httpFailures: httpFailures.length,
+    infrastructureFailures: infrastructureFailures.length,
+    screenshotFailures: screenshotFailures.length,
+    runnerFailures: runnerFailures.length,
+    testInfrastructureFailuresTotal:
+      infrastructureFailures.length + screenshotFailures.length + runnerFailures.length,
+    recoveredScreenshotRetries: countRecoveredScreenshotRetries(screenshotAttempts),
+    limitations: limitations.length,
+  };
+}
+
 export function buildAuditRaw(data) {
   const raw = {
     ...data,
