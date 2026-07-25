@@ -137,8 +137,12 @@ const secoes = [
   },
 ];
 
-function AnamneseModal({ alunos, anamnese, onClose, onSave }) {
-  const [form, setForm] = useState(() => ({ ...anamneseVazia, ...anamnese }));
+function AnamneseModal({ alunos, anamnese, alunoIdInicial = "", onClose, onSave }) {
+  const [form, setForm] = useState(() => ({
+    ...anamneseVazia,
+    alunoId: anamnese?.alunoId || alunoIdInicial || "",
+    ...anamnese,
+  }));
   const toast = useToast();
   const alunosPorId = useMemo(
     () => new Map(alunos.map((aluno) => [aluno.id, aluno])),
@@ -167,7 +171,7 @@ function AnamneseModal({ alunos, anamnese, onClose, onSave }) {
 
   return (
     <div style={overlay}>
-      <div style={modal}>
+      <div style={modal} data-testid="anamnese-form">
         <div style={modalTopo}>
           <div>
             <h2 style={titulo}>Anamnese</h2>
@@ -179,10 +183,13 @@ function AnamneseModal({ alunos, anamnese, onClose, onSave }) {
         <section style={secao}>
           <h3 style={secaoTitulo}>Aluno</h3>
           <label style={campoGrupo}>
-            <span style={labelCampo}>Aluno</span>
+            <span style={labelCampo}>Aluno *</span>
             <select
+              id="anamnese-student"
+              data-testid="anamnese-student"
               value={form.alunoId || ""}
               onChange={(e) => atualizar("alunoId", e.target.value)}
+              required
               style={campo}
             >
               <option value="">Selecione</option>
@@ -192,6 +199,9 @@ function AnamneseModal({ alunos, anamnese, onClose, onSave }) {
                 </option>
               ))}
             </select>
+            <span style={textoAuxiliar}>
+              Obrigatorio. O aluno contextual vem selecionado quando o fluxo parte da ficha do aluno.
+            </span>
           </label>
         </section>
 
@@ -318,6 +328,11 @@ const grid = {
 
 const campoGrupo = { display: "flex", flexDirection: "column", gap: "6px" };
 const labelCampo = { color: "#374151", fontSize: "13px", fontWeight: "700" };
+const textoAuxiliar = {
+  color: "#64748b",
+  fontSize: "12px",
+  lineHeight: 1.35,
+};
 
 const campo = {
   width: "100%",

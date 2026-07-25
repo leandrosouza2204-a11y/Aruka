@@ -19,6 +19,14 @@ function AvaliacoesTable({
   onExcluir,
   onNovaAvaliacao,
   onNovaAnamnese,
+  emptyState,
+  contextualStudent,
+  searchTerm,
+  returnToSeguro,
+  onClearContext,
+  onClearFilters,
+  onClearSearch,
+  onReturn,
   styles,
 }) {
   return (
@@ -43,7 +51,11 @@ function AvaliacoesTable({
               const composicao = calcularComposicaoCorporal(avaliacao);
 
               return (
-                <tr key={avaliacao.id}>
+                <tr
+                  key={avaliacao.id}
+                  data-testid="avaliacao-row"
+                  data-aluno-id={avaliacao.alunoId || ""}
+                >
                   <td className="cell-wide" style={styles.tabelaCelula}>
                     {avaliacao.aluno}
                   </td>
@@ -100,11 +112,20 @@ function AvaliacoesTable({
           )}
 
           {!carregando && avaliacoes.length === 0 && (
-            <tr>
+            <tr data-testid="avaliacoes-empty-row">
               <td style={styles.estadoVazio} colSpan="8">
                 <AvaliacoesEmptyState
+                  activeTab="avaliacoes"
+                  contextualStudent={contextualStudent}
+                  returnToSeguro={returnToSeguro}
+                  searchTerm={searchTerm}
+                  state={emptyState}
+                  onClearContext={onClearContext}
+                  onClearFilters={onClearFilters}
+                  onClearSearch={onClearSearch}
                   onNovaAvaliacao={onNovaAvaliacao}
                   onNovaAnamnese={onNovaAnamnese}
+                  onReturn={onReturn}
                 />
               </td>
             </tr>

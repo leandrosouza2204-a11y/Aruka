@@ -9,6 +9,7 @@ import AvaliacaoDetalhesModal from "./AvaliacaoDetalhesModal";
 import AvaliacoesFilters from "./AvaliacoesFilters";
 import AvaliacoesHeader from "./AvaliacoesHeader";
 import AvaliacoesTable from "./AvaliacoesTable";
+import AvaliacoesEmptyState from "./AvaliacoesEmptyState";
 
 const AnamneseModal = lazy(() => import("../../../components/AnamneseModal"));
 const AvaliacaoModal = lazy(() => import("../../../components/AvaliacaoModal"));
@@ -58,8 +59,64 @@ function AvaliacoesList() {
         )}
 
         {avaliacoesPage.alunoContextual && (
-          <section className="app-alert" data-testid="avaliacoes-context-aluno" style={styles.contextoAluno}>
-            Avaliacoes contextualizadas para {avaliacoesPage.alunoContextual.nome}.
+          <section
+            className="app-alert"
+            data-testid="avaliacoes-context-aluno"
+            style={styles.contextoAluno}
+            aria-labelledby="avaliacoes-context-title"
+          >
+            <div style={styles.contextoAlunoTexto}>
+              <strong id="avaliacoes-context-title" style={styles.contextoAlunoTitulo}>
+                Voce esta visualizando as avaliacoes de{" "}
+                <span data-testid="avaliacoes-context-student-name">
+                  {avaliacoesPage.alunoContextual.nome}
+                </span>
+                .
+              </strong>
+              <span style={styles.contextoAlunoDescricao}>
+                O modulo esta filtrado para este aluno. Crie novos registros ou volte para a origem.
+              </span>
+            </div>
+            <div style={styles.contextoAlunoAcoes}>
+              <button
+                type="button"
+                className="app-button app-button-primary"
+                data-testid="avaliacoes-context-new-assessment"
+                onClick={avaliacoesPage.abrirNovaAvaliacao}
+                style={styles.botaoPrimario}
+              >
+                Nova avaliacao
+              </button>
+              <button
+                type="button"
+                className="app-button app-button-secondary"
+                data-testid="avaliacoes-context-new-anamnese"
+                onClick={avaliacoesPage.abrirNovaAnamnese}
+                style={styles.botaoSecundario}
+              >
+                Nova anamnese
+              </button>
+              {avaliacoesPage.returnToSeguro && (
+                <button
+                  type="button"
+                  className="app-button app-button-secondary"
+                  data-testid="avaliacoes-context-return"
+                  onClick={avaliacoesPage.voltarParaOrigem}
+                  style={styles.botaoSecundario}
+                >
+                  Voltar para o aluno
+                </button>
+              )}
+              <button
+                type="button"
+                className="app-button app-button-secondary"
+                data-testid="avaliacoes-context-clear"
+                onClick={avaliacoesPage.limparContextoAluno}
+                style={styles.botaoSecundario}
+              >
+                Mostrar todos
+              </button>
+            </div>
           </section>
         )}
 
@@ -73,6 +130,14 @@ function AvaliacoesList() {
             onExcluir={avaliacoesPage.removerAvaliacao}
             onNovaAvaliacao={avaliacoesPage.abrirNovaAvaliacao}
             onNovaAnamnese={avaliacoesPage.abrirNovaAnamnese}
+            emptyState={avaliacoesPage.emptyState}
+            contextualStudent={avaliacoesPage.alunoContextual}
+            searchTerm={avaliacoesPage.busca}
+            returnToSeguro={avaliacoesPage.returnToSeguro}
+            onClearContext={avaliacoesPage.limparContextoAluno}
+            onClearSearch={avaliacoesPage.limparBusca}
+            onClearFilters={avaliacoesPage.limparFiltros}
+            onReturn={avaliacoesPage.voltarParaOrigem}
             styles={styles}
           />
         ) : (
@@ -84,9 +149,37 @@ function AvaliacoesList() {
             onRelatorio={avaliacoesPage.abrirRelatorioAnamnese}
             onNovaAvaliacao={avaliacoesPage.abrirNovaAvaliacao}
             onNovaAnamnese={avaliacoesPage.abrirNovaAnamnese}
+            emptyState={avaliacoesPage.emptyState}
+            contextualStudent={avaliacoesPage.alunoContextual}
+            searchTerm={avaliacoesPage.busca}
+            returnToSeguro={avaliacoesPage.returnToSeguro}
+            onClearContext={avaliacoesPage.limparContextoAluno}
+            onClearSearch={avaliacoesPage.limparBusca}
+            onClearFilters={avaliacoesPage.limparFiltros}
+            onReturn={avaliacoesPage.voltarParaOrigem}
             styles={styles}
           />
         )}
+
+        {!avaliacoesPage.carregando &&
+          avaliacoesPage.abaAtiva === "avaliacoes" &&
+          avaliacoesPage.avaliacoesFiltradas.length === 0 && (
+            <div className="mobile-card-list avaliacoes-mobile-empty">
+              <AvaliacoesEmptyState
+                activeTab="avaliacoes"
+                contextualStudent={avaliacoesPage.alunoContextual}
+                returnToSeguro={avaliacoesPage.returnToSeguro}
+                searchTerm={avaliacoesPage.busca}
+                state={avaliacoesPage.emptyState}
+                onClearContext={avaliacoesPage.limparContextoAluno}
+                onClearFilters={avaliacoesPage.limparFiltros}
+                onClearSearch={avaliacoesPage.limparBusca}
+                onNovaAvaliacao={avaliacoesPage.abrirNovaAvaliacao}
+                onNovaAnamnese={avaliacoesPage.abrirNovaAnamnese}
+                onReturn={avaliacoesPage.voltarParaOrigem}
+              />
+            </div>
+          )}
 
         {!avaliacoesPage.carregando &&
           avaliacoesPage.abaAtiva === "avaliacoes" &&
@@ -196,6 +289,7 @@ function AvaliacoesList() {
             <AvaliacaoModal
               alunos={avaliacoesPage.alunos}
               avaliacao={avaliacoesPage.avaliacaoEditando}
+              alunoIdInicial={avaliacoesPage.alunoIdInicialAvaliacao}
               onClose={avaliacoesPage.fecharModalAvaliacao}
               onSave={avaliacoesPage.salvarAvaliacao}
             />
@@ -207,6 +301,7 @@ function AvaliacoesList() {
             <AnamneseModal
               alunos={avaliacoesPage.alunos}
               anamnese={avaliacoesPage.anamneseEditando}
+              alunoIdInicial={avaliacoesPage.alunoIdInicialAnamnese}
               onClose={avaliacoesPage.fecharModalAnamnese}
               onSave={avaliacoesPage.salvarAnamnese}
             />
@@ -231,10 +326,42 @@ const listaCard = {
 };
 
 const contextoAluno = {
+  alignItems: "center",
+  display: "flex",
+  flexWrap: "wrap",
   fontSize: "14px",
-  fontWeight: "800",
+  gap: "12px",
+  justifyContent: "space-between",
   marginTop: "16px",
+  minWidth: 0,
   padding: "12px 14px",
+};
+
+const contextoAlunoTexto = {
+  display: "grid",
+  gap: "4px",
+  minWidth: 0,
+};
+
+const contextoAlunoTitulo = {
+  color: "#111827",
+  lineHeight: 1.35,
+  overflowWrap: "anywhere",
+};
+
+const contextoAlunoDescricao = {
+  color: "#4b5563",
+  fontSize: "13px",
+  lineHeight: 1.4,
+};
+
+const contextoAlunoAcoes = {
+  alignItems: "center",
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "8px",
+  justifyContent: "flex-end",
+  minWidth: 0,
 };
 
 const listaTopo = {
@@ -568,6 +695,10 @@ const styles = {
   botaoSecundario,
   campo,
   contextoAluno,
+  contextoAlunoAcoes,
+  contextoAlunoDescricao,
+  contextoAlunoTexto,
+  contextoAlunoTitulo,
   conteudo,
   detalhesCard,
   detalhesGrid,

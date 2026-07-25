@@ -1,0 +1,54 @@
+# Console Results
+
+- Listener status: PASS
+- Console events: 48
+- Exceptions: 0
+
+- debug: [vite] connecting...
+- debug: [vite] connected.
+- info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+- debug: [vite] connecting...
+- debug: [vite] connected.
+- info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+- debug: [vite] connecting...
+- debug: [vite] connected.
+- info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+- debug: [vite] connecting...
+- debug: [vite] connected.
+- info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+- debug: [vite] connecting...
+- debug: [vite] connected.
+- info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+- debug: [vite] connecting...
+- debug: [vite] connected.
+- info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+- debug: [vite] connecting...
+- debug: [vite] connected.
+- info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+- debug: [vite] connecting...
+- debug: [vite] connected.
+- info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+- debug: [vite] connecting...
+- debug: [vite] connected.
+- info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+- debug: [vite] connecting...
+- debug: [vite] connected.
+- info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+- debug: [vite] connecting...
+- debug: [vite] connected.
+- info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+- debug: [vite] connecting...
+- debug: [vite] connected.
+- info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+- debug: [vite] connecting...
+- debug: [vite] connected.
+- info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+- debug: [vite] connecting...
+- debug: [vite] connected.
+- info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+- debug: [vite] connecting...
+- debug: [vite] connected.
+- info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+- debug: [vite] connecting...
+- debug: [vite] connected.
+- info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
