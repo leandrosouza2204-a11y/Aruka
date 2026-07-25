@@ -1,7 +1,7 @@
 # Network Results
 
-- Requests: 1
-- Responses: 1
+- Requests: 721
+- Responses: 719
 - Network failures: 0
 - HTTP failures: 0
 

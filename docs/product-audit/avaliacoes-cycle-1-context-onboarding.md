@@ -84,6 +84,16 @@ Cada tentativa e registrada em `audit-raw.json` no array `screenshotAttempts`, c
 
 Uma screenshot obrigatoria so gera `FAIL_TEST_INFRASTRUCTURE` quando todas as tentativas falham ou quando a validacao final encontra arquivo ausente, vazio ou sem assinatura PNG. Essas falhas terminais ficam exclusivamente em `screenshotFailures`, separadas de `infrastructureFailures`, para evitar dupla contagem.
 
+### Evidencias autenticadas e semanticamente validas
+
+A causa raiz do falso READY_WITH_LIMITATIONS anterior era a separacao entre os contratos funcionais simulados e a captura visual: cada screenshot era gerada por um Chrome headless novo, com perfil isolado e navegacao direta para `/avaliacoes`. Esse contexto nao compartilhava uma sessao Supabase autenticada; quando a rota protegida redirecionava silenciosamente para `/login`, o runner ainda aceitava o PNG porque validava apenas existencia, tamanho e assinatura.
+
+O runner do ciclo agora usa uma aba CDP autenticada e reutilizada para todas as capturas. Antes de cada screenshot ele valida explicitamente que a URL nao esta em `/login`, o formulario de login nao esta visivel, nao ha `Carregando...` persistente, a rota ativa e `/avaliacoes`, o marcador `[data-testid="avaliacoes-page"]` esta visivel e a sessao esta confirmada. Se a autenticacao cair, a ocorrencia e registrada em `authenticationRecoveryAttempts`, a autenticacao e refeita de forma controlada, a rota do cenario e reaberta e o estado especifico e reconstruido antes de tentar a captura.
+
+Cada evidencia tambem possui validacao especifica por cenario, usando seletores estaveis quando disponiveis: alerta contextual, nome do aluno, modal de avaliacao, modal de anamnese, aluno pre-selecionado, CTA de retorno e estados vazios. Um PNG valido em `/login`, em loading ou em rota incorreta passa a ser `FAIL_TEST_INFRASTRUCTURE`; ausencia de estado funcional esperado por comportamento do produto pode ser classificada como `FAIL_PRODUCT`.
+
+O `audit-raw.json` passou a incluir `authenticationRecoveryAttempts`, `functionalStateWaitAttempts`, `authenticationFailures` e, nas evidencias/tentativas de screenshot, URL antes da captura, URL apos preparacao, estado de autenticacao, seletor de prontidao e `semanticValidated`.
+
 Parametros de ajuste do runner:
 
 - `AVALIACOES_SCREENSHOT_MAX_ATTEMPTS`: padrao `2`.

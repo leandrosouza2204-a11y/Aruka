@@ -10,6 +10,7 @@ export function createFailureRecorder() {
     networkFailures: [],
     httpFailures: [],
     infrastructureFailures: [],
+    authenticationFailures: [],
     screenshotFailures: [],
     runnerFailures: [],
   };
@@ -26,6 +27,7 @@ export function createFailureRecorder() {
     addNetworkFailure: (failure) => add("networkFailures", failure),
     addHttpFailure: (failure) => add("httpFailures", failure),
     addInfrastructureFailure: (failure) => add("infrastructureFailures", failure),
+    addAuthenticationFailure: (failure) => add("authenticationFailures", failure),
     addScreenshotFailure: (failure) => add("screenshotFailures", failure),
     addRunnerFailure: (failure) => add("runnerFailures", failure),
   };
@@ -40,6 +42,7 @@ export function normalizeFailure(bucketName, failure = {}) {
     networkFailures: "network",
     httpFailures: "http",
     infrastructureFailures: "infrastructure",
+    authenticationFailures: "authentication",
     screenshotFailures: "screenshot",
     runnerFailures: "runner",
   };
@@ -71,12 +74,14 @@ export function classifyDecision({
   networkFailures = [],
   httpFailures = [],
   infrastructureFailures = [],
+  authenticationFailures = [],
   screenshotFailures = [],
   runnerFailures = [],
   limitations = [],
 } = {}) {
   const hasInfrastructureFailure =
     infrastructureFailures.length > 0 ||
+    authenticationFailures.length > 0 ||
     screenshotFailures.length > 0 ||
     runnerFailures.length > 0 ||
     scenarios.some((scenario) => scenario.status === DECISIONS.FAIL_TEST_INFRASTRUCTURE);
@@ -198,6 +203,7 @@ export async function captureScreenshotWithRetry({
         durationMs,
         recovered: attempt > 1,
         terminal: false,
+        ...(validation.attemptMetadata || {}),
       };
       attempts.push(entry);
       onAttempt(entry);
@@ -220,6 +226,7 @@ export async function captureScreenshotWithRetry({
       durationMs,
       recovered: false,
       terminal,
+      ...(validation.attemptMetadata || {}),
     };
     attempts.push(entry);
     onAttempt(entry);
@@ -272,6 +279,7 @@ export function getEvidenceCounts({
   infrastructureFailures = [],
   screenshotFailures = [],
   runnerFailures = [],
+  authenticationFailures = [],
   screenshotAttempts = [],
   limitations = [],
 } = {}) {
@@ -287,11 +295,107 @@ export function getEvidenceCounts({
     infrastructureFailures: infrastructureFailures.length,
     screenshotFailures: screenshotFailures.length,
     runnerFailures: runnerFailures.length,
+    authenticationFailures: authenticationFailures.length,
     testInfrastructureFailuresTotal:
-      infrastructureFailures.length + screenshotFailures.length + runnerFailures.length,
+      infrastructureFailures.length + authenticationFailures.length + screenshotFailures.length + runnerFailures.length,
     recoveredScreenshotRetries: countRecoveredScreenshotRetries(screenshotAttempts),
     limitations: limitations.length,
   };
+}
+
+export function evaluateScreenshotReadiness({
+  state = {},
+  expectedPath = "/avaliacoes",
+  scenarioChecks = [],
+  productFailureSelectors = [],
+} = {}) {
+  const failures = [];
+  const pathname = String(state.pathname || "");
+  const expected = String(expectedPath || "/avaliacoes");
+
+  if (state.hasFatalRenderError) {
+    failures.push({ code: "fatal-render-error", classification: DECISIONS.FAIL_TEST_INFRASTRUCTURE, message: "Erro fatal de renderizacao detectado." });
+  }
+  if (state.hasLogin || pathname.includes("/login")) {
+    failures.push({ code: "unexpected-login", classification: DECISIONS.FAIL_TEST_INFRASTRUCTURE, message: "Pagina permaneceu em /login ou formulario de login visivel." });
+  }
+  if (state.hasLoading) {
+    failures.push({ code: "persistent-loading", classification: DECISIONS.FAIL_TEST_INFRASTRUCTURE, message: "Estado de loading persistente antes da captura." });
+  }
+  if (expected && pathname !== expected) {
+    failures.push({ code: "wrong-route", classification: DECISIONS.FAIL_TEST_INFRASTRUCTURE, message: `Rota esperada ${expected}, rota atual ${pathname || "desconhecida"}.` });
+  }
+  if (!state.hasAvaliacoesPage) {
+    failures.push({ code: "missing-page-marker", classification: DECISIONS.FAIL_TEST_INFRASTRUCTURE, message: "Marcador estavel da pagina Avaliacoes ausente." });
+  }
+  if (state.authenticated !== true) {
+    failures.push({ code: "unauthenticated", classification: DECISIONS.FAIL_TEST_INFRASTRUCTURE, message: "Sessao autenticada nao confirmada." });
+  }
+
+  for (const check of scenarioChecks) {
+    if (!check?.ok) {
+      failures.push({
+        code: check.code || "scenario-state-missing",
+        classification: check.classification || DECISIONS.FAIL_TEST_INFRASTRUCTURE,
+        message: check.message || "Estado funcional especifico do cenario ausente.",
+        selector: check.selector || "",
+      });
+    }
+  }
+
+  for (const check of productFailureSelectors) {
+    if (check?.ok === false) {
+      failures.push({
+        code: check.code || "product-state-missing",
+        classification: DECISIONS.FAIL_PRODUCT,
+        message: check.message || "Estado esperado nao apareceu por comportamento do produto.",
+        selector: check.selector || "",
+      });
+    }
+  }
+
+  const firstFailure = failures[0] || null;
+  return {
+    ok: failures.length === 0,
+    classification: firstFailure?.classification || "PASS",
+    reason: firstFailure?.message || "Pagina pronta e semanticamente validada.",
+    failures,
+  };
+}
+
+export function createScreenshotEvidenceAttempt({
+  filename,
+  attempt,
+  maxAttempts,
+  stage,
+  status,
+  message,
+  urlBeforeCapture = "",
+  urlAfterPreparation = "",
+  authenticationState = {},
+  readinessSelector = "",
+  semanticValidated = false,
+  recovered = false,
+  terminal = false,
+  durationMs = 0,
+} = {}) {
+  return removeEmptyFields({
+    filename,
+    attempt,
+    maxAttempts,
+    stage,
+    status,
+    message: sanitize(message),
+    urlBeforeCapture: urlBeforeCapture ? sanitizeUrl(urlBeforeCapture) : "",
+    urlAfterPreparation: urlAfterPreparation ? sanitizeUrl(urlAfterPreparation) : "",
+    authenticationState,
+    readinessSelector,
+    semanticValidated,
+    recovered,
+    terminal,
+    durationMs,
+    timestamp: new Date().toISOString(),
+  });
 }
 
 export function buildAuditRaw(data) {
