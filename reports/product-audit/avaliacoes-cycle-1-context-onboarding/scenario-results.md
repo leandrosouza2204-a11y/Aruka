@@ -37,4 +37,3 @@
 - PASS: nenhuma falha inesperada de rede
 - PASS: nenhum erro HTTP inesperado
 - PASS: screenshots obrigatorias validas
-

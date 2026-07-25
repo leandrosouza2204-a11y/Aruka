@@ -6,4 +6,3 @@
 - Failures captured: 0
 - Redirects captured: 0
 - Error responses: 0
-

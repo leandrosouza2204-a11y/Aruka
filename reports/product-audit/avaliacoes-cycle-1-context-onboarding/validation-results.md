@@ -8,5 +8,3 @@
 - Screenshot failures: 0
 - Recovered screenshot retries: 0
 - Limitations: 0
-
-

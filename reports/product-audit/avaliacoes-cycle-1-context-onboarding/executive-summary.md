@@ -18,5 +18,3 @@ Cycle 1 validou contexto por aluno, onboarding, retorno interno seguro, preserva
 - Test infrastructure failures total: 0
 - Recovered screenshot retries: 0
 - Limitations: 0
-
-
