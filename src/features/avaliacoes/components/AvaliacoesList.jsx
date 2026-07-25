@@ -9,6 +9,7 @@ import AvaliacaoDetalhesModal from "./AvaliacaoDetalhesModal";
 import AvaliacoesFilters from "./AvaliacoesFilters";
 import AvaliacoesHeader from "./AvaliacoesHeader";
 import AvaliacoesTable from "./AvaliacoesTable";
+import AvaliacoesEmptyState from "./AvaliacoesEmptyState";
 
 const AnamneseModal = lazy(() => import("../../../components/AnamneseModal"));
 const AvaliacaoModal = lazy(() => import("../../../components/AvaliacaoModal"));
@@ -159,6 +160,26 @@ function AvaliacoesList() {
             styles={styles}
           />
         )}
+
+        {!avaliacoesPage.carregando &&
+          avaliacoesPage.abaAtiva === "avaliacoes" &&
+          avaliacoesPage.avaliacoesFiltradas.length === 0 && (
+            <div className="mobile-card-list avaliacoes-mobile-empty">
+              <AvaliacoesEmptyState
+                activeTab="avaliacoes"
+                contextualStudent={avaliacoesPage.alunoContextual}
+                returnToSeguro={avaliacoesPage.returnToSeguro}
+                searchTerm={avaliacoesPage.busca}
+                state={avaliacoesPage.emptyState}
+                onClearContext={avaliacoesPage.limparContextoAluno}
+                onClearFilters={avaliacoesPage.limparFiltros}
+                onClearSearch={avaliacoesPage.limparBusca}
+                onNovaAvaliacao={avaliacoesPage.abrirNovaAvaliacao}
+                onNovaAnamnese={avaliacoesPage.abrirNovaAnamnese}
+                onReturn={avaliacoesPage.voltarParaOrigem}
+              />
+            </div>
+          )}
 
         {!avaliacoesPage.carregando &&
           avaliacoesPage.abaAtiva === "avaliacoes" &&
