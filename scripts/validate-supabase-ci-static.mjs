@@ -59,6 +59,12 @@ try {
     if (!/expected_functions/i.test(text)) {
       errors.push(`${file} must derive public_functions from baseline-candidate manifest expected_functions`);
     }
+    if (/Assert-?Count\s+"public_policies"\s+\$[Ee]xpectedPolicies\b/i.test(text)) {
+      errors.push(`${file} must not compare manifest expected_policies with public-only pg_policies`);
+    }
+    if (!/Assert-?Count\s+"total_policies"\s+\$[Ee]xpectedPolicies\b/i.test(text)) {
+      errors.push(`${file} must compare manifest expected_policies with total pg_policies`);
+    }
   }
 } catch (error) {
   errors.push(`Unable to validate runtime function count expectation: ${error.message}`);

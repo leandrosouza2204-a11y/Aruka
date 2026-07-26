@@ -44,6 +44,9 @@ Cobertura estatica do bootstrap local:
 - `expected_functions` permanece 15 no manifest;
 - validadores runtime nao mantem `public_functions` hardcoded em 14;
 - `public_functions` passa a derivar de `supabase/baseline-candidate/manifest.json`.
+- `expected_policies` representa o total global de policies;
+- `total_policies` compara `pg_policies` sem filtro de schema;
+- `public_policies` e `storage_policies` derivam suas expectativas do SQL consolidado.
 
 Cobertura:
 
@@ -59,6 +62,7 @@ Cobertura:
 ## Limitacoes
 
 - Gate 3 no GitHub Actions falhou por `STALE_RUNTIME_VALIDATION_EXPECTATION`: o validador local esperava 14 funcoes publicas, enquanto a baseline e o manifest ja estavam corretos com 15.
+- Gate 3 avancou e encontrou `POLICY_COUNT_SCOPE_MISMATCH`: `expected_policies` totalizava 58 policies, mas era comparado com consulta filtrada por `schemaname = 'public'`, que retorna 54. A distribuicao da baseline e `public=54`, `storage=4`, total `58`.
 - RPC nao foi aplicada em Supabase local neste ciclo porque Docker/Supabase local nao estavam operacionais neste ambiente.
 - Rollback transacional runtime permanece `ROLLBACK_RUNTIME_NOT_PROVEN` ate validacao com Supabase local operacional.
 - Testes positivos e negativos reais de rollback devem ser executados em ambiente local ou homologacao antes do piloto.

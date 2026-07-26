@@ -12,6 +12,8 @@ Follow-up review confirmed the `treino_exercicios` insert maps nine columns to n
 
 Gate 3 local bootstrap failed in CI because runtime validation still expected 14 public functions. The baseline and manifest were already correct with 15 functions after adding `public.salvar_treino_composto(jsonb)`. The local runtime validators now derive structural counts from `supabase/baseline-candidate/manifest.json`; the baseline SHA and RPC SQL did not change.
 
+Gate 3 then exposed a policy scope mismatch: `expected_policies` is the global baseline total of 58 policies, split as 54 in `public` and 4 in `storage`, but runtime validation compared it to a `public`-only query. Runtime validators now compare the manifest value with total `pg_policies` and derive schema-specific expectations from the consolidated baseline SQL. The baseline SHA and RPC SQL still did not change.
+
 Resolved or reduced:
 
 - `WL-AUDIT-001`: creation now uses a single transactional RPC.

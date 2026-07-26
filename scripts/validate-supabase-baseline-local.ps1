@@ -120,6 +120,9 @@ $expectedFunctions = [int]$manifest.expected_functions
 $expectedTriggers = [int]$manifest.expected_triggers
 $expectedIndexes = [int]$manifest.expected_indexes
 $expectedPolicies = [int]$manifest.expected_policies
+$baselineSqlForPolicyCounts = Get-Content -Raw (Join-Path $candidateDir $manifest.main_file)
+$expectedPublicPolicies = ([regex]::Matches($baselineSqlForPolicyCounts, 'create\s+policy\s+[\s\S]*?\s+on\s+public\.', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)).Count
+$expectedStoragePolicies = ([regex]::Matches($baselineSqlForPolicyCounts, 'create\s+policy\s+[\s\S]*?\s+on\s+storage\.', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)).Count
 $sourceMigrationsDir = if ($UseActiveMigrations) { Join-Path $root "supabase/migrations" } else { $candidateDir }
 $candidateSql = Join-Path $sourceMigrationsDir $manifest.main_file
 if (-not (Test-Path $candidateSql)) {
@@ -249,8 +252,9 @@ try {
   Assert-Count "public_functions" $expectedFunctions "select count(*) from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public';"
   Assert-Count "public_triggers" $expectedTriggers "select count(*) from pg_trigger t join pg_class c on c.oid = t.tgrelid join pg_namespace n on n.oid = c.relnamespace where n.nspname = 'public' and not t.tgisinternal;"
   Assert-Count "public_explicit_indexes" $expectedIndexes "select count(*) from pg_index i join pg_class idx on idx.oid = i.indexrelid join pg_class tbl on tbl.oid = i.indrelid join pg_namespace n on n.oid = tbl.relnamespace left join pg_constraint c on c.conindid = i.indexrelid where n.nspname = 'public' and c.oid is null;"
-  Assert-Count "public_policies" $expectedPolicies "select count(*) from pg_policies where schemaname = 'public';"
-  Assert-Count "storage_policies" 4 "select count(*) from pg_policies where schemaname = 'storage' and tablename = 'objects';"
+  Assert-Count "total_policies" $expectedPolicies "select count(*) from pg_policies;"
+  Assert-Count "public_policies" $expectedPublicPolicies "select count(*) from pg_policies where schemaname = 'public';"
+  Assert-Count "storage_policies" $expectedStoragePolicies "select count(*) from pg_policies where schemaname = 'storage' and tablename = 'objects';"
   Assert-Count "public_rls_enabled_tables" 19 "select count(*) from pg_class c join pg_namespace n on n.oid = c.relnamespace where n.nspname = 'public' and c.relkind = 'r' and c.relrowsecurity;"
   Assert-Count "storage_bucket_avaliacoes_fotos" 1 "select count(*) from storage.buckets where id = 'avaliacoes-fotos' and name = 'avaliacoes-fotos' and public = false;"
   Assert-Count "security_definer_without_search_path" 0 "select count(*) from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public' and p.prosecdef and not exists (select 1 from unnest(coalesce(p.proconfig, array[]::text[])) cfg where cfg like 'search_path=%');"

@@ -56,6 +56,19 @@
     "baselineShaChanged": false,
     "rpcChanged": false
   },
+  "gate3PolicyCorrection": {
+    "classification": "POLICY_COUNT_SCOPE_MISMATCH",
+    "failure": "public_policies expected 58 got 54",
+    "expectedPoliciesMeaning": "TOTAL_POLICY_COUNT",
+    "policyDistribution": {
+      "public": 54,
+      "storage": 4,
+      "total": 58
+    },
+    "correction": "Runtime validators now compare expected_policies with total pg_policies and derive schema-specific expectations from the consolidated baseline SQL.",
+    "baselineShaChanged": false,
+    "rpcChanged": false
+  },
   "resolvedFindings": [
     "WL-AUDIT-001",
     "WL-AUDIT-003",
