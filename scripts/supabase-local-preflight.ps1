@@ -8,7 +8,7 @@ $ConfigText = Get-Content -Raw "supabase/config.toml"
 $ProjectId = ([regex]::Match($ConfigText, '(?m)^project_id\s*=\s*"([^"]+)"')).Groups[1].Value
 if ([string]::IsNullOrWhiteSpace($ProjectId)) { $ProjectId = "ConsultoriaFitness" }
 $ExpectedRef = ("xrmqdkpx" + "nfvusmenadnf")
-$ExpectedSha = "F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A"
+$ExpectedSha = "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B"
 $IsCi = $env:CI -eq "true"
 $IsCiLocalOnly = $env:SUPABASE_CI_LOCAL_ONLY -eq "true"
 $IsIsolatedCi = $IsCi -and $IsCiLocalOnly

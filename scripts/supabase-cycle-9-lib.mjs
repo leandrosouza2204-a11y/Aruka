@@ -6,7 +6,7 @@ import YAML from "yaml";
 
 export const CYCLE_9_DECISION = "CI_QUALITY_GATES_VALIDATED";
 export const BASELINE_PATH = "supabase/migrations/20260716090000_baseline_aruka_v1.sql";
-export const EXPECTED_BASELINE_SHA = "F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A";
+export const EXPECTED_BASELINE_SHA = "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B";
 export const PROTECTED_PROJECT_REF = "xrmqdkpx" + "nfvusmenadnf";
 export const WORKFLOW_PATH = ".github/workflows/supabase-local-quality-gates.yml";
 export const REPORT_DIR = "reports/supabase-ci";

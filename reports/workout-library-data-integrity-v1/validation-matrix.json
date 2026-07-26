@@ -28,7 +28,47 @@
     {
       "command": "npm.cmd run qa:supabase-baseline-src",
       "status": "PASS",
-      "notes": "Existing Supabase baseline-src validation passed."
+      "notes": "Baseline-src validation passed after adding the RPC function, grants, and static guard for treino_exercicios descanso/video/order values."
+    },
+    {
+      "command": "npm.cmd run qa:supabase-ci-static",
+      "status": "PASS",
+      "notes": "Repository safety and CI static gates passed with a single active baseline SQL."
+    },
+    {
+      "command": "npm.cmd run qa:supabase-baseline-candidate",
+      "status": "PASS",
+      "notes": "Candidate SQL and manifest passed after regeneration."
+    },
+    {
+      "command": "npm.cmd run qa:supabase-migration-cutover",
+      "status": "PASS",
+      "notes": "Active baseline remains canonically equivalent to candidate and the incremental SQL is archived."
+    },
+    {
+      "command": "npm.cmd run qa:supabase-ci-preflight-isolation",
+      "status": "PASS",
+      "notes": "CI preflight isolation static test passed."
+    },
+    {
+      "command": "npm.cmd run qa:supabase-local-reproducibility",
+      "status": "BLOCKED_INFRASTRUCTURE",
+      "notes": "Docker API was inaccessible with Acesso negado; rollback runtime remains not proven."
+    },
+    {
+      "command": "npm.cmd run supabase:preflight",
+      "status": "BLOCKED_INFRASTRUCTURE",
+      "notes": "Docker Server unavailable, context must be desktop-linux, and Supabase CLI was unavailable through npx."
+    },
+    {
+      "command": "npm.cmd run supabase:validate",
+      "status": "BLOCKED_INFRASTRUCTURE",
+      "notes": "Docker API was inaccessible while validating the local database container."
+    },
+    {
+      "command": "npm.cmd run supabase:fixtures:validate",
+      "status": "BLOCKED_INFRASTRUCTURE",
+      "notes": "Local Supabase database container is not running for project_id ConsultoriaFitness."
     },
     {
       "command": "npm.cmd run supabase:status",

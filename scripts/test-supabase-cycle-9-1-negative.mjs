@@ -11,7 +11,7 @@ const valid = {
   run: { run_id: 1, conclusion: "success", check_name_real: "Supabase Local Quality Gates / validation", jobs: [{ name: "validation", conclusion: "success", steps: [{ name: "Cleanup", conclusion: "success" }] }] },
   protection: { branch: "main", protection_enabled: true, contexts: ["Supabase Local Quality Gates / validation"], strict: true, required_pull_request_reviews: {}, allow_force_pushes: { enabled: false }, allow_deletions: { enabled: false } },
   merge: { result: "MERGE_BLOCK_NEGATIVE_VALIDATED", pr_number: 1, failed_run_id: 2, successful_rerun_id: 3, blocked_status: true },
-  artifact: { result: "CI_QUALITY_GATES_VALIDATED", baseline_sha: "F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A" },
+  artifact: { result: "CI_QUALITY_GATES_VALIDATED", baseline_sha: "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B" },
 };
 
 function rejects(state) {

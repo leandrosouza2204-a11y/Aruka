@@ -2,9 +2,14 @@
 
 ## Decisao
 
-Criar a RPC `public.salvar_treino_composto(jsonb)` em:
+Criar a RPC `public.salvar_treino_composto(jsonb)` no fluxo oficial da baseline:
 
-`supabase/migrations/20260725093000_workout_atomic_persistence.sql`
+- funcao em `supabase/baseline-src/05-functions.sql`;
+- revoke/grant em `supabase/baseline-src/09-grants.sql`;
+- baseline consolidada em `supabase/migrations/20260716090000_baseline_aruka_v1.sql`;
+- candidate equivalente em `supabase/baseline-candidate/20260716090000_baseline_aruka_v1.sql`.
+
+A migration incremental `20260725093000_workout_atomic_persistence.sql` foi removida da cadeia ativa e preservada em `supabase/migrations-archive/`.
 
 ## Criacao
 
@@ -34,6 +39,7 @@ A RPC valida ownership do treino antes de alterar. A delecao e recriacao de dias
 | `AUTH_REQUIRED` | `auth.uid()` ausente. |
 | `WORKOUT_STUDENT_REQUIRED` | Aluno ausente. |
 | `WORKOUT_NAME_REQUIRED` | Nome de rotina ausente. |
+| `WORKOUT_STATUS_INVALID` | Status fora de `Ativo`, `Em revisao` ou `Finalizado`. |
 | `WORKOUT_DAYS_REQUIRED` | Nenhum dia enviado. |
 | `WORKOUT_STUDENT_FORBIDDEN` | Aluno nao pertence ao usuario. |
 | `WORKOUT_FORBIDDEN` | Treino de update nao pertence ao usuario. |

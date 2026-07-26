@@ -29,6 +29,10 @@ begin
     raise exception using errcode = '22023', message = 'WORKOUT_NAME_REQUIRED';
   end if;
 
+  if v_status not in ('Ativo', 'Em revisao', 'Finalizado') then
+    raise exception using errcode = '22023', message = 'WORKOUT_STATUS_INVALID';
+  end if;
+
   if jsonb_typeof(v_days) <> 'array' or jsonb_array_length(v_days) = 0 then
     raise exception using errcode = '22023', message = 'WORKOUT_DAYS_REQUIRED';
   end if;

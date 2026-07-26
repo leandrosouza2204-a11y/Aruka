@@ -118,6 +118,16 @@ for (const blockMatch of functionBlocks) {
   }
 }
 
+const workoutRpcBlock = baselineSql.match(
+  /create\s+or\s+replace\s+function\s+public\.salvar_treino_composto\(p_treino\s+jsonb\)[\s\S]*?\n\$\$;/i
+)?.[0];
+if (workoutRpcBlock) {
+  const expectedWorkoutExerciseValues = /values\s*\(\s*v_day_id,\s*btrim\(coalesce\(v_exercise->>'nome', ''\)\),\s*coalesce\(v_exercise->>'series', ''\),\s*coalesce\(v_exercise->>'repeticoes', ''\),\s*coalesce\(v_exercise->>'carga', ''\),\s*coalesce\(v_exercise->>'descanso', ''\),\s*coalesce\(v_exercise->>'observacoes', ''\),\s*coalesce\(v_exercise->>'video', ''\),\s*v_exercise_index\s*\)/i;
+  if (!expectedWorkoutExerciseValues.test(workoutRpcBlock)) {
+    fail("salvar_treino_composto treino_exercicios VALUES must preserve carga, descanso, observacoes, video and ordem in order");
+  }
+}
+
 if (/grant\s+execute\s+on\s+function[\s\S]*?\s+to\s+public\b/i.test(baselineSql)) {
   fail("GRANT EXECUTE TO public is not allowed in baseline-src");
 }

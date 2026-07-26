@@ -10,9 +10,43 @@
     "legacyTemplateReadCompatibility": true,
     "statusCanonicalization": true,
     "atomicRpc": "public.salvar_treino_composto(jsonb)",
-    "migration": "supabase/migrations/20260725093000_workout_atomic_persistence.sql",
+    "baselineFlow": "BASELINE_SRC_OFFICIAL_FLOW",
+    "rpcFunctionSource": "supabase/baseline-src/05-functions.sql",
+    "rpcGrantSource": "supabase/baseline-src/09-grants.sql",
+    "activeBaseline": "supabase/migrations/20260716090000_baseline_aruka_v1.sql",
+    "baselineCandidate": "supabase/baseline-candidate/20260716090000_baseline_aruka_v1.sql",
+    "archivedIncrementalSql": "supabase/migrations-archive/20260725093000_workout_atomic_persistence.sql",
+    "previousBaselineSha": "F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A",
+    "baselineSha": "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B",
+    "workoutExerciseInsertValidated": true,
+    "workoutExerciseInsertValues": [
+      "v_day_id",
+      "btrim(coalesce(v_exercise->>'nome', ''))",
+      "coalesce(v_exercise->>'series', '')",
+      "coalesce(v_exercise->>'repeticoes', '')",
+      "coalesce(v_exercise->>'carga', '')",
+      "coalesce(v_exercise->>'descanso', '')",
+      "coalesce(v_exercise->>'observacoes', '')",
+      "coalesce(v_exercise->>'video', '')",
+      "v_exercise_index"
+    ],
+    "activeMigrations": [
+      "supabase/migrations/20260716090000_baseline_aruka_v1.sql"
+    ],
     "unitTests": "src/features/treinos/utils/workoutDataContract.test.js",
     "functionalCodeChanged": true
+  },
+  "initialFailure": {
+    "command": "npm.cmd run qa:supabase-ci-static",
+    "exitCode": 1,
+    "primaryError": "Active migrations must contain only the official baseline SQL",
+    "rootCause": "A RPC foi adicionada como migration incremental ativa, mas os validadores oficiais desta arquitetura exigem uma unica baseline SQL ativa."
+  },
+  "runtimeRollback": "ROLLBACK_RUNTIME_NOT_PROVEN",
+  "sourceReview": {
+    "suspectedIssue": "Missing descanso value in treino_exercicios insert",
+    "result": "DISCARDED_IN_CURRENT_STAGED_STATE",
+    "notes": "The staged source, candidate, active baseline and archived SQL all contain coalesce(v_exercise->>'descanso', '') between carga and observacoes."
   },
   "resolvedFindings": [
     "WL-AUDIT-001",
@@ -28,7 +62,7 @@
   "limitations": [
     {
       "type": "BLOCKED_INFRASTRUCTURE",
-      "description": "Supabase local status command returned failure without usable stdout details."
+      "description": "Docker/Supabase local unavailable: preflight reported Docker Server unavailable, local reproducibility could not inspect Docker cleanup state, and fixtures validation did not find the local database container."
     },
     {
       "type": "BLOCKED_ENVIRONMENT",
