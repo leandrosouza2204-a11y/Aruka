@@ -1,0 +1,49 @@
+{
+  "cycle": "1.1",
+  "epic": "Epic 1 - Biblioteca Inteligente de Treinos",
+  "branch": "qa/workout-library-functional-technical-audit-v1",
+  "decision": "READY_WITH_LIMITATIONS",
+  "scope": "functional-and-technical-audit",
+  "summary": {
+    "staticAnalysis": "completed",
+    "dataContracts": "completed",
+    "securityReview": "completed",
+    "desktopMobileUx": "completed_by_static_inspection",
+    "runtimeQa": "blocked_by_cdp_or_setup_timeout",
+    "functionalChanges": 0
+  },
+  "findings": [
+    {
+      "id": "WL-AUDIT-001",
+      "title": "Gravacao composta de treino nao e atomica",
+      "area": "DATA",
+      "severity": "ALTO",
+      "evidence": "src/services/treinosService.js inserts treinos, then treino_dias, then treino_exercicios in separate requests",
+      "status": "open",
+      "suggestedCycle": "1.2"
+    },
+    {
+      "id": "WL-AUDIT-003",
+      "title": "Edicao apaga dias antes de recriar estrutura",
+      "area": "DATA",
+      "severity": "ALTO",
+      "evidence": "atualizarTreinoSupabase updates treinos, deletes treino_dias, then reinserts days and exercises",
+      "status": "open",
+      "suggestedCycle": "1.2"
+    },
+    {
+      "id": "WL-AUDIT-005",
+      "title": "Contrato entre template oficial, pessoal e treino nao esta formalizado",
+      "area": "DOCUMENTATION",
+      "severity": "ALTO",
+      "evidence": "src/data/treinosModelos.js, workoutTemplateSanitization.js and treinosService.js use different shapes",
+      "status": "open",
+      "suggestedCycle": "1.2"
+    }
+  ],
+  "nextCycle": {
+    "name": "Ciclo 1.2 - Contratos de Dados e Integridade",
+    "branch": "feat/workout-library-data-integrity-v1",
+    "confirmed": true
+  }
+}
