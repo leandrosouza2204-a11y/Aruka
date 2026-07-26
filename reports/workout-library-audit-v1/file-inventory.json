@@ -1,0 +1,65 @@
+{
+  "components": [
+    "src/features/treinos/components/TreinosList.jsx",
+    "src/features/treinos/components/TreinosCards.jsx",
+    "src/features/treinos/components/TreinosFilters.jsx",
+    "src/features/treinos/components/TreinosEmptyState.jsx",
+    "src/features/treinos/components/TreinoDetalhesModal.jsx",
+    "src/features/treinos/components/TreinoTemplatesModal.jsx",
+    "src/features/treinos/components/TreinoSalvarModeloModal.jsx",
+    "src/components/TreinoModal.jsx",
+    "src/components/ExercicioCard.jsx"
+  ],
+  "pages": [
+    "src/pages/Treinos.jsx",
+    "src/App.jsx"
+  ],
+  "hooks": [
+    "src/features/treinos/hooks/useTreinosPage.js"
+  ],
+  "utils": [
+    "src/features/treinos/utils/treinoEditorState.js",
+    "src/features/treinos/utils/workoutTemplateEditorState.js",
+    "src/features/treinos/utils/workoutTemplateSanitization.js",
+    "src/features/treinos/utils/treinosContextoAluno.js",
+    "src/features/treinos/utils/treinosListQueryState.js",
+    "src/features/treinos/utils/treinosErrorState.js"
+  ],
+  "services": [
+    "src/services/treinosService.js",
+    "src/services/workoutTemplatesService.js",
+    "src/services/alunosService.js",
+    "src/services/authSessionService.js",
+    "src/services/supabase.js"
+  ],
+  "data": [
+    "src/data/treinosModelos.js"
+  ],
+  "tests": [
+    "src/features/treinos/utils/treinoEditorState.test.js",
+    "src/features/treinos/utils/workoutTemplateEditorState.test.js",
+    "src/features/treinos/utils/workoutTemplateSanitization.test.js",
+    "src/features/treinos/utils/treinosContextoAluno.test.js",
+    "src/features/treinos/utils/treinosListQueryState.test.js",
+    "src/features/treinos/utils/treinosErrorState.test.js"
+  ],
+  "scripts": [
+    "scripts/validate-workout-template-sanitization.mjs",
+    "scripts/validate-workout-templates-data.mjs",
+    "scripts/validate-treinos-functional-audit-cdp.mjs",
+    "scripts/validate-treinos-context-onboarding-cdp.mjs",
+    "scripts/validate-treinos-editor-integrity-cdp.mjs",
+    "scripts/validate-treino-templates-mobile-cdp.mjs",
+    "scripts/validate-treino-exercises-mobile-cdp.mjs",
+    "scripts/validate-treino-template-editor-flow-cdp.mjs"
+  ],
+  "supabase": [
+    "supabase/migrations/20260716090000_baseline_aruka_v1.sql",
+    "supabase/treinos.sql",
+    "supabase/migrations-archive/20260714090000_workout_templates.sql",
+    "supabase/seeds/40-workout-fixtures.sql"
+  ],
+  "ci": [
+    ".github/workflows/supabase-local-quality-gates.yml"
+  ]
+}

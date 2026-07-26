@@ -1,0 +1,80 @@
+{
+  "validations": [
+    {
+      "command": "npm.cmd run lint",
+      "status": "PASS",
+      "type": "static",
+      "notes": "ESLint completed without reported errors."
+    },
+    {
+      "command": "npm.cmd run build",
+      "status": "PASS",
+      "type": "build",
+      "notes": "Vite production build completed."
+    },
+    {
+      "command": "node --test src\\features\\treinos\\utils\\*.test.js",
+      "status": "PASS",
+      "type": "unit",
+      "notes": "25 tests passed."
+    },
+    {
+      "command": "npm.cmd run qa:workout-template-sanitization",
+      "status": "PASS",
+      "type": "contract",
+      "notes": "Sanitizacao de modelos de treino aprovada."
+    },
+    {
+      "command": "npm.cmd run qa:workout-templates-data",
+      "status": "PASS",
+      "type": "data",
+      "notes": "10 modelos oficiais aprovados."
+    },
+    {
+      "command": "npm.cmd run qa:treinos-functional-audit",
+      "status": "BLOCKED",
+      "type": "runtime-cdp",
+      "classification": "INFRASTRUCTURE",
+      "notes": "fetch failed: ECONNREFUSED 127.0.0.1:9222."
+    },
+    {
+      "command": "npm.cmd run qa:treinos-context-onboarding",
+      "status": "BLOCKED",
+      "type": "runtime-cdp",
+      "classification": "INFRASTRUCTURE",
+      "notes": "Timeout in npm.cmd run qa:local:data."
+    },
+    {
+      "command": "npm.cmd run qa:treinos-editor-integrity",
+      "status": "BLOCKED",
+      "type": "runtime-cdp",
+      "classification": "TEST_INFRASTRUCTURE",
+      "notes": "Runner timeout without product regression evidence."
+    },
+    {
+      "command": "npm.cmd run qa:treino-library-cycle-6-4",
+      "status": "BLOCKED",
+      "type": "mixed",
+      "classification": "INFRASTRUCTURE",
+      "notes": "Sanitization and data steps passed; mobile CDP step blocked."
+    },
+    {
+      "command": "npm.cmd test",
+      "status": "NOT_APPLICABLE",
+      "type": "npm",
+      "notes": "No test script exists in package.json."
+    },
+    {
+      "command": "npm.cmd run test",
+      "status": "NOT_APPLICABLE",
+      "type": "npm",
+      "notes": "No test script exists in package.json."
+    },
+    {
+      "command": "npm.cmd run qa",
+      "status": "NOT_APPLICABLE",
+      "type": "npm",
+      "notes": "No generic qa script exists in package.json."
+    }
+  ]
+}
