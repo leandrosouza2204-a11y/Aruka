@@ -1,0 +1,42 @@
+{
+  "cycle": "1.2",
+  "epic": "Epic 1 - Biblioteca Inteligente de Treinos",
+  "branch": "feat/workout-library-data-integrity-v1",
+  "decision": "READY_WITH_LIMITATIONS",
+  "baseCommit": "019b6f55fdeb877f2c7b1009ad6e6e0d72e6c116",
+  "implemented": {
+    "canonicalContract": true,
+    "schemaVersion": 1,
+    "legacyTemplateReadCompatibility": true,
+    "statusCanonicalization": true,
+    "atomicRpc": "public.salvar_treino_composto(jsonb)",
+    "migration": "supabase/migrations/20260725093000_workout_atomic_persistence.sql",
+    "unitTests": "src/features/treinos/utils/workoutDataContract.test.js",
+    "functionalCodeChanged": true
+  },
+  "resolvedFindings": [
+    "WL-AUDIT-001",
+    "WL-AUDIT-003",
+    "WL-AUDIT-005",
+    "WL-AUDIT-007"
+  ],
+  "partiallyResolvedFindings": [
+    "WL-AUDIT-002",
+    "WL-AUDIT-004",
+    "WL-AUDIT-008"
+  ],
+  "limitations": [
+    {
+      "type": "BLOCKED_INFRASTRUCTURE",
+      "description": "Supabase local status command returned failure without usable stdout details."
+    },
+    {
+      "type": "BLOCKED_ENVIRONMENT",
+      "description": "Representative CDP runner did not start because .env is absent."
+    }
+  ],
+  "nextCycle": {
+    "name": "Ciclo 1.3 - Busca, filtros, categorias e descoberta",
+    "branch": "feat/workout-library-discovery-v1"
+  }
+}

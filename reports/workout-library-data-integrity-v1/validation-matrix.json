@@ -1,0 +1,44 @@
+{
+  "validations": [
+    {
+      "command": "node --test src\\features\\treinos\\utils\\*.test.js",
+      "status": "PASS",
+      "notes": "33 tests passed, including workoutDataContract.test.js."
+    },
+    {
+      "command": "npm.cmd run lint",
+      "status": "PASS",
+      "notes": "ESLint completed without errors."
+    },
+    {
+      "command": "npm.cmd run build",
+      "status": "PASS",
+      "notes": "Vite production build completed."
+    },
+    {
+      "command": "npm.cmd run qa:workout-template-sanitization",
+      "status": "PASS",
+      "notes": "Template sanitization validator passed."
+    },
+    {
+      "command": "npm.cmd run qa:workout-templates-data",
+      "status": "PASS",
+      "notes": "10 official templates validated."
+    },
+    {
+      "command": "npm.cmd run qa:supabase-baseline-src",
+      "status": "PASS",
+      "notes": "Existing Supabase baseline-src validation passed."
+    },
+    {
+      "command": "npm.cmd run supabase:status",
+      "status": "BLOCKED_INFRASTRUCTURE",
+      "notes": "Command exited with code 1 and no useful stdout details in captured output."
+    },
+    {
+      "command": "npm.cmd run qa:treino-template-editor-flow",
+      "status": "BLOCKED_ENVIRONMENT",
+      "notes": "Command failed before runtime validation: node: .env: not found."
+    }
+  ]
+}

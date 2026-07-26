@@ -1,5 +1,6 @@
 import {
   assertTemplateDataIsSanitized,
+  normalizeCanonicalTemplateData,
   sanitizeWorkoutForTemplate,
   templateDataToPreviewDays,
   validateTemplateData,
@@ -18,7 +19,10 @@ export async function buscarModelosPessoaisSupabase() {
     .eq("is_system", false)
     .order("updated_at", { ascending: false });
 
-  if (tabelaAusente(error)) return [];
+  if (tabelaAusente(error)) {
+    diagnosticarTabelaAusente(error);
+    return [];
+  }
   if (error) throw error;
 
   return (data || []).map(rowParaModeloPessoal);
@@ -114,7 +118,7 @@ export async function excluirModeloPessoalSupabase(id) {
 }
 
 function rowParaModeloPessoal(row) {
-  const templateData = row.template_data || {};
+  const templateData = normalizeCanonicalTemplateData(row.template_data || {});
 
   return {
     id: row.id,
@@ -152,5 +156,17 @@ function tabelaAusente(error) {
     error?.code === "42P01" ||
     String(error?.message || "").toLowerCase().includes("relation") &&
       String(error?.message || "").includes("workout_templates")
+  );
+}
+
+function diagnosticarTabelaAusente(error) {
+  const isDiagnosticEnvironment =
+    import.meta.env?.DEV || import.meta.env?.MODE === "qa" || import.meta.env?.VITE_QA_MODE;
+
+  if (!isDiagnosticEnvironment) return;
+
+  console.warn(
+    "[workout_templates] tabela ausente ou indisponivel; retornando lista vazia por compatibilidade.",
+    error?.message || error
   );
 }

@@ -1,3 +1,5 @@
+import { WORKOUT_STATUS } from "../features/treinos/utils/workoutDataContract.js";
+
 export const GENEROS_MODELO_TREINO = ["Masculino", "Feminino"];
 export const DIVISOES_MODELO_TREINO = ["ABC", "ABCD", "ABCDE", "Full Body", "Upper/Lower"];
 export const modelosTreinoDisponiveis = DIVISOES_MODELO_TREINO;
@@ -236,7 +238,7 @@ export function criarModeloTreino(modeloOuId, opcoes = {}) {
     rotina: opcoes.rotina || template.nome,
     objetivo: template.objetivo,
     nivel: template.nivel,
-    status: "Em revisao",
+    status: WORKOUT_STATUS.IN_REVIEW,
     dataInicio: opcoes.dataInicio || "",
     dataRevisao: opcoes.dataRevisao || "",
     diasPorSemana: dias.length,
@@ -341,7 +343,7 @@ function criarTreinoVazio(modelo) {
     rotina: `Modelo ${modelo}`,
     objetivo: "",
     nivel: "",
-    status: "Em revisao",
+    status: WORKOUT_STATUS.IN_REVIEW,
     dataInicio: "",
     dataRevisao: "",
     diasPorSemana: dias.length,
