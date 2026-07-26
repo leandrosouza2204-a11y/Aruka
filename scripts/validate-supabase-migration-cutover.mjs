@@ -4,7 +4,7 @@ import { join } from "node:path";
 
 const errors = [];
 const baseline = "20260716090000_baseline_aruka_v1.sql";
-const expectedSha = "F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A";
+const expectedSha = "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B";
 
 function fail(message) {
   errors.push(message);

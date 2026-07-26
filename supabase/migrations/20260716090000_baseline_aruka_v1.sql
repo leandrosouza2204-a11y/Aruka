@@ -7,13 +7,11 @@
 -- Sources: supabase/baseline-src/*.sql, Ciclo 3 runtime audit, Ciclo 4 drift decisions.
 -- Architectural decision: this file is a candidate artifact, not an active migration.
 -- Data policy: contains structural SQL only; no real data, users, secrets, project refs, or production URLs.
-
 -- ============================================================
 -- Source: supabase/baseline-src/01-extensions.sql
 -- ============================================================
 
 create extension if not exists "pgcrypto";
-
 
 -- ============================================================
 -- Source: supabase/baseline-src/02-tables.sql
@@ -377,7 +375,6 @@ create table if not exists public.aoe_audit_events (
   occurred_at timestamptz default now() not null
 );
 
-
 -- ============================================================
 -- Source: supabase/baseline-src/03-constraints.sql
 -- ============================================================
@@ -462,7 +459,6 @@ alter table only public.aoe_idempotency_keys add constraint aoe_idempotency_keys
 
 alter table only public.aoe_audit_events add constraint aoe_audit_events_pkey primary key (id);
 
-
 -- ============================================================
 -- Source: supabase/baseline-src/04-indexes.sql
 -- ============================================================
@@ -523,7 +519,6 @@ create index if not exists aoe_traces_decision_idx on public.aoe_decision_traces
 create index if not exists aoe_reviews_decision_idx on public.aoe_human_reviews using btree (decision_id);
 create index if not exists aoe_idempotency_expires_idx on public.aoe_idempotency_keys using btree (expires_at);
 create index if not exists aoe_audit_org_event_date_idx on public.aoe_audit_events using btree (organization_id, event_type, occurred_at desc);
-
 
 -- ============================================================
 -- Source: supabase/baseline-src/05-functions.sql
@@ -1087,6 +1082,176 @@ begin
 end;
 $$;
 
+create or replace function public.salvar_treino_composto(p_treino jsonb)
+returns jsonb
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_user_id uuid := auth.uid();
+  v_treino_id uuid := nullif(p_treino->>'id', '')::uuid;
+  v_aluno_id uuid := nullif(p_treino->>'alunoId', '')::uuid;
+  v_rotina text := btrim(coalesce(p_treino->>'rotina', ''));
+  v_status text := coalesce(nullif(btrim(p_treino->>'status'), ''), 'Ativo');
+  v_days jsonb := coalesce(p_treino->'dias', '[]'::jsonb);
+  v_day jsonb;
+  v_exercise jsonb;
+  v_day_id uuid;
+  v_day_index integer;
+  v_exercise_index integer;
+begin
+  if v_user_id is null then
+    raise exception using errcode = '28000', message = 'AUTH_REQUIRED';
+  end if;
+
+  if v_aluno_id is null then
+    raise exception using errcode = '22023', message = 'WORKOUT_STUDENT_REQUIRED';
+  end if;
+
+  if v_rotina = '' then
+    raise exception using errcode = '22023', message = 'WORKOUT_NAME_REQUIRED';
+  end if;
+
+  if v_status not in ('Ativo', 'Em revisao', 'Finalizado') then
+    raise exception using errcode = '22023', message = 'WORKOUT_STATUS_INVALID';
+  end if;
+
+  if jsonb_typeof(v_days) <> 'array' or jsonb_array_length(v_days) = 0 then
+    raise exception using errcode = '22023', message = 'WORKOUT_DAYS_REQUIRED';
+  end if;
+
+  if not exists (
+    select 1
+    from public.alunos
+    where id = v_aluno_id
+      and user_id = v_user_id
+  ) then
+    raise exception using errcode = '42501', message = 'WORKOUT_STUDENT_FORBIDDEN';
+  end if;
+
+  if v_treino_id is not null and not exists (
+    select 1
+    from public.treinos
+    where id = v_treino_id
+      and user_id = v_user_id
+  ) then
+    raise exception using errcode = '42501', message = 'WORKOUT_FORBIDDEN';
+  end if;
+
+  for v_day, v_day_index in
+    select value, ordinality::integer
+    from jsonb_array_elements(v_days) with ordinality
+  loop
+    if btrim(coalesce(v_day->>'nome', '')) = '' then
+      raise exception using errcode = '22023', message = 'WORKOUT_DAY_NAME_REQUIRED';
+    end if;
+
+    if jsonb_typeof(coalesce(v_day->'exercicios', '[]'::jsonb)) <> 'array'
+      or jsonb_array_length(coalesce(v_day->'exercicios', '[]'::jsonb)) = 0 then
+      raise exception using errcode = '22023', message = 'WORKOUT_EXERCISES_REQUIRED';
+    end if;
+
+    for v_exercise, v_exercise_index in
+      select value, ordinality::integer
+      from jsonb_array_elements(coalesce(v_day->'exercicios', '[]'::jsonb)) with ordinality
+    loop
+      if btrim(coalesce(v_exercise->>'nome', '')) = '' then
+        raise exception using errcode = '22023', message = 'WORKOUT_EXERCISE_NAME_REQUIRED';
+      end if;
+    end loop;
+  end loop;
+
+  if v_treino_id is null then
+    insert into public.treinos (
+      user_id,
+      aluno_id,
+      nome_rotina,
+      objetivo,
+      nivel,
+      dias_semana,
+      observacoes,
+      status,
+      data_inicio,
+      data_revisao
+    )
+    values (
+      v_user_id,
+      v_aluno_id,
+      v_rotina,
+      coalesce(p_treino->>'objetivo', ''),
+      coalesce(p_treino->>'nivel', ''),
+      coalesce(nullif(p_treino->>'diasPorSemana', '')::integer, jsonb_array_length(v_days)),
+      coalesce(p_treino->>'observacoes', ''),
+      v_status,
+      nullif(p_treino->>'dataInicio', '')::date,
+      nullif(p_treino->>'dataRevisao', '')::date
+    )
+    returning id into v_treino_id;
+  else
+    update public.treinos
+    set aluno_id = v_aluno_id,
+        nome_rotina = v_rotina,
+        objetivo = coalesce(p_treino->>'objetivo', ''),
+        nivel = coalesce(p_treino->>'nivel', ''),
+        dias_semana = coalesce(nullif(p_treino->>'diasPorSemana', '')::integer, jsonb_array_length(v_days)),
+        observacoes = coalesce(p_treino->>'observacoes', ''),
+        status = v_status,
+        data_inicio = nullif(p_treino->>'dataInicio', '')::date,
+        data_revisao = nullif(p_treino->>'dataRevisao', '')::date
+    where id = v_treino_id
+      and user_id = v_user_id;
+  end if;
+
+  delete from public.treino_dias
+  where treino_id = v_treino_id;
+
+  for v_day, v_day_index in
+    select value, ordinality::integer
+    from jsonb_array_elements(v_days) with ordinality
+  loop
+    insert into public.treino_dias (treino_id, nome, grupo_muscular, ordem)
+    values (
+      v_treino_id,
+      btrim(coalesce(v_day->>'nome', '')),
+      coalesce(v_day->>'descricao', ''),
+      v_day_index
+    )
+    returning id into v_day_id;
+
+    for v_exercise, v_exercise_index in
+      select value, ordinality::integer
+      from jsonb_array_elements(coalesce(v_day->'exercicios', '[]'::jsonb)) with ordinality
+    loop
+      insert into public.treino_exercicios (
+        treino_dia_id,
+        nome,
+        series,
+        repeticoes,
+        carga,
+        descanso,
+        observacoes,
+        video_url,
+        ordem
+      )
+      values (
+        v_day_id,
+        btrim(coalesce(v_exercise->>'nome', '')),
+        coalesce(v_exercise->>'series', ''),
+        coalesce(v_exercise->>'repeticoes', ''),
+        coalesce(v_exercise->>'carga', ''),
+        coalesce(v_exercise->>'descanso', ''),
+        coalesce(v_exercise->>'observacoes', ''),
+        coalesce(v_exercise->>'video', ''),
+        v_exercise_index
+      );
+    end loop;
+  end loop;
+
+  return jsonb_build_object('id', v_treino_id);
+end;
+$$;
+
 create or replace function public.set_workout_templates_updated_at()
 returns trigger
 language plpgsql
@@ -1098,7 +1263,6 @@ begin
 end;
 $$;
 
-
 -- ============================================================
 -- Source: supabase/baseline-src/06-triggers.sql
 -- ============================================================
@@ -1106,7 +1270,6 @@ $$;
 create or replace trigger set_workout_templates_updated_at
 before update on public.workout_templates
 for each row execute function public.set_workout_templates_updated_at();
-
 
 -- ============================================================
 -- Source: supabase/baseline-src/07-rls.sql
@@ -1131,7 +1294,6 @@ alter table public.aoe_decision_traces enable row level security;
 alter table public.aoe_human_reviews enable row level security;
 alter table public.aoe_idempotency_keys enable row level security;
 alter table public.aoe_audit_events enable row level security;
-
 
 -- ============================================================
 -- Source: supabase/baseline-src/08-policies.sql
@@ -1237,7 +1399,6 @@ create policy "Usuarios podem atualizar reviews AOE autorizadas" on public.aoe_h
 create policy "Idempotencia AOE restrita ao ator" on public.aoe_idempotency_keys for all to authenticated using (actor_id = auth.uid() or public.admin_eh_admin()) with check (actor_id = auth.uid() or public.admin_eh_admin());
 create policy "Auditoria AOE somente admin leitura" on public.aoe_audit_events for select to authenticated using (public.admin_eh_admin());
 
-
 -- ============================================================
 -- Source: supabase/baseline-src/09-grants.sql
 -- ============================================================
@@ -1279,6 +1440,7 @@ revoke all on function public.admin_liberar_assinante(uuid, text, date, date, te
 revoke all on function public.processar_encerramento_automatico_aluno(uuid, uuid, date, date, text, uuid, text, integer, text) from public;
 revoke all on function public.aoe_user_owns_student(uuid) from public;
 revoke all on function public.aoe_idempotency_get_or_create(text, uuid, uuid, text, text, text) from public;
+revoke all on function public.salvar_treino_composto(jsonb) from public;
 revoke all on function public.set_workout_templates_updated_at() from public;
 
 grant execute on function public.admin_eh_admin() to authenticated, service_role;
@@ -1294,8 +1456,8 @@ grant execute on function public.admin_liberar_assinante(uuid, text, date, date,
 grant execute on function public.processar_encerramento_automatico_aluno(uuid, uuid, date, date, text, uuid, text, integer, text) to service_role;
 grant execute on function public.aoe_user_owns_student(uuid) to authenticated, service_role;
 grant execute on function public.aoe_idempotency_get_or_create(text, uuid, uuid, text, text, text) to authenticated, service_role;
+grant execute on function public.salvar_treino_composto(jsonb) to authenticated;
 grant execute on function public.set_workout_templates_updated_at() to service_role;
-
 
 -- ============================================================
 -- Source: supabase/baseline-src/10-storage.sql
@@ -1353,4 +1515,3 @@ using (
   bucket_id = 'avaliacoes-fotos'
   and (storage.foldername(name))[1] = auth.uid()::text
 );
-

@@ -1,4 +1,5 @@
 import { dataOuNull } from "../data/formatters";
+import { workoutToPersistencePayload } from "../features/treinos/utils/workoutDataContract.js";
 import { buscarUsuarioLogado } from "./authSessionService";
 import { supabase } from "./supabase";
 
@@ -77,42 +78,25 @@ export async function buscarTreinoPorIdSupabase(id) {
 
 export async function adicionarTreinoSupabase(treino) {
   falharTreinosLocalQa("duplicate");
-  const user = await buscarUsuarioLogado();
+  await buscarUsuarioLogado();
 
-  const { data, error } = await supabase
-    .from("treinos")
-    .insert(treinoParaPayload(treino, user.id))
-    .select("id")
-    .single();
-
+  const { data, error } = await supabase.rpc("salvar_treino_composto", {
+    p_treino: workoutToPersistencePayload(treino),
+  });
   if (error) throw error;
-
-  await inserirDiasEExercicios(data.id, treino.dias || []);
 
   return buscarTreinoPorIdSupabase(data.id);
 }
 
 export async function atualizarTreinoSupabase(id, treino) {
-  const user = await buscarUsuarioLogado();
+  await buscarUsuarioLogado();
 
-  const { error } = await supabase
-    .from("treinos")
-    .update(treinoParaPayload(treino, user.id))
-    .eq("id", id)
-    .eq("user_id", user.id);
-
+  const { data, error } = await supabase.rpc("salvar_treino_composto", {
+    p_treino: workoutToPersistencePayload({ ...treino, id }),
+  });
   if (error) throw error;
 
-  const { error: erroDias } = await supabase
-    .from("treino_dias")
-    .delete()
-    .eq("treino_id", id);
-
-  if (erroDias) throw erroDias;
-
-  await inserirDiasEExercicios(id, treino.dias || []);
-
-  return buscarTreinoPorIdSupabase(id);
+  return buscarTreinoPorIdSupabase(data.id);
 }
 
 export async function excluirTreinoSupabase(id) {
@@ -128,43 +112,6 @@ export async function excluirTreinoSupabase(id) {
   if (error) throw error;
 
   return id;
-}
-
-async function inserirDiasEExercicios(treinoId, dias) {
-  for (const [indiceDia, dia] of dias.entries()) {
-    const { data: diaCriado, error: erroDia } = await supabase
-      .from("treino_dias")
-      .insert({
-        treino_id: treinoId,
-        nome: dia.nome || "",
-        grupo_muscular: dia.descricao || "",
-        ordem: indiceDia + 1,
-      })
-      .select("id")
-      .single();
-
-    if (erroDia) throw erroDia;
-
-    const exercicios = (dia.exercicios || []).map((exercicio, indice) => ({
-      treino_dia_id: diaCriado.id,
-      nome: exercicio.nome || "",
-      series: exercicio.series || "",
-      repeticoes: exercicio.repeticoes || "",
-      carga: exercicio.carga || "",
-      descanso: exercicio.descanso || "",
-      observacoes: exercicio.observacoes || "",
-      video_url: exercicio.video || "",
-      ordem: indice + 1,
-    }));
-
-    if (exercicios.length > 0) {
-      const { error: erroExercicios } = await supabase
-        .from("treino_exercicios")
-        .insert(exercicios);
-
-      if (erroExercicios) throw erroExercicios;
-    }
-  }
 }
 
 function rowParaTreino(row) {
@@ -205,7 +152,7 @@ function rowParaTreino(row) {
   };
 }
 
-function treinoParaPayload(treino, userId) {
+export function treinoParaPayload(treino, userId) {
   return {
     user_id: userId,
     aluno_id: treino.alunoId,

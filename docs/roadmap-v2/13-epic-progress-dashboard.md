@@ -32,7 +32,7 @@ Usar numeros inteiros arredondados somente para exibicao.
 
 | Epico | Ciclos concluidos | Ciclos planejados | Progresso | Status | Proxima acao |
 | --- | ---: | ---: | --- | --- | --- |
-| Epic 1 - Biblioteca Inteligente de Treinos | 0 | 8 | 0% | EM_ANDAMENTO | Revisar auditoria do Ciclo 1.1 e abrir PR. |
+| Epic 1 - Biblioteca Inteligente de Treinos | 1 | 8 | 12,5% | EM_ANDAMENTO | Revisar Ciclo 1.2 e abrir PR. |
 | Epic 2 - Experiencia Mobile | 0 | A DEFINIR | NAO MENSURAVEL | NAO_INICIADO | Confirmar decomposicao apos fluxo mobile da Biblioteca. |
 | Epic 3 - Plataforma Compartilhada de QA | 0 | A DEFINIR | NAO MENSURAVEL | NAO_INICIADO | Extrair contrato minimo durante ciclos do Epic 1. |
 | Epic 4 - Escalabilidade e Infraestrutura | 0 | A DEFINIR | NAO MENSURAVEL | NAO_INICIADO | Planejar indices, atomicidade, observabilidade, homologacao e backups antes do piloto. |
@@ -42,11 +42,11 @@ Usar numeros inteiros arredondados somente para exibicao.
 
 Geral dos epicos mensuraveis:
 
-`[--------------------] 0%`
+`[███-----------------] 12,5%`
 
 Epic 1 - Biblioteca Inteligente de Treinos:
 
-`[--------------------] 0%`
+`[███-----------------] 12,5%`
 
 Epics 2, 3, 4 e 5:
 
@@ -59,15 +59,15 @@ Epics 2, 3, 4 e 5:
 - Objetivo resumido: reduzir tempo de criacao, adaptacao e reutilizacao de treinos.
 - Baseline ja existente: fluxos de treinos, biblioteca oficial, modelos pessoais, editor integrado e auditorias previas documentadas.
 - Ciclos planejados: 8.
-- Ciclos concluidos: 0.
-- Ciclo atual: Ciclo 1.1 - Auditoria funcional e tecnica.
+- Ciclos concluidos: 1.
+- Ciclo atual: Ciclo 1.2 - Contratos de Dados e Integridade.
 - Bloqueios: nenhum registrado neste dashboard.
-- Proxima decisao: revisar auditoria, realizar commit manual, abrir PR e integrar em main.
+- Proxima decisao: revisar Ciclo 1.2, realizar commit manual, abrir PR e integrar em main.
 
 Ciclos:
 
-- [ ] Ciclo 1.1 - Auditoria funcional e tecnica. Status: READY_WITH_LIMITATIONS nesta branch; nao concluido ate merge.
-- [ ] Ciclo 1.2 - Contrato unificado de template.
+- [x] Ciclo 1.1 - Auditoria funcional e tecnica. Status: CONCLUIDO na main.
+- [ ] Ciclo 1.2 - Contrato unificado de template. Status: READY_WITH_LIMITATIONS nesta branch; nao concluido ate merge.
 - [ ] Ciclo 1.3 - Busca, filtros e descoberta.
 - [ ] Ciclo 1.4 - Aplicacao guiada ao aluno.
 - [ ] Ciclo 1.5 - Modelos pessoais.
@@ -119,10 +119,12 @@ Ciclos:
 
 - Ciclo 0: Roadmap Estrategico e Arquitetura de Execucao.
 - Status do Ciclo 0: CONCLUIDO na main.
-- Ciclo atual: Ciclo 1.1 - Auditoria funcional e tecnica da Biblioteca Inteligente de Treinos.
-- Status do Ciclo 1.1: READY_WITH_LIMITATIONS nesta branch; CONCLUIDO somente apos merge na main.
-- Branch: `qa/workout-library-functional-technical-audit-v1`.
-- Proxima acao: revisar auditoria, realizar commit manual, abrir PR e integrar em main.
+- Ciclo 1.1: Auditoria funcional e tecnica da Biblioteca Inteligente de Treinos.
+- Status do Ciclo 1.1: CONCLUIDO na main.
+- Ciclo atual: Ciclo 1.2 - Contratos de Dados e Integridade.
+- Status do Ciclo 1.2: READY_WITH_LIMITATIONS nesta branch; CONCLUIDO somente apos merge na main.
+- Branch: `feat/workout-library-data-integrity-v1`.
+- Proxima acao: revisar implementacao, realizar commit manual, abrir PR e integrar em main.
 
 O Ciclo 0 nao e contado dentro do percentual dos cinco epicos, pois e um ciclo de governanca anterior a execucao.
 
@@ -133,6 +135,8 @@ O Ciclo 0 nao e contado dentro do percentual dos cinco epicos, pois e um ciclo d
 | 2026-07-25 | Ciclo 0 | Criacao inicial do dashboard de progresso dos epicos v2. | EM_ANDAMENTO | Sem impacto percentual; Ciclo 0 nao conta nos cinco epicos. |
 | 2026-07-25 | Ciclo 0 | Roadmap v2 integrado em main antes da abertura do Ciclo 1.1. | CONCLUIDO | Sem impacto percentual; Ciclo 0 nao conta nos cinco epicos. |
 | 2026-07-25 | Ciclo 1.1 | Abertura e execucao da auditoria funcional e tecnica na branch `qa/workout-library-functional-technical-audit-v1`. | READY_WITH_LIMITATIONS | Epic 1 permanece 0/8 e 0% ate merge na main. |
+| 2026-07-25 | Ciclo 1.1 | Auditoria integrada em main antes da abertura do Ciclo 1.2. | CONCLUIDO | Epic 1 atualizado para 1/8 e 12,5%. |
+| 2026-07-25 | Ciclo 1.2 | Contrato canonico, persistencia atomica por RPC e testes unitarios adicionados na branch `feat/workout-library-data-integrity-v1`. | READY_WITH_LIMITATIONS | Epic 1 permanece 1/8 e 12,5% ate merge do Ciclo 1.2. |
 
 ## 8. Template obrigatorio para ciclos futuros
 

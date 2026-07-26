@@ -47,6 +47,29 @@ for (const file of [...list("reports/supabase-ci"), ...list("reports/supabase-lo
 
 run("git diff --check", "git", ["diff", "--check"]);
 
+try {
+  const manifest = JSON.parse(readFileSync(join(root, "supabase/baseline-candidate/manifest.json"), "utf8"));
+  if (manifest.expected_functions !== 15) errors.push(`manifest.expected_functions must be 15, got ${manifest.expected_functions}`);
+  const runtimeValidators = ["scripts/supabase-local-validate.ps1", "scripts/validate-supabase-baseline-local.ps1"];
+  for (const file of runtimeValidators) {
+    const text = readFileSync(join(root, file), "utf8");
+    if (/Assert-?Count\s+"public_functions"\s+14\b/i.test(text)) {
+      errors.push(`${file} still hardcodes public_functions expected 14`);
+    }
+    if (!/expected_functions/i.test(text)) {
+      errors.push(`${file} must derive public_functions from baseline-candidate manifest expected_functions`);
+    }
+    if (/Assert-?Count\s+"public_policies"\s+\$[Ee]xpectedPolicies\b/i.test(text)) {
+      errors.push(`${file} must not compare manifest expected_policies with public-only pg_policies`);
+    }
+    if (!/Assert-?Count\s+"total_policies"\s+\$[Ee]xpectedPolicies\b/i.test(text)) {
+      errors.push(`${file} must compare manifest expected_policies with total pg_policies`);
+    }
+  }
+} catch (error) {
+  errors.push(`Unable to validate runtime function count expectation: ${error.message}`);
+}
+
 const payload = {
   cycle: "9",
   result: errors.length ? "CI_STATIC_REJECTED" : "CI_STATIC_VALIDATED",

@@ -33,6 +33,12 @@ import {
 } from "../utils/treinosListQueryState";
 import { criarErroTreinos } from "../utils/treinosErrorState";
 import { templateDataToWorkout } from "../utils/workoutTemplateSanitization";
+import {
+  WORKOUT_STATUS,
+  WORKOUT_STATUS_OPTIONS,
+  duplicateWorkoutDraft,
+  normalizeWorkoutStatus,
+} from "../utils/workoutDataContract";
 
 export { formatarData };
 
@@ -77,7 +83,7 @@ export function useTreinosPage() {
       alunos: alunos.map((aluno) => ({ id: aluno.id, nome: aluno.nome })),
       objetivos: unicos("objetivo"),
       niveis: unicos("nivel"),
-      status: ["Ativo", "Em revisão", "Finalizado"],
+      status: WORKOUT_STATUS_OPTIONS,
     };
   }, [alunos, treinos]);
 
@@ -92,7 +98,8 @@ export function useTreinosPage() {
         filtroObjetivo === "todos" || treino.objetivo === filtroObjetivo;
       const combinaNivel = filtroNivel === "todos" || treino.nivel === filtroNivel;
       const combinaStatus =
-        filtroStatus === "todos" || (treino.status || "Ativo") === filtroStatus;
+        filtroStatus === "todos" ||
+        normalizeWorkoutStatus(treino.status || WORKOUT_STATUS.ACTIVE) === filtroStatus;
 
       return (
         combinaBusca &&
@@ -305,21 +312,7 @@ export function useTreinosPage() {
   async function duplicarTreino(treino) {
     if (acaoTreino) return;
 
-    const treinoDuplicado = {
-      ...JSON.parse(JSON.stringify(treino)),
-      id: undefined,
-      rotina: `${treino.rotina || "Treino"} - Cópia`,
-      status: "Em revisão",
-      alunoId: treino.alunoId,
-      dias: (treino.dias || []).map((dia) => ({
-        ...dia,
-        id: undefined,
-        exercicios: (dia.exercicios || []).map((exercicio) => ({
-          ...exercicio,
-          id: undefined,
-        })),
-      })),
-    };
+    const treinoDuplicado = duplicateWorkoutDraft(treino);
 
     try {
       setErro(null);
@@ -489,11 +482,12 @@ export function useTreinosPage() {
 }
 
 export function classeStatusTreino(status) {
-  if (status === "Ativo") return "status-badge status-badge-success";
-  if (String(status).toLowerCase().includes("revis")) {
+  const normalized = normalizeWorkoutStatus(status);
+  if (normalized === WORKOUT_STATUS.ACTIVE) return "status-badge status-badge-success";
+  if (normalized === WORKOUT_STATUS.IN_REVIEW) {
     return "status-badge status-badge-warning";
   }
-  if (status === "Finalizado") return "status-badge status-badge-muted";
+  if (normalized === WORKOUT_STATUS.FINISHED) return "status-badge status-badge-muted";
 
   return "status-badge status-badge-info";
 }

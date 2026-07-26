@@ -1,0 +1,97 @@
+{
+  "cycle": "1.2",
+  "epic": "Epic 1 - Biblioteca Inteligente de Treinos",
+  "branch": "feat/workout-library-data-integrity-v1",
+  "decision": "READY_WITH_LIMITATIONS",
+  "baseCommit": "019b6f55fdeb877f2c7b1009ad6e6e0d72e6c116",
+  "implemented": {
+    "canonicalContract": true,
+    "schemaVersion": 1,
+    "legacyTemplateReadCompatibility": true,
+    "statusCanonicalization": true,
+    "atomicRpc": "public.salvar_treino_composto(jsonb)",
+    "baselineFlow": "BASELINE_SRC_OFFICIAL_FLOW",
+    "rpcFunctionSource": "supabase/baseline-src/05-functions.sql",
+    "rpcGrantSource": "supabase/baseline-src/09-grants.sql",
+    "activeBaseline": "supabase/migrations/20260716090000_baseline_aruka_v1.sql",
+    "baselineCandidate": "supabase/baseline-candidate/20260716090000_baseline_aruka_v1.sql",
+    "archivedIncrementalSql": "supabase/migrations-archive/20260725093000_workout_atomic_persistence.sql",
+    "previousBaselineSha": "F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A",
+    "baselineSha": "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B",
+    "workoutExerciseInsertValidated": true,
+    "workoutExerciseInsertValues": [
+      "v_day_id",
+      "btrim(coalesce(v_exercise->>'nome', ''))",
+      "coalesce(v_exercise->>'series', '')",
+      "coalesce(v_exercise->>'repeticoes', '')",
+      "coalesce(v_exercise->>'carga', '')",
+      "coalesce(v_exercise->>'descanso', '')",
+      "coalesce(v_exercise->>'observacoes', '')",
+      "coalesce(v_exercise->>'video', '')",
+      "v_exercise_index"
+    ],
+    "activeMigrations": [
+      "supabase/migrations/20260716090000_baseline_aruka_v1.sql"
+    ],
+    "unitTests": "src/features/treinos/utils/workoutDataContract.test.js",
+    "functionalCodeChanged": true
+  },
+  "initialFailure": {
+    "command": "npm.cmd run qa:supabase-ci-static",
+    "exitCode": 1,
+    "primaryError": "Active migrations must contain only the official baseline SQL",
+    "rootCause": "A RPC foi adicionada como migration incremental ativa, mas os validadores oficiais desta arquitetura exigem uma unica baseline SQL ativa."
+  },
+  "runtimeRollback": "ROLLBACK_RUNTIME_NOT_PROVEN",
+  "sourceReview": {
+    "suspectedIssue": "Missing descanso value in treino_exercicios insert",
+    "result": "DISCARDED_IN_CURRENT_STAGED_STATE",
+    "notes": "The staged source, candidate, active baseline and archived SQL all contain coalesce(v_exercise->>'descanso', '') between carga and observacoes."
+  },
+  "gate3BootstrapCorrection": {
+    "classification": "STALE_RUNTIME_VALIDATION_EXPECTATION",
+    "failure": "public_functions expected 14 got 15",
+    "canonicalSource": "supabase/baseline-candidate/manifest.json",
+    "expectedFunctions": 15,
+    "baselineShaChanged": false,
+    "rpcChanged": false
+  },
+  "gate3PolicyCorrection": {
+    "classification": "POLICY_COUNT_SCOPE_MISMATCH",
+    "failure": "public_policies expected 58 got 54",
+    "expectedPoliciesMeaning": "TOTAL_POLICY_COUNT",
+    "policyDistribution": {
+      "public": 54,
+      "storage": 4,
+      "total": 58
+    },
+    "correction": "Runtime validators now compare expected_policies with total pg_policies and derive schema-specific expectations from the consolidated baseline SQL.",
+    "baselineShaChanged": false,
+    "rpcChanged": false
+  },
+  "resolvedFindings": [
+    "WL-AUDIT-001",
+    "WL-AUDIT-003",
+    "WL-AUDIT-005",
+    "WL-AUDIT-007"
+  ],
+  "partiallyResolvedFindings": [
+    "WL-AUDIT-002",
+    "WL-AUDIT-004",
+    "WL-AUDIT-008"
+  ],
+  "limitations": [
+    {
+      "type": "BLOCKED_INFRASTRUCTURE",
+      "description": "Docker/Supabase local unavailable: preflight reported Docker Server unavailable, local reproducibility could not inspect Docker cleanup state, and fixtures validation did not find the local database container."
+    },
+    {
+      "type": "BLOCKED_ENVIRONMENT",
+      "description": "Representative CDP runner did not start because .env is absent."
+    }
+  ],
+  "nextCycle": {
+    "name": "Ciclo 1.3 - Busca, filtros, categorias e descoberta",
+    "branch": "feat/workout-library-discovery-v1"
+  }
+}

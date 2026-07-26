@@ -11,7 +11,7 @@ const mode = modeArg ? modeArg.slice("--mode=".length) : "normal";
 const requireCycle71Reports = mode !== "negative-fixture";
 const errors = [];
 
-const expectedSha = "F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A";
+const expectedSha = "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B";
 const baseline = "supabase/migrations/20260716090000_baseline_aruka_v1.sql";
 const forbiddenProjectRef = "xrmqdkpx" + "nfvusmenadnf";
 const APPROVED_REDACTED_DB_URL =

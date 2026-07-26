@@ -1,0 +1,99 @@
+{
+  "validations": [
+    {
+      "command": "node --test src\\features\\treinos\\utils\\*.test.js",
+      "status": "PASS",
+      "notes": "33 tests passed, including workoutDataContract.test.js."
+    },
+    {
+      "command": "npm.cmd run lint",
+      "status": "PASS",
+      "notes": "ESLint completed without errors."
+    },
+    {
+      "command": "npm.cmd run build",
+      "status": "PASS",
+      "notes": "Vite production build completed."
+    },
+    {
+      "command": "npm.cmd run qa:workout-template-sanitization",
+      "status": "PASS",
+      "notes": "Template sanitization validator passed."
+    },
+    {
+      "command": "npm.cmd run qa:workout-templates-data",
+      "status": "PASS",
+      "notes": "10 official templates validated."
+    },
+    {
+      "command": "npm.cmd run qa:supabase-baseline-src",
+      "status": "PASS",
+      "notes": "Baseline-src validation passed after adding the RPC function, grants, and static guard for treino_exercicios descanso/video/order values."
+    },
+    {
+      "command": "npm.cmd run qa:supabase-ci-static",
+      "status": "PASS",
+      "notes": "Repository safety and CI static gates passed with a single active baseline SQL and runtime public_functions expectation derived from manifest."
+    },
+    {
+      "command": "PowerShell parser: scripts/supabase-local-validate.ps1",
+      "status": "PASS",
+      "notes": "Parser accepted the script after replacing hardcoded structural counts with manifest-derived values."
+    },
+    {
+      "command": "PowerShell parser: scripts/validate-supabase-baseline-local.ps1",
+      "status": "PASS",
+      "notes": "Parser accepted the isolated baseline validator after replacing hardcoded structural counts with manifest-derived values."
+    },
+    {
+      "command": "Static policy scope regression scan",
+      "status": "PASS",
+      "notes": "Runtime validators compare expected_policies with total pg_policies and no longer use the manifest total for public_policies."
+    },
+    {
+      "command": "npm.cmd run qa:supabase-baseline-candidate",
+      "status": "PASS",
+      "notes": "Candidate SQL and manifest passed after regeneration."
+    },
+    {
+      "command": "npm.cmd run qa:supabase-migration-cutover",
+      "status": "PASS",
+      "notes": "Active baseline remains canonically equivalent to candidate and the incremental SQL is archived."
+    },
+    {
+      "command": "npm.cmd run qa:supabase-ci-preflight-isolation",
+      "status": "PASS",
+      "notes": "CI preflight isolation static test passed."
+    },
+    {
+      "command": "npm.cmd run qa:supabase-local-reproducibility",
+      "status": "BLOCKED_INFRASTRUCTURE",
+      "notes": "Docker API was inaccessible with Acesso negado; rollback runtime remains not proven."
+    },
+    {
+      "command": "npm.cmd run supabase:preflight",
+      "status": "BLOCKED_INFRASTRUCTURE",
+      "notes": "Docker Server unavailable, context must be desktop-linux, and Supabase CLI was unavailable through npx."
+    },
+    {
+      "command": "npm.cmd run supabase:validate",
+      "status": "BLOCKED_INFRASTRUCTURE",
+      "notes": "Docker API was inaccessible while validating the local database container."
+    },
+    {
+      "command": "npm.cmd run supabase:fixtures:validate",
+      "status": "BLOCKED_INFRASTRUCTURE",
+      "notes": "Local Supabase database container is not running for project_id ConsultoriaFitness."
+    },
+    {
+      "command": "npm.cmd run supabase:status",
+      "status": "BLOCKED_INFRASTRUCTURE",
+      "notes": "Command exited with code 1 and no useful stdout details in captured output."
+    },
+    {
+      "command": "npm.cmd run qa:treino-template-editor-flow",
+      "status": "BLOCKED_ENVIRONMENT",
+      "notes": "Command failed before runtime validation: node: .env: not found."
+    }
+  ]
+}
