@@ -10,6 +10,8 @@ Baseline SHA moved from `F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C
 
 Follow-up review confirmed the `treino_exercicios` insert maps nine columns to nine values, including `descanso` between `carga` and `observacoes`, `video_url` from `v_exercise->>'video'`, and `ordem` from `v_exercise_index`. A static guard was added to `qa:supabase-baseline-src`.
 
+Gate 3 local bootstrap failed in CI because runtime validation still expected 14 public functions. The baseline and manifest were already correct with 15 functions after adding `public.salvar_treino_composto(jsonb)`. The local runtime validators now derive structural counts from `supabase/baseline-candidate/manifest.json`; the baseline SHA and RPC SQL did not change.
+
 Resolved or reduced:
 
 - `WL-AUDIT-001`: creation now uses a single transactional RPC.

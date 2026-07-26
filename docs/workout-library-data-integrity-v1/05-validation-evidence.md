@@ -14,6 +14,8 @@
 | `npm.cmd run qa:supabase-baseline-candidate` | PASS | Candidate regenerada e manifest consistente. |
 | `npm.cmd run qa:supabase-migration-cutover` | PASS | Baseline ativa equivalente a candidate; migration incremental fora da cadeia ativa. |
 | `npm.cmd run qa:supabase-ci-preflight-isolation` | PASS | Isolamento estatico da cadeia ativa validado. |
+| Parser PowerShell `scripts/supabase-local-validate.ps1` | PASS | Sintaxe valida apos carregar contagens do manifest. |
+| Parser PowerShell `scripts/validate-supabase-baseline-local.ps1` | PASS | Sintaxe valida apos carregar contagens do manifest. |
 | `npm.cmd run qa:supabase-local-reproducibility` | BLOCKED_INFRASTRUCTURE | Docker API inacessivel: `Acesso negado`; cleanup state nao pode ser inspecionado. |
 | `npm.cmd run supabase:preflight` | BLOCKED_INFRASTRUCTURE | Docker Server unavailable, contexto diferente de `desktop-linux` e Supabase CLI via `npx` indisponivel. |
 | `npm.cmd run supabase:status` | BLOCKED_INFRASTRUCTURE | Script retornou exit code 1 sem detalhes no stdout capturado. |
@@ -27,6 +29,8 @@
 
 `scripts/validate-supabase-baseline-src.mjs`
 
+`scripts/validate-supabase-ci-static.mjs`
+
 Cobertura estatica da RPC:
 
 - `treino_exercicios` preserva nove valores para nove colunas;
@@ -34,6 +38,12 @@ Cobertura estatica da RPC:
 - `observacoes` recebe `v_exercise->>'observacoes'`;
 - `video_url` recebe `v_exercise->>'video'`;
 - `ordem` recebe `v_exercise_index`.
+
+Cobertura estatica do bootstrap local:
+
+- `expected_functions` permanece 15 no manifest;
+- validadores runtime nao mantem `public_functions` hardcoded em 14;
+- `public_functions` passa a derivar de `supabase/baseline-candidate/manifest.json`.
 
 Cobertura:
 
@@ -48,6 +58,7 @@ Cobertura:
 
 ## Limitacoes
 
+- Gate 3 no GitHub Actions falhou por `STALE_RUNTIME_VALIDATION_EXPECTATION`: o validador local esperava 14 funcoes publicas, enquanto a baseline e o manifest ja estavam corretos com 15.
 - RPC nao foi aplicada em Supabase local neste ciclo porque Docker/Supabase local nao estavam operacionais neste ambiente.
 - Rollback transacional runtime permanece `ROLLBACK_RUNTIME_NOT_PROVEN` ate validacao com Supabase local operacional.
 - Testes positivos e negativos reais de rollback devem ser executados em ambiente local ou homologacao antes do piloto.

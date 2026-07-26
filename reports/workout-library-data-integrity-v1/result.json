@@ -48,6 +48,14 @@
     "result": "DISCARDED_IN_CURRENT_STAGED_STATE",
     "notes": "The staged source, candidate, active baseline and archived SQL all contain coalesce(v_exercise->>'descanso', '') between carga and observacoes."
   },
+  "gate3BootstrapCorrection": {
+    "classification": "STALE_RUNTIME_VALIDATION_EXPECTATION",
+    "failure": "public_functions expected 14 got 15",
+    "canonicalSource": "supabase/baseline-candidate/manifest.json",
+    "expectedFunctions": 15,
+    "baselineShaChanged": false,
+    "rpcChanged": false
+  },
   "resolvedFindings": [
     "WL-AUDIT-001",
     "WL-AUDIT-003",

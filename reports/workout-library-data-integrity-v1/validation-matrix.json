@@ -33,7 +33,17 @@
     {
       "command": "npm.cmd run qa:supabase-ci-static",
       "status": "PASS",
-      "notes": "Repository safety and CI static gates passed with a single active baseline SQL."
+      "notes": "Repository safety and CI static gates passed with a single active baseline SQL and runtime public_functions expectation derived from manifest."
+    },
+    {
+      "command": "PowerShell parser: scripts/supabase-local-validate.ps1",
+      "status": "PASS",
+      "notes": "Parser accepted the script after replacing hardcoded structural counts with manifest-derived values."
+    },
+    {
+      "command": "PowerShell parser: scripts/validate-supabase-baseline-local.ps1",
+      "status": "PASS",
+      "notes": "Parser accepted the isolated baseline validator after replacing hardcoded structural counts with manifest-derived values."
     },
     {
       "command": "npm.cmd run qa:supabase-baseline-candidate",

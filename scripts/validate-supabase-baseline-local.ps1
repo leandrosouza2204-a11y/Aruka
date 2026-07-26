@@ -115,6 +115,11 @@ if (-not (Test-Path $manifestPath)) {
 }
 
 $manifest = Get-Content -Raw $manifestPath | ConvertFrom-Json
+$expectedTables = [int]$manifest.expected_tables
+$expectedFunctions = [int]$manifest.expected_functions
+$expectedTriggers = [int]$manifest.expected_triggers
+$expectedIndexes = [int]$manifest.expected_indexes
+$expectedPolicies = [int]$manifest.expected_policies
 $sourceMigrationsDir = if ($UseActiveMigrations) { Join-Path $root "supabase/migrations" } else { $candidateDir }
 $candidateSql = Join-Path $sourceMigrationsDir $manifest.main_file
 if (-not (Test-Path $candidateSql)) {
@@ -240,11 +245,11 @@ try {
   Invoke-Checked "Supabase isolated start" $startArgs $tmpProject | Out-Null
   $started = $true
 
-  Assert-Count "public_tables" 19 "select count(*) from information_schema.tables where table_schema = 'public' and table_type = 'BASE TABLE';"
-  Assert-Count "public_functions" 14 "select count(*) from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public';"
-  Assert-Count "public_triggers" 1 "select count(*) from pg_trigger t join pg_class c on c.oid = t.tgrelid join pg_namespace n on n.oid = c.relnamespace where n.nspname = 'public' and not t.tgisinternal;"
-  Assert-Count "public_explicit_indexes" 56 "select count(*) from pg_index i join pg_class idx on idx.oid = i.indexrelid join pg_class tbl on tbl.oid = i.indrelid join pg_namespace n on n.oid = tbl.relnamespace left join pg_constraint c on c.conindid = i.indexrelid where n.nspname = 'public' and c.oid is null;"
-  Assert-Count "public_policies" 54 "select count(*) from pg_policies where schemaname = 'public';"
+  Assert-Count "public_tables" $expectedTables "select count(*) from information_schema.tables where table_schema = 'public' and table_type = 'BASE TABLE';"
+  Assert-Count "public_functions" $expectedFunctions "select count(*) from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public';"
+  Assert-Count "public_triggers" $expectedTriggers "select count(*) from pg_trigger t join pg_class c on c.oid = t.tgrelid join pg_namespace n on n.oid = c.relnamespace where n.nspname = 'public' and not t.tgisinternal;"
+  Assert-Count "public_explicit_indexes" $expectedIndexes "select count(*) from pg_index i join pg_class idx on idx.oid = i.indexrelid join pg_class tbl on tbl.oid = i.indrelid join pg_namespace n on n.oid = tbl.relnamespace left join pg_constraint c on c.conindid = i.indexrelid where n.nspname = 'public' and c.oid is null;"
+  Assert-Count "public_policies" $expectedPolicies "select count(*) from pg_policies where schemaname = 'public';"
   Assert-Count "storage_policies" 4 "select count(*) from pg_policies where schemaname = 'storage' and tablename = 'objects';"
   Assert-Count "public_rls_enabled_tables" 19 "select count(*) from pg_class c join pg_namespace n on n.oid = c.relnamespace where n.nspname = 'public' and c.relkind = 'r' and c.relrowsecurity;"
   Assert-Count "storage_bucket_avaliacoes_fotos" 1 "select count(*) from storage.buckets where id = 'avaliacoes-fotos' and name = 'avaliacoes-fotos' and public = false;"
