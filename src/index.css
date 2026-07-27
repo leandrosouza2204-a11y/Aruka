@@ -190,7 +190,9 @@
 
 .treino-template-overlay,
 .treino-template-modal,
-.treino-template-modal * {
+.treino-template-modal *,
+.treino-save-template-modal,
+.treino-save-template-modal * {
   box-sizing: border-box;
 }
 
@@ -212,6 +214,7 @@
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 48px);
+  max-height: calc(100dvh - 48px);
   max-width: 1040px;
   min-height: 0;
   min-width: 0;
@@ -237,17 +240,27 @@
   color: #111827;
   font-size: 22px;
   margin: 4px 0 0;
+  overflow-wrap: anywhere;
 }
 
 .treino-template-header p,
 .treino-template-card p,
 .treino-template-card span,
+.treino-template-card strong,
 .treino-template-choice span,
+.treino-template-choice strong,
+.treino-template-summary strong,
 .treino-template-summary span {
   color: #64748b;
   font-size: 13px;
   line-height: 1.4;
   overflow-wrap: anywhere;
+}
+
+.treino-template-card strong,
+.treino-template-choice strong,
+.treino-template-summary strong {
+  color: #111827;
 }
 
 .treino-template-step {
@@ -491,7 +504,7 @@
   z-index: 2;
 }
 
-.treino-template-actions > span[role="button"] {
+.treino-template-actions > button {
   align-items: center;
   background: #ffffff;
   border: 1px solid #dbeafe;
@@ -500,6 +513,7 @@
   display: inline-flex;
   height: 32px;
   justify-content: center;
+  padding: 0;
   width: 32px;
 }
 
@@ -509,6 +523,8 @@
   border-radius: 8px;
   box-shadow: 0 16px 34px rgba(15, 23, 42, 0.14);
   display: grid;
+  gap: 2px;
+  max-width: calc(100vw - 32px);
   min-width: 160px;
   padding: 6px;
   position: absolute;
@@ -516,16 +532,22 @@
   top: 36px;
 }
 
-.treino-template-actions-menu span {
+.treino-template-actions-menu button {
+  background: transparent;
+  border: 0;
   border-radius: 6px;
   color: #111827;
   cursor: pointer;
   font-size: 13px;
   font-weight: 750;
   padding: 8px;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
-.treino-template-actions-menu span:hover {
+.treino-template-actions-menu button:hover,
+.treino-template-actions-menu button:focus-visible {
   background: #f1f5f9;
 }
 
@@ -692,8 +714,10 @@
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 48px);
+  max-height: calc(100dvh - 48px);
   max-width: 720px;
   min-height: 0;
+  min-width: 0;
   overflow: hidden;
   padding: 24px;
   width: min(720px, 100%);
@@ -701,11 +725,16 @@
 
 .treino-save-template-form {
   display: grid;
+  flex: 1 1 auto;
   gap: 12px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-top: 18px;
+  min-height: 0;
+  min-width: 0;
   overflow-y: auto;
   padding-right: 2px;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .treino-save-template-form label {
@@ -749,6 +778,14 @@
   line-height: 1.45;
   margin: 0;
   padding: 12px;
+  overflow-wrap: anywhere;
+}
+
+.treino-save-template-form .treino-template-footer {
+  bottom: 0;
+  margin-top: 0;
+  position: sticky;
+  z-index: 1;
 }
 
 @media (max-width: 640px) {
@@ -760,7 +797,9 @@
 
   .treino-template-modal {
     border-radius: 0;
+    height: 100vh;
     height: 100dvh;
+    max-height: 100vh;
     max-height: 100dvh;
     max-width: none;
     padding: 16px;
@@ -769,7 +808,9 @@
 
   .treino-save-template-modal {
     border-radius: 0;
+    height: 100vh;
     height: 100dvh;
+    max-height: 100vh;
     max-height: 100dvh;
     max-width: none;
     padding: 16px;
@@ -827,6 +868,15 @@
   .treino-template-footer button {
     min-height: 44px;
     width: 100%;
+  }
+
+  .treino-template-actions {
+    right: 8px;
+  }
+
+  .treino-template-actions-menu {
+    right: 0;
+    width: min(220px, calc(100vw - 32px));
   }
 }
 

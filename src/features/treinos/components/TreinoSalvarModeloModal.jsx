@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useId, useMemo, useRef, useState } from "react";
 import ExercicioCard from "../../../components/ExercicioCard";
 import { useConfirm } from "../../../hooks/useConfirm";
 import {
@@ -59,6 +59,9 @@ function TreinoSalvarModeloModal({
   const [technicalError, setTechnicalError] = useState("");
   const nameRef = useRef(null);
   const submitGateRef = useRef({ activePromise: null });
+  const modalTitleId = useId();
+  const nameErrorId = useId();
+  const exercisesErrorId = useId();
   const { confirmar } = useConfirm();
 
   const dirty = !areWorkoutTemplateDraftsEqual(originalDraft, draft);
@@ -267,13 +270,14 @@ function TreinoSalvarModeloModal({
         className="treino-save-template-modal"
         role="dialog"
         aria-modal="true"
-        aria-label={titulo}
+        aria-labelledby={modalTitleId}
+        aria-busy={saving}
         data-testid="workout-template-modal"
       >
         <header className="treino-template-header">
           <div>
             <span className="treino-template-step">Modelo pessoal</span>
-            <h2>{titulo}</h2>
+            <h2 id={modalTitleId}>{titulo}</h2>
             <p>
               O modelo salva apenas estrutura, exercicios e orientacoes gerais.
               Dados do aluno, datas, status e cargas individuais nao entram no modelo.
@@ -295,8 +299,9 @@ function TreinoSalvarModeloModal({
               required
               data-testid="workout-template-name"
               aria-invalid={Boolean(errors.name)}
+              aria-describedby={errors.name ? nameErrorId : undefined}
             />
-            {errors.name && <small className="app-error">{errors.name}</small>}
+            {errors.name && <small className="app-error" id={nameErrorId}>{errors.name}</small>}
           </label>
 
           <label>
@@ -364,7 +369,11 @@ function TreinoSalvarModeloModal({
             />
           </label>
 
-          <section className="treino-save-template-wide treino-editor-section">
+          <section
+            className="treino-save-template-wide treino-editor-section"
+            aria-invalid={Boolean(errors.exercises)}
+            aria-describedby={errors.exercises ? exercisesErrorId : undefined}
+          >
             <h3>Dias e exercicios</h3>
             <div className="treino-editor-day-form">
               <input
@@ -427,7 +436,11 @@ function TreinoSalvarModeloModal({
                 );
               })}
             </div>
-            {errors.exercises && <small className="app-error">{errors.exercises}</small>}
+            {errors.exercises && (
+              <small className="app-error" id={exercisesErrorId}>
+                {errors.exercises}
+              </small>
+            )}
           </section>
 
           <p className="treino-template-privacy" data-testid="custom-template-privacy">
