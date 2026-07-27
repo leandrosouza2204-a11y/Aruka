@@ -84,3 +84,22 @@ Runtime autenticado, mobile e CDP nao foram validados nesta execucao. Classifica
 ## Decisao
 
 `READY_WITH_LIMITATIONS`: implementacao local, testes unitarios, QA estatico e lint passam; runtime autenticado/mobile permanece dependente de infraestrutura.
+
+## Closeout pos-merge
+
+- Decisao na branch: `READY_WITH_LIMITATIONS`.
+- Decisao pos-merge: `COMPLETE_WITH_LIMITATIONS`.
+- PR: `#27`.
+- Titulo real da PR: `Merge pull request #27 from leandrosouza2204-a11y/feat/personal-workout-template-management-v1`.
+- Merge commit: `f4541113408cbaf6057acf6d5974932878eb0932`.
+- Feature commit: `74c363b7cf6c9851d36f53dd73e831d3b223cba2`.
+- SHA final da main: `f4541113408cbaf6057acf6d5974932878eb0932`.
+- Branch de implementacao: `feat/personal-workout-template-management-v1`.
+- Branch de closeout: `docs/workout-template-management-closeout-v1`.
+- Data do merge: `2026-07-27 11:37:02 -0300`.
+
+A implementacao do Ciclo 1.5 esta integrada a `main` e passa a contar como ciclo concluido no Epic 1. O escopo funcional foi encerrado: criacao de modelo pessoal, criacao a partir de treino, edicao de modelo pessoal, duplicacao de modelo oficial e duplicacao de modelo pessoal.
+
+Nenhuma mudanca Supabase foi necessaria. Runtime autenticado, mobile e CDP continuam pendentes por infraestrutura; por isso a decisao formal permanece `COMPLETE_WITH_LIMITATIONS`, e nao `COMPLETE`.
+
+Proximo ciclo canonico: Ciclo 1.6 - Fluxo mobile da Biblioteca de Treinos.
