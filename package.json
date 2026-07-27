@@ -38,6 +38,7 @@
     "qa:workout-template-sanitization": "node scripts/validate-workout-template-sanitization.mjs",
     "qa:workout-template-discovery": "node scripts/validate-workout-template-discovery.mjs",
     "qa:workout-template-guided-application": "node scripts/validate-workout-template-guided-application.mjs",
+    "qa:personal-workout-template-management": "node scripts/validate-personal-workout-template-management.mjs",
     "qa:cleanup-workout-templates": "node --env-file=.env --env-file=.env.local --env-file=.env.qa.local scripts/cleanup-qa-workout-templates.mjs",
     "qa:treino-custom-templates": "node --env-file=.env --env-file=.env.local --env-file=.env.qa.local scripts/validate-treino-custom-templates-cdp.mjs",
     "qa:treino-editor-module": "node --env-file=.env --env-file=.env.local --env-file=.env.qa.local scripts/validate-treino-editor-module-cdp.mjs",

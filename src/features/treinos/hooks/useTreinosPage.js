@@ -238,9 +238,14 @@ export function useTreinosPage() {
   async function salvarModeloPessoal(metadata, treino) {
     try {
       setErroModelos("");
-      const modelo = await criarModeloPessoalSupabase(metadata, treino);
+      const payload = metadata?.metadata ? metadata : null;
+      const modelo = await criarModeloPessoalSupabase(
+        payload?.metadata || metadata,
+        payload?.templateData || treino
+      );
       setModelosPessoais((atuais) => [modelo, ...atuais]);
-      toast.sucesso("Modelo salvo", "O modelo pessoal foi salvo na sua biblioteca.");
+      toast.sucesso("Modelo salvo", mensagemModeloSalvo(payload?.mode));
+      setTreinoSelecionadoId(modelo?.id || "");
     } catch (error) {
       console.error(error);
       setErroModelos(error.message || "Nao foi possivel salvar o modelo.");
@@ -252,10 +257,16 @@ export function useTreinosPage() {
   async function atualizarModeloPessoal(id, metadata, treino) {
     try {
       setErroModelos("");
-      const modelo = await atualizarModeloPessoalSupabase(id, metadata, treino);
+      const payload = metadata?.metadata ? metadata : null;
+      const modelo = await atualizarModeloPessoalSupabase(
+        id,
+        payload?.metadata || metadata,
+        payload?.templateData || treino
+      );
       setModelosPessoais((atuais) =>
         atuais.map((item) => (item.id === id ? modelo : item))
       );
+      await carregarModelosPessoais().then(setModelosPessoais);
       toast.sucesso("Modelo atualizado", "O modelo pessoal foi atualizado.");
     } catch (error) {
       console.error(error);
@@ -580,6 +591,14 @@ function normalizarRegistrosAluno(registros, alunos) {
       alunoIdentificado: Boolean(alunoResolvido),
     };
   });
+}
+
+function mensagemModeloSalvo(mode) {
+  if (mode === "duplicateOfficial" || mode === "duplicatePersonal") {
+    return "Modelo duplicado com sucesso.";
+  }
+  if (mode === "createFromWorkout") return "Treino salvo como modelo com sucesso.";
+  return "Modelo criado com sucesso.";
 }
 
 function agruparAlunosPorNome(alunos) {
