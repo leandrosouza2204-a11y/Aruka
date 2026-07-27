@@ -169,12 +169,14 @@ function TreinosList() {
           <Suspense fallback={null}>
             <TreinoTemplatesModal
               alunos={treinosPage.alunos}
+              alunoContextual={treinosPage.alunoContextual}
               carregandoModelos={treinosPage.carregandoModelos}
               erroModelos={treinosPage.erroModelos}
               modelosPessoais={treinosPage.modelosPessoais}
               onClose={treinosPage.fecharBibliotecaModelos}
               onDeleteCustom={treinosPage.removerModeloPessoal}
               onEditCustom={treinosPage.atualizarModeloPessoal}
+              onApply={treinosPage.aplicarModeloTreino}
               onGenerate={treinosPage.gerarTreinoBase}
             />
           </Suspense>

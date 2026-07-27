@@ -39,6 +39,7 @@ import {
   duplicateWorkoutDraft,
   normalizeWorkoutStatus,
 } from "../utils/workoutDataContract";
+import { prepareWorkoutTemplateApplicationPayload } from "../utils/workoutTemplateApplication";
 
 export { formatarData };
 
@@ -214,6 +215,24 @@ export function useTreinosPage() {
     );
     setModalModelosAberto(false);
     setModalAberto(true);
+  }
+
+  async function aplicarModeloTreino({ template, student, options } = {}) {
+    const payload = prepareWorkoutTemplateApplicationPayload({ template, student, options });
+
+    try {
+      setErro(null);
+      const treinoSalvo = await adicionarTreinoSupabase(payload);
+      await carregarDados();
+      setTreinoSelecionadoId(treinoSalvo?.id || "");
+      toast.sucesso("Treino criado", "O treino foi criado para o aluno selecionado.");
+      return treinoSalvo;
+    } catch (error) {
+      console.error(error);
+      setErro(criarErroTreinos("save", error));
+      toast.erro("Nao foi possivel aplicar o modelo", "Revise os dados e tente novamente.");
+      throw error;
+    }
   }
 
   async function salvarModeloPessoal(metadata, treino) {
@@ -458,6 +477,7 @@ export function useTreinosPage() {
     abrirBibliotecaModelos,
     abrirEdicao,
     abrirNovoTreino,
+    aplicarModeloTreino,
     copiarTreinoWhatsApp,
     duplicarTreino,
     fecharBibliotecaModelos,
