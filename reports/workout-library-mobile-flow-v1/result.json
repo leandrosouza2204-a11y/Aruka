@@ -1,0 +1,169 @@
+{
+  "cycle": "1.6",
+  "decision": "READY_WITH_LIMITATIONS",
+  "branch": "feat/workout-library-mobile-flow-v1",
+  "initialMainSha": "8645a9ebc9ff121889d45a9f7d1ae195d111bbfa",
+  "originMainSha": "8645a9ebc9ff121889d45a9f7d1ae195d111bbfa",
+  "closeoutPr": "#28",
+  "functionalCycle15Pr": "#27",
+  "closeoutMergeCommit": "8645a9ebc9ff121889d45a9f7d1ae195d111bbfa",
+  "cycle15MergeCommit": "f4541113408cbaf6057acf6d5974932878eb0932",
+  "initialWorkingTree": "clean",
+  "canonicalScope": {
+    "discovery": true,
+    "guidedApplication": true,
+    "personalTemplateManagement": true
+  },
+  "viewports": [
+    "320x568",
+    "360x800",
+    "375x667",
+    "390x844",
+    "412x915",
+    "desktop"
+  ],
+  "journeysAudited": [
+    "discovery",
+    "filters",
+    "cards",
+    "officialActionsMenu",
+    "personalActionsMenu",
+    "preview",
+    "guidedApplication",
+    "createPersonalTemplate",
+    "editPersonalTemplate",
+    "duplicateOfficialTemplate",
+    "duplicatePersonalTemplate",
+    "success",
+    "error",
+    "retry"
+  ],
+  "journeysValidated": [],
+  "issuesFound": [
+    {
+      "id": "WLMF-001",
+      "severity": "high",
+      "journey": "cardsAndMenus",
+      "problem": "Menu triggers and menu items used span role=button instead of semantic buttons."
+    },
+    {
+      "id": "WLMF-002",
+      "severity": "medium",
+      "journey": "cardsAndMenus",
+      "problem": "Action menu width was not explicitly constrained to the mobile viewport."
+    },
+    {
+      "id": "WLMF-003",
+      "severity": "medium",
+      "journey": "modals",
+      "problem": "Workout library modals relied primarily on vh without dvh fallback ordering."
+    },
+    {
+      "id": "WLMF-004",
+      "severity": "medium",
+      "journey": "personalTemplateForm",
+      "problem": "Personal template footer needed stronger mobile accessibility inside long forms."
+    }
+  ],
+  "issuesFixed": [
+    "WLMF-001",
+    "WLMF-002",
+    "WLMF-003",
+    "WLMF-004",
+    "WLMF-005",
+    "WLMF-006",
+    "WLMF-007"
+  ],
+  "postReviewCorrections": [
+    {
+      "id": "WLMF-005",
+      "status": "fixed",
+      "problem": "Escape listener in the parent modal could close the library while a child create/edit/duplicate modal was open."
+    },
+    {
+      "id": "WLMF-006",
+      "status": "fixed",
+      "problem": "Step progress needed to be decorative while the current step is exposed as accessible text."
+    },
+    {
+      "id": "WLMF-007",
+      "status": "fixed",
+      "problem": "General exercise validation error was not associated with the personal template exercise section."
+    }
+  ],
+  "accessibleProgress": {
+    "visualIndicatorHidden": true,
+    "decorativeContainerAriaLabelRemoved": true,
+    "ariaCurrentRemovedFromDecorativeMarkers": true,
+    "currentStepNameExposedInVisibleText": true,
+    "staticQaUpdated": true
+  },
+  "desktopRegressionChecked": false,
+  "accessibilityChecked": true,
+  "staticQa": {
+    "script": "qa:workout-library-mobile-flow",
+    "status": "passed"
+  },
+  "runtimeQa": {
+    "status": "BLOCKED_INFRASTRUCTURE",
+    "reason": "Chrome CDP did not respond on port 9222 for mobile runners; .env was absent for authenticated template editor/custom template runners.",
+    "attemptedCommands": [
+      {
+        "command": "npm.cmd run qa:treino-templates-mobile",
+        "status": "blocked",
+        "reason": "Chrome CDP nao respondeu na porta 9222."
+      },
+      {
+        "command": "npm.cmd run qa:treino-exercises-mobile",
+        "status": "blocked",
+        "reason": "Chrome CDP nao respondeu na porta 9222."
+      },
+      {
+        "command": "npm.cmd run qa:treino-template-editor-flow",
+        "status": "blocked",
+        "reason": "node: .env: not found"
+      },
+      {
+        "command": "npm.cmd run qa:treino-custom-templates",
+        "status": "blocked",
+        "reason": "node: .env: not found"
+      }
+    ],
+    "screenshots": []
+  },
+  "unitTests": {
+    "command": "node --test src\\features\\treinos\\utils\\*.test.js",
+    "status": "passed",
+    "passed": 70,
+    "failed": 0
+  },
+  "lint": "passed",
+  "build": "passed",
+  "databaseChanged": false,
+  "supabaseFilesChanged": [],
+  "limitations": [
+    "Runtime authenticated/CDP validation was not executed.",
+    "Chrome CDP did not respond on port 9222.",
+    ".env is absent for runners that require --env-file=.env.",
+    "No screenshots were generated for this cycle.",
+    "Viewports were audited statically but not declared runtime validated."
+  ],
+  "filesCreated": [
+    "docs/workout-library-mobile-flow-v1/01-mobile-audit.md",
+    "docs/workout-library-mobile-flow-v1/02-mobile-implementation.md",
+    "docs/workout-library-mobile-flow-v1/03-mobile-validation.md",
+    "reports/workout-library-mobile-flow-v1/result.json",
+    "reports/workout-library-mobile-flow-v1/summary.md",
+    "scripts/validate-workout-library-mobile-flow.mjs"
+  ],
+  "filesChanged": [
+    "package.json",
+    "src/features/treinos/components/TreinoSalvarModeloModal.jsx",
+    "src/features/treinos/components/TreinoTemplatesModal.jsx",
+    "src/index.css"
+  ],
+  "nextCycle": {
+    "number": "1.7",
+    "name": "Integracao com entrega e acompanhamento do aluno"
+  }
+}

@@ -1,5 +1,5 @@
 import { ChevronLeft, Dumbbell, Layers3, MoreVertical, Sparkles } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   DIVISOES_MODELO_TREINO,
@@ -70,6 +70,7 @@ function TreinoTemplatesModal({
   const [modeloGerenciando, setModeloGerenciando] = useState(null);
   const [menuAbertoId, setMenuAbertoId] = useState("");
   const submissionRef = useRef({ active: false, result: null });
+  const modalTitleId = useId();
   const discoveryState = useMemo(
     () => readTemplateDiscoveryStateFromUrl(searchParams),
     [searchParams]
@@ -147,6 +148,24 @@ function TreinoTemplatesModal({
       { replace: true }
     );
   }, [discoveryState.page, paginacao.currentPage, searchParams, setSearchParams]);
+
+  useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.key !== "Escape") return;
+
+      if (menuAbertoId) {
+        setMenuAbertoId("");
+        return;
+      }
+
+      if (modeloEditando || modeloGerenciando || isSubmitting) return;
+
+      onClose();
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isSubmitting, menuAbertoId, modeloEditando, modeloGerenciando, onClose]);
 
   function avancar() {
     if (isSubmitting) return;
@@ -253,14 +272,15 @@ function TreinoTemplatesModal({
         data-testid="treino-template-modal"
         role="dialog"
         aria-modal="true"
-        aria-labelledby="treino-template-title"
+        aria-labelledby={modalTitleId}
+        aria-busy={isSubmitting}
       >
         <header className="treino-template-header">
           <div>
             <span className="treino-template-step">
-              Etapa {etapa + 1} de {etapas.length}
+              Etapa {etapa + 1} de {etapas.length}: {etapas[etapa]}
             </span>
-            <h2 id="treino-template-title">Aplicar modelo ao aluno</h2>
+            <h2 id={modalTitleId}>Aplicar modelo ao aluno</h2>
             <p>{avisoModeloEditavel}</p>
           </div>
           <button type="button" onClick={onClose} className="treino-template-close">
@@ -270,7 +290,11 @@ function TreinoTemplatesModal({
 
         <div className="treino-template-progress" aria-hidden="true">
           {etapas.map((item, index) => (
-            <span key={item} className={index <= etapa ? "is-active" : ""} title={item} />
+            <span
+              key={item}
+              className={index <= etapa ? "is-active" : ""}
+              title={item}
+            />
           ))}
         </div>
 
@@ -488,28 +512,27 @@ function TreinoTemplatesModal({
                       </span>
                     </span>
                     <span className="treino-template-actions">
-                      <span
-                        role="button"
-                        tabIndex={0}
+                      <button
+                        type="button"
+                        aria-label={`Abrir acoes de ${modelo.nome}`}
+                        aria-expanded={menuAbertoId === modelo.id}
+                        aria-controls={`template-actions-${modelo.id}`}
                         data-testid={modelo.isSystem ? "official-template-actions-trigger" : "custom-template-actions-trigger"}
                         onClick={(event) => {
                           event.stopPropagation();
                           setMenuAbertoId(menuAbertoId === modelo.id ? "" : modelo.id);
                         }}
-                        onKeyDown={(event) => {
-                          if (event.key === "Enter") {
-                            event.stopPropagation();
-                            setMenuAbertoId(menuAbertoId === modelo.id ? "" : modelo.id);
-                          }
-                        }}
                       >
                         <MoreVertical size={16} />
-                      </span>
+                      </button>
                       {menuAbertoId === modelo.id && (
-                        <span className="treino-template-actions-menu" data-testid={modelo.isSystem ? "official-template-actions-menu" : "custom-template-actions-menu"}>
-                          <span
-                            role="button"
-                            tabIndex={0}
+                        <span
+                          className="treino-template-actions-menu"
+                          id={`template-actions-${modelo.id}`}
+                          data-testid={modelo.isSystem ? "official-template-actions-menu" : "custom-template-actions-menu"}
+                        >
+                          <button
+                            type="button"
                             onClick={(event) => {
                               event.stopPropagation();
                               selecionarModelo(modelo);
@@ -517,11 +540,10 @@ function TreinoTemplatesModal({
                             }}
                           >
                             Visualizar
-                          </span>
+                          </button>
                           {modelo.isSystem ? (
-                            <span
-                              role="button"
-                              tabIndex={0}
+                            <button
+                              type="button"
                               onClick={(event) => {
                                 event.stopPropagation();
                                 setModeloGerenciando({ modo: "duplicateOfficial", modelo });
@@ -529,12 +551,11 @@ function TreinoTemplatesModal({
                               }}
                             >
                               Duplicar como modelo pessoal
-                            </span>
+                            </button>
                           ) : (
                             <>
-                              <span
-                                role="button"
-                                tabIndex={0}
+                              <button
+                                type="button"
                                 onClick={(event) => {
                                   event.stopPropagation();
                                   setModeloEditando(modelo);
@@ -542,10 +563,9 @@ function TreinoTemplatesModal({
                                 }}
                               >
                                 Editar
-                              </span>
-                              <span
-                                role="button"
-                                tabIndex={0}
+                              </button>
+                              <button
+                                type="button"
                                 onClick={(event) => {
                                   event.stopPropagation();
                                   setModeloGerenciando({ modo: "duplicatePersonal", modelo });
@@ -553,10 +573,9 @@ function TreinoTemplatesModal({
                                 }}
                               >
                                 Duplicar
-                              </span>
-                              <span
-                                role="button"
-                                tabIndex={0}
+                              </button>
+                              <button
+                                type="button"
                                 onClick={(event) => {
                                   event.stopPropagation();
                                   setMenuAbertoId("");
@@ -564,7 +583,7 @@ function TreinoTemplatesModal({
                                 }}
                               >
                                 Excluir
-                              </span>
+                              </button>
                             </>
                           )}
                         </span>
