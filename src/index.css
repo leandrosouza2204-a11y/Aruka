@@ -271,7 +271,7 @@
 .treino-template-progress {
   display: grid;
   gap: 6px;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(32px, 1fr));
   margin-top: 16px;
 }
 
@@ -642,6 +642,29 @@
   margin-bottom: 14px;
   min-width: 0;
   padding: 14px;
+}
+
+.treino-template-warnings {
+  color: #92400e;
+  display: grid;
+  font-size: 13px;
+  gap: 4px;
+  margin: 4px 0 0 18px;
+}
+
+.treino-template-result {
+  background: #ecfdf5;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  color: #166534;
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: 16px;
+}
+
+.treino-template-result span {
+  overflow-wrap: anywhere;
 }
 
 .treino-template-footer {

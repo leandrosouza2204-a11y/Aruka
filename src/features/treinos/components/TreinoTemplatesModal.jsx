@@ -1,5 +1,5 @@
 import { ChevronLeft, Dumbbell, Layers3, MoreVertical, Sparkles } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   DIVISOES_MODELO_TREINO,
@@ -22,9 +22,15 @@ import {
   readTemplateDiscoveryStateFromUrl,
   updateTemplateDiscoveryStateInUrl,
 } from "../utils/workoutTemplateDiscoveryQueryState";
+import {
+  buildWorkoutTemplateApplicationPreview,
+  mapWorkoutTemplateApplicationError,
+  submitWorkoutTemplateApplicationOnce,
+} from "../utils/workoutTemplateApplication";
 import TreinoSalvarModeloModal from "./TreinoSalvarModeloModal";
 
-const etapas = ["Genero", "Divisao", "Modelo", "Destino", "Confirmacao"];
+const etapas = ["Genero", "Divisao", "Modelo", "Aluno", "Previa", "Resultado"];
+const FLOW_BY_STEP = ["selectingTemplate", "selectingTemplate", "selectingTemplate", "selectingStudent", "previewing", "success"];
 const ORIGENS = [
   { value: "all", label: "Todos" },
   { value: "official", label: "Modelos oficiais" },
@@ -39,24 +45,29 @@ const SORT_OPTIONS = [
 
 function TreinoTemplatesModal({
   alunos,
+  alunoContextual = null,
   carregandoModelos = false,
   erroModelos = "",
   modelosPessoais = [],
   onClose,
+  onApply,
   onDeleteCustom,
   onEditCustom,
-  onGenerate,
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [etapa, setEtapa] = useState(0);
   const [genero, setGenero] = useState("Masculino");
   const [divisao, setDivisao] = useState("ABC");
   const [modeloId, setModeloId] = useState("");
-  const [alunoId, setAlunoId] = useState("");
+  const [alunoId, setAlunoId] = useState(alunoContextual?.id || "");
   const [rotina, setRotina] = useState("");
   const [dataInicio, setDataInicio] = useState("");
+  const [flowState, setFlowState] = useState("selectingTemplate");
+  const [applicationError, setApplicationError] = useState("");
+  const [createdWorkout, setCreatedWorkout] = useState(null);
   const [modeloEditando, setModeloEditando] = useState(null);
   const [menuAbertoId, setMenuAbertoId] = useState("");
+  const submissionRef = useRef({ active: false, result: null });
   const discoveryState = useMemo(
     () => readTemplateDiscoveryStateFromUrl(searchParams),
     [searchParams]
@@ -116,6 +127,16 @@ function TreinoTemplatesModal({
   const modeloSelecionado =
     modelos.find((modelo) => modelo.id === modeloId) || modelos[0] || null;
   const alunoSelecionado = alunos.find((aluno) => aluno.id === alunoId);
+  const applicationPreview = useMemo(
+    () =>
+      buildWorkoutTemplateApplicationPreview({
+        template: modeloSelecionado,
+        student: alunoSelecionado,
+        options: { rotina, dataInicio },
+      }),
+    [alunoSelecionado, dataInicio, modeloSelecionado, rotina]
+  );
+  const isSubmitting = flowState === "submitting";
 
   useEffect(() => {
     if (discoveryState.page === paginacao.currentPage) return;
@@ -126,6 +147,8 @@ function TreinoTemplatesModal({
   }, [discoveryState.page, paginacao.currentPage, searchParams, setSearchParams]);
 
   function avancar() {
+    if (isSubmitting) return;
+
     if (etapa === 2 && modeloSelecionado && !modeloId) {
       setModeloId(modeloSelecionado.id);
       setRotina(modeloSelecionado.nome);
@@ -135,21 +158,34 @@ function TreinoTemplatesModal({
       setRotina(modeloSelecionado.nome);
     }
 
-    setEtapa((valor) => Math.min(valor + 1, etapas.length - 1));
+    setApplicationError("");
+    setEtapa((valor) => {
+      const next = Math.min(valor + 1, etapas.length - 2);
+      setFlowState(FLOW_BY_STEP[next]);
+      return next;
+    });
   }
 
   function voltar() {
+    if (isSubmitting) return;
+
     if (etapa === 0) {
       onClose();
       return;
     }
 
-    setEtapa((valor) => Math.max(valor - 1, 0));
+    setApplicationError("");
+    setEtapa((valor) => {
+      const next = Math.max(valor - 1, 0);
+      setFlowState(FLOW_BY_STEP[next]);
+      return next;
+    });
   }
 
   function selecionarModelo(modelo) {
     setModeloId(modelo.id);
     setRotina(modelo.nome || "");
+    setApplicationError("");
   }
 
   function atualizarDescoberta(changes, options = {}) {
@@ -165,14 +201,30 @@ function TreinoTemplatesModal({
     setSearchParams(clearTemplateDiscoveryStateFromUrl(searchParams), { replace: false });
   }
 
-  function gerar() {
-    if (!modeloSelecionado) return;
+  async function aplicarModelo() {
+    if (isSubmitting || !modeloSelecionado || !alunoSelecionado || !onApply) return;
+    setFlowState("submitting");
+    setApplicationError("");
 
-    onGenerate(modeloSelecionado.isSystem ? modeloSelecionado.id : modeloSelecionado, {
-      alunoId,
-      rotina: rotina.trim() || modeloSelecionado.nome,
-      dataInicio,
-    });
+    try {
+      const result = await submitWorkoutTemplateApplicationOnce(submissionRef.current, () =>
+        onApply({
+          template: modeloSelecionado,
+          student: alunoSelecionado,
+          options: {
+            rotina: rotina.trim() || modeloSelecionado.nome,
+            dataInicio,
+          },
+        })
+      );
+      setCreatedWorkout(result);
+      setFlowState("success");
+      setEtapa(etapas.length - 1);
+    } catch (error) {
+      setApplicationError(mapWorkoutTemplateApplicationError(error));
+      submissionRef.current.result = null;
+      setFlowState("error");
+    }
   }
 
   async function salvarEdicao(metadata) {
@@ -185,7 +237,7 @@ function TreinoTemplatesModal({
     (etapa === 1 && divisao) ||
     (etapa === 2 && modeloSelecionado) ||
     (etapa === 3 && alunoId && (rotina.trim() || modeloSelecionado)) ||
-    etapa === 4;
+    (etapa === 4 && applicationPreview.validation.ok);
 
   return (
     <div className="treino-template-overlay">
@@ -194,14 +246,14 @@ function TreinoTemplatesModal({
         data-testid="treino-template-modal"
         role="dialog"
         aria-modal="true"
-        aria-label="Gerar treino por modelo"
+        aria-labelledby="treino-template-title"
       >
         <header className="treino-template-header">
           <div>
             <span className="treino-template-step">
               Etapa {etapa + 1} de {etapas.length}
             </span>
-            <h2>Gerar por modelo</h2>
+            <h2 id="treino-template-title">Aplicar modelo ao aluno</h2>
             <p>{avisoModeloEditavel}</p>
           </div>
           <button type="button" onClick={onClose} className="treino-template-close">
@@ -568,24 +620,46 @@ function TreinoTemplatesModal({
 
           {etapa === 4 && modeloSelecionado && (
             <div className="treino-template-confirm">
-              <div className="treino-template-summary">
-                <strong>{rotina || modeloSelecionado.nome}</strong>
-                <span>{alunoSelecionado?.nome || "Aluno nao selecionado"}</span>
-                <span>{modeloSelecionado.nome} - {modeloSelecionado.dias.length} dias</span>
-              </div>
-              <Preview modelo={modeloSelecionado} />
+              <ApplicationSummary preview={applicationPreview} />
+              <Preview modelo={modeloSelecionado} preview={applicationPreview} />
+              <p className="treino-template-privacy">
+                Um novo treino sera criado para o aluno selecionado usando a RPC atomica salvar_treino_composto(jsonb).
+              </p>
             </div>
           )}
 
-          {etapa < 4 && modeloSelecionado && <Preview modelo={modeloSelecionado} compacto={etapa < 2} />}
+          {etapa === 5 && (
+            <div className="treino-template-result" data-testid="treino-template-application-success">
+              <strong>Treino criado com sucesso.</strong>
+              <span>
+                {createdWorkout?.rotina || applicationPreview.workoutName} foi criado para {applicationPreview.studentName}.
+              </span>
+            </div>
+          )}
+
+          {applicationError && (
+            <div className="app-error" role="alert" aria-live="assertive" data-testid="treino-template-application-error">
+              {applicationError}
+            </div>
+          )}
+
+          <div aria-live="polite" data-testid={isSubmitting ? "treino-template-submitting" : undefined}>
+            {isSubmitting ? "Aplicando modelo ao aluno..." : ""}
+          </div>
+
+          {etapa < 4 && modeloSelecionado && <Preview modelo={modeloSelecionado} preview={applicationPreview} compacto={etapa < 2} />}
         </div>
 
         <footer className="treino-template-footer">
-          <button type="button" onClick={voltar} className="app-button app-button-secondary">
+          <button type="button" onClick={voltar} className="app-button app-button-secondary" disabled={isSubmitting || flowState === "success"}>
             <ChevronLeft size={16} />
             {etapa === 0 ? "Cancelar" : "Voltar"}
           </button>
-          {etapa < 4 ? (
+          {flowState === "success" ? (
+            <button type="button" onClick={onClose} className="app-button app-button-primary">
+              Fechar
+            </button>
+          ) : etapa < 4 ? (
             <button
               type="button"
               onClick={avancar}
@@ -597,12 +671,13 @@ function TreinoTemplatesModal({
           ) : (
             <button
               type="button"
-              onClick={gerar}
-              disabled={!alunoId}
+              onClick={aplicarModelo}
+              disabled={!applicationPreview.validation.ok || isSubmitting}
               className="app-button app-button-primary"
               data-testid="treino-template-generate"
+              aria-busy={isSubmitting}
             >
-              Gerar treino editavel
+              {isSubmitting ? "Aplicando..." : "Aplicar treino ao aluno"}
             </button>
           )}
         </footer>
@@ -643,11 +718,37 @@ function ChoiceButton({ active, onClick, title, subtitle }) {
   );
 }
 
-function Preview({ modelo, compacto = false }) {
+function ApplicationSummary({ preview }) {
+  return (
+    <div className="treino-template-summary" data-testid="workout-template-application-summary">
+      <strong>{preview.workoutName}</strong>
+      <span>Modelo: {preview.templateName} ({preview.templateOriginLabel})</span>
+      <span>Aluno: {preview.studentLabel}</span>
+      <span>Objetivo: {preview.objective}</span>
+      <span>Nivel: {preview.level}</span>
+      <span>Divisao: {preview.split}</span>
+      <span>{preview.dayCount} dias - {preview.exerciseCount} exercicios</span>
+      <span>{preview.sanitizedDetails}</span>
+      {preview.mainExercises.length > 0 && (
+        <span>Principais: {preview.mainExercises.join(", ")}</span>
+      )}
+      {preview.warnings.length > 0 && (
+        <ul className="treino-template-warnings" data-testid="workout-template-application-warnings">
+          {preview.warnings.map((warning) => (
+            <li key={warning}>{warning}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+function Preview({ modelo, preview, compacto = false }) {
+  const dias = preview?.days || modelo.dias || [];
   return (
     <div className={`treino-template-preview${compacto ? " is-compact" : ""}`} data-testid="treino-template-preview">
       <h3>Preview do modelo</h3>
-      {modelo.dias.map((dia) => (
+      {dias.map((dia) => (
         <details key={`${modelo.id}-${dia.nome}`} open={!compacto}>
           <summary>
             <strong>{dia.nome}</strong>
