@@ -398,6 +398,92 @@
   color: #ffffff;
 }
 
+.treino-template-discovery {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  display: grid;
+  gap: 12px;
+  margin-bottom: 14px;
+  min-width: 0;
+  padding: 12px;
+}
+
+.treino-template-search-row {
+  align-items: end;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(220px, 1fr) auto;
+  min-width: 0;
+}
+
+.treino-template-search,
+.treino-template-filter-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.treino-template-search span,
+.treino-template-filter-grid label span {
+  color: #374151;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.treino-template-search input,
+.treino-template-filter-grid select {
+  min-height: 42px;
+  min-width: 0;
+  width: 100%;
+}
+
+.treino-template-filter-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(150px, 1fr));
+  min-width: 0;
+}
+
+.treino-template-results-bar {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.treino-template-results-bar strong {
+  color: #111827;
+  font-size: 14px;
+}
+
+.treino-template-results-bar span {
+  background: #eff6ff;
+  border-radius: 999px;
+  color: #1d4ed8;
+  font-size: 12px;
+  font-weight: 850;
+  padding: 5px 8px;
+}
+
+.treino-template-pagination {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 14px;
+  min-width: 0;
+}
+
+.treino-template-pagination span {
+  color: #475569;
+  font-size: 13px;
+  font-weight: 800;
+}
+
 .treino-template-actions {
   position: absolute;
   right: 10px;
@@ -448,10 +534,17 @@
   border: 1px dashed #cbd5e1;
   border-radius: 8px;
   color: #64748b;
+  display: grid;
+  gap: 8px;
+  justify-items: center;
   font-weight: 750;
   margin-top: 12px;
   padding: 18px;
   text-align: center;
+}
+
+.treino-template-empty strong {
+  color: #111827;
 }
 
 .treino-template-destination {
@@ -679,10 +772,22 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
+  .treino-template-search-row,
+  .treino-template-filter-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .treino-template-pagination {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
   .treino-template-destination input,
   .treino-template-destination select,
   .treino-save-template-form input,
   .treino-save-template-form select,
+  .treino-template-search input,
+  .treino-template-filter-grid select,
   .treino-save-template-form textarea {
     font-size: 16px;
   }
