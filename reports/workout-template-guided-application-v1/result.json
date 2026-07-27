@@ -1,9 +1,15 @@
 {
   "cycle": "1.4",
-  "stage": "1",
-  "decision": "READY_WITH_LIMITATIONS",
+  "stage": "2",
+  "decision": "COMPLETE_WITH_LIMITATIONS",
   "initialMainSha": "a94c07af9a17bc06564df40c71dda350b35930ca",
-  "branch": "feat/workout-template-guided-application-v1",
+  "finalMainSha": "e49fbbe4294279bd4010471b3ce882c14dfdcdb5",
+  "originMainSha": "e49fbbe4294279bd4010471b3ce882c14dfdcdb5",
+  "branch": "test/workout-template-application-immutability",
+  "featureBranch": "feat/workout-template-guided-application-v1",
+  "featureCommit": "1ebb168",
+  "mergeCommit": "e49fbbe",
+  "pullRequest": "#25",
   "previousFlow": {
     "templateSelection": "TreinoTemplatesModal selecionava modelo oficial ou pessoal.",
     "studentSelection": "Aluno era escolhido em etapa simples, sem resumo canonico de confirmacao.",
@@ -33,6 +39,18 @@
   "atomicPersistenceUsed": true,
   "rpcName": "salvar_treino_composto",
   "duplicateSubmissionProtection": true,
+  "immutabilityHardening": {
+    "realMutationFound": false,
+    "productionFixesRequired": false,
+    "deepFreezeTests": true,
+    "deepStrictEqualSnapshots": true,
+    "officialTemplateFrozen": true,
+    "personalTemplateFrozen": true,
+    "independentPayloadReferences": true,
+    "persistenceErrorPreservesTemplate": true,
+    "duplicateSubmissionPreservesTemplate": true,
+    "logicalMutationGuardCheck": "Os testes congelam entradas e comparam snapshots; uma mutacao simples em objetos de entrada causaria TypeError ou falha de deepStrictEqual."
+  },
   "previewFields": [
     "templateName",
     "templateOrigin",
@@ -52,7 +70,9 @@
   "unitTests": {
     "command": "node --test src\\features\\treinos\\utils\\*.test.js",
     "status": "passed",
-    "tests": 57
+    "tests": 62,
+    "specificCommand": "node --test src\\features\\treinos\\utils\\workoutTemplateApplication.test.js",
+    "specificTests": 11
   },
   "qa": {
     "qa:workout-template-sanitization": "passed",
@@ -73,24 +93,47 @@
     "Nao foi adicionada idempotency key no banco nesta etapa.",
     "Dashboard do roadmap esta defasado e nao foi atualizado."
   ],
+  "nextCycle": {
+    "number": "1.5",
+    "name": "Criacao, edicao e duplicacao segura de modelos pessoais",
+    "objective": "Fluxos pessoais consistentes, com ownership e descarte seguro.",
+    "acceptanceCriteria": [
+      "criar modelos pessoais de forma consistente",
+      "editar modelos pessoais",
+      "duplicar ou adaptar com seguranca",
+      "preservar ownership",
+      "permitir descarte seguro"
+    ],
+    "dependencies": [
+      "Epic 2 para mobile fluido nos fluxos da biblioteca",
+      "Epic 3 para QA proporcional",
+      "Epic 4 se houver mudanca estrutural de banco",
+      "Epic 5A para valor percebido"
+    ],
+    "outOfScope": [
+      "Marketplace publico de modelos",
+      "Compartilhamento entre contas",
+      "Prescricao com IA",
+      "Alteracoes em cobranca ou assinatura"
+    ],
+    "dashboardDivergence": "Dashboard permanece defasado e ainda aponta Ciclo 1.2 como atual."
+  },
   "filesChanged": [
     "package.json",
     "docs/workout-template-guided-application-v1/01-guided-application.md",
     "reports/workout-template-guided-application-v1/result.json",
     "reports/workout-template-guided-application-v1/summary.md",
     "scripts/validate-workout-template-guided-application.mjs",
-    "src/features/treinos/components/TreinoTemplatesModal.jsx",
-    "src/features/treinos/components/TreinosList.jsx",
-    "src/features/treinos/hooks/useTreinosPage.js",
-    "src/features/treinos/utils/workoutTemplateApplication.js",
     "src/features/treinos/utils/workoutTemplateApplication.test.js",
-    "src/index.css"
+    "src/features/treinos/utils/workoutTemplateApplication.js"
   ],
   "validations": [
     "git fetch --prune origin",
     "git checkout main",
     "git pull --ff-only origin main",
     "git checkout -b feat/workout-template-guided-application-v1",
+    "git checkout -b test/workout-template-application-immutability",
+    "node --test src\\features\\treinos\\utils\\workoutTemplateApplication.test.js",
     "node --test src\\features\\treinos\\utils\\*.test.js",
     "npm.cmd run qa:workout-template-sanitization",
     "npm.cmd run qa:workout-templates-data",

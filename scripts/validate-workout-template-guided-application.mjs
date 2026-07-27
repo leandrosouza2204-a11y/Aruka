@@ -35,6 +35,14 @@ check("persistencia atomica existente usada", hook.includes("adicionarTreinoSupa
 check("sem inserts independentes no novo fluxo", !application.includes(".insert(") && !modal.includes(".insert(") && !hook.includes("treino_dias"));
 check("teste de duplicidade presente", test.includes("bloqueia submissao duplicada"));
 check("testes associados presentes", test.includes("prepara payload") && test.includes("rejeita aplicacao"));
+check("teste de imutabilidade profunda existe", test.includes("nao muta modelo oficial congelado") && test.includes("nao muta modelo pessoal profundamente aninhado"));
+check("teste usa deepFreeze recursivo", test.includes("function deepFreeze") && test.includes("Object.freeze") && test.includes("Object.values"));
+check("teste usa deepStrictEqual antes e depois", test.includes("structuredClone(input)") && test.includes("assert.deepStrictEqual(input, before)"));
+check("teste confirma referencias independentes", test.includes("payload nao compartilha referencias mutaveis") && test.includes("assert.notStrictEqual"));
+check("teste cobre modelo oficial", test.includes("officialTemplate") && test.includes("modelo oficial congelado"));
+check("teste cobre modelo pessoal", test.includes("personalTemplate") && test.includes("modelo pessoal profundamente aninhado"));
+check("teste cobre erro sem mutacao", test.includes("erro de persistencia preserva modelo"));
+check("teste cobre submissao duplicada sem mutacao", test.includes("submissao duplicada preserva modelo"));
 
 const supabaseChanged = [
   git(["diff", "--name-only", "--", "supabase/**"]),
