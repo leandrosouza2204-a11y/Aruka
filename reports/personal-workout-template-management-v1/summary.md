@@ -32,3 +32,44 @@ Limitacoes:
 
 - Runtime autenticado, mobile e CDP nao executados nesta etapa por infraestrutura indisponivel.
 - QAs CDP autenticados ainda devem ser executados quando houver ambiente disponivel.
+
+## Closeout pos-merge
+
+Decisao final: `COMPLETE_WITH_LIMITATIONS`.
+
+Merge:
+
+- PR: `#27`.
+- Titulo real: `Merge pull request #27 from leandrosouza2204-a11y/feat/personal-workout-template-management-v1`.
+- Merge commit: `f4541113408cbaf6057acf6d5974932878eb0932`.
+- Feature commit: `74c363b7cf6c9851d36f53dd73e831d3b223cba2`.
+- SHA da main: `f4541113408cbaf6057acf6d5974932878eb0932`.
+- Data do merge: `2026-07-27 11:37:02 -0300`.
+
+Confirmacao:
+
+- Implementacao integrada a `main`.
+- Escopo funcional do Ciclo 1.5 encerrado.
+- Supabase inalterado.
+- Runtime autenticado, mobile e CDP seguem pendentes por infraestrutura.
+
+Evidencias herdadas:
+
+- `node --test src\features\treinos\utils\*.test.js`: 70/70.
+- `npm.cmd run qa:personal-workout-template-management`: passou.
+- `npm.cmd run qa:workout-template-sanitization`: passou.
+- `npm.cmd run qa:workout-template-guided-application`: passou.
+- `npm.cmd run lint`: passou.
+- `npm.cmd run build`: passou.
+
+Progresso anterior:
+
+4/8 ciclos - 50%.
+
+Progresso atualizado:
+
+5/8 ciclos - 62,5%.
+
+Proximo ciclo:
+
+Ciclo 1.6 - Fluxo mobile da Biblioteca de Treinos, branch recomendada `feat/workout-library-mobile-flow-v1`.
