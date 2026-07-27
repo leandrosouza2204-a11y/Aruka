@@ -1,7 +1,7 @@
 {
   "cycle": "1.3",
-  "stage": "2",
-  "decision": "READY_WITH_LIMITATIONS",
+  "stage": "3",
+  "decision": "COMPLETE_WITH_LIMITATIONS",
   "implementedFeatures": [
     "Busca por nome em modelos oficiais e pessoais",
     "Busca por descricao em modelos oficiais e pessoais",
@@ -176,5 +176,75 @@
       "result": "PASS",
       "notes": "Nenhum arquivo Supabase untracked."
     }
-  ]
+  ],
+  "postMergeClosure": {
+    "pr": {
+      "number": 23,
+      "title": "feat: adiciona descoberta e filtros à biblioteca de treinos",
+      "state": "MERGED",
+      "mergedAt": "2026-07-27T03:06:45Z",
+      "url": "https://github.com/leandrosouza2204-a11y/Aruka/pull/23"
+    },
+    "featureCommit": "85410ecdef27ac7b784453197118e402d7f85813",
+    "mergeCommitExpectedFromPrompt": "1c8e9be",
+    "mergeCommitConfirmed": "c18eb40cf0d7eb511748b1bf7bc232ca137d6686",
+    "mainHead": "c18eb40cf0d7eb511748b1bf7bc232ca137d6686",
+    "originMainHead": "c18eb40cf0d7eb511748b1bf7bc232ca137d6686",
+    "featureCommitReachableFromMain": true,
+    "githubChecks": [
+      {
+        "name": "Supabase Local Quality Gates / validation",
+        "status": "SUCCESS"
+      },
+      {
+        "name": "Vercel",
+        "status": "SUCCESS",
+        "targetUrl": "https://vercel.com/leandrosouzafitness/consultoria-fitness/DZGTYiYA6vvoHiVsFzfRbDE1E9Uk"
+      },
+      {
+        "name": "Vercel Preview Comments",
+        "status": "SUCCESS"
+      }
+    ],
+    "deployment": {
+      "technicalStatus": "SUCCESS_FROM_GITHUB_STATUS_CONTEXT",
+      "functionalValidation": "BLOCKED_EXTERNAL_ACCESS",
+      "notes": "Status Vercel confirmado via GitHub PR status context; validacao funcional autenticada nao executada neste ambiente."
+    },
+    "branchCleanup": {
+      "localBranchRemoved": true,
+      "remoteBranchRemoved": true
+    },
+    "supabaseIntegrity": {
+      "migrationsChanged": false,
+      "baselineChanged": false,
+      "rpcChanged": false,
+      "policiesChanged": false,
+      "grantsChanged": false,
+      "supabaseQueriesChanged": false
+    },
+    "postMergeValidations": [
+      "node --test src\\features\\treinos\\utils\\*.test.js: PASS (51 tests)",
+      "npm.cmd run qa:workout-template-sanitization: PASS",
+      "npm.cmd run qa:workout-templates-data: PASS",
+      "npm.cmd run qa:workout-template-discovery: PASS",
+      "npm.cmd run lint: PASS",
+      "npm.cmd run build: PASS",
+      "git diff --check: PASS",
+      "npm.cmd run qa:treino-templates-mobile: BLOCKED_INFRASTRUCTURE"
+    ],
+    "nextCycle": {
+      "officialSource": "docs/roadmap-v2/04-epic-1-workout-library.md",
+      "cycle": "1.4",
+      "name": "Aplicacao guiada de modelo ao aluno",
+      "objective": "Criar fluxo claro de usar modelo para aluno com previsualizacao, validacao e persistencia controlada antes de persistir.",
+      "dependencies": [
+        "Epic 2 para mobile fluido nos fluxos da biblioteca",
+        "Epic 3 para contrato minimo de QA",
+        "Epic 4 se houver mudanca estrutural de tabela, indice, RLS ou RPC",
+        "Epic 5A para alinhar biblioteca ao primeiro valor percebido"
+      ],
+      "divergence": "docs/roadmap-v2/13-epic-progress-dashboard.md ainda indicava Ciclo 1.2 como atual e esta defasado frente ao merge do Ciclo 1.3."
+    }
+  }
 }

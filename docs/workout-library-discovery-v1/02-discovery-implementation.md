@@ -92,3 +92,19 @@ Hardening da Etapa 2.1:
 `READY_WITH_LIMITATIONS`.
 
 O MVP funcional esta implementado sem alteracoes de banco. As limitacoes restantes sao conhecidas e nao bloqueiam a Etapa 2.
+
+## 11. Fechamento Pos-Merge
+
+- PR: #23, `feat: adiciona descoberta e filtros a biblioteca de treinos`.
+- Commit da feature: `85410ecdef27ac7b784453197118e402d7f85813`.
+- Merge commit confirmado local/GitHub: `c18eb40cf0d7eb511748b1bf7bc232ca137d6686`.
+- SHA atual da `main`: `c18eb40cf0d7eb511748b1bf7bc232ca137d6686`, igual a `origin/main`.
+- Checks GitHub: `Supabase Local Quality Gates / validation` SUCCESS; status `Vercel` SUCCESS; `Vercel Preview Comments` SUCCESS.
+- Vercel: deployment tecnico reportado como SUCCESS pelo status context da PR, com target `https://vercel.com/leandrosouzafitness/consultoria-fitness/DZGTYiYA6vvoHiVsFzfRbDE1E9Uk`. Validacao funcional autenticada nao foi executada por falta de sessao/runtime autenticado neste fechamento.
+- Validacoes pos-merge na `main`: unitarios de treinos, QAs de templates, QA de discovery, lint, build e `git diff --check` passaram.
+- Mobile runtime: `BLOCKED_INFRASTRUCTURE`; Chrome CDP nao respondeu na porta 9222.
+- Branch local `feat/workout-library-discovery-v1`: removida com `git branch -d`.
+- Branch remota `feat/workout-library-discovery-v1`: removida com `git push origin --delete`.
+- Supabase: nenhum arquivo em `supabase/**` no diff da feature; migrations, baseline, RPC, policies, grants e consultas Supabase inalterados.
+- Decisao final do Ciclo 1.3: `COMPLETE_WITH_LIMITATIONS`.
+- Proximo ciclo identificado: `Ciclo 1.4 - Aplicacao guiada de modelo ao aluno`, conforme `docs/roadmap-v2/04-epic-1-workout-library.md`. Divergencia: `docs/roadmap-v2/13-epic-progress-dashboard.md` ainda estava defasado em Ciclo 1.2 no momento do fechamento.
