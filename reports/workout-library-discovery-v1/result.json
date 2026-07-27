@@ -1,0 +1,180 @@
+{
+  "cycle": "1.3",
+  "stage": "2",
+  "decision": "READY_WITH_LIMITATIONS",
+  "implementedFeatures": [
+    "Busca por nome em modelos oficiais e pessoais",
+    "Busca por descricao em modelos oficiais e pessoais",
+    "Filtro por origem",
+    "Filtro por divisao",
+    "Filtro por objetivo",
+    "Filtro por nivel",
+    "Filtro por grupo muscular derivado",
+    "Ordenacao recommended, nameAsc, nameDesc e updatedDesc",
+    "Contagem de resultados",
+    "Botao para limpar filtros",
+    "Estado sem resultados com acao de limpar",
+    "Paginacao visual no frontend",
+    "Sincronizacao de filtros com URL prefixada",
+    "Layout responsivo para controles de descoberta"
+    ,"Hardening do guard Supabase para working tree, staging e untracked"
+    ,"Validacao explicita do marcador treino-template-discovery no QA estatico"
+    ,"Sanitizacao de updates invalidos de URL para origem, ordenacao e pagina"
+  ],
+  "searchFields": [
+    "nome/name",
+    "descricao/description",
+    "objetivo/objective",
+    "divisao/split"
+  ],
+  "filters": [
+    "templateOrigin",
+    "templateSplit",
+    "templateObjective",
+    "templateLevel",
+    "templateMuscleGroup"
+  ],
+  "urlParameters": [
+    "templateQ",
+    "templateSplit",
+    "templateObjective",
+    "templateLevel",
+    "templateMuscleGroup",
+    "templateOrigin",
+    "templateSort",
+    "templatePage"
+  ],
+  "sortOptions": [
+    "recommended",
+    "nameAsc",
+    "nameDesc",
+    "updatedDesc"
+  ],
+  "pageSize": 12,
+  "databaseChanged": false,
+  "supabaseQueryChanged": false,
+  "unitTests": {
+    "command": "node --test src\\features\\treinos\\utils\\*.test.js",
+    "status": "PASS",
+    "tests": 51,
+    "newTestFiles": [
+      "src/features/treinos/utils/workoutTemplateDiscovery.test.js",
+      "src/features/treinos/utils/workoutTemplateDiscoveryQueryState.test.js"
+    ]
+  },
+  "qa": {
+    "staticDiscovery": {
+      "command": "npm.cmd run qa:workout-template-discovery",
+      "status": "PASS"
+    },
+    "templateSanitization": {
+      "command": "npm.cmd run qa:workout-template-sanitization",
+      "status": "PASS"
+    },
+    "officialTemplatesData": {
+      "command": "npm.cmd run qa:workout-templates-data",
+      "status": "PASS"
+    },
+    "functionalRuntime": {
+      "command": "npm.cmd run qa:treino-templates-mobile",
+      "status": "BLOCKED_INFRASTRUCTURE",
+      "notes": "Chrome CDP nao respondeu na porta 9222."
+    }
+  },
+  "mobileValidation": {
+    "implemented": [
+      "Busca sempre visivel na etapa de modelos",
+      "Filtros quebram para uma coluna em viewport pequena",
+      "Paginacao empilha controles no mobile",
+      "Modal preserva area rolavel atual"
+    ],
+    "runtimeEvidence": "BLOCKED_INFRASTRUCTURE: Chrome CDP nao respondeu na porta 9222."
+  },
+  "limitations": [
+    "Grupo muscular e derivado de nome/descricao dos dias e pode ser incompleto em modelos pessoais pouco descritivos.",
+    "Filtro por equipamento, favoritos e modelos recentes continuam adiados por ausencia de dados.",
+    "Ordenacao updatedDesc e mais representativa para modelos pessoais; oficiais sem data preservam ordenacao estavel.",
+    "QA funcional autenticado pode depender de CDP, Vite e ambiente local configurado."
+  ],
+  "filesChanged": [
+    "docs/workout-library-discovery-v1/01-discovery-architecture.md",
+    "docs/workout-library-discovery-v1/02-discovery-implementation.md",
+    "reports/workout-library-discovery-v1/result.json",
+    "reports/workout-library-discovery-v1/summary.md",
+    "package.json",
+    "scripts/validate-workout-template-discovery.mjs",
+    "src/features/treinos/components/TreinoTemplatesModal.jsx",
+    "src/features/treinos/utils/workoutTemplateDiscovery.js",
+    "src/features/treinos/utils/workoutTemplateDiscovery.test.js",
+    "src/features/treinos/utils/workoutTemplateDiscoveryQueryState.js",
+    "src/features/treinos/utils/workoutTemplateDiscoveryQueryState.test.js",
+    "src/index.css"
+  ],
+  "validations": [
+    {
+      "command": "node --test src\\features\\treinos\\utils\\*.test.js",
+      "result": "PASS",
+      "notes": "51 testes passaram na rodada final."
+    },
+    {
+      "command": "node -e \"JSON.parse(require('fs').readFileSync('reports/workout-library-discovery-v1/result.json','utf8')); console.log('JSON_VALID')\"",
+      "result": "PASS",
+      "notes": "JSON valido."
+    },
+    {
+      "command": "npm.cmd run qa:workout-template-sanitization",
+      "result": "PASS",
+      "notes": "Sanitizacao de modelos de treino aprovada."
+    },
+    {
+      "command": "npm.cmd run qa:workout-templates-data",
+      "result": "PASS",
+      "notes": "10 modelos oficiais aprovados."
+    },
+    {
+      "command": "npm.cmd run qa:workout-template-discovery",
+      "result": "PASS",
+      "notes": "Descoberta de modelos de treino aprovada."
+    },
+    {
+      "command": "npm.cmd run lint",
+      "result": "PASS",
+      "notes": "ESLint passou."
+    },
+    {
+      "command": "npm.cmd run build",
+      "result": "PASS",
+      "notes": "Build Vite concluido."
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "notes": "Sem erros; Git emitiu apenas avisos LF/CRLF no Windows."
+    },
+    {
+      "command": "git diff --name-only -- \"supabase/**\"",
+      "result": "PASS",
+      "notes": "Nenhum arquivo Supabase alterado."
+    },
+    {
+      "command": "npm.cmd run qa:treino-templates-mobile",
+      "result": "BLOCKED_INFRASTRUCTURE",
+      "notes": "Chrome CDP nao respondeu na porta 9222."
+    },
+    {
+      "command": "node --test src\\features\\treinos\\utils\\workoutTemplateDiscoveryQueryState.test.js src\\features\\treinos\\utils\\workoutTemplateDiscovery.test.js",
+      "result": "PASS",
+      "notes": "18 testes focados passaram apos hardening."
+    },
+    {
+      "command": "git diff --cached --name-only -- \"supabase/**\"",
+      "result": "PASS",
+      "notes": "Nenhum arquivo Supabase staged."
+    },
+    {
+      "command": "git ls-files --others --exclude-standard -- \"supabase\"",
+      "result": "PASS",
+      "notes": "Nenhum arquivo Supabase untracked."
+    }
+  ]
+}

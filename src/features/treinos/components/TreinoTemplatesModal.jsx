@@ -1,16 +1,41 @@
 import { ChevronLeft, Dumbbell, Layers3, MoreVertical, Sparkles } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   DIVISOES_MODELO_TREINO,
   GENEROS_MODELO_TREINO,
   avisoModeloEditavel,
-  obterModeloTreinoPorId,
   obterModelosTreino,
 } from "../../../data/treinosModelos";
+import {
+  TEMPLATE_DISCOVERY_PAGE_SIZE,
+  buildTemplateDiscoveryOptions,
+  filterWorkoutTemplates,
+  normalizeTemplateForDiscovery,
+  paginateWorkoutTemplates,
+  sortWorkoutTemplates,
+} from "../utils/workoutTemplateDiscovery";
+import {
+  clearTemplateDiscoveryStateFromUrl,
+  countActiveTemplateDiscoveryFilters,
+  hasActiveTemplateDiscoveryFilters,
+  readTemplateDiscoveryStateFromUrl,
+  updateTemplateDiscoveryStateInUrl,
+} from "../utils/workoutTemplateDiscoveryQueryState";
 import TreinoSalvarModeloModal from "./TreinoSalvarModeloModal";
 
 const etapas = ["Genero", "Divisao", "Modelo", "Destino", "Confirmacao"];
-const ORIGENS = ["Todos", "Modelos oficiais", "Meus modelos"];
+const ORIGENS = [
+  { value: "all", label: "Todos" },
+  { value: "official", label: "Modelos oficiais" },
+  { value: "personal", label: "Meus modelos" },
+];
+const SORT_OPTIONS = [
+  { value: "recommended", label: "Recomendados" },
+  { value: "nameAsc", label: "Nome A-Z" },
+  { value: "nameDesc", label: "Nome Z-A" },
+  { value: "updatedDesc", label: "Atualizados" },
+];
 
 function TreinoTemplatesModal({
   alunos,
@@ -22,20 +47,24 @@ function TreinoTemplatesModal({
   onEditCustom,
   onGenerate,
 }) {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [etapa, setEtapa] = useState(0);
   const [genero, setGenero] = useState("Masculino");
   const [divisao, setDivisao] = useState("ABC");
-  const [origem, setOrigem] = useState("Todos");
   const [modeloId, setModeloId] = useState("");
   const [alunoId, setAlunoId] = useState("");
   const [rotina, setRotina] = useState("");
   const [dataInicio, setDataInicio] = useState("");
   const [modeloEditando, setModeloEditando] = useState(null);
   const [menuAbertoId, setMenuAbertoId] = useState("");
+  const discoveryState = useMemo(
+    () => readTemplateDiscoveryStateFromUrl(searchParams),
+    [searchParams]
+  );
 
   const modelosOficiais = useMemo(
-    () => obterModelosTreino({ genero, divisao }).map((modelo) => ({ ...modelo, origem: "official" })),
-    [divisao, genero]
+    () => obterModelosTreino({ genero, divisao: "" }).map((modelo) => ({ ...modelo, origem: "official" })),
+    [genero]
   );
 
   const meusModelos = useMemo(
@@ -43,21 +72,58 @@ function TreinoTemplatesModal({
       modelosPessoais.filter((modelo) => {
         const combinaGenero =
           genero === "Todos" || modelo.genero === genero || modelo.genero === "Unissex";
-        const combinaDivisao = !divisao || modelo.divisao === divisao;
-        return combinaGenero && combinaDivisao;
+        return combinaGenero;
       }),
-    [divisao, genero, modelosPessoais]
+    [genero, modelosPessoais]
   );
 
-  const modelos = useMemo(() => {
-    if (origem === "Modelos oficiais") return modelosOficiais;
-    if (origem === "Meus modelos") return meusModelos;
-    return [...modelosOficiais, ...meusModelos];
-  }, [meusModelos, modelosOficiais, origem]);
+  const modelosCombinados = useMemo(
+    () => [...modelosOficiais, ...meusModelos],
+    [meusModelos, modelosOficiais]
+  );
+  const discoveryItems = useMemo(
+    () => modelosCombinados.map(normalizeTemplateForDiscovery),
+    [modelosCombinados]
+  );
+  const discoveryOptions = useMemo(
+    () => buildTemplateDiscoveryOptions(discoveryItems),
+    [discoveryItems]
+  );
+  const modelosDescobertos = useMemo(
+    () =>
+      sortWorkoutTemplates(
+        filterWorkoutTemplates(discoveryItems, discoveryState),
+        discoveryState.sort
+      ),
+    [discoveryItems, discoveryState]
+  );
+  const paginacao = useMemo(
+    () =>
+      paginateWorkoutTemplates(
+        modelosDescobertos,
+        discoveryState.page,
+        TEMPLATE_DISCOVERY_PAGE_SIZE
+      ),
+    [discoveryState.page, modelosDescobertos]
+  );
+  const modelos = useMemo(
+    () => paginacao.items.map((item) => item.original),
+    [paginacao.items]
+  );
+  const filtrosAtivos = hasActiveTemplateDiscoveryFilters(discoveryState);
+  const totalFiltrosAtivos = countActiveTemplateDiscoveryFilters(discoveryState);
 
   const modeloSelecionado =
-    modelos.find((modelo) => modelo.id === modeloId) || obterModeloTreinoPorId(modeloId) || modelos[0] || null;
+    modelos.find((modelo) => modelo.id === modeloId) || modelos[0] || null;
   const alunoSelecionado = alunos.find((aluno) => aluno.id === alunoId);
+
+  useEffect(() => {
+    if (discoveryState.page === paginacao.currentPage) return;
+    setSearchParams(
+      updateTemplateDiscoveryStateInUrl(searchParams, { page: paginacao.currentPage }),
+      { replace: true }
+    );
+  }, [discoveryState.page, paginacao.currentPage, searchParams, setSearchParams]);
 
   function avancar() {
     if (etapa === 2 && modeloSelecionado && !modeloId) {
@@ -84,6 +150,19 @@ function TreinoTemplatesModal({
   function selecionarModelo(modelo) {
     setModeloId(modelo.id);
     setRotina(modelo.nome || "");
+  }
+
+  function atualizarDescoberta(changes, options = {}) {
+    const replace = options.replace ?? false;
+    setModeloId("");
+    setMenuAbertoId("");
+    setSearchParams(updateTemplateDiscoveryStateInUrl(searchParams, changes), { replace });
+  }
+
+  function limparDescoberta() {
+    setModeloId("");
+    setMenuAbertoId("");
+    setSearchParams(clearTemplateDiscoveryStateFromUrl(searchParams), { replace: false });
   }
 
   function gerar() {
@@ -146,6 +225,7 @@ function TreinoTemplatesModal({
                   onClick={() => {
                     setGenero(item);
                     setModeloId("");
+                    setMenuAbertoId("");
                   }}
                   title={item}
                   subtitle="Perfil de organizacao. Nao limita o aluno selecionado."
@@ -163,6 +243,7 @@ function TreinoTemplatesModal({
                   onClick={() => {
                     setDivisao(item);
                     setModeloId("");
+                    atualizarDescoberta({ split: item });
                   }}
                   title={item}
                   subtitle={descricaoDivisao(item)}
@@ -173,20 +254,151 @@ function TreinoTemplatesModal({
 
           {etapa === 2 && (
             <>
-              <div className="treino-template-origin-filter" data-testid="template-origin-filter">
-                {ORIGENS.map((item) => (
+              <div className="treino-template-discovery" data-testid="template-discovery-controls">
+                <div className="treino-template-search-row">
+                  <label className="treino-template-search">
+                    <span>Buscar modelos</span>
+                    <input
+                      className="app-input"
+                      aria-label="Buscar modelos por nome ou descricao"
+                      data-testid="template-search"
+                      placeholder="Nome ou descricao"
+                      value={discoveryState.query}
+                      onChange={(event) =>
+                        atualizarDescoberta({ query: event.target.value }, { replace: true })
+                      }
+                    />
+                  </label>
                   <button
-                    key={item}
                     type="button"
-                    className={origem === item ? "is-selected" : ""}
-                    onClick={() => {
-                      setOrigem(item);
-                      setModeloId("");
-                    }}
+                    className="app-button app-button-neutral"
+                    data-testid="template-clear-filters"
+                    onClick={limparDescoberta}
+                    disabled={!filtrosAtivos}
                   >
-                    {item}
+                    Limpar filtros
                   </button>
-                ))}
+                </div>
+
+                <div className="treino-template-filter-grid">
+                  <label>
+                    <span>Origem</span>
+                    <select
+                      className="app-select"
+                      aria-label="Filtrar modelos por origem"
+                      data-testid="template-filter-origin"
+                      value={discoveryState.origin}
+                      onChange={(event) => atualizarDescoberta({ origin: event.target.value })}
+                    >
+                      {ORIGENS.map((item) => (
+                        <option key={item.value} value={item.value}>
+                          {item.label}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+
+                  <label>
+                    <span>Divisao</span>
+                    <select
+                      className="app-select"
+                      aria-label="Filtrar modelos por divisao"
+                      data-testid="template-filter-split"
+                      value={discoveryState.split}
+                      onChange={(event) => {
+                        setDivisao(event.target.value || "ABC");
+                        atualizarDescoberta({ split: event.target.value });
+                      }}
+                    >
+                      <option value="">Todas</option>
+                      {discoveryOptions.splits.map((split) => (
+                        <option key={split} value={split}>
+                          {split}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+
+                  <label>
+                    <span>Objetivo</span>
+                    <select
+                      className="app-select"
+                      aria-label="Filtrar modelos por objetivo"
+                      data-testid="template-filter-objective"
+                      value={discoveryState.objective}
+                      onChange={(event) => atualizarDescoberta({ objective: event.target.value })}
+                    >
+                      <option value="">Todos</option>
+                      {discoveryOptions.objectives.map((objective) => (
+                        <option key={objective} value={objective}>
+                          {objective}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+
+                  <label>
+                    <span>Nivel</span>
+                    <select
+                      className="app-select"
+                      aria-label="Filtrar modelos por nivel"
+                      data-testid="template-filter-level"
+                      value={discoveryState.level}
+                      onChange={(event) => atualizarDescoberta({ level: event.target.value })}
+                    >
+                      <option value="">Todos</option>
+                      {discoveryOptions.levels.map((level) => (
+                        <option key={level} value={level}>
+                          {level}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+
+                  <label>
+                    <span>Grupo</span>
+                    <select
+                      className="app-select"
+                      aria-label="Filtrar modelos por grupo muscular"
+                      data-testid="template-filter-muscle-group"
+                      value={discoveryState.muscleGroup}
+                      onChange={(event) => atualizarDescoberta({ muscleGroup: event.target.value })}
+                    >
+                      <option value="">Todos</option>
+                      {discoveryOptions.muscleGroups.map((group) => (
+                        <option key={group} value={group}>
+                          {group}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+
+                  <label>
+                    <span>Ordenar</span>
+                    <select
+                      className="app-select"
+                      aria-label="Ordenar modelos"
+                      data-testid="template-sort"
+                      value={discoveryState.sort}
+                      onChange={(event) => atualizarDescoberta({ sort: event.target.value })}
+                    >
+                      {SORT_OPTIONS.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+
+                <div className="treino-template-results-bar" aria-live="polite">
+                  <strong data-testid="template-results-count">
+                    {formatarContagem(paginacao.totalItems)}
+                  </strong>
+                  {totalFiltrosAtivos > 0 && (
+                    <span>{totalFiltrosAtivos} filtros ativos</span>
+                  )}
+                </div>
               </div>
 
               {erroModelos && <div className="app-error">{erroModelos}</div>}
@@ -263,11 +475,53 @@ function TreinoTemplatesModal({
                 ))}
               </div>
 
-              {modelos.length === 0 && (
+              {paginacao.totalItems === 0 && (
                 <div className="treino-template-empty" data-testid="custom-template-empty-state">
-                  {origem === "Meus modelos"
-                    ? "Nenhum modelo pessoal encontrado para estes filtros."
-                    : "Nenhum modelo encontrado para estes filtros."}
+                  <strong>
+                    {modelosCombinados.length === 0
+                      ? "Nenhum modelo disponivel."
+                      : "Nenhum modelo encontrado."}
+                  </strong>
+                  <span>
+                    {modelosCombinados.length === 0
+                      ? "A biblioteca ainda nao possui modelos para exibir."
+                      : "Ajuste a busca ou limpe os filtros para ver mais opcoes."}
+                  </span>
+                  {modelosCombinados.length > 0 && (
+                    <button
+                      type="button"
+                      className="app-button app-button-neutral"
+                      onClick={limparDescoberta}
+                    >
+                      Limpar filtros
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {paginacao.totalPages > 1 && (
+                <div className="treino-template-pagination" data-testid="template-pagination">
+                  <button
+                    type="button"
+                    className="app-button app-button-secondary"
+                    aria-label="Pagina anterior de modelos"
+                    disabled={!paginacao.hasPrevious}
+                    onClick={() => atualizarDescoberta({ page: paginacao.currentPage - 1 })}
+                  >
+                    Anterior
+                  </button>
+                  <span>
+                    Pagina {paginacao.currentPage} de {paginacao.totalPages}
+                  </span>
+                  <button
+                    type="button"
+                    className="app-button app-button-secondary"
+                    aria-label="Proxima pagina de modelos"
+                    disabled={!paginacao.hasNext}
+                    onClick={() => atualizarDescoberta({ page: paginacao.currentPage + 1 })}
+                  >
+                    Proxima
+                  </button>
                 </div>
               )}
             </>
@@ -432,6 +686,12 @@ function descricaoDivisao(divisao) {
 
 function resumoGrupos(modelo) {
   return modelo.dias.map((dia) => dia.descricao).filter(Boolean).join(" | ");
+}
+
+function formatarContagem(total) {
+  if (total === 0) return "Nenhum modelo encontrado";
+  if (total === 1) return "1 modelo encontrado";
+  return `${total} modelos encontrados`;
 }
 
 export default TreinoTemplatesModal;
