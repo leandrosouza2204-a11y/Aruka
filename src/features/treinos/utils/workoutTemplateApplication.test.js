@@ -3,6 +3,7 @@ import { test } from "node:test";
 import {
   buildWorkoutTemplateApplicationPreview,
   mapWorkoutTemplateApplicationError,
+  normalizeTemplateForApplication,
   prepareWorkoutTemplateApplicationPayload,
   submitWorkoutTemplateApplicationOnce,
   validateWorkoutTemplateApplication,
@@ -26,6 +27,64 @@ const officialTemplate = {
       ],
     },
   ],
+};
+const personalTemplate = {
+  id: "personal-deep",
+  nome: "Pessoal profundo",
+  isSystem: false,
+  descricao: "Modelo pessoal com estrutura aninhada",
+  objetivo: "Hipertrofia",
+  nivel: "Avancado",
+  templateData: {
+    schemaVersion: 1,
+    source: "test-suite",
+    days: [
+      {
+        name: "Treino A",
+        notes: "Peito e triceps",
+        order: 1,
+        exercises: [
+          {
+            name: "Supino reto",
+            sets: "4",
+            repetitions: "6-8",
+            rest: "120s",
+            technique: "RIR 1",
+            notes: "Pausar no peito",
+            video: "",
+            order: 1,
+          },
+          {
+            name: "Triceps corda",
+            sets: "3",
+            repetitions: "12-15",
+            rest: "60s",
+            notes: "Controle total",
+            order: 2,
+          },
+        ],
+      },
+      {
+        name: "Treino B",
+        notes: "Costas",
+        order: 2,
+        exercises: [
+          {
+            name: "Remada baixa",
+            sets: "4",
+            repetitions: "8-10",
+            rest: "90s",
+            technique: "Escapulas firmes",
+            order: 1,
+          },
+        ],
+      },
+    ],
+    auxiliary: {
+      tags: ["hipertrofia", "academia"],
+      audit: { createdBy: "test" },
+    },
+  },
 };
 
 test("constroi previa com contagem de dias, exercicios e modelo oficial", () => {
@@ -129,3 +188,114 @@ test("bloqueia submissao duplicada durante chamada ativa", async () => {
   assert.deepEqual(await second, { id: "treino-1" });
   assert.equal(calls, 1);
 });
+
+test("nao muta modelo oficial congelado", () => {
+  const input = deepFreeze(structuredClone(officialTemplate));
+  const before = structuredClone(input);
+
+  const preview = buildWorkoutTemplateApplicationPreview({ template: input, student });
+  const normalized = normalizeTemplateForApplication(input);
+  const validation = validateWorkoutTemplateApplication({ template: input, student });
+  const payload = prepareWorkoutTemplateApplicationPayload({ template: input, student });
+
+  assert.deepStrictEqual(input, before);
+  assert.equal(preview.dayCount, 1);
+  assert.equal(normalized.days.length, 1);
+  assert.equal(validation.ok, true);
+  assert.equal(payload.dias[0].exercicios[0].nome, "Supino");
+});
+
+test("nao muta modelo pessoal profundamente aninhado", () => {
+  const input = deepFreeze(structuredClone(personalTemplate));
+  const before = structuredClone(input);
+
+  const preview = buildWorkoutTemplateApplicationPreview({ template: input, student });
+  const normalized = normalizeTemplateForApplication(input);
+  const validation = validateWorkoutTemplateApplication({
+    template: input,
+    student,
+    canonicalTemplateData: normalized,
+  });
+  const payload = prepareWorkoutTemplateApplicationPayload({ template: input, student });
+
+  assert.deepStrictEqual(input, before);
+  assert.equal(preview.dayCount, 2);
+  assert.equal(preview.exerciseCount, 3);
+  assert.equal(validation.ok, true);
+  assert.equal(payload.dias.length, 2);
+  assert.equal(payload.dias[0].exercicios[0].observacoes, "Pausar no peito | RIR 1");
+});
+
+test("payload nao compartilha referencias mutaveis", () => {
+  const input = structuredClone(personalTemplate);
+  const before = structuredClone(input);
+  const payload = prepareWorkoutTemplateApplicationPayload({ template: input, student });
+
+  assert.notStrictEqual(payload, input);
+  assert.notStrictEqual(payload.dias, input.templateData.days);
+  assert.notStrictEqual(payload.dias[0], input.templateData.days[0]);
+  assert.notStrictEqual(payload.dias[0].exercicios, input.templateData.days[0].exercises);
+  assert.notStrictEqual(payload.dias[0].exercicios[0], input.templateData.days[0].exercises[0]);
+
+  payload.dias[0].nome = "ALTERADO";
+  payload.dias[0].exercicios.push({ nome: "Novo exercicio" });
+
+  assert.deepStrictEqual(input, before);
+});
+
+test("erro de persistencia preserva modelo", () => {
+  const input = deepFreeze(structuredClone(personalTemplate));
+  const before = structuredClone(input);
+  const error = new Error("network timeout");
+
+  assert.equal(
+    mapWorkoutTemplateApplicationError(error),
+    "Nao foi possivel conectar ao servidor. Verifique a conexao e tente novamente."
+  );
+  assert.deepStrictEqual(input, before);
+});
+
+test("submissao duplicada preserva modelo", async () => {
+  const input = deepFreeze(structuredClone(personalTemplate));
+  const before = structuredClone(input);
+  const controller = { active: false, result: null };
+  let calls = 0;
+  let rejectSubmit;
+  const submit = () => {
+    calls += 1;
+    return new Promise((resolve, reject) => {
+      rejectSubmit = reject;
+    });
+  };
+
+  const first = submitWorkoutTemplateApplicationOnce(controller, submit);
+  const second = submitWorkoutTemplateApplicationOnce(controller, submit);
+  await Promise.resolve();
+  rejectSubmit(new Error("Falha controlada"));
+
+  await assert.rejects(first, /Falha controlada/);
+  await assert.rejects(second, /Falha controlada/);
+  assert.equal(calls, 1);
+  assert.deepStrictEqual(input, before);
+
+  controller.result = null;
+  await assert.rejects(
+    submitWorkoutTemplateApplicationOnce(controller, () => {
+      calls += 1;
+      throw new Error("Nova tentativa");
+    }),
+    /Nova tentativa/
+  );
+  assert.equal(calls, 2);
+  assert.deepStrictEqual(input, before);
+});
+
+function deepFreeze(value) {
+  if (!value || typeof value !== "object" || Object.isFrozen(value)) return value;
+
+  Object.freeze(value);
+  for (const child of Object.values(value)) {
+    deepFreeze(child);
+  }
+  return value;
+}

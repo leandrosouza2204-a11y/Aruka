@@ -47,3 +47,24 @@ SHA inicial da main: `a94c07af9a17bc06564df40c71dda350b35930ca`.
 `npm.cmd run qa:treino-editor-module` ficou bloqueado por infraestrutura: `node: .env: not found`. Validacao runtime autenticada/mobile nao foi executada.
 
 O dashboard do roadmap esta defasado em relacao ao Ciclo 1.4 e nao foi atualizado nesta etapa.
+
+## Fechamento pos-merge
+
+PR e merge confirmados na main: PR #25, merge `e49fbbe4294279bd4010471b3ce882c14dfdcdb5`, feature `1ebb168`.
+
+SHA final da main: `e49fbbe4294279bd4010471b3ce882c14dfdcdb5`.
+
+Hardening de imutabilidade:
+
+- nenhum ponto de mutacao real foi encontrado em `workoutTemplateApplication.js`;
+- testes com `deepFreeze` recursivo cobrem modelo oficial e modelo pessoal profundamente aninhado;
+- testes com `assert.deepStrictEqual(input, before)` cobrem preview, payload, normalizacao, validacao, erro e submissao;
+- teste de pureza confirma que alterar profundamente o payload nao altera o modelo original;
+- erro de persistencia e submissao duplicada preservam o modelo;
+- QA estatico passou a exigir os marcadores de imutabilidade.
+
+Total atual do teste especifico: 11 testes em `workoutTemplateApplication.test.js`.
+
+Decisao final: `COMPLETE_WITH_LIMITATIONS`, pois validacoes locais passaram e runtime autenticado segue bloqueado por ausencia de `.env`.
+
+Proximo ciclo canonico: Ciclo 1.5 - Criacao, edicao e duplicacao segura de modelos pessoais. O roadmap define como resultado esperado fluxos pessoais consistentes, com ownership e descarte seguro. O dashboard permanece defasado e recomenda atualizacao separada.

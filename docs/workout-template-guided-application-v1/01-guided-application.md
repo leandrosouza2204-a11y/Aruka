@@ -68,3 +68,25 @@ Validacao runtime autenticada e mobile dependem de ambiente/CDP/autenticacao dis
 ## Decisao
 
 READY_WITH_LIMITATIONS se testes, QAs, lint, build e integridade Supabase passarem localmente, com runtime autenticado eventualmente bloqueado por infraestrutura.
+
+## Fechamento pos-merge e hardening de imutabilidade
+
+PR do Ciclo 1.4 confirmada na main: #25, merge `e49fbbe4294279bd4010471b3ce882c14dfdcdb5`, feature `1ebb168`.
+
+O hardening da Etapa 2 auditou `workoutTemplateApplication.js` e nao encontrou mutacao real sobre modelo, aluno, dias, exercicios ou `templateData` recebidos. Os testes foram reforcados com `deepFreeze` recursivo, snapshots via `structuredClone` e `assert.deepStrictEqual`, alem de verificacoes de referencias independentes no payload.
+
+Confirmacoes adicionadas:
+
+- modelo oficial congelado nao e mutado;
+- modelo pessoal profundamente aninhado nao e mutado;
+- payload retornado nao compartilha referencias mutaveis perigosas com o modelo;
+- tratamento de erro preserva o modelo;
+- submissao duplicada e reutilizacao da promessa ativa preservam o modelo;
+- nova tentativa apos erro parte do mesmo modelo intacto;
+- Supabase permaneceu inalterado.
+
+Validacao runtime autenticada permanece `BLOCKED_INFRASTRUCTURE` pela ausencia de `.env` neste workspace.
+
+Decisao final do Ciclo 1.4: `COMPLETE_WITH_LIMITATIONS`.
+
+Proximo ciclo canonico no roadmap: Ciclo 1.5 - Criacao, edicao e duplicacao segura de modelos pessoais. Objetivo: fluxos pessoais consistentes, com ownership e descarte seguro. Dependencias gerais do Epic 1 permanecem Epic 2 para mobile, Epic 3 para QA, Epic 4 para mudancas estruturais de banco e Epic 5A para valor percebido. Fora do escopo inicial do epic seguem marketplace publico, compartilhamento entre contas, prescricao com IA e cobranca/assinatura. O dashboard de progresso segue defasado e deve ser atualizado em tarefa separada.
