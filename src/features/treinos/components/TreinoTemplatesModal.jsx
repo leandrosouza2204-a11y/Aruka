@@ -53,6 +53,7 @@ function TreinoTemplatesModal({
   onApply,
   onDeleteCustom,
   onEditCustom,
+  onSaveCustom,
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [etapa, setEtapa] = useState(0);
@@ -66,6 +67,7 @@ function TreinoTemplatesModal({
   const [applicationError, setApplicationError] = useState("");
   const [createdWorkout, setCreatedWorkout] = useState(null);
   const [modeloEditando, setModeloEditando] = useState(null);
+  const [modeloGerenciando, setModeloGerenciando] = useState(null);
   const [menuAbertoId, setMenuAbertoId] = useState("");
   const submissionRef = useRef({ active: false, result: null });
   const discoveryState = useMemo(
@@ -227,9 +229,14 @@ function TreinoTemplatesModal({
     }
   }
 
-  async function salvarEdicao(metadata) {
-    await onEditCustom(modeloEditando.id, metadata);
+  async function salvarGerenciamento(payload, treinoPayload) {
+    if (payload.mode === "edit") {
+      await onEditCustom(modeloEditando.id, payload.metadata, treinoPayload);
+    } else {
+      await onSaveCustom(payload, treinoPayload);
+    }
     setModeloEditando(null);
+    setModeloGerenciando(null);
   }
 
   const podeContinuar =
@@ -455,6 +462,14 @@ function TreinoTemplatesModal({
 
               {erroModelos && <div className="app-error">{erroModelos}</div>}
               {carregandoModelos && <p className="app-muted">Carregando seus modelos...</p>}
+              <button
+                type="button"
+                className="app-button app-button-secondary"
+                data-testid="personal-template-create"
+                onClick={() => setModeloGerenciando({ modo: "create", modelo: null })}
+              >
+                Criar modelo
+              </button>
 
               <div className="treino-template-models">
                 {modelos.map((modelo) => (
@@ -472,53 +487,89 @@ function TreinoTemplatesModal({
                         {modelo.isSystem ? "Oficial" : "Meu modelo"}
                       </span>
                     </span>
-                    {!modelo.isSystem && (
-                      <span className="treino-template-actions">
-                        <span
-                          role="button"
-                          tabIndex={0}
-                          data-testid="custom-template-actions-trigger"
-                          onClick={(event) => {
+                    <span className="treino-template-actions">
+                      <span
+                        role="button"
+                        tabIndex={0}
+                        data-testid={modelo.isSystem ? "official-template-actions-trigger" : "custom-template-actions-trigger"}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          setMenuAbertoId(menuAbertoId === modelo.id ? "" : modelo.id);
+                        }}
+                        onKeyDown={(event) => {
+                          if (event.key === "Enter") {
                             event.stopPropagation();
                             setMenuAbertoId(menuAbertoId === modelo.id ? "" : modelo.id);
-                          }}
-                          onKeyDown={(event) => {
-                            if (event.key === "Enter") {
-                              event.stopPropagation();
-                              setMenuAbertoId(menuAbertoId === modelo.id ? "" : modelo.id);
-                            }
-                          }}
-                        >
-                          <MoreVertical size={16} />
-                        </span>
-                        {menuAbertoId === modelo.id && (
-                          <span className="treino-template-actions-menu" data-testid="custom-template-actions-menu">
-                            <span
-                              role="button"
-                              tabIndex={0}
-                              onClick={(event) => {
-                                event.stopPropagation();
-                                setModeloEditando(modelo);
-                                setMenuAbertoId("");
-                              }}
-                            >
-                              Editar modelo
-                            </span>
-                            <span
-                              role="button"
-                              tabIndex={0}
-                              onClick={(event) => {
-                                event.stopPropagation();
-                                setMenuAbertoId("");
-                                onDeleteCustom(modelo);
-                              }}
-                            >
-                              Excluir
-                            </span>
-                          </span>
-                        )}
+                          }
+                        }}
+                      >
+                        <MoreVertical size={16} />
                       </span>
-                    )}
+                      {menuAbertoId === modelo.id && (
+                        <span className="treino-template-actions-menu" data-testid={modelo.isSystem ? "official-template-actions-menu" : "custom-template-actions-menu"}>
+                          <span
+                            role="button"
+                            tabIndex={0}
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              selecionarModelo(modelo);
+                              setMenuAbertoId("");
+                            }}
+                          >
+                            Visualizar
+                          </span>
+                          {modelo.isSystem ? (
+                            <span
+                              role="button"
+                              tabIndex={0}
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                setModeloGerenciando({ modo: "duplicateOfficial", modelo });
+                                setMenuAbertoId("");
+                              }}
+                            >
+                              Duplicar como modelo pessoal
+                            </span>
+                          ) : (
+                            <>
+                              <span
+                                role="button"
+                                tabIndex={0}
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  setModeloEditando(modelo);
+                                  setMenuAbertoId("");
+                                }}
+                              >
+                                Editar
+                              </span>
+                              <span
+                                role="button"
+                                tabIndex={0}
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  setModeloGerenciando({ modo: "duplicatePersonal", modelo });
+                                  setMenuAbertoId("");
+                                }}
+                              >
+                                Duplicar
+                              </span>
+                              <span
+                                role="button"
+                                tabIndex={0}
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  setMenuAbertoId("");
+                                  onDeleteCustom(modelo);
+                                }}
+                              >
+                                Excluir
+                              </span>
+                            </>
+                          )}
+                        </span>
+                      )}
+                    </span>
                     <strong>{modelo.nome}</strong>
                     <small>{modelo.dias.length} dias - {modelo.nivel || "Sem nivel"}</small>
                     <p>{modelo.descricao || "Modelo pessoal salvo a partir do editor."}</p>
@@ -688,7 +739,15 @@ function TreinoTemplatesModal({
           modelo={modeloEditando}
           modo="edit"
           onClose={() => setModeloEditando(null)}
-          onSubmit={salvarEdicao}
+          onSubmit={salvarGerenciamento}
+        />
+      )}
+      {modeloGerenciando && (
+        <TreinoSalvarModeloModal
+          modelo={modeloGerenciando.modelo}
+          modo={modeloGerenciando.modo}
+          onClose={() => setModeloGerenciando(null)}
+          onSubmit={salvarGerenciamento}
         />
       )}
     </div>

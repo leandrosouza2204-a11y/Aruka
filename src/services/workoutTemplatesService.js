@@ -5,6 +5,7 @@ import {
   templateDataToPreviewDays,
   validateTemplateData,
 } from "../features/treinos/utils/workoutTemplateSanitization";
+import { buildPersonalTemplatePersistencePayload } from "../features/treinos/utils/personalWorkoutTemplateManagement";
 import { buscarUsuarioLogado } from "./authSessionService";
 import { supabase } from "./supabase";
 
@@ -46,7 +47,7 @@ export async function buscarModeloPessoalPorIdSupabase(id) {
 
 export async function criarModeloPessoalSupabase(metadata, treino) {
   const user = await buscarUsuarioLogado();
-  const templateData = sanitizeWorkoutForTemplate(treino);
+  const templateData = treino?.days ? normalizeCanonicalTemplateData(treino) : sanitizeWorkoutForTemplate(treino);
   validarTemplate(templateData);
 
   const { data, error } = await supabase
@@ -102,6 +103,39 @@ export async function atualizarModeloPessoalSupabase(id, metadata, treino) {
   return rowParaModeloPessoal(data);
 }
 
+export async function createPersonalWorkoutTemplate(draft) {
+  const payload = buildPersonalTemplatePersistencePayload({ mode: "create", draft });
+  return criarModeloPessoalSupabase(payload.metadata, payload.templateData);
+}
+
+export async function updatePersonalWorkoutTemplate(id, draft, originalTemplate) {
+  const user = await buscarUsuarioLogado();
+  const payload = buildPersonalTemplatePersistencePayload({
+    mode: "edit",
+    draft,
+    originalTemplate,
+    currentUserId: user.id,
+  });
+  return atualizarModeloPessoalSupabase(id, payload.metadata, payload.templateData);
+}
+
+export async function duplicateWorkoutTemplate(template, draft, mode = "duplicatePersonal") {
+  const payload = buildPersonalTemplatePersistencePayload({
+    mode,
+    draft,
+    originalTemplate: template,
+  });
+  return criarModeloPessoalSupabase(payload.metadata, payload.templateData);
+}
+
+export async function getPersonalWorkoutTemplate(id) {
+  return buscarModeloPessoalPorIdSupabase(id);
+}
+
+export async function deletePersonalWorkoutTemplate(id) {
+  return excluirModeloPessoalSupabase(id);
+}
+
 export async function excluirModeloPessoalSupabase(id) {
   const user = await buscarUsuarioLogado();
 
@@ -130,6 +164,7 @@ function rowParaModeloPessoal(row) {
     descricao: row.description || "",
     isSystem: false,
     origem: "personal",
+    ownerId: row.owner_id || "",
     templateData,
     dias: templateDataToPreviewDays(templateData),
     createdAt: row.created_at || "",

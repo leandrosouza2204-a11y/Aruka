@@ -10,6 +10,13 @@ import {
   createWorkoutTemplateEditorDraft,
   validateWorkoutTemplateDraft,
 } from "../utils/workoutTemplateEditorState";
+import {
+  PERSONAL_TEMPLATE_MODES,
+  buildPersonalTemplatePreview,
+  mapPersonalTemplateManagementError,
+  preparePersonalTemplateDraft,
+  submitPersonalTemplateOnce,
+} from "../utils/personalWorkoutTemplateManagement";
 
 const emptyDay = { nome: "", descricao: "", exercicios: [] };
 const emptyExercise = {
@@ -26,60 +33,96 @@ function TreinoSalvarModeloModal({
   treino,
   modelo,
   modo = "create",
+  currentUserId = "",
   onClose,
   onSubmit,
 }) {
   const initialDraft = useMemo(
-    () => createWorkoutTemplateEditorDraft({ treino, modelo }),
-    [modelo, treino]
+    () => {
+      const prepared = preparePersonalTemplateDraft({
+        mode: modo,
+        workout: treino,
+        template: modelo,
+        currentUserId,
+      });
+      return createWorkoutTemplateEditorDraft({ treino: prepared.workout, modelo: prepared });
+    },
+    [currentUserId, modelo, modo, treino]
   );
   const [draft, setDraft] = useState(initialDraft);
   const [originalDraft, setOriginalDraft] = useState(initialDraft);
   const [newDay, setNewDay] = useState(emptyDay);
   const [exerciseByDay, setExerciseByDay] = useState({});
   const [editingExercise, setEditingExercise] = useState(null);
-  const [status, setStatus] = useState("idle");
+  const [status, setStatus] = useState("editingMetadata");
   const [errors, setErrors] = useState({});
+  const [technicalError, setTechnicalError] = useState("");
   const nameRef = useRef(null);
+  const submitGateRef = useRef({ activePromise: null });
   const { confirmar } = useConfirm();
 
   const dirty = !areWorkoutTemplateDraftsEqual(originalDraft, draft);
-  const saving = status === "saving";
+  const saving = status === "submitting";
+  const preview = useMemo(
+    () =>
+      buildPersonalTemplatePreview({
+        mode: modo,
+        draft,
+        originalTemplate: modelo,
+        currentUserId,
+      }),
+    [currentUserId, draft, modelo, modo]
+  );
 
   async function enviar(event) {
     event.preventDefault();
     if (saving) return;
 
     const validation = validateWorkoutTemplateDraft(draft);
-    setErrors(validation.errors);
-    if (!validation.ok) {
+    const combinedErrors = { ...validation.errors, ...preview.validation.errors };
+    setErrors(combinedErrors);
+    if (!validation.ok || !preview.validation.ok) {
       setStatus("error");
       window.setTimeout(() => nameRef.current?.focus?.(), 0);
       return;
     }
 
+    setTechnicalError("");
+    setStatus("previewing");
+  }
+
+  async function confirmarPersistencia() {
+    if (saving || !preview.validation.ok) return;
+
     try {
-      setStatus("saving");
-      await onSubmit(validation.normalized.metadata, {
+      setStatus("submitting");
+      await submitPersonalTemplateOnce(submitGateRef.current, () => onSubmit({
+        mode: modo,
+        draft,
+        originalTemplate: modelo,
+        metadata: preview.validation.normalized.metadata,
+        templateData: preview.validation.normalized.templateData,
+      }, {
         ...draft.workout,
-        rotina: validation.normalized.metadata.name,
-        objetivo: validation.normalized.metadata.objective,
-        nivel: validation.normalized.metadata.level,
-      });
+        rotina: preview.validation.normalized.metadata.name,
+        objetivo: preview.validation.normalized.metadata.objective,
+        nivel: preview.validation.normalized.metadata.level,
+      }));
       const nextOriginal = createWorkoutTemplateEditorDraft({
         treino: {
           ...draft.workout,
-          rotina: validation.normalized.metadata.name,
-          objetivo: validation.normalized.metadata.objective,
-          nivel: validation.normalized.metadata.level,
+          rotina: preview.validation.normalized.metadata.name,
+          objetivo: preview.validation.normalized.metadata.objective,
+          nivel: preview.validation.normalized.metadata.level,
         },
-        modelo: { ...modelo, ...validation.normalized.metadata },
+        modelo: { ...modelo, ...preview.validation.normalized.metadata },
       });
       setOriginalDraft(nextOriginal);
       setDraft(nextOriginal);
       setStatus("success");
     } catch (error) {
       console.error(error);
+      setTechnicalError(mapPersonalTemplateManagementError(error));
       setStatus("error");
     }
   }
@@ -106,7 +149,7 @@ function TreinoSalvarModeloModal({
       ...current,
       metadata: { ...current.metadata, [field]: value },
     }));
-    setStatus("idle");
+    setStatus("editingMetadata");
   }
 
   function setWorkout(updater) {
@@ -114,7 +157,7 @@ function TreinoSalvarModeloModal({
       ...current,
       workout: typeof updater === "function" ? updater(current.workout) : updater,
     }));
-    setStatus("idle");
+    setStatus("editingStructure");
   }
 
   function addDay() {
@@ -205,14 +248,18 @@ function TreinoSalvarModeloModal({
     }));
   }
 
-  const titulo = modo === "edit" ? "Editar modelo pessoal" : "Salvar como modelo";
+  const titulo = tituloPorModo(modo);
   const statusText = saving
     ? "Salvando..."
     : status === "success"
-      ? "Modelo salvo com sucesso."
-      : dirty
-        ? "Alteracoes pendentes."
-        : "Sem alteracoes pendentes.";
+      ? mensagemSucesso(modo)
+      : status === "previewing"
+        ? "Revise e confirme para persistir."
+        : status === "error"
+          ? technicalError || "Revise os campos antes de continuar."
+          : dirty
+            ? "Alteracoes pendentes."
+            : "Sem alteracoes pendentes.";
 
   return (
     <div className="treino-template-overlay">
@@ -387,6 +434,38 @@ function TreinoSalvarModeloModal({
             Aviso de privacidade: este modelo fica disponivel apenas para o seu usuario.
             Modelos oficiais seguem protegidos no codigo e nao podem ser alterados aqui.
           </p>
+
+          {status === "previewing" && (
+            <section className="treino-save-template-wide treino-template-summary" data-testid="personal-template-preview">
+              <strong>{preview.operationLabel}</strong>
+              <span>Nome final: {preview.name}</span>
+              <span>Origem resultante: pessoal</span>
+              <span>Objetivo: {preview.objective}</span>
+              <span>Nivel: {preview.level}</span>
+              <span>Divisao: {preview.split}</span>
+              <span>{preview.dayCount} dias - {preview.exerciseCount} exercicios</span>
+              <span>{preview.createsNewRecord ? "Sera criado um novo modelo." : "O modelo pessoal existente sera atualizado."}</span>
+              {preview.mainExercises.length > 0 && <span>Principais: {preview.mainExercises.join(", ")}</span>}
+              {preview.changes.length > 0 && (
+                <ul className="treino-template-warnings">
+                  {preview.changes.map((change) => (
+                    <li key={change}>{change}</li>
+                  ))}
+                </ul>
+              )}
+              {preview.days.map((day) => (
+                <details key={day.id} open>
+                  <summary>{day.nome} ({day.exercicios.length} exercicios)</summary>
+                  <div>
+                    {day.exercicios.map((exercise) => (
+                      <span key={exercise.id}>{exercise.nome}</span>
+                    ))}
+                  </div>
+                </details>
+              ))}
+            </section>
+          )}
+
           <p aria-live="polite" data-testid={status === "success" ? "workout-template-save-success" : saving ? "workout-template-saving" : status === "error" ? "workout-template-save-error" : undefined}>
             {statusText}
           </p>
@@ -395,14 +474,37 @@ function TreinoSalvarModeloModal({
             <button type="button" onClick={fechar} className="app-button app-button-secondary" data-testid="workout-template-cancel">
               Cancelar
             </button>
-            <button type="submit" className="app-button app-button-primary" data-testid="workout-template-save" disabled={saving}>
-              {saving ? "Salvando..." : modo === "edit" ? "Salvar alteracoes" : "Salvar modelo"}
-            </button>
+            {status === "previewing" ? (
+              <button type="button" className="app-button app-button-primary" data-testid="workout-template-confirm-save" disabled={saving} onClick={confirmarPersistencia}>
+                {saving ? "Salvando..." : modo === "edit" ? "Salvar alteracoes" : "Confirmar e salvar"}
+              </button>
+            ) : (
+              <button type="submit" className="app-button app-button-primary" data-testid="workout-template-save" disabled={saving}>
+                Revisar
+              </button>
+            )}
           </footer>
         </form>
       </section>
     </div>
   );
+}
+
+function tituloPorModo(modo) {
+  if (modo === PERSONAL_TEMPLATE_MODES.EDIT) return "Editar modelo pessoal";
+  if (modo === PERSONAL_TEMPLATE_MODES.DUPLICATE_OFFICIAL) return "Duplicar como modelo pessoal";
+  if (modo === PERSONAL_TEMPLATE_MODES.DUPLICATE_PERSONAL) return "Duplicar modelo pessoal";
+  if (modo === PERSONAL_TEMPLATE_MODES.CREATE) return "Criar modelo";
+  return "Salvar como modelo";
+}
+
+function mensagemSucesso(modo) {
+  if (modo === PERSONAL_TEMPLATE_MODES.EDIT) return "Modelo atualizado com sucesso.";
+  if (modo === PERSONAL_TEMPLATE_MODES.DUPLICATE_OFFICIAL || modo === PERSONAL_TEMPLATE_MODES.DUPLICATE_PERSONAL) {
+    return "Modelo duplicado com sucesso.";
+  }
+  if (modo === PERSONAL_TEMPLATE_MODES.CREATE_FROM_WORKOUT) return "Treino salvo como modelo com sucesso.";
+  return "Modelo criado com sucesso.";
 }
 
 export default TreinoSalvarModeloModal;

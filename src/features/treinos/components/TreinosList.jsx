@@ -176,6 +176,7 @@ function TreinosList() {
               onClose={treinosPage.fecharBibliotecaModelos}
               onDeleteCustom={treinosPage.removerModeloPessoal}
               onEditCustom={treinosPage.atualizarModeloPessoal}
+              onSaveCustom={treinosPage.salvarModeloPessoal}
               onApply={treinosPage.aplicarModeloTreino}
               onGenerate={treinosPage.gerarTreinoBase}
             />

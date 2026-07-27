@@ -1,0 +1,110 @@
+{
+  "cycle": "1.5",
+  "stage": "1",
+  "decision": "READY_WITH_LIMITATIONS",
+  "branch": "feat/personal-workout-template-management-v1",
+  "initialMainSha": "5017a1b7d55ba207da6cebd76c443742f7fc58ec",
+  "originMainSha": "5017a1b7d55ba207da6cebd76c443742f7fc58ec",
+  "previousPullRequest": 26,
+  "previousMergeCommit": "5017a1b7d55ba207da6cebd76c443742f7fc58ec",
+  "roadmap": {
+    "source": "docs/roadmap-v2/04-epic-1-workout-library.md",
+    "objective": "Transformar a Biblioteca Inteligente de Treinos em acelerador central do produto, incluindo criacao, edicao e duplicacao segura de modelos pessoais.",
+    "acceptanceCriteria": [
+      "criar modelo pessoal",
+      "salvar treino existente como modelo",
+      "editar modelo pessoal proprio",
+      "duplicar modelo oficial como pessoal",
+      "duplicar modelo pessoal",
+      "usar contrato canonico e sanitizacao",
+      "validar ownership",
+      "bloquear duplo envio",
+      "preservar imutabilidade"
+    ],
+    "outOfScope": [
+      "marketplace publico",
+      "compartilhamento entre contas",
+      "prescricao com IA",
+      "cobranca ou assinatura",
+      "mudancas Supabase"
+    ]
+  },
+  "previousFlow": {
+    "create": "Implementado parcialmente via TreinoSalvarModeloModal e criarModeloPessoalSupabase.",
+    "createFromWorkout": "Existente no editor por onSaveTemplate.",
+    "edit": "Parcial, sem preview/duplicidade centralizados.",
+    "duplicateOfficial": "Nao havia fluxo explicito.",
+    "duplicatePersonal": "Nao havia fluxo explicito.",
+    "sanitization": "workoutTemplateSanitization.js sobre workoutDataContract.js.",
+    "persistenceContract": "workout_templates.template_data JSON canonico.",
+    "ownership": "RLS e filtros owner_id no servico.",
+    "directComponentPersistence": false
+  },
+  "implementedOperations": [
+    "create",
+    "createFromWorkout",
+    "edit",
+    "duplicateOfficial",
+    "duplicatePersonal"
+  ],
+  "canonicalContractUsed": true,
+  "sanitizationUsed": true,
+  "officialTemplatesReadOnly": true,
+  "ownershipValidated": true,
+  "immutabilityValidated": true,
+  "duplicateSubmissionProtection": true,
+  "databaseChanged": false,
+  "supabaseFilesChanged": [],
+  "unitTests": {
+    "command": "node --test src\\features\\treinos\\utils\\personalWorkoutTemplateManagement.test.js",
+    "tests": 8,
+    "passed": 8
+  },
+  "qa": {
+    "personalWorkoutTemplateManagement": "passed",
+    "lint": "passed",
+    "build": "passed",
+    "workoutTemplateSanitization": "passed",
+    "workoutTemplatesData": "passed",
+    "workoutTemplateDiscovery": "passed",
+    "workoutTemplateGuidedApplication": "passed"
+  },
+  "runtimeValidation": {
+    "authenticated": "BLOCKED_INFRASTRUCTURE",
+    "mobile": "BLOCKED_INFRASTRUCTURE",
+    "cdp": "BLOCKED_INFRASTRUCTURE"
+  },
+  "limitations": [
+    "Runtime autenticado e mobile nao foram executados nesta etapa por indisponibilidade de infraestrutura/CDP.",
+    "Suites CDP autenticadas relacionadas ainda devem ser executadas quando houver ambiente disponivel."
+  ],
+  "filesCreated": [
+    "src/features/treinos/utils/personalWorkoutTemplateManagement.js",
+    "src/features/treinos/utils/personalWorkoutTemplateManagement.test.js",
+    "scripts/validate-personal-workout-template-management.mjs",
+    "docs/personal-workout-template-management-v1/01-management-implementation.md",
+    "reports/personal-workout-template-management-v1/result.json",
+    "reports/personal-workout-template-management-v1/summary.md"
+  ],
+  "filesChanged": [
+    "package.json",
+    "src/features/treinos/components/TreinoSalvarModeloModal.jsx",
+    "src/features/treinos/components/TreinoTemplatesModal.jsx",
+    "src/features/treinos/components/TreinosList.jsx",
+    "src/features/treinos/hooks/useTreinosPage.js",
+    "src/services/workoutTemplatesService.js"
+  ],
+  "validations": [
+    "node --test src\\features\\treinos\\utils\\personalWorkoutTemplateManagement.test.js",
+    "node --test src\\features\\treinos\\utils\\*.test.js",
+    "npm.cmd run qa:workout-template-sanitization",
+    "npm.cmd run qa:workout-templates-data",
+    "npm.cmd run qa:workout-template-discovery",
+    "npm.cmd run qa:workout-template-guided-application",
+    "npm.cmd run qa:personal-workout-template-management",
+    "npm.cmd run lint",
+    "npm.cmd run build",
+    "git diff --check",
+    "git diff --cached --check"
+  ]
+}
