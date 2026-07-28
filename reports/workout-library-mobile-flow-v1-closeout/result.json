@@ -1,0 +1,74 @@
+{
+  "cycle": "1.6",
+  "name": "Fluxo mobile da Biblioteca de Treinos",
+  "epic": "Biblioteca Inteligente de Treinos",
+  "type": "post_merge_closeout",
+  "decision": "COMPLETE_WITH_LIMITATIONS",
+  "functionalBranch": "feat/workout-library-mobile-flow-v1",
+  "closeoutBranch": "chore/workout-library-mobile-flow-v1-closeout",
+  "pullRequest": {
+    "number": 29,
+    "title": "feat: otimiza fluxo mobile da biblioteca de treinos",
+    "state": "MERGED",
+    "headRefName": "feat/workout-library-mobile-flow-v1",
+    "baseRefName": "main",
+    "merged": true,
+    "mergedAt": "2026-07-27T19:38:11Z",
+    "mergeCommit": "dead2f6a300c57dd1348af824ebdea74b6ecadad",
+    "url": "https://github.com/leandrosouza2204-a11y/Aruka/pull/29"
+  },
+  "featureCommit": "26c09c6",
+  "mainSha": "dead2f6a300c57dd1348af824ebdea74b6ecadad",
+  "originMainSha": "dead2f6a300c57dd1348af824ebdea74b6ecadad",
+  "validation": {
+    "unitTests": {
+      "total": 70,
+      "passed": 70,
+      "failed": 0,
+      "skipped": 0
+    },
+    "qualityGates": {
+      "workoutTemplateSanitization": "PASS",
+      "workoutTemplatesData": "PASS",
+      "workoutTemplateDiscovery": "PASS",
+      "guidedApplication": "PASS",
+      "personalTemplateManagement": "PASS",
+      "mobileFlow": "PASS",
+      "lint": "PASS",
+      "build": "PASS",
+      "json": "PASS",
+      "diffCheck": "PASS",
+      "cachedDiffCheck": "PASS"
+    }
+  },
+  "runtimeEvidence": {
+    "authenticatedRunnerExecuted": false,
+    "screenshotsGenerated": false,
+    "limitations": [
+      "Chrome CDP indisponivel na porta 9222 no ambiente de validacao",
+      "Arquivos .env necessarios para os runners autenticados ausentes",
+      "Runners runtime autenticados nao executados",
+      "Screenshots runtime nao geradas"
+    ]
+  },
+  "supabase": {
+    "changed": false,
+    "filesChanged": []
+  },
+  "roadmap": {
+    "previousCompletedCycles": 5,
+    "completedCycles": 6,
+    "totalCycles": 8,
+    "previousPercentage": 62.5,
+    "percentage": 75,
+    "nextCycle": "1.7"
+  },
+  "filesCreated": [
+    "docs/workout-library-mobile-flow-v1-closeout/01-closeout.md",
+    "reports/workout-library-mobile-flow-v1-closeout/result.json",
+    "reports/workout-library-mobile-flow-v1-closeout/summary.md"
+  ],
+  "filesChanged": [
+    "docs/roadmap-v2/13-epic-progress-dashboard.md"
+  ]
+}
