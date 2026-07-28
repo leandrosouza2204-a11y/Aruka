@@ -4,13 +4,14 @@
 
 ### Etapa 1 - Contrato de dados e autorizacao
 
-- Confirmar nomenclatura de estados (`draft/active/completed/archived` ou equivalentes).
-- Planejar migration aditiva em `treinos`.
-- Definir origem persistida do modelo.
-- Definir campos de entrega e autoria.
-- Definir se havera tabela `treino_eventos`.
-- Definir RLS/RPC para aplicar, salvar rascunho e entregar.
-- Preservar compatibilidade com registros `Ativo`, `Em revisao`, `Finalizado`.
+- Status: implementada.
+- Nomenclatura adotada: `draft`, `active`, `completed`, `archived`.
+- Migration aditiva criada em `supabase/migrations/20260728030000_workout_delivery_integration_v1.sql`.
+- Origem persistivel adicionada em `treinos`.
+- Campos de entrega e autoria adicionados em `treinos`.
+- Tabela `treino_eventos` criada para historico operacional minimo.
+- RLS/RPC para salvar, entregar e alterar estado implementadas.
+- Compatibilidade preservada com registros `Ativo`, `Em revisao`, `Finalizado`.
 
 Arquivos provaveis:
 
@@ -129,4 +130,4 @@ Components:
 
 ## Primeira etapa executavel recomendada
 
-Implementar a Etapa 1 - Contrato de dados e autorizacao.
+Implementar a Etapa 2 - Servico de aplicacao e entrega.

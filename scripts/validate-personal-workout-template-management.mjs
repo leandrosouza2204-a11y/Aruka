@@ -9,6 +9,14 @@ const testPath = "src/features/treinos/utils/personalWorkoutTemplateManagement.t
 const servicePath = "src/services/workoutTemplatesService.js";
 const modalPath = "src/features/treinos/components/TreinoSalvarModeloModal.jsx";
 const libraryPath = "src/features/treinos/components/TreinoTemplatesModal.jsx";
+const authorizedSupabaseDiff = new Set([
+  "supabase/baseline-src/02-tables.sql",
+  "supabase/baseline-src/03-constraints.sql",
+  "supabase/baseline-src/04-indexes.sql",
+  "supabase/baseline-src/05-functions.sql",
+  "supabase/baseline-src/08-policies.sql",
+  "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql",
+]);
 
 const utility = existsSync(utilityPath) ? read(utilityPath) : "";
 const tests = existsSync(testPath) ? read(testPath) : "";
@@ -33,7 +41,8 @@ check("testes de deepFreeze existem", tests.includes("deepFreeze"));
 check("testes de referencias independentes existem", tests.includes("assert.notStrictEqual"));
 check("confirmacao explicita existe", modal.includes("personal-template-preview") && modal.includes("workout-template-confirm-save"));
 check("ausencia de inserts ou updates espalhados em componentes", !/\.from\(["']workout_templates["']\)\s*\.(insert|update|delete)/.test(modal + library));
-check("ausencia de alteracoes Supabase", supabaseChanged().length === 0, supabaseChanged().join(", "));
+const unexpectedSupabaseChanged = supabaseChanged().filter((path) => !authorizedSupabaseDiff.has(path));
+check("ausencia de alteracoes Supabase inesperadas", unexpectedSupabaseChanged.length === 0, unexpectedSupabaseChanged.join(", "));
 
 const failed = checks.filter((item) => !item.ok);
 for (const item of checks) {

@@ -1,15 +1,46 @@
 ﻿{
     "result":  "PREFLIGHT_OK",
+    "mode":  "local",
+    "ci":  false,
+    "ci_local_only":  false,
     "project_id":  "ConsultoriaFitness",
-    "docker":  "Docker version 29.6.1, build 8900f1d",
-    "docker_server":  "29.6.1 29.6.1",
+    "expected_ci_project_id":  null,
+    "project_id_matches_environment":  null,
+    "protected_project_ref_detected":  true,
+    "temp_project_ref_present":  true,
+    "temp_project_ref_sanitized":  "[PROTECTED_HML_PROJECT_REF]",
+    "docker":  "Docker version 29.6.2, build dfc4efb",
+    "docker_server":  "29.6.2 29.6.2",
     "docker_context":  "desktop-linux",
+    "allowed_docker_contexts":  [
+                                    "desktop-linux"
+                                ],
+    "docker_context_valid":  true,
     "supabase_cli":  "2.109.1",
-    "baseline_sha256":  "745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE",
+    "baseline_sha256":  "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B",
+    "expected_baseline_sha256":  "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B",
+    "baseline_sha_preserved":  true,
     "active_migrations":  [
-                              "20260716090000_baseline_aruka_v1.sql"
+                              "20260716090000_baseline_aruka_v1.sql",
+                              "20260728030000_workout_delivery_integration_v1.sql"
                           ],
+    "expected_active_migrations":  [
+                                       "20260716090000_baseline_aruka_v1.sql",
+                                       "20260728030000_workout_delivery_integration_v1.sql"
+                                   ],
+    "active_migrations_unexpected":  [
+
+                                     ],
+    "active_migrations_missing":  [
+
+                                  ],
+    "active_migrations_invalid_timestamp":  [
+
+                                            ],
+    "remote_access_performed":  false,
+    "edge_functions_deployed":  false,
     "errors":  [
 
-               ]
+               ],
+    "primary_error":  null
 }

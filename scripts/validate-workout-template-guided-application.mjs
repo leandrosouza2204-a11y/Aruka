@@ -8,6 +8,14 @@ const requiredFiles = [
   "src/features/treinos/hooks/useTreinosPage.js",
   "src/services/treinosService.js",
 ];
+const authorizedSupabaseDiff = new Set([
+  "supabase/baseline-src/02-tables.sql",
+  "supabase/baseline-src/03-constraints.sql",
+  "supabase/baseline-src/04-indexes.sql",
+  "supabase/baseline-src/05-functions.sql",
+  "supabase/baseline-src/08-policies.sql",
+  "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql",
+]);
 
 const checks = [];
 
@@ -49,7 +57,8 @@ const supabaseChanged = [
   git(["diff", "--cached", "--name-only", "--", "supabase/**"]),
   git(["ls-files", "--others", "--exclude-standard", "--", "supabase"]),
 ].flat();
-check("ausencia de alteracoes Supabase", supabaseChanged.length === 0, supabaseChanged.join(", "));
+const unexpectedSupabaseChanged = supabaseChanged.filter((path) => !authorizedSupabaseDiff.has(path));
+check("ausencia de alteracoes Supabase inesperadas", unexpectedSupabaseChanged.length === 0, unexpectedSupabaseChanged.join(", "));
 
 const failed = checks.filter((item) => !item.ok);
 for (const item of checks) {

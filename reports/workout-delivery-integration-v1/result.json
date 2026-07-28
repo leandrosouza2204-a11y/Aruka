@@ -1,9 +1,9 @@
 {
   "cycle": "1.7",
   "name": "Integracao com entrega e acompanhamento do aluno",
-  "phase": "audit",
+  "phase": "data_and_authorization_implementation",
   "branch": "feat/workout-delivery-integration-v1",
-  "decision": "READY_FOR_IMPLEMENTATION",
+  "decision": "READY_FOR_SERVICE_INTEGRATION",
   "repositoryState": {
     "initialBranch": "chore/workout-library-mobile-flow-v1-closeout",
     "workingTreeInitiallyClean": true,
@@ -83,12 +83,186 @@
   ],
   "databaseChangesExpected": true,
   "rlsChangesExpected": true,
+  "implementation": {
+    "migrationCreated": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql",
+    "tablesAltered": [
+      "public.treinos"
+    ],
+    "tablesCreated": [
+      "public.treino_eventos"
+    ],
+    "columnsAdded": [
+      "lifecycle_status",
+      "template_origin_id",
+      "template_origin_type",
+      "template_origin_name",
+      "template_origin_snapshot",
+      "applied_by",
+      "applied_at",
+      "delivered_by",
+      "delivered_at",
+      "completed_at",
+      "archived_at",
+      "data_fim",
+      "application_idempotency_key"
+    ],
+    "indexesCreated": [
+      "treinos_user_aluno_lifecycle_idx",
+      "treinos_user_delivered_at_idx",
+      "treinos_user_template_origin_idx",
+      "treinos_user_application_idempotency_uidx",
+      "treino_eventos_user_treino_occurred_idx",
+      "treino_eventos_user_aluno_occurred_idx",
+      "treino_eventos_treino_event_type_idx"
+    ],
+    "functionsCreatedOrUpdated": [
+      "public.salvar_treino_composto(jsonb)",
+      "public.entregar_treino(uuid)",
+      "public.alterar_estado_treino(uuid, text)"
+    ],
+    "policiesCreated": [
+      "Usuarios podem listar eventos dos seus treinos"
+    ],
+    "qaScriptsAdded": [
+      "qa:workout-delivery-contract",
+      "qa:workout-delivery-data",
+      "qa:workout-delivery-authorization"
+    ],
+    "financialImpact": "Nenhuma tabela ou servico financeiro alterado intencionalmente",
+    "mobileQaCreated": false,
+    "mobileQaReason": "Adiado para a Etapa 3, quando a interface profissional for alterada"
+  },
+  "validation": {
+    "unitTests": "PASS: node --test src\\features\\treinos\\utils\\*.test.js (74/74)",
+    "newQualityGates": {
+      "qa:workout-delivery-contract": "PASS",
+      "qa:workout-delivery-data": "PASS",
+      "qa:workout-delivery-authorization": "PASS"
+    },
+    "previousQualityGates": {
+      "qa:workout-template-sanitization": "PASS",
+      "qa:workout-templates-data": "PASS",
+      "qa:workout-template-discovery": "PASS after QA hardening: guard now blocks only Supabase paths outside the authorized Cycle 1.7 allowlist",
+      "qa:workout-template-guided-application": "PASS after QA hardening: functional checks preserved; Supabase guard is contextual",
+      "qa:personal-workout-template-management": "PASS after QA hardening: functional checks preserved; Supabase guard is contextual",
+      "qa:workout-library-mobile-flow": "PASS after QA hardening: functional/mobile checks preserved; Supabase guard is contextual"
+    },
+    "legacyQualityGateCompatibility": {
+      "decisionBeforeHardening": "NOT_READY_QA_COMPATIBILITY",
+      "rootCause": "Legacy validators treated any global diff under supabase/** as an automatic scope violation, even when the Supabase diff belonged to an authorized later cycle.",
+      "failingScriptsBeforeHardening": [
+        {
+          "script": "qa:workout-template-discovery",
+          "file": "scripts/validate-workout-template-discovery.mjs",
+          "failedCondition": "supabaseDiff.length",
+          "failedAfterFunctionalChecks": true,
+          "exitCode": 1
+        },
+        {
+          "script": "qa:workout-template-guided-application",
+          "file": "scripts/validate-workout-template-guided-application.mjs",
+          "failedCondition": "supabaseChanged.length === 0",
+          "failedAfterFunctionalChecks": true,
+          "exitCode": 1
+        },
+        {
+          "script": "qa:personal-workout-template-management",
+          "file": "scripts/validate-personal-workout-template-management.mjs",
+          "failedCondition": "supabaseChanged().length === 0",
+          "failedAfterFunctionalChecks": true,
+          "exitCode": 1
+        },
+        {
+          "script": "qa:workout-library-mobile-flow",
+          "file": "scripts/validate-workout-library-mobile-flow.mjs",
+          "failedCondition": "supabaseChanged().length === 0",
+          "failedAfterFunctionalChecks": true,
+          "exitCode": 1
+        }
+      ],
+      "filesChanged": [
+        "scripts/validate-workout-template-discovery.mjs",
+        "scripts/validate-workout-template-guided-application.mjs",
+        "scripts/validate-personal-workout-template-management.mjs",
+        "scripts/validate-workout-library-mobile-flow.mjs"
+      ],
+      "strategy": "Contextual allowlist limited to the six authorized Cycle 1.7 Supabase files; all other Supabase paths remain blocking.",
+      "functionalImplementationChanged": false,
+      "financialImplementationChanged": false
+    },
+    "supabaseStatic": {
+      "qa:supabase-baseline-src": "PASS",
+      "supabase:preflight_before_hardening": "PREFLIGHT_FAILED: Docker Server unavailable; Docker context must be desktop-linux; Supabase CLI unavailable through npx; Active migrations folder must contain only the official baseline SQL.",
+      "supabase:preflight_after_hardening": "PREFLIGHT_FAILED: Docker Server unavailable; Docker context must be desktop-linux; Supabase CLI unavailable through npx.",
+      "supabase:preflight_after_docker_restore": "PASS: Docker Server available, context desktop-linux, Supabase CLI 2.109.1 through npx, baseline SHA preserved, active migration chain recognized.",
+      "supabase:preflight_after_grant_fix": "PASS",
+      "migrationCompatibility": "PASS: baseline and 20260728030000_workout_delivery_integration_v1.sql are recognized as the expected ordered active migration chain; no unexpected, missing, or invalid-timestamp migration remains."
+    },
+    "lint": "PASS",
+    "build": "PASS",
+    "json": "PASS",
+    "diffCheck": "PASS",
+    "cachedDiffCheck": "PASS"
+  },
   "runtimeEvidence": {
-    "executed": false,
-    "reason": "Auditoria documental e estatica"
+    "executed": true,
+    "decision": "READY_FOR_SERVICE_INTEGRATION",
+    "docker": {
+      "client": "29.6.2",
+      "server": "29.6.2",
+      "context": "desktop-linux"
+    },
+    "supabaseCli": {
+      "preflightVersion": "2.109.1",
+      "directNpxVersion": "2.110.0"
+    },
+    "preflight": "PASS",
+    "dbReset": "PASS: baseline and 20260728030000_workout_delivery_integration_v1.sql applied locally after grant fix",
+    "migrationHistory": [
+      "20260716090000",
+      "20260728030000"
+    ],
+    "schema": {
+      "treinosNewColumns": "PASS: 13/13",
+      "treinoEventosTable": "PASS",
+      "rpcFunctions": "PASS: salvar_treino_composto(jsonb), entregar_treino(uuid), alterar_estado_treino(uuid, text)",
+      "indexes": "PASS",
+      "rlsEnabled": "PASS: treinos, treino_dias, treino_exercicios, treino_eventos",
+      "policies": "PASS: treino_eventos select policy exists",
+      "grants": "PASS: authenticated has SELECT only on treino_eventos; anon has no table grant"
+    },
+    "previousRuntimeFailure": {
+      "area": "RLS/grants",
+      "message": "permission denied for table treino_eventos",
+      "detail": "Authenticated role has EXECUTE on new RPCs, but no SELECT table privilege on public.treino_eventos, so the policy for reading own events cannot be exercised by the client role.",
+      "failedStep": "Transactional runtime assertions after creating a model-applied workout and querying applied events as authenticated.",
+      "classification": "BLOCKED_LOCAL_RLS",
+      "fixed": true
+    },
+    "grantFix": {
+      "authenticatedSelectGrantAdded": true,
+      "directEventWritesAllowed": false,
+      "anonEventAccessAllowed": false,
+      "sqlState": "revoke all on table public.treino_eventos from authenticated; grant select on table public.treino_eventos to authenticated"
+    },
+    "runtimeAssertions": {
+      "manualCreate": "PASS",
+      "modelApplication": "PASS",
+      "appliedEventRead": "PASS",
+      "applicationIdempotency": "PASS",
+      "delivery": "PASS",
+      "deliveryIdempotency": "PASS",
+      "incompleteWorkoutBlocked": "PASS",
+      "allowedTransitions": "PASS: active->completed, draft->archived, active->archived, completed->archived",
+      "blockedTransitions": "PASS: archived->active, completed->active, active->draft, archived->draft",
+      "multiUserRls": "PASS: own reads allowed, cross-user reads/RPCs blocked",
+      "directEventWrites": "PASS: insert/update/delete blocked"
+    },
+    "financialImpact": "PASS: no financial diff; financial tables and policies exist locally; no treino event recorded in acompanhamento_eventos."
   },
   "supabase": {
-    "modified": false
+    "modified": true,
+    "reason": "Migration aditiva, baseline, RLS e RPCs da Etapa 1"
   },
   "documentsCreated": [
     "docs/workout-delivery-integration-v1/01-current-state-audit.md",
@@ -97,7 +271,9 @@
     "docs/workout-delivery-integration-v1/04-implementation-plan.md",
     "docs/workout-delivery-integration-v1/05-risk-register.md",
     "reports/workout-delivery-integration-v1/result.json",
-    "reports/workout-delivery-integration-v1/summary.md"
+    "reports/workout-delivery-integration-v1/summary.md",
+    "docs/workout-delivery-integration-v1/06-data-and-authorization-implementation.md",
+    "docs/workout-delivery-integration-v1/07-data-and-authorization-validation.md"
   ],
-  "nextStep": "Implementar a Etapa 1 do contrato de dados e autorizacao"
+  "nextStep": "Etapa 2 - Integracao do servico de aplicacao e entrega"
 }

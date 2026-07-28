@@ -171,4 +171,6 @@ Proposto:
 
 ## Decisao do contrato
 
-`READY_FOR_IMPLEMENTATION`, com primeira etapa obrigatoria de dados e autorizacao.
+Etapa 1 implementada com contrato de dados e autorizacao: `lifecycle_status`, origem persistivel, autoria, entrega, idempotencia e `treino_eventos`.
+
+Proxima etapa recomendada: Etapa 2 - Servico de aplicacao e entrega.

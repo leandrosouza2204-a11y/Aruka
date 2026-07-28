@@ -9,6 +9,10 @@ $ProjectId = ([regex]::Match($ConfigText, '(?m)^project_id\s*=\s*"([^"]+)"')).Gr
 if ([string]::IsNullOrWhiteSpace($ProjectId)) { $ProjectId = "ConsultoriaFitness" }
 $ExpectedRef = ("xrmqdkpx" + "nfvusmenadnf")
 $ExpectedSha = "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B"
+$ExpectedActiveMigrations = @(
+  "20260716090000_baseline_aruka_v1.sql",
+  "20260728030000_workout_delivery_integration_v1.sql"
+)
 $IsCi = $env:CI -eq "true"
 $IsCiLocalOnly = $env:SUPABASE_CI_LOCAL_ONLY -eq "true"
 $IsIsolatedCi = $IsCi -and $IsCiLocalOnly
@@ -92,8 +96,18 @@ if (-not $NpxCmd) { $NpxCmd = Get-Command npx -ErrorAction Stop }
 $supabaseVersion = Run $NpxCmd.Source @("-y", "supabase@2.109.1", "--version")
 if ($supabaseVersion.code -ne 0) { Fail "Supabase CLI unavailable through npx." }
 
-$activeSql = @(Get-ChildItem "supabase/migrations" -Filter "*.sql" | Select-Object -ExpandProperty Name)
-if ($activeSql.Count -ne 1 -or $activeSql[0] -ne "20260716090000_baseline_aruka_v1.sql") { Fail "Active migrations folder must contain only the official baseline SQL." }
+$activeSql = @(Get-ChildItem "supabase/migrations" -Filter "*.sql" | Select-Object -ExpandProperty Name | Sort-Object)
+$activeMigrationUnexpected = @($activeSql | Where-Object { $ExpectedActiveMigrations -notcontains $_ })
+$activeMigrationMissing = @($ExpectedActiveMigrations | Where-Object { $activeSql -notcontains $_ })
+$activeMigrationInvalidTimestamp = @($activeSql | Where-Object { $_ -notmatch '^\d{14}_[a-z0-9_]+\.sql$' })
+$expectedActiveMigrationOrder = $ExpectedActiveMigrations -join "`n"
+$actualActiveMigrationOrder = $activeSql -join "`n"
+if ($activeMigrationInvalidTimestamp.Count -gt 0) { Fail "Active migration timestamp or name is invalid." }
+if ($activeMigrationMissing.Count -gt 0) { Fail "Expected active migration missing." }
+if ($activeMigrationUnexpected.Count -gt 0) { Fail "Unexpected active migration found." }
+if ($activeSql.Count -ne $ExpectedActiveMigrations.Count -or $actualActiveMigrationOrder -ne $expectedActiveMigrationOrder) {
+  Fail "Active migrations folder does not match the expected ordered migration chain."
+}
 
 $summary = [ordered]@{
   result = if ($script:Errors.Count -eq 0) { "PREFLIGHT_OK" } else { "PREFLIGHT_FAILED" }
@@ -116,6 +130,10 @@ $summary = [ordered]@{
   expected_baseline_sha256 = $ExpectedSha
   baseline_sha_preserved = $hash -eq $ExpectedSha
   active_migrations = $activeSql
+  expected_active_migrations = $ExpectedActiveMigrations
+  active_migrations_unexpected = $activeMigrationUnexpected
+  active_migrations_missing = $activeMigrationMissing
+  active_migrations_invalid_timestamp = $activeMigrationInvalidTimestamp
   remote_access_performed = $false
   edge_functions_deployed = $false
   errors = $script:Errors

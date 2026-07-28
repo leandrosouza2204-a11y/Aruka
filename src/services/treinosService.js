@@ -1,5 +1,9 @@
 import { dataOuNull } from "../data/formatters";
-import { workoutToPersistencePayload } from "../features/treinos/utils/workoutDataContract.js";
+import {
+  normalizeWorkoutDeliveryResponse,
+  normalizeWorkoutLifecycleStatus,
+  workoutToPersistencePayload,
+} from "../features/treinos/utils/workoutDataContract.js";
 import { buscarUsuarioLogado } from "./authSessionService";
 import { supabase } from "./supabase";
 
@@ -99,6 +103,36 @@ export async function atualizarTreinoSupabase(id, treino) {
   return buscarTreinoPorIdSupabase(data.id);
 }
 
+export async function entregarTreinoSupabase(treinoId) {
+  const id = validarTreinoId(treinoId);
+  await buscarUsuarioLogado();
+
+  const { data, error } = await supabase.rpc("entregar_treino", {
+    p_treino_id: id,
+  });
+  if (error) throw error;
+
+  const response = normalizeWorkoutDeliveryResponse(data);
+  return buscarTreinoPorIdSupabase(response.id);
+}
+
+export async function alterarEstadoTreinoSupabase(treinoId, lifecycleStatus) {
+  const id = validarTreinoId(treinoId);
+  const status = normalizeWorkoutLifecycleStatus(lifecycleStatus, "");
+  if (!status) throw new Error("Status de ciclo de vida invalido.");
+
+  await buscarUsuarioLogado();
+
+  const { data, error } = await supabase.rpc("alterar_estado_treino", {
+    p_treino_id: id,
+    p_lifecycle_status: status,
+  });
+  if (error) throw error;
+
+  const response = normalizeWorkoutDeliveryResponse(data);
+  return buscarTreinoPorIdSupabase(response.id);
+}
+
 export async function excluirTreinoSupabase(id) {
   falharTreinosLocalQa("delete");
   const user = await buscarUsuarioLogado();
@@ -145,8 +179,21 @@ function rowParaTreino(row) {
     diasPorSemana: row.dias_semana || "",
     observacoes: row.observacoes || "",
     status: row.status || "Ativo",
+    lifecycleStatus: row.lifecycle_status || "",
+    templateOriginId: row.template_origin_id || "",
+    templateOriginType: row.template_origin_type || "",
+    templateOriginName: row.template_origin_name || "",
+    templateOriginSnapshot: row.template_origin_snapshot || null,
+    appliedBy: row.applied_by || "",
+    appliedAt: row.applied_at || "",
+    deliveredBy: row.delivered_by || "",
+    deliveredAt: row.delivered_at || "",
+    completedAt: row.completed_at || "",
+    archivedAt: row.archived_at || "",
     dataInicio: row.data_inicio || "",
+    dataFim: row.data_fim || "",
     dataRevisao: row.data_revisao || "",
+    applicationIdempotencyKey: row.application_idempotency_key || "",
     createdAt: row.created_at || "",
     dias,
   };
@@ -169,6 +216,12 @@ export function treinoParaPayload(treino, userId) {
 
 function ordenarPorOrdem(lista) {
   return [...lista].sort((a, b) => Number(a.ordem || 0) - Number(b.ordem || 0));
+}
+
+function validarTreinoId(id) {
+  const normalized = String(id || "").trim();
+  if (!normalized) throw new Error("Treino obrigatorio.");
+  return normalized;
 }
 
 function falharTreinosLocalQa(tipo) {

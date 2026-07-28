@@ -2,12 +2,18 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
   WORKOUT_STATUS,
+  WORKOUT_LIFECYCLE_STATUS,
+  WORKOUT_TEMPLATE_ORIGIN_TYPE,
   WORKOUT_TEMPLATE_SCHEMA_VERSION,
   assertTemplateDataIsSanitized,
   canonicalTemplateToWorkout,
   duplicateWorkoutDraft,
+  isValidWorkoutLifecycleStatus,
+  isValidWorkoutTemplateOriginType,
   normalizeCanonicalTemplateData,
+  normalizeWorkoutLifecycleStatus,
   normalizeWorkoutStatus,
+  normalizeWorkoutTemplateOrigin,
   validateCanonicalTemplateData,
   workoutToCanonicalTemplateData,
   workoutToPersistencePayload,
@@ -102,6 +108,40 @@ test("normaliza status canonico e variantes antigas", () => {
   assert.equal(normalizeWorkoutStatus("Ativo"), WORKOUT_STATUS.ACTIVE);
 });
 
+test("normaliza lifecycle status canonico e legado", () => {
+  assert.equal(normalizeWorkoutLifecycleStatus("draft"), WORKOUT_LIFECYCLE_STATUS.DRAFT);
+  assert.equal(normalizeWorkoutLifecycleStatus("Ativo"), WORKOUT_LIFECYCLE_STATUS.ACTIVE);
+  assert.equal(normalizeWorkoutLifecycleStatus("Em revisao"), WORKOUT_LIFECYCLE_STATUS.DRAFT);
+  assert.equal(normalizeWorkoutLifecycleStatus("Finalizado"), WORKOUT_LIFECYCLE_STATUS.COMPLETED);
+  assert.equal(normalizeWorkoutLifecycleStatus("archived"), WORKOUT_LIFECYCLE_STATUS.ARCHIVED);
+  assert.equal(isValidWorkoutLifecycleStatus("active"), true);
+  assert.equal(isValidWorkoutLifecycleStatus("invalid"), false);
+});
+
+test("normaliza origem official e personal e rejeita tipo invalido", () => {
+  assert.equal(isValidWorkoutTemplateOriginType("official"), true);
+  assert.equal(isValidWorkoutTemplateOriginType("personal"), true);
+  assert.equal(isValidWorkoutTemplateOriginType("shared"), false);
+
+  assert.deepEqual(normalizeWorkoutTemplateOrigin({
+    templateOriginId: "modelo-1",
+    templateOriginType: WORKOUT_TEMPLATE_ORIGIN_TYPE.OFFICIAL,
+    templateOriginName: "Modelo oficial",
+  }), {
+    templateOriginId: "modelo-1",
+    templateOriginType: WORKOUT_TEMPLATE_ORIGIN_TYPE.OFFICIAL,
+    templateOriginName: "Modelo oficial",
+    templateOriginSnapshot: null,
+  });
+
+  assert.equal(normalizeWorkoutTemplateOrigin({
+    type: WORKOUT_TEMPLATE_ORIGIN_TYPE.PERSONAL,
+    name: "Meu modelo",
+  }).templateOriginType, WORKOUT_TEMPLATE_ORIGIN_TYPE.PERSONAL);
+
+  assert.equal(normalizeWorkoutTemplateOrigin({ type: "shared" }).templateOriginType, "");
+});
+
 test("gera payload persistido sem ids temporarios e com status canonico", () => {
   const payload = workoutToPersistencePayload({
     id: "workout-id",
@@ -123,6 +163,43 @@ test("gera payload persistido sem ids temporarios e com status canonico", () => 
   assert.equal(payload.dias[0].ordem, 1);
   assert.equal(payload.dias[0].exercicios[0].ordem, 1);
   assert.equal("id" in payload.dias[0], false);
+});
+
+test("gera payload manual sem origem e com idempotency key opcional vazia", () => {
+  const payload = workoutToPersistencePayload({
+    alunoId: "student-id",
+    rotina: "Manual",
+    dias: [{ nome: "A", exercicios: [{ nome: "Supino" }] }],
+  });
+
+  assert.equal(payload.templateOriginType, "");
+  assert.equal(payload.templateOriginId, "");
+  assert.equal(payload.templateOriginName, "");
+  assert.equal(payload.templateOriginSnapshot, null);
+  assert.equal(payload.applicationIdempotencyKey, "");
+});
+
+test("gera payload aplicado com origem, lifecycle e idempotencia sem mutar original", () => {
+  const source = {
+    alunoId: "student-id",
+    rotina: "Aplicado",
+    lifecycleStatus: "active",
+    templateOriginId: "tpl-1",
+    templateOriginType: "official",
+    templateOriginName: "Masculino ABC",
+    templateOriginSnapshot: { id: "tpl-1", name: "Masculino ABC" },
+    applicationIdempotencyKey: " retry-key ",
+    dias: [{ nome: "A", exercicios: [{ nome: "Supino" }] }],
+  };
+
+  const payload = workoutToPersistencePayload(source);
+
+  assert.equal(payload.lifecycleStatus, WORKOUT_LIFECYCLE_STATUS.ACTIVE);
+  assert.equal(payload.templateOriginType, WORKOUT_TEMPLATE_ORIGIN_TYPE.OFFICIAL);
+  assert.equal(payload.applicationIdempotencyKey, "retry-key");
+  assert.deepEqual(payload.templateOriginSnapshot, { id: "tpl-1", name: "Masculino ABC" });
+  payload.templateOriginSnapshot.name = "Alterado";
+  assert.equal(source.templateOriginSnapshot.name, "Masculino ABC");
 });
 
 test("duplica treino removendo ids originais e usando status canonico", () => {
