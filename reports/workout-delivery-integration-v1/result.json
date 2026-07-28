@@ -1,0 +1,103 @@
+{
+  "cycle": "1.7",
+  "name": "Integracao com entrega e acompanhamento do aluno",
+  "phase": "audit",
+  "branch": "feat/workout-delivery-integration-v1",
+  "decision": "READY_FOR_IMPLEMENTATION",
+  "repositoryState": {
+    "initialBranch": "chore/workout-library-mobile-flow-v1-closeout",
+    "workingTreeInitiallyClean": true,
+    "mainSynchronized": true,
+    "mainSha": "4b63542cb9a1161ded03b635158b7c6de9700b81",
+    "cycle16CloseoutConfirmed": true,
+    "cycle16CloseoutPullRequest": {
+      "number": 30,
+      "title": "docs: encerra ciclo 1.6 da biblioteca de treinos",
+      "state": "MERGED",
+      "mergedAt": "2026-07-28T01:52:59Z",
+      "mergeCommit": "4b63542cb9a1161ded03b635158b7c6de9700b81",
+      "headRefName": "chore/workout-library-mobile-flow-v1-closeout",
+      "baseRefName": "main",
+      "url": "https://github.com/leandrosouza2204-a11y/Aruka/pull/30"
+    }
+  },
+  "audit": {
+    "routesReviewed": 10,
+    "componentsReviewed": 8,
+    "hooksReviewed": 2,
+    "servicesReviewed": 4,
+    "utilitiesReviewed": 4,
+    "tablesReviewed": 11,
+    "policiesReviewed": 22
+  },
+  "currentCapabilities": [
+    "Rota /treinos protegida por autenticacao, assinatura e aceite legal",
+    "Cadastro e contexto de aluno integrados a /treinos por alunoId",
+    "Selecao de aluno no editor e na aplicacao guiada de modelo",
+    "Modelos oficiais em codigo e modelos pessoais persistidos por usuario",
+    "Aplicacao guiada cria treino persistido por RPC atomica",
+    "Treino, dias e exercicios sao copias relacionais independentes",
+    "RLS isola treinos, dias, exercicios e modelos pessoais por usuario",
+    "Resumo operacional do aluno consulta treinos existentes",
+    "Fluxo mobile da biblioteca foi ajustado no Ciclo 1.6 com limitacoes de runtime"
+  ],
+  "gaps": [
+    "Nao existe entrega/publicacao explicita",
+    "Nao existe portal ou rota autenticada especifica do aluno",
+    "Nao existe origem de modelo persistida no treino",
+    "Nao existem delivered_at ou delivered_by",
+    "Estados atuais nao cobrem draft/completed/archived de forma canonica",
+    "Nao ha prevencao comprovada de multiplos treinos ativos por aluno",
+    "Nao ha acompanhamento de execucao de treino, RPE, RIR ou feedback do aluno",
+    "Nao ha idempotencia persistida para retry de aplicacao de modelo"
+  ],
+  "risks": {
+    "critical": 0,
+    "high": 3,
+    "medium": 6,
+    "low": 3
+  },
+  "proposedScope": [
+    "selecionar aluno",
+    "aplicar modelo ao aluno",
+    "criar copia independente",
+    "preservar origem do modelo",
+    "revisar treino antes da entrega",
+    "entregar ou ativar treino explicitamente",
+    "registrar estado e datas essenciais",
+    "listar treinos entregues por aluno",
+    "proteger operacoes por RLS/RPC",
+    "cobrir mobile e QA"
+  ],
+  "outOfScope": [
+    "diario completo de treino",
+    "progressao automatica",
+    "graficos avancados",
+    "RPE/RIR detalhado por serie",
+    "chat",
+    "notificacoes push",
+    "gamificacao",
+    "inteligencia artificial",
+    "calendario avancado",
+    "periodizacao completa"
+  ],
+  "databaseChangesExpected": true,
+  "rlsChangesExpected": true,
+  "runtimeEvidence": {
+    "executed": false,
+    "reason": "Auditoria documental e estatica"
+  },
+  "supabase": {
+    "modified": false
+  },
+  "documentsCreated": [
+    "docs/workout-delivery-integration-v1/01-current-state-audit.md",
+    "docs/workout-delivery-integration-v1/02-data-and-authorization-audit.md",
+    "docs/workout-delivery-integration-v1/03-functional-contract.md",
+    "docs/workout-delivery-integration-v1/04-implementation-plan.md",
+    "docs/workout-delivery-integration-v1/05-risk-register.md",
+    "reports/workout-delivery-integration-v1/result.json",
+    "reports/workout-delivery-integration-v1/summary.md"
+  ],
+  "nextStep": "Implementar a Etapa 1 do contrato de dados e autorizacao"
+}
