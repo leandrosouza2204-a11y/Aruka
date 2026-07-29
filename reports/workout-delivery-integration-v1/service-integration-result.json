@@ -1,0 +1,47 @@
+{
+  "cycle": "1.7",
+  "stage": "2",
+  "scope": "workout-delivery-service-integration",
+  "decision": "READY_WITH_UI_RUNTIME_LIMITATION",
+  "supabaseChanges": false,
+  "implemented": [
+    "draft_template_application",
+    "template_origin_persistence",
+    "persistent_application_idempotency",
+    "explicit_delivery_service_action",
+    "safe_lifecycle_service_actions",
+    "rpc_error_mapping",
+    "ui_state_loading_ids"
+  ],
+  "notImplementedByContract": [
+    "student_portal",
+    "student_login",
+    "workout_execution_tracking",
+    "training_diary",
+    "rpe_rir_feedback",
+    "auto_progression",
+    "notifications",
+    "graphs"
+  ],
+  "validations": [
+    { "command": "node --test src\\features\\treinos\\utils\\*.test.js", "status": "PASS" },
+    { "command": "npm.cmd run qa:workout-delivery-contract", "status": "PASS" },
+    { "command": "npm.cmd run qa:workout-delivery-data", "status": "PASS" },
+    { "command": "npm.cmd run qa:workout-delivery-authorization", "status": "PASS" },
+    { "command": "npm.cmd run qa:workout-delivery-service-integration", "status": "PASS" },
+    { "command": "npm.cmd run qa:workout-delivery-idempotency", "status": "PASS" },
+    { "command": "npm.cmd run qa:workout-delivery-lifecycle", "status": "PASS" },
+    { "command": "npm.cmd run qa:supabase-baseline-src", "status": "PASS" },
+    { "command": "npm.cmd run qa:workout-template-guided-application", "status": "PASS" },
+    { "command": "npm.cmd run qa:workout-template-sanitization", "status": "PASS" },
+    { "command": "npm.cmd run qa:workout-templates-data", "status": "PASS" },
+    { "command": "npm.cmd run qa:workout-template-discovery", "status": "PASS" },
+    { "command": "npm.cmd run qa:personal-workout-template-management", "status": "PASS" },
+    { "command": "npm.cmd run qa:workout-library-mobile-flow", "status": "PASS" },
+    { "command": "npm.cmd run lint", "status": "PASS" },
+    { "command": "npm.cmd run build", "status": "PASS" },
+    { "command": "npm.cmd run supabase:preflight", "status": "PASS_ESCALATED_AFTER_SANDBOX_ENV_FAILURE" },
+    { "command": "git diff --name-only -- \"supabase/**\"", "status": "PASS_EMPTY" },
+    { "command": "git diff --cached --name-only -- \"supabase/**\"", "status": "PASS_EMPTY" }
+  ]
+}

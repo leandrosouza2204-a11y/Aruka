@@ -24,6 +24,7 @@ import {
 } from "../utils/workoutTemplateDiscoveryQueryState";
 import {
   buildWorkoutTemplateApplicationPreview,
+  getOrCreateWorkoutTemplateApplicationIntent,
   mapWorkoutTemplateApplicationError,
   submitWorkoutTemplateApplicationOnce,
 } from "../utils/workoutTemplateApplication";
@@ -228,6 +229,14 @@ function TreinoTemplatesModal({
     setApplicationError("");
 
     try {
+      const intent = getOrCreateWorkoutTemplateApplicationIntent(submissionRef.current, {
+        template: modeloSelecionado,
+        student: alunoSelecionado,
+        options: {
+          rotina: rotina.trim() || modeloSelecionado.nome,
+          dataInicio,
+        },
+      });
       const result = await submitWorkoutTemplateApplicationOnce(submissionRef.current, () =>
         onApply({
           template: modeloSelecionado,
@@ -235,6 +244,7 @@ function TreinoTemplatesModal({
           options: {
             rotina: rotina.trim() || modeloSelecionado.nome,
             dataInicio,
+            intent,
           },
         })
       );

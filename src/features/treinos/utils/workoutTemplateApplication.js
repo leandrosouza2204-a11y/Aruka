@@ -7,6 +7,9 @@ import {
   inferSplitFromWorkout,
   normalizeCanonicalTemplateData,
   validateCanonicalTemplateData,
+  WORKOUT_LIFECYCLE_STATUS,
+  WORKOUT_STATUS,
+  WORKOUT_TEMPLATE_ORIGIN_TYPE,
   workoutToCanonicalTemplateData,
 } from "./workoutDataContract.js";
 
@@ -60,6 +63,11 @@ export function buildWorkoutTemplateApplicationPreview({ template, student, opti
 }
 
 export function prepareWorkoutTemplateApplicationPayload({ template, student, options = {} } = {}) {
+  const intent = options.intent || createWorkoutTemplateApplicationIntent({
+    template,
+    student,
+    options,
+  });
   const canonicalTemplateData = normalizeTemplateForApplication(template);
   const validation = validateWorkoutTemplateApplication({
     template,
@@ -88,7 +96,47 @@ export function prepareWorkoutTemplateApplicationPayload({ template, student, op
     alunoId: student.id,
     aluno: student.nome || "",
     nomeAluno: student.nome || "",
+    status: WORKOUT_STATUS.IN_REVIEW,
+    lifecycleStatus: WORKOUT_LIFECYCLE_STATUS.DRAFT,
+    templateOriginId: intent.templateOriginId,
+    templateOriginType: intent.templateOriginType,
+    templateOriginName: intent.templateOriginName,
+    templateOriginSnapshot: intent.templateOriginSnapshot,
+    applicationIdempotencyKey: intent.applicationIdempotencyKey,
   };
+}
+
+export function createWorkoutTemplateApplicationIntent({
+  template,
+  student,
+  options = {},
+  applicationIdempotencyKey,
+} = {}) {
+  const originType = template?.isSystem
+    ? WORKOUT_TEMPLATE_ORIGIN_TYPE.OFFICIAL
+    : WORKOUT_TEMPLATE_ORIGIN_TYPE.PERSONAL;
+  const templateId = text(template?.id);
+  const templateName = text(template?.nome || template?.name) || "Modelo sem nome";
+  const studentId = text(student?.id);
+  const workoutName = text(options.rotina) || templateName || "Treino por modelo";
+  const idempotencyKey =
+    text(applicationIdempotencyKey) ||
+    createApplicationIdempotencyKey({ templateId, studentId, workoutName });
+
+  return {
+    applicationIdempotencyKey: idempotencyKey,
+    templateOriginId: templateId,
+    templateOriginType: originType,
+    templateOriginName: templateName,
+    templateOriginSnapshot: buildTemplateOriginSnapshot(template),
+  };
+}
+
+export function getOrCreateWorkoutTemplateApplicationIntent(controller, input = {}) {
+  if (controller?.intent) return controller.intent;
+  const intent = createWorkoutTemplateApplicationIntent(input);
+  if (controller) controller.intent = intent;
+  return intent;
 }
 
 export function validateWorkoutTemplateApplication({ template, student, canonicalTemplateData } = {}) {
@@ -159,6 +207,34 @@ function buildPreviewWarnings({ template, student, days, sanitized, validation }
 function formatStudentLabel(student) {
   if (!student?.id) return "Aluno nao selecionado";
   return `${student.nome || "Aluno sem nome"} (${student.id})`;
+}
+
+function buildTemplateOriginSnapshot(template) {
+  if (!template || typeof template !== "object") return null;
+
+  return {
+    id: text(template.id),
+    name: text(template.nome || template.name),
+    originType: template.isSystem
+      ? WORKOUT_TEMPLATE_ORIGIN_TYPE.OFFICIAL
+      : WORKOUT_TEMPLATE_ORIGIN_TYPE.PERSONAL,
+    objective: text(template.objetivo || template.objective),
+    level: text(template.nivel || template.level),
+    split: text(template.divisao || template.splitType),
+    schemaVersion: Number(template.templateData?.schemaVersion || template.template_data?.schemaVersion || 1),
+    dayCount: normalizeTemplateForApplication(template).days.length,
+  };
+}
+
+function createApplicationIdempotencyKey({ templateId, studentId, workoutName }) {
+  const randomPart =
+    typeof crypto !== "undefined" && crypto.randomUUID
+      ? crypto.randomUUID()
+      : Math.random().toString(36).slice(2);
+  const parts = ["workout-template-application", studentId, templateId, workoutName, randomPart]
+    .map((part) => text(part).replace(/\s+/g, "-").toLowerCase())
+    .filter(Boolean);
+  return parts.join(":").slice(0, 160);
 }
 
 function text(value) {

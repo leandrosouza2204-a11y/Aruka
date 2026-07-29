@@ -87,7 +87,7 @@ export async function adicionarTreinoSupabase(treino) {
   const { data, error } = await supabase.rpc("salvar_treino_composto", {
     p_treino: workoutToPersistencePayload(treino),
   });
-  if (error) throw error;
+  if (error) throw mapWorkoutDeliveryRpcError(error, "save");
 
   return buscarTreinoPorIdSupabase(data.id);
 }
@@ -98,7 +98,7 @@ export async function atualizarTreinoSupabase(id, treino) {
   const { data, error } = await supabase.rpc("salvar_treino_composto", {
     p_treino: workoutToPersistencePayload({ ...treino, id }),
   });
-  if (error) throw error;
+  if (error) throw mapWorkoutDeliveryRpcError(error, "save");
 
   return buscarTreinoPorIdSupabase(data.id);
 }
@@ -110,7 +110,7 @@ export async function entregarTreinoSupabase(treinoId) {
   const { data, error } = await supabase.rpc("entregar_treino", {
     p_treino_id: id,
   });
-  if (error) throw error;
+  if (error) throw mapWorkoutDeliveryRpcError(error, "deliver");
 
   const response = normalizeWorkoutDeliveryResponse(data);
   return buscarTreinoPorIdSupabase(response.id);
@@ -127,7 +127,7 @@ export async function alterarEstadoTreinoSupabase(treinoId, lifecycleStatus) {
     p_treino_id: id,
     p_lifecycle_status: status,
   });
-  if (error) throw error;
+  if (error) throw mapWorkoutDeliveryRpcError(error, "lifecycle");
 
   const response = normalizeWorkoutDeliveryResponse(data);
   return buscarTreinoPorIdSupabase(response.id);
@@ -222,6 +222,74 @@ function validarTreinoId(id) {
   const normalized = String(id || "").trim();
   if (!normalized) throw new Error("Treino obrigatorio.");
   return normalized;
+}
+
+export function mapWorkoutDeliveryRpcError(error, operation = "save") {
+  const message = String(error?.message || "").trim();
+  const code = String(error?.code || "").trim();
+  const details = String(error?.details || "").trim();
+  const hint = String(error?.hint || "").trim();
+  const raw = [message, details, hint, code].join(" ").toLowerCase();
+
+  if (raw.includes("workout_delivery_not_authorized") || raw.includes("42501")) {
+    return createDeliveryError({
+      code: "WORKOUT_DELIVERY_NOT_AUTHORIZED",
+      message: "Voce nao tem permissao para alterar este treino.",
+      operation,
+      cause: error,
+    });
+  }
+
+  if (raw.includes("workout_delivery_invalid_transition")) {
+    return createDeliveryError({
+      code: "WORKOUT_DELIVERY_INVALID_TRANSITION",
+      message: "Esta mudanca de estado nao e permitida para o treino atual.",
+      operation,
+      cause: error,
+    });
+  }
+
+  if (raw.includes("workout_delivery_invalid_status")) {
+    return createDeliveryError({
+      code: "WORKOUT_DELIVERY_INVALID_STATUS",
+      message: "Status de ciclo de vida invalido.",
+      operation,
+      cause: error,
+    });
+  }
+
+  if (raw.includes("workout_delivery_not_found") || code === "PGRST116") {
+    return createDeliveryError({
+      code: "WORKOUT_DELIVERY_NOT_FOUND",
+      message: "Treino nao encontrado ou indisponivel.",
+      operation,
+      cause: error,
+    });
+  }
+
+  if (raw.includes("duplicate key") || raw.includes("application_idempotency_key")) {
+    return createDeliveryError({
+      code: "WORKOUT_DELIVERY_IDEMPOTENCY_CONFLICT",
+      message: "Este modelo ja esta sendo aplicado. Recarregue a lista antes de tentar novamente.",
+      operation,
+      cause: error,
+    });
+  }
+
+  return createDeliveryError({
+    code: code || "WORKOUT_DELIVERY_RPC_ERROR",
+    message: message || "Nao foi possivel concluir a operacao do treino.",
+    operation,
+    cause: error,
+  });
+}
+
+function createDeliveryError({ code, message, operation, cause }) {
+  const deliveryError = new Error(message);
+  deliveryError.code = code;
+  deliveryError.operation = operation;
+  deliveryError.cause = cause;
+  return deliveryError;
 }
 
 function falharTreinosLocalQa(tipo) {

@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
   buildWorkoutTemplateApplicationPreview,
+  createWorkoutTemplateApplicationIntent,
+  getOrCreateWorkoutTemplateApplicationIntent,
   mapWorkoutTemplateApplicationError,
   normalizeTemplateForApplication,
   prepareWorkoutTemplateApplicationPayload,
@@ -123,11 +125,17 @@ test("constroi previa de modelo pessoal sem descricao e com valores nulos", () =
 });
 
 test("prepara payload com aluno correto, sanitiza e nao muta o modelo original", () => {
+  const intent = createWorkoutTemplateApplicationIntent({
+    template: officialTemplate,
+    student,
+    options: { rotina: "Aplicado" },
+    applicationIdempotencyKey: "retry-key-1",
+  });
   const original = structuredClone(officialTemplate);
   const payload = prepareWorkoutTemplateApplicationPayload({
     template: officialTemplate,
     student,
-    options: { rotina: "Aplicado", dataInicio: "2026-07-27" },
+    options: { rotina: "Aplicado", dataInicio: "2026-07-27", intent },
   });
 
   assert.deepEqual(officialTemplate, original);
@@ -136,6 +144,43 @@ test("prepara payload com aluno correto, sanitiza e nao muta o modelo original",
   assert.equal(payload.rotina, "Aplicado");
   assert.equal(payload.dataInicio, "2026-07-27");
   assert.equal(payload.dias[0].exercicios[0].carga, "");
+  assert.equal(payload.status, "Em revisao");
+  assert.equal(payload.lifecycleStatus, "draft");
+  assert.equal(payload.templateOriginType, "official");
+  assert.equal(payload.templateOriginId, "official-abc");
+  assert.equal(payload.templateOriginName, "Oficial ABC");
+  assert.equal(payload.applicationIdempotencyKey, "retry-key-1");
+  assert.deepEqual(payload.templateOriginSnapshot, {
+    id: "official-abc",
+    name: "Oficial ABC",
+    originType: "official",
+    objective: "Forca",
+    level: "Intermediario",
+    split: "ABC",
+    schemaVersion: 1,
+    dayCount: 1,
+  });
+});
+
+test("reaproveita intencao de aplicacao para retries idempotentes", () => {
+  const controller = {};
+  const first = getOrCreateWorkoutTemplateApplicationIntent(controller, {
+    template: personalTemplate,
+    student,
+    options: { rotina: "Aplicado pessoal" },
+  });
+  const second = getOrCreateWorkoutTemplateApplicationIntent(controller, {
+    template: officialTemplate,
+    student: { id: "outro-aluno", nome: "Outro" },
+    options: { rotina: "Outra rotina" },
+  });
+
+  assert.strictEqual(first, second);
+  assert.equal(first.templateOriginType, "personal");
+  assert.equal(first.templateOriginId, "personal-deep");
+  assert.equal(first.templateOriginName, "Pessoal profundo");
+  assert.equal(first.templateOriginSnapshot.dayCount, 2);
+  assert.match(first.applicationIdempotencyKey, /^workout-template-application:/);
 });
 
 test("rejeita aplicacao sem aluno, sem dias e com estrutura invalida", () => {

@@ -7,9 +7,11 @@ import { useToast } from "../../../hooks/useToast";
 import { buscarAlunosSupabase } from "../../../services/alunosService";
 import {
   adicionarTreinoSupabase,
+  alterarEstadoTreinoSupabase,
   atualizarTreinoSupabase,
   buscarTreinosPorAlunoSupabase,
   buscarTreinosSupabase,
+  entregarTreinoSupabase,
   excluirTreinoSupabase,
 } from "../../../services/treinosService";
 import {
@@ -36,6 +38,7 @@ import { templateDataToWorkout } from "../utils/workoutTemplateSanitization";
 import {
   WORKOUT_STATUS,
   WORKOUT_STATUS_OPTIONS,
+  WORKOUT_LIFECYCLE_STATUS,
   duplicateWorkoutDraft,
   normalizeWorkoutStatus,
 } from "../utils/workoutDataContract";
@@ -73,6 +76,9 @@ export function useTreinosPage() {
   const [erro, setErro] = useState(null);
   const [retryEmAndamento, setRetryEmAndamento] = useState(false);
   const [acaoTreino, setAcaoTreino] = useState(null);
+  const [aplicandoModelo, setAplicandoModelo] = useState(false);
+  const [entregandoTreinoId, setEntregandoTreinoId] = useState("");
+  const [alterandoEstadoTreinoId, setAlterandoEstadoTreinoId] = useState("");
   const toast = useToast();
   const { confirmar } = useConfirm();
 
@@ -218,21 +224,77 @@ export function useTreinosPage() {
   }
 
   async function aplicarModeloTreino({ template, student, options } = {}) {
+    if (aplicandoModelo) return null;
     const payload = prepareWorkoutTemplateApplicationPayload({ template, student, options });
 
     try {
       setErro(null);
+      setAplicandoModelo(true);
       const treinoSalvo = await adicionarTreinoSupabase(payload);
       await carregarDados();
       setTreinoSelecionadoId(treinoSalvo?.id || "");
-      toast.sucesso("Treino criado", "O treino foi criado para o aluno selecionado.");
+      toast.sucesso("Treino criado como rascunho", "Revise a ficha antes de entregar ao aluno.");
       return treinoSalvo;
     } catch (error) {
       console.error(error);
       setErro(criarErroTreinos("save", error));
-      toast.erro("Nao foi possivel aplicar o modelo", "Revise os dados e tente novamente.");
+      toast.erro("Nao foi possivel aplicar o modelo", error.message || "Revise os dados e tente novamente.");
       throw error;
+    } finally {
+      setAplicandoModelo(false);
     }
+  }
+
+  async function entregarTreino(treino) {
+    const id = treino?.id || treino;
+    if (!id || entregandoTreinoId || alterandoEstadoTreinoId) return null;
+
+    try {
+      setErro(null);
+      setEntregandoTreinoId(id);
+      const treinoEntregue = await entregarTreinoSupabase(id);
+      await carregarDados({ silencioso: true });
+      setTreinoSelecionadoId(treinoEntregue?.id || id);
+      toast.sucesso("Treino entregue", "A ficha ficou ativa para o aluno.");
+      return treinoEntregue;
+    } catch (error) {
+      console.error(error);
+      setErro(criarErroTreinos("save", error));
+      toast.erro("Nao foi possivel entregar o treino", error.message || "Tente novamente em instantes.");
+      throw error;
+    } finally {
+      setEntregandoTreinoId("");
+    }
+  }
+
+  async function alterarLifecycleTreino(treino, lifecycleStatus) {
+    const id = treino?.id || treino;
+    if (!id || entregandoTreinoId || alterandoEstadoTreinoId) return null;
+
+    try {
+      setErro(null);
+      setAlterandoEstadoTreinoId(id);
+      const treinoAtualizado = await alterarEstadoTreinoSupabase(id, lifecycleStatus);
+      await carregarDados({ silencioso: true });
+      setTreinoSelecionadoId(treinoAtualizado?.id || id);
+      toast.sucesso("Estado do treino atualizado", mensagemLifecycleAtualizado(lifecycleStatus));
+      return treinoAtualizado;
+    } catch (error) {
+      console.error(error);
+      setErro(criarErroTreinos("save", error));
+      toast.erro("Nao foi possivel alterar o estado", error.message || "Tente novamente em instantes.");
+      throw error;
+    } finally {
+      setAlterandoEstadoTreinoId("");
+    }
+  }
+
+  function concluirTreino(treino) {
+    return alterarLifecycleTreino(treino, WORKOUT_LIFECYCLE_STATUS.COMPLETED);
+  }
+
+  function arquivarTreino(treino) {
+    return alterarLifecycleTreino(treino, WORKOUT_LIFECYCLE_STATUS.ARCHIVED);
   }
 
   async function salvarModeloPessoal(metadata, treino) {
@@ -483,14 +545,21 @@ export function useTreinosPage() {
     treinoSelecionado,
     treinos,
     treinosFiltrados,
+    aplicandoModelo,
     carregandoModelos,
+    entregandoTreinoId,
+    alterandoEstadoTreinoId,
     erroModelos,
     abrirBibliotecaModelos,
     abrirEdicao,
     abrirNovoTreino,
+    arquivarTreino,
     aplicarModeloTreino,
+    alterarLifecycleTreino,
+    concluirTreino,
     copiarTreinoWhatsApp,
     duplicarTreino,
+    entregarTreino,
     fecharBibliotecaModelos,
     fecharDetalhes,
     fecharModal,
@@ -599,6 +668,19 @@ function mensagemModeloSalvo(mode) {
   }
   if (mode === "createFromWorkout") return "Treino salvo como modelo com sucesso.";
   return "Modelo criado com sucesso.";
+}
+
+function mensagemLifecycleAtualizado(lifecycleStatus) {
+  if (lifecycleStatus === WORKOUT_LIFECYCLE_STATUS.COMPLETED) {
+    return "A ficha foi marcada como concluida.";
+  }
+  if (lifecycleStatus === WORKOUT_LIFECYCLE_STATUS.ARCHIVED) {
+    return "A ficha foi arquivada.";
+  }
+  if (lifecycleStatus === WORKOUT_LIFECYCLE_STATUS.ACTIVE) {
+    return "A ficha ficou ativa.";
+  }
+  return "A ficha voltou para rascunho.";
 }
 
 function agruparAlunosPorNome(alunos) {
