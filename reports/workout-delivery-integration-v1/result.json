@@ -1,9 +1,9 @@
 {
   "cycle": "1.7",
   "name": "Integracao com entrega e acompanhamento do aluno",
-  "phase": "data_and_authorization_implementation",
+  "phase": "student_experience_audit",
   "branch": "feat/workout-delivery-integration-v1",
-  "decision": "READY_FOR_SERVICE_INTEGRATION",
+  "decision": "BLOCKED_STUDENT_IDENTITY_CONTRACT",
   "repositoryState": {
     "initialBranch": "chore/workout-library-mobile-flow-v1-closeout",
     "workingTreeInitiallyClean": true,
@@ -314,6 +314,52 @@
       "PASS_ESCALATED_AFTER_SANDBOX_ENV_FAILURE: npm.cmd run supabase:preflight"
     ]
   },
+  "studentExperience": {
+    "stage": 4,
+    "entryDecision": "READY_FOR_STUDENT_EXPERIENCE",
+    "decision": "BLOCKED_STUDENT_IDENTITY_CONTRACT",
+    "inheritedLimitation": "AUTHENTICATED_PROFESSIONAL_RUNTIME_PENDING",
+    "professionalUiCommit": "2d6c034 feat: adiciona interface de entrega e estados dos treinos",
+    "initialState": {
+      "branch": "feat/workout-delivery-integration-v1",
+      "workingTreeClean": true,
+      "stagingClean": true
+    },
+    "identity": {
+      "studentRouteExists": false,
+      "studentRoleExists": false,
+      "studentAuthLinkExists": false,
+      "alunosUserIdMeaning": "professional_owner_user_id",
+      "safeAuthUidToAlunoIdLink": false
+    },
+    "authorization": {
+      "currentWorkoutReadModel": "professional owner reads by treinos.user_id = auth.uid()",
+      "studentReadPolicyExists": false,
+      "frontendInferenceAllowed": false,
+      "backendChangeRequired": true
+    },
+    "implementation": {
+      "routeCreated": false,
+      "serviceCreated": false,
+      "hookCreated": false,
+      "componentsCreated": false,
+      "qaCreated": false,
+      "reason": "Student experience would require a backend identity/RLS contract before UI implementation."
+    },
+    "protections": {
+      "supabaseChanges": false,
+      "financialChanges": false,
+      "packageLockChanges": false,
+      "serviceRoleUsed": false,
+      "adminKeyUsed": false
+    },
+    "minimumRequiredChange": [
+      "Add explicit auth.uid() to aluno relationship such as alunos.student_user_id or a student_accounts table.",
+      "Add RLS or RPC read contract for only active and completed workouts owned by that student.",
+      "Return minimized payload without template_origin_snapshot, application_idempotency_key or professional operations.",
+      "Validate multi-user isolation locally."
+    ]
+  },
   "supabase": {
     "modified": true,
     "reason": "Migration aditiva, baseline, RLS e RPCs da Etapa 1"
@@ -327,7 +373,10 @@
     "reports/workout-delivery-integration-v1/result.json",
     "reports/workout-delivery-integration-v1/summary.md",
     "docs/workout-delivery-integration-v1/06-data-and-authorization-implementation.md",
-    "docs/workout-delivery-integration-v1/07-data-and-authorization-validation.md"
+    "docs/workout-delivery-integration-v1/07-data-and-authorization-validation.md",
+    "docs/workout-delivery-integration-v1/12-student-experience-audit.md",
+    "docs/workout-delivery-integration-v1/13-student-experience-implementation.md",
+    "docs/workout-delivery-integration-v1/14-student-experience-validation.md"
   ],
-  "nextStep": "Etapa 2 - Integracao do servico de aplicacao e entrega"
+  "nextStep": "Desbloquear contrato de identidade do aluno antes da experiencia autenticada"
 }

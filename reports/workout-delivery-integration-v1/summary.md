@@ -78,3 +78,12 @@ Validações iniciais da Etapa 3 aprovadas: unitários de treinos, `qa:workout-d
 Decisão da Etapa 3: `READY_WITH_AUTHENTICATED_RUNTIME_LIMITATION`.
 
 A bateria estática/unitária completa passou, incluindo QAs das Etapas 1, 2 e 3, QAs anteriores, lint, build, baseline Supabase e preflight fora do sandbox. Runtime autenticado não foi executado porque não havia sessão autenticada/credenciais disponíveis nesta conversa; nenhuma screenshot falsa foi produzida.
+## Etapa 4 - Experiencia inicial do aluno
+
+Decisao: `BLOCKED_STUDENT_IDENTITY_CONTRACT`.
+
+Entrada: branch correta, working tree limpo, nenhum arquivo staged e Etapa 3 commitada em `2d6c034 feat: adiciona interface de entrega e estados dos treinos`.
+
+Auditoria: nao existe rota de aluno, papel de aluno ou vinculo seguro entre usuario autenticado e registro em `public.alunos`. O campo `alunos.user_id` representa o profissional dono. Services e RLS de treinos consultam por `user_id = auth.uid()`, portanto protegem a visao profissional, mas nao autorizam uma experiencia autenticada de aluno.
+
+Conclusao: a experiencia do aluno nao foi implementada para evitar bypass de autorizacao no frontend. A proxima etapa deve criar o contrato minimo de identidade do aluno, com policy/RPC de leitura minimizada para treinos `active` e `completed`.

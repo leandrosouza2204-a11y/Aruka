@@ -50,6 +50,7 @@ Arquivos provaveis:
 
 ### Etapa 5 - Experiencia do aluno
 
+- Status: bloqueada em Etapa 4 por ausencia de vinculo seguro entre `auth.uid()` e `public.alunos`.
 - Se houver identidade de aluno: criar rota protegida e RLS propria.
 - Se nao houver identidade de aluno: limitar a visualizacao profissional e entrega manual por WhatsApp nesta etapa.
 - Criar estados vazios e tela basica de treino ativo somente se a decisao de identidade estiver fechada.
