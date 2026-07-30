@@ -33,11 +33,13 @@ Arquivos provaveis:
 
 ### Etapa 3 - Interface profissional
 
-- Ajustar `TreinoTemplatesModal` para rascunho/revisao/entrega.
-- Ajustar `TreinoModal` para revisar antes de entregar.
-- Ajustar `TreinosCards`, `TreinosFilters`, `TreinoDetalhesModal` para estados novos.
-- Mostrar origem do modelo quando existir.
-- Preservar contexto de aluno vindo de `AlunosList`.
+- Status: implementada.
+- `TreinosCards`, `TreinosFilters` e `TreinoDetalhesModal` exibem lifecycle canônico.
+- `WorkoutLifecycleBadge`, `WorkoutLifecycleActions`, `WorkoutLifecycleConfirmationModal` e `WorkoutOriginLabel` foram criados.
+- Ações profissionais: entregar, concluir e arquivar com confirmação.
+- Exclusão física saiu da superfície principal do ciclo novo; arquivamento é a saída de fluxo.
+- Origem do treino e datas de lifecycle aparecem sem snapshot bruto ou chave de idempotência.
+- Runtime autenticado segue como gate de validação visual quando disponível.
 
 ### Etapa 4 - Gestao de treino entregue
 

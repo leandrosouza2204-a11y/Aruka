@@ -105,6 +105,7 @@ test("converte template pessoal para editor preservando tecnica e observacoes", 
 test("normaliza status canonico e variantes antigas", () => {
   assert.equal(normalizeWorkoutStatus("Em revisão"), WORKOUT_STATUS.IN_REVIEW);
   assert.equal(normalizeWorkoutStatus("Em revisao"), WORKOUT_STATUS.IN_REVIEW);
+  assert.equal(normalizeWorkoutStatus("em revisão"), WORKOUT_STATUS.IN_REVIEW);
   assert.equal(normalizeWorkoutStatus("Ativo"), WORKOUT_STATUS.ACTIVE);
 });
 
@@ -112,6 +113,8 @@ test("normaliza lifecycle status canonico e legado", () => {
   assert.equal(normalizeWorkoutLifecycleStatus("draft"), WORKOUT_LIFECYCLE_STATUS.DRAFT);
   assert.equal(normalizeWorkoutLifecycleStatus("Ativo"), WORKOUT_LIFECYCLE_STATUS.ACTIVE);
   assert.equal(normalizeWorkoutLifecycleStatus("Em revisao"), WORKOUT_LIFECYCLE_STATUS.DRAFT);
+  assert.equal(normalizeWorkoutLifecycleStatus("Em revisão"), WORKOUT_LIFECYCLE_STATUS.DRAFT);
+  assert.equal(normalizeWorkoutLifecycleStatus("em revisão"), WORKOUT_LIFECYCLE_STATUS.DRAFT);
   assert.equal(normalizeWorkoutLifecycleStatus("Finalizado"), WORKOUT_LIFECYCLE_STATUS.COMPLETED);
   assert.equal(normalizeWorkoutLifecycleStatus("archived"), WORKOUT_LIFECYCLE_STATUS.ARCHIVED);
   assert.equal(isValidWorkoutLifecycleStatus("active"), true);

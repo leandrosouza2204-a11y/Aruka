@@ -119,7 +119,7 @@ export async function entregarTreinoSupabase(treinoId) {
 export async function alterarEstadoTreinoSupabase(treinoId, lifecycleStatus) {
   const id = validarTreinoId(treinoId);
   const status = normalizeWorkoutLifecycleStatus(lifecycleStatus, "");
-  if (!status) throw new Error("Status de ciclo de vida invalido.");
+  if (!status) throw new Error("Status de ciclo de vida inválido.");
 
   await buscarUsuarioLogado();
 
@@ -234,7 +234,7 @@ export function mapWorkoutDeliveryRpcError(error, operation = "save") {
   if (raw.includes("workout_delivery_not_authorized") || raw.includes("42501")) {
     return createDeliveryError({
       code: "WORKOUT_DELIVERY_NOT_AUTHORIZED",
-      message: "Voce nao tem permissao para alterar este treino.",
+      message: "Você não tem permissão para alterar este treino.",
       operation,
       cause: error,
     });
@@ -243,7 +243,7 @@ export function mapWorkoutDeliveryRpcError(error, operation = "save") {
   if (raw.includes("workout_delivery_invalid_transition")) {
     return createDeliveryError({
       code: "WORKOUT_DELIVERY_INVALID_TRANSITION",
-      message: "Esta mudanca de estado nao e permitida para o treino atual.",
+      message: "Esta mudança de estado não é permitida para o treino atual.",
       operation,
       cause: error,
     });
@@ -252,7 +252,16 @@ export function mapWorkoutDeliveryRpcError(error, operation = "save") {
   if (raw.includes("workout_delivery_invalid_status")) {
     return createDeliveryError({
       code: "WORKOUT_DELIVERY_INVALID_STATUS",
-      message: "Status de ciclo de vida invalido.",
+      message: "Status de ciclo de vida inválido.",
+      operation,
+      cause: error,
+    });
+  }
+
+  if (raw.includes("workout_incomplete") || raw.includes("complete os dias")) {
+    return createDeliveryError({
+      code: "WORKOUT_INCOMPLETE",
+      message: "Complete os dias e exercícios antes de entregar.",
       operation,
       cause: error,
     });
@@ -261,7 +270,7 @@ export function mapWorkoutDeliveryRpcError(error, operation = "save") {
   if (raw.includes("workout_delivery_not_found") || code === "PGRST116") {
     return createDeliveryError({
       code: "WORKOUT_DELIVERY_NOT_FOUND",
-      message: "Treino nao encontrado ou indisponivel.",
+      message: "Treino não encontrado ou indisponível.",
       operation,
       cause: error,
     });
@@ -270,7 +279,7 @@ export function mapWorkoutDeliveryRpcError(error, operation = "save") {
   if (raw.includes("duplicate key") || raw.includes("application_idempotency_key")) {
     return createDeliveryError({
       code: "WORKOUT_DELIVERY_IDEMPOTENCY_CONFLICT",
-      message: "Este modelo ja esta sendo aplicado. Recarregue a lista antes de tentar novamente.",
+      message: "Este modelo já está sendo aplicado. Recarregue a lista antes de tentar novamente.",
       operation,
       cause: error,
     });
@@ -278,7 +287,7 @@ export function mapWorkoutDeliveryRpcError(error, operation = "save") {
 
   return createDeliveryError({
     code: code || "WORKOUT_DELIVERY_RPC_ERROR",
-    message: message || "Nao foi possivel concluir a operacao do treino.",
+    message: message || "Não foi possível concluir a operação do treino.",
     operation,
     cause: error,
   });

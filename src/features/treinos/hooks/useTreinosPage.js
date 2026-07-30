@@ -37,11 +37,13 @@ import { criarErroTreinos } from "../utils/treinosErrorState";
 import { templateDataToWorkout } from "../utils/workoutTemplateSanitization";
 import {
   WORKOUT_STATUS,
-  WORKOUT_STATUS_OPTIONS,
   WORKOUT_LIFECYCLE_STATUS,
   duplicateWorkoutDraft,
-  normalizeWorkoutStatus,
 } from "../utils/workoutDataContract";
+import {
+  WORKOUT_LIFECYCLE_FILTER_OPTIONS,
+  getWorkoutLifecycleStatus,
+} from "../utils/workoutLifecyclePresentation";
 import { prepareWorkoutTemplateApplicationPayload } from "../utils/workoutTemplateApplication";
 
 export { formatarData };
@@ -90,7 +92,7 @@ export function useTreinosPage() {
       alunos: alunos.map((aluno) => ({ id: aluno.id, nome: aluno.nome })),
       objetivos: unicos("objetivo"),
       niveis: unicos("nivel"),
-      status: WORKOUT_STATUS_OPTIONS,
+      status: WORKOUT_LIFECYCLE_FILTER_OPTIONS,
     };
   }, [alunos, treinos]);
 
@@ -104,9 +106,11 @@ export function useTreinosPage() {
       const combinaObjetivo =
         filtroObjetivo === "todos" || treino.objetivo === filtroObjetivo;
       const combinaNivel = filtroNivel === "todos" || treino.nivel === filtroNivel;
+      const lifecycleStatus = getWorkoutLifecycleStatus(treino);
       const combinaStatus =
-        filtroStatus === "todos" ||
-        normalizeWorkoutStatus(treino.status || WORKOUT_STATUS.ACTIVE) === filtroStatus;
+        filtroStatus === "todos"
+          ? lifecycleStatus !== WORKOUT_LIFECYCLE_STATUS.ARCHIVED
+          : lifecycleStatus === filtroStatus;
 
       return (
         combinaBusca &&
@@ -238,7 +242,7 @@ export function useTreinosPage() {
     } catch (error) {
       console.error(error);
       setErro(criarErroTreinos("save", error));
-      toast.erro("Nao foi possivel aplicar o modelo", error.message || "Revise os dados e tente novamente.");
+      toast.erro("Não foi possível aplicar o modelo", error.message || "Revise os dados e tente novamente.");
       throw error;
     } finally {
       setAplicandoModelo(false);
@@ -255,12 +259,12 @@ export function useTreinosPage() {
       const treinoEntregue = await entregarTreinoSupabase(id);
       await carregarDados({ silencioso: true });
       setTreinoSelecionadoId(treinoEntregue?.id || id);
-      toast.sucesso("Treino entregue", "A ficha ficou ativa para o aluno.");
+      toast.sucesso("Treino entregue ao aluno.", "A ficha ficou ativa.");
       return treinoEntregue;
     } catch (error) {
       console.error(error);
       setErro(criarErroTreinos("save", error));
-      toast.erro("Nao foi possivel entregar o treino", error.message || "Tente novamente em instantes.");
+      toast.erro("Não foi possível entregar o treino", error.message || "Tente novamente em instantes.");
       throw error;
     } finally {
       setEntregandoTreinoId("");
@@ -277,12 +281,12 @@ export function useTreinosPage() {
       const treinoAtualizado = await alterarEstadoTreinoSupabase(id, lifecycleStatus);
       await carregarDados({ silencioso: true });
       setTreinoSelecionadoId(treinoAtualizado?.id || id);
-      toast.sucesso("Estado do treino atualizado", mensagemLifecycleAtualizado(lifecycleStatus));
+      toast.sucesso(tituloLifecycleAtualizado(lifecycleStatus), mensagemLifecycleAtualizado(lifecycleStatus));
       return treinoAtualizado;
     } catch (error) {
       console.error(error);
       setErro(criarErroTreinos("save", error));
-      toast.erro("Nao foi possivel alterar o estado", error.message || "Tente novamente em instantes.");
+      toast.erro("Não foi possível alterar o estado", error.message || "Tente novamente em instantes.");
       throw error;
     } finally {
       setAlterandoEstadoTreinoId("");
@@ -582,7 +586,11 @@ export function useTreinosPage() {
 }
 
 export function classeStatusTreino(status) {
-  const normalized = normalizeWorkoutStatus(status);
+  const normalized = status === WORKOUT_STATUS.IN_REVIEW || status === "Em revisão"
+    ? WORKOUT_STATUS.IN_REVIEW
+    : status === WORKOUT_STATUS.FINISHED
+      ? WORKOUT_STATUS.FINISHED
+      : WORKOUT_STATUS.ACTIVE;
   if (normalized === WORKOUT_STATUS.ACTIVE) return "status-badge status-badge-success";
   if (normalized === WORKOUT_STATUS.IN_REVIEW) {
     return "status-badge status-badge-warning";
@@ -649,7 +657,7 @@ function normalizarRegistrosAluno(registros, alunos) {
       ? obterAlunoUnicoPorNome(registro.aluno, alunosPorNome)
       : null;
     const alunoResolvido = alunoPorId || alunoUnicoPorNome;
-    const nomeAluno = alunoResolvido?.nome || registro.aluno || "Aluno nao identificado";
+    const nomeAluno = alunoResolvido?.nome || registro.aluno || "Aluno não identificado";
 
     return {
       ...registro,
@@ -672,7 +680,7 @@ function mensagemModeloSalvo(mode) {
 
 function mensagemLifecycleAtualizado(lifecycleStatus) {
   if (lifecycleStatus === WORKOUT_LIFECYCLE_STATUS.COMPLETED) {
-    return "A ficha foi marcada como concluida.";
+    return "A ficha foi marcada como concluída.";
   }
   if (lifecycleStatus === WORKOUT_LIFECYCLE_STATUS.ARCHIVED) {
     return "A ficha foi arquivada.";
@@ -681,6 +689,12 @@ function mensagemLifecycleAtualizado(lifecycleStatus) {
     return "A ficha ficou ativa.";
   }
   return "A ficha voltou para rascunho.";
+}
+
+function tituloLifecycleAtualizado(lifecycleStatus) {
+  if (lifecycleStatus === WORKOUT_LIFECYCLE_STATUS.COMPLETED) return "Treino concluído.";
+  if (lifecycleStatus === WORKOUT_LIFECYCLE_STATUS.ARCHIVED) return "Treino arquivado.";
+  return "Treino atualizado.";
 }
 
 function agruparAlunosPorNome(alunos) {

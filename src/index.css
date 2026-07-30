@@ -3540,6 +3540,88 @@ body[data-theme="dark"] .financeiro-report-info .card-value {
   flex: 0 0 auto;
 }
 
+.workout-lifecycle-badge {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.workout-origin-label {
+  overflow-wrap: anywhere;
+}
+
+.workout-lifecycle-confirmation-overlay {
+  align-items: center;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 18px;
+  position: fixed;
+  z-index: 1200;
+}
+
+.workout-lifecycle-confirmation-modal {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 28px 72px rgba(15, 23, 42, 0.24);
+  display: grid;
+  gap: 16px;
+  max-height: min(720px, calc(100dvh - 36px));
+  max-width: min(520px, calc(100vw - 36px));
+  min-width: min(420px, calc(100vw - 36px));
+  overflow: auto;
+  padding: 22px;
+}
+
+.workout-lifecycle-confirmation-modal h2 {
+  color: #111827;
+  font-size: 22px;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.workout-lifecycle-confirmation-modal p {
+  color: #4b5563;
+  font-size: 14px;
+  line-height: 1.45;
+  margin: 8px 0 0;
+}
+
+.workout-lifecycle-confirmation-summary {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  display: grid;
+  gap: 5px;
+  padding: 14px;
+}
+
+.workout-lifecycle-confirmation-summary span {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.workout-lifecycle-confirmation-summary strong {
+  color: #0f172a;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.workout-lifecycle-confirmation-modal .app-error {
+  display: grid;
+  gap: 10px;
+}
+
+.workout-lifecycle-confirmation-modal footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
 .avaliacao-mobile-card {
   display: grid;
   gap: 14px;
@@ -3745,6 +3827,29 @@ body[data-theme="dark"] .financeiro-report-info .card-value {
   .treino-library-card .table-button {
     flex: 1 1 auto;
     justify-content: center;
+  }
+
+  .workout-lifecycle-confirmation-overlay {
+    align-items: stretch;
+    padding: 10px;
+  }
+
+  .workout-lifecycle-confirmation-modal {
+    align-self: center;
+    max-height: calc(100dvh - 20px);
+    max-width: calc(100vw - 20px);
+    min-width: 0;
+    padding: 18px;
+    width: 100%;
+  }
+
+  .workout-lifecycle-confirmation-modal footer {
+    flex-direction: column-reverse;
+  }
+
+  .workout-lifecycle-confirmation-modal footer button {
+    min-height: 44px;
+    width: 100%;
   }
 
   .treinos-library-empty-actions {

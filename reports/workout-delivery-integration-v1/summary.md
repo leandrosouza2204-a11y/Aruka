@@ -64,3 +64,17 @@ Selecionar aluno, aplicar modelo, criar copia independente, preservar origem, re
 Fora de escopo: diario completo, progressao automatica, graficos, RPE/RIR detalhado, chat, push, gamificacao, IA, calendario avancado e periodizacao completa.
 
 Proxima etapa: Etapa 2 - Integracao do servico de aplicacao e entrega.
+
+## Etapa 3 - Interface profissional
+
+Entrada aprovada em `feat/workout-delivery-integration-v1`, com Etapa 2 commitada em `bcb7757 feat: integra aplicação e entrega de treinos`.
+
+Implementado: badge textual para `draft`, `active`, `completed` e `archived`; utility central de apresentação e ações; confirmações de entrega, conclusão e arquivamento; cards com ação principal contextual; detalhes com origem e datas de lifecycle; filtro por estado canônico.
+
+Exclusão física: removida da superfície principal dos cards para o novo ciclo. Arquivamento explícito preserva dados e histórico.
+
+Validações iniciais da Etapa 3 aprovadas: unitários de treinos, `qa:workout-delivery-professional-ui`, `qa:workout-delivery-responsive-ui`, `qa:workout-delivery-accessibility`, lint e build.
+
+Decisão da Etapa 3: `READY_WITH_AUTHENTICATED_RUNTIME_LIMITATION`.
+
+A bateria estática/unitária completa passou, incluindo QAs das Etapas 1, 2 e 3, QAs anteriores, lint, build, baseline Supabase e preflight fora do sandbox. Runtime autenticado não foi executado porque não havia sessão autenticada/credenciais disponíveis nesta conversa; nenhuma screenshot falsa foi produzida.

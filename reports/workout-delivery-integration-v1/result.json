@@ -260,6 +260,60 @@
     },
     "financialImpact": "PASS: no financial diff; financial tables and policies exist locally; no treino event recorded in acompanhamento_eventos."
   },
+  "professionalUi": {
+    "stage": 3,
+    "decision": "READY_WITH_AUTHENTICATED_RUNTIME_LIMITATION",
+    "entryDecision": "READY_FOR_PROFESSIONAL_UI",
+    "inheritedLimitation": "UI_RUNTIME_AUTHENTICATED_PENDING",
+    "implemented": [
+      "WorkoutLifecycleBadge",
+      "WorkoutLifecycleActions",
+      "WorkoutLifecycleConfirmationModal",
+      "WorkoutOriginLabel",
+      "workoutLifecyclePresentation",
+      "lifecycle_filters",
+      "contextual_card_actions",
+      "details_origin_and_lifecycle_dates"
+    ],
+    "states": {
+      "draft": "Em revisão",
+      "active": "Ativo",
+      "completed": "Concluído",
+      "archived": "Arquivado"
+    },
+    "actions": {
+      "draft": ["edit", "deliver", "archive"],
+      "active": ["view", "complete", "archive"],
+      "completed": ["view", "archive"],
+      "archived": ["view"]
+    },
+    "deletePolicy": "Exclusão física removida da superfície principal; arquivamento explícito usado para saída de fluxo.",
+    "runtimeAuthenticated": "NOT_EXECUTED_NO_AUTHENTICATED_SESSION_AVAILABLE",
+    "supabaseChanges": false,
+    "financialChanges": false,
+    "validations": [
+      "PASS: node --test src\\features\\treinos\\utils\\*.test.js",
+      "PASS: qa:workout-delivery-professional-ui",
+      "PASS: qa:workout-delivery-responsive-ui",
+      "PASS: qa:workout-delivery-accessibility",
+      "PASS: qa:workout-delivery-service-integration",
+      "PASS: qa:workout-delivery-idempotency",
+      "PASS: qa:workout-delivery-lifecycle",
+      "PASS: qa:workout-delivery-contract",
+      "PASS: qa:workout-delivery-data",
+      "PASS: qa:workout-delivery-authorization",
+      "PASS: qa:workout-template-sanitization",
+      "PASS: qa:workout-templates-data",
+      "PASS: qa:workout-template-discovery",
+      "PASS: qa:workout-template-guided-application",
+      "PASS: qa:personal-workout-template-management",
+      "PASS: qa:workout-library-mobile-flow",
+      "PASS: qa:supabase-baseline-src",
+      "PASS: npm.cmd run lint",
+      "PASS: npm.cmd run build",
+      "PASS_ESCALATED_AFTER_SANDBOX_ENV_FAILURE: npm.cmd run supabase:preflight"
+    ]
+  },
   "supabase": {
     "modified": true,
     "reason": "Migration aditiva, baseline, RLS e RPCs da Etapa 1"

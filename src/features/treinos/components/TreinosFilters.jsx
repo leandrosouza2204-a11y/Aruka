@@ -79,16 +79,15 @@ function TreinosFilters({
 
       <select
         className="app-select"
-        aria-label="Filtrar por status"
+        aria-label="Filtrar por estado"
         data-testid="treinos-filter-status"
         value={filtroStatus}
         onChange={(event) => onFiltroStatusChange(event.target.value)}
         style={styles.campo}
       >
-        <option value="todos">Todos os status</option>
         {opcoesFiltro.status.map((status) => (
-          <option key={status} value={status}>
-            {status}
+          <option key={status.value} value={status.value}>
+            {status.label}
           </option>
         ))}
       </select>

@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Dumbbell, UserRound, X } from "lucide-react";
 import Sidebar from "../../../components/Sidebar";
@@ -7,12 +7,15 @@ import TreinosCards from "./TreinosCards";
 import TreinoDetalhesModal from "./TreinoDetalhesModal";
 import TreinosFilters from "./TreinosFilters";
 import TreinosHeader from "./TreinosHeader";
+import WorkoutLifecycleConfirmationModal from "./WorkoutLifecycleConfirmationModal";
 
 const TreinoModal = lazy(() => import("../../../components/TreinoModal"));
 const TreinoTemplatesModal = lazy(() => import("./TreinoTemplatesModal"));
 
 function TreinosList() {
   const treinosPage = useTreinosPage();
+  const [confirmacaoLifecycle, setConfirmacaoLifecycle] = useState(null);
+  const [erroLifecycle, setErroLifecycle] = useState(null);
   const treinoSelecionadoId = treinosPage.treinoSelecionado?.id || "";
   const alternarTreino = (id) => {
     if (treinoSelecionadoId === id) {
@@ -27,6 +30,35 @@ function TreinosList() {
       behavior: "smooth",
       block: "center",
     });
+  };
+  const abrirConfirmacaoLifecycle = (action, treino) => {
+    setErroLifecycle(null);
+    setConfirmacaoLifecycle({ action, treino });
+  };
+  const fecharConfirmacaoLifecycle = () => {
+    setErroLifecycle(null);
+    setConfirmacaoLifecycle(null);
+  };
+  const revisarTreinoConfirmacao = () => {
+    if (confirmacaoLifecycle?.treino) treinosPage.abrirEdicao(confirmacaoLifecycle.treino);
+    fecharConfirmacaoLifecycle();
+  };
+  const confirmarLifecycle = async () => {
+    if (!confirmacaoLifecycle) return;
+
+    try {
+      setErroLifecycle(null);
+      if (confirmacaoLifecycle.action === "deliver") {
+        await treinosPage.entregarTreino(confirmacaoLifecycle.treino);
+      } else if (confirmacaoLifecycle.action === "complete") {
+        await treinosPage.concluirTreino(confirmacaoLifecycle.treino);
+      } else if (confirmacaoLifecycle.action === "archive") {
+        await treinosPage.arquivarTreino(confirmacaoLifecycle.treino);
+      }
+      fecharConfirmacaoLifecycle();
+    } catch (error) {
+      setErroLifecycle(error);
+    }
   };
 
   return (
@@ -106,8 +138,10 @@ function TreinosList() {
               treinos={treinosPage.treinosFiltrados}
               onVisualizar={alternarTreino}
               onEditar={treinosPage.abrirEdicao}
-              onDuplicar={treinosPage.duplicarTreino}
-              onExcluir={treinosPage.removerTreino}
+              onLifecycleAction={abrirConfirmacaoLifecycle}
+              alterandoEstadoTreinoId={treinosPage.alterandoEstadoTreinoId}
+              entregandoTreinoId={treinosPage.entregandoTreinoId}
+              lifecycleActionPending={confirmacaoLifecycle}
               alunoContextual={treinosPage.alunoContextual}
               onNovoTreino={treinosPage.abrirNovoTreino}
               onUsarModelo={focarModelos}
@@ -119,8 +153,11 @@ function TreinosList() {
         <div className="treinos-detail-panel">
           <TreinoDetalhesModal
             treino={treinosPage.treinoSelecionado}
+            alterandoEstadoTreinoId={treinosPage.alterandoEstadoTreinoId}
+            entregandoTreinoId={treinosPage.entregandoTreinoId}
             onEnviarWhatsApp={treinosPage.copiarTreinoWhatsApp}
             onFechar={treinosPage.fecharDetalhes}
+            onLifecycleAction={abrirConfirmacaoLifecycle}
             styles={styles}
           />
         </div>
@@ -181,6 +218,20 @@ function TreinosList() {
               onGenerate={treinosPage.gerarTreinoBase}
             />
           </Suspense>
+        )}
+        {confirmacaoLifecycle && (
+          <WorkoutLifecycleConfirmationModal
+            action={confirmacaoLifecycle.action}
+            error={erroLifecycle}
+            loading={
+              treinosPage.entregandoTreinoId === confirmacaoLifecycle.treino.id ||
+              treinosPage.alterandoEstadoTreinoId === confirmacaoLifecycle.treino.id
+            }
+            treino={confirmacaoLifecycle.treino}
+            onCancel={fecharConfirmacaoLifecycle}
+            onConfirm={confirmarLifecycle}
+            onReview={revisarTreinoConfirmacao}
+          />
         )}
       </div>
     </div>
