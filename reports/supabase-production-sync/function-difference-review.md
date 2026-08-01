@@ -15,3 +15,12 @@ All 14 function/RPC differences remain deferred or require manual review. No bod
 - Manual product decisions: remote admin/financial overloads.
 - Manual security/business logic review: admin/financial/utility body differences.
 - Deferred: AOE and student identity function contracts.
+
+## Phase 3.1 Assisted Manual Review
+
+Decision: `READY_FOR_PHASE31_EVIDENCE_COLLECTION`.
+
+- Legacy overloads: `DEPRECATE_REMOTE_OVERLOAD_LATER`.
+- Admin/financial body diffs: `EVIDENCE_REQUIRED`.
+- Utility body diff: `set_workout_templates_updated_at()` is `SECURITY_HARDENING_REQUIRED`.
+- AOE anon grant: `AOE_ANON_EXECUTE_EXCESS_CONFIRMED`; AOE body remains deferred.

@@ -1,5 +1,17 @@
 {
   "decision": "READY_FOR_PHASE3_FUNCTION_SCOPE_REVIEW",
+  "phase31_manual_review": {
+    "decision": "READY_FOR_PHASE31_EVIDENCE_COLLECTION",
+    "supabase_change": "NO_NEW_MIGRATION",
+    "production_action_required": "READONLY_EVIDENCE_COLLECTION_REQUIRED",
+    "reviewed_decision_rows": 15,
+    "migration_candidates": [
+      "set_workout_templates_updated_at",
+      "aoe_idempotency_get_or_create"
+    ],
+    "confirmed_security_issue": "AOE_ANON_EXECUTE_EXCESS_CONFIRMED",
+    "read_only_sql": "reports/supabase-production-sync/phase31-function-definitions-readonly.sql"
+  },
   "migration_decision": "NO_NEW_MIGRATION",
   "reason": "Function divergences include business logic, overload, grant and feature-line ambiguities that require explicit product/security review before SQL changes.",
   "remote_link_state": "UNLINKED_FOR_SAFETY",

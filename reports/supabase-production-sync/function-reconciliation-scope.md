@@ -31,3 +31,9 @@ No function was selected for an automatic Phase 3 migration. The remaining diffe
 - get_my_student_workouts() - LOCAL_OVERLOAD_ONLY - DEFER_TO_STUDENT_IDENTITY_DEPLOYMENT
 - set_workout_templates_updated_at() - BODY_DIFFERENT - MANUAL_SECURITY_AND_BUSINESS_LOGIC_REVIEW_REQUIRED
 - vincular_aluno_usuario(p_aluno_id uuid, p_student_user_id uuid) - LOCAL_OVERLOAD_ONLY - DEFER_TO_STUDENT_IDENTITY_DEPLOYMENT
+
+## Phase 3.1 Assisted Manual Review
+
+Decision: `READY_FOR_PHASE31_EVIDENCE_COLLECTION`.
+
+The manual review narrowed future migration candidates to: set_workout_templates_updated_at, aoe_idempotency_get_or_create. Follow-up read-only SQL: `reports/supabase-production-sync/phase31-function-definitions-readonly.sql`.

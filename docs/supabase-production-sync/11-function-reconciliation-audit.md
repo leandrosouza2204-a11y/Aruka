@@ -36,3 +36,15 @@ Remote safety: UNLINKED_FOR_SAFETY; no remote database command was executed.
 ## Conclusion
 
 Phase 3 produced inventory, dependency and scope artifacts only. A new migration was intentionally not created because the function differences include remote overloads, body differences and feature-line contracts that are not safe to reconcile automatically.
+
+## Phase 3.1 Manual Review
+
+Decision: `READY_FOR_PHASE31_EVIDENCE_COLLECTION`.
+
+Supabase change: `NO_NEW_MIGRATION`.
+
+Production action required: `READONLY_EVIDENCE_COLLECTION_REQUIRED`.
+
+Migration candidates: set_workout_templates_updated_at, aoe_idempotency_get_or_create.
+
+Confirmed security issue: `AOE_ANON_EXECUTE_EXCESS_CONFIRMED`.

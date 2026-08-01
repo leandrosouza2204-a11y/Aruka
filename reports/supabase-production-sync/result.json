@@ -28,6 +28,24 @@
       "docs/supabase-production-sync/11-function-reconciliation-audit.md"
     ]
   },
+  "phase31_function_scope_review": {
+    "decision": "READY_FOR_PHASE31_EVIDENCE_COLLECTION",
+    "supabase_change": "NO_NEW_MIGRATION",
+    "production_action_required": "READONLY_EVIDENCE_COLLECTION_REQUIRED",
+    "reviewed_decision_rows": 15,
+    "migration_candidates": [
+      "set_workout_templates_updated_at"
+    ],
+    "confirmed_security_issue": "AOE_ANON_EXECUTE_EXCESS_CONFIRMED",
+    "read_only_sql": "reports/supabase-production-sync/phase31-function-definitions-readonly.sql",
+    "artifacts": [
+      "reports/supabase-production-sync/phase31-function-decision-matrix.csv",
+      "reports/supabase-production-sync/function-scope-review-result.json",
+      "reports/supabase-production-sync/function-scope-review-summary.md",
+      "reports/supabase-production-sync/phase31-function-definitions-readonly.sql",
+      "docs/supabase-production-sync/12-function-scope-manual-review.md"
+    ]
+  },
   "additional_blockers": [
     "BLOCKED_LOCAL_STORAGE_BOOTSTRAP",
     "REMOTE_DIFF_INCONCLUSIVE",

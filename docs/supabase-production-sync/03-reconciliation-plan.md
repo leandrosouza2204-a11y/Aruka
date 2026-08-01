@@ -52,3 +52,22 @@ No corrective SQL, db push, db pull, migration repair, remote SQL, commit, push,
 - Manual security/business logic review required: admin/financial/utility body differences.
 - Deferred: AOE and student identity functions remain outside the Phase 3 migration scope.
 - Artifacts: `function-reconciliation-result.json`, `function-reconciliation-scope.json`, `phase3-function-inventory.json`, `phase3-function-dependency-graph.json`.
+
+## Function/RPC Phase 3.1 Update
+
+- Decision: `READY_FOR_PHASE31_EVIDENCE_COLLECTION`.
+- Supabase change: `NO_NEW_MIGRATION`.
+- Production action required: `READONLY_EVIDENCE_COLLECTION_REQUIRED`.
+- Legacy overloads: `DEPRECATE_REMOTE_OVERLOAD_LATER`, pending full remote definitions and external-consumer review.
+- Admin/financial body diffs: `EVIDENCE_REQUIRED`.
+- Utility candidate: `set_workout_templates_updated_at()` in `GROUP_A_UTILITY_SECURITY_HARDENING`.
+- AOE anon execute: `AOE_ANON_EXECUTE_EXCESS_CONFIRMED`; body remains deferred.
+- Student identity: remains separate.
+
+## Evidence Review Update
+
+- Decision: `READY_FOR_RECONCILIATION_DESIGN`.
+- Strategy: `INCREMENTAL_RECONCILIATION_THEN_NEW_BASELINE`.
+- Nullability completeness: `REMOTE_NULLABILITY_PROFILE_COMPLETE`.
+- Production action: `RECONCILIATION_DESIGN_REQUIRED`.
+- Next step: review the non-executable reconciliation design before any future migration is authored.

@@ -59,6 +59,15 @@
         "included_in_phase3_migration": 0,
         "deferred_or_blocked": 14
       },
+      "latest_phase31_manual_review": {
+        "decision": "READY_FOR_PHASE31_EVIDENCE_COLLECTION",
+        "supabase_change": "NO_NEW_MIGRATION",
+        "production_action_required": "READONLY_EVIDENCE_COLLECTION_REQUIRED",
+        "migration_candidates": [
+          "set_workout_templates_updated_at"
+        ],
+        "read_only_sql": "reports/supabase-production-sync/phase31-function-definitions-readonly.sql"
+      },
       "approval_required": "Engineering and security approval.",
       "rollback_concept": "Rollback function definitions must be captured from production before replacement.",
       "blockers_before_execution": [

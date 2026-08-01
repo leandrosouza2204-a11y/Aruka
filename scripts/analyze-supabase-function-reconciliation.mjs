@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { createHash } from "node:crypto";
 
@@ -63,8 +63,10 @@ const scopeRows = divergentInventory.map((row) => {
 
 const dependencyGraph = buildDependencyGraph(inventory);
 const summary = summarize(scopeRows);
+const phase31 = readOptionalJson("function-scope-review-result.json");
 const result = {
   decision: "READY_FOR_PHASE3_FUNCTION_SCOPE_REVIEW",
+  ...(phase31 ? { phase31_manual_review: phase31Summary(phase31) } : {}),
   migration_decision: "NO_NEW_MIGRATION",
   reason: "Function divergences include business logic, overload, grant and feature-line ambiguities that require explicit product/security review before SQL changes.",
   remote_link_state: "UNLINKED_FOR_SAFETY",
@@ -103,12 +105,12 @@ mkdirSync(docsDir, { recursive: true });
 writeJson("phase3-function-inventory.json", { generated_from: result.source_reports, functions: inventory });
 writeFileSync(join(reportDir, "phase3-function-inventory.csv"), toCsv(inventory), "utf8");
 writeJson("phase3-function-dependency-graph.json", dependencyGraph);
-writeJson("function-reconciliation-scope.json", { decision: result.decision, migration_decision: result.migration_decision, functions: scopeRows });
+writeJson("function-reconciliation-scope.json", { decision: result.decision, ...(phase31 ? { phase31_manual_review: phase31Summary(phase31) } : {}), migration_decision: result.migration_decision, functions: scopeRows });
 writeFileSync(join(reportDir, "function-phase3-scope.csv"), toCsv(scopeRows), "utf8");
 writeJson("function-reconciliation-result.json", result);
-writeFileSync(join(reportDir, "function-reconciliation-scope.md"), renderScopeMd(result, scopeRows), "utf8");
-writeFileSync(join(reportDir, "function-reconciliation-summary.md"), renderSummaryMd(result, scopeRows), "utf8");
-writeFileSync(join(docsDir, "11-function-reconciliation-audit.md"), renderSummaryMd(result, scopeRows), "utf8");
+writeFileSync(join(reportDir, "function-reconciliation-scope.md"), cleanMarkdown(renderScopeMd(result, scopeRows)), "utf8");
+writeFileSync(join(reportDir, "function-reconciliation-summary.md"), cleanMarkdown(renderSummaryMd(result, scopeRows)), "utf8");
+writeFileSync(join(docsDir, "11-function-reconciliation-audit.md"), cleanMarkdown(renderSummaryMd(result, scopeRows)), "utf8");
 
 console.log(`SUPABASE_FUNCTION_RECONCILIATION_AUDITED ${result.decision}`);
 
@@ -233,6 +235,7 @@ ${renderCounts(result.summary.by_decision)}
 ## Functions Requiring Review
 
 ${rows.map((row) => `- ${row.function_name}(${row.signature}) - ${row.reconciliation_status} - ${row.phase3_decision}`).join("\n")}
+${renderPhase31Scope(result)}
 `;
 }
 
@@ -266,6 +269,35 @@ ${renderCounts(result.summary.by_decision)}
 ## Conclusion
 
 Phase 3 produced inventory, dependency and scope artifacts only. A new migration was intentionally not created because the function differences include remote overloads, body differences and feature-line contracts that are not safe to reconcile automatically.
+${renderPhase31Summary(result)}
+`;
+}
+
+function renderPhase31Scope(result) {
+  if (!result.phase31_manual_review) return "";
+  return `
+## Phase 3.1 Assisted Manual Review
+
+Decision: \`${result.phase31_manual_review.decision}\`.
+
+The manual review narrowed future migration candidates to: ${result.phase31_manual_review.migration_candidates.join(", ") || "none"}. Follow-up read-only SQL: \`${result.phase31_manual_review.read_only_sql}\`.
+`;
+}
+
+function renderPhase31Summary(result) {
+  if (!result.phase31_manual_review) return "";
+  return `
+## Phase 3.1 Manual Review
+
+Decision: \`${result.phase31_manual_review.decision}\`.
+
+Supabase change: \`${result.phase31_manual_review.supabase_change}\`.
+
+Production action required: \`${result.phase31_manual_review.production_action_required}\`.
+
+Migration candidates: ${result.phase31_manual_review.migration_candidates.join(", ") || "none"}.
+
+Confirmed security issue: \`${result.phase31_manual_review.confirmed_security_issue || "NONE"}\`.
 `;
 }
 
@@ -321,6 +353,27 @@ function signatureKey(name, signature = "") {
 
 function readJson(relativePath) {
   return JSON.parse(readFileSync(join(reportDir, relativePath), "utf8"));
+}
+
+function readOptionalJson(relativePath) {
+  const path = join(reportDir, relativePath);
+  return existsSync(path) ? JSON.parse(readFileSync(path, "utf8")) : null;
+}
+
+function cleanMarkdown(value) {
+  return `${value.trimEnd()}\n`;
+}
+
+function phase31Summary(value) {
+  return {
+    decision: value.decision,
+    supabase_change: value.supabase_change,
+    production_action_required: value.production_action_required,
+    reviewed_decision_rows: value.reviewed_functions,
+    migration_candidates: (value.decisions || []).filter((row) => row.migration_candidate).map((row) => row.function),
+    confirmed_security_issue: (value.decisions || []).some((row) => row.decision === "AOE_ANON_EXECUTE_EXCESS_CONFIRMED") ? "AOE_ANON_EXECUTE_EXCESS_CONFIRMED" : null,
+    read_only_sql: value.read_only_sql,
+  };
 }
 
 function writeJson(relativePath, value) {

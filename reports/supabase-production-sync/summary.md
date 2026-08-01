@@ -159,3 +159,15 @@ Artifacts:
 - `docs/supabase-production-sync/11-function-reconciliation-audit.md`
 
 No remote DB command, `supabase link`, migration repair, SQL Editor action, commit, push or PR was executed.
+
+## Function/RPC Phase 3.1
+
+Decision: `READY_FOR_PHASE31_EVIDENCE_COLLECTION`.
+
+Supabase change: `NO_NEW_MIGRATION`.
+
+Production action required: `READONLY_EVIDENCE_COLLECTION_REQUIRED`.
+
+The assisted manual review produced explicit decisions for 15 rows: 5 legacy overloads are `DEPRECATE_REMOTE_OVERLOAD_LATER`, 4 admin/financial body diffs remain `EVIDENCE_REQUIRED`, 1 utility function is `SECURITY_HARDENING_REQUIRED`, 1 AOE grant issue is `AOE_ANON_EXECUTE_EXCESS_CONFIRMED`, 1 AOE body diff remains deferred, and 3 student identity functions remain deferred.
+
+Only `set_workout_templates_updated_at()` is a current future migration candidate, in `GROUP_A_UTILITY_SECURITY_HARDENING`. A SELECT-only SQL file was generated for missing remote function definitions; it was not executed remotely.

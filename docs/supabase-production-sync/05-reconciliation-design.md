@@ -34,6 +34,12 @@ Migration decision: `NO_NEW_MIGRATION`.
 
 The function/RPC audit produced inventory, dependency and scope artifacts, but no executable SQL. All 14 divergent function entries remain deferred or require manual review because they involve remote overloads, normalized body differences, AOE ownership, or the student identity deployment contract.
 
+## Phase 3.1 Function/RPC Manual Review
+
+Decision: `READY_FOR_PHASE31_EVIDENCE_COLLECTION`.
+
+The review identified `set_workout_templates_updated_at()` as the only current future migration candidate and explicitly kept financial/admin reconciliation out of that utility group. Admin and financial body decisions require full remote definitions from the generated SELECT-only SQL before migration design.
+
 ## Execution Boundary
 
 This document is design-only. It contains no executable write SQL and does not authorize direct application.
