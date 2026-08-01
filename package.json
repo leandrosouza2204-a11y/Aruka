@@ -146,6 +146,8 @@
     "qa:supabase-reconciliation-design": "node scripts/validate-supabase-reconciliation-design.mjs",
     "qa:supabase-security-reconciliation": "node scripts/validate-supabase-security-reconciliation.mjs",
     "qa:supabase-security-reconciliation-runtime": "node scripts/validate-supabase-security-reconciliation-runtime.mjs",
+    "qa:supabase-constraint-nullability-reconciliation": "node scripts/validate-supabase-constraint-nullability-reconciliation.mjs",
+    "qa:supabase-constraint-nullability-runtime": "node scripts/validate-supabase-constraint-nullability-runtime.mjs",
     "qa:supabase-baseline-candidate": "node scripts/validate-supabase-baseline-candidate.mjs",
     "qa:supabase-validation-evidence": "node scripts/validate-supabase-validation-evidence.mjs",
     "qa:supabase-migration-cutover": "node scripts/validate-supabase-migration-cutover.mjs",

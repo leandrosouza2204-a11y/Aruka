@@ -475,13 +475,16 @@ function stripOuterParens(value) {
 }
 
 function normalizeCheckWrapper(value) {
-  let out = value;
-  if (out.startsWith("check((") && out.endsWith("))") && balancedParens(out.slice("check((".length, -2))) {
-    out = `check(${out.slice("check((".length, -2).trim()})`;
-  }
-  return out
-    .replace(/\(\(([^()]+)\)\)/g, "($1)")
-    .replace(/\(\(([^()]+\([^()]*\)[^()]*)\)\)/g, "($1)");
+  const match = value.match(/^check\s*\(([\s\S]*)\)$/i);
+  if (!match) return value;
+  let body = stripOuterParens(match[1].trim());
+  body = body
+    .replace(/\(\s*([a-z_][a-z0-9_]*\s+is\s+null)\s*\)/gi, "$1")
+    .replace(/\(\s*(jsonb_typeof\([^)]+\)\s*=\s*'object')\s*\)/gi, "$1")
+    .replace(/\(\s*([a-z_][a-z0-9_]*\s*=\s*any\s*\([^)]+\))\s*\)/gi, "$1")
+    .replace(/\s+/g, " ")
+    .trim();
+  return `check(${body})`;
 }
 
 function normalizeAnyArrays(value) {

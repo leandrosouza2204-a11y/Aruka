@@ -1,0 +1,61 @@
+{
+  "decision": "READY_FOR_PHASE2_COMMIT",
+  "manualProductDecision": "APPROVED",
+  "manualFinancialContractDecision": "MANUAL_FINANCIAL_CONTRACT_DECISION_COMPLETED",
+  "readyForMigration": true,
+  "remoteLinkState": "UNLINKED_FOR_SAFETY",
+  "productionActionRequired": false,
+  "migrationRepairAllowed": false,
+  "supabaseChange": "YES",
+  "migration": "supabase/migrations/20260801143335_reconcile_alunos_required_fields.sql",
+  "nullabilityProfile": {
+    "status": "REMOTE_NULLABILITY_DATA_PROFILE_COMPLETE",
+    "columns": 10,
+    "remoteTotalRows": 26,
+    "remoteNullRows": 0,
+    "remoteDataCompatibleWithPhase2NotNull": true
+  },
+  "included": [
+    "public.alunos.created_at SET NOT NULL",
+    "public.alunos.user_id SET NOT NULL",
+    "public.alunos.whatsapp SET NOT NULL"
+  ],
+  "preserveNullable": [
+    "public.alunos.acompanhamento_motivo",
+    "public.alunos.observacoes",
+    "public.alunos.inicio",
+    "public.alunos.pagamento_recebido",
+    "public.alunos.plano",
+    "public.alunos.status",
+    "public.alunos.valor"
+  ],
+  "futureContractHardeningOptional": [
+    "public.alunos.inicio",
+    "public.alunos.pagamento_recebido",
+    "public.alunos.plano",
+    "public.alunos.status",
+    "public.alunos.valor"
+  ],
+  "constraints": {
+    "included": [],
+    "deferred": [
+      {
+        "name": "public.perfis.perfis_role_check",
+        "decision": "DEFERRED_TO_STUDENT_IDENTITY"
+      },
+      {
+        "name": "public.treinos.treinos_lifecycle_dates_check",
+        "decision": "DEFERRED_TO_WORKOUT_DELIVERY"
+      }
+    ],
+    "semanticFalsePositive": [
+      "public.treino_eventos.treino_eventos_metadata_object_check",
+      "public.treinos.treinos_template_origin_snapshot_object_check",
+      "public.treinos.treinos_template_origin_type_check"
+    ]
+  },
+  "phase2ConstraintChangeCount": 0,
+  "defaultsChanged": 0,
+  "dataChanged": 0,
+  "rollbackConcept": "ALTER TABLE public.alunos ALTER COLUMN created_at DROP NOT NULL, ALTER COLUMN user_id DROP NOT NULL, ALTER COLUMN whatsapp DROP NOT NULL;"
+}

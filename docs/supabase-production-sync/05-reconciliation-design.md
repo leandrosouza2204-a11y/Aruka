@@ -18,6 +18,14 @@ Ready to apply: `false`.
 
 The production profile for public.alunos contains all 10 expected columns, total_rows=26 and null_rows=0 for every exported column. This closes the nullability evidence limitation for design, but it does not authorize immediate NOT NULL changes.
 
+## Phase 2 Scope Review
+
+Decision: `READY_FOR_PHASE2_COMMIT`.
+
+Manual product decision: `APPROVED`.
+
+Phase 2 authors exactly one incremental migration for `public.alunos.created_at`, `public.alunos.user_id` and `public.alunos.whatsapp` as `NOT NULL`. The seven other nullability differences are intentionally preserved in this reconciliation; `inicio`, `pagamento_recebido`, `plano`, `status` and `valor` are `FUTURE_CONTRACT_HARDENING_OPTIONAL`. Constraint review found no item to include: student identity and workout delivery remain out of phase, and the remaining CHECK differences are semantic representation false positives.
+
 ## Execution Boundary
 
 This document is design-only. It contains no executable write SQL and does not authorize direct application.

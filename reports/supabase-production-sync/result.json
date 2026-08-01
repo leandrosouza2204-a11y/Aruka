@@ -349,5 +349,40 @@
     "baseline_src_changed": false,
     "data_affected": false,
     "financial_impact": "POLICY_AND_GRANT_ONLY_NO_DATA_OR_STRUCTURE_CHANGE"
+  },
+  "constraint_nullability_phase_2": {
+    "decision": "READY_FOR_PHASE2_COMMIT",
+    "supabase_change": "YES",
+    "production_action_required": false,
+    "remote_link_state": "UNLINKED_FOR_SAFETY",
+    "manual_product_decision": "APPROVED",
+    "migration": "supabase/migrations/20260801143335_reconcile_alunos_required_fields.sql",
+    "remote_nullability_profile": "COMPLETE_10_OF_10_COLUMNS_26_ROWS_0_NULLS",
+    "included_nullability": [
+      "public.alunos.created_at",
+      "public.alunos.user_id",
+      "public.alunos.whatsapp"
+    ],
+    "preserve_nullable": [
+      "public.alunos.acompanhamento_motivo",
+      "public.alunos.observacoes"
+    ],
+    "preserved_by_product_decision": [
+      "public.alunos.inicio",
+      "public.alunos.pagamento_recebido",
+      "public.alunos.plano",
+      "public.alunos.status",
+      "public.alunos.valor"
+    ],
+    "constraints_included": [],
+    "constraints_deferred": [
+      "public.perfis.perfis_role_check",
+      "public.treinos.treinos_lifecycle_dates_check"
+    ],
+    "constraints_false_positive": [
+      "public.treino_eventos.treino_eventos_metadata_object_check",
+      "public.treinos.treinos_template_origin_snapshot_object_check",
+      "public.treinos.treinos_template_origin_type_check"
+    ]
   }
 }

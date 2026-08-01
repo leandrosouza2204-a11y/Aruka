@@ -120,3 +120,15 @@ Recommended strategy: `INCREMENTAL_RECONCILIATION_THEN_NEW_BASELINE`.
 ## Student Identity
 
 - STUDENT_IDENTITY_ABSENT_REMOTE_CONFIRMED
+
+## Constraint and Nullability Phase 2
+
+Decision: `READY_FOR_PHASE2_COMMIT`.
+
+Supabase change: `YES`.
+
+Manual product decision: `APPROVED`.
+
+The ten `public.alunos` nullability differences were reviewed with complete remote nullability evidence: 26 rows, 0 nulls in every profiled column. `created_at`, `user_id` and `whatsapp` are included in `supabase/migrations/20260801143335_reconcile_alunos_required_fields.sql`. `acompanhamento_motivo`, `observacoes`, `inicio`, `pagamento_recebido`, `plano`, `status` and `valor` are preserved in this phase.
+
+The five remaining constraints were not included. `perfis_role_check` belongs to student identity, `treinos_lifecycle_dates_check` belongs to workout delivery, and the three object/type CHECK differences are semantic representation false positives.

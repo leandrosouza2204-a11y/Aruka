@@ -5,7 +5,7 @@
   "productionAction": "RECONCILIATION_DESIGN_REQUIRED",
   "recommendedStrategy": "INCREMENTAL_RECONCILIATION_THEN_NEW_BASELINE",
   "branch": "feat/workout-delivery-integration-v1",
-  "commit": "0aaa964 docs: desenha reconciliação segura do schema Supabase",
+  "commit": "b9c1060 fix: reconcilia policies e grants de segurança do Supabase",
   "linkedState": "UNLINKED_FOR_SAFETY",
   "inputEvidence": {
     "directory": "reports/supabase-production-sync/remote-reconciliation-input",

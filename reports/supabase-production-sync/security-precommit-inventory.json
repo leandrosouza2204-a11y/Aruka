@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-01T15:54:15.468Z",
+  "generated_at": "2026-08-01T17:48:54.398Z",
   "migration": "20260731190000_reconcile_security_policies_and_grants.sql",
   "decision": "READY_FOR_PHASE1_COMMIT",
   "runtime_limitation": "LOCAL_STORAGE_TIMEOUT_KNOWN",

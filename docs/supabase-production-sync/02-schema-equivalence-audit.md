@@ -17,7 +17,7 @@ Production action required: `RECONCILIATION_REQUIRED`.
 
 - Tables: total 20, equivalent 20, local-only 0, remote-only 0, different 0, partial 0
 - Columns: total 326, equivalent 255, local-only 1, remote-only 0, different 70, partial 0
-- Constraints: total 71, equivalent 65, local-only 1, remote-only 0, different 5, partial 0
+- Constraints: total 71, equivalent 68, local-only 1, remote-only 0, different 2, partial 0
 - Indexes: total 87, equivalent 85, local-only 2, remote-only 0, different 0, partial 0
 - RLS: total 20, equivalent 20, local-only 0, remote-only 0, different 0, partial 0
 - Policies: total 59, equivalent 3, local-only 4, remote-only 4, different 48, partial 0
@@ -27,14 +27,14 @@ Production action required: `RECONCILIATION_REQUIRED`.
 
 ## Auditor Normalization Impact
 
-- Critical: before 480, after 356, delta -124
+- Critical: before 480, after 353, delta -127
 - Defaults different: before 169, after 0, delta -169
-- Constraints different: before 70, after 5, delta -65
+- Constraints different: before 70, after 2, delta -68
 - Policies different: before 51, after 48, delta -3
 - Functions different: before 17, after 6, delta -11
 - Local-only: before 20, after 20, delta 0
 - Remote-only: before 100, after 234, delta 134
-- Equivalent: before 737, after 792, delta 55
+- Equivalent: before 737, after 795, delta 58
 
 ## Migration Coverage
 
@@ -61,10 +61,7 @@ Production action required: `RECONCILIATION_REQUIRED`.
 - column alunos.whatsapp: NULLABILITY_DIFFERENT (data_type: local_raw=text remote_raw=text local_norm=text remote_norm=text local_hash=7c9e690a remote_hash=7c9e690a; udt_name: local_raw=text remote_raw=text local_norm=text remote_norm=text local_hash=7c9e690a remote_hash=7c9e690a; is_nullable: local_raw=NO remote_raw=YES local_norm=NO remote_norm=YES local_hash=5974a2 remote_hash=b8836b6; column_default: local_raw=<null> remote_raw=null local_norm=null remote_norm=null local_hash=7c9b6140 remote_hash=7c9b6140; ordinal_position: local_raw=4 remote_raw=4 local_norm=4 remote_norm=4 local_hash=2b5d9 remote_hash=2b5d9)
 - constraint alunos.alunos_student_user_id_fkey: LOCAL_ONLY (20260730090000_student_identity_contract.sql)
 - constraint perfis.perfis_role_check: MATERIAL_DIFFERENCE (constraint_type: local_raw=c remote_raw=c local_norm=CHECK remote_norm=CHECK local_hash=ce413a3 remote_hash=ce413a3; definition: local_raw=CHECK ((role = ANY (ARRAY['admin'::text, 'user'::text, 'student'::text]))) remote_raw=CHECK (role = ANY (ARRAY['admin'::text, 'user'::text])) local_norm=check(role = any (array['admin', 'student', 'user'])) remote_norm=check(role = any (array['admin', 'user'])) local_hash=9bb295c4 remote_hash=1e5d0703)
-- constraint treino_eventos.treino_eventos_metadata_object_check: MATERIAL_DIFFERENCE (constraint_type: local_raw=c remote_raw=c local_norm=CHECK remote_norm=CHECK local_hash=ce413a3 remote_hash=ce413a3; definition: local_raw=CHECK (((metadata IS NULL) OR (jsonb_typeof(metadata) = 'object'::text))) remote_raw=CHECK (metadata IS NULL OR jsonb_typeof(metadata) = 'object'::text) local_norm=check((metadata is null) or (jsonb_typeof(metadata) = 'object')) remote_norm=check(metadata is null or jsonb_typeof(metadata) = 'object') local_hash=58e03bf5 remote_hash=3f3519b3)
 - constraint treinos.treinos_lifecycle_dates_check: MATERIAL_DIFFERENCE (constraint_type: local_raw=c remote_raw=c local_norm=CHECK remote_norm=CHECK local_hash=ce413a3 remote_hash=ce413a3; definition: local_raw=[len 228 hash e2ce4c0d] remote_raw=[len 214 hash b7bd6916] local_norm=[len 207 hash d24d5831] remote_norm=[len 195 hash e94a5a8b] local_hash=d24d5831 remote_hash=e94a5a8b)
-- constraint treinos.treinos_template_origin_snapshot_object_check: MATERIAL_DIFFERENCE (constraint_type: local_raw=c remote_raw=c local_norm=CHECK remote_norm=CHECK local_hash=ce413a3 remote_hash=ce413a3; definition: local_raw=CHECK (((template_origin_snapshot IS NULL) OR (jsonb_typeof(template_origin_snapshot) = 'object'::text))) remote_raw=CHECK (template_origin_snapshot IS NULL OR jsonb_typeof(template_origin_snapshot) = 'object'::text) local_norm=check((template_origin_snapshot is null) or (jsonb_typeof(template_origin_snapshot) = 'object')) remote_norm=check(template_origin_snapshot is null or jsonb_typeof(template_origin_snapshot) = 'object') local_hash=14b1ccf7 remote_hash=27839835)
-- constraint treinos.treinos_template_origin_type_check: MATERIAL_DIFFERENCE (constraint_type: local_raw=c remote_raw=c local_norm=CHECK remote_norm=CHECK local_hash=ce413a3 remote_hash=ce413a3; definition: local_raw=CHECK (((template_origin_type IS NULL) OR (template_origin_type = ANY (ARRAY['official'::text, 'personal'::text])))) remote_raw=CHECK (template_origin_type IS NULL OR (template_origin_type = ANY (ARRAY['official'::text, 'personal'::text]))) local_norm=check((template_origin_type is null) or (template_origin_type = any (array['official', 'personal']))) remote_norm=check(template_origin_type is null or (template_origin_type = any (array['official', 'personal']))) local_hash=de5ddaac remote_hash=aac7151b)
 - function_grant admin_eh_admin.authenticated.execute: LOCAL_ONLY (20260716090000_baseline_aruka_v1.sql)
 - function_grant admin_registrar_log.authenticated.execute: LOCAL_ONLY (20260716090000_baseline_aruka_v1.sql)
 - function_grant admin_validar_acesso.authenticated.execute: LOCAL_ONLY (20260716090000_baseline_aruka_v1.sql)
@@ -98,16 +95,13 @@ Production action required: `RECONCILIATION_REQUIRED`.
 - index alunos.alunos_student_user_id_idx: LOCAL_ONLY (20260730090000_student_identity_contract.sql)
 - index alunos.alunos_student_user_id_uidx: LOCAL_ONLY (20260730090000_student_identity_contract.sql)
 - policy aceites_legais.Usuarios podem listar seus aceites legais: REMOTE_MORE_PERMISSIVE (permissive: local_raw=PERMISSIVE remote_raw=PERMISSIVE local_norm=permissive remote_norm=permissive local_hash=e892274c remote_hash=e892274c; roles: local_raw={authenticated} remote_raw={public} local_norm=authenticated remote_norm=public local_hash=486e9848 remote_hash=159d94a4; cmd: local_raw=SELECT remote_raw=SELECT local_norm=select remote_norm=select local_hash=1b80e3c5 remote_hash=1b80e3c5; qual: local_raw=(auth.uid() = user_id) remote_raw=(auth.uid() = user_id) local_norm=auth.uid() = user_id remote_norm=auth.uid() = user_id local_hash=8dc18120 remote_hash=8dc18120; with_check: local_raw=<null> remote_raw=null local_norm=null remote_norm=null local_hash=7c9b6140 remote_hash=7c9b6140)
-- ... 306 additional critical differences in JSON/matrix.
+- policy aceites_legais.Usuarios podem registrar seus aceites legais: REMOTE_MORE_PERMISSIVE (permissive: local_raw=PERMISSIVE remote_raw=PERMISSIVE local_norm=permissive remote_norm=permissive local_hash=e892274c remote_hash=e892274c; roles: local_raw={authenticated} remote_raw={public} local_norm=authenticated remote_norm=public local_hash=486e9848 remote_hash=159d94a4; cmd: local_raw=INSERT remote_raw=INSERT local_norm=insert remote_norm=insert local_hash=4d4029a remote_hash=4d4029a; qual: local_raw=<null> remote_raw=null local_norm=null remote_norm=null local_hash=7c9b6140 remote_hash=7c9b6140; with_check: local_raw=((auth.uid() = user_id) AND (politica_aceita = true) AND (termos_aceitos = true)) remote_raw=((auth.uid() = user_id) AND (politica_aceita = true) AND (termos_aceitos = true)) local_norm=(auth.uid() = user_id) and (politica_aceita = true) and (termos_aceitos = true) remote_norm=(auth.uid() = user_id) and (politica_aceita = true) and (termos_aceitos = true) local_hash=eef7656f remote_hash=eef7656f)
+- policy admin_logs.Admins podem listar logs administrativos: REMOTE_MORE_PERMISSIVE (permissive: local_raw=PERMISSIVE remote_raw=PERMISSIVE local_norm=permissive remote_norm=permissive local_hash=e892274c remote_hash=e892274c; roles: local_raw={authenticated} remote_raw={public} local_norm=authenticated remote_norm=public local_hash=486e9848 remote_hash=159d94a4; cmd: local_raw=SELECT remote_raw=SELECT local_norm=select remote_norm=select local_hash=1b80e3c5 remote_hash=1b80e3c5; qual: local_raw=admin_eh_admin() remote_raw=[len 187 hash 9b3198b8] local_norm=admin_eh_admin() remote_norm=exists (select 1 from perfis where ((perfis.user_id = auth.uid()) and (perfis.status = 'ativo') and ((perfis.role = 'admin') or (perfis.tipo_acesso = 'admin')))) local_hash=274e74d3 remote_hash=f5f109c8; with_check: local_raw=<null> remote_raw=null local_norm=null remote_norm=null local_hash=7c9b6140 remote_hash=7c9b6140)
+- policy admin_logs.Usuarios comuns nao inserem logs administrativos: REMOTE_MORE_PERMISSIVE (permissive: local_raw=PERMISSIVE remote_raw=PERMISSIVE local_norm=permissive remote_norm=permissive local_hash=e892274c remote_hash=e892274c; roles: local_raw={authenticated} remote_raw={public} local_norm=authenticated remote_norm=public local_hash=486e9848 remote_hash=159d94a4; cmd: local_raw=INSERT remote_raw=INSERT local_norm=insert remote_norm=insert local_hash=4d4029a remote_hash=4d4029a; qual: local_raw=<null> remote_raw=null local_norm=null remote_norm=null local_hash=7c9b6140 remote_hash=7c9b6140; with_check: local_raw=false remote_raw=false local_norm=false remote_norm=false local_hash=f6bcef0 remote_hash=f6bcef0)
+- ... 303 additional critical differences in JSON/matrix.
 
 ## Next Steps
 
 - Review material differences object by object.
 - Do not execute db push or migration repair until schema equivalence is proven.
 - Collect signature-aware function grant evidence before final grant equivalence.
-
-## Reconciliation Evidence Review
-
-- Decision: `READY_FOR_RECONCILIATION_DESIGN`.
-- Function grants are now compared by signature.
-- Reconciliation inspection CSV is `RECONCILIATION_INSPECTION_PARTIAL`.

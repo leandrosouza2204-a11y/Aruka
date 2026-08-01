@@ -27,10 +27,14 @@ No corrective SQL, db push, db pull, migration repair, remote SQL, commit, push,
 - Function grants are `PARTIALLY_VERIFIED` because the remote CSV contains `routine_name` but not function identity arguments or `specific_name`.
 - Use signature-aware read-only evidence before final grant equivalence.
 
-## Evidence Review Update
+## Constraint and Nullability Phase 2 Update
 
-- Decision: `READY_FOR_RECONCILIATION_DESIGN`.
-- Strategy: `INCREMENTAL_RECONCILIATION_THEN_NEW_BASELINE`.
-- Nullability completeness: `REMOTE_NULLABILITY_PROFILE_COMPLETE`.
-- Production action: `RECONCILIATION_DESIGN_REQUIRED`.
-- Next step: review the non-executable reconciliation design before any future migration is authored.
+- Decision: `READY_FOR_PHASE2_COMMIT`.
+- Manual product decision: `APPROVED`.
+- Supabase change: `YES`.
+- Production action required: `NO`.
+- Nullability profile: `COMPLETE`, 10/10 `public.alunos` columns, 26 remote rows, 0 nulls.
+- Migration: `supabase/migrations/20260801143335_reconcile_alunos_required_fields.sql`.
+- Included: `created_at`, `user_id` and `whatsapp` set `NOT NULL`.
+- Preserved: `acompanhamento_motivo`, `observacoes`, `inicio`, `pagamento_recebido`, `plano`, `status` and `valor`.
+- Constraint scope: no constraint included; student identity and workout delivery constraints remain deferred, and three CHECK differences are representation false positives.

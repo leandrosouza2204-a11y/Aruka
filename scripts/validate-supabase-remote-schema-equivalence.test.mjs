@@ -138,3 +138,51 @@ test("keeps function body drift critical after normalization", () => {
   assert.equal(status, "BODY_DIFFERENT");
   assert.equal(severity, "critical");
 });
+
+test("normalizes redundant CHECK parentheses around jsonb object constraints", () => {
+  const [status, severity] = compareConstraint(
+    {
+      constraint_type: "c",
+      definition: "CHECK (((metadata IS NULL) OR (jsonb_typeof(metadata) = 'object'::text)))",
+    },
+    {
+      constraint_type: "c",
+      definition: "CHECK (metadata IS NULL OR jsonb_typeof(metadata) = 'object'::text)",
+    }
+  );
+
+  assert.equal(status, "EQUIVALENT_REPRESENTATION_DIFFERENCE");
+  assert.equal(severity, "info");
+});
+
+test("normalizes redundant CHECK parentheses around template snapshot constraints", () => {
+  const [status, severity] = compareConstraint(
+    {
+      constraint_type: "c",
+      definition: "CHECK (((template_origin_snapshot IS NULL) OR (jsonb_typeof(template_origin_snapshot) = 'object'::text)))",
+    },
+    {
+      constraint_type: "c",
+      definition: "CHECK (template_origin_snapshot IS NULL OR jsonb_typeof(template_origin_snapshot) = 'object'::text)",
+    }
+  );
+
+  assert.equal(status, "EQUIVALENT_REPRESENTATION_DIFFERENCE");
+  assert.equal(severity, "info");
+});
+
+test("normalizes equivalent ANY array template origin checks", () => {
+  const [status, severity] = compareConstraint(
+    {
+      constraint_type: "c",
+      definition: "CHECK (((template_origin_type IS NULL) OR (template_origin_type = ANY (ARRAY['official'::text, 'personal'::text]))))",
+    },
+    {
+      constraint_type: "c",
+      definition: "CHECK (template_origin_type IS NULL OR (template_origin_type = ANY (ARRAY['official'::text, 'personal'::text])))",
+    }
+  );
+
+  assert.equal(status, "EQUIVALENT_REPRESENTATION_DIFFERENCE");
+  assert.equal(severity, "info");
+});

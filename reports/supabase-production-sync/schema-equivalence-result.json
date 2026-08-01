@@ -2,7 +2,7 @@
   "auditorDecision": "AUDITOR_FALSE_POSITIVES_CORRECTED",
   "decision": "BLOCKED_REMOTE_SCHEMA_DRIFT",
   "branch": "feat/workout-delivery-integration-v1",
-  "commit": "0aaa964 docs: desenha reconciliação segura do schema Supabase",
+  "commit": "b9c1060 fix: reconcilia policies e grants de segurança do Supabase",
   "inputDecision": "SCHEMA_EQUIVALENCE_AUDITOR_REVIEW_REQUIRED",
   "inputEvidence": {
     "directory": "reports/supabase-production-sync/remote-schema-input",
@@ -114,9 +114,9 @@
   "constraints": {
     "total": 71,
     "EQUIVALENT": 52,
-    "EQUIVALENT_REPRESENTATION_DIFFERENCE": 13,
+    "EQUIVALENT_REPRESENTATION_DIFFERENCE": 16,
     "LOCAL_ONLY": 1,
-    "MATERIAL_DIFFERENCE": 5
+    "MATERIAL_DIFFERENCE": 2
   },
   "indexes": {
     "total": 87,
@@ -388,19 +388,6 @@
     {
       "category": "constraint",
       "schema": "public",
-      "object": "treino_eventos",
-      "subobject": "treino_eventos_metadata_object_check",
-      "local_state": "present",
-      "remote_state": "present",
-      "status": "MATERIAL_DIFFERENCE",
-      "severity": "critical",
-      "source_migration": "constraint_type: local_raw=c remote_raw=c local_norm=CHECK remote_norm=CHECK local_hash=ce413a3 remote_hash=ce413a3; definition: local_raw=CHECK (((metadata IS NULL) OR (jsonb_typeof(metadata) = 'object'::text))) remote_raw=CHECK (metadata IS NULL OR jsonb_typeof(metadata) = 'object'::text) local_norm=check((metadata is null) or (jsonb_typeof(metadata) = 'object')) remote_norm=check(metadata is null or jsonb_typeof(metadata) = 'object') local_hash=58e03bf5 remote_hash=3f3519b3",
-      "details": "Constraint drift is material; review before reconciliation.",
-      "recommended_action": "20260728030000_workout_delivery_integration_v1.sql"
-    },
-    {
-      "category": "constraint",
-      "schema": "public",
       "object": "treinos",
       "subobject": "treinos_lifecycle_dates_check",
       "local_state": "present",
@@ -408,32 +395,6 @@
       "status": "MATERIAL_DIFFERENCE",
       "severity": "critical",
       "source_migration": "constraint_type: local_raw=c remote_raw=c local_norm=CHECK remote_norm=CHECK local_hash=ce413a3 remote_hash=ce413a3; definition: local_raw=[len 228 hash e2ce4c0d] remote_raw=[len 214 hash b7bd6916] local_norm=[len 207 hash d24d5831] remote_norm=[len 195 hash e94a5a8b] local_hash=d24d5831 remote_hash=e94a5a8b",
-      "details": "Constraint drift is material; review before reconciliation.",
-      "recommended_action": "20260716090000_baseline_aruka_v1.sql"
-    },
-    {
-      "category": "constraint",
-      "schema": "public",
-      "object": "treinos",
-      "subobject": "treinos_template_origin_snapshot_object_check",
-      "local_state": "present",
-      "remote_state": "present",
-      "status": "MATERIAL_DIFFERENCE",
-      "severity": "critical",
-      "source_migration": "constraint_type: local_raw=c remote_raw=c local_norm=CHECK remote_norm=CHECK local_hash=ce413a3 remote_hash=ce413a3; definition: local_raw=CHECK (((template_origin_snapshot IS NULL) OR (jsonb_typeof(template_origin_snapshot) = 'object'::text))) remote_raw=CHECK (template_origin_snapshot IS NULL OR jsonb_typeof(template_origin_snapshot) = 'object'::text) local_norm=check((template_origin_snapshot is null) or (jsonb_typeof(template_origin_snapshot) = 'object')) remote_norm=check(template_origin_snapshot is null or jsonb_typeof(template_origin_snapshot) = 'object') local_hash=14b1ccf7 remote_hash=27839835",
-      "details": "Constraint drift is material; review before reconciliation.",
-      "recommended_action": "20260716090000_baseline_aruka_v1.sql"
-    },
-    {
-      "category": "constraint",
-      "schema": "public",
-      "object": "treinos",
-      "subobject": "treinos_template_origin_type_check",
-      "local_state": "present",
-      "remote_state": "present",
-      "status": "MATERIAL_DIFFERENCE",
-      "severity": "critical",
-      "source_migration": "constraint_type: local_raw=c remote_raw=c local_norm=CHECK remote_norm=CHECK local_hash=ce413a3 remote_hash=ce413a3; definition: local_raw=CHECK (((template_origin_type IS NULL) OR (template_origin_type = ANY (ARRAY['official'::text, 'personal'::text])))) remote_raw=CHECK (template_origin_type IS NULL OR (template_origin_type = ANY (ARRAY['official'::text, 'personal'::text]))) local_norm=check((template_origin_type is null) or (template_origin_type = any (array['official', 'personal']))) remote_norm=check(template_origin_type is null or (template_origin_type = any (array['official', 'personal']))) local_hash=de5ddaac remote_hash=aac7151b",
       "details": "Constraint drift is material; review before reconciliation.",
       "recommended_action": "20260716090000_baseline_aruka_v1.sql"
     },
@@ -12709,7 +12670,7 @@
       "recommended_action": "20260728030000_workout_delivery_integration_v1.sql"
     }
   ],
-  "equivalentObjectsTotal": 792,
+  "equivalentObjectsTotal": 795,
   "normalizationImpact": {
     "previous": {
       "critical": 480,
@@ -12722,14 +12683,14 @@
       "equivalent": 737
     },
     "current": {
-      "critical": 356,
+      "critical": 353,
       "defaultDifferent": 0,
-      "constraintDifferent": 5,
+      "constraintDifferent": 2,
       "policyDifferent": 48,
       "functionDifferent": 6,
       "localOnly": 20,
       "remoteOnly": 234,
-      "equivalent": 792
+      "equivalent": 795
     },
     "falsePositivesCorrected": true
   },
@@ -12747,20 +12708,5 @@
     "supabase db reset --linked",
     "supabase db dump --linked",
     "remote SQL execution"
-  ],
-  "reconciliationEvidenceReview": {
-    "decision": "READY_FOR_RECONCILIATION_DESIGN",
-    "globalDecision": "BLOCKED_REMOTE_SCHEMA_DRIFT",
-    "productionAction": "RECONCILIATION_DESIGN_REQUIRED",
-    "evidenceCompleteness": {
-      "overall": "RECONCILIATION_EVIDENCE_COMPLETE",
-      "functionGrants": "COMPLETE_BY_SIGNATURE_FOR_RECEIVED_GRID",
-      "functionConfiguration": "RECONCILIATION_INSPECTION_PARTIAL",
-      "reconciliationCsv": "RECONCILIATION_INSPECTION_PARTIAL",
-      "nullability": "REMOTE_NULLABILITY_PROFILE_COMPLETE",
-      "policies": "POLICY_EVIDENCE_FROM_PRIOR_SCHEMA_CSV_STILL_VALID",
-      "constraints": "CONSTRAINT_EVIDENCE_SUFFICIENT_FOR_DESIGN_INPUT_BUT_DATA_PROFILE_REQUIRED"
-    },
-    "recommendedStrategy": "INCREMENTAL_RECONCILIATION_THEN_NEW_BASELINE"
-  }
+  ]
 }
