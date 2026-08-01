@@ -732,18 +732,18 @@ rls,public,treinos,,present,present,EQUIVALENT,info,rls_enabled: local_raw=true 
 rls,public,workout_templates,,present,present,EQUIVALENT,info,rls_enabled: local_raw=true remote_raw=true local_norm=true remote_norm=true local_hash=7c9e9fe5 remote_hash=7c9e9fe5; rls_forced: local_raw=false remote_raw=false local_norm=false remote_norm=false local_hash=f6bcef0 remote_hash=f6bcef0,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,aceites_legais,anon.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aceites_legais,anon.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,aceites_legais,anon.REFERENCES,present,present,EQUIVALENT,info,grant role=anon privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aceites_legais,anon.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aceites_legais,anon.SELECT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,aceites_legais,anon.TRIGGER,present,present,EQUIVALENT,info,grant role=anon privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aceites_legais,anon.TRUNCATE,present,present,EQUIVALENT,info,grant role=anon privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aceites_legais,anon.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,aceites_legais,anon.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aceites_legais,anon.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,aceites_legais,authenticated.DELETE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=delete,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aceites_legais,authenticated.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aceites_legais,authenticated.INSERT,present,present,EQUIVALENT,critical,grant role=authenticated privilege=insert,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aceites_legais,authenticated.REFERENCES,present,present,EQUIVALENT,info,grant role=authenticated privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aceites_legais,authenticated.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aceites_legais,authenticated.SELECT,present,present,EQUIVALENT,info,grant role=authenticated privilege=select,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aceites_legais,authenticated.TRIGGER,present,present,EQUIVALENT,info,grant role=authenticated privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aceites_legais,authenticated.TRUNCATE,present,present,EQUIVALENT,info,grant role=authenticated privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aceites_legais,authenticated.UPDATE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=update,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aceites_legais,authenticated.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,aceites_legais,authenticated.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,aceites_legais,authenticated.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aceites_legais,postgres.DELETE,present,present,EQUIVALENT,info,grant role=postgres privilege=delete,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,aceites_legais,postgres.INSERT,present,present,EQUIVALENT,info,grant role=postgres privilege=insert,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,aceites_legais,postgres.REFERENCES,present,present,EQUIVALENT,info,grant role=postgres privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
@@ -760,18 +760,18 @@ table_grant,public,aceites_legais,service_role.TRUNCATE,present,present,EQUIVALE
 table_grant,public,aceites_legais,service_role.UPDATE,present,present,EQUIVALENT,info,grant role=service_role privilege=update,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,acompanhamento_eventos,anon.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,acompanhamento_eventos,anon.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,acompanhamento_eventos,anon.REFERENCES,present,present,EQUIVALENT,info,grant role=anon privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,acompanhamento_eventos,anon.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,acompanhamento_eventos,anon.SELECT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,acompanhamento_eventos,anon.TRIGGER,present,present,EQUIVALENT,info,grant role=anon privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,acompanhamento_eventos,anon.TRUNCATE,present,present,EQUIVALENT,info,grant role=anon privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,acompanhamento_eventos,anon.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,acompanhamento_eventos,anon.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,acompanhamento_eventos,anon.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,acompanhamento_eventos,authenticated.DELETE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=delete,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,acompanhamento_eventos,authenticated.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,acompanhamento_eventos,authenticated.INSERT,present,present,EQUIVALENT,critical,grant role=authenticated privilege=insert,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,acompanhamento_eventos,authenticated.REFERENCES,present,present,EQUIVALENT,info,grant role=authenticated privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,acompanhamento_eventos,authenticated.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,acompanhamento_eventos,authenticated.SELECT,present,present,EQUIVALENT,info,grant role=authenticated privilege=select,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,acompanhamento_eventos,authenticated.TRIGGER,present,present,EQUIVALENT,info,grant role=authenticated privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,acompanhamento_eventos,authenticated.TRUNCATE,present,present,EQUIVALENT,info,grant role=authenticated privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,acompanhamento_eventos,authenticated.UPDATE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=update,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,acompanhamento_eventos,authenticated.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,acompanhamento_eventos,authenticated.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,acompanhamento_eventos,authenticated.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,acompanhamento_eventos,postgres.DELETE,present,present,EQUIVALENT,info,grant role=postgres privilege=delete,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,acompanhamento_eventos,postgres.INSERT,present,present,EQUIVALENT,info,grant role=postgres privilege=insert,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,acompanhamento_eventos,postgres.REFERENCES,present,present,EQUIVALENT,info,grant role=postgres privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
@@ -788,18 +788,18 @@ table_grant,public,acompanhamento_eventos,service_role.TRUNCATE,present,present,
 table_grant,public,acompanhamento_eventos,service_role.UPDATE,present,present,EQUIVALENT,info,grant role=service_role privilege=update,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,admin_logs,anon.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,admin_logs,anon.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,admin_logs,anon.REFERENCES,present,present,EQUIVALENT,info,grant role=anon privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,admin_logs,anon.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,admin_logs,anon.SELECT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,admin_logs,anon.TRIGGER,present,present,EQUIVALENT,info,grant role=anon privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,admin_logs,anon.TRUNCATE,present,present,EQUIVALENT,info,grant role=anon privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,admin_logs,anon.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,admin_logs,anon.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,admin_logs,anon.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,admin_logs,authenticated.DELETE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=delete,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,admin_logs,authenticated.INSERT,present,present,EQUIVALENT,critical,grant role=authenticated privilege=insert,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,admin_logs,authenticated.REFERENCES,present,present,EQUIVALENT,info,grant role=authenticated privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,admin_logs,authenticated.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,admin_logs,authenticated.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,admin_logs,authenticated.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,admin_logs,authenticated.SELECT,present,present,EQUIVALENT,info,grant role=authenticated privilege=select,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,admin_logs,authenticated.TRIGGER,present,present,EQUIVALENT,info,grant role=authenticated privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,admin_logs,authenticated.TRUNCATE,present,present,EQUIVALENT,info,grant role=authenticated privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,admin_logs,authenticated.UPDATE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=update,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,admin_logs,authenticated.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,admin_logs,authenticated.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,admin_logs,authenticated.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,admin_logs,postgres.DELETE,present,present,EQUIVALENT,info,grant role=postgres privilege=delete,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,admin_logs,postgres.INSERT,present,present,EQUIVALENT,info,grant role=postgres privilege=insert,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,admin_logs,postgres.REFERENCES,present,present,EQUIVALENT,info,grant role=postgres privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
@@ -816,17 +816,17 @@ table_grant,public,admin_logs,service_role.TRUNCATE,present,present,EQUIVALENT,i
 table_grant,public,admin_logs,service_role.UPDATE,present,present,EQUIVALENT,info,grant role=service_role privilege=update,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,alunos,anon.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,alunos,anon.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,alunos,anon.REFERENCES,present,present,EQUIVALENT,info,grant role=anon privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,alunos,anon.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,alunos,anon.SELECT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,alunos,anon.TRIGGER,present,present,EQUIVALENT,info,grant role=anon privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,alunos,anon.TRUNCATE,present,present,EQUIVALENT,info,grant role=anon privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,alunos,anon.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,alunos,anon.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,alunos,anon.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,alunos,authenticated.DELETE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=delete,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,alunos,authenticated.INSERT,present,present,EQUIVALENT,critical,grant role=authenticated privilege=insert,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,alunos,authenticated.REFERENCES,present,present,EQUIVALENT,info,grant role=authenticated privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,alunos,authenticated.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,alunos,authenticated.SELECT,present,present,EQUIVALENT,info,grant role=authenticated privilege=select,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,alunos,authenticated.TRIGGER,present,present,EQUIVALENT,info,grant role=authenticated privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,alunos,authenticated.TRUNCATE,present,present,EQUIVALENT,info,grant role=authenticated privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,alunos,authenticated.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,alunos,authenticated.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,alunos,authenticated.UPDATE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=update,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,alunos,postgres.DELETE,present,present,EQUIVALENT,info,grant role=postgres privilege=delete,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,alunos,postgres.INSERT,present,present,EQUIVALENT,info,grant role=postgres privilege=insert,No action.,20260716090000_baseline_aruka_v1.sql
@@ -844,17 +844,17 @@ table_grant,public,alunos,service_role.TRUNCATE,present,present,EQUIVALENT,info,
 table_grant,public,alunos,service_role.UPDATE,present,present,EQUIVALENT,info,grant role=service_role privilege=update,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,anamneses,anon.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,anamneses,anon.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,anamneses,anon.REFERENCES,present,present,EQUIVALENT,info,grant role=anon privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,anamneses,anon.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,anamneses,anon.SELECT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,anamneses,anon.TRIGGER,present,present,EQUIVALENT,info,grant role=anon privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,anamneses,anon.TRUNCATE,present,present,EQUIVALENT,info,grant role=anon privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,anamneses,anon.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,anamneses,anon.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,anamneses,anon.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,anamneses,authenticated.DELETE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=delete,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,anamneses,authenticated.INSERT,present,present,EQUIVALENT,critical,grant role=authenticated privilege=insert,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,anamneses,authenticated.REFERENCES,present,present,EQUIVALENT,info,grant role=authenticated privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,anamneses,authenticated.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,anamneses,authenticated.SELECT,present,present,EQUIVALENT,info,grant role=authenticated privilege=select,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,anamneses,authenticated.TRIGGER,present,present,EQUIVALENT,info,grant role=authenticated privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,anamneses,authenticated.TRUNCATE,present,present,EQUIVALENT,info,grant role=authenticated privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,anamneses,authenticated.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,anamneses,authenticated.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,anamneses,authenticated.UPDATE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=update,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,anamneses,postgres.DELETE,present,present,EQUIVALENT,info,grant role=postgres privilege=delete,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,anamneses,postgres.INSERT,present,present,EQUIVALENT,info,grant role=postgres privilege=insert,No action.,20260716090000_baseline_aruka_v1.sql
@@ -872,18 +872,18 @@ table_grant,public,anamneses,service_role.TRUNCATE,present,present,EQUIVALENT,in
 table_grant,public,anamneses,service_role.UPDATE,present,present,EQUIVALENT,info,grant role=service_role privilege=update,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,aoe_audit_events,anon.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_audit_events,anon.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,aoe_audit_events,anon.REFERENCES,present,present,EQUIVALENT,info,grant role=anon privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_audit_events,anon.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_audit_events,anon.SELECT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,aoe_audit_events,anon.TRIGGER,present,present,EQUIVALENT,info,grant role=anon privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_audit_events,anon.TRUNCATE,present,present,EQUIVALENT,info,grant role=anon privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_audit_events,anon.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,aoe_audit_events,anon.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_audit_events,anon.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,aoe_audit_events,authenticated.DELETE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=delete,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_audit_events,authenticated.INSERT,present,present,EQUIVALENT,critical,grant role=authenticated privilege=insert,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_audit_events,authenticated.REFERENCES,present,present,EQUIVALENT,info,grant role=authenticated privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_audit_events,authenticated.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,aoe_audit_events,authenticated.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,aoe_audit_events,authenticated.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_audit_events,authenticated.SELECT,present,present,EQUIVALENT,info,grant role=authenticated privilege=select,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_audit_events,authenticated.TRIGGER,present,present,EQUIVALENT,info,grant role=authenticated privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_audit_events,authenticated.TRUNCATE,present,present,EQUIVALENT,info,grant role=authenticated privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_audit_events,authenticated.UPDATE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=update,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_audit_events,authenticated.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,aoe_audit_events,authenticated.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,aoe_audit_events,authenticated.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_audit_events,postgres.DELETE,present,present,EQUIVALENT,info,grant role=postgres privilege=delete,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,aoe_audit_events,postgres.INSERT,present,present,EQUIVALENT,info,grant role=postgres privilege=insert,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,aoe_audit_events,postgres.REFERENCES,present,present,EQUIVALENT,info,grant role=postgres privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
@@ -900,18 +900,18 @@ table_grant,public,aoe_audit_events,service_role.TRUNCATE,present,present,EQUIVA
 table_grant,public,aoe_audit_events,service_role.UPDATE,present,present,EQUIVALENT,info,grant role=service_role privilege=update,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,aoe_decision_traces,anon.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_decision_traces,anon.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,aoe_decision_traces,anon.REFERENCES,present,present,EQUIVALENT,info,grant role=anon privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_decision_traces,anon.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_decision_traces,anon.SELECT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,aoe_decision_traces,anon.TRIGGER,present,present,EQUIVALENT,info,grant role=anon privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_decision_traces,anon.TRUNCATE,present,present,EQUIVALENT,info,grant role=anon privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_decision_traces,anon.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,aoe_decision_traces,anon.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_decision_traces,anon.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,aoe_decision_traces,authenticated.DELETE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=delete,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_decision_traces,authenticated.INSERT,present,present,EQUIVALENT,critical,grant role=authenticated privilege=insert,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_decision_traces,authenticated.REFERENCES,present,present,EQUIVALENT,info,grant role=authenticated privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_decision_traces,authenticated.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,aoe_decision_traces,authenticated.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,aoe_decision_traces,authenticated.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_decision_traces,authenticated.SELECT,present,present,EQUIVALENT,info,grant role=authenticated privilege=select,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_decision_traces,authenticated.TRIGGER,present,present,EQUIVALENT,info,grant role=authenticated privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_decision_traces,authenticated.TRUNCATE,present,present,EQUIVALENT,info,grant role=authenticated privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_decision_traces,authenticated.UPDATE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=update,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_decision_traces,authenticated.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,aoe_decision_traces,authenticated.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,aoe_decision_traces,authenticated.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_decision_traces,postgres.DELETE,present,present,EQUIVALENT,info,grant role=postgres privilege=delete,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,aoe_decision_traces,postgres.INSERT,present,present,EQUIVALENT,info,grant role=postgres privilege=insert,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,aoe_decision_traces,postgres.REFERENCES,present,present,EQUIVALENT,info,grant role=postgres privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
@@ -928,18 +928,18 @@ table_grant,public,aoe_decision_traces,service_role.TRUNCATE,present,present,EQU
 table_grant,public,aoe_decision_traces,service_role.UPDATE,present,present,EQUIVALENT,info,grant role=service_role privilege=update,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,aoe_decisions,anon.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_decisions,anon.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,aoe_decisions,anon.REFERENCES,present,present,EQUIVALENT,info,grant role=anon privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_decisions,anon.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_decisions,anon.SELECT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,aoe_decisions,anon.TRIGGER,present,present,EQUIVALENT,info,grant role=anon privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_decisions,anon.TRUNCATE,present,present,EQUIVALENT,info,grant role=anon privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_decisions,anon.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,aoe_decisions,anon.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_decisions,anon.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,aoe_decisions,authenticated.DELETE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=delete,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_decisions,authenticated.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_decisions,authenticated.INSERT,present,present,EQUIVALENT,critical,grant role=authenticated privilege=insert,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_decisions,authenticated.REFERENCES,present,present,EQUIVALENT,info,grant role=authenticated privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_decisions,authenticated.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_decisions,authenticated.SELECT,present,present,EQUIVALENT,info,grant role=authenticated privilege=select,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_decisions,authenticated.TRIGGER,present,present,EQUIVALENT,info,grant role=authenticated privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_decisions,authenticated.TRUNCATE,present,present,EQUIVALENT,info,grant role=authenticated privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_decisions,authenticated.UPDATE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=update,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_decisions,authenticated.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,aoe_decisions,authenticated.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,aoe_decisions,authenticated.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_decisions,postgres.DELETE,present,present,EQUIVALENT,info,grant role=postgres privilege=delete,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,aoe_decisions,postgres.INSERT,present,present,EQUIVALENT,info,grant role=postgres privilege=insert,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,aoe_decisions,postgres.REFERENCES,present,present,EQUIVALENT,info,grant role=postgres privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
@@ -956,17 +956,17 @@ table_grant,public,aoe_decisions,service_role.TRUNCATE,present,present,EQUIVALEN
 table_grant,public,aoe_decisions,service_role.UPDATE,present,present,EQUIVALENT,info,grant role=service_role privilege=update,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,aoe_human_reviews,anon.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_human_reviews,anon.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,aoe_human_reviews,anon.REFERENCES,present,present,EQUIVALENT,info,grant role=anon privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_human_reviews,anon.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_human_reviews,anon.SELECT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,aoe_human_reviews,anon.TRIGGER,present,present,EQUIVALENT,info,grant role=anon privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_human_reviews,anon.TRUNCATE,present,present,EQUIVALENT,info,grant role=anon privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_human_reviews,anon.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,aoe_human_reviews,anon.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_human_reviews,anon.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,aoe_human_reviews,authenticated.DELETE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=delete,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_human_reviews,authenticated.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_human_reviews,authenticated.INSERT,present,present,EQUIVALENT,critical,grant role=authenticated privilege=insert,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_human_reviews,authenticated.REFERENCES,present,present,EQUIVALENT,info,grant role=authenticated privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_human_reviews,authenticated.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_human_reviews,authenticated.SELECT,present,present,EQUIVALENT,info,grant role=authenticated privilege=select,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_human_reviews,authenticated.TRIGGER,present,present,EQUIVALENT,info,grant role=authenticated privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_human_reviews,authenticated.TRUNCATE,present,present,EQUIVALENT,info,grant role=authenticated privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_human_reviews,authenticated.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,aoe_human_reviews,authenticated.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_human_reviews,authenticated.UPDATE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=update,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,aoe_human_reviews,postgres.DELETE,present,present,EQUIVALENT,info,grant role=postgres privilege=delete,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,aoe_human_reviews,postgres.INSERT,present,present,EQUIVALENT,info,grant role=postgres privilege=insert,No action.,20260716090000_baseline_aruka_v1.sql
@@ -984,17 +984,17 @@ table_grant,public,aoe_human_reviews,service_role.TRUNCATE,present,present,EQUIV
 table_grant,public,aoe_human_reviews,service_role.UPDATE,present,present,EQUIVALENT,info,grant role=service_role privilege=update,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,aoe_idempotency_keys,anon.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_idempotency_keys,anon.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,aoe_idempotency_keys,anon.REFERENCES,present,present,EQUIVALENT,info,grant role=anon privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_idempotency_keys,anon.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_idempotency_keys,anon.SELECT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,aoe_idempotency_keys,anon.TRIGGER,present,present,EQUIVALENT,info,grant role=anon privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_idempotency_keys,anon.TRUNCATE,present,present,EQUIVALENT,info,grant role=anon privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_idempotency_keys,anon.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,aoe_idempotency_keys,anon.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_idempotency_keys,anon.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_idempotency_keys,authenticated.DELETE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=delete,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,aoe_idempotency_keys,authenticated.INSERT,present,present,EQUIVALENT,critical,grant role=authenticated privilege=insert,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_idempotency_keys,authenticated.REFERENCES,present,present,EQUIVALENT,info,grant role=authenticated privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_idempotency_keys,authenticated.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_idempotency_keys,authenticated.SELECT,present,present,EQUIVALENT,info,grant role=authenticated privilege=select,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_idempotency_keys,authenticated.TRIGGER,present,present,EQUIVALENT,info,grant role=authenticated privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,aoe_idempotency_keys,authenticated.TRUNCATE,present,present,EQUIVALENT,info,grant role=authenticated privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,aoe_idempotency_keys,authenticated.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,aoe_idempotency_keys,authenticated.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,aoe_idempotency_keys,authenticated.UPDATE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=update,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,aoe_idempotency_keys,postgres.DELETE,present,present,EQUIVALENT,info,grant role=postgres privilege=delete,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,aoe_idempotency_keys,postgres.INSERT,present,present,EQUIVALENT,info,grant role=postgres privilege=insert,No action.,20260716090000_baseline_aruka_v1.sql
@@ -1012,18 +1012,18 @@ table_grant,public,aoe_idempotency_keys,service_role.TRUNCATE,present,present,EQ
 table_grant,public,aoe_idempotency_keys,service_role.UPDATE,present,present,EQUIVALENT,info,grant role=service_role privilege=update,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,assinaturas,anon.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,assinaturas,anon.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,assinaturas,anon.REFERENCES,present,present,EQUIVALENT,info,grant role=anon privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,assinaturas,anon.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,assinaturas,anon.SELECT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,assinaturas,anon.TRIGGER,present,present,EQUIVALENT,info,grant role=anon privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,assinaturas,anon.TRUNCATE,present,present,EQUIVALENT,info,grant role=anon privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,assinaturas,anon.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,assinaturas,anon.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,assinaturas,anon.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,assinaturas,authenticated.DELETE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=delete,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,assinaturas,authenticated.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,assinaturas,authenticated.INSERT,present,present,EQUIVALENT,critical,grant role=authenticated privilege=insert,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,assinaturas,authenticated.REFERENCES,present,present,EQUIVALENT,info,grant role=authenticated privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,assinaturas,authenticated.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,assinaturas,authenticated.SELECT,present,present,EQUIVALENT,info,grant role=authenticated privilege=select,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,assinaturas,authenticated.TRIGGER,present,present,EQUIVALENT,info,grant role=authenticated privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,assinaturas,authenticated.TRUNCATE,present,present,EQUIVALENT,info,grant role=authenticated privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,assinaturas,authenticated.UPDATE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=update,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,assinaturas,authenticated.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,assinaturas,authenticated.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,assinaturas,authenticated.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,assinaturas,postgres.DELETE,present,present,EQUIVALENT,info,grant role=postgres privilege=delete,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,assinaturas,postgres.INSERT,present,present,EQUIVALENT,info,grant role=postgres privilege=insert,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,assinaturas,postgres.REFERENCES,present,present,EQUIVALENT,info,grant role=postgres privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
@@ -1040,17 +1040,17 @@ table_grant,public,assinaturas,service_role.TRUNCATE,present,present,EQUIVALENT,
 table_grant,public,assinaturas,service_role.UPDATE,present,present,EQUIVALENT,info,grant role=service_role privilege=update,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,avaliacoes,anon.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,avaliacoes,anon.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,avaliacoes,anon.REFERENCES,present,present,EQUIVALENT,info,grant role=anon privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,avaliacoes,anon.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,avaliacoes,anon.SELECT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,avaliacoes,anon.TRIGGER,present,present,EQUIVALENT,info,grant role=anon privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,avaliacoes,anon.TRUNCATE,present,present,EQUIVALENT,info,grant role=anon privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,avaliacoes,anon.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,avaliacoes,anon.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,avaliacoes,anon.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,avaliacoes,authenticated.DELETE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=delete,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,avaliacoes,authenticated.INSERT,present,present,EQUIVALENT,critical,grant role=authenticated privilege=insert,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,avaliacoes,authenticated.REFERENCES,present,present,EQUIVALENT,info,grant role=authenticated privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,avaliacoes,authenticated.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,avaliacoes,authenticated.SELECT,present,present,EQUIVALENT,info,grant role=authenticated privilege=select,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,avaliacoes,authenticated.TRIGGER,present,present,EQUIVALENT,info,grant role=authenticated privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,avaliacoes,authenticated.TRUNCATE,present,present,EQUIVALENT,info,grant role=authenticated privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,avaliacoes,authenticated.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,avaliacoes,authenticated.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,avaliacoes,authenticated.UPDATE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=update,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,avaliacoes,postgres.DELETE,present,present,EQUIVALENT,info,grant role=postgres privilege=delete,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,avaliacoes,postgres.INSERT,present,present,EQUIVALENT,info,grant role=postgres privilege=insert,No action.,20260716090000_baseline_aruka_v1.sql
@@ -1068,17 +1068,17 @@ table_grant,public,avaliacoes,service_role.TRUNCATE,present,present,EQUIVALENT,i
 table_grant,public,avaliacoes,service_role.UPDATE,present,present,EQUIVALENT,info,grant role=service_role privilege=update,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,pagamentos,anon.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,pagamentos,anon.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,pagamentos,anon.REFERENCES,present,present,EQUIVALENT,info,grant role=anon privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,pagamentos,anon.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,pagamentos,anon.SELECT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,pagamentos,anon.TRIGGER,present,present,EQUIVALENT,info,grant role=anon privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,pagamentos,anon.TRUNCATE,present,present,EQUIVALENT,info,grant role=anon privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,pagamentos,anon.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,pagamentos,anon.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,pagamentos,anon.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,pagamentos,authenticated.DELETE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=delete,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,pagamentos,authenticated.INSERT,present,present,EQUIVALENT,critical,grant role=authenticated privilege=insert,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,pagamentos,authenticated.REFERENCES,present,present,EQUIVALENT,info,grant role=authenticated privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,pagamentos,authenticated.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,pagamentos,authenticated.SELECT,present,present,EQUIVALENT,info,grant role=authenticated privilege=select,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,pagamentos,authenticated.TRIGGER,present,present,EQUIVALENT,info,grant role=authenticated privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,pagamentos,authenticated.TRUNCATE,present,present,EQUIVALENT,info,grant role=authenticated privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,pagamentos,authenticated.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,pagamentos,authenticated.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,pagamentos,authenticated.UPDATE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=update,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,pagamentos,postgres.DELETE,present,present,EQUIVALENT,info,grant role=postgres privilege=delete,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,pagamentos,postgres.INSERT,present,present,EQUIVALENT,info,grant role=postgres privilege=insert,No action.,20260716090000_baseline_aruka_v1.sql
@@ -1096,18 +1096,18 @@ table_grant,public,pagamentos,service_role.TRUNCATE,present,present,EQUIVALENT,i
 table_grant,public,pagamentos,service_role.UPDATE,present,present,EQUIVALENT,info,grant role=service_role privilege=update,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,perfis,anon.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,perfis,anon.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,perfis,anon.REFERENCES,present,present,EQUIVALENT,info,grant role=anon privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,perfis,anon.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,perfis,anon.SELECT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,perfis,anon.TRIGGER,present,present,EQUIVALENT,info,grant role=anon privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,perfis,anon.TRUNCATE,present,present,EQUIVALENT,info,grant role=anon privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,perfis,anon.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,perfis,anon.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,perfis,anon.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,perfis,authenticated.DELETE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=delete,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,perfis,authenticated.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,perfis,authenticated.INSERT,present,present,EQUIVALENT,critical,grant role=authenticated privilege=insert,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,perfis,authenticated.REFERENCES,present,present,EQUIVALENT,info,grant role=authenticated privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,perfis,authenticated.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,perfis,authenticated.SELECT,present,present,EQUIVALENT,info,grant role=authenticated privilege=select,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,perfis,authenticated.TRIGGER,present,present,EQUIVALENT,info,grant role=authenticated privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,perfis,authenticated.TRUNCATE,present,present,EQUIVALENT,info,grant role=authenticated privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,perfis,authenticated.UPDATE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=update,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,perfis,authenticated.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,perfis,authenticated.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,perfis,authenticated.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,perfis,postgres.DELETE,present,present,EQUIVALENT,info,grant role=postgres privilege=delete,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,perfis,postgres.INSERT,present,present,EQUIVALENT,info,grant role=postgres privilege=insert,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,perfis,postgres.REFERENCES,present,present,EQUIVALENT,info,grant role=postgres privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
@@ -1124,17 +1124,17 @@ table_grant,public,perfis,service_role.TRUNCATE,present,present,EQUIVALENT,info,
 table_grant,public,perfis,service_role.UPDATE,present,present,EQUIVALENT,info,grant role=service_role privilege=update,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,planos,anon.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,planos,anon.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,planos,anon.REFERENCES,present,present,EQUIVALENT,info,grant role=anon privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,planos,anon.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,planos,anon.SELECT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,planos,anon.TRIGGER,present,present,EQUIVALENT,info,grant role=anon privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,planos,anon.TRUNCATE,present,present,EQUIVALENT,info,grant role=anon privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,planos,anon.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,planos,anon.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,planos,anon.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,planos,authenticated.DELETE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=delete,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,planos,authenticated.INSERT,present,present,EQUIVALENT,critical,grant role=authenticated privilege=insert,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,planos,authenticated.REFERENCES,present,present,EQUIVALENT,info,grant role=authenticated privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,planos,authenticated.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,planos,authenticated.SELECT,present,present,EQUIVALENT,info,grant role=authenticated privilege=select,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,planos,authenticated.TRIGGER,present,present,EQUIVALENT,info,grant role=authenticated privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,planos,authenticated.TRUNCATE,present,present,EQUIVALENT,info,grant role=authenticated privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,planos,authenticated.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,planos,authenticated.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,planos,authenticated.UPDATE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=update,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,planos,postgres.DELETE,present,present,EQUIVALENT,info,grant role=postgres privilege=delete,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,planos,postgres.INSERT,present,present,EQUIVALENT,info,grant role=postgres privilege=insert,No action.,20260716090000_baseline_aruka_v1.sql
@@ -1152,17 +1152,17 @@ table_grant,public,planos,service_role.TRUNCATE,present,present,EQUIVALENT,info,
 table_grant,public,planos,service_role.UPDATE,present,present,EQUIVALENT,info,grant role=service_role privilege=update,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,treino_dias,anon.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,treino_dias,anon.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,treino_dias,anon.REFERENCES,present,present,EQUIVALENT,info,grant role=anon privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,treino_dias,anon.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,treino_dias,anon.SELECT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,treino_dias,anon.TRIGGER,present,present,EQUIVALENT,info,grant role=anon privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,treino_dias,anon.TRUNCATE,present,present,EQUIVALENT,info,grant role=anon privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,treino_dias,anon.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,treino_dias,anon.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,treino_dias,anon.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,treino_dias,authenticated.DELETE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=delete,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,treino_dias,authenticated.INSERT,present,present,EQUIVALENT,critical,grant role=authenticated privilege=insert,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,treino_dias,authenticated.REFERENCES,present,present,EQUIVALENT,info,grant role=authenticated privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,treino_dias,authenticated.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,treino_dias,authenticated.SELECT,present,present,EQUIVALENT,info,grant role=authenticated privilege=select,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,treino_dias,authenticated.TRIGGER,present,present,EQUIVALENT,info,grant role=authenticated privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,treino_dias,authenticated.TRUNCATE,present,present,EQUIVALENT,info,grant role=authenticated privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,treino_dias,authenticated.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,treino_dias,authenticated.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,treino_dias,authenticated.UPDATE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=update,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,treino_dias,postgres.DELETE,present,present,EQUIVALENT,info,grant role=postgres privilege=delete,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,treino_dias,postgres.INSERT,present,present,EQUIVALENT,info,grant role=postgres privilege=insert,No action.,20260716090000_baseline_aruka_v1.sql
@@ -1195,17 +1195,17 @@ table_grant,public,treino_eventos,service_role.TRUNCATE,present,present,EQUIVALE
 table_grant,public,treino_eventos,service_role.UPDATE,absent,present,REMOTE_ONLY,critical,20260728030000_workout_delivery_integration_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,treino_exercicios,anon.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,treino_exercicios,anon.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,treino_exercicios,anon.REFERENCES,present,present,EQUIVALENT,info,grant role=anon privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,treino_exercicios,anon.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,treino_exercicios,anon.SELECT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,treino_exercicios,anon.TRIGGER,present,present,EQUIVALENT,info,grant role=anon privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,treino_exercicios,anon.TRUNCATE,present,present,EQUIVALENT,info,grant role=anon privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,treino_exercicios,anon.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,treino_exercicios,anon.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,treino_exercicios,anon.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,treino_exercicios,authenticated.DELETE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=delete,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,treino_exercicios,authenticated.INSERT,present,present,EQUIVALENT,critical,grant role=authenticated privilege=insert,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,treino_exercicios,authenticated.REFERENCES,present,present,EQUIVALENT,info,grant role=authenticated privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,treino_exercicios,authenticated.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,treino_exercicios,authenticated.SELECT,present,present,EQUIVALENT,info,grant role=authenticated privilege=select,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,treino_exercicios,authenticated.TRIGGER,present,present,EQUIVALENT,info,grant role=authenticated privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,treino_exercicios,authenticated.TRUNCATE,present,present,EQUIVALENT,info,grant role=authenticated privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,treino_exercicios,authenticated.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,treino_exercicios,authenticated.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,treino_exercicios,authenticated.UPDATE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=update,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,treino_exercicios,postgres.DELETE,present,present,EQUIVALENT,info,grant role=postgres privilege=delete,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,treino_exercicios,postgres.INSERT,present,present,EQUIVALENT,info,grant role=postgres privilege=insert,No action.,20260716090000_baseline_aruka_v1.sql
@@ -1223,17 +1223,17 @@ table_grant,public,treino_exercicios,service_role.TRUNCATE,present,present,EQUIV
 table_grant,public,treino_exercicios,service_role.UPDATE,present,present,EQUIVALENT,info,grant role=service_role privilege=update,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,treinos,anon.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,treinos,anon.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,treinos,anon.REFERENCES,present,present,EQUIVALENT,info,grant role=anon privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,treinos,anon.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,treinos,anon.SELECT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,treinos,anon.TRIGGER,present,present,EQUIVALENT,info,grant role=anon privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,treinos,anon.TRUNCATE,present,present,EQUIVALENT,info,grant role=anon privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,treinos,anon.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,treinos,anon.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,treinos,anon.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,treinos,authenticated.DELETE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=delete,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,treinos,authenticated.INSERT,present,present,EQUIVALENT,critical,grant role=authenticated privilege=insert,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,treinos,authenticated.REFERENCES,present,present,EQUIVALENT,info,grant role=authenticated privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,treinos,authenticated.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,treinos,authenticated.SELECT,present,present,EQUIVALENT,info,grant role=authenticated privilege=select,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,treinos,authenticated.TRIGGER,present,present,EQUIVALENT,info,grant role=authenticated privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,treinos,authenticated.TRUNCATE,present,present,EQUIVALENT,info,grant role=authenticated privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,treinos,authenticated.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,treinos,authenticated.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,treinos,authenticated.UPDATE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=update,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,treinos,postgres.DELETE,present,present,EQUIVALENT,info,grant role=postgres privilege=delete,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,treinos,postgres.INSERT,present,present,EQUIVALENT,info,grant role=postgres privilege=insert,No action.,20260716090000_baseline_aruka_v1.sql
@@ -1251,17 +1251,17 @@ table_grant,public,treinos,service_role.TRUNCATE,present,present,EQUIVALENT,info
 table_grant,public,treinos,service_role.UPDATE,present,present,EQUIVALENT,info,grant role=service_role privilege=update,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,workout_templates,anon.DELETE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,workout_templates,anon.INSERT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,workout_templates,anon.REFERENCES,present,present,EQUIVALENT,info,grant role=anon privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,workout_templates,anon.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,workout_templates,anon.SELECT,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
-table_grant,public,workout_templates,anon.TRIGGER,present,present,EQUIVALENT,info,grant role=anon privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,workout_templates,anon.TRUNCATE,present,present,EQUIVALENT,info,grant role=anon privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,workout_templates,anon.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,workout_templates,anon.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,workout_templates,anon.UPDATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,workout_templates,authenticated.DELETE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=delete,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,workout_templates,authenticated.INSERT,present,present,EQUIVALENT,critical,grant role=authenticated privilege=insert,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,workout_templates,authenticated.REFERENCES,present,present,EQUIVALENT,info,grant role=authenticated privilege=references,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,workout_templates,authenticated.REFERENCES,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,workout_templates,authenticated.SELECT,present,present,EQUIVALENT,info,grant role=authenticated privilege=select,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,workout_templates,authenticated.TRIGGER,present,present,EQUIVALENT,info,grant role=authenticated privilege=trigger,No action.,20260716090000_baseline_aruka_v1.sql
-table_grant,public,workout_templates,authenticated.TRUNCATE,present,present,EQUIVALENT,info,grant role=authenticated privilege=truncate,No action.,20260716090000_baseline_aruka_v1.sql
+table_grant,public,workout_templates,authenticated.TRIGGER,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
+table_grant,public,workout_templates,authenticated.TRUNCATE,absent,present,REMOTE_ONLY,critical,20260716090000_baseline_aruka_v1.sql,Object exists only in remote evidence.,Review as remote drift before any repair.
 table_grant,public,workout_templates,authenticated.UPDATE,present,present,EQUIVALENT,critical,grant role=authenticated privilege=update,Equivalent but security-sensitive grant; keep under review.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,workout_templates,postgres.DELETE,present,present,EQUIVALENT,info,grant role=postgres privilege=delete,No action.,20260716090000_baseline_aruka_v1.sql
 table_grant,public,workout_templates,postgres.INSERT,present,present,EQUIVALENT,info,grant role=postgres privilege=insert,No action.,20260716090000_baseline_aruka_v1.sql

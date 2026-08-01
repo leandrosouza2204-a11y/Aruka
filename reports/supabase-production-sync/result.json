@@ -340,5 +340,14 @@
     },
     "recommendedStrategy": "INCREMENTAL_RECONCILIATION_THEN_NEW_BASELINE",
     "remainingEvidenceRequired": []
+  },
+  "security_reconciliation_phase_1": {
+    "decision": "READY_WITH_LOCAL_STORAGE_LIMITATION",
+    "migration": "supabase/migrations/20260731190000_reconcile_security_policies_and_grants.sql",
+    "supabase_change": true,
+    "production_action_required": false,
+    "baseline_src_changed": false,
+    "data_affected": false,
+    "financial_impact": "POLICY_AND_GRANT_ONLY_NO_DATA_OR_STRUCTURE_CHANGE"
   }
 }

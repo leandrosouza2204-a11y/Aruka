@@ -1,0 +1,110 @@
+{
+  "generated_at": "2026-08-01T15:54:15.468Z",
+  "migration": "20260731190000_reconcile_security_policies_and_grants.sql",
+  "decision": "READY_FOR_PHASE1_COMMIT",
+  "runtime_limitation": "LOCAL_STORAGE_TIMEOUT_KNOWN",
+  "counts": {
+    "create_policies": 48,
+    "authenticated_table_grant_tables": 19,
+    "authenticated_table_revoke_tables": 19,
+    "anon_table_revokes": 19,
+    "protected_function_execute_grants": 3
+  },
+  "expected_authenticated_table_privileges": {
+    "perfis": [
+      "select",
+      "insert"
+    ],
+    "alunos": [
+      "select",
+      "insert",
+      "update",
+      "delete"
+    ],
+    "planos": [
+      "select",
+      "insert",
+      "update",
+      "delete"
+    ],
+    "assinaturas": [
+      "select",
+      "insert"
+    ],
+    "pagamentos": [
+      "select",
+      "insert",
+      "update",
+      "delete"
+    ],
+    "admin_logs": [
+      "select"
+    ],
+    "aceites_legais": [
+      "select",
+      "insert"
+    ],
+    "avaliacoes": [
+      "select",
+      "insert",
+      "update",
+      "delete"
+    ],
+    "anamneses": [
+      "select",
+      "insert",
+      "update",
+      "delete"
+    ],
+    "treinos": [
+      "select",
+      "insert",
+      "update",
+      "delete"
+    ],
+    "treino_dias": [
+      "select",
+      "insert",
+      "update",
+      "delete"
+    ],
+    "treino_exercicios": [
+      "select",
+      "insert",
+      "update",
+      "delete"
+    ],
+    "acompanhamento_eventos": [
+      "select",
+      "insert"
+    ],
+    "workout_templates": [
+      "select",
+      "insert",
+      "update",
+      "delete"
+    ],
+    "aoe_decisions": [
+      "select",
+      "insert"
+    ],
+    "aoe_decision_traces": [
+      "select"
+    ],
+    "aoe_human_reviews": [
+      "select",
+      "insert",
+      "update"
+    ],
+    "aoe_idempotency_keys": [
+      "select",
+      "insert",
+      "update",
+      "delete"
+    ],
+    "aoe_audit_events": [
+      "select"
+    ]
+  },
+  "findings": []
+}

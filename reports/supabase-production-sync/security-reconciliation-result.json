@@ -1,0 +1,89 @@
+{
+  "decision": "READY_WITH_LOCAL_STORAGE_LIMITATION",
+  "phase": "PHASE_1_SECURITY_POLICIES_AND_GRANTS",
+  "supabase_change": true,
+  "production_action_required": false,
+  "remote_link_state": "UNLINKED_FOR_SAFETY",
+  "migration": "supabase/migrations/20260731190000_reconcile_security_policies_and_grants.sql",
+  "baseline_src_changed": false,
+  "data_affected": false,
+  "financial_impact": "POLICY_AND_GRANT_ONLY_NO_DATA_OR_STRUCTURE_CHANGE",
+  "included": {
+    "policies": 48,
+    "table_grant_revoke_targets": 19,
+    "function_grant_targets": 3
+  },
+  "deferred": [
+    "constraints",
+    "nullability",
+    "function_bodies",
+    "workout_delivery_schema",
+    "student_identity",
+    "platform_managed_grants",
+    "manual_overload_decisions"
+  ],
+  "local_runtime": {
+    "db_reset": "POSTGRES_MIGRATIONS_APPLIED_STORAGE_UNHEALTHY_EXIT_1_STORAGE_RECOVERED_AFTER_CLI_TIMEOUT",
+    "sql_tests": "PASSED",
+    "migration_list": "PASSED_4_LOCAL_MIGRATIONS",
+    "local_diff": "PASSED_NO_SCHEMA_CHANGES_FOUND",
+    "storage": "LOCAL_STORAGE_RECOVERED_AFTER_TIMEOUT"
+  },
+  "localRuntimeRecovery": {
+    "docker": {
+      "client": "29.6.2",
+      "server": "29.6.2",
+      "docker_desktop": "4.84.0",
+      "memory": "3.749GiB",
+      "storage_driver": "overlayfs"
+    },
+    "containers": {
+      "db": "supabase_db_ConsultoriaFitness",
+      "storage": "supabase_storage_ConsultoriaFitness",
+      "auth": "supabase_auth_ConsultoriaFitness",
+      "rest": "supabase_rest_ConsultoriaFitness",
+      "kong": "supabase_kong_ConsultoriaFitness"
+    },
+    "root_cause": "Storage healthcheck returned connection refused during CLI db reset restart window, then became healthy after the CLI had already returned exit 1.",
+    "db_classification": "DB_REMAINED_HEALTHY_AND_ACCEPTING_CONNECTIONS",
+    "storage_decision": "LOCAL_STORAGE_RECOVERED",
+    "strategy_a": "STACK_FULL_RECOVERED_AFTER_WAIT",
+    "strategy_b": "NOT_USED_CLI_SUPPORTS_START_EXCLUDE_BUT_FULL_STACK_DB_STORAGE_BECAME_HEALTHY",
+    "cli_flags": {
+      "start_exclude": "supported",
+      "start_ignore_health_check": "supported",
+      "db_reset_linked": "supported_but_not_used",
+      "db_reset_local": "supported"
+    },
+    "db_connectivity": "PASS",
+    "migration_catalog": "PASS_20260731190000_PRESENT",
+    "policies": "PASS_48_PHASE1_POLICIES_AUTHENTICATED",
+    "table_grants": "PASS_ANON_REVOKED_FOR_PHASE1_TABLES",
+    "function_grants": "PASS_PUBLIC_AND_ANON_EXECUTE_REVOKED_AUTHENTICATED_GRANTED_FOR_3_RPCS",
+    "professional_a": "PASS",
+    "professional_b": "PASS",
+    "anon": "PASS_DENIED",
+    "public": "PASS_EXECUTE_REVOKED",
+    "authenticated": "PASS_RLS_BOUNDARIES_PRESERVED",
+    "financial": "PASS_NO_SECURITY_REGRESSION",
+    "rpc_salvar_treino_composto": "PASS",
+    "rpc_entregar_treino": "PASS",
+    "rpc_alterar_estado_treino": "PASS",
+    "qa_equivalence": "PASS_EXECUTED_BLOCKED_REMOTE_SCHEMA_DRIFT",
+    "student_runtime": "PASS",
+    "db_reset_final": "STORAGE_TIMEOUT_EXIT_1_AFTER_SQL_REPLAY_PASS",
+    "migration_list": "PASS_4_MIGRATIONS",
+    "drift": "PASS_NO_SCHEMA_CHANGES_FOUND"
+  },
+  "commands_not_executed": [
+    "supabase db push",
+    "supabase db pull",
+    "supabase migration repair",
+    "supabase db reset --linked",
+    "remote SQL execution",
+    "supabase link",
+    "commit",
+    "push",
+    "pull request"
+  ]
+}

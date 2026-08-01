@@ -1,53 +1,13 @@
 [
   {
     "table_name": "aceites_legais",
-    "grantee": "anon",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "aceites_legais",
-    "grantee": "anon",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "aceites_legais",
-    "grantee": "anon",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "aceites_legais",
-    "grantee": "authenticated",
-    "privilege_type": "DELETE"
-  },
-  {
-    "table_name": "aceites_legais",
     "grantee": "authenticated",
     "privilege_type": "INSERT"
   },
   {
     "table_name": "aceites_legais",
     "grantee": "authenticated",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "aceites_legais",
-    "grantee": "authenticated",
     "privilege_type": "SELECT"
-  },
-  {
-    "table_name": "aceites_legais",
-    "grantee": "authenticated",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "aceites_legais",
-    "grantee": "authenticated",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "aceites_legais",
-    "grantee": "authenticated",
-    "privilege_type": "UPDATE"
   },
   {
     "table_name": "aceites_legais",
@@ -121,53 +81,13 @@
   },
   {
     "table_name": "acompanhamento_eventos",
-    "grantee": "anon",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "acompanhamento_eventos",
-    "grantee": "anon",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "acompanhamento_eventos",
-    "grantee": "anon",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "acompanhamento_eventos",
-    "grantee": "authenticated",
-    "privilege_type": "DELETE"
-  },
-  {
-    "table_name": "acompanhamento_eventos",
     "grantee": "authenticated",
     "privilege_type": "INSERT"
   },
   {
     "table_name": "acompanhamento_eventos",
     "grantee": "authenticated",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "acompanhamento_eventos",
-    "grantee": "authenticated",
     "privilege_type": "SELECT"
-  },
-  {
-    "table_name": "acompanhamento_eventos",
-    "grantee": "authenticated",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "acompanhamento_eventos",
-    "grantee": "authenticated",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "acompanhamento_eventos",
-    "grantee": "authenticated",
-    "privilege_type": "UPDATE"
   },
   {
     "table_name": "acompanhamento_eventos",
@@ -241,53 +161,8 @@
   },
   {
     "table_name": "admin_logs",
-    "grantee": "anon",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "admin_logs",
-    "grantee": "anon",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "admin_logs",
-    "grantee": "anon",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "admin_logs",
-    "grantee": "authenticated",
-    "privilege_type": "DELETE"
-  },
-  {
-    "table_name": "admin_logs",
-    "grantee": "authenticated",
-    "privilege_type": "INSERT"
-  },
-  {
-    "table_name": "admin_logs",
-    "grantee": "authenticated",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "admin_logs",
     "grantee": "authenticated",
     "privilege_type": "SELECT"
-  },
-  {
-    "table_name": "admin_logs",
-    "grantee": "authenticated",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "admin_logs",
-    "grantee": "authenticated",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "admin_logs",
-    "grantee": "authenticated",
-    "privilege_type": "UPDATE"
   },
   {
     "table_name": "admin_logs",
@@ -361,21 +236,6 @@
   },
   {
     "table_name": "alunos",
-    "grantee": "anon",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "alunos",
-    "grantee": "anon",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "alunos",
-    "grantee": "anon",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "alunos",
     "grantee": "authenticated",
     "privilege_type": "DELETE"
   },
@@ -387,22 +247,7 @@
   {
     "table_name": "alunos",
     "grantee": "authenticated",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "alunos",
-    "grantee": "authenticated",
     "privilege_type": "SELECT"
-  },
-  {
-    "table_name": "alunos",
-    "grantee": "authenticated",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "alunos",
-    "grantee": "authenticated",
-    "privilege_type": "TRUNCATE"
   },
   {
     "table_name": "alunos",
@@ -481,21 +326,6 @@
   },
   {
     "table_name": "anamneses",
-    "grantee": "anon",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "anamneses",
-    "grantee": "anon",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "anamneses",
-    "grantee": "anon",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "anamneses",
     "grantee": "authenticated",
     "privilege_type": "DELETE"
   },
@@ -507,22 +337,7 @@
   {
     "table_name": "anamneses",
     "grantee": "authenticated",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "anamneses",
-    "grantee": "authenticated",
     "privilege_type": "SELECT"
-  },
-  {
-    "table_name": "anamneses",
-    "grantee": "authenticated",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "anamneses",
-    "grantee": "authenticated",
-    "privilege_type": "TRUNCATE"
   },
   {
     "table_name": "anamneses",
@@ -601,53 +416,8 @@
   },
   {
     "table_name": "aoe_audit_events",
-    "grantee": "anon",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "aoe_audit_events",
-    "grantee": "anon",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "aoe_audit_events",
-    "grantee": "anon",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "aoe_audit_events",
-    "grantee": "authenticated",
-    "privilege_type": "DELETE"
-  },
-  {
-    "table_name": "aoe_audit_events",
-    "grantee": "authenticated",
-    "privilege_type": "INSERT"
-  },
-  {
-    "table_name": "aoe_audit_events",
-    "grantee": "authenticated",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "aoe_audit_events",
     "grantee": "authenticated",
     "privilege_type": "SELECT"
-  },
-  {
-    "table_name": "aoe_audit_events",
-    "grantee": "authenticated",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "aoe_audit_events",
-    "grantee": "authenticated",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "aoe_audit_events",
-    "grantee": "authenticated",
-    "privilege_type": "UPDATE"
   },
   {
     "table_name": "aoe_audit_events",
@@ -721,53 +491,8 @@
   },
   {
     "table_name": "aoe_decision_traces",
-    "grantee": "anon",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "aoe_decision_traces",
-    "grantee": "anon",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "aoe_decision_traces",
-    "grantee": "anon",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "aoe_decision_traces",
-    "grantee": "authenticated",
-    "privilege_type": "DELETE"
-  },
-  {
-    "table_name": "aoe_decision_traces",
-    "grantee": "authenticated",
-    "privilege_type": "INSERT"
-  },
-  {
-    "table_name": "aoe_decision_traces",
-    "grantee": "authenticated",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "aoe_decision_traces",
     "grantee": "authenticated",
     "privilege_type": "SELECT"
-  },
-  {
-    "table_name": "aoe_decision_traces",
-    "grantee": "authenticated",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "aoe_decision_traces",
-    "grantee": "authenticated",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "aoe_decision_traces",
-    "grantee": "authenticated",
-    "privilege_type": "UPDATE"
   },
   {
     "table_name": "aoe_decision_traces",
@@ -841,53 +566,13 @@
   },
   {
     "table_name": "aoe_decisions",
-    "grantee": "anon",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "aoe_decisions",
-    "grantee": "anon",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "aoe_decisions",
-    "grantee": "anon",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "aoe_decisions",
-    "grantee": "authenticated",
-    "privilege_type": "DELETE"
-  },
-  {
-    "table_name": "aoe_decisions",
     "grantee": "authenticated",
     "privilege_type": "INSERT"
   },
   {
     "table_name": "aoe_decisions",
     "grantee": "authenticated",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "aoe_decisions",
-    "grantee": "authenticated",
     "privilege_type": "SELECT"
-  },
-  {
-    "table_name": "aoe_decisions",
-    "grantee": "authenticated",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "aoe_decisions",
-    "grantee": "authenticated",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "aoe_decisions",
-    "grantee": "authenticated",
-    "privilege_type": "UPDATE"
   },
   {
     "table_name": "aoe_decisions",
@@ -961,48 +646,13 @@
   },
   {
     "table_name": "aoe_human_reviews",
-    "grantee": "anon",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "aoe_human_reviews",
-    "grantee": "anon",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "aoe_human_reviews",
-    "grantee": "anon",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "aoe_human_reviews",
-    "grantee": "authenticated",
-    "privilege_type": "DELETE"
-  },
-  {
-    "table_name": "aoe_human_reviews",
     "grantee": "authenticated",
     "privilege_type": "INSERT"
   },
   {
     "table_name": "aoe_human_reviews",
     "grantee": "authenticated",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "aoe_human_reviews",
-    "grantee": "authenticated",
     "privilege_type": "SELECT"
-  },
-  {
-    "table_name": "aoe_human_reviews",
-    "grantee": "authenticated",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "aoe_human_reviews",
-    "grantee": "authenticated",
-    "privilege_type": "TRUNCATE"
   },
   {
     "table_name": "aoe_human_reviews",
@@ -1081,21 +731,6 @@
   },
   {
     "table_name": "aoe_idempotency_keys",
-    "grantee": "anon",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "aoe_idempotency_keys",
-    "grantee": "anon",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "aoe_idempotency_keys",
-    "grantee": "anon",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "aoe_idempotency_keys",
     "grantee": "authenticated",
     "privilege_type": "DELETE"
   },
@@ -1107,22 +742,7 @@
   {
     "table_name": "aoe_idempotency_keys",
     "grantee": "authenticated",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "aoe_idempotency_keys",
-    "grantee": "authenticated",
     "privilege_type": "SELECT"
-  },
-  {
-    "table_name": "aoe_idempotency_keys",
-    "grantee": "authenticated",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "aoe_idempotency_keys",
-    "grantee": "authenticated",
-    "privilege_type": "TRUNCATE"
   },
   {
     "table_name": "aoe_idempotency_keys",
@@ -1201,53 +821,13 @@
   },
   {
     "table_name": "assinaturas",
-    "grantee": "anon",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "assinaturas",
-    "grantee": "anon",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "assinaturas",
-    "grantee": "anon",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "assinaturas",
-    "grantee": "authenticated",
-    "privilege_type": "DELETE"
-  },
-  {
-    "table_name": "assinaturas",
     "grantee": "authenticated",
     "privilege_type": "INSERT"
   },
   {
     "table_name": "assinaturas",
     "grantee": "authenticated",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "assinaturas",
-    "grantee": "authenticated",
     "privilege_type": "SELECT"
-  },
-  {
-    "table_name": "assinaturas",
-    "grantee": "authenticated",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "assinaturas",
-    "grantee": "authenticated",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "assinaturas",
-    "grantee": "authenticated",
-    "privilege_type": "UPDATE"
   },
   {
     "table_name": "assinaturas",
@@ -1321,21 +901,6 @@
   },
   {
     "table_name": "avaliacoes",
-    "grantee": "anon",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "avaliacoes",
-    "grantee": "anon",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "avaliacoes",
-    "grantee": "anon",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "avaliacoes",
     "grantee": "authenticated",
     "privilege_type": "DELETE"
   },
@@ -1347,22 +912,7 @@
   {
     "table_name": "avaliacoes",
     "grantee": "authenticated",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "avaliacoes",
-    "grantee": "authenticated",
     "privilege_type": "SELECT"
-  },
-  {
-    "table_name": "avaliacoes",
-    "grantee": "authenticated",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "avaliacoes",
-    "grantee": "authenticated",
-    "privilege_type": "TRUNCATE"
   },
   {
     "table_name": "avaliacoes",
@@ -1441,21 +991,6 @@
   },
   {
     "table_name": "pagamentos",
-    "grantee": "anon",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "pagamentos",
-    "grantee": "anon",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "pagamentos",
-    "grantee": "anon",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "pagamentos",
     "grantee": "authenticated",
     "privilege_type": "DELETE"
   },
@@ -1467,22 +1002,7 @@
   {
     "table_name": "pagamentos",
     "grantee": "authenticated",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "pagamentos",
-    "grantee": "authenticated",
     "privilege_type": "SELECT"
-  },
-  {
-    "table_name": "pagamentos",
-    "grantee": "authenticated",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "pagamentos",
-    "grantee": "authenticated",
-    "privilege_type": "TRUNCATE"
   },
   {
     "table_name": "pagamentos",
@@ -1561,53 +1081,13 @@
   },
   {
     "table_name": "perfis",
-    "grantee": "anon",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "perfis",
-    "grantee": "anon",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "perfis",
-    "grantee": "anon",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "perfis",
-    "grantee": "authenticated",
-    "privilege_type": "DELETE"
-  },
-  {
-    "table_name": "perfis",
     "grantee": "authenticated",
     "privilege_type": "INSERT"
   },
   {
     "table_name": "perfis",
     "grantee": "authenticated",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "perfis",
-    "grantee": "authenticated",
     "privilege_type": "SELECT"
-  },
-  {
-    "table_name": "perfis",
-    "grantee": "authenticated",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "perfis",
-    "grantee": "authenticated",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "perfis",
-    "grantee": "authenticated",
-    "privilege_type": "UPDATE"
   },
   {
     "table_name": "perfis",
@@ -1681,21 +1161,6 @@
   },
   {
     "table_name": "planos",
-    "grantee": "anon",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "planos",
-    "grantee": "anon",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "planos",
-    "grantee": "anon",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "planos",
     "grantee": "authenticated",
     "privilege_type": "DELETE"
   },
@@ -1707,22 +1172,7 @@
   {
     "table_name": "planos",
     "grantee": "authenticated",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "planos",
-    "grantee": "authenticated",
     "privilege_type": "SELECT"
-  },
-  {
-    "table_name": "planos",
-    "grantee": "authenticated",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "planos",
-    "grantee": "authenticated",
-    "privilege_type": "TRUNCATE"
   },
   {
     "table_name": "planos",
@@ -1801,21 +1251,6 @@
   },
   {
     "table_name": "treino_dias",
-    "grantee": "anon",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "treino_dias",
-    "grantee": "anon",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "treino_dias",
-    "grantee": "anon",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "treino_dias",
     "grantee": "authenticated",
     "privilege_type": "DELETE"
   },
@@ -1827,22 +1262,7 @@
   {
     "table_name": "treino_dias",
     "grantee": "authenticated",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "treino_dias",
-    "grantee": "authenticated",
     "privilege_type": "SELECT"
-  },
-  {
-    "table_name": "treino_dias",
-    "grantee": "authenticated",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "treino_dias",
-    "grantee": "authenticated",
-    "privilege_type": "TRUNCATE"
   },
   {
     "table_name": "treino_dias",
@@ -1976,21 +1396,6 @@
   },
   {
     "table_name": "treino_exercicios",
-    "grantee": "anon",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "treino_exercicios",
-    "grantee": "anon",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "treino_exercicios",
-    "grantee": "anon",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "treino_exercicios",
     "grantee": "authenticated",
     "privilege_type": "DELETE"
   },
@@ -2002,22 +1407,7 @@
   {
     "table_name": "treino_exercicios",
     "grantee": "authenticated",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "treino_exercicios",
-    "grantee": "authenticated",
     "privilege_type": "SELECT"
-  },
-  {
-    "table_name": "treino_exercicios",
-    "grantee": "authenticated",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "treino_exercicios",
-    "grantee": "authenticated",
-    "privilege_type": "TRUNCATE"
   },
   {
     "table_name": "treino_exercicios",
@@ -2096,21 +1486,6 @@
   },
   {
     "table_name": "treinos",
-    "grantee": "anon",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "treinos",
-    "grantee": "anon",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "treinos",
-    "grantee": "anon",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "treinos",
     "grantee": "authenticated",
     "privilege_type": "DELETE"
   },
@@ -2122,22 +1497,7 @@
   {
     "table_name": "treinos",
     "grantee": "authenticated",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "treinos",
-    "grantee": "authenticated",
     "privilege_type": "SELECT"
-  },
-  {
-    "table_name": "treinos",
-    "grantee": "authenticated",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "treinos",
-    "grantee": "authenticated",
-    "privilege_type": "TRUNCATE"
   },
   {
     "table_name": "treinos",
@@ -2216,21 +1576,6 @@
   },
   {
     "table_name": "workout_templates",
-    "grantee": "anon",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "workout_templates",
-    "grantee": "anon",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "workout_templates",
-    "grantee": "anon",
-    "privilege_type": "TRUNCATE"
-  },
-  {
-    "table_name": "workout_templates",
     "grantee": "authenticated",
     "privilege_type": "DELETE"
   },
@@ -2242,22 +1587,7 @@
   {
     "table_name": "workout_templates",
     "grantee": "authenticated",
-    "privilege_type": "REFERENCES"
-  },
-  {
-    "table_name": "workout_templates",
-    "grantee": "authenticated",
     "privilege_type": "SELECT"
-  },
-  {
-    "table_name": "workout_templates",
-    "grantee": "authenticated",
-    "privilege_type": "TRIGGER"
-  },
-  {
-    "table_name": "workout_templates",
-    "grantee": "authenticated",
-    "privilege_type": "TRUNCATE"
   },
   {
     "table_name": "workout_templates",

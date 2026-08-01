@@ -14,6 +14,7 @@ const authorizedSupabaseDiff = new Set([
   "supabase/baseline-src/05-functions.sql",
   "supabase/baseline-src/09-grants.sql",
   "supabase/migrations/20260730090000_student_identity_contract.sql",
+  "supabase/migrations/20260731190000_reconcile_security_policies_and_grants.sql",
 ]);
 
 add("idempotency key created before submit", application.includes("createApplicationIdempotencyKey"));

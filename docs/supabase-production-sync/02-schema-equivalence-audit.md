@@ -22,19 +22,19 @@ Production action required: `RECONCILIATION_REQUIRED`.
 - RLS: total 20, equivalent 20, local-only 0, remote-only 0, different 0, partial 0
 - Policies: total 59, equivalent 3, local-only 4, remote-only 4, different 48, partial 0
 - Functions: total 25, equivalent 11, local-only 3, remote-only 5, different 6, partial 0
-- Table grants: total 547, equivalent 467, local-only 0, remote-only 80, different 0, partial 0
+- Table grants: total 547, equivalent 333, local-only 0, remote-only 214, different 0, partial 0
 - Function grants: total 63, equivalent 0, local-only 9, remote-only 11, different 0, partial 43
 
 ## Auditor Normalization Impact
 
-- Critical: before 480, after 242, delta -238
+- Critical: before 480, after 356, delta -124
 - Defaults different: before 169, after 0, delta -169
 - Constraints different: before 70, after 5, delta -65
 - Policies different: before 51, after 48, delta -3
 - Functions different: before 17, after 6, delta -11
 - Local-only: before 20, after 20, delta 0
-- Remote-only: before 100, after 100, delta 0
-- Equivalent: before 737, after 926, delta 189
+- Remote-only: before 100, after 234, delta 134
+- Equivalent: before 737, after 792, delta 55
 
 ## Migration Coverage
 
@@ -98,7 +98,7 @@ Production action required: `RECONCILIATION_REQUIRED`.
 - index alunos.alunos_student_user_id_idx: LOCAL_ONLY (20260730090000_student_identity_contract.sql)
 - index alunos.alunos_student_user_id_uidx: LOCAL_ONLY (20260730090000_student_identity_contract.sql)
 - policy aceites_legais.Usuarios podem listar seus aceites legais: REMOTE_MORE_PERMISSIVE (permissive: local_raw=PERMISSIVE remote_raw=PERMISSIVE local_norm=permissive remote_norm=permissive local_hash=e892274c remote_hash=e892274c; roles: local_raw={authenticated} remote_raw={public} local_norm=authenticated remote_norm=public local_hash=486e9848 remote_hash=159d94a4; cmd: local_raw=SELECT remote_raw=SELECT local_norm=select remote_norm=select local_hash=1b80e3c5 remote_hash=1b80e3c5; qual: local_raw=(auth.uid() = user_id) remote_raw=(auth.uid() = user_id) local_norm=auth.uid() = user_id remote_norm=auth.uid() = user_id local_hash=8dc18120 remote_hash=8dc18120; with_check: local_raw=<null> remote_raw=null local_norm=null remote_norm=null local_hash=7c9b6140 remote_hash=7c9b6140)
-- ... 192 additional critical differences in JSON/matrix.
+- ... 306 additional critical differences in JSON/matrix.
 
 ## Next Steps
 

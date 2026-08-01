@@ -7,7 +7,10 @@ import { parseCsv } from "./analyze-supabase-reconciliation-evidence.mjs";
 const root = process.cwd();
 const reportDir = join(root, "reports/supabase-production-sync");
 const docDir = join(root, "docs/supabase-production-sync");
-const allowedStagedMigrations = new Set(["supabase/migrations/20260730090000_student_identity_contract.sql"]);
+const allowedStagedMigrations = new Set([
+  "supabase/migrations/20260730090000_student_identity_contract.sql",
+  "supabase/migrations/20260731190000_reconcile_security_policies_and_grants.sql",
+]);
 
 export async function main() {
   const result = readJson("reconciliation-design-result.json");
