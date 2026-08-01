@@ -1,0 +1,150 @@
+{
+  "decision": "STUDENT_IDENTITY_ABSENT_REMOTE_CONFIRMED",
+  "confirmations": {
+    "migration_cannot_receive_repair": true,
+    "apply_only_after_reconciliation": true,
+    "existing_alunos_remain_null": true,
+    "no_email_linking": true
+  },
+  "summary": {
+    "LOCAL_ONLY": 10,
+    "LOCAL_OVERLOAD_ONLY": 3
+  },
+  "gaps": [
+    {
+      "category": "column",
+      "object": "alunos",
+      "subobject": "student_user_id",
+      "status": "LOCAL_ONLY",
+      "classification": "ABSENT_REMOTE_EXPECTED_PENDING_RECONCILIATION",
+      "impact": "student account cannot be linked to aluno row in production.",
+      "details": "Object exists locally but not in remote evidence."
+    },
+    {
+      "category": "constraint",
+      "object": "alunos",
+      "subobject": "alunos_student_user_id_fkey",
+      "status": "LOCAL_ONLY",
+      "classification": "ABSENT_REMOTE_EXPECTED_PENDING_RECONCILIATION",
+      "impact": "student role/FK contract absent or divergent.",
+      "details": "Object exists locally but not in remote evidence."
+    },
+    {
+      "category": "function_grant",
+      "object": "desvincular_aluno_usuario",
+      "subobject": "authenticated.execute",
+      "status": "LOCAL_ONLY",
+      "classification": "ABSENT_REMOTE_EXPECTED_PENDING_RECONCILIATION",
+      "impact": "student identity RPC permission absent or unverified.",
+      "details": "Function grant exists locally but not in remote evidence. CSV lacks function arguments/specific_name, so overload match is partial."
+    },
+    {
+      "category": "function_grant",
+      "object": "desvincular_aluno_usuario",
+      "subobject": "postgres.execute",
+      "status": "LOCAL_ONLY",
+      "classification": "ABSENT_REMOTE_EXPECTED_PENDING_RECONCILIATION",
+      "impact": "student identity RPC permission absent or unverified.",
+      "details": "Function grant exists locally but not in remote evidence. CSV lacks function arguments/specific_name, so overload match is partial."
+    },
+    {
+      "category": "function_grant",
+      "object": "get_my_student_workouts",
+      "subobject": "authenticated.execute",
+      "status": "LOCAL_ONLY",
+      "classification": "ABSENT_REMOTE_EXPECTED_PENDING_RECONCILIATION",
+      "impact": "student identity RPC permission absent or unverified.",
+      "details": "Function grant exists locally but not in remote evidence. CSV lacks function arguments/specific_name, so overload match is partial."
+    },
+    {
+      "category": "function_grant",
+      "object": "get_my_student_workouts",
+      "subobject": "postgres.execute",
+      "status": "LOCAL_ONLY",
+      "classification": "ABSENT_REMOTE_EXPECTED_PENDING_RECONCILIATION",
+      "impact": "student identity RPC permission absent or unverified.",
+      "details": "Function grant exists locally but not in remote evidence. CSV lacks function arguments/specific_name, so overload match is partial."
+    },
+    {
+      "category": "function_grant",
+      "object": "vincular_aluno_usuario",
+      "subobject": "authenticated.execute",
+      "status": "LOCAL_ONLY",
+      "classification": "ABSENT_REMOTE_EXPECTED_PENDING_RECONCILIATION",
+      "impact": "student identity RPC permission absent or unverified.",
+      "details": "Function grant exists locally but not in remote evidence. CSV lacks function arguments/specific_name, so overload match is partial."
+    },
+    {
+      "category": "function_grant",
+      "object": "vincular_aluno_usuario",
+      "subobject": "postgres.execute",
+      "status": "LOCAL_ONLY",
+      "classification": "ABSENT_REMOTE_EXPECTED_PENDING_RECONCILIATION",
+      "impact": "student identity RPC permission absent or unverified.",
+      "details": "Function grant exists locally but not in remote evidence. CSV lacks function arguments/specific_name, so overload match is partial."
+    },
+    {
+      "category": "function",
+      "object": "desvincular_aluno_usuario",
+      "subobject": "p_aluno_id uuid",
+      "status": "LOCAL_OVERLOAD_ONLY",
+      "classification": "ABSENT_REMOTE_EXPECTED_PENDING_RECONCILIATION",
+      "impact": "student/professional account linking RPC unavailable in production.",
+      "details": "Object exists locally but not in remote evidence."
+    },
+    {
+      "category": "function",
+      "object": "get_my_student_workouts",
+      "subobject": "",
+      "status": "LOCAL_OVERLOAD_ONLY",
+      "classification": "ABSENT_REMOTE_EXPECTED_PENDING_RECONCILIATION",
+      "impact": "student/professional account linking RPC unavailable in production.",
+      "details": "Object exists locally but not in remote evidence."
+    },
+    {
+      "category": "function",
+      "object": "vincular_aluno_usuario",
+      "subobject": "p_aluno_id uuid, p_student_user_id uuid",
+      "status": "LOCAL_OVERLOAD_ONLY",
+      "classification": "ABSENT_REMOTE_EXPECTED_PENDING_RECONCILIATION",
+      "impact": "student/professional account linking RPC unavailable in production.",
+      "details": "Object exists locally but not in remote evidence."
+    },
+    {
+      "category": "index",
+      "object": "alunos",
+      "subobject": "alunos_student_user_id_idx",
+      "status": "LOCAL_ONLY",
+      "classification": "ABSENT_REMOTE_EXPECTED_PENDING_RECONCILIATION",
+      "impact": "student identity contract incomplete in production.",
+      "details": "Object exists locally but not in remote evidence."
+    },
+    {
+      "category": "index",
+      "object": "alunos",
+      "subobject": "alunos_student_user_id_uidx",
+      "status": "LOCAL_ONLY",
+      "classification": "ABSENT_REMOTE_EXPECTED_PENDING_RECONCILIATION",
+      "impact": "student identity contract incomplete in production.",
+      "details": "Object exists locally but not in remote evidence."
+    }
+  ],
+  "signature_grant_evidence": [
+    {
+      "function_name": "vincular_aluno_usuario",
+      "remote_signature_grants": 0,
+      "confirmed_absent_by_signature": true
+    },
+    {
+      "function_name": "desvincular_aluno_usuario",
+      "remote_signature_grants": 0,
+      "confirmed_absent_by_signature": true
+    },
+    {
+      "function_name": "get_my_student_workouts",
+      "remote_signature_grants": 0,
+      "confirmed_absent_by_signature": true
+    }
+  ],
+  "migration_cannot_receive_repair": true
+}

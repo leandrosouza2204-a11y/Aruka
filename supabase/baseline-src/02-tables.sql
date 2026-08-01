@@ -29,7 +29,8 @@ create table if not exists public.alunos (
   acompanhamento_status text default 'ativo'::text not null,
   acompanhamento_encerrado_em date,
   acompanhamento_motivo text,
-  acompanhamento_motivo_detalhe text default ''::text not null
+  acompanhamento_motivo_detalhe text default ''::text not null,
+  student_user_id uuid
 );
 
 create table if not exists public.planos (

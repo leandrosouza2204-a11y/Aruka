@@ -1,0 +1,552 @@
+[
+  {
+    "schemaname": "public",
+    "tablename": "aceites_legais",
+    "policyname": "Usuarios podem listar seus aceites legais",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "aceites_legais",
+    "policyname": "Usuarios podem registrar seus aceites legais",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "INSERT",
+    "qual": null,
+    "with_check": "((auth.uid() = user_id) AND (politica_aceita = true) AND (termos_aceitos = true))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "acompanhamento_eventos",
+    "policyname": "Usuarios podem cadastrar seus eventos de acompanhamento",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "INSERT",
+    "qual": null,
+    "with_check": "((auth.uid() = user_id) AND (EXISTS ( SELECT 1\n   FROM alunos\n  WHERE ((alunos.id = acompanhamento_eventos.aluno_id) AND (alunos.user_id = auth.uid())))) AND ((plano_id IS NULL) OR (EXISTS ( SELECT 1\n   FROM planos\n  WHERE ((planos.id = acompanhamento_eventos.plano_id) AND (planos.user_id = auth.uid()))))))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "acompanhamento_eventos",
+    "policyname": "Usuarios podem listar seus eventos de acompanhamento",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "admin_logs",
+    "policyname": "Admins podem listar logs administrativos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "admin_eh_admin()",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "admin_logs",
+    "policyname": "Usuarios comuns nao inserem logs administrativos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "INSERT",
+    "qual": null,
+    "with_check": "false"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "alunos",
+    "policyname": "Usuarios podem atualizar seus alunos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "UPDATE",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": "(auth.uid() = user_id)"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "alunos",
+    "policyname": "Usuarios podem cadastrar seus alunos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "INSERT",
+    "qual": null,
+    "with_check": "(auth.uid() = user_id)"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "alunos",
+    "policyname": "Usuarios podem excluir seus alunos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "DELETE",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "alunos",
+    "policyname": "Usuarios podem listar seus alunos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "anamneses",
+    "policyname": "Usuarios podem atualizar suas anamneses",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "UPDATE",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": "((auth.uid() = user_id) AND (EXISTS ( SELECT 1\n   FROM alunos\n  WHERE ((alunos.id = anamneses.aluno_id) AND (alunos.user_id = auth.uid())))))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "anamneses",
+    "policyname": "Usuarios podem cadastrar suas anamneses",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "INSERT",
+    "qual": null,
+    "with_check": "((auth.uid() = user_id) AND (EXISTS ( SELECT 1\n   FROM alunos\n  WHERE ((alunos.id = anamneses.aluno_id) AND (alunos.user_id = auth.uid())))))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "anamneses",
+    "policyname": "Usuarios podem excluir suas anamneses",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "DELETE",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "anamneses",
+    "policyname": "Usuarios podem listar suas anamneses",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "aoe_audit_events",
+    "policyname": "Auditoria AOE somente admin leitura",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "admin_eh_admin()",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "aoe_decision_traces",
+    "policyname": "Traces AOE restritos ao profissional autorizado",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "(EXISTS ( SELECT 1\n   FROM aoe_decisions d\n  WHERE ((d.id = aoe_decision_traces.decision_id) AND ((d.actor_id = auth.uid()) OR admin_eh_admin()))))",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "aoe_decisions",
+    "policyname": "Usuarios podem criar decisoes AOE dos seus alunos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "INSERT",
+    "qual": null,
+    "with_check": "((actor_id = auth.uid()) AND aoe_user_owns_student(student_id))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "aoe_decisions",
+    "policyname": "Usuarios podem listar decisoes AOE dos seus alunos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "((actor_id = auth.uid()) OR admin_eh_admin() OR aoe_user_owns_student(student_id))",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "aoe_human_reviews",
+    "policyname": "Usuarios podem atualizar reviews AOE autorizadas",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "UPDATE",
+    "qual": "(EXISTS ( SELECT 1\n   FROM aoe_decisions d\n  WHERE ((d.id = aoe_human_reviews.decision_id) AND (d.actor_id = auth.uid()))))",
+    "with_check": "(EXISTS ( SELECT 1\n   FROM aoe_decisions d\n  WHERE ((d.id = aoe_human_reviews.decision_id) AND (d.actor_id = auth.uid()))))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "aoe_human_reviews",
+    "policyname": "Usuarios podem consultar reviews AOE autorizadas",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "(EXISTS ( SELECT 1\n   FROM aoe_decisions d\n  WHERE ((d.id = aoe_human_reviews.decision_id) AND ((d.actor_id = auth.uid()) OR admin_eh_admin()))))",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "aoe_human_reviews",
+    "policyname": "Usuarios podem criar reviews AOE autorizadas",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "INSERT",
+    "qual": null,
+    "with_check": "(EXISTS ( SELECT 1\n   FROM aoe_decisions d\n  WHERE ((d.id = aoe_human_reviews.decision_id) AND (d.actor_id = auth.uid()))))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "aoe_idempotency_keys",
+    "policyname": "Idempotencia AOE restrita ao ator",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "ALL",
+    "qual": "((actor_id = auth.uid()) OR admin_eh_admin())",
+    "with_check": "((actor_id = auth.uid()) OR admin_eh_admin())"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "assinaturas",
+    "policyname": "Usuarios podem cadastrar suas assinaturas",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "INSERT",
+    "qual": null,
+    "with_check": "((auth.uid() = user_id) AND (status = 'pendente'::text))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "assinaturas",
+    "policyname": "Usuarios podem listar suas assinaturas",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "avaliacoes",
+    "policyname": "Usuarios podem atualizar suas avaliacoes",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "UPDATE",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": "((auth.uid() = user_id) AND (EXISTS ( SELECT 1\n   FROM alunos\n  WHERE ((alunos.id = avaliacoes.aluno_id) AND (alunos.user_id = auth.uid())))))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "avaliacoes",
+    "policyname": "Usuarios podem cadastrar suas avaliacoes",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "INSERT",
+    "qual": null,
+    "with_check": "((auth.uid() = user_id) AND (EXISTS ( SELECT 1\n   FROM alunos\n  WHERE ((alunos.id = avaliacoes.aluno_id) AND (alunos.user_id = auth.uid())))))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "avaliacoes",
+    "policyname": "Usuarios podem excluir suas avaliacoes",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "DELETE",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "avaliacoes",
+    "policyname": "Usuarios podem listar suas avaliacoes",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "pagamentos",
+    "policyname": "Usuarios podem atualizar seus pagamentos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "UPDATE",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": "((auth.uid() = user_id) AND (EXISTS ( SELECT 1\n   FROM alunos\n  WHERE ((alunos.id = pagamentos.aluno_id) AND (alunos.user_id = auth.uid())))))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "pagamentos",
+    "policyname": "Usuarios podem cadastrar seus pagamentos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "INSERT",
+    "qual": null,
+    "with_check": "((auth.uid() = user_id) AND (EXISTS ( SELECT 1\n   FROM alunos\n  WHERE ((alunos.id = pagamentos.aluno_id) AND (alunos.user_id = auth.uid())))))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "pagamentos",
+    "policyname": "Usuarios podem excluir seus pagamentos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "DELETE",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "pagamentos",
+    "policyname": "Usuarios podem listar seus pagamentos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "((auth.uid() = user_id) AND (EXISTS ( SELECT 1\n   FROM alunos\n  WHERE ((alunos.id = pagamentos.aluno_id) AND (alunos.user_id = auth.uid())))))",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "perfis",
+    "policyname": "Usuarios podem criar seu perfil padrao",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "INSERT",
+    "qual": null,
+    "with_check": "((auth.uid() = user_id) AND (role = 'user'::text) AND (tipo_acesso = 'pendente'::text) AND (status = 'ativo'::text))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "perfis",
+    "policyname": "Usuarios podem listar seu perfil",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "planos",
+    "policyname": "Usuarios podem atualizar seus planos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "UPDATE",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": "(auth.uid() = user_id)"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "planos",
+    "policyname": "Usuarios podem cadastrar seus planos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "INSERT",
+    "qual": null,
+    "with_check": "(auth.uid() = user_id)"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "planos",
+    "policyname": "Usuarios podem excluir seus planos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "DELETE",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "planos",
+    "policyname": "Usuarios podem listar seus planos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "treino_dias",
+    "policyname": "Usuarios podem atualizar dias dos seus treinos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "UPDATE",
+    "qual": "(EXISTS ( SELECT 1\n   FROM treinos\n  WHERE ((treinos.id = treino_dias.treino_id) AND (treinos.user_id = auth.uid()))))",
+    "with_check": "(EXISTS ( SELECT 1\n   FROM treinos\n  WHERE ((treinos.id = treino_dias.treino_id) AND (treinos.user_id = auth.uid()))))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "treino_dias",
+    "policyname": "Usuarios podem cadastrar dias dos seus treinos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "INSERT",
+    "qual": null,
+    "with_check": "(EXISTS ( SELECT 1\n   FROM treinos\n  WHERE ((treinos.id = treino_dias.treino_id) AND (treinos.user_id = auth.uid()))))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "treino_dias",
+    "policyname": "Usuarios podem excluir dias dos seus treinos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "DELETE",
+    "qual": "(EXISTS ( SELECT 1\n   FROM treinos\n  WHERE ((treinos.id = treino_dias.treino_id) AND (treinos.user_id = auth.uid()))))",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "treino_dias",
+    "policyname": "Usuarios podem listar dias dos seus treinos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "(EXISTS ( SELECT 1\n   FROM treinos\n  WHERE ((treinos.id = treino_dias.treino_id) AND (treinos.user_id = auth.uid()))))",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "treino_eventos",
+    "policyname": "Usuarios podem listar eventos dos seus treinos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "((auth.uid() = user_id) AND (EXISTS ( SELECT 1\n   FROM treinos\n  WHERE ((treinos.id = treino_eventos.treino_id) AND (treinos.user_id = auth.uid())))))",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "treino_exercicios",
+    "policyname": "Usuarios podem atualizar exercicios dos seus treinos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "UPDATE",
+    "qual": "(EXISTS ( SELECT 1\n   FROM (treino_dias\n     JOIN treinos ON ((treinos.id = treino_dias.treino_id)))\n  WHERE ((treino_dias.id = treino_exercicios.treino_dia_id) AND (treinos.user_id = auth.uid()))))",
+    "with_check": "(EXISTS ( SELECT 1\n   FROM (treino_dias\n     JOIN treinos ON ((treinos.id = treino_dias.treino_id)))\n  WHERE ((treino_dias.id = treino_exercicios.treino_dia_id) AND (treinos.user_id = auth.uid()))))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "treino_exercicios",
+    "policyname": "Usuarios podem cadastrar exercicios dos seus treinos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "INSERT",
+    "qual": null,
+    "with_check": "(EXISTS ( SELECT 1\n   FROM (treino_dias\n     JOIN treinos ON ((treinos.id = treino_dias.treino_id)))\n  WHERE ((treino_dias.id = treino_exercicios.treino_dia_id) AND (treinos.user_id = auth.uid()))))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "treino_exercicios",
+    "policyname": "Usuarios podem excluir exercicios dos seus treinos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "DELETE",
+    "qual": "(EXISTS ( SELECT 1\n   FROM (treino_dias\n     JOIN treinos ON ((treinos.id = treino_dias.treino_id)))\n  WHERE ((treino_dias.id = treino_exercicios.treino_dia_id) AND (treinos.user_id = auth.uid()))))",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "treino_exercicios",
+    "policyname": "Usuarios podem listar exercicios dos seus treinos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "(EXISTS ( SELECT 1\n   FROM (treino_dias\n     JOIN treinos ON ((treinos.id = treino_dias.treino_id)))\n  WHERE ((treino_dias.id = treino_exercicios.treino_dia_id) AND (treinos.user_id = auth.uid()))))",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "treinos",
+    "policyname": "Usuarios podem atualizar seus treinos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "UPDATE",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": "((auth.uid() = user_id) AND (EXISTS ( SELECT 1\n   FROM alunos\n  WHERE ((alunos.id = treinos.aluno_id) AND (alunos.user_id = auth.uid())))))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "treinos",
+    "policyname": "Usuarios podem cadastrar seus treinos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "INSERT",
+    "qual": null,
+    "with_check": "((auth.uid() = user_id) AND (EXISTS ( SELECT 1\n   FROM alunos\n  WHERE ((alunos.id = treinos.aluno_id) AND (alunos.user_id = auth.uid())))))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "treinos",
+    "policyname": "Usuarios podem excluir seus treinos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "DELETE",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "treinos",
+    "policyname": "Usuarios podem listar seus treinos",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "workout_templates",
+    "policyname": "Usuarios podem atualizar seus modelos de treino",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "UPDATE",
+    "qual": "((auth.uid() = owner_id) AND (is_system = false))",
+    "with_check": "((auth.uid() = owner_id) AND (is_system = false))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "workout_templates",
+    "policyname": "Usuarios podem cadastrar seus modelos de treino",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "INSERT",
+    "qual": null,
+    "with_check": "((auth.uid() = owner_id) AND (is_system = false))"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "workout_templates",
+    "policyname": "Usuarios podem excluir seus modelos de treino",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "DELETE",
+    "qual": "((auth.uid() = owner_id) AND (is_system = false))",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "workout_templates",
+    "policyname": "Usuarios podem listar seus modelos de treino",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "((auth.uid() = owner_id) AND (is_active = true) AND (is_system = false))",
+    "with_check": null
+  }
+]

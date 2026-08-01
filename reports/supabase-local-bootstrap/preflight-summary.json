@@ -1,14 +1,14 @@
 ﻿{
-    "result":  "PREFLIGHT_OK",
+    "result":  "PREFLIGHT_FAILED",
     "mode":  "local",
     "ci":  false,
     "ci_local_only":  false,
     "project_id":  "ConsultoriaFitness",
     "expected_ci_project_id":  null,
     "project_id_matches_environment":  null,
-    "protected_project_ref_detected":  true,
-    "temp_project_ref_present":  true,
-    "temp_project_ref_sanitized":  "[PROTECTED_HML_PROJECT_REF]",
+    "protected_project_ref_detected":  false,
+    "temp_project_ref_present":  false,
+    "temp_project_ref_sanitized":  "",
     "docker":  "Docker version 29.6.2, build dfc4efb",
     "docker_server":  "29.6.2 29.6.2",
     "docker_context":  "desktop-linux",
@@ -22,11 +22,13 @@
     "baseline_sha_preserved":  true,
     "active_migrations":  [
                               "20260716090000_baseline_aruka_v1.sql",
-                              "20260728030000_workout_delivery_integration_v1.sql"
+                              "20260728030000_workout_delivery_integration_v1.sql",
+                              "20260730090000_student_identity_contract.sql"
                           ],
     "expected_active_migrations":  [
                                        "20260716090000_baseline_aruka_v1.sql",
-                                       "20260728030000_workout_delivery_integration_v1.sql"
+                                       "20260728030000_workout_delivery_integration_v1.sql",
+                                       "20260730090000_student_identity_contract.sql"
                                    ],
     "active_migrations_unexpected":  [
 
@@ -40,7 +42,7 @@
     "remote_access_performed":  false,
     "edge_functions_deployed":  false,
     "errors":  [
-
+                   "Linked project-ref is not the expected HML ref."
                ],
-    "primary_error":  null
+    "primary_error":  "Linked project-ref is not the expected HML ref."
 }

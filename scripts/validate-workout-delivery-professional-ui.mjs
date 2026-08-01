@@ -23,6 +23,14 @@ const confirmation = read("src/features/treinos/components/WorkoutLifecycleConfi
 const filters = read("src/features/treinos/components/TreinosFilters.jsx");
 const list = read("src/features/treinos/components/TreinosList.jsx");
 const all = [presentation, cards, details, confirmation, filters, list].join("\n");
+const authorizedSupabaseDiff = new Set([
+  "supabase/baseline-src/02-tables.sql",
+  "supabase/baseline-src/03-constraints.sql",
+  "supabase/baseline-src/04-indexes.sql",
+  "supabase/baseline-src/05-functions.sql",
+  "supabase/baseline-src/09-grants.sql",
+  "supabase/migrations/20260730090000_student_identity_contract.sql",
+]);
 
 add("badges em português", ["Em revisão", "Ativo", "Concluído", "Arquivado"].every((label) => presentation.includes(label)));
 add("ações centralizadas por lifecycle", presentation.includes("getWorkoutLifecycleActions") && presentation.includes("deliver") && presentation.includes("complete") && presentation.includes("archive"));
@@ -33,7 +41,7 @@ add("filtro usa estado lifecycle", filters.includes("Filtrar por estado") && pre
 add("callbacks da etapa 2 consumidos", list.includes("treinosPage.entregarTreino") && list.includes("treinosPage.concluirTreino") && list.includes("treinosPage.arquivarTreino"));
 add("exclusão física não é ação visível dos cards", !cards.includes("onExcluir") && !cards.includes("Trash2") && !cards.includes("Excluir"));
 add("nenhuma chave tecnica exposta", !all.includes("application_idempotency_key") && !all.includes("template_origin_snapshot"));
-add("sem diff Supabase", git(["diff", "--name-only", "--", "supabase/**"]).length === 0);
+add("sem diff Supabase inesperado", git(["diff", "--name-only", "--", "supabase/**"]).every((path) => authorizedSupabaseDiff.has(path)));
 add("sem diff financeiro", git(["diff", "--name-only", "--", "src/features/financeiro/**", "src/services/*pagamento*", "src/services/*plano*"]).length === 0);
 
 report();

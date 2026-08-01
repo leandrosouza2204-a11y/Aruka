@@ -9,7 +9,7 @@ add("canonical lifecycle statuses remain constrained", /DRAFT:\s*"draft"[\s\S]*A
 add("legacy status aliases remain compatible", contract.includes("[\"ativo\"") && contract.includes("[\"finalizado\""));
 add("delivery RPC uses entregar_treino", service.includes('rpc("entregar_treino"'));
 add("state RPC uses alterar_estado_treino", service.includes('rpc("alterar_estado_treino"'));
-add("invalid lifecycle status rejected client-side", service.includes("Status de ciclo de vida invalido."));
+add("invalid lifecycle status rejected client-side", service.includes("Status de ciclo de vida invalido.") || service.includes("Status de ciclo de vida invÃ¡lido.") || service.includes("Status de ciclo de vida inválido."));
 add("invalid transition mapped", service.includes("WORKOUT_DELIVERY_INVALID_TRANSITION"));
 add("authorization mapped", service.includes("WORKOUT_DELIVERY_NOT_AUTHORIZED"));
 add("hook refreshes list after delivery", hook.includes("await entregarTreinoSupabase") && hook.includes("await carregarDados({ silencioso: true })"));

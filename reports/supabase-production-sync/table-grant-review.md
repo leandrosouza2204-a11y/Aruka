@@ -1,0 +1,89 @@
+# Table Grant Review
+
+Remote-only grants grouped by grantee:
+
+- anon: 76
+- service_role: 4
+
+Critical rule: anon/PUBLIC writes and unplanned authenticated writes remain review blockers even when RLS is enabled.
+
+- aceites_legais.anon.DELETE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- aceites_legais.anon.INSERT: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- aceites_legais.anon.SELECT: REMOTE_RESTRICTED_BY_RLS_BUT_REVIEW_REQUIRED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- aceites_legais.anon.UPDATE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- acompanhamento_eventos.anon.DELETE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- acompanhamento_eventos.anon.INSERT: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- acompanhamento_eventos.anon.SELECT: REMOTE_RESTRICTED_BY_RLS_BUT_REVIEW_REQUIRED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- acompanhamento_eventos.anon.UPDATE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- admin_logs.anon.DELETE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- admin_logs.anon.INSERT: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- admin_logs.anon.SELECT: REMOTE_RESTRICTED_BY_RLS_BUT_REVIEW_REQUIRED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- admin_logs.anon.UPDATE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- alunos.anon.DELETE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- alunos.anon.INSERT: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- alunos.anon.SELECT: REMOTE_RESTRICTED_BY_RLS_BUT_REVIEW_REQUIRED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- alunos.anon.UPDATE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- anamneses.anon.DELETE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- anamneses.anon.INSERT: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- anamneses.anon.SELECT: REMOTE_RESTRICTED_BY_RLS_BUT_REVIEW_REQUIRED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- anamneses.anon.UPDATE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- aoe_audit_events.anon.DELETE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- aoe_audit_events.anon.INSERT: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- aoe_audit_events.anon.SELECT: REMOTE_RESTRICTED_BY_RLS_BUT_REVIEW_REQUIRED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- aoe_audit_events.anon.UPDATE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- aoe_decision_traces.anon.DELETE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- aoe_decision_traces.anon.INSERT: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- aoe_decision_traces.anon.SELECT: REMOTE_RESTRICTED_BY_RLS_BUT_REVIEW_REQUIRED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- aoe_decision_traces.anon.UPDATE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- aoe_decisions.anon.DELETE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- aoe_decisions.anon.INSERT: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- aoe_decisions.anon.SELECT: REMOTE_RESTRICTED_BY_RLS_BUT_REVIEW_REQUIRED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- aoe_decisions.anon.UPDATE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- aoe_human_reviews.anon.DELETE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- aoe_human_reviews.anon.INSERT: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- aoe_human_reviews.anon.SELECT: REMOTE_RESTRICTED_BY_RLS_BUT_REVIEW_REQUIRED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- aoe_human_reviews.anon.UPDATE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- aoe_idempotency_keys.anon.DELETE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- aoe_idempotency_keys.anon.INSERT: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- aoe_idempotency_keys.anon.SELECT: REMOTE_RESTRICTED_BY_RLS_BUT_REVIEW_REQUIRED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- aoe_idempotency_keys.anon.UPDATE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- assinaturas.anon.DELETE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- assinaturas.anon.INSERT: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- assinaturas.anon.SELECT: REMOTE_RESTRICTED_BY_RLS_BUT_REVIEW_REQUIRED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- assinaturas.anon.UPDATE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- avaliacoes.anon.DELETE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- avaliacoes.anon.INSERT: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- avaliacoes.anon.SELECT: REMOTE_RESTRICTED_BY_RLS_BUT_REVIEW_REQUIRED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- avaliacoes.anon.UPDATE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- pagamentos.anon.DELETE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- pagamentos.anon.INSERT: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- pagamentos.anon.SELECT: REMOTE_RESTRICTED_BY_RLS_BUT_REVIEW_REQUIRED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- pagamentos.anon.UPDATE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- perfis.anon.DELETE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- perfis.anon.INSERT: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- perfis.anon.SELECT: REMOTE_RESTRICTED_BY_RLS_BUT_REVIEW_REQUIRED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- perfis.anon.UPDATE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- planos.anon.DELETE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- planos.anon.INSERT: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- planos.anon.SELECT: REMOTE_RESTRICTED_BY_RLS_BUT_REVIEW_REQUIRED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- planos.anon.UPDATE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- treino_dias.anon.DELETE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- treino_dias.anon.INSERT: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- treino_dias.anon.SELECT: REMOTE_RESTRICTED_BY_RLS_BUT_REVIEW_REQUIRED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- treino_dias.anon.UPDATE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- treino_eventos.service_role.DELETE: PLATFORM_MANAGED_EXPECTED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- treino_eventos.service_role.INSERT: PLATFORM_MANAGED_EXPECTED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- treino_eventos.service_role.SELECT: PLATFORM_MANAGED_EXPECTED; rls=true; risk=LOW_PLATFORM_ROLE; Classify against policy coverage and platform role expectations.
+- treino_eventos.service_role.UPDATE: PLATFORM_MANAGED_EXPECTED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- treino_exercicios.anon.DELETE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- treino_exercicios.anon.INSERT: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- treino_exercicios.anon.SELECT: REMOTE_RESTRICTED_BY_RLS_BUT_REVIEW_REQUIRED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- treino_exercicios.anon.UPDATE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- treinos.anon.DELETE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- treinos.anon.INSERT: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- treinos.anon.SELECT: REMOTE_RESTRICTED_BY_RLS_BUT_REVIEW_REQUIRED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- treinos.anon.UPDATE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- workout_templates.anon.DELETE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- workout_templates.anon.INSERT: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.
+- workout_templates.anon.SELECT: REMOTE_RESTRICTED_BY_RLS_BUT_REVIEW_REQUIRED; rls=true; risk=REVIEW_REQUIRED; Classify against policy coverage and platform role expectations.
+- workout_templates.anon.UPDATE: REMOTE_EXCESS_GRANT; rls=true; risk=HIGH; Treat as P0 until manually reconciled.

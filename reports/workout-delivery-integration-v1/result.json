@@ -1,9 +1,9 @@
 {
   "cycle": "1.7",
   "name": "Integracao com entrega e acompanhamento do aluno",
-  "phase": "student_experience_audit",
+  "phase": "student_identity_contract",
   "branch": "feat/workout-delivery-integration-v1",
-  "decision": "BLOCKED_STUDENT_IDENTITY_CONTRACT",
+  "decision": "READY_WITH_LOCAL_STORAGE_BOOTSTRAP_LIMITATION",
   "repositoryState": {
     "initialBranch": "chore/workout-library-mobile-flow-v1-closeout",
     "workingTreeInitiallyClean": true,
@@ -360,6 +360,67 @@
       "Validate multi-user isolation locally."
     ]
   },
+  "studentIdentityContract": {
+    "stage": "student_identity_contract",
+    "entryDecision": "READY_FOR_STUDENT_IDENTITY_CONTRACT",
+    "decision": "READY_WITH_LOCAL_STORAGE_BOOTSTRAP_LIMITATION",
+    "blockedAuditCommit": "71297a3 docs: registra bloqueio de identidade do aluno",
+    "implemented": {
+      "studentAuthLinkColumn": "public.alunos.student_user_id",
+      "professionalOwnerColumnPreserved": "public.alunos.user_id",
+      "roleAdded": "student",
+      "migration": "supabase/migrations/20260730090000_student_identity_contract.sql",
+      "baselineSrcUpdated": [
+        "supabase/baseline-src/02-tables.sql",
+        "supabase/baseline-src/03-constraints.sql",
+        "supabase/baseline-src/04-indexes.sql",
+        "supabase/baseline-src/05-functions.sql",
+        "supabase/baseline-src/09-grants.sql"
+      ],
+      "functions": [
+        "public.vincular_aluno_usuario(uuid, uuid)",
+        "public.desvincular_aluno_usuario(uuid)",
+        "public.get_my_student_workouts()"
+      ],
+      "directStudentTablePoliciesCreated": false,
+      "reasonForRpcBoundary": "Base workout tables have authenticated grants and table-level RLS cannot minimize columns; student read is exposed through an explicit minimized RPC contract."
+    },
+    "authorization": {
+      "identitySource": "auth.uid() -> public.alunos.student_user_id",
+      "studentProfileRequired": "role = student and status = ativo",
+      "professionalOwnershipForLinking": "public.alunos.user_id = auth.uid()",
+      "arbitraryIdsAcceptedByReadRpc": false,
+      "workoutStatusesReturned": ["active", "completed"],
+      "workoutStatusesExcluded": ["draft", "archived"]
+    },
+    "dataMinimization": {
+      "template_origin_snapshotReturned": false,
+      "application_idempotency_keyReturned": false,
+      "adminEventsReturned": false,
+      "professionalOperationFieldsReturned": false
+    },
+    "validation": {
+      "qa:student-identity-contract": "PASS",
+      "qa:student-workout-rls": "PASS",
+      "qa:student-workout-data-minimization": "PASS",
+      "qa:student-account-linking": "PASS",
+      "qa:supabase-baseline-src": "PASS",
+      "supabase:preflight": "PASS",
+      "supabase_db_reset": "BLOCKED_INFRA_STORAGE_UNHEALTHY",
+      "runtimeMultiUser": "PENDING_AFTER_LOCAL_STORAGE_BOOTSTRAP_FIX"
+    },
+    "protections": {
+      "studentUiCreated": false,
+      "serviceRoleUsed": false,
+      "adminKeyUsed": false,
+      "financialChanges": false,
+      "packageLockChanges": false
+    },
+    "residualRisks": [
+      "Runtime multiuser SQL validation must be rerun after local Storage bootstrap is healthy.",
+      "Student account provisioning/invite flow remains outside this stage."
+    ]
+  },
   "supabase": {
     "modified": true,
     "reason": "Migration aditiva, baseline, RLS e RPCs da Etapa 1"
@@ -376,7 +437,10 @@
     "docs/workout-delivery-integration-v1/07-data-and-authorization-validation.md",
     "docs/workout-delivery-integration-v1/12-student-experience-audit.md",
     "docs/workout-delivery-integration-v1/13-student-experience-implementation.md",
-    "docs/workout-delivery-integration-v1/14-student-experience-validation.md"
+    "docs/workout-delivery-integration-v1/14-student-experience-validation.md",
+    "docs/workout-delivery-integration-v1/15-student-identity-contract.md",
+    "docs/workout-delivery-integration-v1/16-student-identity-implementation.md",
+    "docs/workout-delivery-integration-v1/17-student-identity-validation.md"
   ],
-  "nextStep": "Desbloquear contrato de identidade do aluno antes da experiencia autenticada"
+  "nextStep": "Estabilizar bootstrap local do Storage e retestar runtime multiusuario antes da interface autenticada do aluno"
 }

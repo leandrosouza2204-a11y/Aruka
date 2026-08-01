@@ -7,6 +7,14 @@ const applicationTest = read("src/features/treinos/utils/workoutTemplateApplicat
 const contract = read("src/features/treinos/utils/workoutDataContract.js");
 const service = read("src/services/treinosService.js");
 const modal = read("src/features/treinos/components/TreinoTemplatesModal.jsx");
+const authorizedSupabaseDiff = new Set([
+  "supabase/baseline-src/02-tables.sql",
+  "supabase/baseline-src/03-constraints.sql",
+  "supabase/baseline-src/04-indexes.sql",
+  "supabase/baseline-src/05-functions.sql",
+  "supabase/baseline-src/09-grants.sql",
+  "supabase/migrations/20260730090000_student_identity_contract.sql",
+]);
 
 add("idempotency key created before submit", application.includes("createApplicationIdempotencyKey"));
 add("idempotency key persisted in payload", application.includes("applicationIdempotencyKey") && contract.includes("applicationIdempotencyKey"));
@@ -16,8 +24,8 @@ add("duplicate submission reuses same promise", application.includes("controller
 add("database idempotency conflict mapped", service.includes("WORKOUT_DELIVERY_IDEMPOTENCY_CONFLICT"));
 add("tests cover retry intent", applicationTest.includes("reaproveita intencao de aplicacao"));
 add("tests cover duplicate submission", applicationTest.includes("bloqueia submissao duplicada"));
-add("no Supabase diff in service integration stage", git(["diff", "--name-only", "--", "supabase/**"]).length === 0);
-add("no staged Supabase diff in service integration stage", git(["diff", "--cached", "--name-only", "--", "supabase/**"]).length === 0);
+add("no unexpected Supabase diff in service integration stage", git(["diff", "--name-only", "--", "supabase/**"]).every((path) => authorizedSupabaseDiff.has(path)));
+add("no unexpected staged Supabase diff in service integration stage", git(["diff", "--cached", "--name-only", "--", "supabase/**"]).every((path) => authorizedSupabaseDiff.has(path)));
 
 report();
 

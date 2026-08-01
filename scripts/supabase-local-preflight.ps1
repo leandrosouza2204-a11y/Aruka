@@ -11,7 +11,8 @@ $ExpectedRef = ("xrmqdkpx" + "nfvusmenadnf")
 $ExpectedSha = "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B"
 $ExpectedActiveMigrations = @(
   "20260716090000_baseline_aruka_v1.sql",
-  "20260728030000_workout_delivery_integration_v1.sql"
+  "20260728030000_workout_delivery_integration_v1.sql",
+  "20260730090000_student_identity_contract.sql"
 )
 $IsCi = $env:CI -eq "true"
 $IsCiLocalOnly = $env:SUPABASE_CI_LOCAL_ONLY -eq "true"

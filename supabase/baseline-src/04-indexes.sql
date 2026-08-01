@@ -3,6 +3,8 @@ create index if not exists perfis_tipo_acesso_idx on public.perfis using btree (
 create index if not exists perfis_status_idx on public.perfis using btree (status);
 create index if not exists alunos_user_vencimento_idx on public.alunos using btree (user_id, vencimento);
 create index if not exists alunos_user_acompanhamento_status_idx on public.alunos using btree (user_id, acompanhamento_status);
+create unique index if not exists alunos_student_user_id_uidx on public.alunos using btree (student_user_id) where student_user_id is not null;
+create index if not exists alunos_student_user_id_idx on public.alunos using btree (student_user_id) where student_user_id is not null;
 create index if not exists planos_user_id_idx on public.planos using btree (user_id);
 create index if not exists planos_ativo_idx on public.planos using btree (ativo);
 create index if not exists planos_user_ativo_idx on public.planos using btree (user_id, ativo);

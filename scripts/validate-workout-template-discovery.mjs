@@ -15,7 +15,9 @@ const authorizedSupabaseDiff = new Set([
   "supabase/baseline-src/04-indexes.sql",
   "supabase/baseline-src/05-functions.sql",
   "supabase/baseline-src/08-policies.sql",
+  "supabase/baseline-src/09-grants.sql",
   "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql",
+  "supabase/migrations/20260730090000_student_identity_contract.sql",
 ]);
 
 const contents = Object.fromEntries(

@@ -1,0 +1,106 @@
+{
+  "status": "DESIGN_ONLY_NO_EXECUTION_AUTHORIZATION",
+  "strategy": "INCREMENTAL_RECONCILIATION_THEN_NEW_BASELINE",
+  "production_action": "RECONCILIATION_DESIGN_REQUIRED",
+  "repair_assessment": "REPAIR_NOT_SAFE",
+  "phases": [
+    {
+      "phase": 0,
+      "phase_name": "evidence_freeze",
+      "future_action_type": "KEEP",
+      "approval_required": "Owner approval before drafting SQL.",
+      "rollback_concept": "Rollback requires verified production backup and no repository mutation.",
+      "blockers_before_execution": [
+        "manual SQL authoring prohibited in this artifact",
+        "approval gate not yet passed"
+      ]
+    },
+    {
+      "phase": 1,
+      "phase_name": "security_policies",
+      "future_action_type": "MANUAL_DECISION",
+      "approval_required": "Security and product owner approval.",
+      "rollback_concept": "Rollback policy must restore the exact previous production policy definitions.",
+      "blockers_before_execution": [
+        "manual SQL authoring prohibited in this artifact",
+        "approval gate not yet passed"
+      ]
+    },
+    {
+      "phase": 2,
+      "phase_name": "function_and_table_grants",
+      "future_action_type": "REVOKE_OR_GRANT_AFTER_APPROVAL",
+      "approval_required": "Security approval for anon/public/authenticated changes.",
+      "rollback_concept": "Rollback grant map must restore prior grantee/privilege pairs.",
+      "blockers_before_execution": [
+        "manual SQL authoring prohibited in this artifact",
+        "approval gate not yet passed"
+      ]
+    },
+    {
+      "phase": 3,
+      "phase_name": "constraints_and_nullability",
+      "future_action_type": "ALTER_AFTER_CONTRACT_APPROVAL",
+      "approval_required": "Product and finance approval for contract columns.",
+      "rollback_concept": "Rollback requires reversible constraint plan and pre-change data snapshot.",
+      "blockers_before_execution": [
+        "manual SQL authoring prohibited in this artifact",
+        "approval gate not yet passed"
+      ]
+    },
+    {
+      "phase": 4,
+      "phase_name": "function_definitions",
+      "future_action_type": "REPLACE_AFTER_APPROVAL",
+      "approval_required": "Engineering and security approval.",
+      "rollback_concept": "Rollback function definitions must be captured from production before replacement.",
+      "blockers_before_execution": [
+        "manual SQL authoring prohibited in this artifact",
+        "approval gate not yet passed"
+      ]
+    },
+    {
+      "phase": 5,
+      "phase_name": "workout_delivery_contract",
+      "future_action_type": "MERGE_AFTER_SCHEMA_CONVERGES",
+      "approval_required": "Product approval for delivery state changes.",
+      "rollback_concept": "Rollback restores previous delivery functions, policies and grants together.",
+      "blockers_before_execution": [
+        "manual SQL authoring prohibited in this artifact",
+        "approval gate not yet passed"
+      ]
+    },
+    {
+      "phase": 6,
+      "phase_name": "student_identity_contract",
+      "future_action_type": "APPLY_AFTER_PREREQUISITES",
+      "approval_required": "Engineering approval after phases 1-5 pass.",
+      "rollback_concept": "Rollback disables student linkage surfaces before reverting database contract.",
+      "blockers_before_execution": [
+        "manual SQL authoring prohibited in this artifact",
+        "approval gate not yet passed"
+      ]
+    },
+    {
+      "phase": 7,
+      "phase_name": "post_reconciliation_validation",
+      "future_action_type": "VALIDATE",
+      "approval_required": "Technical lead approval.",
+      "rollback_concept": "Rollback triggered if any validation fails after a controlled change window.",
+      "blockers_before_execution": [
+        "manual SQL authoring prohibited in this artifact",
+        "approval gate not yet passed"
+      ]
+    },
+    {
+      "phase": 8,
+      "phase_name": "migration_history_and_baseline",
+      "future_action_type": "NEW_BASELINE_AFTER_CONVERGENCE",
+      "approval_required": "Technical lead and repository owner approval.",
+      "rollback_concept": "Rollback concept is to keep the previous repository baseline until convergence is proven.",
+      "blockers_before_execution": [
+        "production and repository convergence must be proven"
+      ]
+    }
+  ]
+}

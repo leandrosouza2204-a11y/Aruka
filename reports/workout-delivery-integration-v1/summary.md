@@ -87,3 +87,17 @@ Entrada: branch correta, working tree limpo, nenhum arquivo staged e Etapa 3 com
 Auditoria: nao existe rota de aluno, papel de aluno ou vinculo seguro entre usuario autenticado e registro em `public.alunos`. O campo `alunos.user_id` representa o profissional dono. Services e RLS de treinos consultam por `user_id = auth.uid()`, portanto protegem a visao profissional, mas nao autorizam uma experiencia autenticada de aluno.
 
 Conclusao: a experiencia do aluno nao foi implementada para evitar bypass de autorizacao no frontend. A proxima etapa deve criar o contrato minimo de identidade do aluno, com policy/RPC de leitura minimizada para treinos `active` e `completed`.
+
+## Contrato de identidade do aluno
+
+Decisao: `READY_WITH_LOCAL_STORAGE_BOOTSTRAP_LIMITATION`.
+
+Implementado: `public.alunos.student_user_id`, FK para `auth.users`, unicidade parcial, indice de busca, role `student` em `public.perfis` e RPCs `vincular_aluno_usuario`, `desvincular_aluno_usuario` e `get_my_student_workouts`.
+
+Modelo de seguranca: `alunos.user_id` permanece como dono profissional. O aluno autenticado e resolvido somente por `auth.uid()` contra `alunos.student_user_id`. A leitura do aluno nao recebe IDs arbitrarios e retorna apenas treinos `active` e `completed`.
+
+Minimizacao: a experiencia futura do aluno deve consumir a RPC minimizada, sem leitura direta das tabelas base. O payload nao expoe `template_origin_snapshot`, `application_idempotency_key`, eventos administrativos ou campos de operacao profissional.
+
+Validacoes aprovadas: QAs novos de identidade, RLS, minimizacao e vinculo; baseline-src; QAs legadas de biblioteca; QAs de entrega; unitarios de treinos; accessibility; responsive; preflight local; lint e build.
+
+Limitacao runtime: `supabase db reset` avancou ate o bootstrap do banco, mas falhou por `supabase_storage_ConsultoriaFitness` unhealthy. Classificacao: bloqueio de infraestrutura local de Storage, com preflight aprovado e sem erro SQL reportado da nova migration.

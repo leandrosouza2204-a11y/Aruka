@@ -1,6 +1,6 @@
 alter table only public.perfis add constraint perfis_pkey primary key (id);
 alter table only public.perfis add constraint perfis_user_id_key unique (user_id);
-alter table only public.perfis add constraint perfis_role_check check (role in ('admin', 'user'));
+alter table only public.perfis add constraint perfis_role_check check (role in ('admin', 'user', 'student'));
 alter table only public.perfis add constraint perfis_tipo_acesso_check check (tipo_acesso in ('admin', 'beta', 'assinante', 'pendente', 'bloqueado'));
 alter table only public.perfis add constraint perfis_status_check check (status in ('ativo', 'inativo'));
 alter table only public.perfis add constraint perfis_user_id_fkey foreign key (user_id) references auth.users(id) on delete cascade;
@@ -8,6 +8,7 @@ alter table only public.perfis add constraint perfis_user_id_fkey foreign key (u
 alter table only public.alunos add constraint alunos_pkey primary key (id);
 alter table only public.alunos add constraint alunos_acompanhamento_status_check check (acompanhamento_status in ('ativo', 'encerrado', 'nao_renovado', 'cancelado'));
 alter table only public.alunos add constraint alunos_user_id_fkey foreign key (user_id) references auth.users(id) on delete cascade;
+alter table only public.alunos add constraint alunos_student_user_id_fkey foreign key (student_user_id) references auth.users(id) on delete set null;
 
 alter table only public.planos add constraint planos_pkey primary key (id);
 alter table only public.planos add constraint planos_user_id_fkey foreign key (user_id) references auth.users(id) on delete cascade;

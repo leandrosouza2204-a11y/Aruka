@@ -1,0 +1,252 @@
+{
+  "received": 22,
+  "configurations": [
+    {
+      "function_name": "admin_atualizar_perfil",
+      "identity_arguments": "p_user_id uuid, p_nome text, p_role text, p_tipo_acesso text, p_status text",
+      "security_definer": true,
+      "function_config": "search_path=public, auth",
+      "search_path": "public",
+      "local_function_exists": false,
+      "local_definition_has_search_path": false,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 0
+    },
+    {
+      "function_name": "admin_atualizar_perfil",
+      "identity_arguments": "p_user_id uuid, p_nome text, p_role text, p_tipo_acesso text, p_status text, p_user_agent text",
+      "security_definer": true,
+      "function_config": "search_path=public, auth",
+      "search_path": "public",
+      "local_function_exists": true,
+      "local_definition_has_search_path": true,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 0
+    },
+    {
+      "function_name": "admin_bloquear_usuario",
+      "identity_arguments": "p_user_id uuid",
+      "security_definer": true,
+      "function_config": "search_path=public, auth",
+      "search_path": "public",
+      "local_function_exists": false,
+      "local_definition_has_search_path": false,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 0
+    },
+    {
+      "function_name": "admin_bloquear_usuario",
+      "identity_arguments": "p_user_id uuid, p_user_agent text",
+      "security_definer": true,
+      "function_config": "search_path=public, auth",
+      "search_path": "public",
+      "local_function_exists": true,
+      "local_definition_has_search_path": true,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 0
+    },
+    {
+      "function_name": "admin_eh_admin",
+      "identity_arguments": "",
+      "security_definer": true,
+      "function_config": "search_path=public",
+      "search_path": "public",
+      "local_function_exists": true,
+      "local_definition_has_search_path": true,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 0
+    },
+    {
+      "function_name": "admin_liberar_assinante",
+      "identity_arguments": "p_user_id uuid, p_plano text, p_data_inicio date, p_data_vencimento date",
+      "security_definer": true,
+      "function_config": "search_path=public, auth",
+      "search_path": "public",
+      "local_function_exists": false,
+      "local_definition_has_search_path": false,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 0
+    },
+    {
+      "function_name": "admin_liberar_assinante",
+      "identity_arguments": "p_user_id uuid, p_plano text, p_data_inicio date, p_data_vencimento date, p_user_agent text",
+      "security_definer": true,
+      "function_config": "search_path=public, auth",
+      "search_path": "public",
+      "local_function_exists": true,
+      "local_definition_has_search_path": true,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 0
+    },
+    {
+      "function_name": "admin_liberar_beta",
+      "identity_arguments": "p_user_id uuid",
+      "security_definer": true,
+      "function_config": "search_path=public, auth",
+      "search_path": "public",
+      "local_function_exists": false,
+      "local_definition_has_search_path": false,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 0
+    },
+    {
+      "function_name": "admin_liberar_beta",
+      "identity_arguments": "p_user_id uuid, p_user_agent text",
+      "security_definer": true,
+      "function_config": "search_path=public, auth",
+      "search_path": "public",
+      "local_function_exists": true,
+      "local_definition_has_search_path": true,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 0
+    },
+    {
+      "function_name": "admin_listar_logs",
+      "identity_arguments": "p_acao text, p_target_user_id uuid, p_data_inicio date, p_data_fim date, p_busca text",
+      "security_definer": true,
+      "function_config": "search_path=public, auth",
+      "search_path": "public",
+      "local_function_exists": true,
+      "local_definition_has_search_path": true,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 0
+    },
+    {
+      "function_name": "admin_listar_usuarios",
+      "identity_arguments": "",
+      "security_definer": true,
+      "function_config": "search_path=public, auth",
+      "search_path": "public",
+      "local_function_exists": true,
+      "local_definition_has_search_path": true,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 0
+    },
+    {
+      "function_name": "admin_registrar_log",
+      "identity_arguments": "p_target_user_id uuid, p_acao text, p_entidade text, p_entidade_id uuid, p_dados_anteriores jsonb, p_dados_novos jsonb, p_user_agent text",
+      "security_definer": true,
+      "function_config": "search_path=public, auth",
+      "search_path": "public",
+      "local_function_exists": true,
+      "local_definition_has_search_path": true,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 0
+    },
+    {
+      "function_name": "admin_upsert_assinatura",
+      "identity_arguments": "p_user_id uuid, p_plano text, p_status text, p_data_inicio date, p_data_vencimento date",
+      "security_definer": true,
+      "function_config": "search_path=public, auth",
+      "search_path": "public",
+      "local_function_exists": false,
+      "local_definition_has_search_path": false,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 0
+    },
+    {
+      "function_name": "admin_upsert_assinatura",
+      "identity_arguments": "p_user_id uuid, p_plano text, p_status text, p_data_inicio date, p_data_vencimento date, p_user_agent text",
+      "security_definer": true,
+      "function_config": "search_path=public, auth",
+      "search_path": "public",
+      "local_function_exists": true,
+      "local_definition_has_search_path": true,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 0
+    },
+    {
+      "function_name": "admin_validar_acesso",
+      "identity_arguments": "",
+      "security_definer": true,
+      "function_config": "search_path=public",
+      "search_path": "public",
+      "local_function_exists": true,
+      "local_definition_has_search_path": true,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 0
+    },
+    {
+      "function_name": "alterar_estado_treino",
+      "identity_arguments": "p_treino_id uuid, p_lifecycle_status text",
+      "security_definer": true,
+      "function_config": "search_path=public",
+      "search_path": "public",
+      "local_function_exists": true,
+      "local_definition_has_search_path": true,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 1
+    },
+    {
+      "function_name": "aoe_idempotency_get_or_create",
+      "identity_arguments": "p_id text, p_actor_id uuid, p_organization_id uuid, p_operation text, p_idempotency_key text, p_request_fingerprint text",
+      "security_definer": true,
+      "function_config": "search_path=public",
+      "search_path": "public",
+      "local_function_exists": true,
+      "local_definition_has_search_path": true,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 0
+    },
+    {
+      "function_name": "aoe_user_owns_student",
+      "identity_arguments": "p_student_id uuid",
+      "security_definer": true,
+      "function_config": "search_path=public",
+      "search_path": "public",
+      "local_function_exists": true,
+      "local_definition_has_search_path": true,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 0
+    },
+    {
+      "function_name": "entregar_treino",
+      "identity_arguments": "p_treino_id uuid",
+      "security_definer": true,
+      "function_config": "search_path=public",
+      "search_path": "public",
+      "local_function_exists": true,
+      "local_definition_has_search_path": true,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 1
+    },
+    {
+      "function_name": "processar_encerramento_automatico_aluno",
+      "identity_arguments": "p_user_id uuid, p_aluno_id uuid, p_vencimento date, p_ocorrido_em date, p_event_key text, p_plano_id uuid, p_plano_nome text, p_dias_apos_vencimento integer, p_status_anterior text",
+      "security_definer": true,
+      "function_config": "search_path=public",
+      "search_path": "public",
+      "local_function_exists": true,
+      "local_definition_has_search_path": true,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 0
+    },
+    {
+      "function_name": "salvar_treino_composto",
+      "identity_arguments": "p_treino jsonb",
+      "security_definer": true,
+      "function_config": "search_path=public",
+      "search_path": "public",
+      "local_function_exists": true,
+      "local_definition_has_search_path": true,
+      "classification": "SECURITY_DEFINER_SEARCH_PATH_VERIFIED",
+      "p0_grants": 1
+    },
+    {
+      "function_name": "set_workout_templates_updated_at",
+      "identity_arguments": "",
+      "security_definer": false,
+      "function_config": "",
+      "search_path": "ABSENT",
+      "local_function_exists": true,
+      "local_definition_has_search_path": true,
+      "classification": "NON_SECURITY_DEFINER",
+      "p0_grants": 0
+    }
+  ],
+  "summary": {
+    "securityDefiner": 21,
+    "missingSearchPath": 0
+  },
+  "completeness": "RECONCILIATION_INSPECTION_PARTIAL"
+}
