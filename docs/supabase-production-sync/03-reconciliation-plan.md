@@ -38,3 +38,17 @@ No corrective SQL, db push, db pull, migration repair, remote SQL, commit, push,
 - Included: `created_at`, `user_id` and `whatsapp` set `NOT NULL`.
 - Preserved: `acompanhamento_motivo`, `observacoes`, `inicio`, `pagamento_recebido`, `plano`, `status` and `valor`.
 - Constraint scope: no constraint included; student identity and workout delivery constraints remain deferred, and three CHECK differences are representation false positives.
+
+## Function/RPC Phase 3 Update
+
+- Decision: `READY_FOR_PHASE3_FUNCTION_SCOPE_REVIEW`.
+- Migration decision: `NO_NEW_MIGRATION`.
+- Supabase change: `NO`.
+- Production action required: `NO`.
+- Functions/RPCs reviewed: 14 divergent entries.
+- Included: none.
+- Deferred/manual review: all 14 entries.
+- Manual product decision required: remote admin/financial overloads.
+- Manual security/business logic review required: admin/financial/utility body differences.
+- Deferred: AOE and student identity functions remain outside the Phase 3 migration scope.
+- Artifacts: `function-reconciliation-result.json`, `function-reconciliation-scope.json`, `phase3-function-inventory.json`, `phase3-function-dependency-graph.json`.

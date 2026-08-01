@@ -1,4 +1,11 @@
 {
+  "phase3_scope_decision": {
+    "decision": "READY_FOR_PHASE3_FUNCTION_SCOPE_REVIEW",
+    "migration_decision": "NO_NEW_MIGRATION",
+    "included_in_phase3_migration": 0,
+    "deferred_or_blocked": 14,
+    "scope_report": "reports/supabase-production-sync/function-reconciliation-scope.json"
+  },
   "summary": {
     "OVERLOAD_REMOTE_ONLY": 5,
     "BUSINESS_LOGIC_DIFFERENT": 6,

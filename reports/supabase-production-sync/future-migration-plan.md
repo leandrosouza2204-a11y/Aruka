@@ -35,6 +35,7 @@ Production action: `RECONCILIATION_DESIGN_REQUIRED`.
 - Future action type: REPLACE_AFTER_APPROVAL
 - Approval required: Engineering and security approval.
 - Rollback concept: Rollback function definitions must be captured from production before replacement.
+- Latest Phase 3 function/RPC audit: `READY_FOR_PHASE3_FUNCTION_SCOPE_REVIEW`, `NO_NEW_MIGRATION`; 14 entries deferred/manual review.
 
 ## Phase 5: workout_delivery_contract
 

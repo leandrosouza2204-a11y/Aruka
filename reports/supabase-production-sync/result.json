@@ -1,5 +1,33 @@
 {
   "decision": "BLOCKED_REMOTE_SCHEMA_DRIFT",
+  "phase3_function_reconciliation": {
+    "decision": "READY_FOR_PHASE3_FUNCTION_SCOPE_REVIEW",
+    "migration_decision": "NO_NEW_MIGRATION",
+    "supabase_change": "NO",
+    "functions_reviewed": 14,
+    "included_in_phase3_migration": 0,
+    "deferred_or_blocked": 14,
+    "remote_link_state": "UNLINKED_FOR_SAFETY",
+    "final_projects_list_check": {
+      "executed": true,
+      "aruka_linked": false,
+      "aruka_status": "ACTIVE_HEALTHY",
+      "aruka_hml_linked": false,
+      "aruka_hml_status": "ACTIVE_HEALTHY",
+      "cli_message": "Cannot find project ref. Have you run supabase link?"
+    },
+    "artifacts": [
+      "reports/supabase-production-sync/phase3-function-inventory.json",
+      "reports/supabase-production-sync/phase3-function-inventory.csv",
+      "reports/supabase-production-sync/phase3-function-dependency-graph.json",
+      "reports/supabase-production-sync/function-reconciliation-scope.json",
+      "reports/supabase-production-sync/function-reconciliation-scope.md",
+      "reports/supabase-production-sync/function-phase3-scope.csv",
+      "reports/supabase-production-sync/function-reconciliation-result.json",
+      "reports/supabase-production-sync/function-reconciliation-summary.md",
+      "docs/supabase-production-sync/11-function-reconciliation-audit.md"
+    ]
+  },
   "additional_blockers": [
     "BLOCKED_LOCAL_STORAGE_BOOTSTRAP",
     "REMOTE_DIFF_INCONCLUSIVE",

@@ -26,6 +26,14 @@ Manual product decision: `APPROVED`.
 
 Phase 2 authors exactly one incremental migration for `public.alunos.created_at`, `public.alunos.user_id` and `public.alunos.whatsapp` as `NOT NULL`. The seven other nullability differences are intentionally preserved in this reconciliation; `inicio`, `pagamento_recebido`, `plano`, `status` and `valor` are `FUTURE_CONTRACT_HARDENING_OPTIONAL`. Constraint review found no item to include: student identity and workout delivery remain out of phase, and the remaining CHECK differences are semantic representation false positives.
 
+## Phase 3 Function/RPC Scope Review
+
+Decision: `READY_FOR_PHASE3_FUNCTION_SCOPE_REVIEW`.
+
+Migration decision: `NO_NEW_MIGRATION`.
+
+The function/RPC audit produced inventory, dependency and scope artifacts, but no executable SQL. All 14 divergent function entries remain deferred or require manual review because they involve remote overloads, normalized body differences, AOE ownership, or the student identity deployment contract.
+
 ## Execution Boundary
 
 This document is design-only. It contains no executable write SQL and does not authorize direct application.
