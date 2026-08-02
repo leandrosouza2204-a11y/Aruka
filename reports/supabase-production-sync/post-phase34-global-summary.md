@@ -81,7 +81,7 @@ Schema state and migration history are separate. History alignment remains pendi
 
 ## Next Safe Group
 
-`NEXT_SAFE_GROUP=WORKOUT_DELIVERY_RECONCILIATION`.
+`NEXT_SAFE_GROUP=STUDENT_IDENTITY_DEPLOYMENT_DESIGN`.
 
 ## Production Action
 

@@ -155,6 +155,7 @@
     "qa:supabase-phase34-group-a-security-runtime": "node scripts/validate-supabase-phase34-group-a-security-runtime.mjs",
     "qa:supabase-post-phase34-global-state": "node scripts/analyze-supabase-post-phase34-global-state.mjs && node --test scripts/analyze-supabase-post-phase34-global-state.test.mjs",
     "qa:supabase-final-security-drift": "node scripts/analyze-supabase-final-security-drift.mjs && node --test scripts/analyze-supabase-final-security-drift.test.mjs",
+    "qa:supabase-workout-delivery-final-reconciliation": "node scripts/analyze-supabase-workout-delivery-final-reconciliation.mjs && node --test scripts/analyze-supabase-workout-delivery-final-reconciliation.test.mjs",
     "qa:supabase-phase32-security-runtime": "node scripts/validate-supabase-phase32-security-runtime.mjs",
     "qa:supabase-baseline-candidate": "node scripts/validate-supabase-baseline-candidate.mjs",
     "qa:supabase-validation-evidence": "node scripts/validate-supabase-validation-evidence.mjs",

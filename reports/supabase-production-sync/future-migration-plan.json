@@ -108,6 +108,19 @@
         "existing_migration_reused": "supabase/migrations/20260731190000_reconcile_security_policies_and_grants.sql",
         "next_safe_group": "WORKOUT_DELIVERY_RECONCILIATION"
       },
+      "workout_delivery_final_reconciliation": {
+        "decision": "READY_FOR_WORKOUT_DELIVERY_RECLASSIFICATION_COMMIT",
+        "production_action_required": "NO",
+        "migration_repair_allowed": "NO",
+        "workout_delivery_local_state": "LOCAL_COMPLETE_BY_EXISTING_MIGRATION",
+        "remote_workout_delivery_pending": 50,
+        "initial_local_workout_delivery_drift": 1,
+        "final_local_workout_delivery_drift": 0,
+        "new_migration_required": "NO",
+        "migration_created": "NO",
+        "existing_migration_coverage": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql",
+        "next_safe_group": "STUDENT_IDENTITY_DEPLOYMENT_DESIGN"
+      },
       "approval_required": "Engineering and security approval.",
       "rollback_concept": "Rollback function definitions must be captured from production before replacement.",
       "blockers_before_execution": [
@@ -118,7 +131,9 @@
     {
       "phase": 5,
       "phase_name": "workout_delivery_contract",
-      "future_action_type": "MERGE_AFTER_SCHEMA_CONVERGES",
+      "future_action_type": "REMOTE_PENDING_AFTER_LOCAL_RECLASSIFICATION",
+      "workout_delivery_local_state": "LOCAL_COMPLETE_BY_EXISTING_MIGRATION",
+      "remote_workout_delivery_pending": 50,
       "approval_required": "Product approval for delivery state changes.",
       "rollback_concept": "Rollback restores previous delivery functions, policies and grants together.",
       "blockers_before_execution": [

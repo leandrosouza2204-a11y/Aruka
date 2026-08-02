@@ -37,4 +37,4 @@ The final local security drift count is `0`; remote pending security count is `1
 
 ## Next Group
 
-`WORKOUT_DELIVERY_RECONCILIATION`
+`STUDENT_IDENTITY_DEPLOYMENT_DESIGN`

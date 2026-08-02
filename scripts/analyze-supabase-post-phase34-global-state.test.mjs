@@ -52,7 +52,7 @@ test("history remains pending and repair remains forbidden", () => {
 
 test("next safe group advances after local security drift reaches zero", () => {
   const state = buildGlobalState();
-  assert.equal(state.next_safe_group, "WORKOUT_DELIVERY_RECONCILIATION");
+  assert.equal(state.next_safe_group, "STUDENT_IDENTITY_DEPLOYMENT_DESIGN");
   assert.equal(state.totals.active_local_security_drift, 0);
   assert.ok(state.remote_pending_security_items.length > 0);
 });

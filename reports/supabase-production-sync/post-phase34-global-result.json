@@ -10,14 +10,14 @@
   "local_reconciliation_state": "PARTIALLY_RECONCILED",
   "remote_reconciliation_state": "NOT_APPLIED",
   "history_alignment_state": "PENDING",
-  "next_safe_group": "WORKOUT_DELIVERY_RECONCILIATION",
+  "next_safe_group": "STUDENT_IDENTITY_DEPLOYMENT_DESIGN",
   "totals": {
     "historical_differences_reviewed": 31,
     "resolved": 6,
     "active": 0,
     "active_local_security_drift": 0,
     "remote_pending_security": 1,
-    "deferred": 6,
+    "deferred": 5,
     "manual_decision": 9,
     "false_positive_or_preserved": 10
   },
@@ -147,17 +147,6 @@
       "active_or_resolved": "LOCAL_ONLY_FUTURE_DEPLOYMENT",
       "risk": "FEATURE_CONTRACT",
       "next_action": "DEFERRED_TO_STUDENT_IDENTITY"
-    },
-    {
-      "domain": "WORKOUT_DELIVERY",
-      "object": "workout delivery backend contract",
-      "historical_status": "DIVERGENT",
-      "resolved_by": "20260728030000",
-      "current_local_status": "local implemented",
-      "remote_status": "remote partially divergent",
-      "active_or_resolved": "DEFERRED_TO_WORKOUT_DELIVERY",
-      "risk": "FEATURE_CONTRACT",
-      "next_action": "Reconcile backend objects by table/column/RPC/grant."
     },
     {
       "domain": "MIGRATION_HISTORY",

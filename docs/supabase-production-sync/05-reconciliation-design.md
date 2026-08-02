@@ -72,6 +72,14 @@ The only active security item was reclassified as `LOCAL_SECURITY_RECONCILIATION
 
 Next safe group: `WORKOUT_DELIVERY_RECONCILIATION`.
 
+## Workout Delivery Final State
+
+Decision: `READY_FOR_WORKOUT_DELIVERY_RECLASSIFICATION_COMMIT`.
+
+Workout Delivery has no active local drift after object-level review of `20260728030000_workout_delivery_integration_v1.sql`. Lifecycle, `treino_eventos`, template origin, idempotency, RPCs, grants, policies and indexes are covered by existing local migrations. Production remains `REMOTE_WORKOUT_DELIVERY_PENDING`; no duplicate migration was created.
+
+Next safe group: `STUDENT_IDENTITY_DEPLOYMENT_DESIGN`.
+
 ## Design Matrix
 
 - Phase 0 evidence_freeze: KEEP; risk=NONE; financial=NO_DIRECT_FINANCIAL_IMPACT_IDENTIFIED; approval=Owner approval before drafting SQL.; rollback=Rollback requires verified production backup and no repository mutation.

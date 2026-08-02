@@ -74,7 +74,7 @@ No corrective SQL, db push, db pull, migration repair, remote SQL, commit, push,
 - Phase 2: `LOCAL_RECONCILIATION_IMPLEMENTED`, remote application pending.
 - Phase 3 Group E: `LOCAL_RECONCILIATION_IMPLEMENTED`, remote application pending.
 - Phase 3 Group A: `LOCAL_RECONCILIATION_IMPLEMENTED`, remote application pending.
-- Next safe group: `SECURITY_HARDENING`.
+- Next safe group: `STUDENT_IDENTITY_DEPLOYMENT_DESIGN`.
 
 ## Final Active Security Drift Reconciliation
 
@@ -87,7 +87,17 @@ No corrective SQL, db push, db pull, migration repair, remote SQL, commit, push,
 - Remote pending security count: `1`.
 - Existing migration reused: `supabase/migrations/20260731190000_reconcile_security_policies_and_grants.sql`.
 - Migration created: `NO`.
-- Next safe group: `WORKOUT_DELIVERY_RECONCILIATION`.
+- Next safe group: `STUDENT_IDENTITY_DEPLOYMENT_DESIGN`.
+
+## Workout Delivery Final Reconciliation
+
+- Decision: `READY_FOR_WORKOUT_DELIVERY_RECLASSIFICATION_COMMIT`.
+- WORKOUT_DELIVERY_LOCAL_STATE: `LOCAL_COMPLETE_BY_EXISTING_MIGRATION`.
+- ACTIVE_LOCAL_WORKOUT_DELIVERY_DRIFT: `0`.
+- REMOTE_WORKOUT_DELIVERY_PENDING: `50`.
+- Existing migration coverage: `supabase/migrations/20260728030000_workout_delivery_integration_v1.sql`.
+- Migration created: `NO`.
+- Next safe group: `STUDENT_IDENTITY_DEPLOYMENT_DESIGN`.
 
 ## Evidence Review Update
 
