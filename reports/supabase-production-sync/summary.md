@@ -134,3 +134,40 @@ The production CSV in `remote-phase31-input` was parsed locally and kept ignored
 Migration: `supabase/migrations/20260801173000_revoke_aoe_idempotency_anon_execute.sql`.
 
 Admin overload cleanup, admin body reconciliation, financial function changes, AOE body reconciliation, Group A utility hardening and student identity remain outside this migration.
+
+## Function/RPC Phase 3.3
+
+Decision: `READY_FOR_PHASE33_EVIDENCE_COLLECTION`.
+
+Supabase change: `NO`.
+
+Production action required: `READONLY_EVIDENCE_COLLECTION_REQUIRED`.
+
+Target: `public.set_workout_templates_updated_at()`.
+
+The local baseline shows a `plpgsql` trigger function, invoker security, `VOLATILE`, `search_path = public`, grants to `postgres` and `service_role`, and one trigger on `public.workout_templates`.
+
+Read-only evidence package:
+
+- `reports/supabase-production-sync/phase33-group-a-readonly-inspection.sql`
+- `reports/supabase-production-sync/phase33-group-a-evidence-request.json`
+- `reports/supabase-production-sync/phase33-group-a-evidence-request.md`
+- `reports/supabase-production-sync/phase33-group-a-local-analysis.json`
+- `reports/supabase-production-sync/phase33-group-a-local-analysis.md`
+- `reports/supabase-production-sync/phase33-group-a-local-trigger-map.json`
+- `reports/supabase-production-sync/phase33-group-a-local-trigger-map.md`
+- `docs/supabase-production-sync/15-group-a-function-evidence-collection.md`
+
+Expected CSV exports are ignored under `reports/supabase-production-sync/remote-phase33-input/`. No migration or remote schema change is authorized by this phase.
+
+## Function/RPC Phase 3.4
+
+Decision: `READY_FOR_PHASE34_GROUP_A_COMMIT`.
+
+Supabase change: `YES`.
+
+Production action required: `PENDING_RECONCILIATION_COMPLETION`.
+
+Target: `public.set_workout_templates_updated_at()`.
+
+The Phase 3.3 CSVs confirm remote body equivalence, trigger equivalence, no explicit remote `search_path`, and excessive direct EXECUTE grants for `PUBLIC`, `anon` and `authenticated`. Migration `supabase/migrations/20260801180000_harden_workout_templates_updated_at.sql` sets `search_path = public` and revokes only those excessive grants. No function body replacement or trigger change is included.

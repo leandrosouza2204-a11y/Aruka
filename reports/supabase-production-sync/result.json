@@ -68,6 +68,75 @@
     "financial": "FINANCIAL_OWNER_REVIEW_REQUIRED",
     "student_identity": "DEFER_TO_STUDENT_IDENTITY_DEPLOYMENT"
   },
+  "phase33_group_a_evidence_collection": {
+    "decision": "READY_FOR_PHASE33_EVIDENCE_COLLECTION",
+    "supabase_change": "NO",
+    "production_action_required": "READONLY_EVIDENCE_COLLECTION_REQUIRED",
+    "remote_link_state": "UNLINKED_FOR_SAFETY",
+    "group_a": "EVIDENCE_REQUIRED",
+    "migration_created": "NO",
+    "target": "public.set_workout_templates_updated_at()",
+    "readonly_sql": "reports/supabase-production-sync/phase33-group-a-readonly-inspection.sql",
+    "expected_export_directory": "reports/supabase-production-sync/remote-phase33-input/",
+    "artifacts": [
+      "reports/supabase-production-sync/phase33-group-a-readonly-inspection.sql",
+      "reports/supabase-production-sync/phase33-group-a-evidence-request.json",
+      "reports/supabase-production-sync/phase33-group-a-evidence-request.md",
+      "reports/supabase-production-sync/phase33-group-a-local-analysis.json",
+      "reports/supabase-production-sync/phase33-group-a-local-analysis.md",
+      "reports/supabase-production-sync/phase33-group-a-local-trigger-map.json",
+      "reports/supabase-production-sync/phase33-group-a-local-trigger-map.md",
+      "docs/supabase-production-sync/15-group-a-function-evidence-collection.md"
+    ],
+    "final_projects_list_check": {
+      "executed": true,
+      "aruka_linked": false,
+      "aruka_status": "ACTIVE_HEALTHY",
+      "aruka_hml_linked": false,
+      "aruka_hml_status": "ACTIVE_HEALTHY",
+      "cli_message": "Cannot find project ref. Have you run supabase link?"
+    }
+  },
+  "phase34_group_a_security_migration": {
+    "decision": "READY_FOR_PHASE34_GROUP_A_COMMIT",
+    "supabase_change": "YES",
+    "production_action_required": "PENDING_RECONCILIATION_COMPLETION",
+    "remote_link_state": "UNLINKED_FOR_SAFETY",
+    "group_a": "SECURITY_HARDENING_CONFIRMED",
+    "target": "public.set_workout_templates_updated_at()",
+    "migration": "supabase/migrations/20260801180000_harden_workout_templates_updated_at.sql",
+    "body_comparison": "BODY_EQUIVALENT_NORMALIZED",
+    "trigger_comparison": "TRIGGER_EQUIVALENT",
+    "remote_search_path": "REMOTE_SEARCH_PATH_NOT_EXPLICITLY_SET",
+    "local_search_path": "public",
+    "body_replacement_required": "NO",
+    "trigger_change_required": "NO",
+    "application_execute_required": "NO",
+    "grant_decisions": {
+      "PUBLIC": "EXCESS_REVOKE_REQUIRED",
+      "anon": "EXCESS_REVOKE_REQUIRED",
+      "authenticated": "EXCESS_REVOKE_REQUIRED",
+      "postgres": "KEEP",
+      "service_role": "KEEP"
+    },
+    "artifacts": [
+      "supabase/migrations/20260801180000_harden_workout_templates_updated_at.sql",
+      "reports/supabase-production-sync/phase34-group-a-evidence-result.json",
+      "reports/supabase-production-sync/phase34-group-a-evidence-summary.md",
+      "reports/supabase-production-sync/phase34-group-a-security-result.json",
+      "reports/supabase-production-sync/phase34-group-a-security-summary.md",
+      "docs/supabase-production-sync/16-group-a-security-reconciliation-implementation.md",
+      "docs/supabase-production-sync/17-group-a-security-reconciliation-validation.md"
+    ],
+    "final_projects_list_check": {
+      "executed": true,
+      "aruka_linked": false,
+      "aruka_status": "ACTIVE_HEALTHY",
+      "aruka_hml_linked": false,
+      "aruka_hml_status": "ACTIVE_HEALTHY",
+      "cli_message": "Cannot find project ref. Have you run supabase link?"
+    }
+  },
   "additional_blockers": [
     "BLOCKED_LOCAL_STORAGE_BOOTSTRAP",
     "REMOTE_DIFF_INCONCLUSIVE",

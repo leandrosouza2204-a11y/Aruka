@@ -1,0 +1,37 @@
+{
+  "phase": "3.4",
+  "decision": "SECURITY_HARDENING_CONFIRMED",
+  "target": "public.set_workout_templates_updated_at()",
+  "evidence_files": {
+    "DEPENDENCY_METADATA_EVIDENCE": "phase33-group-a-dependency-metadata.csv",
+    "FUNCTION_DEFINITION_EVIDENCE": "phase33-group-a-function-definition.csv",
+    "FUNCTION_GRANT_EVIDENCE": "phase33-group-a-function-grants.csv",
+    "TRIGGER_DEPENDENCY_EVIDENCE": "phase33-group-a-trigger-dependencies.csv"
+  },
+  "body_comparison": "BODY_EQUIVALENT_NORMALIZED",
+  "trigger_comparison": "TRIGGER_EQUIVALENT",
+  "dependency_decision": "NO_UNEXPECTED_FUNCTION_DEPENDENCY_FOUND",
+  "remote_search_path": "REMOTE_SEARCH_PATH_NOT_EXPLICITLY_SET",
+  "local_search_path": "public",
+  "remote_body_hash": "2865c72ca5b2",
+  "local_body_hash": "2865c72ca5b2",
+  "remote_grants": [
+    "PUBLIC",
+    "anon",
+    "authenticated",
+    "postgres",
+    "service_role"
+  ],
+  "local_expected_grants": [
+    "postgres",
+    "service_role"
+  ],
+  "grant_decisions": {
+    "PUBLIC": "EXCESS",
+    "anon": "EXCESS",
+    "authenticated": "EXCESS",
+    "postgres": "KEEP",
+    "service_role": "KEEP"
+  },
+  "application_execute_required": "NO"
+}

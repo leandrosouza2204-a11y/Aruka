@@ -5,6 +5,7 @@ const files = [
   "reports/supabase-production-sync/function-grants-signature-inspection.sql",
   "reports/supabase-production-sync/remote-nullability-profile.sql",
   "reports/supabase-production-sync/reconciliation-readonly-inspection.sql",
+  "reports/supabase-production-sync/phase33-group-a-readonly-inspection.sql",
 ];
 
 const forbidden = /\b(insert|update|delete|create|alter|drop|grant|revoke|truncate|do|call|merge)\b|\bcopy\s+from\b/i;

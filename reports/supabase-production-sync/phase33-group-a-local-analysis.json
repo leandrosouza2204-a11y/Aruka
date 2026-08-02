@@ -1,0 +1,60 @@
+{
+  "phase": "3.3",
+  "decision": "READY_FOR_PHASE33_EVIDENCE_COLLECTION",
+  "supabase_change": "NO",
+  "production_action_required": "READONLY_EVIDENCE_COLLECTION_REQUIRED",
+  "remote_link_state": "UNLINKED_FOR_SAFETY",
+  "group_a": "EVIDENCE_REQUIRED",
+  "migration_created": "NO",
+  "initial_state": {
+    "branch": "feat/workout-delivery-integration-v1",
+    "head": "d794bcb fix: remove execução anônima da RPC AOE de idempotência",
+    "worktree": "clean"
+  },
+  "target": {
+    "schema": "public",
+    "function_name": "set_workout_templates_updated_at",
+    "identity_arguments": "",
+    "signature": "public.set_workout_templates_updated_at()"
+  },
+  "local_definition": {
+    "return_type": "trigger",
+    "language": "plpgsql",
+    "volatility": "VOLATILE",
+    "security_definer": false,
+    "strict": false,
+    "parallel": "u",
+    "search_path": "public",
+    "body_semantics": [
+      "sets new.updated_at to now()",
+      "returns new",
+      "no dynamic sql",
+      "no table writes outside the trigger row"
+    ],
+    "definition": "CREATE OR REPLACE FUNCTION public.set_workout_templates_updated_at()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'public'\nAS $function$\nbegin\n  new.updated_at = now();\n  return new;\nend;\n$function$\n"
+  },
+  "local_grants": [
+    {
+      "grantee": "postgres",
+      "privilege_type": "EXECUTE",
+      "source": "reports/supabase-production-sync/local-schema-catalog/function-grants.json"
+    },
+    {
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "source": "reports/supabase-production-sync/local-schema-catalog/function-grants.json"
+    }
+  ],
+  "local_callers": {
+    "application_rpc_callers": [],
+    "trigger_callers": [
+      "public.workout_templates.set_workout_templates_updated_at"
+    ],
+    "documentation_or_report_references": "present"
+  },
+  "local_trigger_count": 1,
+  "local_trigger_map": "reports/supabase-production-sync/phase33-group-a-local-trigger-map.json",
+  "readonly_sql": "reports/supabase-production-sync/phase33-group-a-readonly-inspection.sql",
+  "expected_export_directory": "reports/supabase-production-sync/remote-phase33-input/",
+  "evidence_limitation": "Phase 3.2 production CSV did not include public.set_workout_templates_updated_at(), so no migration is authorized before this signature-aware evidence is collected."
+}

@@ -1,0 +1,42 @@
+{
+  "phase": "3.4",
+  "decision": "READY_FOR_PHASE34_GROUP_A_COMMIT",
+  "supabase_change": "YES",
+  "production_action_required": "PENDING_RECONCILIATION_COMPLETION",
+  "target": "public.set_workout_templates_updated_at()",
+  "migration": "supabase/migrations/20260801180000_harden_workout_templates_updated_at.sql",
+  "search_path_hardening_required": true,
+  "public_execute_revoke_required": true,
+  "anon_execute_revoke_required": true,
+  "authenticated_execute_revoke_required": true,
+  "body_replacement_required": "NO",
+  "trigger_change_required": "NO",
+  "remote_link_state": "UNLINKED_FOR_SAFETY",
+  "runtime_function_metadata": {
+    "function_exists": true,
+    "security_definer": false,
+    "search_path": "public",
+    "body_hash": "2865c72ca5b2"
+  },
+  "runtime_grants": {
+    "PUBLIC_execute": false,
+    "anon_execute": false,
+    "authenticated_execute": false,
+    "postgres_execute": true,
+    "service_role_execute": true
+  },
+  "runtime_trigger": "TRIGGER_RUNTIME=PASS",
+  "db_reset": "PASS",
+  "migration_list": "20260801180000 present",
+  "db_diff": "No schema changes found",
+  "regressions": {
+    "group_e": "PASS",
+    "phase_1_security": "PASS",
+    "phase_2_constraints": "PASS",
+    "student_identity": "PASS",
+    "workout_delivery": "PASS",
+    "treinos_unit": "PASS",
+    "lint": "PASS",
+    "build": "PASS"
+  }
+}

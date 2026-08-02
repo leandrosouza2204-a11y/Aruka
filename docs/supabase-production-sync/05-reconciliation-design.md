@@ -28,6 +28,26 @@ Decision: `READY_FOR_PHASE32_SECURITY_MIGRATION`.
 
 The production CSV closed the AOE anon EXECUTE evidence gap and supports one isolated Group E migration. It does not authorize AOE body replacement, admin body replacement, financial changes, overload removal, student identity changes, or Group A utility hardening.
 
+## Phase 3.3 Group A Evidence Collection
+
+Decision: `READY_FOR_PHASE33_EVIDENCE_COLLECTION`.
+
+Supabase change: `NO`.
+
+Production action required: `READONLY_EVIDENCE_COLLECTION_REQUIRED`.
+
+The local analysis for `public.set_workout_templates_updated_at()` is complete, but Group A remains evidence-required because production definition, exact grants and trigger dependencies must be exported with `reports/supabase-production-sync/phase33-group-a-readonly-inspection.sql` before any hardening migration is designed.
+
+## Phase 3.4 Group A Security Migration
+
+Decision: `READY_FOR_PHASE34_GROUP_A_COMMIT`.
+
+Supabase change: `YES`.
+
+Production action required: `PENDING_RECONCILIATION_COMPLETION`.
+
+The Phase 3.3 production evidence confirms an equivalent trigger body and trigger dependency, an absent remote `search_path`, and excessive direct EXECUTE grants for `PUBLIC`, `anon` and `authenticated`. The migration only hardens `public.set_workout_templates_updated_at()` metadata and grants; it does not replace the body or alter the trigger.
+
 ## Design Matrix
 
 - Phase 0 evidence_freeze: KEEP; risk=NONE; financial=NO_DIRECT_FINANCIAL_IMPACT_IDENTIFIED; approval=Owner approval before drafting SQL.; rollback=Rollback requires verified production backup and no repository mutation.

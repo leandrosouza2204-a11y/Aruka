@@ -36,6 +36,8 @@ Production action: `RECONCILIATION_DESIGN_REQUIRED`.
 - Approval required: Engineering and security approval.
 - Rollback concept: Rollback function definitions must be captured from production before replacement.
 - Latest Phase 3.2 evidence review: `READY_FOR_PHASE32_SECURITY_MIGRATION`; only Group E AOE anon EXECUTE hardening moved to migration, body unchanged.
+- Latest Phase 3.3 Group A review: `READY_FOR_PHASE33_EVIDENCE_COLLECTION`; `public.set_workout_templates_updated_at()` needs production read-only evidence before a migration decision.
+- Latest Phase 3.4 Group A review: `READY_FOR_PHASE34_GROUP_A_COMMIT`; migration `20260801180000_harden_workout_templates_updated_at.sql` only sets `search_path` and revokes excessive direct EXECUTE grants from `PUBLIC`, `anon` and `authenticated`.
 
 ## Phase 5: workout_delivery_contract
 

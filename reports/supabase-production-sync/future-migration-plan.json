@@ -61,6 +61,33 @@
         "group_a": "GROUP_A_EVIDENCE_INSUFFICIENT",
         "financial": "FINANCIAL_OWNER_REVIEW_REQUIRED"
       },
+      "latest_phase33_group_a_evidence_collection": {
+        "decision": "READY_FOR_PHASE33_EVIDENCE_COLLECTION",
+        "supabase_change": "NO",
+        "production_action_required": "READONLY_EVIDENCE_COLLECTION_REQUIRED",
+        "target": "public.set_workout_templates_updated_at()",
+        "readonly_sql": "reports/supabase-production-sync/phase33-group-a-readonly-inspection.sql",
+        "expected_export_directory": "reports/supabase-production-sync/remote-phase33-input/",
+        "migration_created": "NO"
+      },
+      "latest_phase34_group_a_security_migration": {
+        "decision": "READY_FOR_PHASE34_GROUP_A_COMMIT",
+        "supabase_change": "YES",
+        "production_action_required": "PENDING_RECONCILIATION_COMPLETION",
+        "target": "public.set_workout_templates_updated_at()",
+        "migration": "supabase/migrations/20260801180000_harden_workout_templates_updated_at.sql",
+        "body_replacement_required": "NO",
+        "trigger_change_required": "NO",
+        "revoked_roles": [
+          "PUBLIC",
+          "anon",
+          "authenticated"
+        ],
+        "kept_roles": [
+          "postgres",
+          "service_role"
+        ]
+      },
       "approval_required": "Engineering and security approval.",
       "rollback_concept": "Rollback function definitions must be captured from production before replacement.",
       "blockers_before_execution": [

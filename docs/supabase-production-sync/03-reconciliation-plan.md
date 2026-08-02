@@ -39,3 +39,32 @@ No corrective SQL, db push, db pull, migration repair, remote SQL, commit, push,
 - Admin body diffs: `MANUAL_PRODUCT_DECISION_REQUIRED`.
 - Financial functions: `FINANCIAL_OWNER_REVIEW_REQUIRED`.
 - Student identity: still deferred.
+
+## Function/RPC Phase 3.3 Group A Update
+
+- Decision: `READY_FOR_PHASE33_EVIDENCE_COLLECTION`.
+- Supabase change: `NO`.
+- Production action required: `READONLY_EVIDENCE_COLLECTION_REQUIRED`.
+- Migration created: `NO`.
+- Group A: `EVIDENCE_REQUIRED` for `public.set_workout_templates_updated_at()`.
+- Read-only SQL: `reports/supabase-production-sync/phase33-group-a-readonly-inspection.sql`.
+- Expected ignored CSV directory: `reports/supabase-production-sync/remote-phase33-input/`.
+
+## Function/RPC Phase 3.4 Group A Update
+
+- Decision: `READY_FOR_PHASE34_GROUP_A_COMMIT`.
+- Supabase change: `YES`.
+- Production action required: `PENDING_RECONCILIATION_COMPLETION`.
+- Migration: `supabase/migrations/20260801180000_harden_workout_templates_updated_at.sql`.
+- Group A: `SECURITY_HARDENING_CONFIRMED`.
+- Body replacement required: `NO`.
+- Trigger change required: `NO`.
+- Changes: set `search_path = public`; revoke direct EXECUTE from `PUBLIC`, `anon`, and `authenticated`.
+
+## Evidence Review Update
+
+- Decision: `READY_FOR_RECONCILIATION_DESIGN`.
+- Strategy: `INCREMENTAL_RECONCILIATION_THEN_NEW_BASELINE`.
+- Nullability completeness: `REMOTE_NULLABILITY_PROFILE_COMPLETE`.
+- Production action: `RECONCILIATION_DESIGN_REQUIRED`.
+- Next step: review the non-executable reconciliation design before any future migration is authored.
