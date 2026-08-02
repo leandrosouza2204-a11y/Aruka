@@ -10,11 +10,13 @@
   "local_reconciliation_state": "PARTIALLY_RECONCILED",
   "remote_reconciliation_state": "NOT_APPLIED",
   "history_alignment_state": "PENDING",
-  "next_safe_group": "SECURITY_HARDENING",
+  "next_safe_group": "WORKOUT_DELIVERY_RECONCILIATION",
   "totals": {
     "historical_differences_reviewed": 31,
     "resolved": 6,
-    "active": 1,
+    "active": 0,
+    "active_local_security_drift": 0,
+    "remote_pending_security": 1,
     "deferred": 6,
     "manual_decision": 9,
     "false_positive_or_preserved": 10
@@ -87,7 +89,8 @@
       "next_action": "Apply approved migration bundle before declaring production reconciled."
     }
   ],
-  "active_items": [
+  "active_items": [],
+  "remote_pending_security_items": [
     {
       "domain": "SECURITY_POLICIES_GRANTS",
       "object": "public policies and table/function grants hardened by 20260731190000",

@@ -76,6 +76,19 @@ No corrective SQL, db push, db pull, migration repair, remote SQL, commit, push,
 - Phase 3 Group A: `LOCAL_RECONCILIATION_IMPLEMENTED`, remote application pending.
 - Next safe group: `SECURITY_HARDENING`.
 
+## Final Active Security Drift Reconciliation
+
+- Decision: `READY_FOR_FINAL_SECURITY_RECLASSIFICATION_COMMIT`.
+- Supabase change: `NO`.
+- Production action required: `NO`.
+- Migration repair allowed: `NO`.
+- Initial security drift count: `1`.
+- Final local security drift count: `0`.
+- Remote pending security count: `1`.
+- Existing migration reused: `supabase/migrations/20260731190000_reconcile_security_policies_and_grants.sql`.
+- Migration created: `NO`.
+- Next safe group: `WORKOUT_DELIVERY_RECONCILIATION`.
+
 ## Evidence Review Update
 
 - Decision: `READY_FOR_RECONCILIATION_DESIGN`.

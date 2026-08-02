@@ -97,6 +97,17 @@
         "history_alignment_state": "PENDING",
         "next_safe_group": "SECURITY_HARDENING"
       },
+      "final_active_security_drift_reconciliation": {
+        "decision": "READY_FOR_FINAL_SECURITY_RECLASSIFICATION_COMMIT",
+        "production_action_required": "NO",
+        "migration_repair_allowed": "NO",
+        "initial_security_drift_count": 1,
+        "final_local_security_drift_count": 0,
+        "remote_pending_security_count": 1,
+        "migration_created": "NO",
+        "existing_migration_reused": "supabase/migrations/20260731190000_reconcile_security_policies_and_grants.sql",
+        "next_safe_group": "WORKOUT_DELIVERY_RECONCILIATION"
+      },
       "approval_required": "Engineering and security approval.",
       "rollback_concept": "Rollback function definitions must be captured from production before replacement.",
       "blockers_before_execution": [

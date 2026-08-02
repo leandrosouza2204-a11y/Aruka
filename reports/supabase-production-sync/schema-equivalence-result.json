@@ -2,7 +2,7 @@
   "auditorDecision": "AUDITOR_FALSE_POSITIVES_CORRECTED",
   "decision": "BLOCKED_REMOTE_SCHEMA_DRIFT",
   "branch": "feat/workout-delivery-integration-v1",
-  "commit": "6ab955e fix: endurece segurança da função de atualização de templates",
+  "commit": "ff495de docs: consolida estado global da reconciliação Supabase",
   "inputDecision": "SCHEMA_EQUIVALENCE_AUDITOR_REVIEW_REQUIRED",
   "inputEvidence": {
     "directory": "reports/supabase-production-sync/remote-schema-input",

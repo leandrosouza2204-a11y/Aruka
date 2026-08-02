@@ -191,3 +191,21 @@ Resolved locally: Phase 1 security policies/grants, Phase 2 required `alunos` nu
 Deferred or manual: AOE body, admin body decisions, financial behavior decisions, student identity deployment, workout delivery reconciliation, and migration history alignment.
 
 Next safe group: `SECURITY_HARDENING`.
+
+## Final Active Security Drift Reconciliation
+
+Decision: `READY_FOR_FINAL_SECURITY_RECLASSIFICATION_COMMIT`.
+
+Production action required: `NO`.
+
+Migration repair allowed: `NO`.
+
+The only item previously counted as active security drift is already implemented locally by `supabase/migrations/20260731190000_reconcile_security_policies_and_grants.sql`. It remains a remote pending application item, not a local drift item.
+
+Final local security drift count: `0`.
+
+Remote pending security count: `1`.
+
+Migration created: `NO`.
+
+Next safe group: `WORKOUT_DELIVERY_RECONCILIATION`.

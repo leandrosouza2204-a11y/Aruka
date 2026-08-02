@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 const REPORT_DIR = "reports/supabase-production-sync";
 const DOC_PATH = "docs/supabase-production-sync/18-post-phase34-global-reconciliation-audit.md";
 const DECISION = "READY_FOR_POST_PHASE34_GLOBAL_AUDIT_COMMIT";
-const NEXT_SAFE_GROUP = "SECURITY_HARDENING";
+const NEXT_SAFE_GROUP = "WORKOUT_DELIVERY_RECONCILIATION";
 
 const migrations = [
   ["20260716090000", "baseline_aruka_v1.sql", "BASELINE", "baseline snapshot", "validated locally", "remote history listed", "Baseline"],
@@ -109,7 +109,8 @@ export function buildGlobalState() {
   const deferred = count((item) => item.active_or_resolved.startsWith("DEFERRED_TO_") || item.active_or_resolved === "LOCAL_ONLY_FUTURE_DEPLOYMENT" || item.active_or_resolved === "HISTORY_ALIGNMENT_PENDING");
   const manual = count((item) => item.active_or_resolved.startsWith("MANUAL_") || /MANUAL_|EXTERNAL_CONSUMER/.test(item.next_action));
   const falsePositives = count((item) => item.active_or_resolved === "SEMANTIC_FALSE_POSITIVE" || item.active_or_resolved === "NULLABILITY_PRESERVED_BY_APPROVED_PRODUCT_DECISION");
-  const active = count((item) => item.risk === "SECURITY" && item.remote_status.includes("REMOTE_RECONCILIATION_PENDING"));
+  const remotePendingSecurity = count((item) => item.risk === "SECURITY" && item.remote_status.includes("REMOTE_RECONCILIATION_PENDING"));
+  const activeLocalSecurity = count((item) => item.active_or_resolved === "ACTIVE_SECURITY_DRIFT" && item.risk === "SECURITY");
   return {
     decision: DECISION,
     audit_type: "POST_PHASE34_GLOBAL_RECONCILIATION_AUDIT",
@@ -126,13 +127,16 @@ export function buildGlobalState() {
     totals: {
       historical_differences_reviewed: matrix.length,
       resolved,
-      active,
+      active: activeLocalSecurity,
+      active_local_security_drift: activeLocalSecurity,
+      remote_pending_security: remotePendingSecurity,
       deferred,
       manual_decision: manual,
       false_positive_or_preserved: falsePositives
     },
     resolved_items: matrix.filter((item) => item.active_or_resolved.startsWith("RESOLVED_BY_")),
-    active_items: matrix.filter((item) => item.risk === "SECURITY" && item.remote_status.includes("REMOTE_RECONCILIATION_PENDING")),
+    active_items: matrix.filter((item) => item.active_or_resolved === "ACTIVE_SECURITY_DRIFT" && item.risk === "SECURITY"),
+    remote_pending_security_items: matrix.filter((item) => item.risk === "SECURITY" && item.remote_status.includes("REMOTE_RECONCILIATION_PENDING")),
     deferred_items: matrix.filter((item) => item.active_or_resolved.startsWith("DEFERRED_TO_") || item.active_or_resolved === "LOCAL_ONLY_FUTURE_DEPLOYMENT" || item.active_or_resolved === "HISTORY_ALIGNMENT_PENDING"),
     manual_decision_items: matrix.filter((item) => item.active_or_resolved.startsWith("MANUAL_") || /MANUAL_|EXTERNAL_CONSUMER/.test(item.next_action)),
     evidence_required_items: [],
@@ -288,7 +292,8 @@ Migration repair allowed: \`${state.migration_repair_allowed}\`.
 
 - Historical differences reviewed: ${state.totals.historical_differences_reviewed}
 - Resolved locally: ${state.totals.resolved}
-- Active remote security items: ${state.totals.active}
+- Active local security drift: ${state.totals.active_local_security_drift}
+- Remote pending security items: ${state.totals.remote_pending_security}
 - Deferred items: ${state.totals.deferred}
 - Manual decision items: ${state.totals.manual_decision}
 - False positive or preserved product decisions: ${state.totals.false_positive_or_preserved}

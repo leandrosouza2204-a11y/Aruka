@@ -60,6 +60,18 @@ The global audit separates schema state, remote application state and migration 
 
 Next safe group: `SECURITY_HARDENING`.
 
+## Final Active Security Drift State
+
+Decision: `READY_FOR_FINAL_SECURITY_RECLASSIFICATION_COMMIT`.
+
+Production action required: `NO`.
+
+Migration repair allowed: `NO`.
+
+The only active security item was reclassified as `LOCAL_SECURITY_RECONCILIATION_ALREADY_IMPLEMENTED` plus `REMOTE_APPLICATION_PENDING`. No new SQL is needed. Active local security drift is now `0`; remote pending security count is `1`.
+
+Next safe group: `WORKOUT_DELIVERY_RECONCILIATION`.
+
 ## Design Matrix
 
 - Phase 0 evidence_freeze: KEEP; risk=NONE; financial=NO_DIRECT_FINANCIAL_IMPACT_IDENTIFIED; approval=Owner approval before drafting SQL.; rollback=Rollback requires verified production backup and no repository mutation.

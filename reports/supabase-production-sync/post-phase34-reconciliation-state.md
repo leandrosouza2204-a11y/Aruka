@@ -16,13 +16,14 @@ Migration repair allowed: `NO`.
 
 - Historical differences reviewed: 31
 - Resolved locally: 6
-- Active remote security items: 1
+- Active local security drift: 0
+- Remote pending security items: 1
 - Deferred items: 6
 - Manual decision items: 9
 - False positive or preserved product decisions: 10
 
 ## Next Safe Group
 
-`SECURITY_HARDENING`
+`WORKOUT_DELIVERY_RECONCILIATION`
 
 This state is an audit rollup only. It does not authorize production SQL, migration repair or history alignment.

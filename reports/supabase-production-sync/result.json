@@ -162,6 +162,27 @@
       "reports/supabase-production-sync/post-phase34-resolved-active-matrix.csv"
     ]
   },
+  "final_active_security_drift_reconciliation": {
+    "decision": "READY_FOR_FINAL_SECURITY_RECLASSIFICATION_COMMIT",
+    "supabase_change": "NO",
+    "production_action_required": "NO",
+    "migration_repair_allowed": "NO",
+    "initial_security_drift_count": 1,
+    "final_local_security_drift_count": 0,
+    "remote_pending_security_count": 1,
+    "existing_migration_reused": true,
+    "existing_migration": "supabase/migrations/20260731190000_reconcile_security_policies_and_grants.sql",
+    "migration_created": false,
+    "duplicate_migration_prevented": true,
+    "functional_decision_needed": false,
+    "next_safe_group": "WORKOUT_DELIVERY_RECONCILIATION",
+    "artifacts": [
+      "docs/supabase-production-sync/19-final-security-drift-resolution.md",
+      "reports/supabase-production-sync/final-security-drift-scope.json",
+      "reports/supabase-production-sync/final-security-drift-result.json",
+      "reports/supabase-production-sync/final-security-drift-summary.md"
+    ]
+  },
   "additional_blockers": [
     "BLOCKED_LOCAL_STORAGE_BOOTSTRAP",
     "REMOTE_DIFF_INCONCLUSIVE",
