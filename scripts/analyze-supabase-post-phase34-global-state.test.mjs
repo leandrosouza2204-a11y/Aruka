@@ -33,9 +33,11 @@ test("Group A utility hardening is resolved", () => {
   assert.ok(state.resolved_items.some((item) => item.active_or_resolved === "RESOLVED_BY_PHASE34_GROUP_A"));
 });
 
-test("student identity is local-only future deployment", () => {
+test("student identity is local complete and remote pending", () => {
   const state = buildGlobalState();
-  assert.ok(state.deferred_items.some((item) => item.active_or_resolved === "LOCAL_ONLY_FUTURE_DEPLOYMENT"));
+  assert.ok(state.deferred_items.every((item) => item.active_or_resolved !== "LOCAL_ONLY_FUTURE_DEPLOYMENT"));
+  assert.ok(state.manual_decision_items.every((item) => item.domain !== "STUDENT_IDENTITY"));
+  assert.ok(state.migration_inventory.some((item) => item.domain === "STUDENT_IDENTITY"));
 });
 
 test("admin and financial decisions stay manual", () => {
@@ -52,7 +54,7 @@ test("history remains pending and repair remains forbidden", () => {
 
 test("next safe group advances after local security drift reaches zero", () => {
   const state = buildGlobalState();
-  assert.equal(state.next_safe_group, "STUDENT_IDENTITY_DEPLOYMENT_DESIGN");
+  assert.equal(state.next_safe_group, "PRODUCTION_RECONCILIATION_PACKAGE_DESIGN");
   assert.equal(state.totals.active_local_security_drift, 0);
   assert.ok(state.remote_pending_security_items.length > 0);
 });

@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 const REPORT_DIR = "reports/supabase-production-sync";
 const DOC_PATH = "docs/supabase-production-sync/18-post-phase34-global-reconciliation-audit.md";
 const DECISION = "READY_FOR_POST_PHASE34_GLOBAL_AUDIT_COMMIT";
-const NEXT_SAFE_GROUP = "STUDENT_IDENTITY_DEPLOYMENT_DESIGN";
+const NEXT_SAFE_GROUP = "PRODUCTION_RECONCILIATION_PACKAGE_DESIGN";
 
 const migrations = [
   ["20260716090000", "baseline_aruka_v1.sql", "BASELINE", "baseline snapshot", "validated locally", "remote history listed", "Baseline"],
@@ -47,7 +47,7 @@ const matrix = [
   row("ADMIN_FUNCTIONS", "admin_listar_usuarios body", "BODY_DIFFERENT", "DEFERRED", "local body differs", "remote body differs", "MANUAL_ADMIN_DECISION_REQUIRED", "BUSINESS_LOGIC", "Manual product/admin decision before SQL."),
   row("ADMIN_FUNCTIONS", "admin_registrar_log body", "BODY_DIFFERENT", "DEFERRED", "local body differs", "remote body differs", "MANUAL_ADMIN_DECISION_REQUIRED", "BUSINESS_LOGIC", "Manual product/admin decision before SQL."),
   row("FINANCIAL_FUNCTIONS", "admin_upsert_assinatura modern body", "BODY_DIFFERENT", "DEFERRED", "local financial/admin behavior differs", "remote body differs", "MANUAL_FINANCIAL_DECISION_REQUIRED", "FINANCIAL", "Product/financial behavior reconciliation pending."),
-  row("STUDENT_IDENTITY", "student_user_id and student RPCs", "LOCAL_ONLY", "20260730090000", "local implemented", "remote absent", "LOCAL_ONLY_FUTURE_DEPLOYMENT", "FEATURE_CONTRACT", "DEFERRED_TO_STUDENT_IDENTITY"),
+  row("STUDENT_IDENTITY", "student_user_id and student RPCs", "LOCAL_ONLY", "20260730090000", "local complete by existing migration", "REMOTE_STUDENT_IDENTITY_PENDING", "STUDENT_IDENTITY_LOCAL_COMPLETE_REMOTE_PENDING", "FEATURE_CONTRACT", "Include in future production reconciliation package design."),
   row("WORKOUT_DELIVERY", "workout delivery backend contract", "DIVERGENT", "20260728030000", "local implemented by existing migration; local final drift zero", "REMOTE_WORKOUT_DELIVERY_PENDING", "WORKOUT_DELIVERY_LOCAL_COMPLETE_REMOTE_PENDING", "FEATURE_CONTRACT", "Do not create duplicate migration; apply approved bundle later before production convergence."),
   row("MIGRATION_HISTORY", "remote migration history alignment", "INCONCLUSIVE", "DEFERRED", "local sequence coherent", "remote history not aligned for reconciliation completion", "HISTORY_ALIGNMENT_PENDING", "HISTORY", "No migration repair until schema convergence and strategy approval.")
 ];
@@ -152,11 +152,14 @@ export function validateGlobalState(state) {
   for (const status of ["RESOLVED_BY_PHASE1", "RESOLVED_BY_PHASE2", "RESOLVED_BY_PHASE32_GROUP_E", "RESOLVED_BY_PHASE34_GROUP_A"]) {
     if (!matrix.some((item) => item.active_or_resolved === status)) throw new Error(`POST_PHASE34_RESOLUTION_MISSING:${status}`);
   }
-  for (const status of ["DEFERRED_TO_AOE_BODY_RECONCILIATION", "DEFERRED_TO_STUDENT_IDENTITY", "HISTORY_ALIGNMENT_PENDING"]) {
+  for (const status of ["DEFERRED_TO_AOE_BODY_RECONCILIATION", "HISTORY_ALIGNMENT_PENDING"]) {
     if (!matrix.some((item) => item.active_or_resolved === status || item.next_action === status)) throw new Error(`POST_PHASE34_DEFERRED_MISSING:${status}`);
   }
   if (!matrix.some((item) => item.active_or_resolved === "WORKOUT_DELIVERY_LOCAL_COMPLETE_REMOTE_PENDING")) {
     throw new Error("POST_PHASE34_WORKOUT_DELIVERY_LOCAL_COMPLETE_MISSING");
+  }
+  if (!matrix.some((item) => item.active_or_resolved === "STUDENT_IDENTITY_LOCAL_COMPLETE_REMOTE_PENDING")) {
+    throw new Error("POST_PHASE34_STUDENT_IDENTITY_LOCAL_COMPLETE_MISSING");
   }
   validateNoProductionReady(state);
 }

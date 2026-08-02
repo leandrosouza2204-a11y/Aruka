@@ -20,4 +20,4 @@ Local security state: `RESOLVED`.
 
 Remote security state: `PENDING_APPLY`.
 
-Next safe group: `STUDENT_IDENTITY_DEPLOYMENT_DESIGN`.
+Next safe group: `PRODUCTION_RECONCILIATION_PACKAGE_DESIGN`.

@@ -18,12 +18,12 @@ Migration repair allowed: `NO`.
 - Resolved locally: 6
 - Active local security drift: 0
 - Remote pending security items: 1
-- Deferred items: 5
+- Deferred items: 4
 - Manual decision items: 9
 - False positive or preserved product decisions: 10
 
 ## Next Safe Group
 
-`STUDENT_IDENTITY_DEPLOYMENT_DESIGN`
+`PRODUCTION_RECONCILIATION_PACKAGE_DESIGN`
 
 This state is an audit rollup only. It does not authorize production SQL, migration repair or history alignment.

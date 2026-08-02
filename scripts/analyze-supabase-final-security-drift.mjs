@@ -31,7 +31,7 @@ export function classifyActiveSecurityItems(state) {
         duplicate_migration_prevented: true,
         final_local_security_drift_count: 0,
         remote_pending_security_count: 1,
-        next_safe_group: "STUDENT_IDENTITY_DEPLOYMENT_DESIGN"
+        next_safe_group: "PRODUCTION_RECONCILIATION_PACKAGE_DESIGN"
       };
     }
     return {
@@ -67,7 +67,7 @@ export function classifyActiveSecurityItems(state) {
       duplicate_migration_prevented: true,
       final_local_security_drift_count: 0,
       remote_pending_security_count: 1,
-      next_safe_group: "STUDENT_IDENTITY_DEPLOYMENT_DESIGN"
+      next_safe_group: "PRODUCTION_RECONCILIATION_PACKAGE_DESIGN"
     };
   }
 

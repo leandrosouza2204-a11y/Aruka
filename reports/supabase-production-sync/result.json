@@ -211,6 +211,33 @@
       "reports/supabase-production-sync/workout-delivery-final-summary.md"
     ]
   },
+  "student_identity_deployment_design": {
+    "decision": "READY_FOR_STUDENT_IDENTITY_DEPLOYMENT_DESIGN_COMMIT",
+    "supabase_change": "NO",
+    "production_action_required": "NO",
+    "migration_repair_allowed": "NO",
+    "student_identity_local_state": "LOCAL_COMPLETE_BY_EXISTING_MIGRATION",
+    "remote_student_identity_pending": 13,
+    "initial_local_student_identity_drift": 1,
+    "final_local_student_identity_drift": 0,
+    "objects_reviewed": 13,
+    "new_migration_required": false,
+    "migration_created": false,
+    "migration_order_valid": true,
+    "existing_migration_coverage": "supabase/migrations/20260730090000_student_identity_contract.sql",
+    "deployment_package_ready": true,
+    "next_safe_group": "PRODUCTION_RECONCILIATION_PACKAGE_DESIGN",
+    "artifacts": [
+      "docs/supabase-production-sync/21-student-identity-deployment-design.md",
+      "reports/supabase-production-sync/student-identity-object-inventory.json",
+      "reports/supabase-production-sync/student-identity-object-inventory.md",
+      "reports/supabase-production-sync/student-identity-final-reconciliation-matrix.csv",
+      "reports/supabase-production-sync/student-identity-final-scope.json",
+      "reports/supabase-production-sync/student-identity-final-scope.md",
+      "reports/supabase-production-sync/student-identity-deployment-design-result.json",
+      "reports/supabase-production-sync/student-identity-deployment-design-summary.md"
+    ]
+  },
   "additional_blockers": [
     "BLOCKED_LOCAL_STORAGE_BOOTSTRAP",
     "REMOTE_DIFF_INCONCLUSIVE",

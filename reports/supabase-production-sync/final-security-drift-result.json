@@ -30,6 +30,6 @@
   "production_state": "NOT_APPLIED",
   "production_action_required": "NO",
   "migration_repair_allowed": "NO",
-  "next_safe_group": "STUDENT_IDENTITY_DEPLOYMENT_DESIGN",
+  "next_safe_group": "PRODUCTION_RECONCILIATION_PACKAGE_DESIGN",
   "reason": "The only active security item is already implemented locally by the Phase 1 security migration; it remains pending only because production has not applied the existing migration bundle."
 }

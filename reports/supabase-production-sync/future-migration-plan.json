@@ -121,6 +121,20 @@
         "existing_migration_coverage": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql",
         "next_safe_group": "STUDENT_IDENTITY_DEPLOYMENT_DESIGN"
       },
+      "student_identity_deployment_design": {
+        "decision": "READY_FOR_STUDENT_IDENTITY_DEPLOYMENT_DESIGN_COMMIT",
+        "production_action_required": "NO",
+        "migration_repair_allowed": "NO",
+        "student_identity_local_state": "LOCAL_COMPLETE_BY_EXISTING_MIGRATION",
+        "remote_student_identity_pending": 13,
+        "initial_local_student_identity_drift": 1,
+        "final_local_student_identity_drift": 0,
+        "new_migration_required": "NO",
+        "migration_created": "NO",
+        "migration_order_valid": "YES",
+        "existing_migration_coverage": "supabase/migrations/20260730090000_student_identity_contract.sql",
+        "next_safe_group": "PRODUCTION_RECONCILIATION_PACKAGE_DESIGN"
+      },
       "approval_required": "Engineering and security approval.",
       "rollback_concept": "Rollback function definitions must be captured from production before replacement.",
       "blockers_before_execution": [
@@ -144,7 +158,9 @@
     {
       "phase": 6,
       "phase_name": "student_identity_contract",
-      "future_action_type": "APPLY_AFTER_PREREQUISITES",
+      "future_action_type": "INCLUDE_IN_PRODUCTION_RECONCILIATION_PACKAGE",
+      "student_identity_local_state": "LOCAL_COMPLETE_BY_EXISTING_MIGRATION",
+      "remote_student_identity_pending": 13,
       "approval_required": "Engineering approval after phases 1-5 pass.",
       "rollback_concept": "Rollback disables student linkage surfaces before reverting database contract.",
       "blockers_before_execution": [

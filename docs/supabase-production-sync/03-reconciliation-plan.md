@@ -74,7 +74,7 @@ No corrective SQL, db push, db pull, migration repair, remote SQL, commit, push,
 - Phase 2: `LOCAL_RECONCILIATION_IMPLEMENTED`, remote application pending.
 - Phase 3 Group E: `LOCAL_RECONCILIATION_IMPLEMENTED`, remote application pending.
 - Phase 3 Group A: `LOCAL_RECONCILIATION_IMPLEMENTED`, remote application pending.
-- Next safe group: `STUDENT_IDENTITY_DEPLOYMENT_DESIGN`.
+- Next safe group: `PRODUCTION_RECONCILIATION_PACKAGE_DESIGN`.
 
 ## Final Active Security Drift Reconciliation
 
@@ -87,7 +87,7 @@ No corrective SQL, db push, db pull, migration repair, remote SQL, commit, push,
 - Remote pending security count: `1`.
 - Existing migration reused: `supabase/migrations/20260731190000_reconcile_security_policies_and_grants.sql`.
 - Migration created: `NO`.
-- Next safe group: `STUDENT_IDENTITY_DEPLOYMENT_DESIGN`.
+- Next safe group: `PRODUCTION_RECONCILIATION_PACKAGE_DESIGN`.
 
 ## Workout Delivery Final Reconciliation
 
@@ -106,3 +106,14 @@ No corrective SQL, db push, db pull, migration repair, remote SQL, commit, push,
 - Nullability completeness: `REMOTE_NULLABILITY_PROFILE_COMPLETE`.
 - Production action: `RECONCILIATION_DESIGN_REQUIRED`.
 - Next step: review the non-executable reconciliation design before any future migration is authored.
+
+## Student Identity Deployment Design
+
+- Decision: `READY_FOR_STUDENT_IDENTITY_DEPLOYMENT_DESIGN_COMMIT`.
+- STUDENT_IDENTITY_LOCAL_STATE: `LOCAL_COMPLETE_BY_EXISTING_MIGRATION`.
+- ACTIVE_LOCAL_STUDENT_IDENTITY_DRIFT: `0`.
+- REMOTE_STUDENT_IDENTITY_PENDING: `13`.
+- Existing migration coverage: `supabase/migrations/20260730090000_student_identity_contract.sql`.
+- Migration order valid: `YES`.
+- Migration created: `NO`.
+- Next safe group: `PRODUCTION_RECONCILIATION_PACKAGE_DESIGN`.

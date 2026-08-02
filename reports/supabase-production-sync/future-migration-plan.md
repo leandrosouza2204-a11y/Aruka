@@ -41,6 +41,7 @@ Production action: `RECONCILIATION_DESIGN_REQUIRED`.
 - Post-Phase 3.4 global audit: `READY_FOR_POST_PHASE34_GLOBAL_AUDIT_COMMIT`; local state is partially reconciled, remote state is not applied, history alignment is pending, and the next safe group is `SECURITY_HARDENING`.
 - Final active security drift reconciliation: `READY_FOR_FINAL_SECURITY_RECLASSIFICATION_COMMIT`; active local security drift is `0`, remote pending security count is `1`, and the next safe group is `WORKOUT_DELIVERY_RECONCILIATION`.
 - Workout Delivery final reconciliation: `READY_FOR_WORKOUT_DELIVERY_RECLASSIFICATION_COMMIT`; active local Workout Delivery drift is `0`, remote pending Workout Delivery count is `50`, no duplicate migration is required, and the next safe group is `STUDENT_IDENTITY_DEPLOYMENT_DESIGN`.
+- Student Identity deployment design: `READY_FOR_STUDENT_IDENTITY_DEPLOYMENT_DESIGN_COMMIT`; active local Student Identity drift is `0`, remote pending Student Identity count is `13`, migration order is valid, and the next safe group is `PRODUCTION_RECONCILIATION_PACKAGE_DESIGN`.
 
 ## Phase 5: workout_delivery_contract
 
@@ -53,6 +54,8 @@ Production action: `RECONCILIATION_DESIGN_REQUIRED`.
 ## Phase 6: student_identity_contract
 
 - Future action type: APPLY_AFTER_PREREQUISITES
+- Local state: `LOCAL_COMPLETE_BY_EXISTING_MIGRATION`
+- Remote state: `REMOTE_STUDENT_IDENTITY_PENDING`
 - Approval required: Engineering approval after phases 1-5 pass.
 - Rollback concept: Rollback disables student linkage surfaces before reverting database contract.
 

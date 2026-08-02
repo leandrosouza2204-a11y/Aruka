@@ -80,6 +80,14 @@ Workout Delivery has no active local drift after object-level review of `2026072
 
 Next safe group: `STUDENT_IDENTITY_DEPLOYMENT_DESIGN`.
 
+## Student Identity Deployment Design
+
+Decision: `READY_FOR_STUDENT_IDENTITY_DEPLOYMENT_DESIGN_COMMIT`.
+
+Student Identity is locally complete by `supabase/migrations/20260730090000_student_identity_contract.sql`. The owner model is valid: `alunos.user_id` remains the professional owner and `alunos.student_user_id` is the authenticated student identity. Production remains `REMOTE_STUDENT_IDENTITY_PENDING`; no new migration or remote action was created.
+
+Next safe group: `PRODUCTION_RECONCILIATION_PACKAGE_DESIGN`.
+
 ## Design Matrix
 
 - Phase 0 evidence_freeze: KEEP; risk=NONE; financial=NO_DIRECT_FINANCIAL_IMPACT_IDENTIFIED; approval=Owner approval before drafting SQL.; rollback=Rollback requires verified production backup and no repository mutation.
