@@ -171,3 +171,23 @@ Production action required: `PENDING_RECONCILIATION_COMPLETION`.
 Target: `public.set_workout_templates_updated_at()`.
 
 The Phase 3.3 CSVs confirm remote body equivalence, trigger equivalence, no explicit remote `search_path`, and excessive direct EXECUTE grants for `PUBLIC`, `anon` and `authenticated`. Migration `supabase/migrations/20260801180000_harden_workout_templates_updated_at.sql` sets `search_path = public` and revokes only those excessive grants. No function body replacement or trigger change is included.
+
+## Post-Phase 3.4 Global Audit
+
+Decision: `READY_FOR_POST_PHASE34_GLOBAL_AUDIT_COMMIT`.
+
+Production action required: `NO`.
+
+Migration repair allowed: `NO`.
+
+Local reconciliation state: `PARTIALLY_RECONCILED`.
+
+Remote reconciliation state: `NOT_APPLIED`.
+
+History alignment state: `PENDING`.
+
+Resolved locally: Phase 1 security policies/grants, Phase 2 required `alunos` nullability, Phase 3.2 Group E AOE anon EXECUTE, and Phase 3.4 Group A utility hardening.
+
+Deferred or manual: AOE body, admin body decisions, financial behavior decisions, student identity deployment, workout delivery reconciliation, and migration history alignment.
+
+Next safe group: `SECURITY_HARDENING`.

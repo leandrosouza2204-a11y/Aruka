@@ -137,6 +137,31 @@
       "cli_message": "Cannot find project ref. Have you run supabase link?"
     }
   },
+  "post_phase34_global_audit": {
+    "decision": "READY_FOR_POST_PHASE34_GLOBAL_AUDIT_COMMIT",
+    "audit_type": "POST_PHASE34_GLOBAL_RECONCILIATION_AUDIT",
+    "supabase_change": "NO",
+    "production_action_required": "NO",
+    "migration_repair_allowed": "NO",
+    "remote_link_state": "UNLINKED_FOR_SAFETY",
+    "local_reconciliation_state": "PARTIALLY_RECONCILED",
+    "remote_reconciliation_state": "NOT_APPLIED",
+    "history_alignment_state": "PENDING",
+    "next_safe_group": "SECURITY_HARDENING",
+    "phase_1": "LOCAL_RECONCILIATION_IMPLEMENTED_REMOTE_PENDING",
+    "phase_2": "LOCAL_RECONCILIATION_IMPLEMENTED_REMOTE_PENDING",
+    "phase_3_group_e": "LOCAL_RECONCILIATION_IMPLEMENTED_REMOTE_PENDING",
+    "phase_3_group_a": "LOCAL_RECONCILIATION_IMPLEMENTED_REMOTE_PENDING",
+    "artifacts": [
+      "docs/supabase-production-sync/18-post-phase34-global-reconciliation-audit.md",
+      "reports/supabase-production-sync/post-phase34-global-result.json",
+      "reports/supabase-production-sync/post-phase34-global-summary.md",
+      "reports/supabase-production-sync/post-phase34-reconciliation-state.json",
+      "reports/supabase-production-sync/post-phase34-reconciliation-state.md",
+      "reports/supabase-production-sync/post-phase34-reconciliation-matrix.csv",
+      "reports/supabase-production-sync/post-phase34-resolved-active-matrix.csv"
+    ]
+  },
   "additional_blockers": [
     "BLOCKED_LOCAL_STORAGE_BOOTSTRAP",
     "REMOTE_DIFF_INCONCLUSIVE",

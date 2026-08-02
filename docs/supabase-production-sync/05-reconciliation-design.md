@@ -48,6 +48,18 @@ Production action required: `PENDING_RECONCILIATION_COMPLETION`.
 
 The Phase 3.3 production evidence confirms an equivalent trigger body and trigger dependency, an absent remote `search_path`, and excessive direct EXECUTE grants for `PUBLIC`, `anon` and `authenticated`. The migration only hardens `public.set_workout_templates_updated_at()` metadata and grants; it does not replace the body or alter the trigger.
 
+## Post-Phase 3.4 Global State
+
+Decision: `READY_FOR_POST_PHASE34_GLOBAL_AUDIT_COMMIT`.
+
+Production action required: `NO`.
+
+Migration repair allowed: `NO`.
+
+The global audit separates schema state, remote application state and migration history. Phase 1, Phase 2, Group E and Group A are locally implemented and validated, but the production evidence still represents remote state before those reconciliations are applied. History alignment remains pending and no migration repair is allowed.
+
+Next safe group: `SECURITY_HARDENING`.
+
 ## Design Matrix
 
 - Phase 0 evidence_freeze: KEEP; risk=NONE; financial=NO_DIRECT_FINANCIAL_IMPACT_IDENTIFIED; approval=Owner approval before drafting SQL.; rollback=Rollback requires verified production backup and no repository mutation.

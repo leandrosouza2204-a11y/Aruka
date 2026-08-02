@@ -1,0 +1,338 @@
+{
+  "decision": "READY_FOR_POST_PHASE34_GLOBAL_AUDIT_COMMIT",
+  "audit_type": "POST_PHASE34_GLOBAL_RECONCILIATION_AUDIT",
+  "production_action_required": "NO",
+  "migration_repair_allowed": "NO",
+  "remote_link_state": "UNLINKED_FOR_SAFETY",
+  "local_schema_state": "PARTIALLY_RECONCILED",
+  "remote_schema_state": "NOT_APPLIED",
+  "history_state": "HISTORY_ALIGNMENT_PENDING",
+  "local_reconciliation_state": "PARTIALLY_RECONCILED",
+  "remote_reconciliation_state": "NOT_APPLIED",
+  "history_alignment_state": "PENDING",
+  "next_safe_group": "SECURITY_HARDENING",
+  "totals": {
+    "historical_differences_reviewed": 31,
+    "resolved": 6,
+    "active": 1,
+    "deferred": 6,
+    "manual_decision": 9,
+    "false_positive_or_preserved": 10
+  },
+  "resolved_items": [
+    {
+      "domain": "SECURITY_POLICIES_GRANTS",
+      "object": "public policies and table/function grants hardened by 20260731190000",
+      "historical_status": "REMOTE_MORE_PERMISSIVE/REMOTE_ONLY grants",
+      "resolved_by": "20260731190000",
+      "current_local_status": "LOCAL_RECONCILIATION_IMPLEMENTED",
+      "remote_status": "REMOTE_RECONCILIATION_PENDING",
+      "active_or_resolved": "RESOLVED_BY_PHASE1",
+      "risk": "SECURITY",
+      "next_action": "Release/apply approved Phase 1 migration package before declaring production reconciled."
+    },
+    {
+      "domain": "NULLABILITY",
+      "object": "alunos.created_at",
+      "historical_status": "NULLABILITY_DIFFERENT",
+      "resolved_by": "20260801143335",
+      "current_local_status": "NOT NULL locally",
+      "remote_status": "REMOTE_RECONCILIATION_PENDING",
+      "active_or_resolved": "RESOLVED_BY_PHASE2",
+      "risk": "DATA_CONTRACT",
+      "next_action": "Keep as local implemented until production reconciliation is applied."
+    },
+    {
+      "domain": "NULLABILITY",
+      "object": "alunos.user_id",
+      "historical_status": "NULLABILITY_DIFFERENT",
+      "resolved_by": "20260801143335",
+      "current_local_status": "NOT NULL locally",
+      "remote_status": "REMOTE_RECONCILIATION_PENDING",
+      "active_or_resolved": "RESOLVED_BY_PHASE2",
+      "risk": "DATA_CONTRACT",
+      "next_action": "Keep as local implemented until production reconciliation is applied."
+    },
+    {
+      "domain": "NULLABILITY",
+      "object": "alunos.whatsapp",
+      "historical_status": "NULLABILITY_DIFFERENT",
+      "resolved_by": "20260801143335",
+      "current_local_status": "NOT NULL locally",
+      "remote_status": "REMOTE_RECONCILIATION_PENDING",
+      "active_or_resolved": "RESOLVED_BY_PHASE2",
+      "risk": "DATA_CONTRACT",
+      "next_action": "Keep as local implemented until production reconciliation is applied."
+    },
+    {
+      "domain": "AOE_SECURITY",
+      "object": "aoe_idempotency_get_or_create anon EXECUTE",
+      "historical_status": "REMOTE_ONLY_GRANT",
+      "resolved_by": "20260801173000",
+      "current_local_status": "anon EXECUTE=false locally",
+      "remote_status": "remote evidence still shows anon grant until applied",
+      "active_or_resolved": "RESOLVED_BY_PHASE32_GROUP_E",
+      "risk": "SECURITY",
+      "next_action": "Apply approved migration bundle before declaring production reconciled."
+    },
+    {
+      "domain": "UTILITY_FUNCTIONS",
+      "object": "set_workout_templates_updated_at search_path and public/anon/authenticated EXECUTE",
+      "historical_status": "BODY_DIFFERENT/REMOTE_ONLY_GRANTS",
+      "resolved_by": "20260801180000",
+      "current_local_status": "search_path=public; public/anon/authenticated EXECUTE=false",
+      "remote_status": "remote evidence showed missing search_path and excessive grants",
+      "active_or_resolved": "RESOLVED_BY_PHASE34_GROUP_A",
+      "risk": "SECURITY",
+      "next_action": "Apply approved migration bundle before declaring production reconciled."
+    }
+  ],
+  "active_items": [
+    {
+      "domain": "SECURITY_POLICIES_GRANTS",
+      "object": "public policies and table/function grants hardened by 20260731190000",
+      "historical_status": "REMOTE_MORE_PERMISSIVE/REMOTE_ONLY grants",
+      "resolved_by": "20260731190000",
+      "current_local_status": "LOCAL_RECONCILIATION_IMPLEMENTED",
+      "remote_status": "REMOTE_RECONCILIATION_PENDING",
+      "active_or_resolved": "RESOLVED_BY_PHASE1",
+      "risk": "SECURITY",
+      "next_action": "Release/apply approved Phase 1 migration package before declaring production reconciled."
+    }
+  ],
+  "deferred_items": [
+    {
+      "domain": "CONSTRAINTS",
+      "object": "perfis_role_check",
+      "historical_status": "MATERIAL_DIFFERENCE",
+      "resolved_by": "20260730090000",
+      "current_local_status": "student role allowed locally",
+      "remote_status": "remote absent",
+      "active_or_resolved": "DEFERRED_TO_STUDENT_IDENTITY",
+      "risk": "FEATURE_CONTRACT",
+      "next_action": "Deploy student identity when prerequisites are approved."
+    },
+    {
+      "domain": "CONSTRAINTS",
+      "object": "treinos_lifecycle_dates_check",
+      "historical_status": "MATERIAL_DIFFERENCE",
+      "resolved_by": "20260728030000",
+      "current_local_status": "workout lifecycle locally implemented",
+      "remote_status": "remote differs",
+      "active_or_resolved": "DEFERRED_TO_WORKOUT_DELIVERY",
+      "risk": "FEATURE_CONTRACT",
+      "next_action": "Reconcile workout delivery backend by object."
+    },
+    {
+      "domain": "AOE_BODY",
+      "object": "aoe_idempotency_get_or_create body",
+      "historical_status": "BODY_DIFFERENT",
+      "resolved_by": "DEFERRED",
+      "current_local_status": "local body preserved",
+      "remote_status": "remote body differs",
+      "active_or_resolved": "DEFERRED_TO_AOE_BODY_RECONCILIATION",
+      "risk": "BUSINESS_LOGIC",
+      "next_action": "Review body semantics separately; do not mix with grant hardening."
+    },
+    {
+      "domain": "STUDENT_IDENTITY",
+      "object": "student_user_id and student RPCs",
+      "historical_status": "LOCAL_ONLY",
+      "resolved_by": "20260730090000",
+      "current_local_status": "local implemented",
+      "remote_status": "remote absent",
+      "active_or_resolved": "LOCAL_ONLY_FUTURE_DEPLOYMENT",
+      "risk": "FEATURE_CONTRACT",
+      "next_action": "DEFERRED_TO_STUDENT_IDENTITY"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object": "workout delivery backend contract",
+      "historical_status": "DIVERGENT",
+      "resolved_by": "20260728030000",
+      "current_local_status": "local implemented",
+      "remote_status": "remote partially divergent",
+      "active_or_resolved": "DEFERRED_TO_WORKOUT_DELIVERY",
+      "risk": "FEATURE_CONTRACT",
+      "next_action": "Reconcile backend objects by table/column/RPC/grant."
+    },
+    {
+      "domain": "MIGRATION_HISTORY",
+      "object": "remote migration history alignment",
+      "historical_status": "INCONCLUSIVE",
+      "resolved_by": "DEFERRED",
+      "current_local_status": "local sequence coherent",
+      "remote_status": "remote history not aligned for reconciliation completion",
+      "active_or_resolved": "HISTORY_ALIGNMENT_PENDING",
+      "risk": "HISTORY",
+      "next_action": "No migration repair until schema convergence and strategy approval."
+    }
+  ],
+  "manual_decision_items": [
+    {
+      "domain": "ADMIN_FUNCTIONS",
+      "object": "admin_atualizar_perfil legacy overload",
+      "historical_status": "REMOTE_OVERLOAD_ONLY",
+      "resolved_by": "DEFERRED",
+      "current_local_status": "modern overload present locally",
+      "remote_status": "remote legacy overload present",
+      "active_or_resolved": "REMOTE_ONLY_LEGACY",
+      "risk": "COMPATIBILITY",
+      "next_action": "EXTERNAL_CONSUMER_REVIEW_REQUIRED"
+    },
+    {
+      "domain": "ADMIN_FUNCTIONS",
+      "object": "admin_bloquear_usuario legacy overload",
+      "historical_status": "REMOTE_OVERLOAD_ONLY",
+      "resolved_by": "DEFERRED",
+      "current_local_status": "modern overload present locally",
+      "remote_status": "remote legacy overload present",
+      "active_or_resolved": "REMOTE_ONLY_LEGACY",
+      "risk": "COMPATIBILITY",
+      "next_action": "EXTERNAL_CONSUMER_REVIEW_REQUIRED"
+    },
+    {
+      "domain": "FINANCIAL_FUNCTIONS",
+      "object": "admin_liberar_assinante legacy overload",
+      "historical_status": "REMOTE_OVERLOAD_ONLY",
+      "resolved_by": "DEFERRED",
+      "current_local_status": "modern overload present locally",
+      "remote_status": "remote legacy overload present",
+      "active_or_resolved": "REMOTE_ONLY_LEGACY",
+      "risk": "FINANCIAL",
+      "next_action": "MANUAL_FINANCIAL_DECISION_REQUIRED"
+    },
+    {
+      "domain": "FINANCIAL_FUNCTIONS",
+      "object": "admin_liberar_beta legacy overload",
+      "historical_status": "REMOTE_OVERLOAD_ONLY",
+      "resolved_by": "DEFERRED",
+      "current_local_status": "modern overload present locally",
+      "remote_status": "remote legacy overload present",
+      "active_or_resolved": "REMOTE_ONLY_LEGACY",
+      "risk": "FINANCIAL",
+      "next_action": "MANUAL_FINANCIAL_DECISION_REQUIRED"
+    },
+    {
+      "domain": "FINANCIAL_FUNCTIONS",
+      "object": "admin_upsert_assinatura legacy overload",
+      "historical_status": "REMOTE_OVERLOAD_ONLY",
+      "resolved_by": "DEFERRED",
+      "current_local_status": "modern overload present locally",
+      "remote_status": "remote legacy overload present",
+      "active_or_resolved": "REMOTE_ONLY_LEGACY",
+      "risk": "FINANCIAL",
+      "next_action": "MANUAL_FINANCIAL_DECISION_REQUIRED"
+    },
+    {
+      "domain": "ADMIN_FUNCTIONS",
+      "object": "admin_listar_logs body",
+      "historical_status": "BODY_DIFFERENT",
+      "resolved_by": "DEFERRED",
+      "current_local_status": "local body differs",
+      "remote_status": "remote body differs",
+      "active_or_resolved": "MANUAL_ADMIN_DECISION_REQUIRED",
+      "risk": "BUSINESS_LOGIC",
+      "next_action": "Manual product/admin decision before SQL."
+    },
+    {
+      "domain": "ADMIN_FUNCTIONS",
+      "object": "admin_listar_usuarios body",
+      "historical_status": "BODY_DIFFERENT",
+      "resolved_by": "DEFERRED",
+      "current_local_status": "local body differs",
+      "remote_status": "remote body differs",
+      "active_or_resolved": "MANUAL_ADMIN_DECISION_REQUIRED",
+      "risk": "BUSINESS_LOGIC",
+      "next_action": "Manual product/admin decision before SQL."
+    },
+    {
+      "domain": "ADMIN_FUNCTIONS",
+      "object": "admin_registrar_log body",
+      "historical_status": "BODY_DIFFERENT",
+      "resolved_by": "DEFERRED",
+      "current_local_status": "local body differs",
+      "remote_status": "remote body differs",
+      "active_or_resolved": "MANUAL_ADMIN_DECISION_REQUIRED",
+      "risk": "BUSINESS_LOGIC",
+      "next_action": "Manual product/admin decision before SQL."
+    },
+    {
+      "domain": "FINANCIAL_FUNCTIONS",
+      "object": "admin_upsert_assinatura modern body",
+      "historical_status": "BODY_DIFFERENT",
+      "resolved_by": "DEFERRED",
+      "current_local_status": "local financial/admin behavior differs",
+      "remote_status": "remote body differs",
+      "active_or_resolved": "MANUAL_FINANCIAL_DECISION_REQUIRED",
+      "risk": "FINANCIAL",
+      "next_action": "Product/financial behavior reconciliation pending."
+    }
+  ],
+  "evidence_required_items": [],
+  "migration_inventory": [
+    {
+      "timestamp": "20260716090000",
+      "filename": "baseline_aruka_v1.sql",
+      "domain": "BASELINE",
+      "logical_status": "baseline snapshot",
+      "locally_validated": "validated locally",
+      "remote_expected": "remote history listed",
+      "phase": "Baseline"
+    },
+    {
+      "timestamp": "20260728030000",
+      "filename": "workout_delivery_integration_v1.sql",
+      "domain": "WORKOUT_DELIVERY",
+      "logical_status": "local implemented, remote evidence divergent",
+      "locally_validated": "validated locally",
+      "remote_expected": "remote reconciliation pending",
+      "phase": "Workout delivery"
+    },
+    {
+      "timestamp": "20260730090000",
+      "filename": "student_identity_contract.sql",
+      "domain": "STUDENT_IDENTITY",
+      "logical_status": "local-only future deployment",
+      "locally_validated": "validated locally",
+      "remote_expected": "remote absent",
+      "phase": "Student identity"
+    },
+    {
+      "timestamp": "20260731190000",
+      "filename": "reconcile_security_policies_and_grants.sql",
+      "domain": "SECURITY_POLICIES_GRANTS",
+      "logical_status": "local reconciliation implemented",
+      "locally_validated": "validated locally",
+      "remote_expected": "remote reconciliation pending",
+      "phase": "Phase 1"
+    },
+    {
+      "timestamp": "20260801143335",
+      "filename": "reconcile_alunos_required_fields.sql",
+      "domain": "NULLABILITY",
+      "logical_status": "local reconciliation implemented",
+      "locally_validated": "validated locally",
+      "remote_expected": "remote reconciliation pending",
+      "phase": "Phase 2"
+    },
+    {
+      "timestamp": "20260801173000",
+      "filename": "revoke_aoe_idempotency_anon_execute.sql",
+      "domain": "AOE_SECURITY",
+      "logical_status": "local reconciliation implemented",
+      "locally_validated": "validated locally",
+      "remote_expected": "remote reconciliation pending",
+      "phase": "Phase 3.2 Group E"
+    },
+    {
+      "timestamp": "20260801180000",
+      "filename": "harden_workout_templates_updated_at.sql",
+      "domain": "UTILITY_FUNCTIONS",
+      "logical_status": "local reconciliation implemented",
+      "locally_validated": "validated locally",
+      "remote_expected": "remote reconciliation pending",
+      "phase": "Phase 3.4 Group A"
+    }
+  ]
+}

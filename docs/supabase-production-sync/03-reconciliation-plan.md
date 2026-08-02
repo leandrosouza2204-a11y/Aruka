@@ -61,6 +61,21 @@ No corrective SQL, db push, db pull, migration repair, remote SQL, commit, push,
 - Trigger change required: `NO`.
 - Changes: set `search_path = public`; revoke direct EXECUTE from `PUBLIC`, `anon`, and `authenticated`.
 
+## Post-Phase 3.4 Global Audit
+
+- Decision: `READY_FOR_POST_PHASE34_GLOBAL_AUDIT_COMMIT`.
+- Supabase change: `NO`.
+- Production action required: `NO`.
+- Migration repair allowed: `NO`.
+- Local reconciliation state: `PARTIALLY_RECONCILED`.
+- Remote reconciliation state: `NOT_APPLIED`.
+- History alignment state: `PENDING`.
+- Phase 1: `LOCAL_RECONCILIATION_IMPLEMENTED`, remote application pending.
+- Phase 2: `LOCAL_RECONCILIATION_IMPLEMENTED`, remote application pending.
+- Phase 3 Group E: `LOCAL_RECONCILIATION_IMPLEMENTED`, remote application pending.
+- Phase 3 Group A: `LOCAL_RECONCILIATION_IMPLEMENTED`, remote application pending.
+- Next safe group: `SECURITY_HARDENING`.
+
 ## Evidence Review Update
 
 - Decision: `READY_FOR_RECONCILIATION_DESIGN`.
