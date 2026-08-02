@@ -42,6 +42,7 @@ Production action: `RECONCILIATION_DESIGN_REQUIRED`.
 - Final active security drift reconciliation: `READY_FOR_FINAL_SECURITY_RECLASSIFICATION_COMMIT`; active local security drift is `0`, remote pending security count is `1`, and the next safe group is `WORKOUT_DELIVERY_RECONCILIATION`.
 - Workout Delivery final reconciliation: `READY_FOR_WORKOUT_DELIVERY_RECLASSIFICATION_COMMIT`; active local Workout Delivery drift is `0`, remote pending Workout Delivery count is `50`, no duplicate migration is required, and the next safe group is `STUDENT_IDENTITY_DEPLOYMENT_DESIGN`.
 - Student Identity deployment design: `READY_FOR_STUDENT_IDENTITY_DEPLOYMENT_DESIGN_COMMIT`; active local Student Identity drift is `0`, remote pending Student Identity count is `13`, migration order is valid, and the next safe group is `PRODUCTION_RECONCILIATION_PACKAGE_DESIGN`.
+- Production reconciliation package design: `READY_FOR_PRODUCTION_RECONCILIATION_PACKAGE_REVIEW`; baseline is reference-only, cutover sequence/prechecks/postchecks/recovery plan are ready, production execution remains unauthorized, and the next safe group is `PRODUCTION_RECONCILIATION_CUTOVER_REVIEW`.
 
 ## Phase 5: workout_delivery_contract
 

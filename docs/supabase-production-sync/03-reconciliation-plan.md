@@ -99,14 +99,6 @@ No corrective SQL, db push, db pull, migration repair, remote SQL, commit, push,
 - Migration created: `NO`.
 - Next safe group: `STUDENT_IDENTITY_DEPLOYMENT_DESIGN`.
 
-## Evidence Review Update
-
-- Decision: `READY_FOR_RECONCILIATION_DESIGN`.
-- Strategy: `INCREMENTAL_RECONCILIATION_THEN_NEW_BASELINE`.
-- Nullability completeness: `REMOTE_NULLABILITY_PROFILE_COMPLETE`.
-- Production action: `RECONCILIATION_DESIGN_REQUIRED`.
-- Next step: review the non-executable reconciliation design before any future migration is authored.
-
 ## Student Identity Deployment Design
 
 - Decision: `READY_FOR_STUDENT_IDENTITY_DEPLOYMENT_DESIGN_COMMIT`.
@@ -117,3 +109,22 @@ No corrective SQL, db push, db pull, migration repair, remote SQL, commit, push,
 - Migration order valid: `YES`.
 - Migration created: `NO`.
 - Next safe group: `PRODUCTION_RECONCILIATION_PACKAGE_DESIGN`.
+
+## Evidence Review Update
+
+- Decision: `READY_FOR_RECONCILIATION_DESIGN`.
+- Strategy: `INCREMENTAL_RECONCILIATION_THEN_NEW_BASELINE`.
+- Nullability completeness: `REMOTE_NULLABILITY_PROFILE_COMPLETE`.
+- Production action: `RECONCILIATION_DESIGN_REQUIRED`.
+- Next step: review the non-executable reconciliation design before any future migration is authored.
+
+## Production Reconciliation Package Design
+
+- Decision: `READY_FOR_PRODUCTION_RECONCILIATION_PACKAGE_REVIEW`.
+- PRODUCTION_RECONCILIATION_PACKAGE_STATE: `CUTOVER_PACKAGE_READY_FOR_MANUAL_REVIEW`.
+- Baseline strategy: `BASELINE_REFERENCE_ONLY`.
+- DB push allowed now: `NO`.
+- Production execution authorized: `NO`.
+- History alignment required: `YES`.
+- History alignment allowed now: `NO`.
+- Next safe group: `PRODUCTION_RECONCILIATION_CUTOVER_REVIEW`.

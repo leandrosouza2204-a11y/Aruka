@@ -238,6 +238,35 @@
       "reports/supabase-production-sync/student-identity-deployment-design-summary.md"
     ]
   },
+  "production_reconciliation_package_design": {
+    "decision": "READY_FOR_PRODUCTION_RECONCILIATION_PACKAGE_REVIEW",
+    "supabase_change": "NO",
+    "production_execution_authorized": "NO",
+    "production_action_required": "NO",
+    "db_push_allowed_now": "NO",
+    "history_alignment_required": "YES",
+    "history_alignment_allowed_now": "NO",
+    "baseline_strategy": "BASELINE_REFERENCE_ONLY",
+    "cutover_sequence_ready": true,
+    "prechecks_ready": true,
+    "postchecks_ready": true,
+    "recovery_plan_ready": true,
+    "next_safe_group": "PRODUCTION_RECONCILIATION_CUTOVER_REVIEW",
+    "artifacts": [
+      "docs/supabase-production-sync/22-production-reconciliation-package-design.md",
+      "reports/supabase-production-sync/production-package-migration-inventory.json",
+      "reports/supabase-production-sync/production-package-migration-inventory.md",
+      "reports/supabase-production-sync/production-package-dependency-graph.json",
+      "reports/supabase-production-sync/production-cutover-sequence.json",
+      "reports/supabase-production-sync/production-cutover-sequence.md",
+      "reports/supabase-production-sync/production-cutover-prechecks.sql",
+      "reports/supabase-production-sync/production-cutover-postchecks.sql",
+      "reports/supabase-production-sync/production-cutover-recovery-plan.md",
+      "reports/supabase-production-sync/production-reconciliation-package-matrix.csv",
+      "reports/supabase-production-sync/production-reconciliation-package-result.json",
+      "reports/supabase-production-sync/production-reconciliation-package-summary.md"
+    ]
+  },
   "additional_blockers": [
     "BLOCKED_LOCAL_STORAGE_BOOTSTRAP",
     "REMOTE_DIFF_INCONCLUSIVE",

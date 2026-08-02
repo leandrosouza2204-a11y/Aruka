@@ -1,0 +1,32 @@
+{
+  "decision": "READY_FOR_PRODUCTION_RECONCILIATION_PACKAGE_REVIEW",
+  "migration_count": 7,
+  "baseline_strategy": "BASELINE_REFERENCE_ONLY",
+  "direct_apply_candidates": [
+    "student_identity_contract",
+    "reconcile_security_policies_and_grants",
+    "reconcile_alunos_required_fields",
+    "revoke_aoe_idempotency_anon_execute",
+    "harden_workout_templates_updated_at"
+  ],
+  "object_level_reconciliation": [
+    "workout_delivery_integration_v1"
+  ],
+  "blocked_steps": [],
+  "prechecks_ready": true,
+  "postchecks_ready": true,
+  "recovery_plan_ready": true,
+  "cutover_sequence_ready": true,
+  "db_push_allowed": "NO",
+  "history_alignment_required": "YES",
+  "history_alignment_allowed_now": "NO",
+  "production_execution_authorized": "NO",
+  "local_schema_ready": "YES",
+  "admin_strategy": "KEEP_REMOTE_FOR_NOW",
+  "financial_strategy": "KEEP_REMOTE_FOR_NOW",
+  "aoe_body": "DEFER_TO_POST_CUTOVER_AOE_RECONCILIATION",
+  "remote_overloads": "KEEP_REMOTE_FOR_COMPATIBILITY_DURING_CUTOVER",
+  "cutover_target_schema": "canonical required product/security schema plus compatible remote legacy extras",
+  "next_after_history_alignment": "CI_CD_PIPELINE",
+  "next_safe_group": "PRODUCTION_RECONCILIATION_CUTOVER_REVIEW"
+}

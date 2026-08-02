@@ -1,0 +1,83 @@
+{
+  "nodes": [
+    {
+      "id": "20260716090000",
+      "filename": "20260716090000_baseline_aruka_v1.sql",
+      "phase": "Baseline",
+      "domain": "BASELINE"
+    },
+    {
+      "id": "20260728030000",
+      "filename": "20260728030000_workout_delivery_integration_v1.sql",
+      "phase": "Workout Delivery",
+      "domain": "WORKOUT_DELIVERY"
+    },
+    {
+      "id": "20260730090000",
+      "filename": "20260730090000_student_identity_contract.sql",
+      "phase": "Student Identity",
+      "domain": "STUDENT_IDENTITY"
+    },
+    {
+      "id": "20260731190000",
+      "filename": "20260731190000_reconcile_security_policies_and_grants.sql",
+      "phase": "Security reconciliation",
+      "domain": "SECURITY"
+    },
+    {
+      "id": "20260801143335",
+      "filename": "20260801143335_reconcile_alunos_required_fields.sql",
+      "phase": "Required fields",
+      "domain": "NULLABILITY"
+    },
+    {
+      "id": "20260801173000",
+      "filename": "20260801173000_revoke_aoe_idempotency_anon_execute.sql",
+      "phase": "AOE security",
+      "domain": "AOE_SECURITY"
+    },
+    {
+      "id": "20260801180000",
+      "filename": "20260801180000_harden_workout_templates_updated_at.sql",
+      "phase": "Group A utility hardening",
+      "domain": "GROUP_A_SECURITY"
+    }
+  ],
+  "edges": [
+    {
+      "from": "20260716090000",
+      "to": "20260728030000",
+      "reason": "baseline reference objects exist before Workout Delivery reconciliation"
+    },
+    {
+      "from": "20260728030000",
+      "to": "20260730090000",
+      "reason": "Student Identity reader depends on Workout Delivery lifecycle columns"
+    },
+    {
+      "from": "20260728030000",
+      "to": "20260731190000",
+      "reason": "Security reconciliation references workout tables/functions"
+    },
+    {
+      "from": "20260730090000",
+      "to": "20260731190000",
+      "reason": "Security reconciliation must preserve student RPC grants"
+    },
+    {
+      "from": "20260731190000",
+      "to": "20260801143335",
+      "reason": "Required fields follows security posture validation"
+    },
+    {
+      "from": "20260731190000",
+      "to": "20260801173000",
+      "reason": "AOE grant hardening follows security baseline"
+    },
+    {
+      "from": "20260731190000",
+      "to": "20260801180000",
+      "reason": "Group A utility hardening follows security baseline"
+    }
+  ]
+}

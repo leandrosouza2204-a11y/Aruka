@@ -1,0 +1,114 @@
+[
+  {
+    "id": "00",
+    "migration_source": "20260716090000_baseline_aruka_v1.sql",
+    "operation": "reference only; never replay baseline directly",
+    "preconditions": [
+      "Supabase remains unlinked in repository",
+      "Manual operator confirms backup completed",
+      "Precheck query for this step returns expected state"
+    ],
+    "precheck": "baseline object inventory and migration history inspected",
+    "apply_method": "SKIP_REFERENCE_ONLY",
+    "postcheck": "no baseline SQL applied",
+    "rollback_strategy": "restore from backup if any accidental baseline replay occurs",
+    "stop_condition": "any plan proposes full baseline replay",
+    "risk": "HIGH"
+  },
+  {
+    "id": "01",
+    "migration_source": "20260728030000_workout_delivery_integration_v1.sql",
+    "operation": "object-level Workout Delivery convergence",
+    "preconditions": [
+      "Supabase remains unlinked in repository",
+      "Manual operator confirms backup completed",
+      "Precheck query for this step returns expected state"
+    ],
+    "precheck": "columns/constraints/indexes/RPCs/grants compared object by object",
+    "apply_method": "OBJECT_LEVEL_RECONCILIATION",
+    "postcheck": "Workout Delivery contract and smoke tests pass",
+    "rollback_strategy": "rollback changed RPCs/grants/constraints from captured definitions",
+    "stop_condition": "remote object exists with incompatible definition",
+    "risk": "MEDIUM"
+  },
+  {
+    "id": "02",
+    "migration_source": "20260730090000_student_identity_contract.sql",
+    "operation": "controlled Student Identity contract apply",
+    "preconditions": [
+      "Supabase remains unlinked in repository",
+      "Manual operator confirms backup completed",
+      "Precheck query for this step returns expected state"
+    ],
+    "precheck": "alunos/perfis/auth.users present; Student Identity objects absent or compatible",
+    "apply_method": "CONTROLLED_SQL_FILE",
+    "postcheck": "student identity link/unlink/reader smoke tests pass",
+    "rollback_strategy": "drop newly added student identity objects only if no production link data was created",
+    "stop_condition": "identity model conflict or incompatible existing student_user_id",
+    "risk": "MEDIUM"
+  },
+  {
+    "id": "03",
+    "migration_source": "20260731190000_reconcile_security_policies_and_grants.sql",
+    "operation": "security policy/grant reconciliation",
+    "preconditions": [
+      "Supabase remains unlinked in repository",
+      "Manual operator confirms backup completed",
+      "Precheck query for this step returns expected state"
+    ],
+    "precheck": "referenced tables/functions exist",
+    "apply_method": "CONTROLLED_SQL_FILE",
+    "postcheck": "professional isolation and anon denial pass",
+    "rollback_strategy": "restore captured policies/grants",
+    "stop_condition": "unexpected permissive policy or missing function",
+    "risk": "HIGH"
+  },
+  {
+    "id": "04",
+    "migration_source": "20260801143335_reconcile_alunos_required_fields.sql",
+    "operation": "set required aluno fields not null",
+    "preconditions": [
+      "Supabase remains unlinked in repository",
+      "Manual operator confirms backup completed",
+      "Precheck query for this step returns expected state"
+    ],
+    "precheck": "created_at/user_id/whatsapp null counts are zero",
+    "apply_method": "CONTROLLED_SQL_FILE",
+    "postcheck": "NOT NULL confirmed and aluno create/update smoke passes",
+    "rollback_strategy": "drop NOT NULL only if rollback approved",
+    "stop_condition": "any null count greater than zero",
+    "risk": "MEDIUM"
+  },
+  {
+    "id": "05",
+    "migration_source": "20260801173000_revoke_aoe_idempotency_anon_execute.sql",
+    "operation": "revoke anon execute from AOE idempotency RPC",
+    "preconditions": [
+      "Supabase remains unlinked in repository",
+      "Manual operator confirms backup completed",
+      "Precheck query for this step returns expected state"
+    ],
+    "precheck": "function signature exists",
+    "apply_method": "CONTROLLED_SQL_FILE",
+    "postcheck": "anon denied; authenticated/service_role expected grants remain",
+    "rollback_strategy": "restore anon grant only if emergency compatibility rollback approved",
+    "stop_condition": "function signature missing",
+    "risk": "LOW"
+  },
+  {
+    "id": "06",
+    "migration_source": "20260801180000_harden_workout_templates_updated_at.sql",
+    "operation": "set search_path and revoke direct public/anon/authenticated execute",
+    "preconditions": [
+      "Supabase remains unlinked in repository",
+      "Manual operator confirms backup completed",
+      "Precheck query for this step returns expected state"
+    ],
+    "precheck": "function, trigger and body hash still match evidence",
+    "apply_method": "CONTROLLED_SQL_FILE",
+    "postcheck": "trigger works; direct grants revoked",
+    "rollback_strategy": "restore function metadata/grants from captured definitions",
+    "stop_condition": "body hash changed since evidence",
+    "risk": "LOW"
+  }
+]

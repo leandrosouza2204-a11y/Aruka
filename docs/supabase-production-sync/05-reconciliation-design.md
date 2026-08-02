@@ -88,6 +88,14 @@ Student Identity is locally complete by `supabase/migrations/20260730090000_stud
 
 Next safe group: `PRODUCTION_RECONCILIATION_PACKAGE_DESIGN`.
 
+## Production Reconciliation Package
+
+Decision: `READY_FOR_PRODUCTION_RECONCILIATION_PACKAGE_REVIEW`.
+
+The package is ready for manual cutover review. The baseline is reference-only, Workout Delivery is object-level reconciliation, Student Identity/security/required-fields/AOE/Group A are controlled SQL candidates with prechecks and postchecks. `db push`, production execution and history repair remain forbidden in this round.
+
+Next safe group: `PRODUCTION_RECONCILIATION_CUTOVER_REVIEW`.
+
 ## Design Matrix
 
 - Phase 0 evidence_freeze: KEEP; risk=NONE; financial=NO_DIRECT_FINANCIAL_IMPACT_IDENTIFIED; approval=Owner approval before drafting SQL.; rollback=Rollback requires verified production backup and no repository mutation.

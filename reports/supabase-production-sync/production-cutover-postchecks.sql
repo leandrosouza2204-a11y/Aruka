@@ -1,0 +1,10 @@
+-- Production cutover postchecks. Read-only only.
+select 'student_user_id_column' as check_name, column_name, data_type, is_nullable from information_schema.columns where table_schema = 'public' and table_name = 'alunos' and column_name = 'student_user_id';
+select 'student_identity_constraints' as check_name, conname from pg_constraint where conname in ('alunos_student_user_id_fkey', 'perfis_role_check');
+select 'student_identity_indexes' as check_name, indexname from pg_indexes where schemaname = 'public' and indexname in ('alunos_student_user_id_uidx', 'alunos_student_user_id_idx');
+select 'required_fields_not_null' as check_name, column_name, is_nullable from information_schema.columns where table_schema = 'public' and table_name = 'alunos' and column_name in ('created_at', 'user_id', 'whatsapp');
+select 'workout_delivery_columns' as check_name, column_name from information_schema.columns where table_schema = 'public' and table_name = 'treinos' and column_name in ('lifecycle_status', 'delivered_at', 'completed_at', 'archived_at', 'application_idempotency_key');
+select 'workout_delivery_events' as check_name, table_name from information_schema.tables where table_schema = 'public' and table_name = 'treino_eventos';
+select 'aoe_anon_execute' as check_name, routine_name, grantee, privilege_type from information_schema.routine_privileges where routine_schema = 'public' and routine_name = 'aoe_idempotency_get_or_create' and grantee = 'anon';
+select 'group_a_grants' as check_name, routine_name, grantee, privilege_type from information_schema.routine_privileges where routine_schema = 'public' and routine_name = 'set_workout_templates_updated_at';
+select 'rpc_definitions' as check_name, p.proname, p.prosecdef, pg_get_functiondef(p.oid) like '%SET search_path TO public%' as search_path_public from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public' and p.proname in ('vincular_aluno_usuario', 'desvincular_aluno_usuario', 'get_my_student_workouts', 'entregar_treino', 'alterar_estado_treino');

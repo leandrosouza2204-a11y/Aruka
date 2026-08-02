@@ -135,6 +135,19 @@
         "existing_migration_coverage": "supabase/migrations/20260730090000_student_identity_contract.sql",
         "next_safe_group": "PRODUCTION_RECONCILIATION_PACKAGE_DESIGN"
       },
+      "production_reconciliation_package_design": {
+        "decision": "READY_FOR_PRODUCTION_RECONCILIATION_PACKAGE_REVIEW",
+        "production_execution_authorized": "NO",
+        "db_push_allowed_now": "NO",
+        "history_alignment_required": "YES",
+        "history_alignment_allowed_now": "NO",
+        "baseline_strategy": "BASELINE_REFERENCE_ONLY",
+        "cutover_sequence_ready": "YES",
+        "prechecks_ready": "YES",
+        "postchecks_ready": "YES",
+        "recovery_plan_ready": "YES",
+        "next_safe_group": "PRODUCTION_RECONCILIATION_CUTOVER_REVIEW"
+      },
       "approval_required": "Engineering and security approval.",
       "rollback_concept": "Rollback function definitions must be captured from production before replacement.",
       "blockers_before_execution": [
