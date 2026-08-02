@@ -41,3 +41,4 @@ reports/supabase-baseline-validation/tmp-local-project*/
 reports/supabase-baseline-validation/isolated-public-schema.sql
 reports/supabase-production-sync/remote-schema-input/*.csv
 reports/supabase-production-sync/remote-reconciliation-input/*.csv
+reports/supabase-production-sync/remote-phase31-input/*.csv

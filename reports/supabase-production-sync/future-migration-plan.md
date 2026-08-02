@@ -35,8 +35,7 @@ Production action: `RECONCILIATION_DESIGN_REQUIRED`.
 - Future action type: REPLACE_AFTER_APPROVAL
 - Approval required: Engineering and security approval.
 - Rollback concept: Rollback function definitions must be captured from production before replacement.
-- Latest Phase 3 function/RPC audit: `READY_FOR_PHASE3_FUNCTION_SCOPE_REVIEW`, `NO_NEW_MIGRATION`; 14 entries deferred/manual review.
-- Latest Phase 3.1 manual review: `READY_FOR_PHASE31_EVIDENCE_COLLECTION`; `set_workout_templates_updated_at()` is the only current utility security candidate, while admin/financial functions require full remote definition evidence.
+- Latest Phase 3.2 evidence review: `READY_FOR_PHASE32_SECURITY_MIGRATION`; only Group E AOE anon EXECUTE hardening moved to migration, body unchanged.
 
 ## Phase 5: workout_delivery_contract
 

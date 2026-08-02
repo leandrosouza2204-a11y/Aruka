@@ -52,21 +52,14 @@
       "phase": 4,
       "phase_name": "function_definitions",
       "future_action_type": "REPLACE_AFTER_APPROVAL",
-      "latest_phase3_function_audit": {
-        "decision": "READY_FOR_PHASE3_FUNCTION_SCOPE_REVIEW",
-        "migration_decision": "NO_NEW_MIGRATION",
-        "functions_reviewed": 14,
-        "included_in_phase3_migration": 0,
-        "deferred_or_blocked": 14
-      },
-      "latest_phase31_manual_review": {
-        "decision": "READY_FOR_PHASE31_EVIDENCE_COLLECTION",
-        "supabase_change": "NO_NEW_MIGRATION",
-        "production_action_required": "READONLY_EVIDENCE_COLLECTION_REQUIRED",
-        "migration_candidates": [
-          "set_workout_templates_updated_at"
-        ],
-        "read_only_sql": "reports/supabase-production-sync/phase31-function-definitions-readonly.sql"
+      "latest_phase32_evidence_review": {
+        "decision": "READY_FOR_PHASE32_SECURITY_MIGRATION",
+        "supabase_change": "YES",
+        "production_action_required": "PENDING_RECONCILIATION_COMPLETION",
+        "migration": "supabase/migrations/20260801173000_revoke_aoe_idempotency_anon_execute.sql",
+        "group_e": "READY_FOR_AOE_EXECUTE_SECURITY_MIGRATION",
+        "group_a": "GROUP_A_EVIDENCE_INSUFFICIENT",
+        "financial": "FINANCIAL_OWNER_REVIEW_REQUIRED"
       },
       "approval_required": "Engineering and security approval.",
       "rollback_concept": "Rollback function definitions must be captured from production before replacement.",

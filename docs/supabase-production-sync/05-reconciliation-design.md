@@ -18,31 +18,15 @@ Ready to apply: `false`.
 
 The production profile for public.alunos contains all 10 expected columns, total_rows=26 and null_rows=0 for every exported column. This closes the nullability evidence limitation for design, but it does not authorize immediate NOT NULL changes.
 
-## Phase 2 Scope Review
-
-Decision: `READY_FOR_PHASE2_COMMIT`.
-
-Manual product decision: `APPROVED`.
-
-Phase 2 authors exactly one incremental migration for `public.alunos.created_at`, `public.alunos.user_id` and `public.alunos.whatsapp` as `NOT NULL`. The seven other nullability differences are intentionally preserved in this reconciliation; `inicio`, `pagamento_recebido`, `plano`, `status` and `valor` are `FUTURE_CONTRACT_HARDENING_OPTIONAL`. Constraint review found no item to include: student identity and workout delivery remain out of phase, and the remaining CHECK differences are semantic representation false positives.
-
-## Phase 3 Function/RPC Scope Review
-
-Decision: `READY_FOR_PHASE3_FUNCTION_SCOPE_REVIEW`.
-
-Migration decision: `NO_NEW_MIGRATION`.
-
-The function/RPC audit produced inventory, dependency and scope artifacts, but no executable SQL. All 14 divergent function entries remain deferred or require manual review because they involve remote overloads, normalized body differences, AOE ownership, or the student identity deployment contract.
-
-## Phase 3.1 Function/RPC Manual Review
-
-Decision: `READY_FOR_PHASE31_EVIDENCE_COLLECTION`.
-
-The review identified `set_workout_templates_updated_at()` as the only current future migration candidate and explicitly kept financial/admin reconciliation out of that utility group. Admin and financial body decisions require full remote definitions from the generated SELECT-only SQL before migration design.
-
 ## Execution Boundary
 
 This document is design-only. It contains no executable write SQL and does not authorize direct application.
+
+## Phase 3.2 Function Evidence Review
+
+Decision: `READY_FOR_PHASE32_SECURITY_MIGRATION`.
+
+The production CSV closed the AOE anon EXECUTE evidence gap and supports one isolated Group E migration. It does not authorize AOE body replacement, admin body replacement, financial changes, overload removal, student identity changes, or Group A utility hardening.
 
 ## Design Matrix
 

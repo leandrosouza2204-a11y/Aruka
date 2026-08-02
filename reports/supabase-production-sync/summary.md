@@ -121,53 +121,16 @@ Recommended strategy: `INCREMENTAL_RECONCILIATION_THEN_NEW_BASELINE`.
 
 - STUDENT_IDENTITY_ABSENT_REMOTE_CONFIRMED
 
-## Constraint and Nullability Phase 2
+## Function/RPC Phase 3.2
 
-Decision: `READY_FOR_PHASE2_COMMIT`.
+Decision: `READY_FOR_PHASE32_SECURITY_MIGRATION`.
 
 Supabase change: `YES`.
 
-Manual product decision: `APPROVED`.
+Production action required: `PENDING_RECONCILIATION_COMPLETION`.
 
-The ten `public.alunos` nullability differences were reviewed with complete remote nullability evidence: 26 rows, 0 nulls in every profiled column. `created_at`, `user_id` and `whatsapp` are included in `supabase/migrations/20260801143335_reconcile_alunos_required_fields.sql`. `acompanhamento_motivo`, `observacoes`, `inicio`, `pagamento_recebido`, `plano`, `status` and `valor` are preserved in this phase.
+The production CSV in `remote-phase31-input` was parsed locally and kept ignored from Git. It confirms an excessive `anon.execute` grant on `public.aoe_idempotency_get_or_create(text, uuid, uuid, text, text, text)`. A single isolated migration was created to revoke that grant without changing the function body.
 
-The five remaining constraints were not included. `perfis_role_check` belongs to student identity, `treinos_lifecycle_dates_check` belongs to workout delivery, and the three object/type CHECK differences are semantic representation false positives.
+Migration: `supabase/migrations/20260801173000_revoke_aoe_idempotency_anon_execute.sql`.
 
-## Function/RPC Phase 3
-
-Decision: `READY_FOR_PHASE3_FUNCTION_SCOPE_REVIEW`.
-
-Migration decision: `NO_NEW_MIGRATION`.
-
-The function/RPC reconciliation audit reviewed 14 divergent function entries: 5 `REMOTE_OVERLOAD_ONLY`, 6 `BODY_DIFFERENT` and 3 `LOCAL_OVERLOAD_ONLY`. No function was selected for automatic SQL generation because the remaining differences are business-logic, grant, overload or feature-line sensitive.
-
-- Admin/manual product decisions: 5.
-- Admin/financial/utility body reviews: 5.
-- AOE deferred: 1.
-- Student identity deferred: 3.
-
-Artifacts:
-
-- `reports/supabase-production-sync/phase3-function-inventory.json`
-- `reports/supabase-production-sync/phase3-function-inventory.csv`
-- `reports/supabase-production-sync/phase3-function-dependency-graph.json`
-- `reports/supabase-production-sync/function-reconciliation-scope.json`
-- `reports/supabase-production-sync/function-reconciliation-scope.md`
-- `reports/supabase-production-sync/function-phase3-scope.csv`
-- `reports/supabase-production-sync/function-reconciliation-result.json`
-- `reports/supabase-production-sync/function-reconciliation-summary.md`
-- `docs/supabase-production-sync/11-function-reconciliation-audit.md`
-
-No remote DB command, `supabase link`, migration repair, SQL Editor action, commit, push or PR was executed.
-
-## Function/RPC Phase 3.1
-
-Decision: `READY_FOR_PHASE31_EVIDENCE_COLLECTION`.
-
-Supabase change: `NO_NEW_MIGRATION`.
-
-Production action required: `READONLY_EVIDENCE_COLLECTION_REQUIRED`.
-
-The assisted manual review produced explicit decisions for 15 rows: 5 legacy overloads are `DEPRECATE_REMOTE_OVERLOAD_LATER`, 4 admin/financial body diffs remain `EVIDENCE_REQUIRED`, 1 utility function is `SECURITY_HARDENING_REQUIRED`, 1 AOE grant issue is `AOE_ANON_EXECUTE_EXCESS_CONFIRMED`, 1 AOE body diff remains deferred, and 3 student identity functions remain deferred.
-
-Only `set_workout_templates_updated_at()` is a current future migration candidate, in `GROUP_A_UTILITY_SECURITY_HARDENING`. A SELECT-only SQL file was generated for missing remote function definitions; it was not executed remotely.
+Admin overload cleanup, admin body reconciliation, financial function changes, AOE body reconciliation, Group A utility hardening and student identity remain outside this migration.

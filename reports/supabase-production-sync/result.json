@@ -46,6 +46,28 @@
       "docs/supabase-production-sync/12-function-scope-manual-review.md"
     ]
   },
+  "phase32_function_evidence_review": {
+    "decision": "READY_FOR_PHASE32_SECURITY_MIGRATION",
+    "supabase_change": "YES",
+    "production_action_required": "PENDING_RECONCILIATION_COMPLETION",
+    "migration": "supabase/migrations/20260801173000_revoke_aoe_idempotency_anon_execute.sql",
+    "sql_record": "docs/supabase-production-sync/14-function-security-reconciliation-implementation.md",
+    "raw_csv_staged": false,
+    "final_projects_list_check": {
+      "executed": true,
+      "aruka_linked": false,
+      "aruka_status": "ACTIVE_HEALTHY",
+      "aruka_hml_linked": false,
+      "aruka_hml_status": "ACTIVE_HEALTHY",
+      "cli_message": "Cannot find project ref. Have you run supabase link?"
+    },
+    "group_a": "GROUP_A_EVIDENCE_INSUFFICIENT",
+    "group_e": "READY_FOR_AOE_EXECUTE_SECURITY_MIGRATION",
+    "admin_overloads": "EXTERNAL_CONSUMER_REVIEW_REQUIRED",
+    "admin_bodies": "MANUAL_PRODUCT_DECISION_REQUIRED",
+    "financial": "FINANCIAL_OWNER_REVIEW_REQUIRED",
+    "student_identity": "DEFER_TO_STUDENT_IDENTITY_DEPLOYMENT"
+  },
   "additional_blockers": [
     "BLOCKED_LOCAL_STORAGE_BOOTSTRAP",
     "REMOTE_DIFF_INCONCLUSIVE",

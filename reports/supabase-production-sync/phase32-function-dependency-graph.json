@@ -1,0 +1,95 @@
+{
+  "nodes": [
+    {
+      "id": "admin_atualizar_perfil(p_user_id uuid, p_nome text, p_role text, p_tipo_acesso text, p_status text)",
+      "category": "ADMIN",
+      "dependency_state": "LOCAL_SRC_CALLER; SQL_REFERENCE; NO_DOC_EXTERNAL_CALLER; EXTERNAL_CONSUMER_UNKNOWN"
+    },
+    {
+      "id": "admin_atualizar_perfil(p_user_id uuid, p_nome text, p_role text, p_tipo_acesso text, p_status text, p_user_agent text)",
+      "category": "ADMIN",
+      "dependency_state": "LOCAL_SRC_CALLER; SQL_REFERENCE; NO_DOC_EXTERNAL_CALLER; EXTERNAL_CONSUMER_UNKNOWN"
+    },
+    {
+      "id": "admin_bloquear_usuario(p_user_id uuid)",
+      "category": "ADMIN",
+      "dependency_state": "LOCAL_SRC_CALLER; SQL_REFERENCE; NO_DOC_EXTERNAL_CALLER; EXTERNAL_CONSUMER_UNKNOWN"
+    },
+    {
+      "id": "admin_bloquear_usuario(p_user_id uuid, p_user_agent text)",
+      "category": "ADMIN",
+      "dependency_state": "LOCAL_SRC_CALLER; SQL_REFERENCE; NO_DOC_EXTERNAL_CALLER; EXTERNAL_CONSUMER_UNKNOWN"
+    },
+    {
+      "id": "admin_liberar_assinante(p_user_id uuid, p_plano text, p_data_inicio date, p_data_vencimento date)",
+      "category": "FINANCIAL",
+      "dependency_state": "LOCAL_SRC_CALLER; SQL_REFERENCE; NO_DOC_EXTERNAL_CALLER; EXTERNAL_CONSUMER_UNKNOWN"
+    },
+    {
+      "id": "admin_liberar_assinante(p_user_id uuid, p_plano text, p_data_inicio date, p_data_vencimento date, p_user_agent text)",
+      "category": "FINANCIAL",
+      "dependency_state": "LOCAL_SRC_CALLER; SQL_REFERENCE; NO_DOC_EXTERNAL_CALLER; EXTERNAL_CONSUMER_UNKNOWN"
+    },
+    {
+      "id": "admin_liberar_beta(p_user_id uuid)",
+      "category": "FINANCIAL",
+      "dependency_state": "LOCAL_SRC_CALLER; SQL_REFERENCE; NO_DOC_EXTERNAL_CALLER; EXTERNAL_CONSUMER_UNKNOWN"
+    },
+    {
+      "id": "admin_liberar_beta(p_user_id uuid, p_user_agent text)",
+      "category": "FINANCIAL",
+      "dependency_state": "LOCAL_SRC_CALLER; SQL_REFERENCE; NO_DOC_EXTERNAL_CALLER; EXTERNAL_CONSUMER_UNKNOWN"
+    },
+    {
+      "id": "admin_listar_logs(p_acao text, p_target_user_id uuid, p_data_inicio date, p_data_fim date, p_busca text)",
+      "category": "ADMIN",
+      "dependency_state": "LOCAL_SRC_CALLER; SQL_REFERENCE; NO_DOC_EXTERNAL_CALLER; NO_EXTERNAL_CONSUMER_EVIDENCE"
+    },
+    {
+      "id": "admin_listar_usuarios()",
+      "category": "ADMIN",
+      "dependency_state": "LOCAL_SRC_CALLER; SQL_REFERENCE; NO_DOC_EXTERNAL_CALLER; NO_EXTERNAL_CONSUMER_EVIDENCE"
+    },
+    {
+      "id": "admin_registrar_log(p_target_user_id uuid, p_acao text, p_entidade text, p_entidade_id uuid, p_dados_anteriores jsonb, p_dados_novos jsonb, p_user_agent text)",
+      "category": "ADMIN",
+      "dependency_state": "NO_LOCAL_SRC_CALLER; SQL_REFERENCE; NO_DOC_EXTERNAL_CALLER; NO_EXTERNAL_CONSUMER_EVIDENCE"
+    },
+    {
+      "id": "admin_upsert_assinatura(p_user_id uuid, p_plano text, p_status text, p_data_inicio date, p_data_vencimento date)",
+      "category": "FINANCIAL",
+      "dependency_state": "LOCAL_SRC_CALLER; SQL_REFERENCE; NO_DOC_EXTERNAL_CALLER; EXTERNAL_CONSUMER_UNKNOWN"
+    },
+    {
+      "id": "admin_upsert_assinatura(p_user_id uuid, p_plano text, p_status text, p_data_inicio date, p_data_vencimento date, p_user_agent text)",
+      "category": "FINANCIAL",
+      "dependency_state": "LOCAL_SRC_CALLER; SQL_REFERENCE; NO_DOC_EXTERNAL_CALLER; EXTERNAL_CONSUMER_UNKNOWN"
+    },
+    {
+      "id": "aoe_idempotency_get_or_create(p_id text, p_actor_id uuid, p_organization_id uuid, p_operation text, p_idempotency_key text, p_request_fingerprint text)",
+      "category": "AOE",
+      "dependency_state": "LOCAL_SRC_CALLER; SQL_REFERENCE; NO_DOC_EXTERNAL_CALLER; NO_EXTERNAL_CONSUMER_EVIDENCE"
+    },
+    {
+      "id": "desvincular_aluno_usuario(p_aluno_id uuid)",
+      "category": "STUDENT_IDENTITY",
+      "dependency_state": "NO_LOCAL_SRC_CALLER; SQL_REFERENCE; NO_DOC_EXTERNAL_CALLER; NO_EXTERNAL_CONSUMER_EVIDENCE"
+    },
+    {
+      "id": "get_my_student_workouts()",
+      "category": "STUDENT_IDENTITY",
+      "dependency_state": "NO_LOCAL_SRC_CALLER; SQL_REFERENCE; NO_DOC_EXTERNAL_CALLER; NO_EXTERNAL_CONSUMER_EVIDENCE"
+    },
+    {
+      "id": "set_workout_templates_updated_at()",
+      "category": "UTILITY",
+      "dependency_state": "NO_LOCAL_SRC_CALLER; SQL_REFERENCE; NO_DOC_EXTERNAL_CALLER; NO_EXTERNAL_CONSUMER_EVIDENCE"
+    },
+    {
+      "id": "vincular_aluno_usuario(p_aluno_id uuid, p_student_user_id uuid)",
+      "category": "STUDENT_IDENTITY",
+      "dependency_state": "NO_LOCAL_SRC_CALLER; SQL_REFERENCE; NO_DOC_EXTERNAL_CALLER; NO_EXTERNAL_CONSUMER_EVIDENCE"
+    }
+  ],
+  "edges": []
+}
