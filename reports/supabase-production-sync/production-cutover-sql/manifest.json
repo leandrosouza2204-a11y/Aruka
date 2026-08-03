@@ -2,8 +2,26 @@
   "production_execution_authorized": false,
   "db_push_allowed": false,
   "history_alignment_allowed_now": false,
+  "authorization_reviewed": true,
   "cutover_backup_required": true,
   "cutover_backup_verified": false,
+  "execution_method": "MANUAL_SUPERVISED_SQL_EDITOR",
+  "maintenance_window": {
+    "required": true,
+    "estimate": "30-60 min",
+    "reason": "Workout structural changes, index creation, constraint replacement, NOT NULL checks and high-risk security policy/grant replacement require supervised step-by-step execution."
+  },
+  "global_no_go_conditions": [
+    "backup not verified",
+    "wrong Supabase project",
+    "incompatible existing object",
+    "null count greater than zero",
+    "function hash changed",
+    "unexpected policy or grant",
+    "previous smoke test failed",
+    "operator cannot validate result",
+    "evidence file is stale"
+  ],
   "steps": [
     {
       "step": "01",
@@ -16,6 +34,10 @@
       "dependencies": [
         "00-baseline-reference-only"
       ],
+      "transaction_strategy": "PARTIAL_TRANSACTION",
+      "lock_risk": "MEDIUM_LOCK_RISK",
+      "downtime_expectation": "MAINTENANCE_WINDOW_RECOMMENDED",
+      "go_no_go_status": "GO_ONLY_AFTER_BACKUP_AND_PRECHECK_PASS",
       "execution_authorized": false,
       "status": "READY_FOR_REVIEW"
     },
@@ -30,6 +52,10 @@
       "dependencies": [
         "01-workout-delivery"
       ],
+      "transaction_strategy": "TRANSACTION_SAFE",
+      "lock_risk": "MEDIUM_LOCK_RISK",
+      "downtime_expectation": "SHORT_WRITE_RISK",
+      "go_no_go_status": "GO_ONLY_AFTER_BACKUP_AND_PRECHECK_PASS",
       "execution_authorized": false,
       "status": "READY_FOR_REVIEW"
     },
@@ -44,6 +70,10 @@
       "dependencies": [
         "02-student-identity"
       ],
+      "transaction_strategy": "TRANSACTION_SAFE",
+      "lock_risk": "MEDIUM_LOCK_RISK",
+      "downtime_expectation": "MAINTENANCE_WINDOW_RECOMMENDED",
+      "go_no_go_status": "GO_ONLY_AFTER_BACKUP_AND_PRECHECK_PASS",
       "execution_authorized": false,
       "status": "READY_FOR_REVIEW"
     },
@@ -58,6 +88,10 @@
       "dependencies": [
         "03-security-reconciliation"
       ],
+      "transaction_strategy": "TRANSACTION_SAFE",
+      "lock_risk": "MEDIUM_LOCK_RISK",
+      "downtime_expectation": "SHORT_WRITE_RISK",
+      "go_no_go_status": "GO_ONLY_AFTER_BACKUP_AND_PRECHECK_PASS",
       "execution_authorized": false,
       "status": "READY_FOR_REVIEW"
     },
@@ -72,6 +106,10 @@
       "dependencies": [
         "04-required-fields"
       ],
+      "transaction_strategy": "TRANSACTION_SAFE",
+      "lock_risk": "LOW_LOCK_RISK",
+      "downtime_expectation": "NO_EXPECTED_DOWNTIME",
+      "go_no_go_status": "GO_ONLY_AFTER_BACKUP_AND_PRECHECK_PASS",
       "execution_authorized": false,
       "status": "READY_FOR_REVIEW"
     },
@@ -86,6 +124,10 @@
       "dependencies": [
         "05-aoe-security"
       ],
+      "transaction_strategy": "TRANSACTION_SAFE",
+      "lock_risk": "LOW_LOCK_RISK",
+      "downtime_expectation": "NO_EXPECTED_DOWNTIME",
+      "go_no_go_status": "GO_ONLY_AFTER_BACKUP_AND_PRECHECK_PASS",
       "execution_authorized": false,
       "status": "READY_FOR_REVIEW"
     }
