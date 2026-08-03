@@ -34,4 +34,4 @@ DB push allowed: `NO`
 
 History alignment allowed: `NO`
 
-Next action: `USER_CUTOVER_AUTHORIZATION_AND_BACKUP_PREPARATION`
+Next action: `MANUAL_BACKUP_EXECUTION_AND_EVIDENCE`

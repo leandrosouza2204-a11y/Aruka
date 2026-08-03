@@ -15,6 +15,18 @@
 - [ ] Smoke test access confirmed
 - [ ] Start time recorded
 
+## Backup Gate
+
+- [ ] projeto aruka confirmado
+- [ ] project ref conferido
+- [ ] backup method selected
+- [ ] backup timestamp recorded
+- [ ] backup reference recorded
+- [ ] backup verified
+- [ ] restore method reviewed
+- [ ] Storage reviewed
+- [ ] explicit authorization received
+
 ## Step Loop
 
 Repeat for each step 01-06. Do not batch steps.

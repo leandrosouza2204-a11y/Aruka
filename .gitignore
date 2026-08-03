@@ -43,3 +43,5 @@ reports/supabase-production-sync/remote-schema-input/*.csv
 reports/supabase-production-sync/remote-reconciliation-input/*.csv
 reports/supabase-production-sync/remote-phase31-input/*.csv
 reports/supabase-production-sync/remote-phase33-input/*.csv
+.local-backups/
+reports/supabase-production-sync/private-backups/

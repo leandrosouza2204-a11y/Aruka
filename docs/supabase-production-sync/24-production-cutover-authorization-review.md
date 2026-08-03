@@ -62,3 +62,7 @@ STOP_AND_INVESTIGATE on any ambiguous precheck, postcheck failure or smoke failu
 `PRODUCTION_EXECUTION_AUTHORIZED=NO`
 
 The next action is `USER_CUTOVER_AUTHORIZATION_AND_BACKUP_PREPARATION`.
+
+## Backup Preparation Reference
+
+The manual backup preparation procedure is documented in `docs/supabase-production-sync/25-cutover-backup-preparation.md`.

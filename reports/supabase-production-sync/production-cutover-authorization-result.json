@@ -17,5 +17,5 @@
   "db_push_allowed": "NO",
   "history_alignment_allowed": "NO",
   "production_execution_authorized": "NO",
-  "next_action": "USER_CUTOVER_AUTHORIZATION_AND_BACKUP_PREPARATION"
+  "next_action": "MANUAL_BACKUP_EXECUTION_AND_EVIDENCE"
 }

@@ -1,0 +1,30 @@
+{
+  "production_project": {
+    "name": "aruka",
+    "project_ref_masked": "vriz...vdik"
+  },
+  "backup": {
+    "method": null,
+    "timestamp_utc": null,
+    "timestamp_local": null,
+    "reference_masked": null,
+    "retention_confirmed": false,
+    "status": "PENDING_MANUAL_BACKUP",
+    "verified_by": null
+  },
+  "restore": {
+    "method_reviewed": false,
+    "method": null,
+    "estimated_restore_class": null,
+    "limitations": []
+  },
+  "storage": {
+    "included_in_database_backup": "UNKNOWN",
+    "separate_backup_required": "UNKNOWN",
+    "status": "PENDING_REVIEW"
+  },
+  "authorization": {
+    "production_execution_authorized": false,
+    "cutover_allowed": false
+  }
+}
