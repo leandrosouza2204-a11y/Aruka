@@ -1,15 +1,15 @@
 # Production Cutover Execution Checklist
 
 - [ ] Maintenance window approved
-- [ ] Backup complete
-- [ ] Backup verified
-- [ ] Backup method recorded
-- [ ] Backup timestamp recorded
-- [ ] Backup reference recorded
+- [x] Backup complete
+- [x] Backup verified
+- [x] Backup method recorded
+- [x] Backup timestamp recorded
+- [x] Backup reference recorded
 - [ ] Backup verified by named operator
-- [ ] Restore method reviewed
+- [x] Restore method reviewed
 - [ ] Operator identified
-- [ ] Correct Supabase project confirmed
+- [x] Correct Supabase project confirmed
 - [ ] SQL Editor access confirmed
 - [ ] Repository package open locally
 - [ ] Smoke test access confirmed
@@ -17,14 +17,14 @@
 
 ## Backup Gate
 
-- [ ] projeto aruka confirmado
-- [ ] project ref conferido
-- [ ] backup method selected
-- [ ] backup timestamp recorded
-- [ ] backup reference recorded
-- [ ] backup verified
-- [ ] restore method reviewed
-- [ ] Storage reviewed
+- [x] projeto aruka confirmado
+- [x] project ref conferido
+- [x] backup method selected
+- [x] backup timestamp recorded
+- [x] backup reference recorded
+- [x] backup verified
+- [x] restore method reviewed
+- [x] Storage reviewed
 - [ ] explicit authorization received
 
 ## Step Loop

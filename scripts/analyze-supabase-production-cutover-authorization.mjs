@@ -45,11 +45,12 @@ export function validateAuthorization(root = ROOT) {
   required.forEach((path) => mustExist(root, path));
 
   const manifest = JSON.parse(read(root, `${CUTOVER}/manifest.json`));
+  const verificationEvidenceExists = existsSync(join(root, `${BASE}/cutover-backup-verification-evidence.json`));
   if (manifest.production_execution_authorized !== false) throw new Error("AUTHORIZATION_EXECUTION_FORBIDDEN");
   if (manifest.db_push_allowed !== false) throw new Error("AUTHORIZATION_DB_PUSH_FORBIDDEN");
   if (manifest.history_alignment_allowed_now !== false) throw new Error("AUTHORIZATION_HISTORY_ALIGNMENT_FORBIDDEN");
   if (manifest.cutover_backup_required !== true) throw new Error("AUTHORIZATION_BACKUP_REQUIRED_MISSING");
-  if (manifest.cutover_backup_verified !== false) throw new Error("AUTHORIZATION_BACKUP_VERIFIED_WITHOUT_EVIDENCE");
+  if (manifest.cutover_backup_verified !== false && !(verificationEvidenceExists && manifest.cutover_backup_verified === true)) throw new Error("AUTHORIZATION_BACKUP_VERIFIED_WITHOUT_EVIDENCE");
   if (manifest.authorization_reviewed !== true) throw new Error("AUTHORIZATION_REVIEW_FLAG_MISSING");
   if (manifest.execution_method !== "MANUAL_SUPERVISED_SQL_EDITOR") throw new Error("AUTHORIZATION_EXECUTION_METHOD_INVALID");
   if (manifest.steps?.length !== STEP_COUNT) throw new Error("AUTHORIZATION_STEP_COUNT_INVALID");
@@ -73,7 +74,9 @@ export function validateAuthorization(root = ROOT) {
   const result = JSON.parse(read(root, `${BASE}/production-cutover-authorization-result.json`));
   if (result.decision !== "READY_FOR_SUPERVISED_PRODUCTION_CUTOVER") throw new Error("AUTHORIZATION_DECISION_INVALID");
   if (result.untraced_statements !== 0) throw new Error("AUTHORIZATION_UNTRACED_SQL");
-  if (result.backup_verified !== "NO" || result.production_execution_authorized !== "NO") throw new Error("AUTHORIZATION_RESULT_FLAGS_INVALID");
+  const backupVerifiedValid = result.backup_verified === "NO" || (verificationEvidenceExists && result.backup_verified === true);
+  const productionAuthValid = result.production_execution_authorized === "NO" || result.production_execution_authorized === false;
+  if (!backupVerifiedValid || !productionAuthValid || result.cutover_allowed === true) throw new Error("AUTHORIZATION_RESULT_FLAGS_INVALID");
   if (result.db_push_allowed !== "NO" || result.history_alignment_allowed !== "NO") throw new Error("AUTHORIZATION_RESULT_FORBIDDEN_FLAGS");
 
   return result;

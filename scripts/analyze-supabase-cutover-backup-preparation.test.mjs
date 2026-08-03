@@ -17,6 +17,7 @@ const sourceFiles = [
   'reports/supabase-production-sync/cutover-restore-readiness.md',
   'reports/supabase-production-sync/cutover-backup-preparation-result.json',
   'reports/supabase-production-sync/cutover-backup-preparation-summary.md',
+  'reports/supabase-production-sync/cutover-backup-verification-evidence.json',
   'reports/supabase-production-sync/production-cutover-sql/manifest.json',
 ];
 

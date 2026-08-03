@@ -161,6 +161,7 @@
     "qa:supabase-production-cutover-review": "node scripts/validate-supabase-production-cutover-review.mjs && node --test scripts/validate-supabase-production-cutover-review.test.mjs",
     "qa:supabase-production-cutover-authorization": "node scripts/analyze-supabase-production-cutover-authorization.mjs && node --test scripts/analyze-supabase-production-cutover-authorization.test.mjs",
     "qa:supabase-cutover-backup-preparation": "node scripts/analyze-supabase-cutover-backup-preparation.mjs && node --test scripts/analyze-supabase-cutover-backup-preparation.test.mjs",
+    "qa:supabase-cutover-backup-verification": "node scripts/analyze-supabase-cutover-backup-verification.mjs && node --test scripts/analyze-supabase-cutover-backup-verification.test.mjs",
     "qa:supabase-phase32-security-runtime": "node scripts/validate-supabase-phase32-security-runtime.mjs",
     "qa:supabase-baseline-candidate": "node scripts/validate-supabase-baseline-candidate.mjs",
     "qa:supabase-validation-evidence": "node scripts/validate-supabase-validation-evidence.mjs",

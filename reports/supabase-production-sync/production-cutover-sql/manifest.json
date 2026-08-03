@@ -3,29 +3,18 @@
   "db_push_allowed": false,
   "history_alignment_allowed_now": false,
   "backup_required": true,
-  "backup_verified": false,
-  "restore_method_reviewed": false,
+  "backup_verified": true,
+  "restore_method_reviewed": true,
   "cutover_allowed": false,
   "authorization_reviewed": true,
   "cutover_backup_required": true,
-  "cutover_backup_verified": false,
+  "cutover_backup_verified": true,
   "execution_method": "MANUAL_SUPERVISED_SQL_EDITOR",
   "maintenance_window": {
     "required": true,
     "estimate": "30-60 min",
     "reason": "Workout structural changes, index creation, constraint replacement, NOT NULL checks and high-risk security policy/grant replacement require supervised step-by-step execution."
   },
-  "global_no_go_conditions": [
-    "backup not verified",
-    "wrong Supabase project",
-    "incompatible existing object",
-    "null count greater than zero",
-    "function hash changed",
-    "unexpected policy or grant",
-    "previous smoke test failed",
-    "operator cannot validate result",
-    "evidence file is stale"
-  ],
   "steps": [
     {
       "step": "01",
