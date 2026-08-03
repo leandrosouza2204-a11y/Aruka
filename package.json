@@ -158,6 +158,7 @@
     "qa:supabase-workout-delivery-final-reconciliation": "node scripts/analyze-supabase-workout-delivery-final-reconciliation.mjs && node --test scripts/analyze-supabase-workout-delivery-final-reconciliation.test.mjs",
     "qa:supabase-student-identity-deployment-design": "node scripts/analyze-supabase-student-identity-deployment-design.mjs && node --test scripts/analyze-supabase-student-identity-deployment-design.test.mjs",
     "qa:supabase-production-reconciliation-package": "node scripts/analyze-supabase-production-reconciliation-package.mjs && node --test scripts/analyze-supabase-production-reconciliation-package.test.mjs",
+    "qa:supabase-production-cutover-review": "node scripts/validate-supabase-production-cutover-review.mjs && node --test scripts/validate-supabase-production-cutover-review.test.mjs",
     "qa:supabase-phase32-security-runtime": "node scripts/validate-supabase-phase32-security-runtime.mjs",
     "qa:supabase-baseline-candidate": "node scripts/validate-supabase-baseline-candidate.mjs",
     "qa:supabase-validation-evidence": "node scripts/validate-supabase-validation-evidence.mjs",

@@ -1,5 +1,9 @@
 {
-  "decision": "READY_FOR_PRODUCTION_CUTOVER_AUTHORIZATION_REVIEW",
+  "production_execution_authorized": false,
+  "db_push_allowed": false,
+  "history_alignment_allowed_now": false,
+  "cutover_backup_required": true,
+  "cutover_backup_verified": false,
   "steps": [
     {
       "step": "01",
@@ -13,9 +17,7 @@
         "00-baseline-reference-only"
       ],
       "execution_authorized": false,
-      "status": "READY_FOR_REVIEW",
-      "apply_method": "CONTROLLED_SQL_FILE",
-      "production_execution_authorized": false
+      "status": "READY_FOR_REVIEW"
     },
     {
       "step": "02",
@@ -29,9 +31,7 @@
         "01-workout-delivery"
       ],
       "execution_authorized": false,
-      "status": "READY_FOR_REVIEW",
-      "apply_method": "CONTROLLED_SQL_FILE",
-      "production_execution_authorized": false
+      "status": "READY_FOR_REVIEW"
     },
     {
       "step": "03",
@@ -45,9 +45,7 @@
         "02-student-identity"
       ],
       "execution_authorized": false,
-      "status": "READY_FOR_REVIEW",
-      "apply_method": "CONTROLLED_SQL_FILE",
-      "production_execution_authorized": false
+      "status": "READY_FOR_REVIEW"
     },
     {
       "step": "04",
@@ -61,9 +59,7 @@
         "03-security-reconciliation"
       ],
       "execution_authorized": false,
-      "status": "READY_FOR_REVIEW",
-      "apply_method": "CONTROLLED_SQL_FILE",
-      "production_execution_authorized": false
+      "status": "READY_FOR_REVIEW"
     },
     {
       "step": "05",
@@ -77,9 +73,7 @@
         "04-required-fields"
       ],
       "execution_authorized": false,
-      "status": "READY_FOR_REVIEW",
-      "apply_method": "CONTROLLED_SQL_FILE",
-      "production_execution_authorized": false
+      "status": "READY_FOR_REVIEW"
     },
     {
       "step": "06",
@@ -93,9 +87,7 @@
         "05-aoe-security"
       ],
       "execution_authorized": false,
-      "status": "READY_FOR_REVIEW",
-      "apply_method": "CONTROLLED_SQL_FILE",
-      "production_execution_authorized": false
+      "status": "READY_FOR_REVIEW"
     }
   ]
 }
