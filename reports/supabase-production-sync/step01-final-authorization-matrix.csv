@@ -1,0 +1,10 @@
+object_group,objects_reviewed,remote_state,coverage_source,classification,apply_required,blocker,notes
+tables,1,treino_eventos already exists,Step01 precheck and apply,ALREADY_PRESENT_SKIP_SAFE,false,false,Table is present and compatible.
+columns,29,all expected Workout Delivery columns present,Step01 precheck and apply,ALREADY_PRESENT_SKIP_SAFE,false,false,Types nullability and defaults reviewed from remote evidence.
+constraints,9,all expected constraints present,Step01 precheck and apply,FALSE_POSITIVE_ALREADY_RESOLVED,false,false,Definitions match expected semantic contract.
+indexes,7,all expected indexes present,Step01 precheck and apply,ALREADY_PRESENT_SKIP_SAFE,false,false,Indexes match expected names and definitions.
+functions,3,functions present but body hashes differ from target and search_path flag is false,Step01 apply,EXPECTED_REMOTE_DRIFT_COVERED_BY_APPLY,true,false,Apply recreates functions with SECURITY DEFINER and set search_path public.
+RLS,1,treino_eventos RLS enabled,Step01 precheck and apply,ALREADY_PRESENT_SKIP_SAFE,false,false,RLS enabled remotely.
+policies,1,authenticated SELECT policy present,Step01 apply inventory,ALREADY_PRESENT_SKIP_SAFE,false,false,Policy matches desired SELECT access pattern.
+grants,15,postgres and service_role platform grants plus authenticated SELECT,Phase 1 security reconciliation,DELEGATED_TO_PHASE1_SECURITY,false,false,Precheck names grants as delegated to phase1.
+search_path,3,search_path_public false for three RPCs,Step01 apply,EXPECTED_REMOTE_DRIFT_COVERED_BY_APPLY,true,false,Step01 apply contains set search_path public for all three RPCs.

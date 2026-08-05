@@ -22,6 +22,13 @@
       "precheck_file": "01-workout-delivery-precheck.sql",
       "apply_file": "01-workout-delivery.sql",
       "postcheck_file": "01-workout-delivery-postcheck.sql",
+      "smoke_file": "01-workout-delivery-smoke.sql",
+      "smoke": {
+        "executable": true,
+        "path": "reports/supabase-production-sync/production-cutover-sql/01-workout-delivery-smoke.sql",
+        "cleanup_verified": true,
+        "local_validation": true
+      },
       "recovery_file": "01-workout-delivery-recovery.md",
       "risk": "MEDIUM",
       "dependencies": [
@@ -31,8 +38,14 @@
       "lock_risk": "MEDIUM_LOCK_RISK",
       "downtime_expectation": "MAINTENANCE_WINDOW_RECOMMENDED",
       "go_no_go_status": "GO_ONLY_AFTER_BACKUP_AND_PRECHECK_PASS",
+      "apply_exit_code": 0,
+      "postcheck_exit_code": 0,
+      "smoke_exit_code": 0,
+      "smoke_residual_rows": 0,
+      "recovery_executed": false,
+      "step02_authorized": false,
       "execution_authorized": false,
-      "status": "READY_FOR_REVIEW"
+      "status": "APPLIED_AND_VALIDATED"
     },
     {
       "step": "02",

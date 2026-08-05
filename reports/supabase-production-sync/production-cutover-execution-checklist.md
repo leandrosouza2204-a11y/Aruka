@@ -1,6 +1,6 @@
 # Production Cutover Execution Checklist
 
-- [ ] Maintenance window approved
+- [x] Maintenance window approved
 - [x] Backup complete
 - [x] Backup verified
 - [x] Backup method recorded
@@ -25,11 +25,19 @@
 - [x] backup verified
 - [x] restore method reviewed
 - [x] Storage reviewed
-- [ ] explicit authorization received
+- [x] explicit authorization received
 
 ## Step Loop
 
 Repeat for each step 01-06. Do not batch steps.
+
+- [x] Step01 apply authorized
+- [x] Step01 apply executed
+- [x] Step01 postcheck passed
+- [x] Step01 smoke passed
+- [x] Step01 production reconciled
+- [ ] Step02 authorized
+- [ ] Step02 executed
 
 - [ ] Backup verified
 - [ ] Precheck executed
