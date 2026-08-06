@@ -1,0 +1,30 @@
+{
+  "decision": "AWAITING_SECURE_STEP03_PRECHECK_EXECUTION",
+  "project": "aruka",
+  "project_ref_masked": "vriz...vdik",
+  "precheck_exit_code": null,
+  "objects_reviewed": [
+    "rls",
+    "policies",
+    "table_grants",
+    "function_grants",
+    "public_or_anon_grants"
+  ],
+  "expected_security_drift_count": null,
+  "already_reconciled_step01_count": null,
+  "already_reconciled_step02_count": null,
+  "compatible_variation_count": null,
+  "blocking_security_drift_count": null,
+  "out_of_scope_difference_count": null,
+  "apply_sql_hash": "BD2753069A1F2F6565AFD1E846872D1E48EA5A4FE24F413415C8E66BC3392D54",
+  "apply_sql_traceable": true,
+  "untraceable_statement_count": 0,
+  "apply_sql_unchanged": true,
+  "recovery_available": true,
+  "postcheck_available": true,
+  "runtime_requirement": "SECURITY_POSTCHECK_SUFFICIENT",
+  "step03_apply_authorized": false,
+  "step03_apply_executed": false,
+  "production_executed": false,
+  "next_action": "USER_EXECUTE_STEP03_PRECHECK_RUNNER"
+}
