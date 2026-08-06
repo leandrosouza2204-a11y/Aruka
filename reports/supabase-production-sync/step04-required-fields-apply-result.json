@@ -1,0 +1,31 @@
+{
+  "decision": "STEP04_REQUIRED_FIELDS_APPLIED_AND_VALIDATED",
+  "project": "aruka",
+  "project_ref_masked": "vriz...vdik",
+  "fresh_precheck_result": "PASS",
+  "required_fields_data_gate": "PASS",
+  "required_columns": [
+    "public.alunos.created_at",
+    "public.alunos.user_id",
+    "public.alunos.whatsapp"
+  ],
+  "rows_reviewed": 26,
+  "null_counts": {
+    "public.alunos.created_at": 0,
+    "public.alunos.user_id": 0,
+    "public.alunos.whatsapp": 0
+  },
+  "total_null_count": 0,
+  "apply_sql_hash": "20A545B036CAD34D74548AE1BF15FA1EE96FBD5C40205F98C8275EB71EEA42D7",
+  "apply_exit_code": 0,
+  "apply_result": "PASS",
+  "postcheck_exit_code": 0,
+  "postcheck_result": "PASS",
+  "required_fields_production_reconciled": true,
+  "recovery_executed": false,
+  "step05_authorized": false,
+  "step05_executed": false,
+  "db_push_allowed": false,
+  "history_alignment_allowed": false,
+  "next_action": "STEP05_AOE_SECURITY_PRECHECK_PREPARATION"
+}
