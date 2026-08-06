@@ -62,8 +62,14 @@
       "lock_risk": "MEDIUM_LOCK_RISK",
       "downtime_expectation": "SHORT_WRITE_RISK",
       "go_no_go_status": "GO_ONLY_AFTER_BACKUP_AND_PRECHECK_PASS",
+      "apply_result": "PASS",
+      "postcheck_result": "PASS",
+      "runtime_result": "PASS",
+      "smoke_residual_rows": 0,
+      "recovery_executed": false,
+      "step03_authorized": false,
       "execution_authorized": false,
-      "status": "READY_FOR_REVIEW"
+      "status": "APPLIED_AND_VALIDATED"
     },
     {
       "step": "03",
