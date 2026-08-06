@@ -49,8 +49,12 @@ Repeat for each step 01-06. Do not batch steps.
 - [x] Step04 apply executed
 - [x] Step04 postcheck passed
 - [x] Step04 production reconciled
-- [ ] Step05 authorized
-- [ ] Step05 executed
+- [x] Step05 apply authorized
+- [x] Step05 apply executed
+- [x] Step05 postcheck passed
+- [x] Step05 production reconciled
+- [ ] Step06 authorized
+- [ ] Step06 executed
 
 - [ ] Backup verified
 - [ ] Precheck executed

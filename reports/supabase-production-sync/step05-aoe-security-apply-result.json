@@ -1,0 +1,22 @@
+{
+  "decision": "STEP05_AOE_SECURITY_APPLIED_AND_VALIDATED",
+  "project": "aruka",
+  "project_ref_masked": "vriz...vdik",
+  "fresh_precheck_result": "PASS",
+  "target_function": "public.aoe_idempotency_get_or_create(text, uuid, uuid, text, text, text)",
+  "target_role": "anon",
+  "anon_execute_before": true,
+  "apply_sql_hash": "CEE9E1BFDE421B2C85480C1EB2C0DAFA4FDA994F94832DA777B85508657B8CF4",
+  "apply_exit_code": 0,
+  "apply_result": "PASS",
+  "postcheck_exit_code": 0,
+  "postcheck_result": "PASS",
+  "anon_execute_final": false,
+  "aoe_security_production_reconciled": true,
+  "recovery_executed": false,
+  "step06_authorized": false,
+  "step06_executed": false,
+  "db_push_allowed": false,
+  "history_alignment_allowed": false,
+  "next_action": "STEP06_GROUP_A_SECURITY_PRECHECK_PREPARATION"
+}

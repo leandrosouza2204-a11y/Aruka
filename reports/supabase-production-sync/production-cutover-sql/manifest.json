@@ -130,8 +130,13 @@
       "lock_risk": "LOW_LOCK_RISK",
       "downtime_expectation": "NO_EXPECTED_DOWNTIME",
       "go_no_go_status": "GO_ONLY_AFTER_BACKUP_AND_PRECHECK_PASS",
+      "apply_result": "PASS",
+      "postcheck_result": "PASS",
+      "anon_execute_final": false,
+      "recovery_executed": false,
+      "step06_authorized": false,
       "execution_authorized": false,
-      "status": "READY_FOR_REVIEW"
+      "status": "APPLIED_AND_VALIDATED"
     },
     {
       "step": "06",

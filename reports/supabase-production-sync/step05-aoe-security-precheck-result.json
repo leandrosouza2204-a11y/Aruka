@@ -1,0 +1,40 @@
+{
+  "decision": "AWAITING_SECURE_STEP05_PRECHECK_RETRY",
+  "project": "aruka",
+  "project_ref_masked": "vriz...vdik",
+  "project_verified": false,
+  "precheck_exit_code": null,
+  "target_functions": [
+    "public.aoe_idempotency_get_or_create(text, uuid, uuid, text, text, text)"
+  ],
+  "target_roles": [
+    "anon"
+  ],
+  "security_operations": [
+    "REVOKE EXECUTE ON FUNCTION public.aoe_idempotency_get_or_create(text, uuid, uuid, text, text, text) FROM anon"
+  ],
+  "target_function_count": 1,
+  "target_functions_present": null,
+  "body_mutation_expected": false,
+  "already_present_count": null,
+  "expected_drift_count": null,
+  "compatible_variation_count": 0,
+  "blocking_drift_count": null,
+  "apply_sql_hash": "CEE9E1BFDE421B2C85480C1EB2C0DAFA4FDA994F94832DA777B85508657B8CF4",
+  "apply_sql_traceable": true,
+  "untraceable_statement_count": 0,
+  "apply_sql_unchanged": true,
+  "precheck_read_only": true,
+  "root_cause": "STEP05_PRECHECK_CTE_SCOPE_BUG",
+  "cte_scope_fixed": true,
+  "runtime_sql_invalid": false,
+  "recovery_available": true,
+  "postcheck_available": true,
+  "runtime_requirement": "AOE_SECURITY_POSTCHECK_SUFFICIENT",
+  "rollback_confirmed": null,
+  "step05_apply_authorized": false,
+  "step05_apply_executed": false,
+  "step06_authorized": false,
+  "production_executed": false,
+  "next_action": "USER_EXECUTE_STEP05_PRECHECK_RUNNER"
+}
