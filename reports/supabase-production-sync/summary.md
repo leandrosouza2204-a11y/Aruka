@@ -265,3 +265,27 @@ HISTORY_ALIGNMENT_REQUIRED: `YES`.
 HISTORY_ALIGNMENT_ALLOWED_NOW: `NO`.
 
 Next safe group: `PRODUCTION_RECONCILIATION_CUTOVER_REVIEW`.
+
+## Production Migration History Alignment Apply
+
+Decision: `PRODUCTION_MIGRATION_HISTORY_ALIGNMENT_APPLIED_AND_VALIDATED`.
+
+History alignment authorized: `true`.
+
+History alignment executed: `true`.
+
+History alignment validated: `true`.
+
+History alignment versions: `6`.
+
+Baseline history present: `false`.
+
+Unexpected history entries: `0`.
+
+Persistent link created: `false`.
+
+Recovery executed: `false`.
+
+DB push allowed: `false`.
+
+Next action: `COMMIT_HISTORY_ALIGNMENT_AND_PREPARE_POST_ALIGNMENT_VALIDATION`.

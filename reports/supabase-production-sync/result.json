@@ -267,6 +267,24 @@
       "reports/supabase-production-sync/production-reconciliation-package-summary.md"
     ]
   },
+  "production_migration_history_alignment_apply": {
+    "decision": "PRODUCTION_MIGRATION_HISTORY_ALIGNMENT_APPLIED_AND_VALIDATED",
+    "history_alignment_authorized": true,
+    "history_alignment_executed": true,
+    "history_alignment_validated": true,
+    "history_alignment_versions": 6,
+    "baseline_history_present": false,
+    "unexpected_history_entries": 0,
+    "persistent_link_created": false,
+    "recovery_executed": false,
+    "db_push_allowed": false,
+    "artifacts": [
+      "docs/supabase-production-sync/43-production-migration-history-alignment-apply.md",
+      "reports/supabase-production-sync/migration-history-alignment-apply-result.json",
+      "reports/supabase-production-sync/migration-history-alignment-apply-summary.md",
+      "reports/supabase-production-sync/migration-history-alignment-final-matrix.csv"
+    ]
+  },
   "additional_blockers": [
     "BLOCKED_LOCAL_STORAGE_BOOTSTRAP",
     "REMOTE_DIFF_INCONCLUSIVE",
