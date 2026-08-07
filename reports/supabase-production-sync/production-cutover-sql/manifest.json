@@ -1,6 +1,11 @@
 {
   "production_execution_authorized": false,
   "db_push_allowed": false,
+  "manual_cutover_steps_completed": 6,
+  "manual_cutover_steps_total": 6,
+  "manual_cutover_complete": true,
+  "history_alignment_authorized": false,
+  "history_alignment_executed": false,
   "history_alignment_allowed_now": false,
   "backup_required": true,
   "backup_verified": true,
@@ -154,7 +159,16 @@
       "downtime_expectation": "NO_EXPECTED_DOWNTIME",
       "go_no_go_status": "GO_ONLY_AFTER_BACKUP_AND_PRECHECK_PASS",
       "execution_authorized": false,
-      "status": "READY_FOR_REVIEW"
+      "apply_result": "PASS",
+      "postcheck_result": "PASS",
+      "function_body_preserved": true,
+      "search_path_reconciled": true,
+      "public_execute_final": false,
+      "anon_execute_final": false,
+      "authenticated_execute_final": false,
+      "trigger_state": "PASS",
+      "recovery_executed": false,
+      "status": "APPLIED_AND_VALIDATED"
     }
   ]
 }

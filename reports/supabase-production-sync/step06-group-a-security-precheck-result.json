@@ -1,0 +1,54 @@
+{
+  "decision": "AWAITING_SECURE_STEP06_PRECHECK_EXECUTION",
+  "project": "aruka",
+  "project_ref_masked": "vriz...vdik",
+  "project_verified": false,
+  "precheck_exit_code": null,
+  "target_functions": [
+    "public.set_workout_templates_updated_at()"
+  ],
+  "target_triggers": [
+    "public.workout_templates.set_workout_templates_updated_at"
+  ],
+  "target_tables": [
+    "public.workout_templates"
+  ],
+  "target_roles": [
+    "public",
+    "anon",
+    "authenticated"
+  ],
+  "security_operations": [
+    "ALTER FUNCTION public.set_workout_templates_updated_at() SET search_path = public",
+    "REVOKE EXECUTE ON FUNCTION public.set_workout_templates_updated_at() FROM public",
+    "REVOKE EXECUTE ON FUNCTION public.set_workout_templates_updated_at() FROM anon",
+    "REVOKE EXECUTE ON FUNCTION public.set_workout_templates_updated_at() FROM authenticated"
+  ],
+  "target_function_count": 1,
+  "target_function_present": null,
+  "function_signature_state": null,
+  "body_state": "HASH_COMPARISON_NOT_REQUIRED",
+  "body_mutation_expected": false,
+  "search_path_state": null,
+  "security_mode_state": null,
+  "trigger_state": null,
+  "grants_state": null,
+  "already_present_count": null,
+  "expected_drift_count": null,
+  "compatible_variation_count": 0,
+  "blocking_drift_count": null,
+  "apply_sql_hash": "343CF76EC22DA674EC035C74D80FDEF8F2B34F83F223C73A30B549B83C95643C",
+  "apply_sql_traceable": true,
+  "untraceable_statement_count": 0,
+  "apply_sql_unchanged": true,
+  "precheck_read_only": true,
+  "recovery_available": true,
+  "postcheck_available": true,
+  "runtime_requirement": "GROUP_A_POSTCHECK_SUFFICIENT",
+  "rollback_confirmed": null,
+  "step06_apply_authorized": false,
+  "step06_apply_executed": false,
+  "history_alignment_allowed": false,
+  "production_executed": false,
+  "next_action": "USER_EXECUTE_STEP06_PRECHECK_RUNNER"
+}

@@ -170,6 +170,8 @@
     "qa:supabase-step04-required-fields-apply": "node scripts/analyze-supabase-step04-required-fields-apply.mjs && node --test scripts/analyze-supabase-step04-required-fields-apply.test.mjs",
     "qa:supabase-step05-aoe-security-precheck": "node scripts/analyze-supabase-step05-aoe-security-precheck.mjs && node --test scripts/analyze-supabase-step05-aoe-security-precheck.test.mjs",
     "qa:supabase-step05-aoe-security-apply": "node scripts/analyze-supabase-step05-aoe-security-apply.mjs && node --test scripts/analyze-supabase-step05-aoe-security-apply.test.mjs",
+    "qa:supabase-step06-group-a-security-precheck": "node scripts/analyze-supabase-step06-group-a-security-precheck.mjs && node --test scripts/analyze-supabase-step06-group-a-security-precheck.test.mjs",
+    "qa:supabase-step06-group-a-security-apply": "node scripts/analyze-supabase-step06-group-a-security-apply.mjs && node --test scripts/analyze-supabase-step06-group-a-security-apply.test.mjs",
     "qa:supabase-step01-workout-delivery-smoke": "node scripts/validate-supabase-step01-workout-delivery-smoke.mjs && node --test scripts/validate-supabase-step01-workout-delivery-smoke.test.mjs",
     "qa:supabase-step01-final-authorization": "node scripts/analyze-supabase-step01-final-authorization.mjs && node --test scripts/analyze-supabase-step01-final-authorization.test.mjs",
     "qa:supabase-cutover-backup-preparation": "node scripts/analyze-supabase-cutover-backup-preparation.mjs && node --test scripts/analyze-supabase-cutover-backup-preparation.test.mjs",

@@ -53,8 +53,22 @@ Repeat for each step 01-06. Do not batch steps.
 - [x] Step05 apply executed
 - [x] Step05 postcheck passed
 - [x] Step05 production reconciled
-- [ ] Step06 authorized
-- [ ] Step06 executed
+- [x] Step06 apply authorized
+- [x] Step06 apply executed
+- [x] Step06 postcheck passed
+- [x] Step06 production reconciled
+
+## Manual Cutover Completion
+
+- [x] Step01 reconciled
+- [x] Step02 reconciled
+- [x] Step03 reconciled
+- [x] Step04 reconciled
+- [x] Step05 reconciled
+- [x] Step06 reconciled
+- [ ] History Alignment authorized
+- [ ] History Alignment executed
+- [ ] DB push allowed
 
 - [ ] Backup verified
 - [ ] Precheck executed
