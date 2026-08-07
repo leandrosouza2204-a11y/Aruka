@@ -1,0 +1,32 @@
+{
+  "decision": "READY_FOR_MIGRATION_HISTORY_ALIGNMENT_REVIEW",
+  "local_migration_count": 7,
+  "canonical_remote_registry_state": "ABSENT",
+  "remote_history_count": 0,
+  "remote_history_query_skipped": "TABLE_ABSENT",
+  "potential_registry_count": 7,
+  "potential_registries": [
+    { "schema": "auth", "relation": "schema_migrations", "relkind": "r", "classification": "POTENTIAL_REMOTE_HISTORY_REGISTRY" },
+    { "schema": "auth", "relation": "schema_migrations_pkey", "relkind": "i", "classification": "POTENTIAL_REMOTE_HISTORY_REGISTRY" },
+    { "schema": "realtime", "relation": "schema_migrations", "relkind": "r", "classification": "POTENTIAL_REMOTE_HISTORY_REGISTRY" },
+    { "schema": "realtime", "relation": "schema_migrations_pkey", "relkind": "i", "classification": "POTENTIAL_REMOTE_HISTORY_REGISTRY" },
+    { "schema": "storage", "relation": "migrations", "relkind": "r", "classification": "POTENTIAL_REMOTE_HISTORY_REGISTRY" },
+    { "schema": "storage", "relation": "migrations_name_key", "relkind": "i", "classification": "POTENTIAL_REMOTE_HISTORY_REGISTRY" },
+    { "schema": "storage", "relation": "migrations_pkey", "relkind": "i", "classification": "POTENTIAL_REMOTE_HISTORY_REGISTRY" }
+  ],
+  "history_match_count": 0,
+  "local_effect_applied_history_missing_count": 6,
+  "reference_only_count": 1,
+  "partially_reconciled_count": 0,
+  "not_yet_applied_count": 0,
+  "blocking_conflict_count": 0,
+  "repair_candidate_count": 6,
+  "not_safe_for_repair_count": 1,
+  "migration_repair_authorized": false,
+  "migration_repair_executed": false,
+  "db_push_allowed": false,
+  "history_alignment_executed": false,
+  "remote_schema_mutation_executed": false,
+  "rollback_confirmed": true,
+  "next_action": "REVIEW_EXACT_MIGRATION_REPAIR_PLAN"
+}
