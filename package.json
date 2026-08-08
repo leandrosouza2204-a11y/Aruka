@@ -178,6 +178,7 @@
     "qa:supabase-migration-history-alignment-apply": "node scripts/analyze-supabase-migration-history-alignment-apply.mjs && node --test scripts/analyze-supabase-migration-history-alignment-apply.test.mjs",
     "qa:supabase-post-alignment-validation": "node scripts/analyze-supabase-post-alignment-validation.mjs && node --test scripts/analyze-supabase-post-alignment-validation.test.mjs",
     "qa:supabase-db-push-dry-run": "node scripts/analyze-supabase-db-push-dry-run.mjs && node --test scripts/analyze-supabase-db-push-dry-run.test.mjs",
+    "qa:supabase-final-ci-cd-review": "node scripts/analyze-supabase-final-ci-cd-review.mjs && node --test scripts/analyze-supabase-final-ci-cd-review.test.mjs",
     "qa:supabase-step01-workout-delivery-smoke": "node scripts/validate-supabase-step01-workout-delivery-smoke.mjs && node --test scripts/validate-supabase-step01-workout-delivery-smoke.test.mjs",
     "qa:supabase-step01-final-authorization": "node scripts/analyze-supabase-step01-final-authorization.mjs && node --test scripts/analyze-supabase-step01-final-authorization.test.mjs",
     "qa:supabase-cutover-backup-preparation": "node scripts/analyze-supabase-cutover-backup-preparation.mjs && node --test scripts/analyze-supabase-cutover-backup-preparation.test.mjs",
