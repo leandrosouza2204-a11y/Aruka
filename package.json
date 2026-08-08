@@ -13,6 +13,7 @@
     "qa:finance-modals": "node --env-file=.env.qa.local scripts/validate-finance-modals-cdp.mjs",
     "qa:renovacao-mobile": "node --env-file=.env.qa.local scripts/validate-renovacao-plano-mobile-cdp.mjs",
     "qa:dashboard-mobile": "node --env-file=.env.local --env-file=.env.qa.local scripts/audit-dashboard-authenticated-local.mjs",
+    "qa:core-mobile-layout": "node scripts/validate-core-mobile-layout.mjs",
     "qa:local:setup": "node --env-file=.env.local --env-file=.env.qa.local scripts/setup-local-qa.mjs",
     "qa:local:user": "node --env-file=.env.local --env-file=.env.qa.local scripts/setup-local-qa-user.mjs",
     "qa:local:data": "node --env-file=.env.local --env-file=.env.qa.local scripts/setup-local-qa-data.mjs",

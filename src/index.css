@@ -5515,6 +5515,112 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
   .app-table-scroll {
     margin-top: 12px !important;
   }
+
+  /* Ciclo 2 mobile: estabilidade de largura dos containers centrais. */
+  .app-main.page-container,
+  .dashboard-page,
+  .financeiro-page,
+  .alunos-page,
+  .treinos-page,
+  .avaliacoes-page,
+  .planos-page,
+  .admin-logs-page,
+  .admin-users-page {
+    box-sizing: border-box !important;
+    margin-left: 0 !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  .dashboard-page *,
+  .financeiro-page *,
+  .alunos-page *,
+  .treinos-page *,
+  .avaliacoes-page *,
+  .planos-page *,
+  .admin-logs-page *,
+  .admin-users-page * {
+    box-sizing: border-box;
+    min-width: 0;
+  }
+
+  .page-hero,
+  .app-card,
+  .app-section,
+  .app-filter-grid,
+  .mobile-card-list,
+  .mobile-list-card,
+  .dashboard-panel,
+  .dashboard-metric-card,
+  .dashboard-stat-card,
+  .financeiro-list-card,
+  .financeiro-mobile-cards,
+  .alunos-filter-card,
+  .treinos-library-section,
+  .treinos-filter-card,
+  .treino-library-card,
+  .avaliacoes-filter-card,
+  .planos-filter-card,
+  .admin-logs-panel,
+  .admin-users-page section {
+    max-width: 100% !important;
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  .page-hero-actions,
+  .app-card-header,
+  .mobile-card-header,
+  .card-row,
+  .card-actions,
+  .mobile-card-actions,
+  .financeiro-card-actions,
+  .admin-modal-footer,
+  .accessible-modal-footer {
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .page-hero-content,
+  .page-hero h1,
+  .page-hero p,
+  .app-card-header > *,
+  .mobile-card-header > *,
+  .card-row > *,
+  .mobile-list-card strong,
+  .mobile-list-card span,
+  .mobile-list-card p {
+    min-width: 0 !important;
+    overflow-wrap: anywhere;
+  }
+
+  .app-table-scroll,
+  .responsive-table,
+  .admin-table-scroll {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .accessible-modal-overlay,
+  .aluno-form-overlay,
+  .financeiro-modal-overlay {
+    box-sizing: border-box;
+    max-width: 100vw;
+    overflow-x: clip;
+  }
+
+  .accessible-modal,
+  .aluno-form-modal,
+  .financeiro-modal,
+  .admin-user-modal,
+  .admin-log-modal {
+    box-sizing: border-box;
+    max-width: calc(100vw - 24px) !important;
+    min-width: 0 !important;
+    width: calc(100vw - 24px) !important;
+  }
 }
 
 @media (max-width: 360px) {
