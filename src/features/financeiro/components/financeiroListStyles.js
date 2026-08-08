@@ -38,6 +38,12 @@ const styles = {
     marginTop: "16px",
     padding: "12px 14px",
   },
+  contextoAlunoTexto: {
+    fontSize: "13px",
+    fontWeight: "600",
+    lineHeight: 1.45,
+    margin: "4px 0 0",
+  },
   secaoTitulo: {
     margin: 0,
     fontSize: "22px",

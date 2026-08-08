@@ -35,6 +35,7 @@ import {
   validarDataPagamento,
 } from "../utils/validarDataPagamento";
 import { obterMotivoEncerramentoParaRegistro } from "../constants/motivosEncerramento";
+import { userFacingError } from "../../../utils/contextualErrorFeedback";
 
 export const pagamentoInicial = {
   dataPagamento: dataHojeISO(),
@@ -110,7 +111,8 @@ export function useFinanceiroPage() {
       setPagamentos(pagamentosSupabase);
       setPlanos(planosSupabase);
     } catch (error) {
-      setErro(`Erro ao carregar dados financeiros: ${error.message}`);
+      console.error(error);
+      setErro(userFacingError("carregar os dados financeiros", error));
       setAlunos([]);
       setPagamentos([]);
       setPlanos([]);
@@ -407,7 +409,7 @@ export function useFinanceiroPage() {
       }
     } catch (error) {
       console.error(error);
-      setErro(`Erro ao renovar plano: ${error.message}`);
+      setErro(userFacingError("renovar o plano", error));
       toast.erro("Não foi possível renovar o plano", "Tente novamente em alguns instantes.");
     } finally {
       setAtualizandoId("");
@@ -416,6 +418,7 @@ export function useFinanceiroPage() {
 
   async function registrarPagamento() {
     if (!modalPagamento) return;
+    if (atualizandoId) return;
 
     const valor = Number(formPagamento.valor || 0);
 
@@ -462,7 +465,7 @@ export function useFinanceiroPage() {
         return;
       }
 
-      setErro(`Erro ao registrar pagamento: ${error.message}`);
+      setErro(userFacingError("registrar o pagamento", error));
       toast.erro("Não foi possível registrar o pagamento", "Tente novamente em alguns instantes.");
     } finally {
       setAtualizandoId("");
@@ -470,6 +473,7 @@ export function useFinanceiroPage() {
   }
 
   async function desfazerPagamento(registro) {
+    if (atualizandoId) return;
     const pagamento = registro.ultimoPagamento;
 
     if (!pagamento) return;
@@ -491,7 +495,7 @@ export function useFinanceiroPage() {
       toast.sucesso("Pagamento desfeito", "O último pagamento foi removido com segurança.");
     } catch (error) {
       console.error(error);
-      setErro(`Erro ao desfazer pagamento: ${error.message}`);
+      setErro(userFacingError("desfazer o pagamento", error));
       toast.erro("Não foi possível desfazer o pagamento", "Tente novamente em alguns instantes.");
     } finally {
       setAtualizandoId("");
@@ -508,6 +512,7 @@ export function useFinanceiroPage() {
 
   async function confirmarEncerramentoAcompanhamento() {
     if (!modalEncerramento) return;
+    if (atualizandoId) return;
 
     const motivo = formEncerramento.motivo.trim();
     const detalhe = formEncerramento.detalhe.trim();
@@ -578,7 +583,7 @@ export function useFinanceiroPage() {
       }
     } catch (error) {
       console.error(error);
-      setErro(`Erro ao marcar aluno como não renovado: ${error.message}`);
+      setErro(userFacingError("encerrar o acompanhamento", error));
       toast.erro(
         "Não foi possível encerrar o acompanhamento",
         "Não foi possível encerrar o acompanhamento. Tente novamente."
@@ -589,6 +594,7 @@ export function useFinanceiroPage() {
   }
 
   async function reativarAluno(registro) {
+    if (atualizandoId) return;
     const operationId = criarOperationId();
     const confirmado = await confirmar({
       titulo: "Reativar aluno?",
@@ -654,7 +660,7 @@ export function useFinanceiroPage() {
       }
     } catch (error) {
       console.error(error);
-      setErro(`Erro ao reativar aluno: ${error.message}`);
+      setErro(userFacingError("reativar o aluno", error));
       toast.erro("Não foi possível reativar o aluno", "Tente novamente em instantes.");
     } finally {
       setAtualizandoId("");

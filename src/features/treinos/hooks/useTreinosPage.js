@@ -44,6 +44,7 @@ import {
   WORKOUT_LIFECYCLE_FILTER_OPTIONS,
   getWorkoutLifecycleStatus,
 } from "../utils/workoutLifecyclePresentation";
+import { getWorkoutLifecycleFeedback } from "../utils/workoutLifecycleFeedback";
 import { prepareWorkoutTemplateApplicationPayload } from "../utils/workoutTemplateApplication";
 
 export { formatarData };
@@ -252,6 +253,7 @@ export function useTreinosPage() {
   async function entregarTreino(treino) {
     const id = treino?.id || treino;
     if (!id || entregandoTreinoId || alterandoEstadoTreinoId) return null;
+    const feedback = getWorkoutLifecycleFeedback("deliver");
 
     try {
       setErro(null);
@@ -259,7 +261,7 @@ export function useTreinosPage() {
       const treinoEntregue = await entregarTreinoSupabase(id);
       await carregarDados({ silencioso: true });
       setTreinoSelecionadoId(treinoEntregue?.id || id);
-      toast.sucesso("Treino entregue ao aluno.", "A ficha ficou ativa.");
+      toast.sucesso(feedback.successTitle, feedback.successDescription);
       return treinoEntregue;
     } catch (error) {
       console.error(error);
@@ -274,6 +276,13 @@ export function useTreinosPage() {
   async function alterarLifecycleTreino(treino, lifecycleStatus) {
     const id = treino?.id || treino;
     if (!id || entregandoTreinoId || alterandoEstadoTreinoId) return null;
+    const action =
+      lifecycleStatus === WORKOUT_LIFECYCLE_STATUS.COMPLETED
+        ? "complete"
+        : lifecycleStatus === WORKOUT_LIFECYCLE_STATUS.ARCHIVED
+          ? "archive"
+          : "update";
+    const feedback = getWorkoutLifecycleFeedback(action);
 
     try {
       setErro(null);
@@ -281,7 +290,7 @@ export function useTreinosPage() {
       const treinoAtualizado = await alterarEstadoTreinoSupabase(id, lifecycleStatus);
       await carregarDados({ silencioso: true });
       setTreinoSelecionadoId(treinoAtualizado?.id || id);
-      toast.sucesso(tituloLifecycleAtualizado(lifecycleStatus), mensagemLifecycleAtualizado(lifecycleStatus));
+      toast.sucesso(feedback.successTitle, feedback.successDescription);
       return treinoAtualizado;
     } catch (error) {
       console.error(error);
@@ -678,7 +687,7 @@ function mensagemModeloSalvo(mode) {
   return "Modelo criado com sucesso.";
 }
 
-function mensagemLifecycleAtualizado(lifecycleStatus) {
+export function mensagemLifecycleAtualizado(lifecycleStatus) {
   if (lifecycleStatus === WORKOUT_LIFECYCLE_STATUS.COMPLETED) {
     return "A ficha foi marcada como concluída.";
   }
@@ -691,7 +700,7 @@ function mensagemLifecycleAtualizado(lifecycleStatus) {
   return "A ficha voltou para rascunho.";
 }
 
-function tituloLifecycleAtualizado(lifecycleStatus) {
+export function tituloLifecycleAtualizado(lifecycleStatus) {
   if (lifecycleStatus === WORKOUT_LIFECYCLE_STATUS.COMPLETED) return "Treino concluído.";
   if (lifecycleStatus === WORKOUT_LIFECYCLE_STATUS.ARCHIVED) return "Treino arquivado.";
   return "Treino atualizado.";

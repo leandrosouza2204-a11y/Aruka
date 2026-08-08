@@ -19,8 +19,28 @@ function FinanceiroList() {
         <FinanceiroHeader onRelatorios={page.abrirRelatorioGeral} />
 
         {page.alunoContextual && (
-          <section className="app-alert" data-testid="financeiro-context-aluno" style={styles.contextoAluno}>
-            Financeiro contextualizado para {page.alunoContextual.nome}.
+          <section
+            className="app-alert app-section"
+            data-testid="financeiro-context-aluno"
+            style={styles.contextoAluno}
+            aria-labelledby="financeiro-context-title"
+          >
+            <div>
+              <strong id="financeiro-context-title" data-testid="financeiro-context-student-name">
+                Financeiro de {page.alunoContextual.nome}
+              </strong>
+              <p className="app-muted" style={styles.contextoAlunoTexto}>
+                A lista está filtrada para este aluno. Pagamentos, renovação e histórico abaixo pertencem a esse contexto.
+              </p>
+            </div>
+            <button
+              type="button"
+              className="app-button app-button-secondary"
+              data-testid="financeiro-context-clear"
+              onClick={page.limparFiltros}
+            >
+              Mostrar todos
+            </button>
           </section>
         )}
 

@@ -1,0 +1,9 @@
+module,flow,error_type,previous_feedback,new_feedback,retry_available,empty_state_conflict,result,notes
+financeiro,load financial data,UNEXPECTED,raw error.message in page error,contextual load failure message,no,no,PASS,Technical detail remains in console.
+financeiro,register payment,VALIDATION_ERROR/contextual,raw error.message in page error,contextual payment failure message,yes,no,PASS,Future date validation remains field-specific.
+financeiro,renew plan,USER_ACTION_ERROR,raw error.message in page error,contextual renewal failure message,yes,no,PASS,Toast already contextual.
+financeiro,undo last payment,HIGH_RISK_MUTATION,raw error.message in page error,contextual undo failure message,yes,no,PASS,Confirmation preserved.
+financeiro,close follow-up,HIGH_RISK_MUTATION,raw error.message in page error,contextual closure failure message,yes,no,PASS,Error does not become empty state.
+financeiro,reactivate student,USER_ACTION_ERROR,raw error.message in page error,contextual reactivation failure message,yes,no,PASS,Confirmation preserved.
+treinos,library/load retry,NETWORK_ERROR,structured retryable state,structured retryable state,yes,no,PASS,Existing Treinos error state preserved.
+treinos,lifecycle mutation,USER_ACTION_ERROR,action toast plus modal error,action-specific success/error feedback,yes,no,PASS,Domain contract unchanged.
