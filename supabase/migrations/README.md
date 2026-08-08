@@ -2,11 +2,13 @@
 
 Esta pasta contem somente a cadeia ativa de migrations apos o cutover da baseline.
 
-Ambientes novos devem aplicar primeiro `20260716090000_baseline_aruka_v1.sql` e depois qualquer migration posterior ao corte.
+Este diretorio contem apenas migrations executaveis pelo Supabase CLI.
+
+A baseline `20260716090000_baseline_aruka_v1.sql` foi movida para `supabase/reference-baselines/` como `NON_EXECUTABLE_DATABASE_REFERENCE`.
 
 ## Regras
 
-- A baseline oficial deve permanecer byte a byte equivalente a `supabase/baseline-candidate/20260716090000_baseline_aruka_v1.sql`.
+- A baseline reference-only deve permanecer byte a byte equivalente a `supabase/baseline-candidate/20260716090000_baseline_aruka_v1.sql`.
 - Migrations anteriores ao timestamp da baseline ficam em `supabase/migrations-archive/`.
 - SQL operacional por ambiente fica em `supabase/operations/`.
 - Nunca apagar migrations.
