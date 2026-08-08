@@ -1,0 +1,9 @@
+component,module,uses_accessible_modal,role_dialog,aria_modal,accessible_name,escape,focus_trap,focus_return,result,notes
+AccessibleModal,shared,true,true,true,true,true,true,true,PASS,Shared contract reused by direct consumers.
+AlunoModal,alunos,false,true,true,true,true,true,true,PASS,Custom modal kept; parity added with shared focus helper.
+TreinoModal,treinos,false,true,true,true,true,true,true,PASS,Large editor kept custom; focus trap and focus return added.
+TreinoTemplatesModal,biblioteca,false,true,true,true,true,true,true,PASS,Custom wizard kept; Escape hierarchy preserved for menu and child modals.
+WorkoutLifecycleConfirmationModal,workout-delivery,false,true,true,true,true,true,true,PASS,Alertdialog keeps cancel initial focus and loading Escape guard.
+FinanceiroModalBase,financeiro,true,true,true,true,true,true,true,PASS,Uses AccessibleModal through ModalBase.
+DashboardCheckin,dashboard,true,true,true,true,true,true,true,PASS,Uses AccessibleModal.
+AdminLogDetails,admin,true,true,true,true,true,true,true,PASS,Uses AccessibleModal.

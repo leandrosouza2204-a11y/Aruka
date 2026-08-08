@@ -23,6 +23,7 @@ const CriarSenha = lazy(() => import("./pages/CriarSenha"));
 const AceiteLegal = lazy(() => import("./pages/AceiteLegal"));
 const PoliticaPrivacidade = lazy(() => import("./pages/PoliticaPrivacidade"));
 const TermosUso = lazy(() => import("./pages/TermosUso"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 function App() {
   return (
@@ -195,6 +196,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

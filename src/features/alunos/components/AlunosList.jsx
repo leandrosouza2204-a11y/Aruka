@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import Sidebar from "../../../components/Sidebar";
 import InlineDetails from "../../../components/InlineDetails";
 import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
 import { classeStatusAluno } from "../../../data/statusHelpers";
+import { trapModalFocus } from "../../../utils/modalAccessibility";
 import { montarResumoOperacionalAluno } from "../utils/alunosResumoOperacional";
 import { useAlunosPage } from "../hooks/useAlunosPage";
 import AlunoCardMobile from "./AlunoCardMobile";
@@ -83,6 +84,8 @@ function AlunosList() {
           onEditar={page.abrirEdicao}
           onExcluir={page.excluirAluno}
           onNovoAluno={page.abrirCadastro}
+          totalAlunos={page.alunos.length}
+          hasActiveFilters={Boolean(page.busca || page.filtroPlano || page.filtroStatus !== "Todos")}
           styles={styles}
         />
 
@@ -93,7 +96,21 @@ function AlunosList() {
             </div>
           ) : page.alunosFiltrados.length === 0 ? (
             <div className="app-empty-state mobile-list-card">
-              Nenhum aluno encontrado.
+              <strong>
+                {page.alunos.length > 0
+                  ? "Nenhum aluno encontrado para os filtros atuais."
+                  : "Nenhum aluno cadastrado ainda."}
+              </strong>
+              <p className="app-muted">
+                {page.alunos.length > 0
+                  ? "Ajuste a busca, o status ou o plano para ver outros alunos."
+                  : "Cadastre o primeiro aluno para acompanhar pagamentos, treinos e avaliacoes."}
+              </p>
+              {page.alunos.length === 0 && (
+                <button type="button" className="app-button app-button-primary" onClick={page.abrirCadastro}>
+                  Novo aluno
+                </button>
+              )}
             </div>
           ) : (
             page.alunosFiltrados.map((aluno) => (
@@ -151,15 +168,32 @@ function AlunoModal({ page, styles }) {
   const errors = page.formErrors || {};
   const tituloId = "aluno-form-title";
   const descricaoId = "aluno-form-description";
+  const dialogRef = useRef(null);
+  const closeButtonRef = useRef(null);
+  const previouslyFocusedRef = useRef(null);
+  const fecharModal = page.fecharModal;
 
   useEffect(() => {
+    previouslyFocusedRef.current = document.activeElement;
     const overflowAnterior = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    closeButtonRef.current?.focus();
+
+    function handleKeyDown(event) {
+      if (event.key === "Escape") {
+        event.stopPropagation();
+        fecharModal();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
+      document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = overflowAnterior;
+      previouslyFocusedRef.current?.focus?.();
     };
-  }, []);
+  }, [fecharModal]);
 
   useEffect(() => {
     if (!page.validationAttempt) return;
@@ -178,6 +212,7 @@ function AlunoModal({ page, styles }) {
   return createPortal(
     <div className="aluno-form-overlay" style={styles.modalOverlay}>
       <div
+        ref={dialogRef}
         aria-describedby={descricaoId}
         aria-labelledby={tituloId}
         aria-modal="true"
@@ -185,6 +220,8 @@ function AlunoModal({ page, styles }) {
         data-testid="aluno-form-modal"
         role="dialog"
         style={styles.modal}
+        tabIndex={-1}
+        onKeyDown={(event) => trapModalFocus(event, dialogRef.current)}
       >
         <div className="aluno-form-header" style={styles.modalTopo}>
           <div className="aluno-form-heading">
@@ -195,6 +232,7 @@ function AlunoModal({ page, styles }) {
           </div>
 
           <button
+            ref={closeButtonRef}
             className="aluno-form-close"
             data-testid="aluno-form-close"
             onClick={page.fecharModal}

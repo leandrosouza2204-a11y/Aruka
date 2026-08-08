@@ -1,15 +1,7 @@
 import { useEffect, useId, useRef } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
-
-const focusableSelector = [
-  "a[href]",
-  "button:not([disabled])",
-  "textarea:not([disabled])",
-  "input:not([disabled])",
-  "select:not([disabled])",
-  "[tabindex]:not([tabindex='-1'])",
-].join(",");
+import { getModalFocusableElements, trapModalFocus } from "../utils/modalAccessibility";
 
 function AccessibleModal({
   isOpen,
@@ -43,7 +35,7 @@ function AccessibleModal({
 
     window.setTimeout(() => {
       const dialog = dialogRef.current;
-      const primeiroFocavel = dialog?.querySelector(focusableSelector);
+      const primeiroFocavel = getModalFocusableElements(dialog)[0];
       const alvo = initialFocusRef?.current || primeiroFocavel || dialog;
 
       alvo?.focus?.();
@@ -68,28 +60,7 @@ function AccessibleModal({
       return;
     }
 
-    if (event.key !== "Tab") return;
-
-    const focaveis = Array.from(
-      dialogRef.current?.querySelectorAll(focusableSelector) || []
-    ).filter((elemento) => elemento.offsetParent !== null || elemento === document.activeElement);
-
-    if (focaveis.length === 0) {
-      event.preventDefault();
-      dialogRef.current?.focus();
-      return;
-    }
-
-    const primeiro = focaveis[0];
-    const ultimo = focaveis[focaveis.length - 1];
-
-    if (event.shiftKey && document.activeElement === primeiro) {
-      event.preventDefault();
-      ultimo.focus();
-    } else if (!event.shiftKey && document.activeElement === ultimo) {
-      event.preventDefault();
-      primeiro.focus();
-    }
+    trapModalFocus(event, dialogRef.current);
   }
 
   function tratarCliqueOverlay(event) {

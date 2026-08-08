@@ -988,6 +988,45 @@ textarea {
   min-width: 0;
 }
 
+.not-found-page {
+  align-items: center;
+  background: #f8fafc;
+  color: #111827;
+  display: grid;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.not-found-panel {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+  margin: 0 auto;
+  max-width: 520px;
+  width: 100%;
+}
+
+.not-found-code {
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.not-found-panel h1 {
+  font-size: 34px;
+  line-height: 1.12;
+  margin: 0;
+}
+
+.not-found-panel p {
+  color: #475569;
+  font-size: 16px;
+  line-height: 1.55;
+  margin: 0;
+}
+
 .app-label {
   color: #374151;
   font-size: 13px;

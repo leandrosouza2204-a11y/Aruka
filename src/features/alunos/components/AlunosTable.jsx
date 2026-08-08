@@ -14,7 +14,9 @@ function AlunosTable({
   onEditar,
   onExcluir,
   onNovoAluno,
+  hasActiveFilters = false,
   styles,
+  totalAlunos = 0,
 }) {
   return (
     <div className="app-table-scroll desktop-table alunos-table">
@@ -98,7 +100,11 @@ function AlunosTable({
           {!carregando && alunos.length === 0 && (
             <tr>
               <td style={styles.estadoVazio} colSpan="7">
-                <AlunosEmptyState onNovoAluno={onNovoAluno} />
+                <AlunosEmptyState
+                  hasActiveFilters={hasActiveFilters}
+                  onNovoAluno={onNovoAluno}
+                  totalAlunos={totalAlunos}
+                />
               </td>
             </tr>
           )}

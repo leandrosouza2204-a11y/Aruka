@@ -1,0 +1,9 @@
+route,module,data_state,loading_distinct,error_distinct,message_contextual,cta_valid,result,notes
+/alunos,alunos,no_data,true,true,true,true,PASS,Nenhum aluno cadastrado ainda with Novo aluno CTA.
+/alunos,alunos,filtered_empty,true,true,true,false,PASS,Filters/search empty copy avoids implying base is empty.
+/treinos,treinos,no_data,true,true,true,true,PASS,Treinos empty state offers create workout or template.
+/treinos,treinos,student_context_empty,true,true,true,true,PASS,Contextual student empty state preserved without adding F-010 banners.
+/financeiro,financeiro,no_data,true,true,true,false,PASS,Financial empty copy points to filters or active student plans.
+/financeiro,financeiro,closed_followups_empty,true,true,true,false,PASS,Closed followups empty copy explains when records appear.
+/avaliacoes,avaliacoes,no_data,true,true,true,true,PASS,Dedicated AvaliacoesEmptyState covers no-data and contextual variants.
+/avaliacoes,avaliacoes,filtered_empty,true,true,true,false,PASS,Search/filter no-result messages are contextual.

@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef } from "react";
 import { createPortal } from "react-dom";
+import { trapModalFocus } from "../../../utils/modalAccessibility";
 import { mapWorkoutLifecycleUiError } from "../utils/workoutLifecyclePresentation";
 
 const COPY = {
@@ -36,8 +37,11 @@ function WorkoutLifecycleConfirmationModal({
   const titleId = useId();
   const descriptionId = useId();
   const cancelRef = useRef(null);
+  const dialogRef = useRef(null);
+  const previouslyFocusedRef = useRef(null);
 
   useEffect(() => {
+    previouslyFocusedRef.current = document.activeElement;
     cancelRef.current?.focus();
 
     function handleKeyDown(event) {
@@ -47,7 +51,10 @@ function WorkoutLifecycleConfirmationModal({
     }
 
     document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      previouslyFocusedRef.current?.focus?.();
+    };
   }, [loading, onCancel]);
 
   if (!copy) return null;
@@ -55,6 +62,7 @@ function WorkoutLifecycleConfirmationModal({
   return createPortal(
     <div className="workout-lifecycle-confirmation-overlay" role="presentation">
       <section
+        ref={dialogRef}
         className="workout-lifecycle-confirmation-modal"
         role="alertdialog"
         aria-modal="true"
@@ -62,6 +70,8 @@ function WorkoutLifecycleConfirmationModal({
         aria-describedby={descriptionId}
         aria-busy={loading}
         data-testid="workout-lifecycle-confirmation"
+        tabIndex={-1}
+        onKeyDown={(event) => trapModalFocus(event, dialogRef.current)}
       >
         <header>
           <h2 id={titleId}>{copy.title}</h2>

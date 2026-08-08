@@ -3,6 +3,7 @@ import ExercicioCard from "./ExercicioCard";
 import TreinoSalvarModeloModal from "../features/treinos/components/TreinoSalvarModeloModal";
 import { useConfirm } from "../hooks/useConfirm";
 import { useToast } from "../hooks/useToast";
+import { trapModalFocus } from "../utils/modalAccessibility";
 import {
   areTreinoEditorStatesEqual,
   normalizeTreinoEditorState,
@@ -62,6 +63,7 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
   const [salvandoTreino, setSalvandoTreino] = useState(false);
   const [errosValidacao, setErrosValidacao] = useState({});
   const modalRef = useRef(null);
+  const previouslyFocusedRef = useRef(null);
   const alunoRef = useRef(null);
   const rotinaRef = useRef(null);
   const adicionarDiaRef = useRef(null);
@@ -104,7 +106,12 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
   }, [confirmar, isDirty, onClose]);
 
   useEffect(() => {
+    previouslyFocusedRef.current = document.activeElement;
     modalRef.current?.querySelector("select, input, textarea, button")?.focus?.();
+
+    return () => {
+      previouslyFocusedRef.current?.focus?.();
+    };
   }, []);
 
   useEffect(() => {
@@ -339,6 +346,8 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
   }
 
   function handleKeyDown(event) {
+    if (trapModalFocus(event, modalRef.current)) return;
+
     if (event.key === "Escape") {
       event.stopPropagation();
       requestCloseEditor("escape");
@@ -379,6 +388,7 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="treino-editor-title"
+        tabIndex={-1}
         onKeyDown={handleKeyDown}
       >
         <div className="treino-editor-header" style={modalTopo}>
