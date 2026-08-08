@@ -4,6 +4,7 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 import SubscriptionRoute from "./auth/SubscriptionRoute";
 import AdminRoute from "./auth/AdminRoute";
 import LegalRoute from "./auth/LegalRoute";
+import LoadingFallback from "./components/LoadingFallback";
 import MobileBottomNavigation from "./components/MobileBottomNavigation";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -26,7 +27,7 @@ const TermosUso = lazy(() => import("./pages/TermosUso"));
 function App() {
   return (
     <BrowserRouter>
-      <Suspense fallback={null}>
+      <Suspense fallback={<LoadingFallback texto="Carregando página..." variant="route" />}>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />

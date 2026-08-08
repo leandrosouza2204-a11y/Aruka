@@ -27,7 +27,7 @@ export async function uploadAvaliacaoFoto({ userId, alunoId, avaliacaoId, posica
 
   if (error) {
     registrarErroFoto("upload", { posicao, path, error });
-    throw criarErroFoto("Nao foi possivel enviar uma ou mais fotos.", error);
+    throw criarErroFoto("Não foi possível enviar uma ou mais fotos.", error);
   }
 
   return { path };
@@ -39,7 +39,7 @@ export async function removeAvaliacaoFoto({ path, posicao }) {
   const { error } = await supabase.storage.from(AVALIACOES_FOTOS_BUCKET).remove([path]);
   if (error) {
     registrarErroFoto("remove", { posicao, path, error });
-    throw criarErroFoto("Nao foi possivel remover a foto agora.", error);
+    throw criarErroFoto("Não foi possível remover a foto agora.", error);
   }
 }
 

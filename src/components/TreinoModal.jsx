@@ -91,7 +91,7 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
 
     const discard = await confirmar({
       titulo: "Descartar alteracoes?",
-      descricao: "Voce possui alteracoes nao salvas. Ao sair, essas alteracoes serao perdidas.",
+      descricao: "Você possui alterações não salvas. Ao sair, essas alterações serão perdidas.",
       textoCancelar: "Continuar editando",
       textoConfirmar: "Descartar alteracoes",
       variante: "perigo",

@@ -3,6 +3,7 @@ import Sidebar from "../components/Sidebar";
 import TableActions, { TableActionItem } from "../components/TableActions";
 import EmptyState from "../components/EmptyState";
 import LoadingState from "../components/LoadingState";
+import LoadingFallback from "../components/LoadingFallback";
 import PageHero from "../components/PageHero";
 import { useConfirm } from "../hooks/useConfirm";
 import { useToast } from "../hooks/useToast";
@@ -309,7 +310,7 @@ function Planos() {
         </div>
 
         {modalAberto && (
-          <Suspense fallback={null}>
+          <Suspense fallback={<LoadingFallback texto="Carregando formulário..." variant="modal" />}>
             <PlanoModal
               plano={planoEditando}
               planosExistentes={planos}

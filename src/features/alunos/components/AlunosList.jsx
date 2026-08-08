@@ -424,7 +424,7 @@ function AlunoDetalhesResponsivo({
           <div style={styles.resumoOperacionalTopo}>
             <div>
               <h3>Resumo operacional</h3>
-              <p style={styles.resumoLista}>Sinais rapidos para orientar a proxima acao.</p>
+              <p style={styles.resumoLista}>Sinais rápidos para orientar a próxima ação.</p>
             </div>
             <button
               className="table-button table-button-secondary"

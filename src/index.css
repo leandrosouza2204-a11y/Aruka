@@ -2392,6 +2392,37 @@ body[data-theme="dark"] .treino-day > summary::after {
   width: 100%;
 }
 
+.loading-fallback {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+  padding: 24px;
+  width: 100%;
+}
+
+.loading-fallback-route {
+  min-height: 100vh;
+}
+
+.loading-fallback-modal {
+  background: rgba(15, 23, 42, 0.58);
+  inset: 0;
+  position: fixed;
+  z-index: 70;
+}
+
+.loading-fallback-modal .loading-state {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.28);
+  color: #111827;
+  max-width: min(360px, 100%);
+  min-height: 96px;
+  padding: 20px 24px;
+}
+
 .app-error,
 .app-success,
 .app-alert {

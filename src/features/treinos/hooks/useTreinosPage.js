@@ -142,7 +142,7 @@ export function useTreinosPage() {
       return await buscarModelosPessoaisSupabase();
     } catch (error) {
       console.error(error);
-      setErroModelos(error.message || "Nao foi possivel carregar seus modelos.");
+      setErroModelos(error.message || "Não foi possível carregar seus modelos.");
       return [];
     } finally {
       setCarregandoModelos(false);
@@ -314,8 +314,8 @@ export function useTreinosPage() {
       setTreinoSelecionadoId(modelo?.id || "");
     } catch (error) {
       console.error(error);
-      setErroModelos(error.message || "Nao foi possivel salvar o modelo.");
-      toast.erro("Nao foi possivel salvar o modelo", "Revise os dados e tente novamente.");
+      setErroModelos(error.message || "Não foi possível salvar o modelo.");
+      toast.erro("Não foi possível salvar o modelo", "Revise os dados e tente novamente.");
       throw error;
     }
   }
@@ -336,8 +336,8 @@ export function useTreinosPage() {
       toast.sucesso("Modelo atualizado", "O modelo pessoal foi atualizado.");
     } catch (error) {
       console.error(error);
-      setErroModelos(error.message || "Nao foi possivel atualizar o modelo.");
-      toast.erro("Nao foi possivel atualizar o modelo", "Tente novamente em instantes.");
+      setErroModelos(error.message || "Não foi possível atualizar o modelo.");
+      toast.erro("Não foi possível atualizar o modelo", "Tente novamente em instantes.");
       throw error;
     }
   }
@@ -359,8 +359,8 @@ export function useTreinosPage() {
       toast.sucesso("Modelo excluido", "O modelo pessoal foi removido.");
     } catch (error) {
       console.error(error);
-      setErroModelos(error.message || "Nao foi possivel excluir o modelo.");
-      toast.erro("Nao foi possivel excluir o modelo", "Tente novamente em instantes.");
+      setErroModelos(error.message || "Não foi possível excluir o modelo.");
+      toast.erro("Não foi possível excluir o modelo", "Tente novamente em instantes.");
     }
   }
 

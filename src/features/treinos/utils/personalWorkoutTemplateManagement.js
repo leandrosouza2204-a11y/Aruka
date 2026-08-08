@@ -223,10 +223,10 @@ export function assertEditablePersonalTemplate(template, currentUserId = "") {
 export function mapPersonalTemplateManagementError(error) {
   const message = String(error?.message || error || "");
   if (message.includes("somente leitura")) return "Modelos oficiais nao podem ser editados.";
-  if (message.includes("outro usuario")) return "Voce so pode editar seus proprios modelos.";
+  if (message.includes("outro usuario")) return "Você só pode editar seus próprios modelos.";
   if (message.includes("identificador")) return "Modelo pessoal invalido para edicao.";
   if (message.includes("dias") || message.includes("exercicio")) return message;
-  return "Nao foi possivel salvar o modelo. Revise os dados e tente novamente.";
+  return "Não foi possível salvar o modelo. Revise os dados e tente novamente.";
 }
 
 function normalizeDraft(draft) {

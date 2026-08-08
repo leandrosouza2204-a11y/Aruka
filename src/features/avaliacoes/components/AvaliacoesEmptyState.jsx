@@ -35,7 +35,7 @@ function AvaliacoesEmptyState({
             onClick={onNovaAvaliacao}
             type="button"
           >
-            Nova avaliacao
+            Nova avaliação
           </button>
         )}
         {copy.showAnamnese && (
@@ -97,7 +97,7 @@ function getCopy({ activeTab, contextualStudent, searchTerm, state }) {
     return {
       title: `Nenhum resultado encontrado para "${searchTerm}".`,
       description:
-        "Revise a busca ou limpe o filtro para visualizar os registros disponiveis.",
+        "Revise a busca ou limpe o filtro para visualizar os registros disponíveis.",
       showClearSearch: true,
       showClearContext: Boolean(contextualStudent),
     };
@@ -106,7 +106,7 @@ function getCopy({ activeTab, contextualStudent, searchTerm, state }) {
   if (state === EMPTY_FILTER) {
     return {
       title: "Nenhum registro corresponde aos filtros selecionados.",
-      description: "Limpe os filtros para voltar aos registros disponiveis.",
+      description: "Limpe os filtros para voltar aos registros disponíveis.",
       showClearFilters: true,
     };
   }
@@ -115,10 +115,10 @@ function getCopy({ activeTab, contextualStudent, searchTerm, state }) {
     return {
       title: isAnamnese
         ? `Nenhuma anamnese encontrada para ${studentName}.`
-        : `Nenhuma avaliacao encontrada para ${studentName}.`,
+        : `Nenhuma avaliação encontrada para ${studentName}.`,
       description: isAnamnese
-        ? "Cadastre a primeira anamnese para reunir informacoes relevantes sobre o aluno."
-        : "Registre a primeira avaliacao para iniciar o acompanhamento da evolucao desse aluno.",
+        ? "Cadastre a primeira anamnese para reunir informações relevantes sobre o aluno."
+        : "Registre a primeira avaliação para iniciar o acompanhamento da evolução desse aluno.",
       showAssessment: true,
       showAnamnese: true,
       showClearContext: true,
@@ -130,15 +130,15 @@ function getCopy({ activeTab, contextualStudent, searchTerm, state }) {
     return {
       title: "Nenhuma anamnese cadastrada ainda.",
       description:
-        "Cadastre a primeira anamnese para registrar informacoes importantes antes do acompanhamento.",
+        "Cadastre a primeira anamnese para registrar informações importantes antes do acompanhamento.",
       showAnamnese: true,
     };
   }
 
   return {
-    title: "Nenhuma avaliacao cadastrada ainda.",
+    title: "Nenhuma avaliação cadastrada ainda.",
     description:
-      "Registre a primeira avaliacao para comecar a acompanhar a evolucao dos seus alunos.",
+      "Registre a primeira avaliação para começar a acompanhar a evolução dos seus alunos.",
     showAssessment: true,
     showAnamnese: true,
   };

@@ -2,6 +2,7 @@ import { lazy, Suspense, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Dumbbell, UserRound, X } from "lucide-react";
 import Sidebar from "../../../components/Sidebar";
+import LoadingFallback from "../../../components/LoadingFallback";
 import { useTreinosPage } from "../hooks/useTreinosPage";
 import TreinosCards from "./TreinosCards";
 import TreinoDetalhesModal from "./TreinoDetalhesModal";
@@ -191,7 +192,7 @@ function TreinosList() {
         )}
 
         {treinosPage.modalAberto && (
-          <Suspense fallback={null}>
+          <Suspense fallback={<LoadingFallback texto="Carregando editor de treino..." variant="modal" />}>
             <TreinoModal
               alunos={treinosPage.alunos}
               treino={treinosPage.treinoEditando || treinosPage.treinoBase}
@@ -203,7 +204,7 @@ function TreinosList() {
         )}
 
         {treinosPage.modalModelosAberto && (
-          <Suspense fallback={null}>
+          <Suspense fallback={<LoadingFallback texto="Carregando biblioteca de treinos..." variant="modal" />}>
             <TreinoTemplatesModal
               alunos={treinosPage.alunos}
               alunoContextual={treinosPage.alunoContextual}

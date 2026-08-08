@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import EmptyState from "../components/EmptyState";
 import LoadingState from "../components/LoadingState";
+import LoadingFallback from "../components/LoadingFallback";
 import PageHero from "../components/PageHero";
 import TableActions, { TableActionItem } from "../components/TableActions";
 import { useConfirm } from "../hooks/useConfirm";
@@ -472,7 +473,7 @@ function AdminUsuarios() {
       </main>
 
       {usuarioEditando && (
-        <Suspense fallback={null}>
+        <Suspense fallback={<LoadingFallback texto="Carregando formulário..." variant="modal" />}>
           <AdminUsuarioModal
             usuario={usuarioEditando}
             onClose={() => setUsuarioEditando(null)}

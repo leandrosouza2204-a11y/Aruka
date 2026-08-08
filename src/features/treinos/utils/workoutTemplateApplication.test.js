@@ -119,8 +119,8 @@ test("constroi previa de modelo pessoal sem descricao e com valores nulos", () =
   });
 
   assert.equal(preview.templateOrigin, "personal");
-  assert.equal(preview.level, "Nao informado");
-  assert.equal(preview.warnings.includes("Modelo sem descricao."), true);
+  assert.equal(preview.level, "Não informado");
+  assert.equal(preview.warnings.includes("Modelo sem descrição."), true);
   assert.equal(preview.validation.ok, true);
 });
 
@@ -190,7 +190,7 @@ test("rejeita aplicacao sem aluno, sem dias e com estrutura invalida", () => {
   );
   assert.throws(
     () => prepareWorkoutTemplateApplicationPayload({ template: { dias: [] }, student }),
-    /ao menos um dia|dias e exercicios/
+    /ao menos um dia|dias e exercícios/
   );
   assert.throws(
     () =>
@@ -198,14 +198,14 @@ test("rejeita aplicacao sem aluno, sem dias e com estrutura invalida", () => {
         template: { dias: [{ nome: "A", exercicios: [] }] },
         student,
       }),
-    /dias e exercicios/
+    /dias e exercícios/
   );
 });
 
 test("mapeia erro de persistencia para mensagem compreensivel", () => {
   assert.equal(
     mapWorkoutTemplateApplicationError(new Error("network timeout")),
-    "Nao foi possivel conectar ao servidor. Verifique a conexao e tente novamente."
+    "Não foi possível conectar ao servidor. Verifique a conexão e tente novamente."
   );
   assert.equal(
     mapWorkoutTemplateApplicationError(new Error("Aluno invalido.")),
@@ -295,7 +295,7 @@ test("erro de persistencia preserva modelo", () => {
 
   assert.equal(
     mapWorkoutTemplateApplicationError(error),
-    "Nao foi possivel conectar ao servidor. Verifique a conexao e tente novamente."
+    "Não foi possível conectar ao servidor. Verifique a conexão e tente novamente."
   );
   assert.deepStrictEqual(input, before);
 });

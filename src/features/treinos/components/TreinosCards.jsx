@@ -86,7 +86,7 @@ function TreinosCards({
 
             <div>
               <h3 style={styles.treinoCardTitulo}>{treino.rotina || "Ficha de treino"}</h3>
-              <p style={styles.treinoCardAluno}>{treino.aluno || "Aluno nao informado"}</p>
+          <p style={styles.treinoCardAluno}>{treino.aluno || "Aluno não informado"}</p>
             </div>
 
             <div style={styles.treinoBadges}>

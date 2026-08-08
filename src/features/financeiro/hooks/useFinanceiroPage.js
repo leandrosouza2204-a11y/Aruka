@@ -408,7 +408,7 @@ export function useFinanceiroPage() {
     } catch (error) {
       console.error(error);
       setErro(`Erro ao renovar plano: ${error.message}`);
-      toast.erro("Nao foi possivel renovar o plano", "Tente novamente em alguns instantes.");
+      toast.erro("Não foi possível renovar o plano", "Tente novamente em alguns instantes.");
     } finally {
       setAtualizandoId("");
     }

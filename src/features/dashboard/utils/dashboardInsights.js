@@ -118,9 +118,9 @@ export function montarSinaisFitness({ alunos, avaliacoes, statusPorAluno, treino
       to: "/treinos",
     },
     {
-      titulo: "Sem avaliacao",
+      titulo: "Sem avaliação",
       valor: alunosElegiveis.filter((aluno) => !avaliacoesPorAluno.has(aluno.id)).length,
-      texto: "Alunos nao vencidos sem avaliacao fisica registrada.",
+      texto: "Alunos não vencidos sem avaliação física registrada.",
       modulo: "Avaliacoes",
       to: "/avaliacoes",
     },

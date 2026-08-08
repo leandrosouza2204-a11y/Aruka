@@ -43,8 +43,8 @@ export function buildWorkoutTemplateApplicationPreview({ template, student, opti
     studentLabel: formatStudentLabel(student),
     workoutName: text(options.rotina) || text(template?.nome || template?.name) || "Treino por modelo",
     startDate: text(options.dataInicio),
-    objective: text(template?.objetivo || template?.objective) || "Nao informado",
-    level: text(template?.nivel || template?.level) || "Nao informado",
+    objective: text(template?.objetivo || template?.objective) || "Não informado",
+    level: text(template?.nivel || template?.level) || "Não informado",
     split: text(template?.divisao || template?.splitType) || inferSplitFromWorkout({ dias: days }),
     dayCount: days.length,
     exerciseCount: countTemplateExercises(canonicalTemplateData),
@@ -55,7 +55,7 @@ export function buildWorkoutTemplateApplicationPreview({ template, student, opti
       .slice(0, 8),
     sanitized: sanitized.ok,
     sanitizedDetails: sanitized.ok
-      ? "Contrato canonico normalizado e sem campos visuais ou dados de aluno."
+      ? "Contrato canônico normalizado e sem campos visuais ou dados de aluno."
       : `Campos proibidos removidos ou rejeitados: ${sanitized.forbiddenPaths.join(", ")}.`,
     validation,
     warnings,
@@ -76,7 +76,7 @@ export function prepareWorkoutTemplateApplicationPayload({ template, student, op
   });
 
   if (!validation.ok) {
-    throw new Error(validation.errors[0] || "Nao foi possivel aplicar o modelo.");
+    throw new Error(validation.errors[0] || "Não foi possível aplicar o modelo.");
   }
 
   const workout = canonicalTemplateToWorkout(
@@ -144,15 +144,15 @@ export function validateWorkoutTemplateApplication({ template, student, canonica
   const data = canonicalTemplateData || normalizeTemplateForApplication(template);
 
   if (!template) errors.push("Selecione um modelo de treino.");
-  if (!student?.id) errors.push("Selecione um aluno valido.");
+  if (!student?.id) errors.push("Selecione um aluno válido.");
   if (!data.days.length) errors.push("O modelo precisa ter ao menos um dia.");
   if (!validateCanonicalTemplateData(data)) {
-    errors.push("O modelo precisa ter dias e exercicios validos.");
+    errors.push("O modelo precisa ter dias e exercícios válidos.");
   }
 
   const sanitization = assertTemplateDataIsSanitized(data);
   if (!sanitization.ok) {
-    errors.push("O modelo contem campos que nao pertencem ao contrato de treino.");
+    errors.push("O modelo contém campos que não pertencem ao contrato de treino.");
   }
 
   return {
@@ -163,13 +163,13 @@ export function validateWorkoutTemplateApplication({ template, student, canonica
 
 export function mapWorkoutTemplateApplicationError(error) {
   const message = text(error?.message);
-  if (!message) return "Nao foi possivel aplicar o modelo. Tente novamente.";
+  if (!message) return "Não foi possível aplicar o modelo. Tente novamente.";
   if (message.toLowerCase().includes("network")) {
-    return "Nao foi possivel conectar ao servidor. Verifique a conexao e tente novamente.";
+    return "Não foi possível conectar ao servidor. Verifique a conexão e tente novamente.";
   }
   if (message.toLowerCase().includes("aluno")) return message;
   if (message.toLowerCase().includes("modelo")) return message;
-  return "Nao foi possivel criar o treino pelo modelo. Tente novamente em instantes.";
+  return "Não foi possível criar o treino pelo modelo. Tente novamente em instantes.";
 }
 
 export async function submitWorkoutTemplateApplicationOnce(controller, submit) {
@@ -195,17 +195,17 @@ export function normalizeTemplateForApplication(template) {
 
 function buildPreviewWarnings({ template, student, days, sanitized, validation }) {
   const warnings = [];
-  if (!student?.id) warnings.push("Aluno ainda nao selecionado.");
-  if (!text(template?.descricao || template?.description)) warnings.push("Modelo sem descricao.");
-  if (!days.length) warnings.push("Modelo sem dias validos.");
-  if (days.some((day) => !day.exercicios.length)) warnings.push("Ha dias sem exercicios validos.");
-  if (!sanitized.ok) warnings.push("A normalizacao encontrou campos fora do contrato.");
+  if (!student?.id) warnings.push("Aluno ainda não selecionado.");
+  if (!text(template?.descricao || template?.description)) warnings.push("Modelo sem descrição.");
+  if (!days.length) warnings.push("Modelo sem dias válidos.");
+  if (days.some((day) => !day.exercicios.length)) warnings.push("Há dias sem exercícios válidos.");
+  if (!sanitized.ok) warnings.push("A normalização encontrou campos fora do contrato.");
   validation.errors.forEach((error) => warnings.push(error));
   return [...new Set(warnings)];
 }
 
 function formatStudentLabel(student) {
-  if (!student?.id) return "Aluno nao selecionado";
+  if (!student?.id) return "Aluno não selecionado";
   return `${student.nome || "Aluno sem nome"} (${student.id})`;
 }
 

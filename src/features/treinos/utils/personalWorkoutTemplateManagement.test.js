@@ -149,7 +149,7 @@ test("edicao: mantem identificador, rejeita oficial e ownership invalido sem alt
       originalTemplate: personalTemplate,
       currentUserId: "other",
     }).errors.ownership,
-    "Voce so pode editar seus proprios modelos."
+    "Você só pode editar seus próprios modelos."
   );
 });
 
