@@ -1,0 +1,11 @@
+id,severity_original,title,status_final,cycle,runtime_limitation,qa_evidence,residual_risk,follow_up_required
+F-001,P1_HIGH,visible copy / mojibake normalization,RESOLVED,Cycle 01,false,qa:visible-ui-copy PASS,none,false
+F-002,P1_HIGH,visible lazy-loading fallback,RESOLVED,Cycle 01,false,qa:visible-suspense-fallbacks PASS,none,false
+F-003,P1_HIGH,mobile core layout,RESOLVED_WITH_RUNTIME_LIMITATION,Cycle 02,true,qa:core-mobile-layout PASS_STATIC_WITH_RUNTIME_LIMITATION,authenticated visual route measurement pending,true
+F-004,P2_MEDIUM,catch-all route,RESOLVED,Cycle 03,false,qa:route-fallback PASS,none,false
+F-005,P2_MEDIUM,Workout Delivery lifecycle feedback,RESOLVED,Cycle 04,false,qa:workout-delivery-feedback PASS; qa:workout-delivery-contract PASS,none,false
+F-006,P2_MEDIUM,finance mutation confirmation/pending consistency,RESOLVED,Cycle 04,true,qa:finance-mutation-confirmations PASS,finance CDP runtime evidence pending,true
+F-007,P2_MEDIUM,modal accessibility parity,RESOLVED_WITH_RUNTIME_LIMITATION,Cycle 03,true,qa:modal-accessibility-parity PASS,authenticated browser/CDP modal runtime evidence pending,true
+F-008,P2_MEDIUM,empty-state consistency,RESOLVED,Cycle 03,false,qa:empty-states PASS,none,false
+F-009,P2_MEDIUM,contextual error feedback,RESOLVED,Cycle 04,false,qa:contextual-error-feedback PASS,none,false
+F-010,P3_LOW,student context consistency,RESOLVED,Cycle 04,false,qa:student-context-consistency PASS,none,false
