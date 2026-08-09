@@ -228,12 +228,14 @@ async function getAuthState(client) {
 }
 
 async function openReportsModal(client) {
+  await waitForFinanceiroReady(client);
   const openedReports = await clickText(client, "Relatórios");
   if (!openedReports) throw new Error("Botao Relatorios nao encontrado.");
   await waitFor(client, "document.querySelector('.financeiro-modal')");
 }
 
 async function openHistoryModal(client) {
+  await waitForFinanceiroReady(client);
   await ensureHistoryActionableView(client);
 
   let openedHistory = await clickText(client, "Ver histórico", "button, [role='menuitem']");
@@ -259,6 +261,15 @@ async function openHistoryModal(client) {
   openedHistory = await clickText(client, "Ver histórico", "button, [role='menuitem']");
   if (!openedHistory) throw new Error("Acao Ver historico nao encontrada.");
   await waitFor(client, "document.querySelector('.financeiro-modal')");
+}
+
+async function waitForFinanceiroReady(client) {
+  await waitFor(
+    client,
+    `document.querySelector('.financeiro-page') && !/Verificando acesso|Carregando financeiro/i.test(document.body.innerText || "") && [...document.querySelectorAll('button')].some((button) => /Em acompanhamento|Encerrados/i.test(button.textContent || ""))`,
+    30000
+  );
+  await sleep(500);
 }
 
 async function ensureHistoryActionableView(client) {

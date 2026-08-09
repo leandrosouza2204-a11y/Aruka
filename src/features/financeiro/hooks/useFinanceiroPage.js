@@ -311,6 +311,7 @@ export function useFinanceiroPage() {
 
   async function confirmarRenovacaoPlano() {
     if (!modalRenovacao) return;
+    if (atualizandoId) return;
 
     const aluno = modalRenovacao.aluno;
     const novoPlano = planos.find((plano) => plano.id === formRenovacao.novoPlanoId);
