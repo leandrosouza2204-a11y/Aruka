@@ -99,6 +99,8 @@ try {
   if (Test-Path $stderrPath) { $stderrText = Get-Content -Raw $stderrPath }
   $safeStdout = Sanitize-SupabaseOutput $stdoutText
   $safeStderr = Sanitize-SupabaseOutput $stderrText
+  $safeStdout | Set-Content -Encoding utf8 $stdoutPath
+  $safeStderr | Set-Content -Encoding utf8 $stderrPath
   @(
     "SUPABASE_START_COMMAND=npx -y supabase@2.109.1 start",
     "SUPABASE_START_EXIT_CODE=$code",

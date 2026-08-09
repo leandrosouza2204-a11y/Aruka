@@ -1,10 +1,28 @@
 import { createHash } from "node:crypto";
 import { execFileSync, spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
 
 export const EXPECTED_BASELINE_SHA = "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B";
-export const BASELINE_PATH = "supabase/migrations/20260716090000_baseline_aruka_v1.sql";
+export const BASELINE_PATH = "supabase/reference-baselines/20260716090000_baseline_aruka_v1.sql";
+export const EXECUTABLE_BASELINE_PATH = "supabase/migrations/20260716090000_baseline_aruka_v1.sql";
+export const EXPECTED_EXECUTABLE_MIGRATIONS = [
+  "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql",
+  "supabase/migrations/20260730090000_student_identity_contract.sql",
+  "supabase/migrations/20260731190000_reconcile_security_policies_and_grants.sql",
+  "supabase/migrations/20260801143335_reconcile_alunos_required_fields.sql",
+  "supabase/migrations/20260801173000_revoke_aoe_idempotency_anon_execute.sql",
+  "supabase/migrations/20260801180000_harden_workout_templates_updated_at.sql",
+];
+export const EXPECTED_EPHEMERAL_MIGRATION_HISTORY = [
+  "20260716090000",
+  "20260728030000",
+  "20260730090000",
+  "20260731190000",
+  "20260801143335",
+  "20260801173000",
+  "20260801180000",
+];
 export const PROTECTED_PROJECT_REF = "xrmqdkpx" + "nfvusmenadnf";
 export const DECISION = "LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED";
 export const REPORT_DIR = "reports/supabase-local-seeds";
@@ -167,6 +185,13 @@ export function validateLocalGuard(root = process.cwd(), args = process.argv.sli
   }
   const baselineSha = sha256CanonicalText(root, BASELINE_PATH);
   if (baselineSha !== EXPECTED_BASELINE_SHA) errors.push("Official baseline SHA mismatch");
+  if (existsSync(join(root, EXECUTABLE_BASELINE_PATH))) errors.push("Reference-only baseline must not be present in executable migrations");
+  const executableMigrations = listFiles(root, "supabase/migrations").filter((file) => file.endsWith(".sql"));
+  const missing = EXPECTED_EXECUTABLE_MIGRATIONS.filter((file) => !executableMigrations.includes(file));
+  const unexpected = executableMigrations.filter((file) => !EXPECTED_EXECUTABLE_MIGRATIONS.includes(file));
+  if (missing.length) errors.push(`Expected executable migration missing: ${missing.join(", ")}`);
+  if (unexpected.length) errors.push(`Unexpected executable migration found: ${unexpected.join(", ")}`);
+  if (executableMigrations.join("\n") !== EXPECTED_EXECUTABLE_MIGRATIONS.join("\n")) errors.push("Executable migration chain mismatch");
   const projectId = getProjectId(root);
   if (projectId === PROTECTED_PROJECT_REF) errors.push("Local project_id matches protected HML project ref");
   return { ok: errors.length === 0, errors, project_id: projectId, baseline_sha: baselineSha };
@@ -285,7 +310,19 @@ export function stableSnapshot(root = process.cwd()) {
 }
 
 export function runSupabaseDbReset(root = process.cwd()) {
-  return runCommand(root, process.platform === "win32" ? "npx.cmd" : "npx", ["-y", "supabase@2.109.1", "db", "reset"], { timeoutMs: 240000 });
+  if (existsSync(join(root, EXECUTABLE_BASELINE_PATH))) {
+    throw new Error("Refusing db reset: executable baseline already exists");
+  }
+  const baselineSha = sha256CanonicalText(root, BASELINE_PATH);
+  if (baselineSha !== EXPECTED_BASELINE_SHA) throw new Error("Official baseline SHA mismatch");
+  try {
+    writeFileSync(join(root, EXECUTABLE_BASELINE_PATH), readFileSync(join(root, BASELINE_PATH)));
+    return runCommand(root, process.platform === "win32" ? "npx.cmd" : "npx", ["-y", "supabase@2.109.1", "db", "reset"], { timeoutMs: 240000 });
+  } finally {
+    if (existsSync(join(root, EXECUTABLE_BASELINE_PATH))) {
+      rmSync(join(root, EXECUTABLE_BASELINE_PATH), { force: true });
+    }
+  }
 }
 
 export function stringifyStable(value) {

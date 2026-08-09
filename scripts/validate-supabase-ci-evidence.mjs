@@ -31,7 +31,7 @@ if (cycle8?.result !== "LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED") errors.push("Cycl
 if (cycle8?.baseline_sha !== EXPECTED_BASELINE_SHA) errors.push("Cycle 8 baseline SHA mismatch");
 if (cycle8?.migration_history?.[0] !== "20260716090000") errors.push("Cycle 8 migration history mismatch");
 if (negativeSeeds?.rejected !== 30 || negativeSeeds?.total !== 30) errors.push("Expected 30/30 seed negative tests");
-if (localNegative?.rejected !== 20 || localNegative?.total !== 20) errors.push("Expected 20/20 local negative tests");
+if (localNegative?.rejected !== 21 || localNegative?.total !== 21) errors.push("Expected 21/21 local negative tests");
 if (localNegative?.url_tests?.passed !== 20 || localNegative?.url_tests?.total !== 20) errors.push("Expected 20/20 URL tests");
 if (wrapper?.result !== "CLEAN_WORKTREE_WRAPPER_VALIDATED") errors.push("Clean worktree wrapper report is not validated");
 

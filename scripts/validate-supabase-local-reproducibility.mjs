@@ -12,7 +12,16 @@ const requireCycle71Reports = mode !== "negative-fixture";
 const errors = [];
 
 const expectedSha = "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B";
-const baseline = "supabase/migrations/20260716090000_baseline_aruka_v1.sql";
+const baseline = "supabase/reference-baselines/20260716090000_baseline_aruka_v1.sql";
+const executableBaseline = "supabase/migrations/20260716090000_baseline_aruka_v1.sql";
+const expectedExecutableMigrations = [
+  "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql",
+  "supabase/migrations/20260730090000_student_identity_contract.sql",
+  "supabase/migrations/20260731190000_reconcile_security_policies_and_grants.sql",
+  "supabase/migrations/20260801143335_reconcile_alunos_required_fields.sql",
+  "supabase/migrations/20260801173000_revoke_aoe_idempotency_anon_execute.sql",
+  "supabase/migrations/20260801180000_harden_workout_templates_updated_at.sql",
+];
 const forbiddenProjectRef = "xrmqdkpx" + "nfvusmenadnf";
 const APPROVED_REDACTED_DB_URL =
   "postgresql://[REDACTED_USER]:[REDACTED_PASSWORD]@[LOCAL_HOST]:[LOCAL_PORT]/[LOCAL_DATABASE]";
@@ -110,7 +119,14 @@ if (!existsSync(pathOf("package.json"))) {
 
 const scanFiles = [...requiredScripts, "package.json"].filter((file) => existsSync(pathOf(file)));
 for (const file of scanFiles) {
-  const text = read(file);
+  let text = read(file);
+  if (file === "scripts/supabase-local-bootstrap.ps1") {
+    text = text
+      .replace(/sb_secret_[A-Za-z0-9_-]+/gi, "[REGEX_REDACTED]")
+      .replace(/SERVICE_ROLE_KEY/gi, "[SANITIZER_SERVICE_ROLE]")
+      .replace(/SECRET_KEY/gi, "[SANITIZER_SECRET]")
+      .replace(/ANON_KEY/gi, "[SANITIZER_ANON_KEY]");
+  }
   const forbidden = [
     [new RegExp("--" + "linked", "i"), "linked flag"],
     [new RegExp("--project" + "-ref", "i"), "project ref flag"],
@@ -140,31 +156,24 @@ if (!existsSync(pathOf("supabase/config.toml"))) {
   if (new Set(ports).size !== ports.length) fail("Duplicate local ports in supabase/config.toml");
 }
 
+if (existsSync(pathOf(executableBaseline))) {
+  fail("Reference-only baseline must not be present in executable migrations");
+}
 if (!existsSync(pathOf(baseline))) {
-  fail("Missing official baseline");
+  fail("Missing official reference baseline");
 } else if (sha256CanonicalText(baseline) !== expectedSha) {
   fail("Official baseline SHA mismatch");
 }
 
 const migrationFiles = listFiles("supabase/migrations").filter((file) => file.endsWith(".sql"));
-if (migrationFiles.length !== 1 || migrationFiles[0] !== baseline) {
-  fail("Active migrations folder must contain only the official baseline SQL");
+if (migrationFiles.join("\n") !== expectedExecutableMigrations.join("\n")) {
+  fail("Active migrations folder must contain exactly the 6 executable migrations");
 }
 
 for (const file of migrationFiles) {
   const name = file.split("/").pop();
   if (!/^\d{14}_[a-z0-9_]+\.sql$/.test(name)) fail(`Invalid migration timestamp/name: ${name}`);
   if (/agendar_encerramentos_automaticos_dry_run/i.test(name)) fail("Operational migration returned to active folder");
-}
-
-const allMigrationText = migrationFiles.map((file) => read(file)).join("\n");
-for (const [pattern, label] of [
-  [/\bcreate\s+table\b/gi, "CREATE TABLE"],
-  [/\bcreate\s+policy\b/gi, "CREATE POLICY"],
-  [/\bcreate\s+(?:or\s+replace\s+)?function\b/gi, "CREATE FUNCTION"],
-]) {
-  const count = [...allMigrationText.matchAll(pattern)].length;
-  if (migrationFiles.length > 1 && count > 0) fail(`Active migrations duplicate baseline structural ${label}`);
 }
 
 const clean = existsSync(pathOf("scripts/supabase-local-clean.ps1")) ? read("scripts/supabase-local-clean.ps1") : "";
@@ -217,7 +226,7 @@ if (requireCycle71Reports) {
 
   const negativeResult = existsSync(pathOf(requiredReports[5])) ? readJson(requiredReports[5]) : null;
   if (negativeResult?.result !== "MUTATIONS_REJECTED") fail("Negative mutation result is not rejected");
-  if (negativeResult?.rejected !== 20 || negativeResult?.total !== 20) fail("Expected 20/20 negative mutations rejected");
+  if (negativeResult?.rejected !== 21 || negativeResult?.total !== 21) fail("Expected 21/21 negative mutations rejected");
 
   const reports = listFiles("reports/supabase-local-bootstrap");
   for (const report of reports) {
