@@ -2,11 +2,21 @@
   "cycle": "ARUKA_FUNCTIONAL_IMPROVEMENT_CYCLE_02",
   "targetFinding": "F-003",
   "scope": "MOBILE_CORE_LAYOUT_VALIDATION_AND_FIXES",
-  "status": "PASS_STATIC_WITH_RUNTIME_LIMITATION",
+  "status": "PASS_RUNTIME_READY",
   "runtime": {
-    "available": false,
-    "limitation": "AUTHENTICATED_RUNTIME_QA_ENVIRONMENT_BLOCKED",
-    "note": "No CORE_MOBILE_LAYOUT_BASE_URL was provided for authenticated route measurement."
+    "available": true,
+    "baseUrl": "http://localhost:5173",
+    "precheck": {
+      "base_url_reachable": true,
+      "cdp_reachable": true,
+      "browser_target_found": true,
+      "authenticated_browser_origin_match": true,
+      "auth_session_present": true,
+      "authenticated_route_reachable": true,
+      "environment_blockers": [],
+      "runtime_precheck": "PASS"
+    },
+    "note": "Authenticated runtime precheck passed; DOM overflow measurement can use the current browser session."
   },
   "viewports": {
     "mobile": [

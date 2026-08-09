@@ -1,9 +1,11 @@
 import { writeFile } from "node:fs/promises";
 import {
   buildPrecheckDecision,
+  assertSameOrigin,
   getBrowserTargets,
   getCdpVersion,
   isBaseUrlReachable,
+  RUNTIME_MARKERS,
   resolveRuntimeConfig,
 } from "./lib/authenticated-runtime.js";
 
@@ -11,6 +13,7 @@ const RESULT_PATH = "reports/product-roadmap-v3/cycle-01-runtime-qa-result.json"
 
 async function main() {
   const config = resolveRuntimeConfig();
+  const blockers = [];
   const state = {
     base_url: config.baseUrl || "",
     cdp_url: config.cdpUrl,
@@ -18,10 +21,11 @@ async function main() {
     base_url_reachable: false,
     cdp_reachable: false,
     browser_target_found: false,
+    authenticated_browser_origin_match: false,
     auth_session_present: false,
     authenticated_route_reachable: false,
+    environment_blockers: blockers,
   };
-  const blockers = [];
 
   const base = await isBaseUrlReachable(config.baseUrl);
   state.base_url_reachable = base.ok;
@@ -35,10 +39,17 @@ async function main() {
   state.browser_target_found = targets.ok;
   if (cdp.ok && !targets.ok) blockers.push(targets.marker);
 
+  const authenticatedTarget = targets.targets?.find((target) => {
+    const url = String(target.url || "");
+    return /^https?:\/\//i.test(url) && !url.includes("/login") && !url.startsWith("devtools://");
+  });
   const matchingTarget = targets.targets?.find((target) => {
     const url = String(target.url || "");
     return config.baseUrl && url.startsWith(config.baseUrl) && !url.includes("/login");
   });
+  const originMatch = authenticatedTarget ? assertSameOrigin(config.baseUrl, authenticatedTarget.url) : null;
+  state.authenticated_browser_origin_match = Boolean(originMatch?.ok);
+  if (authenticatedTarget && !originMatch.ok) blockers.push(RUNTIME_MARKERS.authenticatedBrowserOriginMismatch);
   state.auth_session_present = Boolean(matchingTarget);
   state.authenticated_route_reachable = Boolean(matchingTarget);
 
@@ -62,6 +73,9 @@ async function main() {
   printMarker("RUNTIME_BASE_URL_REACHABLE", state.base_url_reachable);
   printMarker("CDP_REACHABLE", state.cdp_reachable);
   printMarker("BROWSER_TARGET_FOUND", state.browser_target_found);
+  if (config.baseUrl) console.log(`RUNTIME_BASE_ORIGIN=${new URL(config.baseUrl).origin}`);
+  console.log(`CDP_ORIGIN=${new URL(config.cdpUrl).origin}`);
+  printMarker("AUTHENTICATED_BROWSER_ORIGIN_MATCH", state.authenticated_browser_origin_match);
   printMarker("AUTH_SESSION_PRESENT", state.auth_session_present);
   printMarker("AUTHENTICATED_ROUTE_REACHABLE", state.authenticated_route_reachable);
   console.log(`RUNTIME_PRECHECK=${precheck.decision}`);

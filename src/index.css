@@ -5951,6 +5951,70 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
   width: 100%;
 }
 
+.financeiro-modal.renovacao-plano-modal {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 48px);
+  max-height: calc(100dvh - 48px);
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.financeiro-modal.renovacao-plano-modal .accessible-modal-body,
+.financeiro-modal.renovacao-plano-modal .accessible-modal-body > div {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  max-height: 100%;
+  max-width: 100%;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+.financeiro-modal.renovacao-plano-modal .financeiro-modal-topo,
+.financeiro-modal.renovacao-plano-modal .renovacao-modal-footer {
+  flex: 0 0 auto;
+}
+
+.financeiro-modal.renovacao-plano-modal .renovacao-modal-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overscroll-behavior: contain;
+  overflow-x: clip;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.financeiro-modal.renovacao-plano-modal .renovacao-modal-grid > *,
+.financeiro-modal.renovacao-plano-modal .renovacao-modal-grid label,
+.financeiro-modal.renovacao-plano-modal .renovacao-modal-grid input,
+.financeiro-modal.renovacao-plano-modal .renovacao-modal-grid select,
+.financeiro-modal.renovacao-plano-modal .renovacao-modal-grid textarea {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 1100px), (max-height: 780px) {
+  .financeiro-modal.renovacao-plano-modal {
+    max-height: calc(100vh - 24px);
+    max-height: calc(100dvh - 24px);
+  }
+
+  .financeiro-modal.renovacao-plano-modal .renovacao-modal-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .financeiro-modal.renovacao-plano-modal .renovacao-modal-grid > [style*="grid-column: 1 / -1"] {
+    grid-column: 1 / -1 !important;
+  }
+}
+
 @media (max-width: 640px) {
   .financeiro-modal-overlay {
     align-items: stretch !important;

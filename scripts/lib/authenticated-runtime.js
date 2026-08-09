@@ -8,19 +8,63 @@ export const RUNTIME_MARKERS = {
   authRouteFailure: "AUTH_ROUTE_FAILURE",
   functionalRuntimeFailure: "FUNCTIONAL_RUNTIME_FAILURE",
   runtimeEnvironmentBlocked: "RUNTIME_ENVIRONMENT_BLOCKED",
+  authenticatedBrowserOriginMismatch: "AUTHENTICATED_BROWSER_ORIGIN_MISMATCH",
 };
 
-export function resolveRuntimeConfig(env = process.env) {
-  const baseUrl = String(
-    env.ARUKA_QA_BASE_URL ||
-      env.CORE_MOBILE_LAYOUT_BASE_URL ||
-      env.QA_BASE_URL ||
-      ""
-  ).trim().replace(/\/$/, "");
+export function normalizeBaseUrl(value) {
+  return String(value || "").trim().replace(/\/+$/, "");
+}
+
+export function resolveQaBaseUrl(env = process.env, legacyAliases = []) {
+  const aliases = Array.isArray(legacyAliases) ? legacyAliases : [legacyAliases];
+  const orderedNames = ["ARUKA_QA_BASE_URL", ...aliases.filter(Boolean)];
+  for (const name of orderedNames) {
+    const value = normalizeBaseUrl(env[name]);
+    if (value) return { baseUrl: value, source: name };
+  }
+  return { baseUrl: "", source: "" };
+}
+
+export function resolveQaCdpUrl(env = process.env) {
+  return normalizeBaseUrl(env.ARUKA_QA_CDP_URL || env.CDP_URL || DEFAULT_CDP_URL);
+}
+
+export function assertSameOrigin(baseUrl, browserUrl) {
+  try {
+    const baseOrigin = new URL(baseUrl).origin;
+    const browserOrigin = new URL(browserUrl).origin;
+    return {
+      ok: baseOrigin === browserOrigin,
+      baseOrigin,
+      browserOrigin,
+    };
+  } catch {
+    return {
+      ok: false,
+      baseOrigin: "",
+      browserOrigin: "",
+    };
+  }
+}
+
+export function buildAppUrl(baseUrl, route = "/") {
+  if (!baseUrl) return "";
+  return `${normalizeBaseUrl(baseUrl)}${route.startsWith("/") ? route : `/${route}`}`;
+}
+
+export function isCoreMobileLayoutScript(value) {
+  return typeof value === "string" && /\bnode(?:\.cmd)?\b/.test(value) && value.includes("scripts/validate-core-mobile-layout.mjs");
+}
+
+export function resolveRuntimeConfig(env = process.env, options = {}) {
+  const { baseUrl, source: baseUrlSource } = resolveQaBaseUrl(env, options.legacyBaseUrlAliases || [
+    "CORE_MOBILE_LAYOUT_BASE_URL",
+    "QA_BASE_URL",
+  ]);
   const cdpUrl = String(env.ARUKA_QA_CDP_URL || env.CDP_URL || DEFAULT_CDP_URL).trim().replace(/\/$/, "");
   const route = String(env.ARUKA_QA_AUTH_ROUTE || "/dashboard").trim() || "/dashboard";
 
-  return { baseUrl, cdpUrl, route };
+  return { baseUrl, baseUrlSource, cdpUrl, route };
 }
 
 export async function safeFetchJson(url, options = {}) {
@@ -92,6 +136,9 @@ export function buildPrecheckDecision(state) {
   if (!state.base_url_reachable) return { decision: "BLOCKED", marker: RUNTIME_MARKERS.baseUrlUnavailable };
   if (!state.cdp_reachable) return { decision: "BLOCKED", marker: RUNTIME_MARKERS.cdpUnavailable };
   if (!state.browser_target_found) return { decision: "BLOCKED", marker: RUNTIME_MARKERS.cdpTargetNotFound };
+  if (state.authenticated_browser_origin_match === false && state.environment_blockers?.includes?.(RUNTIME_MARKERS.authenticatedBrowserOriginMismatch)) {
+    return { decision: "BLOCKED", marker: RUNTIME_MARKERS.authenticatedBrowserOriginMismatch };
+  }
   if (!state.auth_session_present) return { decision: "BLOCKED", marker: RUNTIME_MARKERS.authSessionRequired };
   if (!state.authenticated_route_reachable) return { decision: "BLOCKED", marker: RUNTIME_MARKERS.authRouteFailure };
   return { decision: "PASS", marker: "RUNTIME_PRECHECK_PASS" };

@@ -3,9 +3,12 @@ import path from "node:path";
 import process from "node:process";
 import {
   buildPrecheckDecision,
+  assertSameOrigin,
   getBrowserTargets,
   getCdpVersion,
   isBaseUrlReachable,
+  isCoreMobileLayoutScript,
+  RUNTIME_MARKERS,
   resolveRuntimeConfig,
 } from "./lib/authenticated-runtime.js";
 
@@ -15,6 +18,8 @@ const PACKAGE_PATH = path.join(ROOT, "package.json");
 const REPORT_DIR = path.join(ROOT, "reports", "product-audit-v2");
 const MATRIX_PATH = path.join(REPORT_DIR, "cycle-02-mobile-matrix.csv");
 const RESULT_PATH = path.join(REPORT_DIR, "cycle-02-result.json");
+const STATIC_PASS = "PASS_STATIC_WITH_RUNTIME_LIMITATION";
+const RUNTIME_PASS = "PASS_RUNTIME_READY";
 
 const mobileViewports = [
   { width: 320, height: 800 },
@@ -66,14 +71,15 @@ function csvEscape(value) {
 async function main() {
   const css = await readFile(CSS_PATH, "utf8");
   const packageJson = JSON.parse(await readFile(PACKAGE_PATH, "utf8"));
-  const runtimeConfig = resolveRuntimeConfig();
+  const runtimeConfig = resolveRuntimeConfig(process.env, {
+    legacyBaseUrlAliases: ["CORE_MOBILE_LAYOUT_BASE_URL", "QA_BASE_URL"],
+  });
   const baseUrl = runtimeConfig.baseUrl;
   const runtimeAvailable = Boolean(baseUrl);
   const runtimePrecheck = runtimeAvailable ? await runRuntimePrecheck(runtimeConfig) : null;
+  const runtimeReady = runtimePrecheck?.runtime_precheck === "PASS";
   const missingSnippets = requiredCssSnippets.filter((snippet) => !css.includes(snippet));
-  const hasPackageScript =
-    packageJson.scripts?.["qa:core-mobile-layout"] ===
-    "node scripts/validate-core-mobile-layout.mjs";
+  const hasPackageScript = isCoreMobileLayoutScript(packageJson.scripts?.["qa:core-mobile-layout"]);
 
   const rows = [];
   for (const viewport of [...mobileViewports, ...desktopViewports]) {
@@ -87,12 +93,12 @@ async function main() {
         runtime_available: runtimeAvailable,
         document_overflow: runtimeAvailable ? "not_measured_static_guard_only" : "not_measured",
         allowed_internal_scroll: "tables_and_nav_only",
-        status: missingSnippets.length || !hasPackageScript ? "fail" : "pass_static",
+        status: missingSnippets.length || !hasPackageScript ? "fail" : runtimeReady ? "pass_runtime_ready" : "pass_static",
         notes: runtimeAvailable
           ? runtimePrecheck?.runtime_precheck === "PASS"
             ? `Runtime precheck passed for ${baseUrl}; DOM measurement is ready for browser execution.`
             : `Runtime requested for ${baseUrl}, but precheck blocked: ${(runtimePrecheck?.environment_blockers || []).join("|")}.`
-          : "AUTHENTICATED_RUNTIME_QA_ENVIRONMENT_BLOCKED: set CORE_MOBILE_LAYOUT_BASE_URL with an authenticated local/staging session to measure DOM overflow.",
+          : "AUTHENTICATED_RUNTIME_QA_ENVIRONMENT_BLOCKED: set ARUKA_QA_BASE_URL with an authenticated local/staging session to measure DOM overflow.",
       });
     }
   }
@@ -107,18 +113,18 @@ async function main() {
     cycle: "ARUKA_FUNCTIONAL_IMPROVEMENT_CYCLE_02",
     targetFinding: "F-003",
     scope: "MOBILE_CORE_LAYOUT_VALIDATION_AND_FIXES",
-    status: missingSnippets.length || !hasPackageScript ? "FAIL" : "PASS_STATIC_WITH_RUNTIME_LIMITATION",
+    status: missingSnippets.length || !hasPackageScript ? "FAIL" : runtimeReady ? RUNTIME_PASS : STATIC_PASS,
     runtime: runtimeAvailable
       ? {
           available: runtimePrecheck?.runtime_precheck === "PASS",
           baseUrl,
           precheck: runtimePrecheck,
-          note: "DOM overflow measurement requires authenticated browser/CDP execution.",
+          note: "Authenticated runtime precheck passed; DOM overflow measurement can use the current browser session.",
         }
       : {
           available: false,
           limitation: "AUTHENTICATED_RUNTIME_QA_ENVIRONMENT_BLOCKED",
-          note: "No CORE_MOBILE_LAYOUT_BASE_URL was provided for authenticated route measurement.",
+          note: "No ARUKA_QA_BASE_URL or legacy core mobile base URL was provided for authenticated route measurement.",
         },
     viewports: {
       mobile: mobileViewports.map(({ width, height }) => `${width}x${height}`),
@@ -149,7 +155,7 @@ async function main() {
     return;
   }
 
-  console.log("[core-mobile-layout] PASS_STATIC_WITH_RUNTIME_LIMITATION");
+  console.log(`[core-mobile-layout] ${runtimeReady ? RUNTIME_PASS : STATIC_PASS}`);
   console.log(`Matrix: ${result.generatedArtifacts.matrix}`);
   if (!runtimeAvailable) {
     console.log(result.runtime.limitation);
@@ -164,6 +170,7 @@ async function runRuntimePrecheck(config) {
     base_url_reachable: false,
     cdp_reachable: false,
     browser_target_found: false,
+    authenticated_browser_origin_match: false,
     auth_session_present: false,
     authenticated_route_reachable: false,
     environment_blockers: [],
@@ -181,10 +188,19 @@ async function runRuntimePrecheck(config) {
   state.browser_target_found = targets.ok;
   if (cdp.ok && !targets.ok) state.environment_blockers.push(targets.marker);
 
+  const authenticatedTarget = targets.targets?.find((target) => {
+    const url = String(target.url || "");
+    return /^https?:\/\//i.test(url) && !url.includes("/login") && !url.startsWith("devtools://");
+  });
   const matchingTarget = targets.targets?.find((target) => {
     const url = String(target.url || "");
     return config.baseUrl && url.startsWith(config.baseUrl) && !url.includes("/login");
   });
+  const originMatch = authenticatedTarget ? assertSameOrigin(config.baseUrl, authenticatedTarget.url) : null;
+  state.authenticated_browser_origin_match = Boolean(originMatch?.ok);
+  if (authenticatedTarget && !originMatch.ok) {
+    state.environment_blockers.push(RUNTIME_MARKERS.authenticatedBrowserOriginMismatch);
+  }
   state.auth_session_present = Boolean(matchingTarget);
   state.authenticated_route_reachable = Boolean(matchingTarget);
 

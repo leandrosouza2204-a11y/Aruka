@@ -1,6 +1,6 @@
 import AccessibleModal from "../../../../components/AccessibleModal";
 
-function ModalBase({ children, onClose, largura }) {
+function ModalBase({ children, onClose, largura, contentClassName = "" }) {
   return (
     <AccessibleModal
       isOpen
@@ -8,7 +8,7 @@ function ModalBase({ children, onClose, largura }) {
       ariaLabel="Modal financeiro"
       size="full"
       showCloseButton={false}
-      contentClassName="financeiro-modal"
+      contentClassName={`financeiro-modal ${contentClassName}`.trim()}
       className="financeiro-modal-overlay"
     >
       <div style={{ width: largura }}>
