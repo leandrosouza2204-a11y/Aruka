@@ -50,14 +50,47 @@ run("git diff --check", "git", ["diff", "--check"]);
 try {
   const manifest = JSON.parse(readFileSync(join(root, "supabase/baseline-candidate/manifest.json"), "utf8"));
   if (manifest.expected_functions !== 15) errors.push(`manifest.expected_functions must be 15, got ${manifest.expected_functions}`);
-  const runtimeValidators = ["scripts/supabase-local-validate.ps1", "scripts/validate-supabase-baseline-local.ps1"];
-  for (const file of runtimeValidators) {
+  const baselineRuntimeValidator = "scripts/validate-supabase-baseline-local.ps1";
+  const baselineRuntimeText = readFileSync(join(root, baselineRuntimeValidator), "utf8");
+  if (/Assert-?Count\s+"public_functions"\s+14\b/i.test(baselineRuntimeText)) {
+    errors.push(`${baselineRuntimeValidator} still hardcodes public_functions expected 14`);
+  }
+  if (!/expected_functions/i.test(baselineRuntimeText)) {
+    errors.push(`${baselineRuntimeValidator} must derive public_functions from baseline-candidate manifest expected_functions`);
+  }
+  if (/Assert-?Count\s+"public_policies"\s+\$[Ee]xpectedPolicies\b/i.test(baselineRuntimeText)) {
+    errors.push(`${baselineRuntimeValidator} must not compare manifest expected_policies with public-only pg_policies`);
+  }
+  if (!/Assert-?Count\s+"total_policies"\s+\$[Ee]xpectedPolicies\b/i.test(baselineRuntimeText)) {
+    errors.push(`${baselineRuntimeValidator} must compare manifest expected_policies with total pg_policies`);
+  }
+
+  const localRuntimeValidator = "scripts/supabase-local-validate.ps1";
+  const localRuntimeText = readFileSync(join(root, localRuntimeValidator), "utf8");
+  for (const [name, value] of [
+    ["ExpectedTables", "20"],
+    ["ExpectedFunctions", "20"],
+    ["ExpectedIndexes", "65"],
+    ["ExpectedPolicies", "59"],
+    ["ExpectedPublicPolicies", "55"],
+    ["ExpectedStoragePolicies", "4"],
+  ]) {
+    if (!new RegExp(`\\$${name}\\s*=\\s*${value}\\b`).test(localRuntimeText)) {
+      errors.push(`${localRuntimeValidator} must validate current local runtime ${name}=${value}`);
+    }
+  }
+  for (const version of ["20260728030000", "20260730090000", "20260731190000", "20260801143335", "20260801173000", "20260801180000"]) {
+    if (!localRuntimeText.includes(`"${version}"`)) {
+      errors.push(`${localRuntimeValidator} must validate executable migration version ${version}`);
+    }
+  }
+  if (!/AssertExecutableMigrationHistory/i.test(localRuntimeText)) {
+    errors.push(`${localRuntimeValidator} must validate executable migration history`);
+  }
+  for (const file of [baselineRuntimeValidator, localRuntimeValidator]) {
     const text = readFileSync(join(root, file), "utf8");
     if (/Assert-?Count\s+"public_functions"\s+14\b/i.test(text)) {
       errors.push(`${file} still hardcodes public_functions expected 14`);
-    }
-    if (!/expected_functions/i.test(text)) {
-      errors.push(`${file} must derive public_functions from baseline-candidate manifest expected_functions`);
     }
     if (/Assert-?Count\s+"public_policies"\s+\$[Ee]xpectedPolicies\b/i.test(text)) {
       errors.push(`${file} must not compare manifest expected_policies with public-only pg_policies`);
