@@ -33,6 +33,7 @@
     "qa:dashboard-authenticated": "node --env-file=.env.local --env-file=.env.qa.local scripts/audit-dashboard-authenticated-local.mjs",
     "qa:dashboard-authenticated:all": "node scripts/validate-dashboard-mobile-cdp.mjs",
     "qa:dashboard-environment-check": "node --test scripts/__tests__/qa-environment-guard.test.mjs",
+    "qa:dashboard-decision-usefulness": "node scripts/validate-dashboard-decision-usefulness.mjs",
     "qa:alunos-mobile": "node --env-file=.env.qa.local scripts/validate-alunos-mobile-cdp.mjs",
     "qa:aluno-form-mobile": "node --env-file=.env.qa.local scripts/validate-aluno-form-mobile-cdp.mjs",
     "qa:aluno-details-mobile": "node --env-file=.env.qa.local scripts/validate-aluno-details-mobile-cdp.mjs",

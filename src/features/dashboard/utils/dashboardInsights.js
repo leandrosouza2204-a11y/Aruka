@@ -13,7 +13,7 @@ export function montarAlertasConsultoria({
       tom: "danger",
       acao: {
         label: "Ver vencidos",
-        to: "/alunos?status=Vencido",
+        to: "/alunos?status=Vencido&origem=dashboard",
         ariaLabel: "Ver alunos filtrados por status vencido",
       },
     });
@@ -27,7 +27,7 @@ export function montarAlertasConsultoria({
       tom: "warning",
       acao: {
         label: "Ver vencimentos",
-        to: "/alunos?status=Vencendo",
+        to: "/alunos?status=Vencendo&origem=dashboard",
         ariaLabel: "Ver alunos filtrados por status vencendo",
       },
     });

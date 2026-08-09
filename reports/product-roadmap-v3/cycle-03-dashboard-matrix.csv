@@ -1,0 +1,7 @@
+block,data_source,classification,priority,metric_clear,actionable,cta,mobile,desktop,loading,error,result,notes
+onboarding_checklist,planos/alunos/pagamentos,ACTIONABLE,P2,yes,yes,config setup CTAs,pass,pass,pass,pass,PASS,Aparece somente enquanto onboarding esta incompleto; compacto quando concluido.
+alertas_consultoria,alunos + pagamentos + planos,ACTIONABLE,P1,yes,yes,Ver vencidos|Ver vencimentos|Ver pendentes,pass,pass,pass,pass,PASS,Movido para antes dos cards informativos.
+metric_cards,alunos + pagamentos + planos,ACTIONABLE,P2,yes,yes,Ver alunos|Revisar financeiro|Ver vencimentos|Ver vencidos,pass,pass,pass,pass,PASS,Cards criticos receberam CTAs reais; receita prevista/recebida permanecem informativas.
+checkin_semanal,alunos + status financeiro,ACTIONABLE,P2,yes,yes,Enviar check-ins,pass,pass,pass,pass,PASS,Usa somente alunos sem contrato vencido.
+treinos_avaliacoes,treinos + avaliacoes + alunos,ACTIONABLE,P2,yes,yes,Abrir Treinos|Abrir Avaliacoes,pass,pass,pass,pass,PASS,Sinais derivados de dados existentes.
+receita_mensal,pagamentos,INFORMATIVE,P3,yes,partial,none,pass,pass,pass,pass,PASS,"Grafico mantido como historico textual e visual, abaixo dos blocos acionaveis."

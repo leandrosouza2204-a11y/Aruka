@@ -15,7 +15,11 @@ test("montarAlertasConsultoria usa destinos com filtros reais", () => {
 
   assert.deepEqual(
     alertas.map((alerta) => alerta.acao.to),
-    ["/alunos?status=Vencido", "/alunos?status=Vencendo", "/financeiro?pagamento=pendentes"]
+    [
+      "/alunos?status=Vencido&origem=dashboard",
+      "/alunos?status=Vencendo&origem=dashboard",
+      "/financeiro?pagamento=pendentes",
+    ]
   );
 });
 
