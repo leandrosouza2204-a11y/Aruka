@@ -5,7 +5,8 @@ import { dirname, join, relative } from "node:path";
 import YAML from "yaml";
 
 export const CYCLE_9_DECISION = "CI_QUALITY_GATES_VALIDATED";
-export const BASELINE_PATH = "supabase/migrations/20260716090000_baseline_aruka_v1.sql";
+export const EXECUTABLE_BASELINE_PATH = "supabase/migrations/20260716090000_baseline_aruka_v1.sql";
+export const BASELINE_PATH = "supabase/reference-baselines/20260716090000_baseline_aruka_v1.sql";
 export const EXPECTED_BASELINE_SHA = "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B";
 export const PROTECTED_PROJECT_REF = "xrmqdkpx" + "nfvusmenadnf";
 export const WORKFLOW_PATH = ".github/workflows/supabase-local-quality-gates.yml";
