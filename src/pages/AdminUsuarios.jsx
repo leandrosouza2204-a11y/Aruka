@@ -126,14 +126,30 @@ function AdminUsuarios() {
     }, "Usuário atualizado com sucesso.");
   }
 
-  function liberarComoBeta(usuario) {
+  async function liberarComoBeta(usuario) {
+    const confirmado = await confirmar({
+      titulo: "Liberar acesso beta?",
+      descricao: "O usuário passará a acessar a Aruka como beta ativo.",
+      textoConfirmar: "Liberar beta",
+    });
+
+    if (!confirmado) return;
+
     executarAcao(
       () => liberarBetaAdmin(usuario.userId),
       "Usuário liberado como beta."
     );
   }
 
-  function liberarComoAssinante(usuario) {
+  async function liberarComoAssinante(usuario) {
+    const confirmado = await confirmar({
+      titulo: "Liberar como assinante?",
+      descricao: "O usuário terá assinatura ativa por um novo ciclo mensal.",
+      textoConfirmar: "Liberar assinante",
+    });
+
+    if (!confirmado) return;
+
     const hoje = new Date();
     const vencimento = new Date(hoje);
     vencimento.setMonth(vencimento.getMonth() + 1);
@@ -150,7 +166,15 @@ function AdminUsuarios() {
     );
   }
 
-  function tornarAdmin(usuario) {
+  async function tornarAdmin(usuario) {
+    const confirmado = await confirmar({
+      titulo: "Promover usuário a admin?",
+      descricao: "O usuário poderá gerenciar acessos, assinaturas e permissões administrativas.",
+      textoConfirmar: "Promover admin",
+    });
+
+    if (!confirmado) return;
+
     executarAcao(
       () =>
         atualizarPerfilAdmin(usuario.userId, {
@@ -163,7 +187,15 @@ function AdminUsuarios() {
     );
   }
 
-  function removerAdmin(usuario) {
+  async function removerAdmin(usuario) {
+    const confirmado = await confirmar({
+      titulo: "Remover permissão de admin?",
+      descricao: "O usuário perderá acesso às áreas administrativas.",
+      textoConfirmar: "Remover admin",
+    });
+
+    if (!confirmado) return;
+
     executarAcao(
       () =>
         atualizarPerfilAdmin(usuario.userId, {
@@ -191,7 +223,15 @@ function AdminUsuarios() {
     );
   }
 
-  function reativarUsuario(usuario) {
+  async function reativarUsuario(usuario) {
+    const confirmado = await confirmar({
+      titulo: "Reativar usuário?",
+      descricao: "O usuário voltará a ter status ativo no sistema.",
+      textoConfirmar: "Reativar",
+    });
+
+    if (!confirmado) return;
+
     executarAcao(
       () =>
         atualizarPerfilAdmin(usuario.userId, {
@@ -204,7 +244,15 @@ function AdminUsuarios() {
     );
   }
 
-  function cancelarAssinatura(usuario) {
+  async function cancelarAssinatura(usuario) {
+    const confirmado = await confirmar({
+      titulo: "Cancelar assinatura?",
+      descricao: "A assinatura do usuário será marcada como cancelada.",
+      textoConfirmar: "Cancelar assinatura",
+    });
+
+    if (!confirmado) return;
+
     executarAcao(
       () =>
         upsertAssinaturaAdmin(usuario.userId, {
