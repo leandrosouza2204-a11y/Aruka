@@ -1,6 +1,13 @@
 import { access, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
+import {
+  buildPrecheckDecision,
+  getBrowserTargets,
+  getCdpVersion,
+  isBaseUrlReachable,
+  resolveRuntimeConfig,
+} from "./lib/authenticated-runtime.js";
 
 const ROOT = process.cwd();
 const CSS_PATH = path.join(ROOT, "src", "index.css");
@@ -59,8 +66,10 @@ function csvEscape(value) {
 async function main() {
   const css = await readFile(CSS_PATH, "utf8");
   const packageJson = JSON.parse(await readFile(PACKAGE_PATH, "utf8"));
-  const baseUrl = process.env.CORE_MOBILE_LAYOUT_BASE_URL?.replace(/\/$/, "") || "";
+  const runtimeConfig = resolveRuntimeConfig();
+  const baseUrl = runtimeConfig.baseUrl;
   const runtimeAvailable = Boolean(baseUrl);
+  const runtimePrecheck = runtimeAvailable ? await runRuntimePrecheck(runtimeConfig) : null;
   const missingSnippets = requiredCssSnippets.filter((snippet) => !css.includes(snippet));
   const hasPackageScript =
     packageJson.scripts?.["qa:core-mobile-layout"] ===
@@ -80,7 +89,9 @@ async function main() {
         allowed_internal_scroll: "tables_and_nav_only",
         status: missingSnippets.length || !hasPackageScript ? "fail" : "pass_static",
         notes: runtimeAvailable
-          ? `Runtime URL configured (${baseUrl}); run browser/CDP QA for measured DOM overflow.`
+          ? runtimePrecheck?.runtime_precheck === "PASS"
+            ? `Runtime precheck passed for ${baseUrl}; DOM measurement is ready for browser execution.`
+            : `Runtime requested for ${baseUrl}, but precheck blocked: ${(runtimePrecheck?.environment_blockers || []).join("|")}.`
           : "AUTHENTICATED_RUNTIME_QA_ENVIRONMENT_BLOCKED: set CORE_MOBILE_LAYOUT_BASE_URL with an authenticated local/staging session to measure DOM overflow.",
       });
     }
@@ -98,7 +109,12 @@ async function main() {
     scope: "MOBILE_CORE_LAYOUT_VALIDATION_AND_FIXES",
     status: missingSnippets.length || !hasPackageScript ? "FAIL" : "PASS_STATIC_WITH_RUNTIME_LIMITATION",
     runtime: runtimeAvailable
-      ? { available: true, baseUrl, note: "DOM overflow measurement requires the authenticated browser/CDP QA harness." }
+      ? {
+          available: runtimePrecheck?.runtime_precheck === "PASS",
+          baseUrl,
+          precheck: runtimePrecheck,
+          note: "DOM overflow measurement requires authenticated browser/CDP execution.",
+        }
       : {
           available: false,
           limitation: "AUTHENTICATED_RUNTIME_QA_ENVIRONMENT_BLOCKED",
@@ -137,7 +153,51 @@ async function main() {
   console.log(`Matrix: ${result.generatedArtifacts.matrix}`);
   if (!runtimeAvailable) {
     console.log(result.runtime.limitation);
+  } else if (runtimePrecheck?.runtime_precheck !== "PASS") {
+    console.log(`RUNTIME_PRECHECK=BLOCKED`);
+    console.log(`RUNTIME_BLOCKERS=${runtimePrecheck.environment_blockers.join("|")}`);
   }
+}
+
+async function runRuntimePrecheck(config) {
+  const state = {
+    base_url_reachable: false,
+    cdp_reachable: false,
+    browser_target_found: false,
+    auth_session_present: false,
+    authenticated_route_reachable: false,
+    environment_blockers: [],
+  };
+
+  const base = await isBaseUrlReachable(config.baseUrl);
+  state.base_url_reachable = base.ok;
+  if (!base.ok) state.environment_blockers.push(base.marker);
+
+  const cdp = await getCdpVersion(config.cdpUrl);
+  state.cdp_reachable = cdp.ok;
+  if (!cdp.ok) state.environment_blockers.push(cdp.marker);
+
+  const targets = cdp.ok ? await getBrowserTargets(config.cdpUrl) : { ok: false, targets: [] };
+  state.browser_target_found = targets.ok;
+  if (cdp.ok && !targets.ok) state.environment_blockers.push(targets.marker);
+
+  const matchingTarget = targets.targets?.find((target) => {
+    const url = String(target.url || "");
+    return config.baseUrl && url.startsWith(config.baseUrl) && !url.includes("/login");
+  });
+  state.auth_session_present = Boolean(matchingTarget);
+  state.authenticated_route_reachable = Boolean(matchingTarget);
+
+  const decision = buildPrecheckDecision(state);
+  if (decision.decision === "BLOCKED" && !state.environment_blockers.includes(decision.marker)) {
+    state.environment_blockers.push(decision.marker);
+  }
+
+  return {
+    ...state,
+    runtime_precheck: decision.decision,
+    environment_blockers: [...new Set(state.environment_blockers.filter(Boolean))],
+  };
 }
 
 main().catch((error) => {
