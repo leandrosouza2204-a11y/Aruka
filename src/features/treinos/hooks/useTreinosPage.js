@@ -188,6 +188,18 @@ export function useTreinosPage() {
     return () => window.clearTimeout(carregamentoInicial);
   }, [carregarDados]);
 
+  useEffect(() => {
+    const resetContextoAluno = window.setTimeout(() => {
+      setTreinoSelecionadoId("");
+      setTreinoEditando(null);
+      setTreinoBase(null);
+      setModalAberto(false);
+      setModalModelosAberto(false);
+    }, 0);
+
+    return () => window.clearTimeout(resetContextoAluno);
+  }, [alunoIdParametro]);
+
   function abrirNovoTreino() {
     setTreinoEditando(null);
     setTreinoBase(criarTreinoBaseContextual(alunoContextual));

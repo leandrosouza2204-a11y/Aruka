@@ -69,6 +69,7 @@
     "qa:student-workout-data-minimization": "node scripts/validate-student-workout-data-minimization.mjs",
     "qa:student-account-linking": "node scripts/validate-student-account-linking.mjs",
     "qa:student-identity-runtime": "node scripts/validate-student-identity-runtime.mjs",
+    "qa:student-experience-continuity": "node scripts/validate-student-experience-continuity.mjs",
     "qa:cleanup-workout-templates": "node --env-file=.env --env-file=.env.local --env-file=.env.qa.local scripts/cleanup-qa-workout-templates.mjs",
     "qa:treino-custom-templates": "node --env-file=.env --env-file=.env.local --env-file=.env.qa.local scripts/validate-treino-custom-templates-cdp.mjs",
     "qa:treino-editor-module": "node --env-file=.env --env-file=.env.local --env-file=.env.qa.local scripts/validate-treino-editor-module-cdp.mjs",
