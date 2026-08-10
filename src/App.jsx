@@ -4,6 +4,7 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 import SubscriptionRoute from "./auth/SubscriptionRoute";
 import AdminRoute from "./auth/AdminRoute";
 import LegalRoute from "./auth/LegalRoute";
+import LoadingFallback from "./components/LoadingFallback";
 import MobileBottomNavigation from "./components/MobileBottomNavigation";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -22,11 +23,12 @@ const CriarSenha = lazy(() => import("./pages/CriarSenha"));
 const AceiteLegal = lazy(() => import("./pages/AceiteLegal"));
 const PoliticaPrivacidade = lazy(() => import("./pages/PoliticaPrivacidade"));
 const TermosUso = lazy(() => import("./pages/TermosUso"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 function App() {
   return (
     <BrowserRouter>
-      <Suspense fallback={null}>
+      <Suspense fallback={<LoadingFallback texto="Carregando página..." variant="route" />}>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />
@@ -194,6 +196,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

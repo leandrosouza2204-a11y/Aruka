@@ -1,0 +1,5 @@
+route,component,context_present,student_identity_clear,copy_consistent,mobile_safe,result,notes
+/treinos,TreinosContextoAluno,true,true,true,true,PASS,Shows selected student and context actions.
+/avaliacoes,Avaliacoes contextual banner,true,true,true,true,PASS,Shows selected student, creation actions and clear action.
+/financeiro,Financeiro contextual banner,true,true,true,true,PASS,Now shows selected student, filtered scope and clear action.
+/alunos,Aluno details contextual links,true,true,true,true,PASS,Student identity appears in selected detail workflow.

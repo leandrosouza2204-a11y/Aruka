@@ -15,7 +15,11 @@ test("montarAlertasConsultoria usa destinos com filtros reais", () => {
 
   assert.deepEqual(
     alertas.map((alerta) => alerta.acao.to),
-    ["/alunos?status=Vencido", "/alunos?status=Vencendo", "/financeiro?pagamento=pendentes"]
+    [
+      "/alunos?status=Vencido&origem=dashboard",
+      "/alunos?status=Vencendo&origem=dashboard",
+      "/financeiro?pagamento=pendentes",
+    ]
   );
 });
 
@@ -55,5 +59,5 @@ test("montarSinaisFitness ignora alunos vencidos e calcula sinais operacionais",
 
   assert.equal(sinais.find((sinal) => sinal.titulo === "Sem treino ativo").valor, 1);
   assert.equal(sinais.find((sinal) => sinal.titulo === "Treinos a revisar").valor, 2);
-  assert.equal(sinais.find((sinal) => sinal.titulo === "Sem avaliacao").valor, 1);
+  assert.equal(sinais.find((sinal) => sinal.titulo === "Sem avaliação").valor, 1);
 });

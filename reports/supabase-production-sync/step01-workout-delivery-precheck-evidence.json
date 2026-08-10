@@ -1,0 +1,80 @@
+{
+  "project": {
+    "name": "aruka",
+    "ref_masked": "vriz...vdik"
+  },
+  "authorization": {
+    "supervised_cutover_start_authorized": true,
+    "step01_precheck_authorized": true,
+    "step01_apply_authorized": false
+  },
+  "backup_gate": {
+    "verified": true,
+    "reference_masked": "aruka-pre-cutover-20260803-173701",
+    "restore_method_reviewed": true,
+    "restore_executed": false,
+    "checksum_mismatch_count": 0,
+    "storage_missing_file_count": 0,
+    "storage_extra_file_count": 0,
+    "secret_leak_detected": false
+  },
+  "step": {
+    "number": 1,
+    "name": "Workout Delivery",
+    "precheck_file": "reports/supabase-production-sync/production-cutover-sql/01-workout-delivery-precheck.sql",
+    "apply_file": "reports/supabase-production-sync/production-cutover-sql/01-workout-delivery.sql",
+    "postcheck_file": "reports/supabase-production-sync/production-cutover-sql/01-workout-delivery-postcheck.sql",
+    "recovery_file": "reports/supabase-production-sync/production-cutover-sql/01-workout-delivery-recovery.md",
+    "precheck_executed": true,
+    "precheck_read_only": true,
+    "apply_executed": false,
+    "postcheck_executed": false,
+    "smoke_executed": false
+  },
+  "remote": {
+    "verified_project": true,
+    "executed_at_utc": "2026-08-04 18:59:14.091353 UTC",
+    "connection_method": "Session Pooler URI via Docker psql external runner",
+    "remote_precheck_client": "DOCKER_PSQL",
+    "remote_precheck_client_image": "public.ecr.aws/supabase/postgres:17.6.1.156",
+    "windows_psql_required": false,
+    "supabase_cli_global_required": false,
+    "persistent_link_required": false,
+    "runner_external_path": "C:\\Backups\\Aruka\\run-step01-workout-delivery-precheck.ps1",
+    "runtime_sql_external_path": "C:\\Backups\\Aruka\\step01-workout-delivery-precheck-runtime.sql",
+    "persistent_link_created": false,
+    "precheck_exit_code": 0,
+    "transaction_started": true,
+    "transaction_read_only": true,
+    "rollback_confirmed": true,
+    "remote_mutation_executed": false,
+    "expected_remote_drift_count": 0,
+    "compatible_variation_count": 0,
+    "blocking_drift_count": 0,
+    "out_of_scope_difference_count": 0,
+    "blockers": []
+  },
+  "objects_reviewed": [
+    "treino_eventos",
+    "treinos Workout Delivery columns",
+    "Workout Delivery constraints",
+    "Workout Delivery indexes",
+    "salvar_treino_composto",
+    "entregar_treino",
+    "alterar_estado_treino",
+    "treino_eventos RLS",
+    "treino_eventos policies",
+    "treino_eventos grants"
+  ],
+  "integrity": {
+    "apply_sql_traceable": true,
+    "precheck_source_hash_sha256": "18D37E0289BED1A473A90E2DA35236EEC34B341FCEDDDBB4716D52DB1532A942",
+    "runtime_sql_hash_sha256": "198EBB53E7BAD7EBAD21ACAC39F442ABEA6990B2F776A5337AFE84A51B5719E9",
+    "apply_sql_hash_before_sha256": "DC512FB0400792A3741993B09A7A16DE23B797D3B6031C07B936E63E7295A803",
+    "apply_sql_hash_after_sha256": "DC512FB0400792A3741993B09A7A16DE23B797D3B6031C07B936E63E7295A803",
+    "apply_sql_unchanged": true,
+    "recovery_available": true
+  },
+  "decision": "GO_FOR_STEP01_APPLY_REVIEW",
+  "next_action": "USER_REVIEW_AND_STEP01_APPLY_AUTHORIZATION"
+}

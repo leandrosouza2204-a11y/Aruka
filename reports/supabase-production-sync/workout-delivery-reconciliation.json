@@ -1,0 +1,195 @@
+{
+  "migration": "20260728030000_workout_delivery_integration_v1.sql",
+  "summary": {
+    "REMOTE_ONLY": 10,
+    "PARTIALLY_VERIFIED": 6
+  },
+  "requires": {
+    "incremental_migration": true,
+    "function_replacement": false,
+    "constraint_adjustment": false,
+    "grant_adjustment": true,
+    "policy_adjustment": false,
+    "data_backfill": false
+  },
+  "objects": [
+    {
+      "category": "function_grant",
+      "object": "alterar_estado_treino",
+      "subobject": "anon.execute",
+      "classification": "REMOTE_EXTRA",
+      "status": "REMOTE_ONLY",
+      "recommended_future_action": "grant adjustment review",
+      "details": "Function grant exists only in remote evidence. CSV lacks function arguments/specific_name, so overload match is partial.",
+      "new_evidence": "no new direct evidence",
+      "final_state": "REMOTE_EXTRA"
+    },
+    {
+      "category": "function_grant",
+      "object": "alterar_estado_treino",
+      "subobject": "authenticated.execute",
+      "classification": "UNVERIFIED",
+      "status": "PARTIALLY_VERIFIED",
+      "recommended_future_action": "grant adjustment review",
+      "details": "routine_name-only grant match for authenticated.execute; overload signature not present in remote CSV.",
+      "new_evidence": "no new direct evidence",
+      "final_state": "UNVERIFIED"
+    },
+    {
+      "category": "function_grant",
+      "object": "alterar_estado_treino",
+      "subobject": "postgres.execute",
+      "classification": "UNVERIFIED",
+      "status": "PARTIALLY_VERIFIED",
+      "recommended_future_action": "grant adjustment review",
+      "details": "routine_name-only grant match for postgres.execute; overload signature not present in remote CSV.",
+      "new_evidence": "no new direct evidence",
+      "final_state": "UNVERIFIED"
+    },
+    {
+      "category": "function_grant",
+      "object": "alterar_estado_treino",
+      "subobject": "service_role.execute",
+      "classification": "REMOTE_EXTRA",
+      "status": "REMOTE_ONLY",
+      "recommended_future_action": "grant adjustment review",
+      "details": "Function grant exists only in remote evidence. CSV lacks function arguments/specific_name, so overload match is partial.",
+      "new_evidence": "no new direct evidence",
+      "final_state": "REMOTE_EXTRA"
+    },
+    {
+      "category": "function_grant",
+      "object": "entregar_treino",
+      "subobject": "anon.execute",
+      "classification": "REMOTE_EXTRA",
+      "status": "REMOTE_ONLY",
+      "recommended_future_action": "grant adjustment review",
+      "details": "Function grant exists only in remote evidence. CSV lacks function arguments/specific_name, so overload match is partial.",
+      "new_evidence": "no new direct evidence",
+      "final_state": "REMOTE_EXTRA"
+    },
+    {
+      "category": "function_grant",
+      "object": "entregar_treino",
+      "subobject": "authenticated.execute",
+      "classification": "UNVERIFIED",
+      "status": "PARTIALLY_VERIFIED",
+      "recommended_future_action": "grant adjustment review",
+      "details": "routine_name-only grant match for authenticated.execute; overload signature not present in remote CSV.",
+      "new_evidence": "no new direct evidence",
+      "final_state": "UNVERIFIED"
+    },
+    {
+      "category": "function_grant",
+      "object": "entregar_treino",
+      "subobject": "postgres.execute",
+      "classification": "UNVERIFIED",
+      "status": "PARTIALLY_VERIFIED",
+      "recommended_future_action": "grant adjustment review",
+      "details": "routine_name-only grant match for postgres.execute; overload signature not present in remote CSV.",
+      "new_evidence": "no new direct evidence",
+      "final_state": "UNVERIFIED"
+    },
+    {
+      "category": "function_grant",
+      "object": "entregar_treino",
+      "subobject": "service_role.execute",
+      "classification": "REMOTE_EXTRA",
+      "status": "REMOTE_ONLY",
+      "recommended_future_action": "grant adjustment review",
+      "details": "Function grant exists only in remote evidence. CSV lacks function arguments/specific_name, so overload match is partial.",
+      "new_evidence": "no new direct evidence",
+      "final_state": "REMOTE_EXTRA"
+    },
+    {
+      "category": "function_grant",
+      "object": "salvar_treino_composto",
+      "subobject": "anon.execute",
+      "classification": "REMOTE_EXTRA",
+      "status": "REMOTE_ONLY",
+      "recommended_future_action": "grant adjustment review",
+      "details": "Function grant exists only in remote evidence. CSV lacks function arguments/specific_name, so overload match is partial.",
+      "new_evidence": "no new direct evidence",
+      "final_state": "REMOTE_EXTRA"
+    },
+    {
+      "category": "function_grant",
+      "object": "salvar_treino_composto",
+      "subobject": "authenticated.execute",
+      "classification": "UNVERIFIED",
+      "status": "PARTIALLY_VERIFIED",
+      "recommended_future_action": "grant adjustment review",
+      "details": "routine_name-only grant match for authenticated.execute; overload signature not present in remote CSV.",
+      "new_evidence": "no new direct evidence",
+      "final_state": "UNVERIFIED"
+    },
+    {
+      "category": "function_grant",
+      "object": "salvar_treino_composto",
+      "subobject": "postgres.execute",
+      "classification": "UNVERIFIED",
+      "status": "PARTIALLY_VERIFIED",
+      "recommended_future_action": "grant adjustment review",
+      "details": "routine_name-only grant match for postgres.execute; overload signature not present in remote CSV.",
+      "new_evidence": "no new direct evidence",
+      "final_state": "UNVERIFIED"
+    },
+    {
+      "category": "function_grant",
+      "object": "salvar_treino_composto",
+      "subobject": "service_role.execute",
+      "classification": "REMOTE_EXTRA",
+      "status": "REMOTE_ONLY",
+      "recommended_future_action": "grant adjustment review",
+      "details": "Function grant exists only in remote evidence. CSV lacks function arguments/specific_name, so overload match is partial.",
+      "new_evidence": "no new direct evidence",
+      "final_state": "REMOTE_EXTRA"
+    },
+    {
+      "category": "table_grant",
+      "object": "treino_eventos",
+      "subobject": "service_role.DELETE",
+      "classification": "REMOTE_EXTRA",
+      "status": "REMOTE_ONLY",
+      "recommended_future_action": "grant adjustment review",
+      "details": "Object exists only in remote evidence.",
+      "new_evidence": "no new direct evidence",
+      "final_state": "REMOTE_EXTRA"
+    },
+    {
+      "category": "table_grant",
+      "object": "treino_eventos",
+      "subobject": "service_role.INSERT",
+      "classification": "REMOTE_EXTRA",
+      "status": "REMOTE_ONLY",
+      "recommended_future_action": "grant adjustment review",
+      "details": "Object exists only in remote evidence.",
+      "new_evidence": "no new direct evidence",
+      "final_state": "REMOTE_EXTRA"
+    },
+    {
+      "category": "table_grant",
+      "object": "treino_eventos",
+      "subobject": "service_role.SELECT",
+      "classification": "REMOTE_EXTRA",
+      "status": "REMOTE_ONLY",
+      "recommended_future_action": "grant adjustment review",
+      "details": "Object exists only in remote evidence.",
+      "new_evidence": "no new direct evidence",
+      "final_state": "REMOTE_EXTRA"
+    },
+    {
+      "category": "table_grant",
+      "object": "treino_eventos",
+      "subobject": "service_role.UPDATE",
+      "classification": "REMOTE_EXTRA",
+      "status": "REMOTE_ONLY",
+      "recommended_future_action": "grant adjustment review",
+      "details": "Object exists only in remote evidence.",
+      "new_evidence": "no new direct evidence",
+      "final_state": "REMOTE_EXTRA"
+    }
+  ],
+  "evidence_completeness": "PARTIAL_FUNCTION_GRANT_AND_CONFIG_EVIDENCE",
+  "can_design_incremental_after_baseline": false
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "table_name": "aceites_legais"
+  },
+  {
+    "table_name": "acompanhamento_eventos"
+  },
+  {
+    "table_name": "admin_logs"
+  },
+  {
+    "table_name": "alunos"
+  },
+  {
+    "table_name": "anamneses"
+  },
+  {
+    "table_name": "aoe_audit_events"
+  },
+  {
+    "table_name": "aoe_decision_traces"
+  },
+  {
+    "table_name": "aoe_decisions"
+  },
+  {
+    "table_name": "aoe_human_reviews"
+  },
+  {
+    "table_name": "aoe_idempotency_keys"
+  },
+  {
+    "table_name": "assinaturas"
+  },
+  {
+    "table_name": "avaliacoes"
+  },
+  {
+    "table_name": "pagamentos"
+  },
+  {
+    "table_name": "perfis"
+  },
+  {
+    "table_name": "planos"
+  },
+  {
+    "table_name": "treino_dias"
+  },
+  {
+    "table_name": "treino_eventos"
+  },
+  {
+    "table_name": "treino_exercicios"
+  },
+  {
+    "table_name": "treinos"
+  },
+  {
+    "table_name": "workout_templates"
+  }
+]

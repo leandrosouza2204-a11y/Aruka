@@ -9,7 +9,7 @@ export const REPORT_DIR = "reports/supabase-ci-runtime";
 export const WORKFLOW_FILE = ".github/workflows/supabase-local-quality-gates.yml";
 export const WORKFLOW_NAME = "Supabase Local Quality Gates";
 export const EXPECTED_JOB = "validation";
-export const BASELINE_PATH = "supabase/migrations/20260716090000_baseline_aruka_v1.sql";
+export const BASELINE_PATH = "supabase/reference-baselines/20260716090000_baseline_aruka_v1.sql";
 export const EXPECTED_BASELINE_SHA = "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B";
 export const PROTECTED_PROJECT_REF = "xrmqdkpx" + "nfvusmenadnf";
 

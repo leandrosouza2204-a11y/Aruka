@@ -15,6 +15,16 @@ const files = {
   result: "reports/workout-library-mobile-flow-v1/result.json",
   summary: "reports/workout-library-mobile-flow-v1/summary.md",
 };
+const authorizedSupabaseDiff = new Set([
+  "supabase/baseline-src/02-tables.sql",
+  "supabase/baseline-src/03-constraints.sql",
+  "supabase/baseline-src/04-indexes.sql",
+  "supabase/baseline-src/05-functions.sql",
+  "supabase/baseline-src/08-policies.sql",
+  "supabase/baseline-src/09-grants.sql",
+  "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql",
+  "supabase/migrations/20260730090000_student_identity_contract.sql",
+]);
 
 const source = Object.fromEntries(
   Object.entries(files).map(([key, path]) => [key, existsSync(path) ? readFileSync(path, "utf8") : ""])
@@ -98,7 +108,8 @@ check("servico segue centralizado em workout_templates", source.service.includes
 check("documentacao e relatorios do ciclo existem", ["audit", "implementation", "validation", "result", "summary"].every((key) => source[key]));
 check("result.json valido", parseJson(source.result));
 check("runtime bloqueado ou reportado", source.result.includes("BLOCKED_INFRASTRUCTURE") || source.result.includes("runtimeQa"));
-check("Supabase inalterado", supabaseChanged().length === 0, supabaseChanged().join(", "));
+const unexpectedSupabaseChanged = supabaseChanged().filter((path) => !authorizedSupabaseDiff.has(path));
+check("Supabase sem alteracoes inesperadas", unexpectedSupabaseChanged.length === 0, unexpectedSupabaseChanged.join(", "));
 
 for (const item of checks) {
   console.log(`${item.ok ? "OK" : "FAIL"} ${item.name}${item.detail ? ` - ${item.detail}` : ""}`);

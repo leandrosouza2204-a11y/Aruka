@@ -1,0 +1,190 @@
+{
+  "decision": "READY_FOR_RECONCILIATION_DESIGN",
+  "globalDecision": "BLOCKED_REMOTE_SCHEMA_DRIFT",
+  "productionAction": "RECONCILIATION_DESIGN_REQUIRED",
+  "readyToApply": false,
+  "recommendedStrategy": "INCREMENTAL_RECONCILIATION_THEN_NEW_BASELINE",
+  "nullability": {
+    "expected": [
+      {
+        "table_name": "alunos",
+        "column_name": "acompanhamento_motivo"
+      },
+      {
+        "table_name": "alunos",
+        "column_name": "created_at"
+      },
+      {
+        "table_name": "alunos",
+        "column_name": "inicio"
+      },
+      {
+        "table_name": "alunos",
+        "column_name": "observacoes"
+      },
+      {
+        "table_name": "alunos",
+        "column_name": "pagamento_recebido"
+      },
+      {
+        "table_name": "alunos",
+        "column_name": "plano"
+      },
+      {
+        "table_name": "alunos",
+        "column_name": "status"
+      },
+      {
+        "table_name": "alunos",
+        "column_name": "user_id"
+      },
+      {
+        "table_name": "alunos",
+        "column_name": "valor"
+      },
+      {
+        "table_name": "alunos",
+        "column_name": "whatsapp"
+      }
+    ],
+    "received": 10,
+    "missing": [],
+    "duplicates": [],
+    "unknown": [],
+    "profiles": [
+      {
+        "table_name": "alunos",
+        "column_name": "acompanhamento_motivo",
+        "total_rows": "26",
+        "null_rows": "0",
+        "percent_null": 0,
+        "current_data_classification": "CURRENT_DATA_COMPATIBLE_WITH_NOT_NULL",
+        "classification": "CURRENT_DATA_COMPATIBLE_WITH_NOT_NULL",
+        "functional_classification": "NULLABLE_SHOULD_BE_PRESERVED",
+        "contract_decision": "DESIGN_REVIEW_REQUIRED_BEFORE_NOT_NULL",
+        "financial_impact": "FINANCIAL_OR_CONTRACT_IMPACT_REQUIRES_APPROVAL"
+      },
+      {
+        "table_name": "alunos",
+        "column_name": "created_at",
+        "total_rows": "26",
+        "null_rows": "0",
+        "percent_null": 0,
+        "current_data_classification": "CURRENT_DATA_COMPATIBLE_WITH_NOT_NULL",
+        "classification": "CURRENT_DATA_COMPATIBLE_WITH_NOT_NULL",
+        "functional_classification": "NOT_NULL_REQUIRED_BY_CONTRACT",
+        "contract_decision": "DESIGN_REVIEW_REQUIRED_BEFORE_NOT_NULL",
+        "financial_impact": "NO_DIRECT_FINANCIAL_IMPACT_IDENTIFIED"
+      },
+      {
+        "table_name": "alunos",
+        "column_name": "inicio",
+        "total_rows": "26",
+        "null_rows": "0",
+        "percent_null": 0,
+        "current_data_classification": "CURRENT_DATA_COMPATIBLE_WITH_NOT_NULL",
+        "classification": "CURRENT_DATA_COMPATIBLE_WITH_NOT_NULL",
+        "functional_classification": "HIGH_RISK_FINANCIAL_CONTRACT",
+        "contract_decision": "DESIGN_REVIEW_REQUIRED_BEFORE_NOT_NULL",
+        "financial_impact": "FINANCIAL_OR_CONTRACT_IMPACT_REQUIRES_APPROVAL"
+      },
+      {
+        "table_name": "alunos",
+        "column_name": "observacoes",
+        "total_rows": "26",
+        "null_rows": "0",
+        "percent_null": 0,
+        "current_data_classification": "CURRENT_DATA_COMPATIBLE_WITH_NOT_NULL",
+        "classification": "CURRENT_DATA_COMPATIBLE_WITH_NOT_NULL",
+        "functional_classification": "NULLABLE_SHOULD_BE_PRESERVED",
+        "contract_decision": "DESIGN_REVIEW_REQUIRED_BEFORE_NOT_NULL",
+        "financial_impact": "NO_DIRECT_FINANCIAL_IMPACT_IDENTIFIED"
+      },
+      {
+        "table_name": "alunos",
+        "column_name": "pagamento_recebido",
+        "total_rows": "26",
+        "null_rows": "0",
+        "percent_null": 0,
+        "current_data_classification": "CURRENT_DATA_COMPATIBLE_WITH_NOT_NULL",
+        "classification": "CURRENT_DATA_COMPATIBLE_WITH_NOT_NULL",
+        "functional_classification": "HIGH_RISK_FINANCIAL_CONTRACT",
+        "contract_decision": "DESIGN_REVIEW_REQUIRED_BEFORE_NOT_NULL",
+        "financial_impact": "FINANCIAL_OR_CONTRACT_IMPACT_REQUIRES_APPROVAL"
+      },
+      {
+        "table_name": "alunos",
+        "column_name": "plano",
+        "total_rows": "26",
+        "null_rows": "0",
+        "percent_null": 0,
+        "current_data_classification": "CURRENT_DATA_COMPATIBLE_WITH_NOT_NULL",
+        "classification": "CURRENT_DATA_COMPATIBLE_WITH_NOT_NULL",
+        "functional_classification": "HIGH_RISK_FINANCIAL_CONTRACT",
+        "contract_decision": "DESIGN_REVIEW_REQUIRED_BEFORE_NOT_NULL",
+        "financial_impact": "FINANCIAL_OR_CONTRACT_IMPACT_REQUIRES_APPROVAL"
+      },
+      {
+        "table_name": "alunos",
+        "column_name": "status",
+        "total_rows": "26",
+        "null_rows": "0",
+        "percent_null": 0,
+        "current_data_classification": "CURRENT_DATA_COMPATIBLE_WITH_NOT_NULL",
+        "classification": "CURRENT_DATA_COMPATIBLE_WITH_NOT_NULL",
+        "functional_classification": "HIGH_RISK_FINANCIAL_CONTRACT",
+        "contract_decision": "DESIGN_REVIEW_REQUIRED_BEFORE_NOT_NULL",
+        "financial_impact": "FINANCIAL_OR_CONTRACT_IMPACT_REQUIRES_APPROVAL"
+      },
+      {
+        "table_name": "alunos",
+        "column_name": "user_id",
+        "total_rows": "26",
+        "null_rows": "0",
+        "percent_null": 0,
+        "current_data_classification": "CURRENT_DATA_COMPATIBLE_WITH_NOT_NULL",
+        "classification": "CURRENT_DATA_COMPATIBLE_WITH_NOT_NULL",
+        "functional_classification": "NOT_NULL_REQUIRED_BY_CONTRACT",
+        "contract_decision": "DESIGN_REVIEW_REQUIRED_BEFORE_NOT_NULL",
+        "financial_impact": "NO_DIRECT_FINANCIAL_IMPACT_IDENTIFIED"
+      },
+      {
+        "table_name": "alunos",
+        "column_name": "valor",
+        "total_rows": "26",
+        "null_rows": "0",
+        "percent_null": 0,
+        "current_data_classification": "CURRENT_DATA_COMPATIBLE_WITH_NOT_NULL",
+        "classification": "CURRENT_DATA_COMPATIBLE_WITH_NOT_NULL",
+        "functional_classification": "HIGH_RISK_FINANCIAL_CONTRACT",
+        "contract_decision": "DESIGN_REVIEW_REQUIRED_BEFORE_NOT_NULL",
+        "financial_impact": "FINANCIAL_OR_CONTRACT_IMPACT_REQUIRES_APPROVAL"
+      },
+      {
+        "table_name": "alunos",
+        "column_name": "whatsapp",
+        "total_rows": "26",
+        "null_rows": "0",
+        "percent_null": 0,
+        "current_data_classification": "CURRENT_DATA_COMPATIBLE_WITH_NOT_NULL",
+        "classification": "CURRENT_DATA_COMPATIBLE_WITH_NOT_NULL",
+        "functional_classification": "NOT_NULL_REQUIRED_BY_CONTRACT",
+        "contract_decision": "DESIGN_REVIEW_REQUIRED_BEFORE_NOT_NULL",
+        "financial_impact": "NO_DIRECT_FINANCIAL_IMPACT_IDENTIFIED"
+      }
+    ],
+    "completeness": "REMOTE_NULLABILITY_PROFILE_COMPLETE"
+  },
+  "phaseCount": 9,
+  "approvalRequired": true,
+  "rollbackRequired": true,
+  "commandsNotExecuted": [
+    "supabase db push",
+    "supabase db pull",
+    "supabase db dump",
+    "supabase migration repair",
+    "supabase db reset --linked",
+    "remote SQL execution",
+    "supabase link"
+  ]
+}

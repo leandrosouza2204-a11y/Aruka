@@ -1,0 +1,23 @@
+{
+  "decision": "READY_FOR_SUPERVISED_PRODUCTION_CUTOVER",
+  "technical_package_ready": "YES",
+  "operational_package_ready": true,
+  "steps_total": 6,
+  "steps_reviewed": 6,
+  "untraced_statements": 0,
+  "prechecks_valid": "YES",
+  "postchecks_valid": "YES",
+  "recovery_valid": "YES",
+  "smoke_plan_valid": "YES",
+  "backup_required": "YES",
+  "backup_verified": true,
+  "restore_method_reviewed": true,
+  "maintenance_window_required": "YES",
+  "maintenance_window_estimate": "30-60 min",
+  "execution_method": "MANUAL_SUPERVISED_SQL_EDITOR",
+  "db_push_allowed": "NO",
+  "history_alignment_allowed": "NO",
+  "production_execution_authorized": "NO",
+  "cutover_allowed": false,
+  "next_action": "FINAL_USER_CUTOVER_AUTHORIZATION"
+}

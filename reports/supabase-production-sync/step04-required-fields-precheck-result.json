@@ -1,0 +1,35 @@
+{
+  "decision": "AWAITING_SECURE_STEP04_PRECHECK_EXECUTION",
+  "project": "aruka",
+  "project_ref_masked": "vriz...vdik",
+  "project_verified": false,
+  "precheck_exit_code": null,
+  "required_columns": [
+    "public.alunos.created_at",
+    "public.alunos.user_id",
+    "public.alunos.whatsapp"
+  ],
+  "rows_reviewed": null,
+  "null_counts": {
+    "public.alunos.created_at": null,
+    "public.alunos.user_id": null,
+    "public.alunos.whatsapp": null
+  },
+  "total_null_count": null,
+  "already_present_count": null,
+  "expected_drift_count": null,
+  "compatible_variation_count": 0,
+  "blocking_drift_count": null,
+  "apply_sql_hash": "20A545B036CAD34D74548AE1BF15FA1EE96FBD5C40205F98C8275EB71EEA42D7",
+  "apply_sql_traceable": true,
+  "untraceable_statement_count": 0,
+  "apply_sql_unchanged": true,
+  "precheck_read_only": true,
+  "recovery_available": true,
+  "postcheck_available": true,
+  "runtime_requirement": "REQUIRED_FIELDS_POSTCHECK_SUFFICIENT",
+  "step04_apply_authorized": false,
+  "step04_apply_executed": false,
+  "production_executed": false,
+  "next_action": "USER_EXECUTE_STEP04_PRECHECK_RUNNER"
+}

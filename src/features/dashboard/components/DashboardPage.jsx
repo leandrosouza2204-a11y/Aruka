@@ -24,6 +24,14 @@ function DashboardPage() {
           <DashboardOnboardingChecklist status={dashboard.onboardingStatus} />
         </div>
 
+        <div className="dashboard-alerts-section">
+          <DashboardAlertas
+            alertas={dashboard.alertasConsultoria}
+            carregando={dashboard.carregando}
+            styles={styles}
+          />
+        </div>
+
         <div className="dashboard-stats-grid dashboard-stats-section" style={styles.cardsGrid}>
           <DashboardCards metricas={dashboard.metricas} styles={styles} />
           <DashboardCheckin
@@ -32,14 +40,6 @@ function DashboardPage() {
             modalAberto={dashboard.modalCheckinAberto}
             onAbrirModal={dashboard.abrirModalCheckin}
             onFecharModal={dashboard.fecharModalCheckin}
-            styles={styles}
-          />
-        </div>
-
-        <div className="dashboard-alerts-section">
-          <DashboardAlertas
-            alertas={dashboard.alertasConsultoria}
-            carregando={dashboard.carregando}
             styles={styles}
           />
         </div>
@@ -352,6 +352,18 @@ const alertaAcao = {
   width: "fit-content",
 };
 
+const metricAction = {
+  alignItems: "center",
+  alignSelf: "flex-start",
+  display: "inline-flex",
+  fontSize: "12px",
+  justifyContent: "center",
+  marginTop: "auto",
+  minHeight: "34px",
+  padding: "7px 10px",
+  textDecoration: "none",
+};
+
 const estadoVazioPremium = {
   alignItems: "center",
   background: "#f0fdf4",
@@ -561,6 +573,7 @@ const styles = {
   metricHint,
   metricIcon,
   metricLabel,
+  metricAction,
   modal,
   modalLegenda,
   modalOverlay,

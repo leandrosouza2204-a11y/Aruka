@@ -1,0 +1,499 @@
+[
+  {
+    "schema_name": "public",
+    "table_name": "aceites_legais",
+    "constraint_name": "aceites_legais_pkey",
+    "constraint_type": "p",
+    "definition": "PRIMARY KEY (id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "aceites_legais",
+    "constraint_name": "aceites_legais_user_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "aceites_legais",
+    "constraint_name": "aceites_legais_versao_unica",
+    "constraint_type": "u",
+    "definition": "UNIQUE (user_id, politica_versao, termos_versao)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "acompanhamento_eventos",
+    "constraint_name": "acompanhamento_eventos_aluno_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (aluno_id) REFERENCES alunos(id) ON DELETE RESTRICT"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "acompanhamento_eventos",
+    "constraint_name": "acompanhamento_eventos_pkey",
+    "constraint_type": "p",
+    "definition": "PRIMARY KEY (id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "acompanhamento_eventos",
+    "constraint_name": "acompanhamento_eventos_plano_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (plano_id) REFERENCES planos(id) ON DELETE SET NULL"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "acompanhamento_eventos",
+    "constraint_name": "acompanhamento_eventos_tipo_check",
+    "constraint_type": "c",
+    "definition": "CHECK ((tipo = ANY (ARRAY['acompanhamento_iniciado'::text, 'acompanhamento_encerrado'::text, 'acompanhamento_reativado'::text, 'plano_renovado'::text])))"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "acompanhamento_eventos",
+    "constraint_name": "acompanhamento_eventos_user_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "admin_logs",
+    "constraint_name": "admin_logs_admin_user_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (admin_user_id) REFERENCES auth.users(id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "admin_logs",
+    "constraint_name": "admin_logs_pkey",
+    "constraint_type": "p",
+    "definition": "PRIMARY KEY (id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "admin_logs",
+    "constraint_name": "admin_logs_target_user_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (target_user_id) REFERENCES auth.users(id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "alunos",
+    "constraint_name": "alunos_acompanhamento_status_check",
+    "constraint_type": "c",
+    "definition": "CHECK ((acompanhamento_status = ANY (ARRAY['ativo'::text, 'encerrado'::text, 'nao_renovado'::text, 'cancelado'::text])))"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "alunos",
+    "constraint_name": "alunos_pkey",
+    "constraint_type": "p",
+    "definition": "PRIMARY KEY (id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "alunos",
+    "constraint_name": "alunos_student_user_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (student_user_id) REFERENCES auth.users(id) ON DELETE SET NULL"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "alunos",
+    "constraint_name": "alunos_user_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "anamneses",
+    "constraint_name": "anamneses_aluno_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (aluno_id) REFERENCES alunos(id) ON DELETE CASCADE"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "anamneses",
+    "constraint_name": "anamneses_pkey",
+    "constraint_type": "p",
+    "definition": "PRIMARY KEY (id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "anamneses",
+    "constraint_name": "anamneses_user_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "aoe_audit_events",
+    "constraint_name": "aoe_audit_events_pkey",
+    "constraint_type": "p",
+    "definition": "PRIMARY KEY (id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "aoe_decision_traces",
+    "constraint_name": "aoe_decision_traces_decision_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (decision_id) REFERENCES aoe_decisions(id) ON DELETE CASCADE"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "aoe_decision_traces",
+    "constraint_name": "aoe_decision_traces_pkey",
+    "constraint_type": "p",
+    "definition": "PRIMARY KEY (id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "aoe_decisions",
+    "constraint_name": "aoe_decisions_actor_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (actor_id) REFERENCES auth.users(id) ON DELETE RESTRICT"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "aoe_decisions",
+    "constraint_name": "aoe_decisions_pkey",
+    "constraint_type": "p",
+    "definition": "PRIMARY KEY (id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "aoe_decisions",
+    "constraint_name": "aoe_decisions_student_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (student_id) REFERENCES alunos(id) ON DELETE RESTRICT"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "aoe_human_reviews",
+    "constraint_name": "aoe_human_reviews_decision_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (decision_id) REFERENCES aoe_decisions(id) ON DELETE CASCADE"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "aoe_human_reviews",
+    "constraint_name": "aoe_human_reviews_notes_length",
+    "constraint_type": "c",
+    "definition": "CHECK ((char_length(notes) <= 500))"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "aoe_human_reviews",
+    "constraint_name": "aoe_human_reviews_pkey",
+    "constraint_type": "p",
+    "definition": "PRIMARY KEY (id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "aoe_human_reviews",
+    "constraint_name": "aoe_human_reviews_reviewer_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (reviewer_id) REFERENCES auth.users(id) ON DELETE RESTRICT"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "aoe_idempotency_keys",
+    "constraint_name": "aoe_idempotency_keys_actor_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (actor_id) REFERENCES auth.users(id) ON DELETE RESTRICT"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "aoe_idempotency_keys",
+    "constraint_name": "aoe_idempotency_keys_decision_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (decision_id) REFERENCES aoe_decisions(id) ON DELETE SET NULL"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "aoe_idempotency_keys",
+    "constraint_name": "aoe_idempotency_keys_pkey",
+    "constraint_type": "p",
+    "definition": "PRIMARY KEY (id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "assinaturas",
+    "constraint_name": "assinaturas_pkey",
+    "constraint_type": "p",
+    "definition": "PRIMARY KEY (id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "assinaturas",
+    "constraint_name": "assinaturas_status_check",
+    "constraint_type": "c",
+    "definition": "CHECK ((status = ANY (ARRAY['pendente'::text, 'ativo'::text, 'vencido'::text, 'cancelado'::text, 'teste'::text])))"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "assinaturas",
+    "constraint_name": "assinaturas_user_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "avaliacoes",
+    "constraint_name": "avaliacoes_aluno_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (aluno_id) REFERENCES alunos(id) ON DELETE CASCADE"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "avaliacoes",
+    "constraint_name": "avaliacoes_pkey",
+    "constraint_type": "p",
+    "definition": "PRIMARY KEY (id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "avaliacoes",
+    "constraint_name": "avaliacoes_user_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "pagamentos",
+    "constraint_name": "pagamentos_aluno_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (aluno_id) REFERENCES alunos(id) ON DELETE CASCADE"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "pagamentos",
+    "constraint_name": "pagamentos_pkey",
+    "constraint_type": "p",
+    "definition": "PRIMARY KEY (id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "pagamentos",
+    "constraint_name": "pagamentos_user_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "perfis",
+    "constraint_name": "perfis_pkey",
+    "constraint_type": "p",
+    "definition": "PRIMARY KEY (id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "perfis",
+    "constraint_name": "perfis_role_check",
+    "constraint_type": "c",
+    "definition": "CHECK ((role = ANY (ARRAY['admin'::text, 'user'::text, 'student'::text])))"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "perfis",
+    "constraint_name": "perfis_status_check",
+    "constraint_type": "c",
+    "definition": "CHECK ((status = ANY (ARRAY['ativo'::text, 'inativo'::text])))"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "perfis",
+    "constraint_name": "perfis_tipo_acesso_check",
+    "constraint_type": "c",
+    "definition": "CHECK ((tipo_acesso = ANY (ARRAY['admin'::text, 'beta'::text, 'assinante'::text, 'pendente'::text, 'bloqueado'::text])))"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "perfis",
+    "constraint_name": "perfis_user_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "perfis",
+    "constraint_name": "perfis_user_id_key",
+    "constraint_type": "u",
+    "definition": "UNIQUE (user_id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "planos",
+    "constraint_name": "planos_pkey",
+    "constraint_type": "p",
+    "definition": "PRIMARY KEY (id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "planos",
+    "constraint_name": "planos_user_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "treino_dias",
+    "constraint_name": "treino_dias_pkey",
+    "constraint_type": "p",
+    "definition": "PRIMARY KEY (id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "treino_dias",
+    "constraint_name": "treino_dias_treino_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (treino_id) REFERENCES treinos(id) ON DELETE CASCADE"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "treino_eventos",
+    "constraint_name": "treino_eventos_aluno_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (aluno_id) REFERENCES alunos(id) ON DELETE RESTRICT"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "treino_eventos",
+    "constraint_name": "treino_eventos_event_type_check",
+    "constraint_type": "c",
+    "definition": "CHECK ((event_type = ANY (ARRAY['applied'::text, 'delivered'::text, 'status_changed'::text, 'completed'::text, 'archived'::text])))"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "treino_eventos",
+    "constraint_name": "treino_eventos_metadata_object_check",
+    "constraint_type": "c",
+    "definition": "CHECK (((metadata IS NULL) OR (jsonb_typeof(metadata) = 'object'::text)))"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "treino_eventos",
+    "constraint_name": "treino_eventos_pkey",
+    "constraint_type": "p",
+    "definition": "PRIMARY KEY (id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "treino_eventos",
+    "constraint_name": "treino_eventos_treino_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (treino_id) REFERENCES treinos(id) ON DELETE CASCADE"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "treino_exercicios",
+    "constraint_name": "treino_exercicios_pkey",
+    "constraint_type": "p",
+    "definition": "PRIMARY KEY (id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "treino_exercicios",
+    "constraint_name": "treino_exercicios_treino_dia_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (treino_dia_id) REFERENCES treino_dias(id) ON DELETE CASCADE"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "treinos",
+    "constraint_name": "treinos_aluno_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (aluno_id) REFERENCES alunos(id) ON DELETE CASCADE"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "treinos",
+    "constraint_name": "treinos_lifecycle_dates_check",
+    "constraint_type": "c",
+    "definition": "CHECK ((((lifecycle_status <> 'active'::text) OR (delivered_at IS NOT NULL)) AND ((lifecycle_status <> 'completed'::text) OR (completed_at IS NOT NULL)) AND ((lifecycle_status <> 'archived'::text) OR (archived_at IS NOT NULL))))"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "treinos",
+    "constraint_name": "treinos_lifecycle_status_check",
+    "constraint_type": "c",
+    "definition": "CHECK ((lifecycle_status = ANY (ARRAY['draft'::text, 'active'::text, 'completed'::text, 'archived'::text])))"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "treinos",
+    "constraint_name": "treinos_pkey",
+    "constraint_type": "p",
+    "definition": "PRIMARY KEY (id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "treinos",
+    "constraint_name": "treinos_template_origin_snapshot_object_check",
+    "constraint_type": "c",
+    "definition": "CHECK (((template_origin_snapshot IS NULL) OR (jsonb_typeof(template_origin_snapshot) = 'object'::text)))"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "treinos",
+    "constraint_name": "treinos_template_origin_type_check",
+    "constraint_type": "c",
+    "definition": "CHECK (((template_origin_type IS NULL) OR (template_origin_type = ANY (ARRAY['official'::text, 'personal'::text]))))"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "treinos",
+    "constraint_name": "treinos_user_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "workout_templates",
+    "constraint_name": "workout_templates_gender_check",
+    "constraint_type": "c",
+    "definition": "CHECK ((reference_gender = ANY (ARRAY['Masculino'::text, 'Feminino'::text, 'Unissex'::text])))"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "workout_templates",
+    "constraint_name": "workout_templates_name_required",
+    "constraint_type": "c",
+    "definition": "CHECK ((length(btrim(name)) > 0))"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "workout_templates",
+    "constraint_name": "workout_templates_owner_id_fkey",
+    "constraint_type": "f",
+    "definition": "FOREIGN KEY (owner_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "workout_templates",
+    "constraint_name": "workout_templates_personal_only",
+    "constraint_type": "c",
+    "definition": "CHECK ((is_system = false))"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "workout_templates",
+    "constraint_name": "workout_templates_pkey",
+    "constraint_type": "p",
+    "definition": "PRIMARY KEY (id)"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "workout_templates",
+    "constraint_name": "workout_templates_split_check",
+    "constraint_type": "c",
+    "definition": "CHECK ((split_type = ANY (ARRAY['ABC'::text, 'ABCD'::text, 'ABCDE'::text, 'Full Body'::text, 'Upper/Lower'::text, 'Outro'::text])))"
+  },
+  {
+    "schema_name": "public",
+    "table_name": "workout_templates",
+    "constraint_name": "workout_templates_template_data_object",
+    "constraint_type": "c",
+    "definition": "CHECK ((jsonb_typeof(template_data) = 'object'::text))"
+  }
+]

@@ -10,7 +10,7 @@ export function montarResumoOperacionalAluno(aluno, resultado = {}) {
     tempo: {
       titulo: "Tempo como aluno",
       estado: formatarTempoComoAluno(aluno?.inicio),
-      detalhe: aluno?.inicio ? `Inicio em ${formatarData(aluno.inicio)}` : "Data de inicio nao informada.",
+      detalhe: aluno?.inicio ? `Início em ${formatarData(aluno.inicio)}` : "Data de início não informada.",
     },
     treino: montarIndicadorTreino(resultado.treinos),
     avaliacao: montarIndicadorAvaliacao(resultado.avaliacoes),
@@ -23,13 +23,13 @@ export function montarIndicadorTreino(estado) {
     return indicador("Treino", "Carregando...", "Consultando treinos do aluno.");
   }
   if (estado.status === "error") {
-    return indicador("Treino", "Erro ao carregar", "Nao foi possivel carregar o resumo de treinos.", "erro");
+    return indicador("Treino", "Erro ao carregar", "Não foi possível carregar o resumo de treinos.", "erro");
   }
 
   const treinos = estado.data || [];
   const ativo = treinos.find((treino) => (treino.status || "Ativo") === "Ativo");
   if (!ativo) {
-    return indicador("Treino", "Sem treino ativo", "Este aluno ainda nao possui treino ativo cadastrado.", "vazio");
+    return indicador("Treino", "Sem treino ativo", "Este aluno ainda não possui treino ativo cadastrado.", "vazio");
   }
 
   return indicador("Treino", "Treino ativo", ativo.rotina || "Rotina sem nome.", "ok");
@@ -40,19 +40,19 @@ export function montarIndicadorAvaliacao(estado) {
     return indicador("Avaliacoes", "Carregando...", "Consultando avaliacoes do aluno.");
   }
   if (estado.status === "error") {
-    return indicador("Avaliacoes", "Erro ao carregar", "Nao foi possivel carregar o resumo de avaliacoes.", "erro");
+    return indicador("Avaliações", "Erro ao carregar", "Não foi possível carregar o resumo de avaliações.", "erro");
   }
 
   const avaliacoes = estado.data || [];
   if (!avaliacoes.length) {
-    return indicador("Avaliacoes", "Sem avaliacao", "Nenhuma avaliacao foi registrada para este aluno.", "vazio");
+    return indicador("Avaliações", "Sem avaliação", "Nenhuma avaliação foi registrada para este aluno.", "vazio");
   }
 
   const ultima = [...avaliacoes].sort((a, b) => String(b.data).localeCompare(String(a.data)))[0];
   return indicador(
     "Avaliacoes",
-    `Ultima em ${formatarData(ultima.data)}`,
-    `${avaliacoes.length} avaliacao(oes) no historico.`,
+    `Última em ${formatarData(ultima.data)}`,
+    `${avaliacoes.length} avaliação(ões) no histórico.`,
     "ok"
   );
 }
@@ -62,12 +62,12 @@ export function montarIndicadorFinanceiro(estado) {
     return indicador("Financeiro", "Carregando...", "Consultando financeiro do aluno.");
   }
   if (estado.status === "error") {
-    return indicador("Financeiro", "Erro ao carregar", "Nao foi possivel carregar o resumo financeiro.", "erro");
+    return indicador("Financeiro", "Erro ao carregar", "Não foi possível carregar o resumo financeiro.", "erro");
   }
 
   const resumo = estado.data;
   if (!resumo || !resumo.quantidadePagamentos) {
-    return indicador("Financeiro", "Sem registros", "Nao ha registros financeiros para este aluno.", "vazio");
+    return indicador("Financeiro", "Sem registros", "Não há registros financeiros para este aluno.", "vazio");
   }
 
   return indicador(

@@ -15,10 +15,10 @@ test("indicador de treino diferencia ativo e vazio", () => {
 });
 
 test("indicador de avaliacao diferencia ultima avaliacao e vazio", () => {
-  assert.equal(montarIndicadorAvaliacao({ status: "success", data: [] }).estado, "Sem avaliacao");
+  assert.equal(montarIndicadorAvaliacao({ status: "success", data: [] }).estado, "Sem avaliação");
   assert.match(
     montarIndicadorAvaliacao({ status: "success", data: [{ data: "2026-07-22" }] }).estado,
-    /Ultima/
+    /Última/
   );
 });
 

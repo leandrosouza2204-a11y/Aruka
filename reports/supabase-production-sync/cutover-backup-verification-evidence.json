@@ -1,0 +1,51 @@
+{
+  "project": {
+    "name": "aruka",
+    "ref_masked": "vriz...vdik"
+  },
+  "backup": {
+    "method": "MANUAL_LOGICAL_BACKUP_PLUS_STORAGE_EXPORT",
+    "reference_masked": "aruka-pre-cutover-20260803-173701",
+    "status": "VERIFIED",
+    "timestamp_utc": "2026-08-03T20:37:01.0723629Z",
+    "directory_external": true
+  },
+  "database": {
+    "roles": {
+      "verified": true,
+      "size_bytes": 297,
+      "sha256_verified": true
+    },
+    "schema": {
+      "verified": true,
+      "size_bytes": 105442,
+      "sha256_verified": true
+    },
+    "data": {
+      "verified": true,
+      "size_bytes": 77548,
+      "sha256_verified": true
+    }
+  },
+  "storage": {
+    "bucket": "avaliacoes-fotos",
+    "objects": 8,
+    "total_bytes": 2113714,
+    "hashes_verified": true,
+    "missing_files": 0,
+    "extra_files": 0
+  },
+  "integrity": {
+    "checksum_mismatches": 0,
+    "secret_leak_detected": false
+  },
+  "restore": {
+    "method_reviewed": true,
+    "restore_executed": false
+  },
+  "cutover": {
+    "backup_verified": true,
+    "production_execution_authorized": false,
+    "cutover_allowed": false
+  }
+}

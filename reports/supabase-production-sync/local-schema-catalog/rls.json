@@ -1,0 +1,102 @@
+[
+  {
+    "table_name": "aceites_legais",
+    "rls_enabled": "true",
+    "rls_forced": "false"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "rls_enabled": "true",
+    "rls_forced": "false"
+  },
+  {
+    "table_name": "admin_logs",
+    "rls_enabled": "true",
+    "rls_forced": "false"
+  },
+  {
+    "table_name": "alunos",
+    "rls_enabled": "true",
+    "rls_forced": "false"
+  },
+  {
+    "table_name": "anamneses",
+    "rls_enabled": "true",
+    "rls_forced": "false"
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "rls_enabled": "true",
+    "rls_forced": "false"
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "rls_enabled": "true",
+    "rls_forced": "false"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "rls_enabled": "true",
+    "rls_forced": "false"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "rls_enabled": "true",
+    "rls_forced": "false"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "rls_enabled": "true",
+    "rls_forced": "false"
+  },
+  {
+    "table_name": "assinaturas",
+    "rls_enabled": "true",
+    "rls_forced": "false"
+  },
+  {
+    "table_name": "avaliacoes",
+    "rls_enabled": "true",
+    "rls_forced": "false"
+  },
+  {
+    "table_name": "pagamentos",
+    "rls_enabled": "true",
+    "rls_forced": "false"
+  },
+  {
+    "table_name": "perfis",
+    "rls_enabled": "true",
+    "rls_forced": "false"
+  },
+  {
+    "table_name": "planos",
+    "rls_enabled": "true",
+    "rls_forced": "false"
+  },
+  {
+    "table_name": "treino_dias",
+    "rls_enabled": "true",
+    "rls_forced": "false"
+  },
+  {
+    "table_name": "treino_eventos",
+    "rls_enabled": "true",
+    "rls_forced": "false"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "rls_enabled": "true",
+    "rls_forced": "false"
+  },
+  {
+    "table_name": "treinos",
+    "rls_enabled": "true",
+    "rls_forced": "false"
+  },
+  {
+    "table_name": "workout_templates",
+    "rls_enabled": "true",
+    "rls_forced": "false"
+  }
+]

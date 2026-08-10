@@ -12,11 +12,48 @@ export const WORKOUT_STATUS_OPTIONS = [
   WORKOUT_STATUS.FINISHED,
 ];
 
+export const WORKOUT_LIFECYCLE_STATUS = {
+  DRAFT: "draft",
+  ACTIVE: "active",
+  COMPLETED: "completed",
+  ARCHIVED: "archived",
+};
+
+export const WORKOUT_LIFECYCLE_STATUS_OPTIONS = [
+  WORKOUT_LIFECYCLE_STATUS.DRAFT,
+  WORKOUT_LIFECYCLE_STATUS.ACTIVE,
+  WORKOUT_LIFECYCLE_STATUS.COMPLETED,
+  WORKOUT_LIFECYCLE_STATUS.ARCHIVED,
+];
+
+export const WORKOUT_TEMPLATE_ORIGIN_TYPE = {
+  OFFICIAL: "official",
+  PERSONAL: "personal",
+};
+
+export const WORKOUT_TEMPLATE_ORIGIN_TYPE_OPTIONS = [
+  WORKOUT_TEMPLATE_ORIGIN_TYPE.OFFICIAL,
+  WORKOUT_TEMPLATE_ORIGIN_TYPE.PERSONAL,
+];
+
 const STATUS_ALIASES = new Map([
   ["ativo", WORKOUT_STATUS.ACTIVE],
   ["em revisao", WORKOUT_STATUS.IN_REVIEW],
   ["em revisão", WORKOUT_STATUS.IN_REVIEW],
   ["finalizado", WORKOUT_STATUS.FINISHED],
+]);
+
+const LIFECYCLE_ALIASES = new Map([
+  ["draft", WORKOUT_LIFECYCLE_STATUS.DRAFT],
+  ["rascunho", WORKOUT_LIFECYCLE_STATUS.DRAFT],
+  ["em revisao", WORKOUT_LIFECYCLE_STATUS.DRAFT],
+  ["em revisão", WORKOUT_LIFECYCLE_STATUS.DRAFT],
+  ["active", WORKOUT_LIFECYCLE_STATUS.ACTIVE],
+  ["ativo", WORKOUT_LIFECYCLE_STATUS.ACTIVE],
+  ["completed", WORKOUT_LIFECYCLE_STATUS.COMPLETED],
+  ["finalizado", WORKOUT_LIFECYCLE_STATUS.COMPLETED],
+  ["archived", WORKOUT_LIFECYCLE_STATUS.ARCHIVED],
+  ["arquivado", WORKOUT_LIFECYCLE_STATUS.ARCHIVED],
 ]);
 
 const FORBIDDEN_TEMPLATE_FIELDS = new Set([
@@ -45,6 +82,65 @@ const FORBIDDEN_TEMPLATE_FIELDS = new Set([
 export function normalizeWorkoutStatus(status, fallback = WORKOUT_STATUS.ACTIVE) {
   const normalized = text(status).toLowerCase();
   return STATUS_ALIASES.get(normalized) || fallback;
+}
+
+export function normalizeWorkoutLifecycleStatus(input, fallback = WORKOUT_LIFECYCLE_STATUS.DRAFT) {
+  const normalized = text(input).toLowerCase();
+  if (!normalized) return fallback;
+  return LIFECYCLE_ALIASES.get(normalized) || fallback;
+}
+
+export function isValidWorkoutLifecycleStatus(input) {
+  return WORKOUT_LIFECYCLE_STATUS_OPTIONS.includes(text(input));
+}
+
+export function normalizeWorkoutTemplateOriginType(input, fallback = "") {
+  const normalized = text(input).toLowerCase();
+  if (!normalized) return fallback;
+  return WORKOUT_TEMPLATE_ORIGIN_TYPE_OPTIONS.includes(normalized) ? normalized : fallback;
+}
+
+export function isValidWorkoutTemplateOriginType(input) {
+  return WORKOUT_TEMPLATE_ORIGIN_TYPE_OPTIONS.includes(text(input).toLowerCase());
+}
+
+export function normalizeWorkoutTemplateOrigin(input = {}) {
+  const type = normalizeWorkoutTemplateOriginType(
+    input.type || input.templateOriginType || input.template_origin_type
+  );
+  const id = text(input.id || input.templateOriginId || input.template_origin_id);
+  const name = text(input.name || input.templateOriginName || input.template_origin_name);
+  const snapshot = input.snapshot || input.templateOriginSnapshot || input.template_origin_snapshot || null;
+
+  if (!type) {
+    return {
+      templateOriginId: "",
+      templateOriginType: "",
+      templateOriginName: "",
+      templateOriginSnapshot: null,
+    };
+  }
+
+  return {
+    templateOriginId: id,
+    templateOriginType: type,
+    templateOriginName: name,
+    templateOriginSnapshot: snapshot && typeof snapshot === "object" && !Array.isArray(snapshot)
+      ? structuredCloneSafe(snapshot)
+      : null,
+  };
+}
+
+export function normalizeApplicationIdempotencyKey(input) {
+  return text(input).slice(0, 160);
+}
+
+export function normalizeWorkoutDeliveryResponse(input = {}) {
+  return {
+    id: text(input.id),
+    lifecycleStatus: normalizeWorkoutLifecycleStatus(input.lifecycle_status || input.lifecycleStatus),
+    idempotent: Boolean(input.idempotent),
+  };
 }
 
 export function normalizeCanonicalTemplateData(input = {}) {
@@ -199,6 +295,18 @@ export function inferSplitFromWorkout(workout) {
 }
 
 export function workoutToPersistencePayload(workout) {
+  const origin = normalizeWorkoutTemplateOrigin({
+    templateOriginId: workout?.templateOriginId,
+    templateOriginType: workout?.templateOriginType,
+    templateOriginName: workout?.templateOriginName,
+    templateOriginSnapshot: workout?.templateOriginSnapshot,
+  });
+  const lifecycleStatus = workout?.lifecycleStatus || workout?.lifecycle_status
+    ? normalizeWorkoutLifecycleStatus(workout.lifecycleStatus || workout.lifecycle_status)
+    : "";
+  const applicationIdempotencyKey = normalizeApplicationIdempotencyKey(
+    workout?.applicationIdempotencyKey || workout?.application_idempotency_key
+  );
   const days = (workout?.dias || []).map((day, dayIndex) => ({
     nome: text(day.nome),
     descricao: text(day.descricao),
@@ -224,7 +332,11 @@ export function workoutToPersistencePayload(workout) {
     diasPorSemana: Number(workout?.diasPorSemana || days.length || 0),
     observacoes: text(workout?.observacoes),
     status: normalizeWorkoutStatus(workout?.status),
+    lifecycleStatus,
+    ...origin,
+    applicationIdempotencyKey,
     dataInicio: workout?.dataInicio || null,
+    dataFim: workout?.dataFim || workout?.data_fim || null,
     dataRevisao: workout?.dataRevisao || null,
     dias: days,
   };
@@ -250,6 +362,10 @@ export function duplicateWorkoutDraft(workout) {
 
 function text(value) {
   return String(value || "").trim();
+}
+
+function structuredCloneSafe(value) {
+  return JSON.parse(JSON.stringify(value));
 }
 
 function positiveInteger(value, fallback) {

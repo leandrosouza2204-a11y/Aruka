@@ -1,0 +1,32 @@
+{
+  "decision": "READY_FOR_CI_GATE7_HML_FIX_COMMIT",
+  "hml_meaning": "Aruka_HML protected Supabase project ref used only as a local/HML guardrail; isolated CI must use an ephemeral project id and must not preserve the protected HML project ref.",
+  "hml_producer": "scripts/test-supabase-clean-worktree.ps1",
+  "hml_consumer": "scripts/test-supabase-clean-worktree-wrapper.mjs and scripts/validate-supabase-local-reproducibility.mjs",
+  "expected_preservation": {
+    "local": true,
+    "isolated_ci": false
+  },
+  "actual_preservation_before": true,
+  "actual_preservation_after": {
+    "local": true,
+    "isolated_ci": false
+  },
+  "isolated_ci_setup": "PASS_FOR_HML_CONTRACT; local simulation reached expected=false actual=false assertion_passed=true and then stopped on the separate Docker context guardrail",
+  "root_cause": "The clean worktree producer treated an empty supabase/.temp/project-ref as HML project-ref preservation. Empty ref is acceptable local safety state, but in isolated CI it must mean HML preservation=false.",
+  "files_changed": [
+    "scripts/test-supabase-clean-worktree.ps1",
+    "scripts/test-supabase-clean-worktree-wrapper.mjs",
+    "reports/supabase-ci/gate7-clean-worktree-hml-result.json",
+    "reports/supabase-ci/gate7-clean-worktree-hml-summary.md",
+    "docs/supabase-production-sync/49-clean-worktree-hml-ci-contract.md"
+  ],
+  "gate_7": "PASS",
+  "gate_8": "PASS",
+  "gate_9": "PASS",
+  "cycle_9_1": "PASS_STATIC_NEGATIVE_PREPARE",
+  "next_non_hml_blocker": null,
+  "production_accessed": false,
+  "production_mutation": false,
+  "db_push_needed": false
+}

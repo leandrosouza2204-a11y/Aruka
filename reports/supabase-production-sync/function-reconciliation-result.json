@@ -1,0 +1,64 @@
+{
+  "decision": "READY_FOR_PHASE3_FUNCTION_SCOPE_REVIEW",
+  "phase31_manual_review": {
+    "decision": "READY_FOR_PHASE31_EVIDENCE_COLLECTION",
+    "supabase_change": "NO_NEW_MIGRATION",
+    "production_action_required": "READONLY_EVIDENCE_COLLECTION_REQUIRED",
+    "reviewed_decision_rows": 15,
+    "migration_candidates": [
+      "set_workout_templates_updated_at",
+      "aoe_idempotency_get_or_create"
+    ],
+    "confirmed_security_issue": "AOE_ANON_EXECUTE_EXCESS_CONFIRMED",
+    "read_only_sql": "reports/supabase-production-sync/phase31-function-definitions-readonly.sql"
+  },
+  "migration_decision": "NO_NEW_MIGRATION",
+  "reason": "Function divergences include business logic, overload, grant and feature-line ambiguities that require explicit product/security review before SQL changes.",
+  "remote_link_state": "UNLINKED_FOR_SAFETY",
+  "final_projects_list_check": {
+    "executed": true,
+    "aruka_linked": false,
+    "aruka_status": "ACTIVE_HEALTHY",
+    "aruka_hml_linked": false,
+    "aruka_hml_status": "ACTIVE_HEALTHY",
+    "cli_message": "Cannot find project ref. Have you run supabase link?"
+  },
+  "source_reports": [
+    "reports/supabase-production-sync/schema-equivalence-result.json",
+    "reports/supabase-production-sync/function-difference-review.json",
+    "reports/supabase-production-sync/function-grant-review.json",
+    "reports/supabase-production-sync/local-schema-catalog/functions.json"
+  ],
+  "summary": {
+    "by_category": {
+      "ADMIN": 5,
+      "FINANCIAL": 4,
+      "AOE": 1,
+      "STUDENT_IDENTITY": 3,
+      "UTILITY": 1
+    },
+    "by_status": {
+      "REMOTE_OVERLOAD_ONLY": 5,
+      "BODY_DIFFERENT": 6,
+      "LOCAL_OVERLOAD_ONLY": 3
+    },
+    "by_decision": {
+      "MANUAL_PRODUCT_DECISION_REQUIRED": 5,
+      "MANUAL_SECURITY_AND_BUSINESS_LOGIC_REVIEW_REQUIRED": 5,
+      "DEFER_TO_AOE_RECONCILIATION": 1,
+      "DEFER_TO_STUDENT_IDENTITY_DEPLOYMENT": 3
+    }
+  },
+  "phase3_scope_size": 14,
+  "included_in_phase3_migration": 0,
+  "deferred_or_blocked": 14,
+  "no_remote_db_commands_executed": true,
+  "commands_not_executed": [
+    "supabase link",
+    "supabase db push",
+    "supabase db pull",
+    "supabase migration repair",
+    "supabase db dump --linked",
+    "remote SQL execution"
+  ]
+}

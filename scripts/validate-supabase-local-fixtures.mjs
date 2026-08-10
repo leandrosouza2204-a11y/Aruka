@@ -2,6 +2,7 @@ import {
   BASELINE_PATH,
   DECISION,
   EXPECTED_BASELINE_SHA,
+  EXPECTED_EPHEMERAL_MIGRATION_HISTORY,
   collectFixtureCounts,
   collectInventory,
   listFiles,
@@ -38,7 +39,7 @@ try {
   if (sha256CanonicalText(root, BASELINE_PATH) !== EXPECTED_BASELINE_SHA) fail("Official baseline SHA mismatch");
 
   inventory = collectInventory(root);
-  if (inventory.migration_history.length !== 1 || inventory.migration_history[0] !== "20260716090000") {
+  if (inventory.migration_history.join("\n") !== EXPECTED_EPHEMERAL_MIGRATION_HISTORY.join("\n")) {
     fail(`Unexpected migration history: ${inventory.migration_history.join(",")}`);
   }
   counts = collectFixtureCounts(root);

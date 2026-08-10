@@ -2,12 +2,14 @@ import {
   BASELINE_PATH,
   DECISION,
   EXPECTED_BASELINE_SHA,
+  EXPECTED_EPHEMERAL_MIGRATION_HISTORY,
   collectFixtureCounts,
   collectInventory,
   commandOutputOrThrow,
   nowIso,
   runCommand,
   runSupabaseDbReset,
+  runSupabaseStart,
   sha256CanonicalText,
   stableSnapshot,
   stringifyStable,
@@ -31,7 +33,7 @@ function runSupabaseStartIfNeeded(resetResult) {
   if (resetResult.status === 0 || !/supabase start is not running/i.test(`${resetResult.stderr}\n${resetResult.stdout}`)) {
     return resetResult;
   }
-  commandOutputOrThrow(runCommand(root, process.platform === "win32" ? "npx.cmd" : "npx", ["-y", "supabase@2.109.1", "start"], { timeoutMs: 240000 }), "Local Supabase start");
+  commandOutputOrThrow(runSupabaseStart(root), "Local Supabase start");
   return runSupabaseDbReset(root);
 }
 
@@ -78,7 +80,7 @@ try {
     reset_runs: 2,
     baseline_sha_preserved: true,
     baseline_sha: sha256CanonicalText(root, BASELINE_PATH),
-    baseline_history_validated: firstSnapshot.inventory.migration_history.length === 1 && firstSnapshot.inventory.migration_history[0] === "20260716090000",
+    baseline_history_validated: firstSnapshot.inventory.migration_history.join("\n") === EXPECTED_EPHEMERAL_MIGRATION_HISTORY.join("\n"),
     archived_migrations_applied: false,
     first_run_exit_code: firstReset.status,
     second_run_exit_code: secondReset.status,

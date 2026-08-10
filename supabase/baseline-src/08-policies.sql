@@ -77,6 +77,15 @@ create policy "Usuarios podem cadastrar exercicios dos seus treinos" on public.t
 create policy "Usuarios podem atualizar exercicios dos seus treinos" on public.treino_exercicios for update to authenticated using (exists (select 1 from public.treino_dias join public.treinos on treinos.id = treino_dias.treino_id where treino_dias.id = treino_exercicios.treino_dia_id and treinos.user_id = auth.uid())) with check (exists (select 1 from public.treino_dias join public.treinos on treinos.id = treino_dias.treino_id where treino_dias.id = treino_exercicios.treino_dia_id and treinos.user_id = auth.uid()));
 create policy "Usuarios podem excluir exercicios dos seus treinos" on public.treino_exercicios for delete to authenticated using (exists (select 1 from public.treino_dias join public.treinos on treinos.id = treino_dias.treino_id where treino_dias.id = treino_exercicios.treino_dia_id and treinos.user_id = auth.uid()));
 
+alter table public.treino_eventos enable row level security;
+create policy "Usuarios podem listar eventos dos seus treinos" on public.treino_eventos for select to authenticated using (
+  auth.uid() = user_id
+  and exists (select 1 from public.treinos where treinos.id = treino_eventos.treino_id and treinos.user_id = auth.uid())
+);
+revoke all on table public.treino_eventos from anon;
+revoke all on table public.treino_eventos from authenticated;
+grant select on table public.treino_eventos to authenticated;
+
 create policy "Usuarios podem listar seus eventos de acompanhamento" on public.acompanhamento_eventos for select to authenticated using (auth.uid() = user_id);
 create policy "Usuarios podem cadastrar seus eventos de acompanhamento" on public.acompanhamento_eventos for insert to authenticated with check (
   auth.uid() = user_id

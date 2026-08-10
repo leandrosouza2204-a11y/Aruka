@@ -1,0 +1,7 @@
+flow,route,student_context,workout_context,lifecycle_clear,primary_action,history,back_navigation,empty_state,loading,error,mobile,desktop,result,notes
+entry_from_student_list,/alunos -> /treinos?alunoId&returnTo,PASS,PASS,PASS,Ver treinos,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,Links contextuais já existentes preservam filtros via returnTo.
+student_context_banner,/treinos?alunoId,PASS,PASS,PASS,Criar treino para este aluno,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,Banner mostra aluno e ação clara.
+current_workout_cards,/treinos,PASS,PASS,PASS,Entregar/Concluir/Visualizar,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,"Cards indicam aluno, rotina, lifecycle e data relevante."
+workout_detail,/treinos + selected workout,PASS,PASS,PASS,Enviar WhatsApp/lifecycle,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,"Detalhe separa treino atual, origem, estado e datas de lifecycle."
+history_completed_archived,/treinos?status=completed|archived,PASS,PASS,PASS,Visualizar,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,Histórico usa filtros e não mistura arquivados ao padrão todos.
+student_switch,/treinos?alunoId=A -> /treinos?alunoId=B,PASS,PASS,PASS,N/A,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,STU-R01 corrigido: seleção e modais são limpos na troca de aluno.

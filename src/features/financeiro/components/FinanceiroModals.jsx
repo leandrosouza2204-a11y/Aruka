@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import LoadingFallback from "../../../components/LoadingFallback";
 
 const HistoricoFinanceiroModal = lazy(() => import("./modals/HistoricoFinanceiroModal"));
 const EncerrarAcompanhamentoModal = lazy(() => import("./modals/EncerrarAcompanhamentoModal"));
@@ -11,7 +12,7 @@ function FinanceiroModals({ page, styles }) {
   return (
     <>
       {page.modalPagamento && (
-        <Suspense fallback={null}>
+        <Suspense fallback={<LoadingFallback texto="Carregando pagamento..." variant="modal" />}>
           <PagamentoModal
             atualizando={page.atualizandoId === page.modalPagamento.aluno.id}
             erroDataPagamento={page.erroDataPagamento}
@@ -26,7 +27,7 @@ function FinanceiroModals({ page, styles }) {
       )}
 
       {page.modalRenovacao && (
-        <Suspense fallback={null}>
+        <Suspense fallback={<LoadingFallback texto="Carregando renovação..." variant="modal" />}>
           <RenovacaoPlanoModal
             atualizando={page.atualizandoId === page.modalRenovacao.aluno.id}
             dadosCalculados={page.dadosRenovacaoCalculados}
@@ -42,7 +43,7 @@ function FinanceiroModals({ page, styles }) {
       )}
 
       {page.modalEncerramento && (
-        <Suspense fallback={null}>
+        <Suspense fallback={<LoadingFallback texto="Carregando encerramento..." variant="modal" />}>
           <EncerrarAcompanhamentoModal
             atualizando={page.atualizandoId === page.modalEncerramento.aluno.id}
             form={page.formEncerramento}
@@ -56,7 +57,7 @@ function FinanceiroModals({ page, styles }) {
       )}
 
       {page.modalHistorico && (
-        <Suspense fallback={null}>
+        <Suspense fallback={<LoadingFallback texto="Carregando histórico..." variant="modal" />}>
           <HistoricoFinanceiroModal
             onClose={page.fecharHistorico}
             onRelatorio={() => page.abrirRelatorioAluno(page.modalHistorico)}
@@ -67,7 +68,7 @@ function FinanceiroModals({ page, styles }) {
       )}
 
       {page.modalRelatorioAluno && (
-        <Suspense fallback={null}>
+        <Suspense fallback={<LoadingFallback texto="Carregando relatório..." variant="modal" />}>
           <RelatorioAlunoModal
             onClose={page.fecharRelatorioAluno}
             registro={page.modalRelatorioAluno}
@@ -77,7 +78,7 @@ function FinanceiroModals({ page, styles }) {
       )}
 
       {page.modalRelatorioGeral && (
-        <Suspense fallback={null}>
+        <Suspense fallback={<LoadingFallback texto="Carregando relatório..." variant="modal" />}>
           <RelatorioGeralModal
             onClose={page.fecharRelatorioGeral}
             ranking={page.rankingFinanceiro}

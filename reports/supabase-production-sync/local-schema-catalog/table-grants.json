@@ -1,0 +1,1667 @@
+[
+  {
+    "table_name": "aceites_legais",
+    "grantee": "authenticated",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "aceites_legais",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "aceites_legais",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "aceites_legais",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "aceites_legais",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "aceites_legais",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "aceites_legais",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "aceites_legais",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "aceites_legais",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "aceites_legais",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "aceites_legais",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "aceites_legais",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "aceites_legais",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "aceites_legais",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "aceites_legais",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "aceites_legais",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "grantee": "authenticated",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "admin_logs",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "admin_logs",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "admin_logs",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "admin_logs",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "admin_logs",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "admin_logs",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "admin_logs",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "admin_logs",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "admin_logs",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "admin_logs",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "admin_logs",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "admin_logs",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "admin_logs",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "admin_logs",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "admin_logs",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "alunos",
+    "grantee": "authenticated",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "alunos",
+    "grantee": "authenticated",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "alunos",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "alunos",
+    "grantee": "authenticated",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "alunos",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "alunos",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "alunos",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "alunos",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "alunos",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "alunos",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "alunos",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "alunos",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "alunos",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "alunos",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "alunos",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "alunos",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "alunos",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "alunos",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "anamneses",
+    "grantee": "authenticated",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "anamneses",
+    "grantee": "authenticated",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "anamneses",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "anamneses",
+    "grantee": "authenticated",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "anamneses",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "anamneses",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "anamneses",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "anamneses",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "anamneses",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "anamneses",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "anamneses",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "anamneses",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "anamneses",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "anamneses",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "anamneses",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "anamneses",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "anamneses",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "anamneses",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "grantee": "authenticated",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "grantee": "authenticated",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "grantee": "authenticated",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "grantee": "authenticated",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "grantee": "authenticated",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "grantee": "authenticated",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "assinaturas",
+    "grantee": "authenticated",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "assinaturas",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "assinaturas",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "assinaturas",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "assinaturas",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "assinaturas",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "assinaturas",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "assinaturas",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "assinaturas",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "assinaturas",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "assinaturas",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "assinaturas",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "assinaturas",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "assinaturas",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "assinaturas",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "assinaturas",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "avaliacoes",
+    "grantee": "authenticated",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "avaliacoes",
+    "grantee": "authenticated",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "avaliacoes",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "avaliacoes",
+    "grantee": "authenticated",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "avaliacoes",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "avaliacoes",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "avaliacoes",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "avaliacoes",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "avaliacoes",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "avaliacoes",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "avaliacoes",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "avaliacoes",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "avaliacoes",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "avaliacoes",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "avaliacoes",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "avaliacoes",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "avaliacoes",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "avaliacoes",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "pagamentos",
+    "grantee": "authenticated",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "pagamentos",
+    "grantee": "authenticated",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "pagamentos",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "pagamentos",
+    "grantee": "authenticated",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "pagamentos",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "pagamentos",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "pagamentos",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "pagamentos",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "pagamentos",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "pagamentos",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "pagamentos",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "pagamentos",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "pagamentos",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "pagamentos",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "pagamentos",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "pagamentos",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "pagamentos",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "pagamentos",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "perfis",
+    "grantee": "authenticated",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "perfis",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "perfis",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "perfis",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "perfis",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "perfis",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "perfis",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "perfis",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "perfis",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "perfis",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "perfis",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "perfis",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "perfis",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "perfis",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "perfis",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "perfis",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "planos",
+    "grantee": "authenticated",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "planos",
+    "grantee": "authenticated",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "planos",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "planos",
+    "grantee": "authenticated",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "planos",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "planos",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "planos",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "planos",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "planos",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "planos",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "planos",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "planos",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "planos",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "planos",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "planos",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "planos",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "planos",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "planos",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "treino_dias",
+    "grantee": "authenticated",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "treino_dias",
+    "grantee": "authenticated",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "treino_dias",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "treino_dias",
+    "grantee": "authenticated",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "treino_dias",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "treino_dias",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "treino_dias",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "treino_dias",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "treino_dias",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "treino_dias",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "treino_dias",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "treino_dias",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "treino_dias",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "treino_dias",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "treino_dias",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "treino_dias",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "treino_dias",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "treino_dias",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "treino_eventos",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "treino_eventos",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "treino_eventos",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "treino_eventos",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "treino_eventos",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "treino_eventos",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "treino_eventos",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "treino_eventos",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "treino_eventos",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "treino_eventos",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "treino_eventos",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "grantee": "authenticated",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "grantee": "authenticated",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "grantee": "authenticated",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "treinos",
+    "grantee": "authenticated",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "treinos",
+    "grantee": "authenticated",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "treinos",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "treinos",
+    "grantee": "authenticated",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "treinos",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "treinos",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "treinos",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "treinos",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "treinos",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "treinos",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "treinos",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "treinos",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "treinos",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "treinos",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "treinos",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "treinos",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "treinos",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "treinos",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "workout_templates",
+    "grantee": "authenticated",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "workout_templates",
+    "grantee": "authenticated",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "workout_templates",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "workout_templates",
+    "grantee": "authenticated",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "workout_templates",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "workout_templates",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "workout_templates",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "workout_templates",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "workout_templates",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "workout_templates",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "workout_templates",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "workout_templates",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "workout_templates",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "workout_templates",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "workout_templates",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "workout_templates",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "workout_templates",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "workout_templates",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  }
+]

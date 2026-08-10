@@ -100,7 +100,11 @@ function AdminLogs() {
           }
         />
 
-        {erro && <div className="app-error">{erro}</div>}
+        {erro && (
+          <div className="app-error">
+            Não foi possível carregar os logs administrativos. Verifique suas permissões ou tente novamente em instantes.
+          </div>
+        )}
 
         <section className="admin-logs-panel" style={painel}>
           <form
@@ -246,12 +250,12 @@ function AdminLogs() {
                       </td>
                       <td className="cell-wide" style={td}>
                         <strong>{log.adminNome || "Admin"}</strong>
-                        <span style={muted}>{log.adminEmail || log.adminUserId}</span>
+                        <span style={muted}>{mascararEmail(log.adminEmail) || log.adminUserId}</span>
                       </td>
                       <td className="cell-wide" style={td}>
                         <strong>{log.targetNome || "Usuário"}</strong>
                         <span style={muted}>
-                          {log.targetEmail || log.targetUserId || "-"}
+                          {mascararEmail(log.targetEmail) || log.targetUserId || "-"}
                         </span>
                       </td>
                       <td style={td}>
@@ -260,7 +264,7 @@ function AdminLogs() {
                       </td>
                       <td className="cell-wide" style={td}>
                         <span style={userAgent} title={log.userAgent || "-"}>
-                          {log.userAgent || "-"}
+                          {formatarUserAgent(log.userAgent)}
                         </span>
                       </td>
                       <td style={td}>
@@ -298,10 +302,10 @@ function LogCard({ log, onDetalhes }) {
         <span className="status-badge status-badge-info">{formatarAcao(log.acao)}</span>
         <strong className="card-value">{formatarDataHora(log.createdAt)}</strong>
       </div>
-      <CardInfo label="Admin" valor={log.adminNome || log.adminEmail || abreviarUUID(log.adminUserId)} />
+      <CardInfo label="Admin" valor={log.adminNome || mascararEmail(log.adminEmail) || abreviarUUID(log.adminUserId)} />
       <CardInfo
         label="Usuário alvo"
-        valor={log.targetNome || log.targetEmail || abreviarUUID(log.targetUserId) || "-"}
+        valor={log.targetNome || mascararEmail(log.targetEmail) || abreviarUUID(log.targetUserId) || "-"}
       />
       <CardInfo
         label="Entidade"
@@ -341,18 +345,18 @@ function AdminLogDetailsModal({ log, onClose }) {
         <span style={eyebrow}>Auditoria</span>
         <div style={detalhesGrid}>
           <Info label="Data" valor={formatarDataHora(log.createdAt)} />
-          <Info label="Admin" valor={log.adminNome || log.adminEmail || log.adminUserId} />
+          <Info label="Admin" valor={log.adminNome || mascararEmail(log.adminEmail) || log.adminUserId} />
           <Info
             label="Usuário alvo"
-            valor={log.targetNome || log.targetEmail || log.targetUserId || "-"}
+            valor={log.targetNome || mascararEmail(log.targetEmail) || log.targetUserId || "-"}
           />
           <Info label="Entidade" valor={`${log.entidade || "-"} ${log.entidadeId || ""}`.trim()} />
-          <Info label="User agent" valor={log.userAgent || "-"} />
+          <Info label="User agent" valor={formatarUserAgent(log.userAgent)} />
         </div>
 
         <div style={jsonGrid}>
-          <JsonBox titulo="Dados anteriores" valor={log.dadosAnteriores} />
-          <JsonBox titulo="Dados novos" valor={log.dadosNovos} />
+          <JsonBox titulo="Dados anteriores" valor={sanitizarLogDetalhes(log.dadosAnteriores)} />
+          <JsonBox titulo="Dados novos" valor={sanitizarLogDetalhes(log.dadosNovos)} />
         </div>
     </AccessibleModal>
   );
@@ -404,6 +408,45 @@ function abreviarUUID(valor) {
   if (texto.length <= 18) return texto;
 
   return `${texto.slice(0, 8)}...${texto.slice(-7)}`;
+}
+
+function mascararEmail(email) {
+  const texto = String(email || "").trim();
+  const [local, dominio] = texto.split("@");
+  if (!local || !dominio) return texto;
+
+  const prefixo = local.slice(0, Math.min(2, local.length));
+  return `${prefixo}${"*".repeat(Math.max(local.length - prefixo.length, 3))}@${dominio}`;
+}
+
+function formatarUserAgent(userAgentValor) {
+  const texto = String(userAgentValor || "").trim();
+  if (!texto) return "-";
+
+  const navegador = texto.match(/(Chrome|Firefox|Edg|Safari)\/[\d.]+/i)?.[0] || "Navegador";
+  const sistema = texto.match(/\(([^)]+)\)/)?.[1]?.split(";").slice(0, 2).join("; ") || "";
+
+  return sistema ? `${navegador} - ${sistema}` : navegador;
+}
+
+function sanitizarLogDetalhes(valor) {
+  if (!valor || typeof valor !== "object") return valor || null;
+  if (Array.isArray(valor)) return valor.map(sanitizarLogDetalhes);
+
+  return Object.fromEntries(
+    Object.entries(valor).map(([chave, conteudo]) => {
+      if (/(password|senha|token|jwt|cookie|authorization|secret)/i.test(chave)) {
+        return [chave, "[redigido]"];
+      }
+      if (/email/i.test(chave) && typeof conteudo === "string") {
+        return [chave, mascararEmail(conteudo)];
+      }
+      if (conteudo && typeof conteudo === "object") {
+        return [chave, sanitizarLogDetalhes(conteudo)];
+      }
+      return [chave, conteudo];
+    })
+  );
 }
 
 const conteudo = {

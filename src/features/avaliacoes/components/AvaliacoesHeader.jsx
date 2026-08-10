@@ -14,9 +14,9 @@ function AvaliacoesHeader({
   return (
     <>
       <PageHero
-        eyebrow="AVALIACOES"
-        title="Avaliacoes e anamneses"
-        description="Registre medidas, composicao corporal, fotos e informacoes de contexto para acompanhar seus alunos."
+        eyebrow="AVALIAÇÕES"
+        title="Avaliações e anamneses"
+        description="Registre medidas, composição corporal, fotos e informações de contexto para acompanhar seus alunos."
         meta={`${quantidadeExibida} registros exibidos`}
         actions={
           <>
@@ -26,7 +26,7 @@ function AvaliacoesHeader({
               style={styles.botaoPrimario}
               type="button"
             >
-              + Nova avaliacao
+              + Nova avaliação
             </button>
             <button
               className="app-button app-button-secondary"
@@ -43,13 +43,13 @@ function AvaliacoesHeader({
       <section className="avaliacoes-list-card app-card" style={styles.listaCard}>
         <div style={styles.moduloCards}>
           <div style={styles.moduloCard}>
-            <span style={styles.moduloBadge}>Avaliacao fisica</span>
-            <h2 style={styles.moduloTitulo}>Avaliacao fisica</h2>
+            <span style={styles.moduloBadge}>Avaliação física</span>
+            <h2 style={styles.moduloTitulo}>Avaliação física</h2>
             <p style={styles.moduloTexto}>
-              Registre medidas, composicao corporal e fotos para acompanhar a evolucao ao longo do tempo.
+              Registre medidas, composição corporal e fotos para acompanhar a evolução ao longo do tempo.
             </p>
             <p className="app-muted" style={styles.moduloAjuda}>
-              Use como historico de acompanhamento, sem prometer resultado automatico.
+              Use como histórico de acompanhamento, sem prometer resultado automático.
             </p>
             <button
               className="app-button app-button-primary"
@@ -57,7 +57,7 @@ function AvaliacoesHeader({
               style={styles.botaoPrimario}
               type="button"
             >
-              Nova avaliacao
+              Nova avaliação
             </button>
           </div>
 
@@ -65,10 +65,10 @@ function AvaliacoesHeader({
             <span style={styles.moduloBadge}>Anamnese</span>
             <h2 style={styles.moduloTitulo}>Anamnese</h2>
             <p style={styles.moduloTexto}>
-              Reuna informacoes sobre objetivos, historico e condicoes relevantes antes do acompanhamento.
+              Reúna informações sobre objetivos, histórico e condições relevantes antes do acompanhamento.
             </p>
             <p className="app-muted" style={styles.moduloAjuda}>
-              Use para organizar contexto, rotina e preferencias sem linguagem de diagnostico medico.
+              Use para organizar contexto, rotina e preferências sem linguagem de diagnóstico médico.
             </p>
             <button
               className="app-button app-button-secondary"
@@ -90,7 +90,7 @@ function AvaliacoesHeader({
               ...(abaAtiva === "avaliacoes" ? styles.tabButtonActive : {}),
             }}
           >
-            Avaliacoes fisicas ({quantidadeAvaliacoes})
+            Avaliações físicas ({quantidadeAvaliacoes})
           </button>
           <button
             type="button"

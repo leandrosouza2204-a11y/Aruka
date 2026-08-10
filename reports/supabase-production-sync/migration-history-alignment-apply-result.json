@@ -1,0 +1,98 @@
+{
+  "decision": "PRODUCTION_MIGRATION_HISTORY_ALIGNMENT_APPLIED_AND_VALIDATED",
+  "project": "aruka",
+  "project_ref_masked": "vriz...vdik",
+  "cli_version": "2.111.0",
+  "connection_mode": "DB_URL_NO_LINK",
+  "persistent_link_created": false,
+  "baseline_excluded": true,
+  "authorized_versions": [
+    "20260728030000",
+    "20260730090000",
+    "20260731190000",
+    "20260801143335",
+    "20260801173000",
+    "20260801180000"
+  ],
+  "repair_01_persisted": true,
+  "repair_01_reexecuted": false,
+  "repair_results": [
+    {
+      "order": 1,
+      "version": "20260728030000",
+      "repair_authorized": true,
+      "repair_executed": true,
+      "repair_exit_code": 0,
+      "already_persisted": true,
+      "history_present_after": true,
+      "result": "PASS"
+    },
+    {
+      "order": 2,
+      "version": "20260730090000",
+      "repair_authorized": true,
+      "repair_executed": true,
+      "repair_exit_code": 0,
+      "history_present_after": true,
+      "result": "PASS"
+    },
+    {
+      "order": 3,
+      "version": "20260731190000",
+      "repair_authorized": true,
+      "repair_executed": true,
+      "repair_exit_code": 0,
+      "history_present_after": true,
+      "result": "PASS"
+    },
+    {
+      "order": 4,
+      "version": "20260801143335",
+      "repair_authorized": true,
+      "repair_executed": true,
+      "repair_exit_code": 0,
+      "history_present_after": true,
+      "result": "PASS"
+    },
+    {
+      "order": 5,
+      "version": "20260801173000",
+      "repair_authorized": true,
+      "repair_executed": true,
+      "repair_exit_code": 0,
+      "history_present_after": true,
+      "result": "PASS"
+    },
+    {
+      "order": 6,
+      "version": "20260801180000",
+      "repair_authorized": true,
+      "repair_executed": true,
+      "repair_exit_code": 0,
+      "history_present_after": true,
+      "result": "PASS"
+    }
+  ],
+  "registry_state_after": "PRESENT",
+  "history_count_after": 6,
+  "authorized_present_count": 6,
+  "unexpected_history_entries": 0,
+  "baseline_history_present": false,
+  "public_table_count_before": null,
+  "public_table_count_after": null,
+  "public_column_count_before": null,
+  "public_column_count_after": null,
+  "public_function_count_before": null,
+  "public_function_count_after": null,
+  "public_policy_count_before": null,
+  "public_policy_count_after": null,
+  "public_schema_immutability_basis": "SUPPORTED_BY_REPAIR_LAB_AND_NO_SCHEMA_SQL_EXECUTION",
+  "public_schema_mutation_detected": false,
+  "local_migration_hashes_preserved": true,
+  "migration_repair_executed": true,
+  "history_alignment_executed": true,
+  "history_alignment_validated": true,
+  "recovery_executed": false,
+  "db_push_allowed": false,
+  "next_action": "COMMIT_HISTORY_ALIGNMENT_AND_PREPARE_POST_ALIGNMENT_VALIDATION"
+}

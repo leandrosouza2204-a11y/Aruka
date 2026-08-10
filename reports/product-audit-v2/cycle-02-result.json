@@ -1,0 +1,53 @@
+{
+  "cycle": "ARUKA_FUNCTIONAL_IMPROVEMENT_CYCLE_02",
+  "targetFinding": "F-003",
+  "scope": "MOBILE_CORE_LAYOUT_VALIDATION_AND_FIXES",
+  "status": "PASS_RUNTIME_READY",
+  "runtime": {
+    "available": true,
+    "baseUrl": "http://localhost:5173",
+    "precheck": {
+      "base_url_reachable": true,
+      "cdp_reachable": true,
+      "browser_target_found": true,
+      "authenticated_browser_origin_match": true,
+      "auth_session_present": true,
+      "authenticated_route_reachable": true,
+      "environment_blockers": [],
+      "runtime_precheck": "PASS"
+    },
+    "note": "Authenticated runtime precheck passed; DOM overflow measurement can use the current browser session."
+  },
+  "viewports": {
+    "mobile": [
+      "320x800",
+      "360x800",
+      "375x812",
+      "390x844",
+      "414x896"
+    ],
+    "desktop": [
+      "1280x900",
+      "1440x900"
+    ]
+  },
+  "routes": [
+    "/",
+    "/alunos",
+    "/treinos",
+    "/avaliacoes",
+    "/planos",
+    "/financeiro",
+    "/admin/logs",
+    "/admin/usuarios"
+  ],
+  "checks": {
+    "cssGuardsPresent": true,
+    "packageScriptPresent": true,
+    "missingSnippets": []
+  },
+  "generatedArtifacts": {
+    "matrix": "reports/product-audit-v2/cycle-02-mobile-matrix.csv",
+    "result": "reports/product-audit-v2/cycle-02-result.json"
+  }
+}

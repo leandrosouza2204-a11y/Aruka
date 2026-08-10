@@ -1,17 +1,20 @@
 import {
   CalendarClock,
-  Copy,
   Dumbbell,
   Eye,
   Layers3,
-  Pencil,
   Target,
-  Trash2,
 } from "lucide-react";
 import LoadingState from "../../../components/LoadingState";
 import TableActions, { TableActionItem } from "../../../components/TableActions";
-import { classeStatusTreino, formatarData } from "../hooks/useTreinosPage";
+import { formatarData } from "../hooks/useTreinosPage";
+import {
+  getWorkoutPrimaryLifecycleAction,
+  getWorkoutRelevantDate,
+} from "../utils/workoutLifecyclePresentation";
 import TreinosEmptyState from "./TreinosEmptyState";
+import WorkoutLifecycleActionItems from "./WorkoutLifecycleActions";
+import WorkoutLifecycleBadge from "./WorkoutLifecycleBadge";
 
 function TreinosCards({
   acaoTreino,
@@ -20,9 +23,11 @@ function TreinosCards({
   treinos,
   onVisualizar,
   onEditar,
-  onDuplicar,
-  onExcluir,
+  onLifecycleAction,
   alunoContextual,
+  alterandoEstadoTreinoId,
+  entregandoTreinoId,
+  lifecycleActionPending = null,
   onNovoTreino,
   onUsarModelo,
   styles,
@@ -49,7 +54,17 @@ function TreinosCards({
     <div className="treinos-library-grid" style={styles.libraryGrid}>
       {treinos.map((treino) => {
         const acaoAtual = acaoTreino?.id === treino.id ? acaoTreino.tipo : "";
-        const temAcaoEmAndamento = Boolean(acaoTreino);
+        const lifecycleActionInProgress =
+          entregandoTreinoId === treino.id
+            ? "deliver"
+            : alterandoEstadoTreinoId === treino.id
+              ? lifecycleActionPending?.treino?.id === treino.id
+                ? lifecycleActionPending.action
+                : getWorkoutPrimaryLifecycleAction(treino)
+              : "";
+        const temAcaoEmAndamento = Boolean(acaoTreino || lifecycleActionInProgress);
+        const dataRelevante = getWorkoutRelevantDate(treino);
+        const primaryAction = getWorkoutPrimaryLifecycleAction(treino);
 
         return (
           <article
@@ -66,14 +81,12 @@ function TreinosCards({
               <div style={styles.treinoCardIcon}>
                 <Dumbbell size={18} />
               </div>
-              <span className={classeStatusTreino(treino.status || "Ativo")}>
-                {treino.status || "Ativo"}
-              </span>
+              <WorkoutLifecycleBadge treino={treino} />
             </div>
 
             <div>
               <h3 style={styles.treinoCardTitulo}>{treino.rotina || "Ficha de treino"}</h3>
-              <p style={styles.treinoCardAluno}>{treino.aluno || "Aluno nao informado"}</p>
+          <p style={styles.treinoCardAluno}>{treino.aluno || "Aluno não informado"}</p>
             </div>
 
             <div style={styles.treinoBadges}>
@@ -85,8 +98,9 @@ function TreinosCards({
               <Meta
                 icon={<CalendarClock size={15} />}
                 label="Revisao"
-                valor={formatarData(treino.dataRevisao)}
+                valor={formatarData(dataRelevante.value)}
                 styles={styles}
+                labelOverride={dataRelevante.label}
               />
               <Meta
                 icon={<Dumbbell size={15} />}
@@ -98,41 +112,31 @@ function TreinosCards({
 
             <div style={styles.treinoCardActions}>
               <button
-                onClick={() => onVisualizar(treino.id)}
+                onClick={() => {
+                  if (primaryAction === "view") onVisualizar(treino.id);
+                  else onLifecycleAction(primaryAction, treino);
+                }}
                 className="table-button table-button-primary"
-                data-testid="treino-open"
+                data-testid={`workout-primary-action-${primaryAction}`}
                 disabled={temAcaoEmAndamento}
+                aria-busy={Boolean(lifecycleActionInProgress)}
                 style={styles.treinoVisualizar}
               >
                 <Eye size={15} />
-                Visualizar
+                {primaryActionLabel(primaryAction, lifecycleActionInProgress)}
               </button>
               <TableActions label={`Mais acoes de ${treino.rotina || "treino"}`} testIdPrefix="treino">
-                <TableActionItem
-                  data-testid="treino-action-edit"
-                  onClick={() => onEditar(treino)}
+                <WorkoutLifecycleActionItems
+                  ItemComponent={TableActionItem}
+                  actionInProgress={lifecycleActionInProgress || acaoAtual}
                   disabled={temAcaoEmAndamento}
-                >
-                  <Pencil size={14} />
-                  Editar
-                </TableActionItem>
-                <TableActionItem
-                  data-testid="treino-action-duplicate"
-                  onClick={() => onDuplicar(treino)}
-                  disabled={temAcaoEmAndamento}
-                >
-                  <Copy size={14} />
-                  {acaoAtual === "duplicar" ? "Duplicando..." : "Duplicar"}
-                </TableActionItem>
-                <TableActionItem
-                  data-testid="treino-action-delete"
-                  onClick={() => onExcluir(treino.id)}
-                  disabled={temAcaoEmAndamento}
-                  variant="danger"
-                >
-                  <Trash2 size={14} />
-                  {acaoAtual === "excluir" ? "Excluindo..." : "Excluir"}
-                </TableActionItem>
+                  treino={treino}
+                  onAction={(action, selectedWorkout) => {
+                    if (action === "view") onVisualizar(selectedWorkout.id);
+                    else if (action === "edit") onEditar(selectedWorkout);
+                    else onLifecycleAction(action, selectedWorkout);
+                  }}
+                />
               </TableActions>
             </div>
           </article>
@@ -151,16 +155,25 @@ function Badge({ icon, texto }) {
   );
 }
 
-function Meta({ icon, label, valor, styles }) {
+function Meta({ icon, label, labelOverride, valor, styles }) {
   return (
     <div style={styles.treinoMetaItem}>
       <span style={styles.treinoMetaIcon}>{icon}</span>
       <div>
-        <span style={styles.treinoMetaLabel}>{label}</span>
+        <span style={styles.treinoMetaLabel}>{labelOverride || label}</span>
         <strong style={styles.treinoMetaValor}>{valor || "-"}</strong>
       </div>
     </div>
   );
+}
+
+function primaryActionLabel(action, loadingAction) {
+  if (loadingAction === "deliver") return "Entregando...";
+  if (loadingAction === "complete") return "Concluindo...";
+  if (loadingAction === "archive") return "Arquivando...";
+  if (action === "deliver") return "Entregar treino";
+  if (action === "complete") return "Concluir treino";
+  return "Visualizar";
 }
 
 export default TreinosCards;

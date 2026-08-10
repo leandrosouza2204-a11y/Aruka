@@ -1,0 +1,11 @@
+{
+  "generated_at": "2026-08-01T17:48:54.942Z",
+  "source": "reports/supabase-production-sync/local-schema-catalog/table-grants.json",
+  "previous_total": 333,
+  "current_total": 333,
+  "removed": [],
+  "added": [],
+  "unexpected_removed": [],
+  "removed_grantees": [],
+  "decision": "EXPECTED_EXCESS_GRANTS_REMOVED_ONLY"
+}

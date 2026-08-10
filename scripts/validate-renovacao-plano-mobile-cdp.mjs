@@ -1,5 +1,18 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import {
+  assertSameOrigin,
+  buildAppUrl,
+  classifyRuntimeError,
+  resolveRuntimeConfig,
+  RUNTIME_MARKERS,
+} from "./lib/authenticated-runtime.js";
+import {
+  captureQaBrowserState,
+  cleanupAuthenticatedQaPage,
+  prepareAuthenticatedQaPage,
+  summarizeQaBrowserState,
+} from "./lib/authenticated-browser-state.js";
 
 const viewports = [
   { name: "retrato-320", width: 320, height: 800, orientation: "portrait" },
@@ -20,7 +33,10 @@ const tolerance = 1;
 const cdpPort = process.env.CDP_PORT || "9222";
 const chromeVersionUrl = `http://127.0.0.1:${cdpPort}/json/version`;
 const chromeNewTargetUrl = `http://127.0.0.1:${cdpPort}/json/new`;
-const appUrl = "http://127.0.0.1:5173/financeiro";
+const runtimeConfig = resolveRuntimeConfig(process.env, {
+  legacyBaseUrlAliases: ["RENOVACAO_BASE_URL", "FINANCE_QA_BASE_URL", "FINANCE_BASE_URL", "QA_BASE_URL"],
+});
+const appUrl = buildAppUrl(runtimeConfig.baseUrl, "/financeiro");
 const screenshotDir = join("tmp-responsive-screenshots", "renovacao-plano");
 
 validateQaCredentials();
@@ -43,6 +59,25 @@ async function getWebSocketUrl() {
   const version = await versionResponse.json();
   if (!version.webSocketDebuggerUrl) throw new Error("Chrome CDP sem webSocketDebuggerUrl.");
   return version.webSocketDebuggerUrl;
+}
+
+async function verifyAuthenticatedBrowserOrigin(client) {
+  if (!runtimeConfig.baseUrl) {
+    throw new Error(RUNTIME_MARKERS.baseUrlUnavailable);
+  }
+
+  const browserUrl = await evaluate(client, "window.location.href");
+  const match = assertSameOrigin(runtimeConfig.baseUrl, browserUrl);
+  console.log(`RUNTIME_BASE_ORIGIN=${match.baseOrigin || runtimeConfig.baseUrl}`);
+  console.log(`CDP_ORIGIN=http://127.0.0.1:${cdpPort}`);
+  console.log(`AUTHENTICATED_BROWSER_ORIGIN_MATCH=${match.ok ? "YES" : "NO"}`);
+
+  if (!match.ok) {
+    const error = new Error(RUNTIME_MARKERS.authenticatedBrowserOriginMismatch);
+    error.runtimeMarker = RUNTIME_MARKERS.runtimeEnvironmentBlocked;
+    error.runtimeDetail = RUNTIME_MARKERS.authenticatedBrowserOriginMismatch;
+    throw error;
+  }
 }
 
 function createCdpClient(webSocketUrl) {
@@ -172,6 +207,9 @@ async function getAuthState(client) {
 }
 
 async function openRenovacaoModal(client) {
+  await waitForFinanceiroReady(client);
+  await ensureRenewalActionableView(client);
+
   let opened = await clickText(client, "Renovar plano", "button, [role='menuitem']");
   if (opened) {
     await waitFor(client, "document.querySelector('.financeiro-modal')");
@@ -182,7 +220,7 @@ async function openRenovacaoModal(client) {
     client,
     `(() => {
       const triggers = [...document.querySelectorAll('.financeiro-card-actions .table-actions-trigger, .financeiro-actions-inline .table-actions-trigger, .table-actions-trigger')];
-      const trigger = triggers.find((item) => item.offsetParent !== null) || triggers[0];
+      const trigger = triggers.find((item) => item.offsetParent !== null);
       if (!trigger) return false;
       trigger.click();
       return true;
@@ -201,13 +239,43 @@ async function openRenovacaoModal(client) {
   await waitFor(client, "document.querySelector('.financeiro-modal')");
 }
 
+async function waitForFinanceiroReady(client) {
+  await waitFor(
+    client,
+    `document.querySelector('.financeiro-page') && !/Verificando acesso/i.test(document.body.innerText || "") && [...document.querySelectorAll('button')].some((button) => /Em acompanhamento|Encerrados/i.test(button.textContent || ""))`,
+    30000
+  );
+  await sleep(1000);
+}
+
+async function ensureRenewalActionableView(client) {
+  const state = await getFinanceiroState(client);
+  if (state.visibleActionTriggers > 0) return;
+
+  const switched = await clickText(client, "Encerrados", "button");
+  if (switched) {
+    await sleep(900);
+  }
+
+  const after = await getFinanceiroState(client);
+  if (after.visibleActionTriggers === 0) {
+    throw new Error(`Menu de acoes para renovar plano nao encontrado. Estado: ${JSON.stringify(after)}`);
+  }
+}
+
 async function getFinanceiroState(client) {
   return evaluate(
     client,
     `(() => ({
       path: location.pathname,
+      activeCount: Number((document.body.innerText.match(/Em acompanhamento\\s*\\((\\d+)\\)/i) || [null, null])[1]),
+      closedCount: Number((document.body.innerText.match(/Encerrados\\s*\\((\\d+)\\)/i) || [null, null])[1]),
       cards: document.querySelectorAll('.financeiro-list-card, .mobile-list-card').length,
       actionTriggers: document.querySelectorAll('.table-actions-trigger').length,
+      visibleActionTriggers: [...document.querySelectorAll('.financeiro-card-actions .table-actions-trigger, .financeiro-actions-inline .table-actions-trigger, .table-actions-trigger')]
+        .filter((item) => item.offsetParent !== null).length,
+      renewalActions: [...document.querySelectorAll('button, [role="menuitem"]')]
+        .filter((item) => item.offsetParent !== null && /Renovar plano/i.test(item.textContent || "")).length,
       visibleButtons: [...document.querySelectorAll('button')]
         .filter((button) => button.offsetParent !== null)
         .map((button) => ({
@@ -270,10 +338,11 @@ async function measure(client, viewport, phase) {
       const lastField = modal?.querySelector('textarea') || fields.at(-1);
       const cancelButton = [...modal?.querySelectorAll('button') || []].find((button) => button.textContent.includes('Cancelar'));
       const renewButton = [...modal?.querySelectorAll('button') || []].find((button) => button.textContent.includes('renovacao') || button.textContent.includes('Renovar') || button.textContent.includes('Confirmar'));
+      const overflowScope = modal || document.body;
       const root = document.documentElement;
       const body = document.body;
       const viewportWidth = root.clientWidth;
-      const overflowing = [...document.querySelectorAll('body *')]
+      const overflowing = [...overflowScope.querySelectorAll('*')]
         .map((element) => {
           const rect = element.getBoundingClientRect();
           const style = getComputedStyle(element);
@@ -420,10 +489,29 @@ function summarize(results) {
     renewVisible: item.renewVisible,
     status: item.failures.length === 0 ? "ok" : "falhou",
     failures: item.failures,
+    overflowElementCount: item.overflowing.length,
+    maxRightEdge: item.overflowing.length > 0
+      ? Math.max(...item.overflowing.map((element) => element.right))
+      : item.viewport.width,
+    overflowing: item.overflowing.map((element) => ({
+      tag: element.tag,
+      className: element.className,
+      left: element.left,
+      right: element.right,
+      width: element.width,
+      minWidth: element.minWidth,
+      overflowX: element.overflowX,
+    })),
   }));
 }
 
 async function run() {
+  if (!runtimeConfig.baseUrl) {
+    const error = new Error(RUNTIME_MARKERS.baseUrlUnavailable);
+    error.runtimeMarker = RUNTIME_MARKERS.baseUrlUnavailable;
+    throw error;
+  }
+
   const client = createCdpClient(await getWebSocketUrl());
   await client.ready;
   try {
@@ -433,21 +521,26 @@ async function run() {
     const results = [];
 
     for (const viewport of viewports) {
-      await client.send("Emulation.setDeviceMetricsOverride", {
-        width: viewport.width,
-        height: viewport.height,
-        deviceScaleFactor: 1,
-        mobile: viewport.orientation !== "desktop",
+      const startState = await prepareAuthenticatedQaPage(client, {
+        url: appUrl,
+        viewport: {
+          width: viewport.width,
+          height: viewport.height,
+          deviceScaleFactor: 1,
+          mobile: viewport.orientation !== "desktop",
+        },
+        readyExpression: "document.querySelector('.financeiro-page') || document.querySelector('input[type=\"email\"], input[type=\"password\"]')",
+        readyTimeout: 30000,
       });
-      await client.send("Page.navigate", { url: appUrl });
-      await waitFor(client, "document.readyState === 'complete'");
-      await sleep(1800);
+      console.log(`QA_START_STATE renovacao-mobile viewport=${viewport.name} ${summarizeQaBrowserState(startState)}`);
+      await verifyAuthenticatedBrowserOrigin(client);
       if (!authDone) {
         const auth = await loginIfNeeded(client);
         console.log(auth === "logged-in" ? "Autenticacao QA realizada com sucesso." : "Sessao QA existente reaproveitada.");
         authDone = true;
       }
       await waitFor(client, "document.querySelector('.financeiro-page')");
+      await cleanupAuthenticatedQaPage(client);
       await openRenovacaoModal(client);
       await waitFor(client, "document.querySelector('.financeiro-modal select')");
       await prepareScenario(client);
@@ -468,6 +561,10 @@ async function run() {
         ? `renovacao-${viewport.name}-final.png`
         : `renovacao-${viewport.name}.png`;
       await captureScreenshot(client, screenshotName);
+      const endState = await cleanupAuthenticatedQaPage(client, {
+        neutralUrl: buildAppUrl(runtimeConfig.baseUrl, "/"),
+      });
+      console.log(`QA_END_STATE renovacao-mobile viewport=${viewport.name} ${summarizeQaBrowserState(endState)}`);
     }
 
     const summary = summarize(results);
@@ -478,6 +575,13 @@ async function run() {
       process.exitCode = 1;
     }
   } finally {
+    try {
+      const finalState = await captureQaBrowserState(client, "final");
+      console.log(`QA_FINAL_STATE renovacao-mobile ${summarizeQaBrowserState(finalState)}`);
+      await client.send("Page.close");
+    } catch {
+      // The page may already be closed by Chrome after Page.close.
+    }
     client.close();
   }
 }
@@ -494,6 +598,9 @@ function sleep(ms) {
 }
 
 run().catch((error) => {
-  console.error(error.message);
+  const marker = error.runtimeMarker || classifyRuntimeError(error);
+  const detail = error.runtimeDetail || String(error?.message || error).replace(/fetch failed/gi, marker).slice(0, 240);
+  console.error(`RUNTIME_QA_RESULT=${marker}`);
+  console.error(`RUNTIME_QA_DETAIL=${detail}`);
   process.exitCode = 1;
 });

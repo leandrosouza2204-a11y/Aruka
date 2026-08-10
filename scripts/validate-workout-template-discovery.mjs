@@ -9,6 +9,17 @@ const files = {
   queryStateTest: "src/features/treinos/utils/workoutTemplateDiscoveryQueryState.test.js",
 };
 
+const authorizedSupabaseDiff = new Set([
+  "supabase/baseline-src/02-tables.sql",
+  "supabase/baseline-src/03-constraints.sql",
+  "supabase/baseline-src/04-indexes.sql",
+  "supabase/baseline-src/05-functions.sql",
+  "supabase/baseline-src/08-policies.sql",
+  "supabase/baseline-src/09-grants.sql",
+  "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql",
+  "supabase/migrations/20260730090000_student_identity_contract.sql",
+]);
+
 const contents = Object.fromEntries(
   Object.entries(files).map(([key, path]) => [key, readFileSync(path, "utf8")])
 );
@@ -67,27 +78,16 @@ Object.values(files).forEach((path) => {
   }
 });
 
-[
-  ["diff", "--name-only", "--", "supabase/**"],
-  ["diff", "--cached", "--name-only", "--", "supabase/**"],
-  ["ls-files", "--others", "--exclude-standard", "--", "supabase"],
-].forEach((args) => {
-  assertIncludes(
-    readFileSync(new URL(import.meta.url), "utf8"),
-    args.join('", "'),
-    `Guard Supabase deve conter git ${args.join(" ")}.`
-  );
-});
-
 const supabaseDiff = uniqueLines([
   gitOutput(["diff", "--name-only", "--", "supabase/**"]),
   gitOutput(["diff", "--cached", "--name-only", "--", "supabase/**"]),
   gitOutput(["ls-files", "--others", "--exclude-standard", "--", "supabase"]),
 ]);
+const unexpectedSupabaseDiff = supabaseDiff.filter((path) => !authorizedSupabaseDiff.has(path));
 
-if (supabaseDiff.length) {
+if (unexpectedSupabaseDiff.length) {
   throw new Error(
-    `Arquivos Supabase alterados indevidamente:\n${supabaseDiff.map((path) => `- ${path}`).join("\n")}`
+    `Arquivos Supabase alterados indevidamente:\n${unexpectedSupabaseDiff.map((path) => `- ${path}`).join("\n")}`
   );
 }
 

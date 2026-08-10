@@ -1,0 +1,45 @@
+{
+  "decision": "READY_FOR_WORKOUT_DELIVERY_RECLASSIFICATION_COMMIT",
+  "remote_link_state": "UNLINKED_FOR_SAFETY",
+  "production_action_required": "NO",
+  "migration_repair_allowed": "NO",
+  "history_alignment_pending": true,
+  "migration_created": false,
+  "migration_path": null,
+  "new_migration_required": false,
+  "existing_migration_coverage": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql",
+  "phase1_security_migration_coverage": "supabase/migrations/20260731190000_reconcile_security_policies_and_grants.sql",
+  "student_identity_dependencies": [
+    "authenticated student workout access"
+  ],
+  "false_positives": [
+    "public.treinos.treinos_template_origin_type_check",
+    "public.treinos.treinos_template_origin_snapshot_object_check",
+    "public.treino_eventos.treino_eventos_metadata_object_check"
+  ],
+  "runtime_status": "LOCAL_REPLAY_DIFF_AND_REGRESSION_QA_PASSED",
+  "next_safe_group": "STUDENT_IDENTITY_DEPLOYMENT_DESIGN",
+  "counts": {
+    "initial_local_drift_count": 1,
+    "resolved_by_existing_migration_count": 45,
+    "resolved_by_phase1_count": 5,
+    "remote_pending_count": 50,
+    "false_positive_count": 3,
+    "student_dependency_count": 1,
+    "new_migration_required_count": 0,
+    "final_local_drift_count": 0
+  },
+  "initial_local_drift_count": 1,
+  "final_local_drift_count": 0,
+  "remote_pending_count": 50,
+  "resolved_by_phase1_count": 5,
+  "resolved_by_existing_migration_count": 45,
+  "false_positive_count": 3,
+  "student_dependency_count": 1,
+  "generated_from": [
+    "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql",
+    "reports/supabase-production-sync/workout-delivery-reconciliation.json",
+    "reports/supabase-production-sync/schema-equivalence-result.json",
+    "reports/supabase-production-sync/post-phase34-global-result.json"
+  ]
+}

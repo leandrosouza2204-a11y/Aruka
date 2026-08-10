@@ -21,7 +21,12 @@ function RenovacaoPlanoModal({
   const novoPlano = planos.find((plano) => plano.id === form.novoPlanoId);
 
   return (
-    <ModalBase onClose={onClose} styles={styles} largura="min(760px, 100%)">
+    <ModalBase
+      onClose={onClose}
+      styles={styles}
+      largura="min(760px, 100%)"
+      contentClassName="renovacao-plano-modal"
+    >
       <div className="financeiro-modal-topo" style={styles.modalTopo}>
         <div>
           <h2 style={styles.modalTitulo}>Renovar plano</h2>

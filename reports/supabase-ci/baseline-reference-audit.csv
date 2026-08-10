@@ -1,0 +1,17 @@
+file,line,reference_type,old_path_reference,active,classification,fixed,notes
+scripts/supabase-cycle-8-lib.mjs,7,BASELINE_PATH,true,true,ACTIVE_SHARED_HELPER,true,Updated to reference-baselines and added executable/ephemeral chain constants.
+scripts/reset-supabase-local-safe.mjs,81,migration_history,false,true,ACTIVE_QA,true,Updated safe reset to expect ephemeral baseline plus six incrementals.
+scripts/validate-supabase-local-fixtures.mjs,41,migration_history,false,true,ACTIVE_QA,true,Updated deterministic fixture validation to expect ephemeral baseline plus six incrementals.
+scripts/validate-supabase-local-reproducibility.mjs,15,baseline_path,true,true,ACTIVE_QA,true,Updated reference baseline path and executable migration inventory contract.
+scripts/test-supabase-local-seeds-negative.mjs,15,test_fixture,true,true,ACTIVE_TEST,true,Updated fixture copy and baseline mutation to reference-baselines.
+scripts/test-supabase-local-reproducibility-negative.mjs,26,test_fixture,true,true,ACTIVE_TEST,true,Updated fixture copy and added executable-baseline negative guard.
+scripts/test-supabase-clean-worktree.ps1,405,baseline_hash_path,true,true,ACTIVE_TEST,true,Updated clean worktree to reference baseline and ephemeral history of seven.
+scripts/supabase-cycle-9-1-lib.mjs,12,BASELINE_PATH,true,true,ACTIVE_SHARED_HELPER,true,Updated Cycle 9.1 baseline hash path to reference-baselines.
+scripts/supabase-local-bootstrap.ps1,17,ephemeral_executable_path,true,true,ACTIVE_BOOTSTRAP,false,Intentional temporary materialization path; removed in finally.
+scripts/supabase-local-preflight.ps1,13,executable_absence_guard,true,true,ACTIVE_BOOTSTRAP,false,Intentional guard ensuring reference-only baseline is absent from executable migrations.
+scripts/supabase-cycle-9-lib.mjs,8,executable_absence_guard,true,true,ACTIVE_SHARED_HELPER,false,Intentional canonical executable-baseline absence guard.
+scripts/analyze-supabase-db-push-dry-run.mjs,44,executable_absence_guard,true,true,ACTIVE_QA,false,Intentional production db-push guard against executable baseline.
+scripts/analyze-supabase-final-ci-cd-review.mjs,45,old_vs_new_contract,true,true,ACTIVE_QA,false,Intentional old/new path evidence for final CI/CD review.
+docs/supabase-production-sync/45-reference-only-baseline-separation.md,40,historical_doc,true,false,HISTORICAL_DOC,false,Historical before/after separation record.
+docs/supabase-production-sync/46-db-push-dry-run-final.md,24,historical_doc,true,false,HISTORICAL_DOC,false,Historical db-push dry-run finding.
+reports/supabase-ci/repository-safety-result.json,9,historical_report,true,false,HISTORICAL_REPORT,false,Generated historical report from old run; not current source contract.

@@ -6,6 +6,7 @@ import {
   Users,
   WalletCards,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const iconesPorTipo = {
   alunos: Users,
@@ -46,6 +47,16 @@ function MetricCard({ metrica, styles }) {
       <span style={styles.metricHint}>{metrica.legenda}</span>
       {metrica.contexto && (
         <span style={styles.metricContext}>{metrica.contexto}</span>
+      )}
+      {metrica.acao && (
+        <Link
+          to={metrica.acao.to}
+          className="app-button app-button-secondary"
+          style={styles.metricAction}
+          aria-label={metrica.acao.ariaLabel}
+        >
+          {metrica.acao.label}
+        </Link>
       )}
     </div>
   );

@@ -1,10 +1,10 @@
 const FALLBACK_MESSAGES = {
   load: {
-    title: "Nao foi possivel carregar os treinos.",
+    title: "Não foi possível carregar os treinos.",
     description: "Verifique sua conexao e tente novamente.",
   },
   duplicate: {
-    title: "Nao foi possivel duplicar este treino.",
+    title: "Não foi possível duplicar este treino.",
     description: "O treino original foi preservado. Tente novamente em instantes.",
   },
   delete: {
@@ -12,7 +12,7 @@ const FALLBACK_MESSAGES = {
     description: "Tente novamente em instantes.",
   },
   save: {
-    title: "Nao foi possivel salvar o treino.",
+    title: "Não foi possível salvar o treino.",
     description: "Revise os dados e tente novamente.",
   },
 };

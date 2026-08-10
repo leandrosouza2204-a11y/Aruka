@@ -1,0 +1,79 @@
+# Function Grant Review By Signature
+
+- Received rows: 89
+- Unique canonical grants: 69
+- Duplicates by canonical key: 20
+- PUBLIC: 1
+- anon: 6
+- authenticated: 18
+- service_role: 22
+
+- P1 admin_atualizar_perfil(p_user_id uuid, p_nome text, p_role text, p_tipo_acesso text, p_status text).authenticated.execute: UNVERIFIED; security_definer=true; search_path=public
+- P3 admin_atualizar_perfil(p_user_id uuid, p_nome text, p_role text, p_tipo_acesso text, p_status text).postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 admin_atualizar_perfil(p_user_id uuid, p_nome text, p_role text, p_tipo_acesso text, p_status text).service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P1 admin_atualizar_perfil(p_user_id uuid, p_nome text, p_role text, p_tipo_acesso text, p_status text, p_user_agent text).authenticated.execute: EQUIVALENT; security_definer=true; search_path=public
+- P3 admin_atualizar_perfil(p_user_id uuid, p_nome text, p_role text, p_tipo_acesso text, p_status text, p_user_agent text).postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 admin_atualizar_perfil(p_user_id uuid, p_nome text, p_role text, p_tipo_acesso text, p_status text, p_user_agent text).service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P1 admin_bloquear_usuario(p_user_id uuid).authenticated.execute: UNVERIFIED; security_definer=true; search_path=public
+- P3 admin_bloquear_usuario(p_user_id uuid).postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 admin_bloquear_usuario(p_user_id uuid).service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P1 admin_bloquear_usuario(p_user_id uuid, p_user_agent text).authenticated.execute: EQUIVALENT; security_definer=true; search_path=public
+- P3 admin_bloquear_usuario(p_user_id uuid, p_user_agent text).postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 admin_bloquear_usuario(p_user_id uuid, p_user_agent text).service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 admin_eh_admin().postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 admin_eh_admin().service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P1 admin_liberar_assinante(p_user_id uuid, p_plano text, p_data_inicio date, p_data_vencimento date).authenticated.execute: UNVERIFIED; security_definer=true; search_path=public
+- P3 admin_liberar_assinante(p_user_id uuid, p_plano text, p_data_inicio date, p_data_vencimento date).postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 admin_liberar_assinante(p_user_id uuid, p_plano text, p_data_inicio date, p_data_vencimento date).service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P1 admin_liberar_assinante(p_user_id uuid, p_plano text, p_data_inicio date, p_data_vencimento date, p_user_agent text).authenticated.execute: EQUIVALENT; security_definer=true; search_path=public
+- P3 admin_liberar_assinante(p_user_id uuid, p_plano text, p_data_inicio date, p_data_vencimento date, p_user_agent text).postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 admin_liberar_assinante(p_user_id uuid, p_plano text, p_data_inicio date, p_data_vencimento date, p_user_agent text).service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P1 admin_liberar_beta(p_user_id uuid).authenticated.execute: UNVERIFIED; security_definer=true; search_path=public
+- P3 admin_liberar_beta(p_user_id uuid).postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 admin_liberar_beta(p_user_id uuid).service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P1 admin_liberar_beta(p_user_id uuid, p_user_agent text).authenticated.execute: EQUIVALENT; security_definer=true; search_path=public
+- P3 admin_liberar_beta(p_user_id uuid, p_user_agent text).postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 admin_liberar_beta(p_user_id uuid, p_user_agent text).service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P1 admin_listar_logs(p_acao text, p_target_user_id uuid, p_data_inicio date, p_data_fim date, p_busca text).authenticated.execute: EQUIVALENT; security_definer=true; search_path=public
+- P3 admin_listar_logs(p_acao text, p_target_user_id uuid, p_data_inicio date, p_data_fim date, p_busca text).postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 admin_listar_logs(p_acao text, p_target_user_id uuid, p_data_inicio date, p_data_fim date, p_busca text).service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P1 admin_listar_usuarios().authenticated.execute: EQUIVALENT; security_definer=true; search_path=public
+- P3 admin_listar_usuarios().postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 admin_listar_usuarios().service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 admin_registrar_log(p_target_user_id uuid, p_acao text, p_entidade text, p_entidade_id uuid, p_dados_anteriores jsonb, p_dados_novos jsonb, p_user_agent text).postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 admin_registrar_log(p_target_user_id uuid, p_acao text, p_entidade text, p_entidade_id uuid, p_dados_anteriores jsonb, p_dados_novos jsonb, p_user_agent text).service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P1 admin_upsert_assinatura(p_user_id uuid, p_plano text, p_status text, p_data_inicio date, p_data_vencimento date).authenticated.execute: UNVERIFIED; security_definer=true; search_path=public
+- P3 admin_upsert_assinatura(p_user_id uuid, p_plano text, p_status text, p_data_inicio date, p_data_vencimento date).postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 admin_upsert_assinatura(p_user_id uuid, p_plano text, p_status text, p_data_inicio date, p_data_vencimento date).service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P1 admin_upsert_assinatura(p_user_id uuid, p_plano text, p_status text, p_data_inicio date, p_data_vencimento date, p_user_agent text).authenticated.execute: EQUIVALENT; security_definer=true; search_path=public
+- P3 admin_upsert_assinatura(p_user_id uuid, p_plano text, p_status text, p_data_inicio date, p_data_vencimento date, p_user_agent text).postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 admin_upsert_assinatura(p_user_id uuid, p_plano text, p_status text, p_data_inicio date, p_data_vencimento date, p_user_agent text).service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 admin_validar_acesso().postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 admin_validar_acesso().service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P0 alterar_estado_treino(p_treino_id uuid, p_lifecycle_status text).anon.execute: REMOTE_MORE_PERMISSIVE; security_definer=true; search_path=public
+- P3 alterar_estado_treino(p_treino_id uuid, p_lifecycle_status text).authenticated.execute: EQUIVALENT; security_definer=true; search_path=public
+- P3 alterar_estado_treino(p_treino_id uuid, p_lifecycle_status text).postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 alterar_estado_treino(p_treino_id uuid, p_lifecycle_status text).service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 aoe_idempotency_get_or_create(p_id text, p_actor_id uuid, p_organization_id uuid, p_operation text, p_idempotency_key text, p_request_fingerprint text).anon.execute: REMOTE_MORE_PERMISSIVE; security_definer=true; search_path=public
+- P3 aoe_idempotency_get_or_create(p_id text, p_actor_id uuid, p_organization_id uuid, p_operation text, p_idempotency_key text, p_request_fingerprint text).authenticated.execute: EQUIVALENT; security_definer=true; search_path=public
+- P3 aoe_idempotency_get_or_create(p_id text, p_actor_id uuid, p_organization_id uuid, p_operation text, p_idempotency_key text, p_request_fingerprint text).postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 aoe_idempotency_get_or_create(p_id text, p_actor_id uuid, p_organization_id uuid, p_operation text, p_idempotency_key text, p_request_fingerprint text).service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 aoe_user_owns_student(p_student_id uuid).anon.execute: REMOTE_MORE_PERMISSIVE; security_definer=true; search_path=public
+- P3 aoe_user_owns_student(p_student_id uuid).authenticated.execute: EQUIVALENT; security_definer=true; search_path=public
+- P3 aoe_user_owns_student(p_student_id uuid).postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 aoe_user_owns_student(p_student_id uuid).service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P0 entregar_treino(p_treino_id uuid).anon.execute: REMOTE_MORE_PERMISSIVE; security_definer=true; search_path=public
+- P3 entregar_treino(p_treino_id uuid).authenticated.execute: EQUIVALENT; security_definer=true; search_path=public
+- P3 entregar_treino(p_treino_id uuid).postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 entregar_treino(p_treino_id uuid).service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 processar_encerramento_automatico_aluno(p_user_id uuid, p_aluno_id uuid, p_vencimento date, p_ocorrido_em date, p_event_key text, p_plano_id uuid, p_plano_nome text, p_dias_apos_vencimento integer, p_status_anterior text).postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 processar_encerramento_automatico_aluno(p_user_id uuid, p_aluno_id uuid, p_vencimento date, p_ocorrido_em date, p_event_key text, p_plano_id uuid, p_plano_nome text, p_dias_apos_vencimento integer, p_status_anterior text).service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P0 salvar_treino_composto(p_treino jsonb).anon.execute: REMOTE_MORE_PERMISSIVE; security_definer=true; search_path=public
+- P3 salvar_treino_composto(p_treino jsonb).authenticated.execute: EQUIVALENT; security_definer=true; search_path=public
+- P3 salvar_treino_composto(p_treino jsonb).postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 salvar_treino_composto(p_treino jsonb).service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=true; search_path=public
+- P3 set_workout_templates_updated_at().public.execute: REMOTE_ONLY_GRANT; security_definer=false; search_path=ABSENT
+- P3 set_workout_templates_updated_at().anon.execute: REMOTE_ONLY_GRANT; security_definer=false; search_path=ABSENT
+- P3 set_workout_templates_updated_at().authenticated.execute: REMOTE_MORE_PERMISSIVE; security_definer=false; search_path=ABSENT
+- P3 set_workout_templates_updated_at().postgres.execute: PLATFORM_MANAGED_EXPECTED; security_definer=false; search_path=ABSENT
+- P3 set_workout_templates_updated_at().service_role.execute: PLATFORM_MANAGED_EXPECTED; security_definer=false; search_path=ABSENT

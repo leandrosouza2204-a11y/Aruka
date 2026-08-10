@@ -1,0 +1,82 @@
+{
+  "decision": "READY_FOR_MANUAL_PRODUCTION_BACKUP",
+  "production_project": {
+    "name": "aruka",
+    "project_ref_masked": "vriz...vdik"
+  },
+  "inventoried_without_remote_personal_data": true,
+  "domains": [
+    {
+      "domain": "alunos",
+      "tables": ["alunos", "anamneses", "avaliacoes", "aceites_legais"],
+      "backup_relevance": "student profile and health/assessment continuity",
+      "restore_priority": "HIGH",
+      "data_sensitivity": "HIGH",
+      "validation_method": "row counts and application smoke checks after restore"
+    },
+    {
+      "domain": "perfis",
+      "tables": ["perfis"],
+      "backup_relevance": "application identity profile metadata",
+      "restore_priority": "HIGH",
+      "data_sensitivity": "HIGH",
+      "validation_method": "profile count and auth/public consistency review"
+    },
+    {
+      "domain": "treinos",
+      "tables": ["treinos", "treino_dias", "treino_exercicios", "treino_eventos"],
+      "backup_relevance": "workout delivery state and training history",
+      "restore_priority": "HIGH",
+      "data_sensitivity": "MEDIUM",
+      "validation_method": "workout hierarchy count and delivery smoke checks"
+    },
+    {
+      "domain": "workout_templates",
+      "tables": ["workout_templates"],
+      "backup_relevance": "template library and reusable workout definitions",
+      "restore_priority": "MEDIUM",
+      "data_sensitivity": "MEDIUM",
+      "validation_method": "template counts and template application checks"
+    },
+    {
+      "domain": "planos",
+      "tables": ["planos"],
+      "backup_relevance": "commercial plan catalog",
+      "restore_priority": "MEDIUM",
+      "data_sensitivity": "LOW",
+      "validation_method": "catalog count and plan visibility checks"
+    },
+    {
+      "domain": "assinaturas",
+      "tables": ["assinaturas"],
+      "backup_relevance": "subscription lifecycle state",
+      "restore_priority": "HIGH",
+      "data_sensitivity": "HIGH",
+      "validation_method": "subscription counts and status distribution review"
+    },
+    {
+      "domain": "pagamentos",
+      "tables": ["pagamentos"],
+      "backup_relevance": "payment records and financial audit continuity",
+      "restore_priority": "HIGH",
+      "data_sensitivity": "HIGH",
+      "validation_method": "payment counts and reconciliation checks"
+    },
+    {
+      "domain": "acompanhamento",
+      "tables": ["acompanhamento_eventos"],
+      "backup_relevance": "student monitoring and operational history",
+      "restore_priority": "MEDIUM",
+      "data_sensitivity": "MEDIUM",
+      "validation_method": "event count and recent activity checks"
+    },
+    {
+      "domain": "configuracoes_relevantes",
+      "tables": ["admin_logs", "aoe_audit_events", "aoe_decisions", "aoe_decision_traces", "aoe_human_reviews", "aoe_idempotency_keys"],
+      "backup_relevance": "administrative auditability and AOE operational metadata",
+      "restore_priority": "MEDIUM",
+      "data_sensitivity": "MEDIUM",
+      "validation_method": "audit/event counts and metadata availability checks"
+    }
+  ]
+}

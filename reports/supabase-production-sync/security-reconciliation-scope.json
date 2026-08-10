@@ -1,0 +1,63 @@
+{
+  "decision": "READY_FOR_LOCAL_SECURITY_RECONCILIATION_IMPLEMENTATION",
+  "phase": "PHASE_1_SECURITY_POLICIES_AND_GRANTS",
+  "production_action_required": "NO_REMOTE_ACTION_ALLOWED",
+  "migration_repair_allowed": "NO",
+  "migration": "supabase/migrations/20260731190000_reconcile_security_policies_and_grants.sql",
+  "included": {
+    "policy_count": 48,
+    "table_grant_revoke_count": 19,
+    "function_grant_scope_count": 3,
+    "tables": [
+      "aceites_legais",
+      "acompanhamento_eventos",
+      "admin_logs",
+      "alunos",
+      "anamneses",
+      "aoe_audit_events",
+      "aoe_decision_traces",
+      "aoe_decisions",
+      "aoe_human_reviews",
+      "aoe_idempotency_keys",
+      "assinaturas",
+      "avaliacoes",
+      "pagamentos",
+      "perfis",
+      "planos",
+      "treino_dias",
+      "treino_exercicios",
+      "treinos",
+      "workout_templates"
+    ],
+    "function_revokes": [
+      "public.salvar_treino_composto(jsonb) from public, anon",
+      "public.entregar_treino(uuid) from public, anon",
+      "public.alterar_estado_treino(uuid, text) from public, anon"
+    ],
+    "function_grants": [
+      "public.salvar_treino_composto(jsonb) to authenticated",
+      "public.entregar_treino(uuid) to authenticated",
+      "public.alterar_estado_treino(uuid, text) to authenticated"
+    ]
+  },
+  "deferred": {
+    "constraints": "DEFER_TO_LATER_RECONCILIATION_PHASE",
+    "nullability": "DEFER_TO_LATER_RECONCILIATION_PHASE",
+    "function_bodies": "DEFER_TO_LATER_RECONCILIATION_PHASE",
+    "workout_delivery_schema": "DEFER_TO_LATER_RECONCILIATION_PHASE",
+    "student_identity": "DEFER_TO_LATER_RECONCILIATION_PHASE",
+    "legacy_alunos_policy_expression_drift": "DEFER_TO_LATER_RECONCILIATION_PHASE",
+    "platform_managed_service_role_grants": "KEEP_PLATFORM_MANAGED_GRANT",
+    "p1_admin_overload_grants_without_final_overload_decision": "MANUAL_SECURITY_REVIEW_REQUIRED"
+  },
+  "financial": {
+    "structural_change": false,
+    "data_change": false,
+    "financial_tables_included_for_policy_and_grant_only": [
+      "planos",
+      "assinaturas",
+      "pagamentos"
+    ],
+    "guard": "No columns, defaults, constraints, values, functions or data are changed."
+  }
+}

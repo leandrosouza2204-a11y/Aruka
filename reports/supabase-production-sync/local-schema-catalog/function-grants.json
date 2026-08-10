@@ -1,0 +1,262 @@
+[
+  {
+    "routine_name": "admin_atualizar_perfil",
+    "grantee": "authenticated",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_atualizar_perfil",
+    "grantee": "postgres",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_atualizar_perfil",
+    "grantee": "service_role",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_bloquear_usuario",
+    "grantee": "authenticated",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_bloquear_usuario",
+    "grantee": "postgres",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_bloquear_usuario",
+    "grantee": "service_role",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_eh_admin",
+    "grantee": "authenticated",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_eh_admin",
+    "grantee": "postgres",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_eh_admin",
+    "grantee": "service_role",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_liberar_assinante",
+    "grantee": "authenticated",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_liberar_assinante",
+    "grantee": "postgres",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_liberar_assinante",
+    "grantee": "service_role",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_liberar_beta",
+    "grantee": "authenticated",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_liberar_beta",
+    "grantee": "postgres",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_liberar_beta",
+    "grantee": "service_role",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_listar_logs",
+    "grantee": "authenticated",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_listar_logs",
+    "grantee": "postgres",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_listar_logs",
+    "grantee": "service_role",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_listar_usuarios",
+    "grantee": "authenticated",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_listar_usuarios",
+    "grantee": "postgres",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_listar_usuarios",
+    "grantee": "service_role",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_registrar_log",
+    "grantee": "authenticated",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_registrar_log",
+    "grantee": "postgres",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_registrar_log",
+    "grantee": "service_role",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_upsert_assinatura",
+    "grantee": "authenticated",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_upsert_assinatura",
+    "grantee": "postgres",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_upsert_assinatura",
+    "grantee": "service_role",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_validar_acesso",
+    "grantee": "authenticated",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_validar_acesso",
+    "grantee": "postgres",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "admin_validar_acesso",
+    "grantee": "service_role",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "alterar_estado_treino",
+    "grantee": "authenticated",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "alterar_estado_treino",
+    "grantee": "postgres",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "aoe_idempotency_get_or_create",
+    "grantee": "authenticated",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "aoe_idempotency_get_or_create",
+    "grantee": "postgres",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "aoe_idempotency_get_or_create",
+    "grantee": "service_role",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "aoe_user_owns_student",
+    "grantee": "authenticated",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "aoe_user_owns_student",
+    "grantee": "postgres",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "aoe_user_owns_student",
+    "grantee": "service_role",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "desvincular_aluno_usuario",
+    "grantee": "authenticated",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "desvincular_aluno_usuario",
+    "grantee": "postgres",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "entregar_treino",
+    "grantee": "authenticated",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "entregar_treino",
+    "grantee": "postgres",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "get_my_student_workouts",
+    "grantee": "authenticated",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "get_my_student_workouts",
+    "grantee": "postgres",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "processar_encerramento_automatico_aluno",
+    "grantee": "postgres",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "processar_encerramento_automatico_aluno",
+    "grantee": "service_role",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "salvar_treino_composto",
+    "grantee": "authenticated",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "salvar_treino_composto",
+    "grantee": "postgres",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "set_workout_templates_updated_at",
+    "grantee": "postgres",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "set_workout_templates_updated_at",
+    "grantee": "service_role",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "vincular_aluno_usuario",
+    "grantee": "authenticated",
+    "privilege_type": "EXECUTE"
+  },
+  {
+    "routine_name": "vincular_aluno_usuario",
+    "grantee": "postgres",
+    "privilege_type": "EXECUTE"
+  }
+]

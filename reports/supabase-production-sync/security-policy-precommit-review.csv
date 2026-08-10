@@ -1,0 +1,49 @@
+table,policy,operation,baseline_match,decision
+perfis,Usuarios podem listar seu perfil,select,true,EXACT_CANONICAL_MATCH
+perfis,Usuarios podem criar seu perfil padrao,insert,true,EXACT_CANONICAL_MATCH
+planos,Usuarios podem listar seus planos,select,true,EXACT_CANONICAL_MATCH
+planos,Usuarios podem cadastrar seus planos,insert,true,EXACT_CANONICAL_MATCH
+planos,Usuarios podem atualizar seus planos,update,true,EXACT_CANONICAL_MATCH
+planos,Usuarios podem excluir seus planos,delete,true,EXACT_CANONICAL_MATCH
+assinaturas,Usuarios podem listar suas assinaturas,select,true,EXACT_CANONICAL_MATCH
+assinaturas,Usuarios podem cadastrar suas assinaturas,insert,true,EXACT_CANONICAL_MATCH
+pagamentos,Usuarios podem listar seus pagamentos,select,true,EXACT_CANONICAL_MATCH
+pagamentos,Usuarios podem cadastrar seus pagamentos,insert,true,EXACT_CANONICAL_MATCH
+pagamentos,Usuarios podem atualizar seus pagamentos,update,true,EXACT_CANONICAL_MATCH
+pagamentos,Usuarios podem excluir seus pagamentos,delete,true,EXACT_CANONICAL_MATCH
+admin_logs,Admins podem listar logs administrativos,select,true,EXACT_CANONICAL_MATCH
+admin_logs,Usuarios comuns nao inserem logs administrativos,insert,true,EXACT_CANONICAL_MATCH
+aceites_legais,Usuarios podem listar seus aceites legais,select,true,EXACT_CANONICAL_MATCH
+aceites_legais,Usuarios podem registrar seus aceites legais,insert,true,EXACT_CANONICAL_MATCH
+avaliacoes,Usuarios podem listar suas avaliacoes,select,true,EXACT_CANONICAL_MATCH
+avaliacoes,Usuarios podem cadastrar suas avaliacoes,insert,true,EXACT_CANONICAL_MATCH
+avaliacoes,Usuarios podem atualizar suas avaliacoes,update,true,EXACT_CANONICAL_MATCH
+avaliacoes,Usuarios podem excluir suas avaliacoes,delete,true,EXACT_CANONICAL_MATCH
+anamneses,Usuarios podem listar suas anamneses,select,true,EXACT_CANONICAL_MATCH
+anamneses,Usuarios podem cadastrar suas anamneses,insert,true,EXACT_CANONICAL_MATCH
+anamneses,Usuarios podem atualizar suas anamneses,update,true,EXACT_CANONICAL_MATCH
+anamneses,Usuarios podem excluir suas anamneses,delete,true,EXACT_CANONICAL_MATCH
+treinos,Usuarios podem listar seus treinos,select,true,EXACT_CANONICAL_MATCH
+treinos,Usuarios podem cadastrar seus treinos,insert,true,EXACT_CANONICAL_MATCH
+treinos,Usuarios podem atualizar seus treinos,update,true,EXACT_CANONICAL_MATCH
+treinos,Usuarios podem excluir seus treinos,delete,true,EXACT_CANONICAL_MATCH
+treino_dias,Usuarios podem listar dias dos seus treinos,select,true,EXACT_CANONICAL_MATCH
+treino_dias,Usuarios podem cadastrar dias dos seus treinos,insert,true,EXACT_CANONICAL_MATCH
+treino_dias,Usuarios podem atualizar dias dos seus treinos,update,true,EXACT_CANONICAL_MATCH
+treino_dias,Usuarios podem excluir dias dos seus treinos,delete,true,EXACT_CANONICAL_MATCH
+treino_exercicios,Usuarios podem listar exercicios dos seus treinos,select,true,EXACT_CANONICAL_MATCH
+treino_exercicios,Usuarios podem cadastrar exercicios dos seus treinos,insert,true,EXACT_CANONICAL_MATCH
+treino_exercicios,Usuarios podem atualizar exercicios dos seus treinos,update,true,EXACT_CANONICAL_MATCH
+treino_exercicios,Usuarios podem excluir exercicios dos seus treinos,delete,true,EXACT_CANONICAL_MATCH
+workout_templates,Usuarios podem listar seus modelos de treino,select,true,EXACT_CANONICAL_MATCH
+workout_templates,Usuarios podem cadastrar seus modelos de treino,insert,true,EXACT_CANONICAL_MATCH
+workout_templates,Usuarios podem atualizar seus modelos de treino,update,true,EXACT_CANONICAL_MATCH
+workout_templates,Usuarios podem excluir seus modelos de treino,delete,true,EXACT_CANONICAL_MATCH
+aoe_decisions,Usuarios podem listar decisoes AOE dos seus alunos,select,true,EXACT_CANONICAL_MATCH
+aoe_decisions,Usuarios podem criar decisoes AOE dos seus alunos,insert,true,EXACT_CANONICAL_MATCH
+aoe_decision_traces,Traces AOE restritos ao profissional autorizado,select,true,EXACT_CANONICAL_MATCH
+aoe_human_reviews,Usuarios podem consultar reviews AOE autorizadas,select,true,EXACT_CANONICAL_MATCH
+aoe_human_reviews,Usuarios podem criar reviews AOE autorizadas,insert,true,EXACT_CANONICAL_MATCH
+aoe_human_reviews,Usuarios podem atualizar reviews AOE autorizadas,update,true,EXACT_CANONICAL_MATCH
+aoe_idempotency_keys,Idempotencia AOE restrita ao ator,all,true,EXACT_CANONICAL_MATCH
+aoe_audit_events,Auditoria AOE somente admin leitura,select,true,EXACT_CANONICAL_MATCH

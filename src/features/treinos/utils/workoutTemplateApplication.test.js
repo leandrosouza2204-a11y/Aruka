@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
   buildWorkoutTemplateApplicationPreview,
+  createWorkoutTemplateApplicationIntent,
+  getOrCreateWorkoutTemplateApplicationIntent,
   mapWorkoutTemplateApplicationError,
   normalizeTemplateForApplication,
   prepareWorkoutTemplateApplicationPayload,
@@ -117,17 +119,23 @@ test("constroi previa de modelo pessoal sem descricao e com valores nulos", () =
   });
 
   assert.equal(preview.templateOrigin, "personal");
-  assert.equal(preview.level, "Nao informado");
-  assert.equal(preview.warnings.includes("Modelo sem descricao."), true);
+  assert.equal(preview.level, "Não informado");
+  assert.equal(preview.warnings.includes("Modelo sem descrição."), true);
   assert.equal(preview.validation.ok, true);
 });
 
 test("prepara payload com aluno correto, sanitiza e nao muta o modelo original", () => {
+  const intent = createWorkoutTemplateApplicationIntent({
+    template: officialTemplate,
+    student,
+    options: { rotina: "Aplicado" },
+    applicationIdempotencyKey: "retry-key-1",
+  });
   const original = structuredClone(officialTemplate);
   const payload = prepareWorkoutTemplateApplicationPayload({
     template: officialTemplate,
     student,
-    options: { rotina: "Aplicado", dataInicio: "2026-07-27" },
+    options: { rotina: "Aplicado", dataInicio: "2026-07-27", intent },
   });
 
   assert.deepEqual(officialTemplate, original);
@@ -136,6 +144,43 @@ test("prepara payload com aluno correto, sanitiza e nao muta o modelo original",
   assert.equal(payload.rotina, "Aplicado");
   assert.equal(payload.dataInicio, "2026-07-27");
   assert.equal(payload.dias[0].exercicios[0].carga, "");
+  assert.equal(payload.status, "Em revisao");
+  assert.equal(payload.lifecycleStatus, "draft");
+  assert.equal(payload.templateOriginType, "official");
+  assert.equal(payload.templateOriginId, "official-abc");
+  assert.equal(payload.templateOriginName, "Oficial ABC");
+  assert.equal(payload.applicationIdempotencyKey, "retry-key-1");
+  assert.deepEqual(payload.templateOriginSnapshot, {
+    id: "official-abc",
+    name: "Oficial ABC",
+    originType: "official",
+    objective: "Forca",
+    level: "Intermediario",
+    split: "ABC",
+    schemaVersion: 1,
+    dayCount: 1,
+  });
+});
+
+test("reaproveita intencao de aplicacao para retries idempotentes", () => {
+  const controller = {};
+  const first = getOrCreateWorkoutTemplateApplicationIntent(controller, {
+    template: personalTemplate,
+    student,
+    options: { rotina: "Aplicado pessoal" },
+  });
+  const second = getOrCreateWorkoutTemplateApplicationIntent(controller, {
+    template: officialTemplate,
+    student: { id: "outro-aluno", nome: "Outro" },
+    options: { rotina: "Outra rotina" },
+  });
+
+  assert.strictEqual(first, second);
+  assert.equal(first.templateOriginType, "personal");
+  assert.equal(first.templateOriginId, "personal-deep");
+  assert.equal(first.templateOriginName, "Pessoal profundo");
+  assert.equal(first.templateOriginSnapshot.dayCount, 2);
+  assert.match(first.applicationIdempotencyKey, /^workout-template-application:/);
 });
 
 test("rejeita aplicacao sem aluno, sem dias e com estrutura invalida", () => {
@@ -145,7 +190,7 @@ test("rejeita aplicacao sem aluno, sem dias e com estrutura invalida", () => {
   );
   assert.throws(
     () => prepareWorkoutTemplateApplicationPayload({ template: { dias: [] }, student }),
-    /ao menos um dia|dias e exercicios/
+    /ao menos um dia|dias e exercícios/
   );
   assert.throws(
     () =>
@@ -153,14 +198,14 @@ test("rejeita aplicacao sem aluno, sem dias e com estrutura invalida", () => {
         template: { dias: [{ nome: "A", exercicios: [] }] },
         student,
       }),
-    /dias e exercicios/
+    /dias e exercícios/
   );
 });
 
 test("mapeia erro de persistencia para mensagem compreensivel", () => {
   assert.equal(
     mapWorkoutTemplateApplicationError(new Error("network timeout")),
-    "Nao foi possivel conectar ao servidor. Verifique a conexao e tente novamente."
+    "Não foi possível conectar ao servidor. Verifique a conexão e tente novamente."
   );
   assert.equal(
     mapWorkoutTemplateApplicationError(new Error("Aluno invalido.")),
@@ -250,7 +295,7 @@ test("erro de persistencia preserva modelo", () => {
 
   assert.equal(
     mapWorkoutTemplateApplicationError(error),
-    "Nao foi possivel conectar ao servidor. Verifique a conexao e tente novamente."
+    "Não foi possível conectar ao servidor. Verifique a conexão e tente novamente."
   );
   assert.deepStrictEqual(input, before);
 });

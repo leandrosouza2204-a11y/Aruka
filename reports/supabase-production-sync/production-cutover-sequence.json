@@ -1,0 +1,101 @@
+{
+  "decision": "READY_FOR_PRODUCTION_CUTOVER_AUTHORIZATION_REVIEW",
+  "steps": [
+    {
+      "step": "01",
+      "domain": "Workout Delivery",
+      "precheck_file": "01-workout-delivery-precheck.sql",
+      "apply_file": "01-workout-delivery.sql",
+      "postcheck_file": "01-workout-delivery-postcheck.sql",
+      "recovery_file": "01-workout-delivery-recovery.md",
+      "risk": "MEDIUM",
+      "dependencies": [
+        "00-baseline-reference-only"
+      ],
+      "execution_authorized": false,
+      "status": "READY_FOR_REVIEW",
+      "apply_method": "CONTROLLED_SQL_FILE",
+      "production_execution_authorized": false
+    },
+    {
+      "step": "02",
+      "domain": "Student Identity",
+      "precheck_file": "02-student-identity-precheck.sql",
+      "apply_file": "02-student-identity.sql",
+      "postcheck_file": "02-student-identity-postcheck.sql",
+      "recovery_file": "02-student-identity-recovery.md",
+      "risk": "MEDIUM",
+      "dependencies": [
+        "01-workout-delivery"
+      ],
+      "execution_authorized": false,
+      "status": "READY_FOR_REVIEW",
+      "apply_method": "CONTROLLED_SQL_FILE",
+      "production_execution_authorized": false
+    },
+    {
+      "step": "03",
+      "domain": "Security",
+      "precheck_file": "03-security-reconciliation-precheck.sql",
+      "apply_file": "03-security-reconciliation.sql",
+      "postcheck_file": "03-security-reconciliation-postcheck.sql",
+      "recovery_file": "03-security-reconciliation-recovery.md",
+      "risk": "HIGH",
+      "dependencies": [
+        "02-student-identity"
+      ],
+      "execution_authorized": false,
+      "status": "READY_FOR_REVIEW",
+      "apply_method": "CONTROLLED_SQL_FILE",
+      "production_execution_authorized": false
+    },
+    {
+      "step": "04",
+      "domain": "Required Fields",
+      "precheck_file": "04-required-fields-precheck.sql",
+      "apply_file": "04-required-fields.sql",
+      "postcheck_file": "04-required-fields-postcheck.sql",
+      "recovery_file": "04-required-fields-recovery.md",
+      "risk": "MEDIUM",
+      "dependencies": [
+        "03-security-reconciliation"
+      ],
+      "execution_authorized": false,
+      "status": "READY_FOR_REVIEW",
+      "apply_method": "CONTROLLED_SQL_FILE",
+      "production_execution_authorized": false
+    },
+    {
+      "step": "05",
+      "domain": "AOE Security",
+      "precheck_file": "05-aoe-security-precheck.sql",
+      "apply_file": "05-aoe-security.sql",
+      "postcheck_file": "05-aoe-security-postcheck.sql",
+      "recovery_file": "05-aoe-security-recovery.md",
+      "risk": "LOW",
+      "dependencies": [
+        "04-required-fields"
+      ],
+      "execution_authorized": false,
+      "status": "READY_FOR_REVIEW",
+      "apply_method": "CONTROLLED_SQL_FILE",
+      "production_execution_authorized": false
+    },
+    {
+      "step": "06",
+      "domain": "Group A Security",
+      "precheck_file": "06-group-a-security-precheck.sql",
+      "apply_file": "06-group-a-security.sql",
+      "postcheck_file": "06-group-a-security-postcheck.sql",
+      "recovery_file": "06-group-a-security-recovery.md",
+      "risk": "LOW",
+      "dependencies": [
+        "05-aoe-security"
+      ],
+      "execution_authorized": false,
+      "status": "READY_FOR_REVIEW",
+      "apply_method": "CONTROLLED_SQL_FILE",
+      "production_execution_authorized": false
+    }
+  ]
+}

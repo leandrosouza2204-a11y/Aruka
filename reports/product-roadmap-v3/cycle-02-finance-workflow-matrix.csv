@@ -1,0 +1,8 @@
+flow,risk,fixture_state,confirmation,pending,double_submit,success,error,retry,state_refresh,history,mobile,desktop,result,notes
+registrar_pagamento,MEDIUM,dynamic_local_authenticated,not_required,true,true,true,true,true,true,true,true,true,PASS,Read-only QA validates modal and contract; mutation path is guarded in hook/service.
+renovar_plano,HIGH,dynamic_local_authenticated,not_required_ui_discrete_action,true,true,true,true,true,true,true,true,true,PASS,Renewal uses operationId/eventKey for history idempotency and keeps payment optional.
+desfazer_ultimo_pagamento,HIGH,dynamic_local_authenticated,true,true,true,true,true,true,true,true,true,true,PASS,High-risk action requires explicit confirmation and removes only latest payment.
+encerrar_acompanhamento,HIGH,dynamic_local_authenticated,true,true,true,true,true,true,true,true,true,true,PASS,Dedicated modal validates reason and preserves history.
+reativar_aluno,HIGH,dynamic_local_authenticated,true,true,true,true,true,true,true,true,true,true,PASS,Reactivation is explicit and does not create renewal automatically.
+historico_financeiro,LOW,dynamic_local_authenticated,not_required_read_only,not_required_read_only,not_applicable,true,covered_by_contextual_error_feedback,not_applicable,not_applicable_read_only,true,true,true,PASS,Read-only modal validated by runtime QA for mobile widths.
+filtros_acompanhamento,LOW,dynamic_local_authenticated,not_required_read_only,not_required_read_only,not_applicable,true,not_applicable,not_applicable,true,preserved_no_mutation,true,true,PASS,Dynamic fixture support: QA switches views based on available action triggers.

@@ -58,12 +58,7 @@ export function useDashboardPage() {
         setPagamentos(pagamentosResultado.value);
         setPlanos(planosResultado.value);
       } else {
-        const falhaPrincipal = [
-          alunosResultado,
-          pagamentosResultado,
-          planosResultado,
-        ].find((resultado) => resultado.status === "rejected");
-        setErro(`Erro ao carregar dashboard: ${falhaPrincipal.reason.message}`);
+        setErro("Não foi possível carregar os dados principais do dashboard. Tente novamente em instantes.");
         setAlunos([]);
         setPagamentos([]);
         setPlanos([]);
@@ -233,6 +228,11 @@ export function useDashboardPage() {
         valor: carregando ? "..." : totalAlunos,
         legenda: "Alunos cadastrados",
         tipo: "alunos",
+        acao: {
+          label: "Ver alunos",
+          to: "/alunos?origem=dashboard",
+          ariaLabel: "Ver lista de alunos cadastrados",
+        },
       },
       {
         titulo: "Receita Prevista",
@@ -256,6 +256,11 @@ export function useDashboardPage() {
         contexto: "Desconta pagamentos vinculados ao contrato vigente.",
         tipo: "pendente",
         destaque: "#dc2626",
+        acao: {
+          label: "Revisar financeiro",
+          to: "/financeiro?pagamento=pendentes",
+          ariaLabel: "Abrir financeiro para revisar pagamentos pendentes",
+        },
       },
       {
         titulo: "Alunos Vencendo",
@@ -263,6 +268,11 @@ export function useDashboardPage() {
         legenda: "Próximos do vencimento",
         tipo: "vencendo",
         destaque: "#f59e0b",
+        acao: {
+          label: "Ver vencimentos",
+          to: "/alunos?status=Vencendo&origem=dashboard",
+          ariaLabel: "Ver alunos com vencimento proximo",
+        },
       },
       {
         titulo: "Alunos Vencidos",
@@ -270,6 +280,11 @@ export function useDashboardPage() {
         legenda: "Necessitam atenção",
         tipo: "atrasados",
         destaque: "#dc2626",
+        acao: {
+          label: "Ver vencidos",
+          to: "/alunos?status=Vencido&origem=dashboard",
+          ariaLabel: "Ver alunos vencidos",
+        },
       },
     ],
     [

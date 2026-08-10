@@ -1,0 +1,30 @@
+{
+  "phase": "3.3",
+  "decision": "READY_FOR_PHASE33_EVIDENCE_COLLECTION",
+  "supabase_change": "NO",
+  "production_action_required": "READONLY_EVIDENCE_COLLECTION_REQUIRED",
+  "remote_link_state": "UNLINKED_FOR_SAFETY",
+  "group_a": "EVIDENCE_REQUIRED",
+  "migration_created": "NO",
+  "target": {
+    "schema": "public",
+    "function_name": "set_workout_templates_updated_at",
+    "identity_arguments": "",
+    "signature": "public.set_workout_templates_updated_at()"
+  },
+  "readonly_sql": "reports/supabase-production-sync/phase33-group-a-readonly-inspection.sql",
+  "expected_export_directory": "reports/supabase-production-sync/remote-phase33-input/",
+  "expected_csv_files": [
+    "phase33-group-a-function-definition.csv",
+    "phase33-group-a-trigger-dependencies.csv",
+    "phase33-group-a-function-grants.csv",
+    "phase33-group-a-dependency-metadata.csv"
+  ],
+  "manual_instructions": [
+    "Open the production project named aruka in the Supabase SQL Editor.",
+    "Run reports/supabase-production-sync/phase33-group-a-readonly-inspection.sql exactly as provided.",
+    "Export each result grid as CSV into reports/supabase-production-sync/remote-phase33-input/ using the expected file names.",
+    "Do not execute any migration, db push, db pull, link, unlink, grant, revoke, alter, create, drop, or repair command.",
+    "Do not stage or commit the exported CSV files."
+  ]
+}

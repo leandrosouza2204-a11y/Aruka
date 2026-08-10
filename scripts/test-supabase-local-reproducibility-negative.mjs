@@ -23,7 +23,8 @@ const copyTargets = [
   "scripts/test-supabase-local-reproducibility-negative.mjs",
   "scripts/validate-supabase-local-reproducibility.mjs",
   "supabase/config.toml",
-  "supabase/migrations/20260716090000_baseline_aruka_v1.sql",
+  "supabase/reference-baselines/20260716090000_baseline_aruka_v1.sql",
+  "supabase/migrations",
 ];
 
 function ensureDir(file) {
@@ -52,8 +53,9 @@ function resetFixture() {
 }
 
 const mutations = [
-  ["baseline_missing", () => rmSync(join(tempRoot, "supabase/migrations/20260716090000_baseline_aruka_v1.sql"), { force: true })],
-  ["baseline_sha_changed", () => mutateFile("supabase/migrations/20260716090000_baseline_aruka_v1.sql", (text) => `${text}\n-- mutation\n`)],
+  ["baseline_missing", () => rmSync(join(tempRoot, "supabase/reference-baselines/20260716090000_baseline_aruka_v1.sql"), { force: true })],
+  ["baseline_sha_changed", () => mutateFile("supabase/reference-baselines/20260716090000_baseline_aruka_v1.sql", (text) => `${text}\n-- mutation\n`)],
+  ["baseline_executable", () => writeFileSync(join(tempRoot, "supabase/migrations/20260716090000_baseline_aruka_v1.sql"), "-- baseline\n", "utf8")],
   ["historical_migration_active", () => writeFileSync(join(tempRoot, "supabase/migrations/20260705090000_hardening_admin_functions.sql"), "-- old\n", "utf8")],
   ["operational_migration_active", () => writeFileSync(join(tempRoot, "supabase/migrations/20260712090000_agendar_encerramentos_automaticos_dry_run.sql"), "-- op\n", "utf8")],
   ["config_missing", () => rmSync(join(tempRoot, "supabase/config.toml"), { force: true })],

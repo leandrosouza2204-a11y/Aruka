@@ -7,17 +7,29 @@ const root = process.cwd();
 const tempRoot = join(tmpdir(), `aruka-ci-preflight-${Date.now()}`);
 const protectedRef = "xrmqdkpx" + "nfvusmenadnf";
 const expectedSha = "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B";
-const baselinePath = "supabase/migrations/20260716090000_baseline_aruka_v1.sql";
+const referenceBaselinePath = "supabase/reference-baselines/20260716090000_baseline_aruka_v1.sql";
+const executableBaselinePath = "supabase/migrations/20260716090000_baseline_aruka_v1.sql";
 const preflightScript = "scripts/supabase-local-preflight.ps1";
 
 function copyFixture() {
   rmSync(tempRoot, { recursive: true, force: true });
   mkdirSync(join(tempRoot, "scripts"), { recursive: true });
   mkdirSync(join(tempRoot, "supabase/migrations"), { recursive: true });
+  mkdirSync(join(tempRoot, "supabase/reference-baselines"), { recursive: true });
   cpSync(join(root, preflightScript), join(tempRoot, preflightScript));
   cpSync(join(root, "package.json"), join(tempRoot, "package.json"));
   cpSync(join(root, "supabase/config.toml"), join(tempRoot, "supabase/config.toml"));
-  cpSync(join(root, baselinePath), join(tempRoot, baselinePath));
+  cpSync(join(root, referenceBaselinePath), join(tempRoot, referenceBaselinePath));
+  for (const file of [
+    "20260728030000_workout_delivery_integration_v1.sql",
+    "20260730090000_student_identity_contract.sql",
+    "20260731190000_reconcile_security_policies_and_grants.sql",
+    "20260801143335_reconcile_alunos_required_fields.sql",
+    "20260801173000_revoke_aoe_idempotency_anon_execute.sql",
+    "20260801180000_harden_workout_templates_updated_at.sql",
+  ]) {
+    cpSync(join(root, "supabase/migrations", file), join(tempRoot, "supabase/migrations", file));
+  }
   cpSync(join(root, "supabase/migrations/cutover-manifest.json"), join(tempRoot, "supabase/migrations/cutover-manifest.json"));
   writeConfigProjectId("aruka_ci_test_1");
   writeFakeCommands();
@@ -122,6 +134,9 @@ try {
   if (positiveReport.project_id !== "aruka_ci_test_1") throw new Error("positive report project_id mismatch");
   if (positiveReport.temp_project_ref_present !== false) throw new Error("positive preflight required a temp project-ref");
   if (positiveReport.baseline_sha256 !== expectedSha || positiveReport.baseline_sha_preserved !== true) throw new Error("positive baseline SHA was not preserved");
+  if (positiveReport.executable_migration_count !== 6) throw new Error("positive executable migration count mismatch");
+  if (positiveReport.reference_only_baseline_count !== 1) throw new Error("positive reference baseline count mismatch");
+  if (positiveReport.total_database_change_artifact_count !== 7) throw new Error("positive total artifact count mismatch");
   if (positiveReport.remote_access_performed !== false || positiveReport.edge_functions_deployed !== false) throw new Error("positive report must record no remote access and no Edge Function deploy");
 
   expectReject("ci_without_local_only", () => {}, "CI preflight requires SUPABASE_CI_LOCAL_ONLY=true", { SUPABASE_CI_LOCAL_ONLY: "false" });
@@ -132,8 +147,11 @@ try {
   expectReject("protected_temp_project_ref", () => writeTempProjectRef(protectedRef), "Protected HML project ref is forbidden in isolated CI");
   expectReject("docker_server_down", () => {}, "Docker Server unavailable", { ARUKA_FAKE_DOCKER_SERVER_DOWN: "true" });
   expectReject("bad_docker_context", () => {}, "Docker context is not allowed for isolated CI", { ARUKA_FAKE_DOCKER_CONTEXT: "desktop-linux" });
-  expectReject("baseline_changed", () => writeFileSync(join(tempRoot, baselinePath), "-- changed\n", "utf8"), "Official baseline SHA mismatch");
-  expectReject("extra_active_migration", () => writeFileSync(join(tempRoot, "supabase/migrations/20260717000000_extra.sql"), "select 1;\n", "utf8"), "Active migrations folder must contain only the official baseline SQL");
+  expectReject("baseline_missing", () => rmSync(join(tempRoot, referenceBaselinePath), { force: true }), "Missing official reference baseline");
+  expectReject("baseline_changed", () => writeFileSync(join(tempRoot, referenceBaselinePath), "-- changed\n", "utf8"), "Official reference baseline SHA mismatch");
+  expectReject("baseline_executable", () => writeFileSync(join(tempRoot, executableBaselinePath), "-- baseline\n", "utf8"), "Reference-only baseline must not be present in executable migrations");
+  expectReject("missing_active_migration", () => rmSync(join(tempRoot, "supabase/migrations/20260730090000_student_identity_contract.sql"), { force: true }), "Expected active migration missing");
+  expectReject("extra_active_migration", () => writeFileSync(join(tempRoot, "supabase/migrations/20260717000000_extra.sql"), "select 1;\n", "utf8"), "Unexpected active migration found");
 
   console.log("SUPABASE_CI_PREFLIGHT_ISOLATION_VALIDATED");
 } finally {

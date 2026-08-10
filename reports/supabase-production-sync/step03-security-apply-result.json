@@ -1,0 +1,18 @@
+{
+  "decision": "STEP03_SECURITY_RECONCILIATION_APPLIED_AND_VALIDATED",
+  "project": "aruka",
+  "project_ref_masked": "vriz...vdik",
+  "fresh_precheck_result": "PASS",
+  "apply_sql_hash": "BD2753069A1F2F6565AFD1E846872D1E48EA5A4FE24F413415C8E66BC3392D54",
+  "apply_exit_code": 0,
+  "apply_result": "PASS",
+  "postcheck_exit_code": 0,
+  "postcheck_result": "PASS",
+  "security_production_reconciled": true,
+  "recovery_executed": false,
+  "step04_authorized": false,
+  "step04_executed": false,
+  "db_push_allowed": false,
+  "history_alignment_allowed": false,
+  "next_action": "STEP04_REQUIRED_FIELDS_PRECHECK_PREPARATION"
+}

@@ -1,0 +1,29 @@
+{
+  "decision": "READY_TO_COMMIT_PR_PREPARATION",
+  "branch": "feat/workout-delivery-integration-v1",
+  "head": "03c2e03f4294566582cfa8212754b3794906c5ca",
+  "origin_main": "4b63542cb9a1161ded03b635158b7c6de9700b81",
+  "commits_ahead": 45,
+  "commits_behind": 0,
+  "files_changed": 549,
+  "large_pr": true,
+  "final_qas": {
+    "lint": "PASS",
+    "build": "PASS",
+    "qa:performance-hardening": "PASS",
+    "qa:finance-workflow-reliability": "PASS",
+    "qa:dashboard-decision-usefulness": "PASS",
+    "qa:student-experience-continuity": "PASS",
+    "qa:admin-observability": "PASS",
+    "qa:workout-delivery-contract": "PASS",
+    "qa:student-identity-contract": "PASS"
+  },
+  "authenticated_runtime": "PASS_X2_REUSED",
+  "db_push_needed": false,
+  "automatic_db_mutation": false,
+  "required_check": "validation",
+  "secret_scan": "PASS_NO_REAL_SECRET_FOUND",
+  "recommended_title": "feat: integra Workout Delivery e conclui hardening do Aruka",
+  "merge_ready": true,
+  "next_action": "COMMIT_PR_PREPARATION_THEN_PUSH_BRANCH_AND_OPEN_PR"
+}

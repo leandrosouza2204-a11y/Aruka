@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import Sidebar from "../../../components/Sidebar";
 import InlineDetails from "../../../components/InlineDetails";
+import LoadingFallback from "../../../components/LoadingFallback";
 import { useAvaliacoesPage } from "../hooks/useAvaliacoesPage";
 import AnamneseCardMobile from "./AnamneseCardMobile";
 import AnamnesesTable from "./AnamnesesTable";
@@ -67,14 +68,14 @@ function AvaliacoesList() {
           >
             <div style={styles.contextoAlunoTexto}>
               <strong id="avaliacoes-context-title" style={styles.contextoAlunoTitulo}>
-                Voce esta visualizando as avaliacoes de{" "}
+                Você está visualizando as avaliações de{" "}
                 <span data-testid="avaliacoes-context-student-name">
                   {avaliacoesPage.alunoContextual.nome}
                 </span>
                 .
               </strong>
               <span style={styles.contextoAlunoDescricao}>
-                O modulo esta filtrado para este aluno. Crie novos registros ou volte para a origem.
+                O módulo está filtrado para este aluno. Crie novos registros ou volte para a origem.
               </span>
             </div>
             <div style={styles.contextoAlunoAcoes}>
@@ -85,7 +86,7 @@ function AvaliacoesList() {
                 onClick={avaliacoesPage.abrirNovaAvaliacao}
                 style={styles.botaoPrimario}
               >
-                Nova avaliacao
+                Nova avaliação
               </button>
               <button
                 type="button"
@@ -285,7 +286,7 @@ function AvaliacoesList() {
         </div>
 
         {avaliacoesPage.modalAvaliacao && (
-          <Suspense fallback={null}>
+          <Suspense fallback={<LoadingFallback texto="Carregando avaliação..." variant="modal" />}>
             <AvaliacaoModal
               alunos={avaliacoesPage.alunos}
               avaliacao={avaliacoesPage.avaliacaoEditando}
@@ -297,7 +298,7 @@ function AvaliacoesList() {
         )}
 
         {avaliacoesPage.modalAnamnese && (
-          <Suspense fallback={null}>
+          <Suspense fallback={<LoadingFallback texto="Carregando anamnese..." variant="modal" />}>
             <AnamneseModal
               alunos={avaliacoesPage.alunos}
               anamnese={avaliacoesPage.anamneseEditando}

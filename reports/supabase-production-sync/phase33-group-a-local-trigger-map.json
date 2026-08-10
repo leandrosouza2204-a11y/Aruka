@@ -1,0 +1,22 @@
+{
+  "phase": "3.3",
+  "target_function": "public.set_workout_templates_updated_at()",
+  "trigger_count": 1,
+  "triggers": [
+    {
+      "schema": "public",
+      "table": "workout_templates",
+      "trigger_name": "set_workout_templates_updated_at",
+      "timing": "before",
+      "events": [
+        "update"
+      ],
+      "orientation": "row",
+      "function": "public.set_workout_templates_updated_at()",
+      "definition": "create or replace trigger set_workout_templates_updated_at before update on public.workout_templates for each row execute function public.set_workout_templates_updated_at();",
+      "source": "supabase/baseline-src/06-triggers.sql"
+    }
+  ],
+  "manual_callers": [],
+  "application_rpc_callers": []
+}

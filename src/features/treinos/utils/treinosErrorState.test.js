@@ -6,7 +6,7 @@ describe("treinosErrorState", () => {
   it("cria erro recuperavel para falha de carga", () => {
     const erro = criarErroTreinos("load", new Error("Falha controlada LOCAL_QA"));
 
-    assert.equal(erro.title, "Nao foi possivel carregar os treinos.");
+    assert.equal(erro.title, "Não foi possível carregar os treinos.");
     assert.equal(erro.retryable, true);
     assert.match(erro.description, /QA/);
   });

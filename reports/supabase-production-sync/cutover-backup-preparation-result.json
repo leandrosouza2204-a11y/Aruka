@@ -1,0 +1,22 @@
+{
+  "decision": "READY_FOR_MANUAL_PRODUCTION_BACKUP",
+  "production_project": {
+    "name": "aruka",
+    "project_ref_masked": "vriz...vdik"
+  },
+  "remote_link_state": "UNLINKED_FOR_SAFETY",
+  "backup_required": true,
+  "backup_verified": false,
+  "backup_method_status": "USER_CONFIRMATION_REQUIRED",
+  "managed_backup_status": "AVAILABLE_REQUIRES_USER_CONFIRMATION",
+  "logical_backup_status": "AVAILABLE_REQUIRES_USER_CONFIRMATION",
+  "storage_backup_status": "USER_CONFIRMATION_REQUIRED",
+  "restore_method_reviewed": false,
+  "critical_data_inventory_ready": true,
+  "backup_checklist_ready": true,
+  "evidence_template_ready": true,
+  "restore_plan_ready": true,
+  "production_execution_authorized": false,
+  "cutover_allowed": false,
+  "next_action": "MANUAL_BACKUP_EXECUTION_AND_EVIDENCE"
+}

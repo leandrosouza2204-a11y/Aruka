@@ -1,0 +1,343 @@
+{
+  "nodes": [
+    {
+      "id": "admin_atualizar_perfil(p_user_id uuid, p_nome text, p_role text, p_tipo_acesso text, p_status text)",
+      "function_name": "admin_atualizar_perfil",
+      "signature": "p_user_id uuid, p_nome text, p_role text, p_tipo_acesso text, p_status text",
+      "category": "ADMIN",
+      "reconciliation_status": "REMOTE_OVERLOAD_ONLY",
+      "depends_on_tables": [],
+      "calls_functions": []
+    },
+    {
+      "id": "admin_atualizar_perfil(p_user_id uuid, p_nome text, p_role text, p_tipo_acesso text, p_status text, p_user_agent text)",
+      "function_name": "admin_atualizar_perfil",
+      "signature": "p_user_id uuid, p_nome text, p_role text, p_tipo_acesso text, p_status text, p_user_agent text",
+      "category": "ADMIN",
+      "reconciliation_status": "EQUIVALENT_OR_NOT_IN_PHASE3_DIFF",
+      "depends_on_tables": [],
+      "calls_functions": [
+        "admin_registrar_log",
+        "admin_validar_acesso"
+      ]
+    },
+    {
+      "id": "admin_bloquear_usuario(p_user_id uuid)",
+      "function_name": "admin_bloquear_usuario",
+      "signature": "p_user_id uuid",
+      "category": "ADMIN",
+      "reconciliation_status": "REMOTE_OVERLOAD_ONLY",
+      "depends_on_tables": [],
+      "calls_functions": []
+    },
+    {
+      "id": "admin_bloquear_usuario(p_user_id uuid, p_user_agent text)",
+      "function_name": "admin_bloquear_usuario",
+      "signature": "p_user_id uuid, p_user_agent text",
+      "category": "ADMIN",
+      "reconciliation_status": "EQUIVALENT_OR_NOT_IN_PHASE3_DIFF",
+      "depends_on_tables": [],
+      "calls_functions": [
+        "admin_registrar_log",
+        "admin_validar_acesso"
+      ]
+    },
+    {
+      "id": "admin_eh_admin()",
+      "function_name": "admin_eh_admin",
+      "signature": "",
+      "category": "ADMIN",
+      "reconciliation_status": "EQUIVALENT_OR_NOT_IN_PHASE3_DIFF",
+      "depends_on_tables": [],
+      "calls_functions": []
+    },
+    {
+      "id": "admin_liberar_assinante(p_user_id uuid, p_plano text, p_data_inicio date, p_data_vencimento date)",
+      "function_name": "admin_liberar_assinante",
+      "signature": "p_user_id uuid, p_plano text, p_data_inicio date, p_data_vencimento date",
+      "category": "FINANCIAL",
+      "reconciliation_status": "REMOTE_OVERLOAD_ONLY",
+      "depends_on_tables": [],
+      "calls_functions": []
+    },
+    {
+      "id": "admin_liberar_assinante(p_user_id uuid, p_plano text, p_data_inicio date, p_data_vencimento date, p_user_agent text)",
+      "function_name": "admin_liberar_assinante",
+      "signature": "p_user_id uuid, p_plano text, p_data_inicio date, p_data_vencimento date, p_user_agent text",
+      "category": "FINANCIAL",
+      "reconciliation_status": "EQUIVALENT_OR_NOT_IN_PHASE3_DIFF",
+      "depends_on_tables": [],
+      "calls_functions": [
+        "admin_atualizar_perfil",
+        "admin_registrar_log",
+        "admin_upsert_assinatura",
+        "admin_validar_acesso"
+      ]
+    },
+    {
+      "id": "admin_liberar_beta(p_user_id uuid)",
+      "function_name": "admin_liberar_beta",
+      "signature": "p_user_id uuid",
+      "category": "FINANCIAL",
+      "reconciliation_status": "REMOTE_OVERLOAD_ONLY",
+      "depends_on_tables": [],
+      "calls_functions": []
+    },
+    {
+      "id": "admin_liberar_beta(p_user_id uuid, p_user_agent text)",
+      "function_name": "admin_liberar_beta",
+      "signature": "p_user_id uuid, p_user_agent text",
+      "category": "FINANCIAL",
+      "reconciliation_status": "EQUIVALENT_OR_NOT_IN_PHASE3_DIFF",
+      "depends_on_tables": [],
+      "calls_functions": [
+        "admin_registrar_log",
+        "admin_validar_acesso"
+      ]
+    },
+    {
+      "id": "admin_listar_logs(p_acao text, p_target_user_id uuid, p_data_inicio date, p_data_fim date, p_busca text)",
+      "function_name": "admin_listar_logs",
+      "signature": "p_acao text, p_target_user_id uuid, p_data_inicio date, p_data_fim date, p_busca text",
+      "category": "ADMIN",
+      "reconciliation_status": "BODY_DIFFERENT",
+      "depends_on_tables": [],
+      "calls_functions": [
+        "admin_validar_acesso"
+      ]
+    },
+    {
+      "id": "admin_listar_usuarios()",
+      "function_name": "admin_listar_usuarios",
+      "signature": "",
+      "category": "ADMIN",
+      "reconciliation_status": "BODY_DIFFERENT",
+      "depends_on_tables": [],
+      "calls_functions": [
+        "admin_validar_acesso"
+      ]
+    },
+    {
+      "id": "admin_registrar_log(p_target_user_id uuid, p_acao text, p_entidade text, p_entidade_id uuid, p_dados_anteriores jsonb, p_dados_novos jsonb, p_user_agent text)",
+      "function_name": "admin_registrar_log",
+      "signature": "p_target_user_id uuid, p_acao text, p_entidade text, p_entidade_id uuid, p_dados_anteriores jsonb, p_dados_novos jsonb, p_user_agent text",
+      "category": "ADMIN",
+      "reconciliation_status": "BODY_DIFFERENT",
+      "depends_on_tables": [],
+      "calls_functions": [
+        "admin_validar_acesso"
+      ]
+    },
+    {
+      "id": "admin_upsert_assinatura(p_user_id uuid, p_plano text, p_status text, p_data_inicio date, p_data_vencimento date)",
+      "function_name": "admin_upsert_assinatura",
+      "signature": "p_user_id uuid, p_plano text, p_status text, p_data_inicio date, p_data_vencimento date",
+      "category": "FINANCIAL",
+      "reconciliation_status": "REMOTE_OVERLOAD_ONLY",
+      "depends_on_tables": [],
+      "calls_functions": []
+    },
+    {
+      "id": "admin_upsert_assinatura(p_user_id uuid, p_plano text, p_status text, p_data_inicio date, p_data_vencimento date, p_user_agent text)",
+      "function_name": "admin_upsert_assinatura",
+      "signature": "p_user_id uuid, p_plano text, p_status text, p_data_inicio date, p_data_vencimento date, p_user_agent text",
+      "category": "FINANCIAL",
+      "reconciliation_status": "BODY_DIFFERENT",
+      "depends_on_tables": [],
+      "calls_functions": [
+        "admin_registrar_log",
+        "admin_validar_acesso"
+      ]
+    },
+    {
+      "id": "admin_validar_acesso()",
+      "function_name": "admin_validar_acesso",
+      "signature": "",
+      "category": "ADMIN",
+      "reconciliation_status": "EQUIVALENT_OR_NOT_IN_PHASE3_DIFF",
+      "depends_on_tables": [],
+      "calls_functions": [
+        "admin_eh_admin"
+      ]
+    },
+    {
+      "id": "alterar_estado_treino(p_treino_id uuid, p_lifecycle_status text)",
+      "function_name": "alterar_estado_treino",
+      "signature": "p_treino_id uuid, p_lifecycle_status text",
+      "category": "WORKOUT_DELIVERY",
+      "reconciliation_status": "EQUIVALENT_OR_NOT_IN_PHASE3_DIFF",
+      "depends_on_tables": [],
+      "calls_functions": []
+    },
+    {
+      "id": "aoe_idempotency_get_or_create(p_id text, p_actor_id uuid, p_organization_id uuid, p_operation text, p_idempotency_key text, p_request_fingerprint text)",
+      "function_name": "aoe_idempotency_get_or_create",
+      "signature": "p_id text, p_actor_id uuid, p_organization_id uuid, p_operation text, p_idempotency_key text, p_request_fingerprint text",
+      "category": "AOE",
+      "reconciliation_status": "BODY_DIFFERENT",
+      "depends_on_tables": [],
+      "calls_functions": [
+        "admin_eh_admin"
+      ]
+    },
+    {
+      "id": "aoe_user_owns_student(p_student_id uuid)",
+      "function_name": "aoe_user_owns_student",
+      "signature": "p_student_id uuid",
+      "category": "AOE",
+      "reconciliation_status": "EQUIVALENT_OR_NOT_IN_PHASE3_DIFF",
+      "depends_on_tables": [],
+      "calls_functions": []
+    },
+    {
+      "id": "desvincular_aluno_usuario(p_aluno_id uuid)",
+      "function_name": "desvincular_aluno_usuario",
+      "signature": "p_aluno_id uuid",
+      "category": "STUDENT_IDENTITY",
+      "reconciliation_status": "LOCAL_OVERLOAD_ONLY",
+      "depends_on_tables": [],
+      "calls_functions": []
+    },
+    {
+      "id": "entregar_treino(p_treino_id uuid)",
+      "function_name": "entregar_treino",
+      "signature": "p_treino_id uuid",
+      "category": "WORKOUT_DELIVERY",
+      "reconciliation_status": "EQUIVALENT_OR_NOT_IN_PHASE3_DIFF",
+      "depends_on_tables": [],
+      "calls_functions": []
+    },
+    {
+      "id": "get_my_student_workouts()",
+      "function_name": "get_my_student_workouts",
+      "signature": "",
+      "category": "STUDENT_IDENTITY",
+      "reconciliation_status": "LOCAL_OVERLOAD_ONLY",
+      "depends_on_tables": [],
+      "calls_functions": []
+    },
+    {
+      "id": "processar_encerramento_automatico_aluno(p_user_id uuid, p_aluno_id uuid, p_vencimento date, p_ocorrido_em date, p_event_key text, p_plano_id uuid, p_plano_nome text, p_dias_apos_vencimento integer, p_status_anterior text)",
+      "function_name": "processar_encerramento_automatico_aluno",
+      "signature": "p_user_id uuid, p_aluno_id uuid, p_vencimento date, p_ocorrido_em date, p_event_key text, p_plano_id uuid, p_plano_nome text, p_dias_apos_vencimento integer, p_status_anterior text",
+      "category": "UNKNOWN",
+      "reconciliation_status": "EQUIVALENT_OR_NOT_IN_PHASE3_DIFF",
+      "depends_on_tables": [],
+      "calls_functions": []
+    },
+    {
+      "id": "salvar_treino_composto(p_treino jsonb)",
+      "function_name": "salvar_treino_composto",
+      "signature": "p_treino jsonb",
+      "category": "WORKOUT_DELIVERY",
+      "reconciliation_status": "EQUIVALENT_OR_NOT_IN_PHASE3_DIFF",
+      "depends_on_tables": [],
+      "calls_functions": []
+    },
+    {
+      "id": "set_workout_templates_updated_at()",
+      "function_name": "set_workout_templates_updated_at",
+      "signature": "",
+      "category": "UTILITY",
+      "reconciliation_status": "BODY_DIFFERENT",
+      "depends_on_tables": [],
+      "calls_functions": []
+    },
+    {
+      "id": "vincular_aluno_usuario(p_aluno_id uuid, p_student_user_id uuid)",
+      "function_name": "vincular_aluno_usuario",
+      "signature": "p_aluno_id uuid, p_student_user_id uuid",
+      "category": "STUDENT_IDENTITY",
+      "reconciliation_status": "LOCAL_OVERLOAD_ONLY",
+      "depends_on_tables": [],
+      "calls_functions": []
+    }
+  ],
+  "edges": [
+    {
+      "source": "admin_atualizar_perfil(p_user_id uuid, p_nome text, p_role text, p_tipo_acesso text, p_status text, p_user_agent text)",
+      "target": "public.admin_registrar_log",
+      "type": "FUNCTION_CALL"
+    },
+    {
+      "source": "admin_atualizar_perfil(p_user_id uuid, p_nome text, p_role text, p_tipo_acesso text, p_status text, p_user_agent text)",
+      "target": "public.admin_validar_acesso",
+      "type": "FUNCTION_CALL"
+    },
+    {
+      "source": "admin_bloquear_usuario(p_user_id uuid, p_user_agent text)",
+      "target": "public.admin_registrar_log",
+      "type": "FUNCTION_CALL"
+    },
+    {
+      "source": "admin_bloquear_usuario(p_user_id uuid, p_user_agent text)",
+      "target": "public.admin_validar_acesso",
+      "type": "FUNCTION_CALL"
+    },
+    {
+      "source": "admin_liberar_assinante(p_user_id uuid, p_plano text, p_data_inicio date, p_data_vencimento date, p_user_agent text)",
+      "target": "public.admin_atualizar_perfil",
+      "type": "FUNCTION_CALL"
+    },
+    {
+      "source": "admin_liberar_assinante(p_user_id uuid, p_plano text, p_data_inicio date, p_data_vencimento date, p_user_agent text)",
+      "target": "public.admin_registrar_log",
+      "type": "FUNCTION_CALL"
+    },
+    {
+      "source": "admin_liberar_assinante(p_user_id uuid, p_plano text, p_data_inicio date, p_data_vencimento date, p_user_agent text)",
+      "target": "public.admin_upsert_assinatura",
+      "type": "FUNCTION_CALL"
+    },
+    {
+      "source": "admin_liberar_assinante(p_user_id uuid, p_plano text, p_data_inicio date, p_data_vencimento date, p_user_agent text)",
+      "target": "public.admin_validar_acesso",
+      "type": "FUNCTION_CALL"
+    },
+    {
+      "source": "admin_liberar_beta(p_user_id uuid, p_user_agent text)",
+      "target": "public.admin_registrar_log",
+      "type": "FUNCTION_CALL"
+    },
+    {
+      "source": "admin_liberar_beta(p_user_id uuid, p_user_agent text)",
+      "target": "public.admin_validar_acesso",
+      "type": "FUNCTION_CALL"
+    },
+    {
+      "source": "admin_listar_logs(p_acao text, p_target_user_id uuid, p_data_inicio date, p_data_fim date, p_busca text)",
+      "target": "public.admin_validar_acesso",
+      "type": "FUNCTION_CALL"
+    },
+    {
+      "source": "admin_listar_usuarios()",
+      "target": "public.admin_validar_acesso",
+      "type": "FUNCTION_CALL"
+    },
+    {
+      "source": "admin_registrar_log(p_target_user_id uuid, p_acao text, p_entidade text, p_entidade_id uuid, p_dados_anteriores jsonb, p_dados_novos jsonb, p_user_agent text)",
+      "target": "public.admin_validar_acesso",
+      "type": "FUNCTION_CALL"
+    },
+    {
+      "source": "admin_upsert_assinatura(p_user_id uuid, p_plano text, p_status text, p_data_inicio date, p_data_vencimento date, p_user_agent text)",
+      "target": "public.admin_registrar_log",
+      "type": "FUNCTION_CALL"
+    },
+    {
+      "source": "admin_upsert_assinatura(p_user_id uuid, p_plano text, p_status text, p_data_inicio date, p_data_vencimento date, p_user_agent text)",
+      "target": "public.admin_validar_acesso",
+      "type": "FUNCTION_CALL"
+    },
+    {
+      "source": "admin_validar_acesso()",
+      "target": "public.admin_eh_admin",
+      "type": "FUNCTION_CALL"
+    },
+    {
+      "source": "aoe_idempotency_get_or_create(p_id text, p_actor_id uuid, p_organization_id uuid, p_operation text, p_idempotency_key text, p_request_fingerprint text)",
+      "target": "public.admin_eh_admin",
+      "type": "FUNCTION_CALL"
+    }
+  ]
+}

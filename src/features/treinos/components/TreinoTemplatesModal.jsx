@@ -1,6 +1,7 @@
 import { ChevronLeft, Dumbbell, Layers3, MoreVertical, Sparkles } from "lucide-react";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { trapModalFocus } from "../../../utils/modalAccessibility";
 import {
   DIVISOES_MODELO_TREINO,
   GENEROS_MODELO_TREINO,
@@ -24,6 +25,7 @@ import {
 } from "../utils/workoutTemplateDiscoveryQueryState";
 import {
   buildWorkoutTemplateApplicationPreview,
+  getOrCreateWorkoutTemplateApplicationIntent,
   mapWorkoutTemplateApplicationError,
   submitWorkoutTemplateApplicationOnce,
 } from "../utils/workoutTemplateApplication";
@@ -70,6 +72,9 @@ function TreinoTemplatesModal({
   const [modeloGerenciando, setModeloGerenciando] = useState(null);
   const [menuAbertoId, setMenuAbertoId] = useState("");
   const submissionRef = useRef({ active: false, result: null });
+  const modalRef = useRef(null);
+  const closeButtonRef = useRef(null);
+  const previouslyFocusedRef = useRef(null);
   const modalTitleId = useId();
   const discoveryState = useMemo(
     () => readTemplateDiscoveryStateFromUrl(searchParams),
@@ -150,6 +155,15 @@ function TreinoTemplatesModal({
   }, [discoveryState.page, paginacao.currentPage, searchParams, setSearchParams]);
 
   useEffect(() => {
+    previouslyFocusedRef.current = document.activeElement;
+    closeButtonRef.current?.focus();
+
+    return () => {
+      previouslyFocusedRef.current?.focus?.();
+    };
+  }, []);
+
+  useEffect(() => {
     function handleKeyDown(event) {
       if (event.key !== "Escape") return;
 
@@ -228,6 +242,14 @@ function TreinoTemplatesModal({
     setApplicationError("");
 
     try {
+      const intent = getOrCreateWorkoutTemplateApplicationIntent(submissionRef.current, {
+        template: modeloSelecionado,
+        student: alunoSelecionado,
+        options: {
+          rotina: rotina.trim() || modeloSelecionado.nome,
+          dataInicio,
+        },
+      });
       const result = await submitWorkoutTemplateApplicationOnce(submissionRef.current, () =>
         onApply({
           template: modeloSelecionado,
@@ -235,6 +257,7 @@ function TreinoTemplatesModal({
           options: {
             rotina: rotina.trim() || modeloSelecionado.nome,
             dataInicio,
+            intent,
           },
         })
       );
@@ -269,11 +292,14 @@ function TreinoTemplatesModal({
     <div className="treino-template-overlay">
       <section
         className="treino-template-modal"
+        ref={modalRef}
         data-testid="treino-template-modal"
         role="dialog"
         aria-modal="true"
         aria-labelledby={modalTitleId}
         aria-busy={isSubmitting}
+        tabIndex={-1}
+        onKeyDown={(event) => trapModalFocus(event, modalRef.current)}
       >
         <header className="treino-template-header">
           <div>
@@ -283,7 +309,7 @@ function TreinoTemplatesModal({
             <h2 id={modalTitleId}>Aplicar modelo ao aluno</h2>
             <p>{avisoModeloEditavel}</p>
           </div>
-          <button type="button" onClick={onClose} className="treino-template-close">
+          <button ref={closeButtonRef} type="button" onClick={onClose} className="treino-template-close">
             Fechar
           </button>
         </header>

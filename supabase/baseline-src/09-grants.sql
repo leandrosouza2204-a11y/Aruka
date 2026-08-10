@@ -36,6 +36,9 @@ revoke all on function public.processar_encerramento_automatico_aluno(uuid, uuid
 revoke all on function public.aoe_user_owns_student(uuid) from public;
 revoke all on function public.aoe_idempotency_get_or_create(text, uuid, uuid, text, text, text) from public;
 revoke all on function public.salvar_treino_composto(jsonb) from public;
+revoke all on function public.vincular_aluno_usuario(uuid, uuid) from public;
+revoke all on function public.desvincular_aluno_usuario(uuid) from public;
+revoke all on function public.get_my_student_workouts() from public;
 revoke all on function public.set_workout_templates_updated_at() from public;
 
 grant execute on function public.admin_eh_admin() to authenticated, service_role;
@@ -52,4 +55,7 @@ grant execute on function public.processar_encerramento_automatico_aluno(uuid, u
 grant execute on function public.aoe_user_owns_student(uuid) to authenticated, service_role;
 grant execute on function public.aoe_idempotency_get_or_create(text, uuid, uuid, text, text, text) to authenticated, service_role;
 grant execute on function public.salvar_treino_composto(jsonb) to authenticated;
+grant execute on function public.vincular_aluno_usuario(uuid, uuid) to authenticated;
+grant execute on function public.desvincular_aluno_usuario(uuid) to authenticated;
+grant execute on function public.get_my_student_workouts() to authenticated;
 grant execute on function public.set_workout_templates_updated_at() to service_role;

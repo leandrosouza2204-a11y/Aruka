@@ -2,9 +2,19 @@ import { createHash } from "node:crypto";
 import { execFileSync, spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
+import {
+  EXECUTABLE_BASELINE_PATH,
+  EXPECTED_EPHEMERAL_MIGRATION_HISTORY,
+  EXPECTED_EXECUTABLE_MIGRATIONS,
+  REFERENCE_BASELINE_PATH,
+  REFERENCE_BASELINE_SHA256,
+  SUPABASE_CLI_VERSION,
+  createEphemeralSupabaseWorkdir,
+} from "./lib/supabase-local-environment.mjs";
 
-export const EXPECTED_BASELINE_SHA = "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B";
-export const BASELINE_PATH = "supabase/migrations/20260716090000_baseline_aruka_v1.sql";
+export const EXPECTED_BASELINE_SHA = REFERENCE_BASELINE_SHA256;
+export const BASELINE_PATH = REFERENCE_BASELINE_PATH;
+export { EXECUTABLE_BASELINE_PATH, EXPECTED_EXECUTABLE_MIGRATIONS, EXPECTED_EPHEMERAL_MIGRATION_HISTORY };
 export const PROTECTED_PROJECT_REF = "xrmqdkpx" + "nfvusmenadnf";
 export const DECISION = "LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED";
 export const REPORT_DIR = "reports/supabase-local-seeds";
@@ -167,6 +177,13 @@ export function validateLocalGuard(root = process.cwd(), args = process.argv.sli
   }
   const baselineSha = sha256CanonicalText(root, BASELINE_PATH);
   if (baselineSha !== EXPECTED_BASELINE_SHA) errors.push("Official baseline SHA mismatch");
+  if (existsSync(join(root, EXECUTABLE_BASELINE_PATH))) errors.push("Reference-only baseline must not be present in executable migrations");
+  const executableMigrations = listFiles(root, "supabase/migrations").filter((file) => file.endsWith(".sql"));
+  const missing = EXPECTED_EXECUTABLE_MIGRATIONS.filter((file) => !executableMigrations.includes(file));
+  const unexpected = executableMigrations.filter((file) => !EXPECTED_EXECUTABLE_MIGRATIONS.includes(file));
+  if (missing.length) errors.push(`Expected executable migration missing: ${missing.join(", ")}`);
+  if (unexpected.length) errors.push(`Unexpected executable migration found: ${unexpected.join(", ")}`);
+  if (executableMigrations.join("\n") !== EXPECTED_EXECUTABLE_MIGRATIONS.join("\n")) errors.push("Executable migration chain mismatch");
   const projectId = getProjectId(root);
   if (projectId === PROTECTED_PROJECT_REF) errors.push("Local project_id matches protected HML project ref");
   return { ok: errors.length === 0, errors, project_id: projectId, baseline_sha: baselineSha };
@@ -219,7 +236,7 @@ export function collectFixtureCounts(root = process.cwd()) {
 
 export function sanitizeText(text) {
   return String(text)
-    .replace(/postgres(?:ql)?:\/\/[^:\s]+:[^@\s]+@/gi, "postgresql://[REDACTED_USER]:[REDACTED_PASSWORD]@")
+    .replace(/postgres(?:ql)?:\/\/[^:\s]+:[^@\s]+@[^\s"',)]+/gi, "postgresql://[REDACTED_USER]:[REDACTED_PASSWORD]@[LOCAL_HOST]:[LOCAL_PORT]/[LOCAL_DATABASE]")
     .replace(/eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{10,}/g, "[REDACTED_JWT]")
     .replace(/sb_secret_[A-Za-z0-9_-]+/gi, "[REDACTED_SECRET]")
     .replaceAll(process.cwd().replaceAll("\\", "/"), "[WORKSPACE]")
@@ -285,7 +302,35 @@ export function stableSnapshot(root = process.cwd()) {
 }
 
 export function runSupabaseDbReset(root = process.cwd()) {
-  return runCommand(root, process.platform === "win32" ? "npx.cmd" : "npx", ["-y", "supabase@2.109.1", "db", "reset"], { timeoutMs: 240000 });
+  const workdir = createEphemeralSupabaseWorkdir(root, "safe-reset");
+  try {
+    return runCommand(root, process.platform === "win32" ? "npx.cmd" : "npx", [
+      "-y",
+      `supabase@${SUPABASE_CLI_VERSION}`,
+      "--workdir",
+      workdir.root,
+      "db",
+      "reset",
+      "--no-seed",
+    ], { timeoutMs: 240000 });
+  } finally {
+    workdir.cleanup();
+  }
+}
+
+export function runSupabaseStart(root = process.cwd()) {
+  const workdir = createEphemeralSupabaseWorkdir(root, "safe-start");
+  try {
+    return runCommand(root, process.platform === "win32" ? "npx.cmd" : "npx", [
+      "-y",
+      `supabase@${SUPABASE_CLI_VERSION}`,
+      "--workdir",
+      workdir.root,
+      "start",
+    ], { timeoutMs: 240000 });
+  } finally {
+    workdir.cleanup();
+  }
 }
 
 export function stringifyStable(value) {

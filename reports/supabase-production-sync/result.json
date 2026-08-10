@@ -1,0 +1,673 @@
+{
+  "decision": "BLOCKED_REMOTE_SCHEMA_DRIFT",
+  "phase3_function_reconciliation": {
+    "decision": "READY_FOR_PHASE3_FUNCTION_SCOPE_REVIEW",
+    "migration_decision": "NO_NEW_MIGRATION",
+    "supabase_change": "NO",
+    "functions_reviewed": 14,
+    "included_in_phase3_migration": 0,
+    "deferred_or_blocked": 14,
+    "remote_link_state": "UNLINKED_FOR_SAFETY",
+    "final_projects_list_check": {
+      "executed": true,
+      "aruka_linked": false,
+      "aruka_status": "ACTIVE_HEALTHY",
+      "aruka_hml_linked": false,
+      "aruka_hml_status": "ACTIVE_HEALTHY",
+      "cli_message": "Cannot find project ref. Have you run supabase link?"
+    },
+    "artifacts": [
+      "reports/supabase-production-sync/phase3-function-inventory.json",
+      "reports/supabase-production-sync/phase3-function-inventory.csv",
+      "reports/supabase-production-sync/phase3-function-dependency-graph.json",
+      "reports/supabase-production-sync/function-reconciliation-scope.json",
+      "reports/supabase-production-sync/function-reconciliation-scope.md",
+      "reports/supabase-production-sync/function-phase3-scope.csv",
+      "reports/supabase-production-sync/function-reconciliation-result.json",
+      "reports/supabase-production-sync/function-reconciliation-summary.md",
+      "docs/supabase-production-sync/11-function-reconciliation-audit.md"
+    ]
+  },
+  "phase31_function_scope_review": {
+    "decision": "READY_FOR_PHASE31_EVIDENCE_COLLECTION",
+    "supabase_change": "NO_NEW_MIGRATION",
+    "production_action_required": "READONLY_EVIDENCE_COLLECTION_REQUIRED",
+    "reviewed_decision_rows": 15,
+    "migration_candidates": [
+      "set_workout_templates_updated_at"
+    ],
+    "confirmed_security_issue": "AOE_ANON_EXECUTE_EXCESS_CONFIRMED",
+    "read_only_sql": "reports/supabase-production-sync/phase31-function-definitions-readonly.sql",
+    "artifacts": [
+      "reports/supabase-production-sync/phase31-function-decision-matrix.csv",
+      "reports/supabase-production-sync/function-scope-review-result.json",
+      "reports/supabase-production-sync/function-scope-review-summary.md",
+      "reports/supabase-production-sync/phase31-function-definitions-readonly.sql",
+      "docs/supabase-production-sync/12-function-scope-manual-review.md"
+    ]
+  },
+  "phase32_function_evidence_review": {
+    "decision": "READY_FOR_PHASE32_SECURITY_MIGRATION",
+    "supabase_change": "YES",
+    "production_action_required": "PENDING_RECONCILIATION_COMPLETION",
+    "migration": "supabase/migrations/20260801173000_revoke_aoe_idempotency_anon_execute.sql",
+    "sql_record": "docs/supabase-production-sync/14-function-security-reconciliation-implementation.md",
+    "raw_csv_staged": false,
+    "final_projects_list_check": {
+      "executed": true,
+      "aruka_linked": false,
+      "aruka_status": "ACTIVE_HEALTHY",
+      "aruka_hml_linked": false,
+      "aruka_hml_status": "ACTIVE_HEALTHY",
+      "cli_message": "Cannot find project ref. Have you run supabase link?"
+    },
+    "group_a": "GROUP_A_EVIDENCE_INSUFFICIENT",
+    "group_e": "READY_FOR_AOE_EXECUTE_SECURITY_MIGRATION",
+    "admin_overloads": "EXTERNAL_CONSUMER_REVIEW_REQUIRED",
+    "admin_bodies": "MANUAL_PRODUCT_DECISION_REQUIRED",
+    "financial": "FINANCIAL_OWNER_REVIEW_REQUIRED",
+    "student_identity": "DEFER_TO_STUDENT_IDENTITY_DEPLOYMENT"
+  },
+  "phase33_group_a_evidence_collection": {
+    "decision": "READY_FOR_PHASE33_EVIDENCE_COLLECTION",
+    "supabase_change": "NO",
+    "production_action_required": "READONLY_EVIDENCE_COLLECTION_REQUIRED",
+    "remote_link_state": "UNLINKED_FOR_SAFETY",
+    "group_a": "EVIDENCE_REQUIRED",
+    "migration_created": "NO",
+    "target": "public.set_workout_templates_updated_at()",
+    "readonly_sql": "reports/supabase-production-sync/phase33-group-a-readonly-inspection.sql",
+    "expected_export_directory": "reports/supabase-production-sync/remote-phase33-input/",
+    "artifacts": [
+      "reports/supabase-production-sync/phase33-group-a-readonly-inspection.sql",
+      "reports/supabase-production-sync/phase33-group-a-evidence-request.json",
+      "reports/supabase-production-sync/phase33-group-a-evidence-request.md",
+      "reports/supabase-production-sync/phase33-group-a-local-analysis.json",
+      "reports/supabase-production-sync/phase33-group-a-local-analysis.md",
+      "reports/supabase-production-sync/phase33-group-a-local-trigger-map.json",
+      "reports/supabase-production-sync/phase33-group-a-local-trigger-map.md",
+      "docs/supabase-production-sync/15-group-a-function-evidence-collection.md"
+    ],
+    "final_projects_list_check": {
+      "executed": true,
+      "aruka_linked": false,
+      "aruka_status": "ACTIVE_HEALTHY",
+      "aruka_hml_linked": false,
+      "aruka_hml_status": "ACTIVE_HEALTHY",
+      "cli_message": "Cannot find project ref. Have you run supabase link?"
+    }
+  },
+  "phase34_group_a_security_migration": {
+    "decision": "READY_FOR_PHASE34_GROUP_A_COMMIT",
+    "supabase_change": "YES",
+    "production_action_required": "PENDING_RECONCILIATION_COMPLETION",
+    "remote_link_state": "UNLINKED_FOR_SAFETY",
+    "group_a": "SECURITY_HARDENING_CONFIRMED",
+    "target": "public.set_workout_templates_updated_at()",
+    "migration": "supabase/migrations/20260801180000_harden_workout_templates_updated_at.sql",
+    "body_comparison": "BODY_EQUIVALENT_NORMALIZED",
+    "trigger_comparison": "TRIGGER_EQUIVALENT",
+    "remote_search_path": "REMOTE_SEARCH_PATH_NOT_EXPLICITLY_SET",
+    "local_search_path": "public",
+    "body_replacement_required": "NO",
+    "trigger_change_required": "NO",
+    "application_execute_required": "NO",
+    "grant_decisions": {
+      "PUBLIC": "EXCESS_REVOKE_REQUIRED",
+      "anon": "EXCESS_REVOKE_REQUIRED",
+      "authenticated": "EXCESS_REVOKE_REQUIRED",
+      "postgres": "KEEP",
+      "service_role": "KEEP"
+    },
+    "artifacts": [
+      "supabase/migrations/20260801180000_harden_workout_templates_updated_at.sql",
+      "reports/supabase-production-sync/phase34-group-a-evidence-result.json",
+      "reports/supabase-production-sync/phase34-group-a-evidence-summary.md",
+      "reports/supabase-production-sync/phase34-group-a-security-result.json",
+      "reports/supabase-production-sync/phase34-group-a-security-summary.md",
+      "docs/supabase-production-sync/16-group-a-security-reconciliation-implementation.md",
+      "docs/supabase-production-sync/17-group-a-security-reconciliation-validation.md"
+    ],
+    "final_projects_list_check": {
+      "executed": true,
+      "aruka_linked": false,
+      "aruka_status": "ACTIVE_HEALTHY",
+      "aruka_hml_linked": false,
+      "aruka_hml_status": "ACTIVE_HEALTHY",
+      "cli_message": "Cannot find project ref. Have you run supabase link?"
+    }
+  },
+  "post_phase34_global_audit": {
+    "decision": "READY_FOR_POST_PHASE34_GLOBAL_AUDIT_COMMIT",
+    "audit_type": "POST_PHASE34_GLOBAL_RECONCILIATION_AUDIT",
+    "supabase_change": "NO",
+    "production_action_required": "NO",
+    "migration_repair_allowed": "NO",
+    "remote_link_state": "UNLINKED_FOR_SAFETY",
+    "local_reconciliation_state": "PARTIALLY_RECONCILED",
+    "remote_reconciliation_state": "NOT_APPLIED",
+    "history_alignment_state": "PENDING",
+    "next_safe_group": "SECURITY_HARDENING",
+    "phase_1": "LOCAL_RECONCILIATION_IMPLEMENTED_REMOTE_PENDING",
+    "phase_2": "LOCAL_RECONCILIATION_IMPLEMENTED_REMOTE_PENDING",
+    "phase_3_group_e": "LOCAL_RECONCILIATION_IMPLEMENTED_REMOTE_PENDING",
+    "phase_3_group_a": "LOCAL_RECONCILIATION_IMPLEMENTED_REMOTE_PENDING",
+    "artifacts": [
+      "docs/supabase-production-sync/18-post-phase34-global-reconciliation-audit.md",
+      "reports/supabase-production-sync/post-phase34-global-result.json",
+      "reports/supabase-production-sync/post-phase34-global-summary.md",
+      "reports/supabase-production-sync/post-phase34-reconciliation-state.json",
+      "reports/supabase-production-sync/post-phase34-reconciliation-state.md",
+      "reports/supabase-production-sync/post-phase34-reconciliation-matrix.csv",
+      "reports/supabase-production-sync/post-phase34-resolved-active-matrix.csv"
+    ]
+  },
+  "final_active_security_drift_reconciliation": {
+    "decision": "READY_FOR_FINAL_SECURITY_RECLASSIFICATION_COMMIT",
+    "supabase_change": "NO",
+    "production_action_required": "NO",
+    "migration_repair_allowed": "NO",
+    "initial_security_drift_count": 1,
+    "final_local_security_drift_count": 0,
+    "remote_pending_security_count": 1,
+    "existing_migration_reused": true,
+    "existing_migration": "supabase/migrations/20260731190000_reconcile_security_policies_and_grants.sql",
+    "migration_created": false,
+    "duplicate_migration_prevented": true,
+    "functional_decision_needed": false,
+    "next_safe_group": "WORKOUT_DELIVERY_RECONCILIATION",
+    "artifacts": [
+      "docs/supabase-production-sync/19-final-security-drift-resolution.md",
+      "reports/supabase-production-sync/final-security-drift-scope.json",
+      "reports/supabase-production-sync/final-security-drift-result.json",
+      "reports/supabase-production-sync/final-security-drift-summary.md"
+    ]
+  },
+  "workout_delivery_final_reconciliation": {
+    "decision": "READY_FOR_WORKOUT_DELIVERY_RECLASSIFICATION_COMMIT",
+    "supabase_change": "NO",
+    "production_action_required": "NO",
+    "migration_repair_allowed": "NO",
+    "workout_delivery_local_state": "LOCAL_COMPLETE_BY_EXISTING_MIGRATION",
+    "remote_workout_delivery_pending": 50,
+    "initial_local_workout_delivery_drift": 1,
+    "final_local_workout_delivery_drift": 0,
+    "resolved_by_existing_migration": 45,
+    "resolved_by_phase1": 5,
+    "false_positives": 3,
+    "student_identity_dependencies": 1,
+    "new_migration_required": false,
+    "migration_created": false,
+    "existing_migration_coverage": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql",
+    "next_safe_group": "STUDENT_IDENTITY_DEPLOYMENT_DESIGN",
+    "artifacts": [
+      "docs/supabase-production-sync/20-workout-delivery-final-reconciliation.md",
+      "reports/supabase-production-sync/workout-delivery-object-inventory.json",
+      "reports/supabase-production-sync/workout-delivery-object-inventory.md",
+      "reports/supabase-production-sync/workout-delivery-final-reconciliation-matrix.csv",
+      "reports/supabase-production-sync/workout-delivery-final-scope.json",
+      "reports/supabase-production-sync/workout-delivery-final-scope.md",
+      "reports/supabase-production-sync/workout-delivery-final-result.json",
+      "reports/supabase-production-sync/workout-delivery-final-summary.md"
+    ]
+  },
+  "student_identity_deployment_design": {
+    "decision": "READY_FOR_STUDENT_IDENTITY_DEPLOYMENT_DESIGN_COMMIT",
+    "supabase_change": "NO",
+    "production_action_required": "NO",
+    "migration_repair_allowed": "NO",
+    "student_identity_local_state": "LOCAL_COMPLETE_BY_EXISTING_MIGRATION",
+    "remote_student_identity_pending": 13,
+    "initial_local_student_identity_drift": 1,
+    "final_local_student_identity_drift": 0,
+    "objects_reviewed": 13,
+    "new_migration_required": false,
+    "migration_created": false,
+    "migration_order_valid": true,
+    "existing_migration_coverage": "supabase/migrations/20260730090000_student_identity_contract.sql",
+    "deployment_package_ready": true,
+    "next_safe_group": "PRODUCTION_RECONCILIATION_PACKAGE_DESIGN",
+    "artifacts": [
+      "docs/supabase-production-sync/21-student-identity-deployment-design.md",
+      "reports/supabase-production-sync/student-identity-object-inventory.json",
+      "reports/supabase-production-sync/student-identity-object-inventory.md",
+      "reports/supabase-production-sync/student-identity-final-reconciliation-matrix.csv",
+      "reports/supabase-production-sync/student-identity-final-scope.json",
+      "reports/supabase-production-sync/student-identity-final-scope.md",
+      "reports/supabase-production-sync/student-identity-deployment-design-result.json",
+      "reports/supabase-production-sync/student-identity-deployment-design-summary.md"
+    ]
+  },
+  "production_reconciliation_package_design": {
+    "decision": "READY_FOR_PRODUCTION_RECONCILIATION_PACKAGE_REVIEW",
+    "supabase_change": "NO",
+    "production_execution_authorized": "NO",
+    "production_action_required": "NO",
+    "db_push_allowed_now": "NO",
+    "history_alignment_required": "YES",
+    "history_alignment_allowed_now": "NO",
+    "baseline_strategy": "BASELINE_REFERENCE_ONLY",
+    "cutover_sequence_ready": true,
+    "prechecks_ready": true,
+    "postchecks_ready": true,
+    "recovery_plan_ready": true,
+    "next_safe_group": "PRODUCTION_RECONCILIATION_CUTOVER_REVIEW",
+    "artifacts": [
+      "docs/supabase-production-sync/22-production-reconciliation-package-design.md",
+      "reports/supabase-production-sync/production-package-migration-inventory.json",
+      "reports/supabase-production-sync/production-package-migration-inventory.md",
+      "reports/supabase-production-sync/production-package-dependency-graph.json",
+      "reports/supabase-production-sync/production-cutover-sequence.json",
+      "reports/supabase-production-sync/production-cutover-sequence.md",
+      "reports/supabase-production-sync/production-cutover-prechecks.sql",
+      "reports/supabase-production-sync/production-cutover-postchecks.sql",
+      "reports/supabase-production-sync/production-cutover-recovery-plan.md",
+      "reports/supabase-production-sync/production-reconciliation-package-matrix.csv",
+      "reports/supabase-production-sync/production-reconciliation-package-result.json",
+      "reports/supabase-production-sync/production-reconciliation-package-summary.md"
+    ]
+  },
+  "production_migration_history_alignment_apply": {
+    "decision": "PRODUCTION_MIGRATION_HISTORY_ALIGNMENT_APPLIED_AND_VALIDATED",
+    "history_alignment_authorized": true,
+    "history_alignment_executed": true,
+    "history_alignment_validated": true,
+    "history_alignment_versions": 6,
+    "baseline_history_present": false,
+    "unexpected_history_entries": 0,
+    "persistent_link_created": false,
+    "recovery_executed": false,
+    "db_push_allowed": false,
+    "artifacts": [
+      "docs/supabase-production-sync/43-production-migration-history-alignment-apply.md",
+      "reports/supabase-production-sync/migration-history-alignment-apply-result.json",
+      "reports/supabase-production-sync/migration-history-alignment-apply-summary.md",
+      "reports/supabase-production-sync/migration-history-alignment-final-matrix.csv"
+    ]
+  },
+  "additional_blockers": [
+    "BLOCKED_LOCAL_STORAGE_BOOTSTRAP",
+    "REMOTE_DIFF_INCONCLUSIVE",
+    "HML_LINK_NOT_RESTORED"
+  ],
+  "branch": "feat/workout-delivery-integration-v1",
+  "commit": "71297a3 docs: registra bloqueio de identidade do aluno",
+  "audit_round_supabase_change": "NO",
+  "staged_release_supabase_change": "YES",
+  "staged_release_migrations": [
+    "supabase/migrations/20260730090000_student_identity_contract.sql"
+  ],
+  "production_action_required": "RECONCILIATION_REQUIRED",
+  "production_project": {
+    "confirmed": true,
+    "name": "aruka",
+    "ref_masked": "vriz...vdik",
+    "status_confirmed_from_dashboard": "Healthy",
+    "status_from_cli": "ACTIVE_HEALTHY"
+  },
+  "original_linked_project": {
+    "name": "Aruka_HML",
+    "ref_masked": "xrmq...adnf",
+    "status_from_cli": "ACTIVE_HEALTHY",
+    "linked": false
+  },
+  "temporary_linked_project": {
+    "name": "aruka",
+    "ref_masked": "vriz...vdik",
+    "linked_confirmed": true
+  },
+  "current_linked_project": {
+    "name": "aruka",
+    "ref_masked": "vriz...vdik",
+    "environment": "production",
+    "risk": "HIGH",
+    "state_before_neutralization": "LINKED"
+  },
+  "hml_status": "ACTIVE_HEALTHY_UNLINKED",
+  "hml_restore_attempt": {
+    "executed_previous_round": true,
+    "result": "FAILED",
+    "error": "project is paused",
+    "executed_this_round": false,
+    "reason": "projects list showed Aruka_HML still INACTIVE"
+  },
+  "final_linked_project": {
+    "name": null,
+    "state": "UNLINKED_FOR_SAFETY",
+    "restore_to_hml_succeeded": false,
+    "production_link_cleared": true
+  },
+  "production_link_risk": "NEUTRALIZED",
+  "cli": {
+    "supabase_version": "2.110.0",
+    "docker_client": "29.6.2",
+    "docker_server": "29.6.2",
+    "docker_context": "desktop-linux"
+  },
+  "local_storage": {
+    "container": "supabase_storage_ConsultoriaFitness",
+    "initial_problem": "db reset and start observed Storage readiness timeout/unhealthy before later healthcheck recovery",
+    "healthcheck_after_wait": "healthy",
+    "healthcheck_output": "remote file exists",
+    "logs_relevant": [
+      "Storage internal vector_store migrations ran",
+      "Storage server later listened on 127.0.0.1:5000",
+      "CLI db reset still timed out before accepting the later healthy state"
+    ],
+    "resource_summary": {
+      "docker_memory_limit": "3.749GiB",
+      "storage_memory_observed": "136.5MiB",
+      "docker_images_size": "12.81GB",
+      "docker_volumes_size": "167.7MB"
+    }
+  },
+  "local_db_reset": {
+    "executed": true,
+    "result": "FAILED_AT_STORAGE_BOOTSTRAP",
+    "classification": "BLOCKED_LOCAL_STORAGE_BOOTSTRAP",
+    "sql_migrations_applied_before_failure": [
+      "20260716090000_baseline_aruka_v1.sql",
+      "20260728030000_workout_delivery_integration_v1.sql",
+      "20260730090000_student_identity_contract.sql"
+    ],
+    "seed_applied_before_failure": true,
+    "sql_error_detected": false,
+    "primary_error": "supabase_storage_ConsultoriaFitness container is not ready: unhealthy"
+  },
+  "local_migration_list": {
+    "executed": true,
+    "result": "PASS",
+    "migrations": [
+      {
+        "local": "20260716090000",
+        "remote_column_from_local_cli": "20260716090000",
+        "time": "2026-07-16 09:00:00"
+      },
+      {
+        "local": "20260728030000",
+        "remote_column_from_local_cli": "20260728030000",
+        "time": "2026-07-28 03:00:00"
+      },
+      {
+        "local": "20260730090000",
+        "remote_column_from_local_cli": "20260730090000",
+        "time": "2026-07-30 09:00:00"
+      }
+    ]
+  },
+  "local_schema_diff": {
+    "executed": true,
+    "command": "npx.cmd supabase db diff --local --schema public",
+    "result": "NO_LOCAL_SCHEMA_DRIFT",
+    "diff": ""
+  },
+  "local_schema_inspection": {
+    "student_user_id": {
+      "type": "uuid",
+      "nullable": true,
+      "foreign_key_delete_rule": "SET NULL",
+      "unique_partial_index": "alunos_student_user_id_uidx",
+      "lookup_index": "alunos_student_user_id_idx"
+    },
+    "role_student_allowed": true,
+    "functions_security_definer_search_path_public": [
+      "vincular_aluno_usuario",
+      "desvincular_aluno_usuario",
+      "get_my_student_workouts"
+    ],
+    "authenticated_execute_grants": [
+      "vincular_aluno_usuario",
+      "desvincular_aluno_usuario",
+      "get_my_student_workouts"
+    ]
+  },
+  "tests": {
+    "qa:student-identity-contract": "PASS",
+    "qa:student-workout-rls": "PASS",
+    "qa:student-workout-data-minimization": "PASS",
+    "qa:student-account-linking": "PASS",
+    "qa:student-identity-runtime": "PASS",
+    "qa:supabase-baseline-src": "PASS",
+    "supabase:preflight": "PASS",
+    "workout_delivery_qas": "PASS",
+    "unit_treinos": "PASS 82/82",
+    "lint": "PASS",
+    "build": "PASS"
+  },
+  "remote_migration_list": {
+    "executed": true,
+    "linked_project": "aruka",
+    "result": "REMOTE_MIGRATIONS_PENDING_BY_HISTORY",
+    "rows": [
+      {
+        "local": "20260716090000",
+        "remote": "",
+        "time": "2026-07-16 09:00:00",
+        "classification": "LOCAL_ONLY_PENDING_REMOTE_BY_HISTORY"
+      },
+      {
+        "local": "20260728030000",
+        "remote": "",
+        "time": "2026-07-28 03:00:00",
+        "classification": "LOCAL_ONLY_PENDING_REMOTE_BY_HISTORY"
+      },
+      {
+        "local": "20260730090000",
+        "remote": "",
+        "time": "2026-07-30 09:00:00",
+        "classification": "LOCAL_ONLY_PENDING_REMOTE_BY_HISTORY"
+      }
+    ]
+  },
+  "remote_db_push_dry_run": {
+    "executed": true,
+    "linked_project": "aruka",
+    "result": "REMOTE_MIGRATIONS_PENDING_BY_DRY_RUN",
+    "migrations": [
+      "20260716090000_baseline_aruka_v1.sql",
+      "20260728030000_workout_delivery_integration_v1.sql",
+      "20260730090000_student_identity_contract.sql"
+    ],
+    "errors": []
+  },
+  "remote_schema_diff": {
+    "executed": true,
+    "linked_project": "aruka",
+    "result": "REMOTE_DIFF_SECRET_FORMAT_ERROR",
+    "error": "pg-delta failed with unsupported or invalid secret format while diffing schema public in the previous production-linked audit",
+    "repeated_this_round": false,
+    "reason": "Production link was neutralized first because HML remained paused; no further remote DB commands were executed while unlinked."
+  },
+  "remote_schema_readonly_inspection": {
+    "created": true,
+    "path": "reports/supabase-production-sync/remote-schema-readonly-inspection.sql",
+    "contains_only_selects": true,
+    "manual_execution_required": false,
+    "manual_csv_evidence_received": true,
+    "target": "aruka (vriz...vdik)"
+  },
+  "schema_equivalence_audit": {
+    "executed": true,
+    "command": "npm.cmd run qa:supabase-schema-equivalence",
+    "result": "BLOCKED_REMOTE_SCHEMA_DRIFT",
+    "production_action_required": "RECONCILIATION_REQUIRED",
+    "migration_repair_assessment": "REPAIR_NOT_SAFE",
+    "input_csv_files": 9,
+    "raw_csvs_staged": false,
+    "linked_state": "UNLINKED_FOR_SAFETY",
+    "auditor_decision": "AUDITOR_FALSE_POSITIVES_CORRECTED",
+    "critical_differences": 242,
+    "local_only_objects": 20,
+    "remote_only_objects": 100,
+    "partially_verified_objects": 43,
+    "equivalent_objects_total": 926,
+    "normalization_impact": {
+      "critical": {
+        "before": 480,
+        "after": 242
+      },
+      "defaults_different": {
+        "before": 169,
+        "after": 0
+      },
+      "constraints_different": {
+        "before": 70,
+        "after": 5
+      },
+      "policies_different": {
+        "before": 51,
+        "after": 48
+      },
+      "functions_different": {
+        "before": 17,
+        "after": 6
+      },
+      "equivalent": {
+        "before": 737,
+        "after": 926
+      }
+    },
+    "migration_coverage": {
+      "baseline": "divergent",
+      "workout_delivery": "divergent",
+      "student_identity": "absent"
+    },
+    "artifacts": [
+      "reports/supabase-production-sync/schema-equivalence-result.json",
+      "reports/supabase-production-sync/schema-equivalence-matrix.csv",
+      "reports/supabase-production-sync/schema-equivalence-summary.md",
+      "docs/supabase-production-sync/02-schema-equivalence-audit.md",
+      "reports/supabase-production-sync/local-schema-catalog/*.json"
+    ]
+  },
+  "pending_migrations_remote": {
+    "status": "UNPROVEN_APPLICABLE",
+    "by_history_and_dry_run": [
+      "20260716090000_baseline_aruka_v1.sql",
+      "20260728030000_workout_delivery_integration_v1.sql",
+      "20260730090000_student_identity_contract.sql"
+    ],
+    "applicable_after_schema_diff": []
+  },
+  "remote_only_migrations": {
+    "status": "NONE_REPORTED_BY_MIGRATION_LIST",
+    "migrations": []
+  },
+  "baseline_conflict": {
+    "status": "REMOTE_BASELINE_DIVERGENT",
+    "reason": "db diff --linked did not complete, but manual read-only catalog CSV evidence was compared locally and proved schema drift."
+  },
+  "commands_not_executed": [
+    "npx.cmd supabase db push",
+    "npx.cmd supabase db pull",
+    "npx.cmd supabase migration repair",
+    "npx.cmd supabase db reset --linked",
+    "npx.cmd supabase db dump",
+    "remote SQL execution"
+  ],
+  "remote_changes_executed": false,
+  "pending_migrations_review_sql_created": false,
+  "recommended_manual_steps": [
+    "Repository is now safely unlinked; keep it unlinked until Aruka_HML is active again or a deliberate temporary production audit is approved.",
+    "Review reports/supabase-production-sync/schema-equivalence-matrix.csv object by object.",
+    "Create a reconciliation plan before considering any production migration action.",
+    "Do not run db push, db pull, db dump, db reset --linked, or migration repair while production applicability is unknown.",
+    "Do not run migration repair based only on empty migration history."
+  ],
+  "reports": [
+    "docs/supabase-production-sync/01-local-remote-migration-audit.md",
+    "reports/supabase-production-sync/summary.md",
+    "reports/supabase-production-sync/result.json",
+    "reports/supabase-production-sync/remote-schema-readonly-inspection.sql",
+    "reports/supabase-production-sync/schema-equivalence-result.json",
+    "reports/supabase-production-sync/schema-equivalence-matrix.csv",
+    "reports/supabase-production-sync/schema-equivalence-summary.md",
+    "docs/supabase-production-sync/02-schema-equivalence-audit.md",
+    "docs/supabase-production-sync/03-reconciliation-plan.md",
+    "reports/supabase-production-sync/schema-critical-review.csv",
+    "reports/supabase-production-sync/policy-security-review.json",
+    "reports/supabase-production-sync/table-grant-review.json",
+    "reports/supabase-production-sync/function-difference-review.json",
+    "reports/supabase-production-sync/workout-delivery-reconciliation.json",
+    "reports/supabase-production-sync/student-identity-production-gap.json",
+    "reports/supabase-production-sync/reconciliation-readonly-inspection.sql"
+  ],
+  "manual_reconciliation_review": {
+    "specific_decision": "BLOCKED_SECURITY_POLICY_DRIFT",
+    "global_decision": "BLOCKED_REMOTE_SCHEMA_DRIFT",
+    "repair": "REPAIR_NOT_SAFE",
+    "production_action": "RECONCILIATION_REQUIRED",
+    "recommended_strategy": "STRATEGY_MORE_EVIDENCE_REQUIRED",
+    "p0": 146,
+    "p1": 23,
+    "p2": 7,
+    "p3": 56,
+    "policies_reviewed": 56,
+    "remote_more_permissive_confirmed": 48,
+    "remote_only_table_grants": 80,
+    "function_differences_reviewed": 14,
+    "workout_delivery": "divergent",
+    "student_identity": "absent",
+    "nullability_profile_required": 10
+  },
+  "reconciliation_evidence_review": {
+    "decision": "READY_FOR_RECONCILIATION_DESIGN",
+    "globalDecision": "BLOCKED_REMOTE_SCHEMA_DRIFT",
+    "productionAction": "RECONCILIATION_DESIGN_REQUIRED",
+    "evidenceCompleteness": {
+      "overall": "RECONCILIATION_EVIDENCE_COMPLETE",
+      "functionGrants": "COMPLETE_BY_SIGNATURE_FOR_RECEIVED_GRID",
+      "functionConfiguration": "RECONCILIATION_INSPECTION_PARTIAL",
+      "reconciliationCsv": "RECONCILIATION_INSPECTION_PARTIAL",
+      "nullability": "REMOTE_NULLABILITY_PROFILE_COMPLETE",
+      "policies": "POLICY_EVIDENCE_FROM_PRIOR_SCHEMA_CSV_STILL_VALID",
+      "constraints": "CONSTRAINT_EVIDENCE_SUFFICIENT_FOR_DESIGN_INPUT_BUT_DATA_PROFILE_REQUIRED"
+    },
+    "recommendedStrategy": "INCREMENTAL_RECONCILIATION_THEN_NEW_BASELINE",
+    "remainingEvidenceRequired": []
+  },
+  "security_reconciliation_phase_1": {
+    "decision": "READY_WITH_LOCAL_STORAGE_LIMITATION",
+    "migration": "supabase/migrations/20260731190000_reconcile_security_policies_and_grants.sql",
+    "supabase_change": true,
+    "production_action_required": false,
+    "baseline_src_changed": false,
+    "data_affected": false,
+    "financial_impact": "POLICY_AND_GRANT_ONLY_NO_DATA_OR_STRUCTURE_CHANGE"
+  },
+  "constraint_nullability_phase_2": {
+    "decision": "READY_FOR_PHASE2_COMMIT",
+    "supabase_change": "YES",
+    "production_action_required": false,
+    "remote_link_state": "UNLINKED_FOR_SAFETY",
+    "manual_product_decision": "APPROVED",
+    "migration": "supabase/migrations/20260801143335_reconcile_alunos_required_fields.sql",
+    "remote_nullability_profile": "COMPLETE_10_OF_10_COLUMNS_26_ROWS_0_NULLS",
+    "included_nullability": [
+      "public.alunos.created_at",
+      "public.alunos.user_id",
+      "public.alunos.whatsapp"
+    ],
+    "preserve_nullable": [
+      "public.alunos.acompanhamento_motivo",
+      "public.alunos.observacoes"
+    ],
+    "preserved_by_product_decision": [
+      "public.alunos.inicio",
+      "public.alunos.pagamento_recebido",
+      "public.alunos.plano",
+      "public.alunos.status",
+      "public.alunos.valor"
+    ],
+    "constraints_included": [],
+    "constraints_deferred": [
+      "public.perfis.perfis_role_check",
+      "public.treinos.treinos_lifecycle_dates_check"
+    ],
+    "constraints_false_positive": [
+      "public.treino_eventos.treino_eventos_metadata_object_check",
+      "public.treinos.treinos_template_origin_snapshot_object_check",
+      "public.treinos.treinos_template_origin_type_check"
+    ]
+  }
+}

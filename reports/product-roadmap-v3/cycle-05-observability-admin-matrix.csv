@@ -1,0 +1,5 @@
+area,route,access_control,data_source,context_quality,filters,privacy,error_state,loading,actionability,performance,result,notes
+admin_users,/admin/usuarios,AdminRoute + admin RPC,admin_listar_usuarios,PASS,busca/status,PASS,PASS,PASS,PASS,PASS,PASS,Ações sensíveis agora têm confirmação.
+admin_logs,/admin/logs,AdminRoute + admin RPC,admin_listar_logs,PASS,ação/alvo/período/busca,PASS,PASS,PASS,PASS,PASS,PASS,"E-mail mascarado, user agent resumido e JSON sanitizado."
+admin_navigation,Sidebar/MobileBottomNavigation,profile role/tipo_acesso,buscarPerfilUsuario,PASS,n/a,PASS,PASS,PASS,PASS,PASS,PASS,Menu é conveniência; rota segue protegida por AdminRoute.
+admin_actions,/admin/usuarios,RPC/Edge Function,adminService,PASS,n/a,PASS,PASS,PASS,PASS,PASS,PASS,"Sem backdoor, sem SQL direto e com pending global existente."

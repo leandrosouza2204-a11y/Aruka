@@ -1,0 +1,83 @@
+{
+  "decision": "READY_FOR_PHASE2_COMMIT",
+  "runtimeLimitation": "NONE",
+  "branch": "feat/workout-delivery-integration-v1",
+  "head": "b9c10600bc401ac83149e6f4bcbd560ab8c4d149",
+  "workingTreeInitial": "clean_with_phase2_scope_artifacts_staged",
+  "remoteLinkState": "UNLINKED_FOR_SAFETY",
+  "manualProductDecision": "APPROVED",
+  "manualFinancialContractDecision": "MANUAL_FINANCIAL_CONTRACT_DECISION_COMPLETED",
+  "supabaseChange": "YES",
+  "productionActionRequired": false,
+  "migration": "supabase/migrations/20260801143335_reconcile_alunos_required_fields.sql",
+  "timestamp": "20260801143335",
+  "sql": "begin;\n\nalter table public.alunos\n  alter column created_at set not null,\n  alter column user_id set not null,\n  alter column whatsapp set not null;\n\ncommit;\n",
+  "columnsSetNotNull": [
+    "public.alunos.created_at",
+    "public.alunos.user_id",
+    "public.alunos.whatsapp"
+  ],
+  "columnsPreserved": [
+    "public.alunos.acompanhamento_motivo",
+    "public.alunos.observacoes",
+    "public.alunos.inicio",
+    "public.alunos.pagamento_recebido",
+    "public.alunos.plano",
+    "public.alunos.status",
+    "public.alunos.valor"
+  ],
+  "constraintsChanged": 0,
+  "defaultsChanged": 0,
+  "dataModified": false,
+  "phase1Preserved": true,
+  "localDataProfile": {
+    "created_at": {
+      "nullRows": 0
+    },
+    "user_id": {
+      "nullRows": 0
+    },
+    "whatsapp": {
+      "nullRows": 0
+    }
+  },
+  "localValidation": {
+    "dbReset": "PASS",
+    "migrationList": [
+      "20260716090000",
+      "20260728030000",
+      "20260730090000",
+      "20260731190000",
+      "20260801143335"
+    ],
+    "dbDiff": "NO_SCHEMA_CHANGES_FOUND",
+    "runtime": "PASS",
+    "phase1Regression": "PASS",
+    "studentIdentityRegression": "PASS",
+    "workoutDeliveryRegression": "PASS",
+    "supabaseAudits": "PASS",
+    "unitTreinos": "PASS_82_OF_82",
+    "lint": "PASS",
+    "build": "PASS"
+  },
+  "remoteDataProfile": {
+    "created_at": {
+      "totalRows": 26,
+      "nullRows": 0
+    },
+    "user_id": {
+      "totalRows": 26,
+      "nullRows": 0
+    },
+    "whatsapp": {
+      "totalRows": 26,
+      "nullRows": 0
+    }
+  },
+  "reports": [
+    "reports/supabase-production-sync/nullability-phase2-scope.csv",
+    "reports/supabase-production-sync/constraint-phase2-scope.csv",
+    "reports/supabase-production-sync/constraint-nullability-scope.json",
+    "reports/supabase-production-sync/constraint-nullability-scope.md"
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "migration": "supabase/migrations/20260730090000_student_identity_contract.sql",
+  "object_count": 13,
+  "objects": [
+    {
+      "object_type": "column",
+      "schema": "public",
+      "object_name": "public.alunos.student_user_id",
+      "signature": "",
+      "purpose": "Authenticated student identity link; nullable uuid.",
+      "local_state": "implemented locally",
+      "remote_known_state": "REMOTE_ABSENT",
+      "migration_coverage": "supabase/migrations/20260730090000_student_identity_contract.sql"
+    },
+    {
+      "object_type": "comment",
+      "schema": "public",
+      "object_name": "public.alunos.user_id",
+      "signature": "",
+      "purpose": "Documents user_id as professional owner.",
+      "local_state": "implemented locally",
+      "remote_known_state": "REMOTE_ABSENT",
+      "migration_coverage": "supabase/migrations/20260730090000_student_identity_contract.sql"
+    },
+    {
+      "object_type": "comment",
+      "schema": "public",
+      "object_name": "public.alunos.student_user_id",
+      "signature": "",
+      "purpose": "Documents student_user_id as authenticated student identity.",
+      "local_state": "implemented locally",
+      "remote_known_state": "REMOTE_ABSENT",
+      "migration_coverage": "supabase/migrations/20260730090000_student_identity_contract.sql"
+    },
+    {
+      "object_type": "foreign_key",
+      "schema": "public",
+      "object_name": "public.alunos.alunos_student_user_id_fkey",
+      "signature": "",
+      "purpose": "References auth.users(id) ON DELETE SET NULL.",
+      "local_state": "implemented locally",
+      "remote_known_state": "REMOTE_ABSENT",
+      "migration_coverage": "supabase/migrations/20260730090000_student_identity_contract.sql"
+    },
+    {
+      "object_type": "unique_index",
+      "schema": "public",
+      "object_name": "public.alunos.alunos_student_user_id_uidx",
+      "signature": "",
+      "purpose": "1:1 non-null student account uniqueness.",
+      "local_state": "implemented locally",
+      "remote_known_state": "REMOTE_ABSENT",
+      "migration_coverage": "supabase/migrations/20260730090000_student_identity_contract.sql"
+    },
+    {
+      "object_type": "index",
+      "schema": "public",
+      "object_name": "public.alunos.alunos_student_user_id_idx",
+      "signature": "",
+      "purpose": "Lookup index for auth.uid() resolution.",
+      "local_state": "implemented locally",
+      "remote_known_state": "REMOTE_ABSENT",
+      "migration_coverage": "supabase/migrations/20260730090000_student_identity_contract.sql"
+    },
+    {
+      "object_type": "check",
+      "schema": "public",
+      "object_name": "public.perfis.perfis_role_check",
+      "signature": "",
+      "purpose": "Preserves admin/user and adds student role.",
+      "local_state": "implemented locally",
+      "remote_known_state": "REMOTE_ABSENT",
+      "migration_coverage": "supabase/migrations/20260730090000_student_identity_contract.sql"
+    },
+    {
+      "object_type": "function",
+      "schema": "public",
+      "object_name": "public.vincular_aluno_usuario",
+      "signature": "uuid, uuid",
+      "purpose": "Professional links a student account to owned aluno.",
+      "local_state": "implemented locally",
+      "remote_known_state": "REMOTE_ABSENT",
+      "migration_coverage": "supabase/migrations/20260730090000_student_identity_contract.sql"
+    },
+    {
+      "object_type": "function",
+      "schema": "public",
+      "object_name": "public.desvincular_aluno_usuario",
+      "signature": "uuid",
+      "purpose": "Professional clears student account link for owned aluno.",
+      "local_state": "implemented locally",
+      "remote_known_state": "REMOTE_ABSENT",
+      "migration_coverage": "supabase/migrations/20260730090000_student_identity_contract.sql"
+    },
+    {
+      "object_type": "function",
+      "schema": "public",
+      "object_name": "public.get_my_student_workouts",
+      "signature": "",
+      "purpose": "Student reads minimized active/completed workouts derived from auth.uid().",
+      "local_state": "implemented locally",
+      "remote_known_state": "REMOTE_ABSENT",
+      "migration_coverage": "supabase/migrations/20260730090000_student_identity_contract.sql"
+    },
+    {
+      "object_type": "grant",
+      "schema": "public",
+      "object_name": "public.vincular_aluno_usuario EXECUTE",
+      "signature": "uuid, uuid",
+      "purpose": "EXECUTE to authenticated; public revoked.",
+      "local_state": "implemented locally",
+      "remote_known_state": "REMOTE_ABSENT",
+      "migration_coverage": "supabase/migrations/20260730090000_student_identity_contract.sql"
+    },
+    {
+      "object_type": "grant",
+      "schema": "public",
+      "object_name": "public.desvincular_aluno_usuario EXECUTE",
+      "signature": "uuid",
+      "purpose": "EXECUTE to authenticated; public revoked.",
+      "local_state": "implemented locally",
+      "remote_known_state": "REMOTE_ABSENT",
+      "migration_coverage": "supabase/migrations/20260730090000_student_identity_contract.sql"
+    },
+    {
+      "object_type": "grant",
+      "schema": "public",
+      "object_name": "public.get_my_student_workouts EXECUTE",
+      "signature": "",
+      "purpose": "EXECUTE to authenticated; public revoked.",
+      "local_state": "implemented locally",
+      "remote_known_state": "REMOTE_ABSENT",
+      "migration_coverage": "supabase/migrations/20260730090000_student_identity_contract.sql"
+    }
+  ]
+}

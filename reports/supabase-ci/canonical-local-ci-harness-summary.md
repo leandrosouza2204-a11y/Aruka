@@ -1,0 +1,24 @@
+# Canonical Local CI Harness
+
+- Decision: READY_FOR_DEFINITIVE_CI_HARNESS_COMMIT
+- Root cause: MULTIPLE_LOCAL_SUPABASE_BOOTSTRAP_PATHS_WITH_INCONSISTENT_REFERENCE_BASELINE_HANDLING
+- Fresh DB entrypoints: 5
+- Canonical entrypoints: 6
+- Bypass entrypoints before: 2
+- Bypass entrypoints after: 0
+- Production chain: 6 executable migrations
+- Reference baseline: 1 reference-only baseline, hash preserved
+- Ephemeral bootstrap chain: baseline + 6 incrementals
+- Gate 1/2: PASS
+- Gate 3: PASS
+- Gate 4: PASS
+- Gate 5: PASS
+- Gate 6: PASS
+- Gate 7: PASS
+- Gate 8: PASS
+- Gate 9: PASS
+- Cycle 9.1: PASS_STATIC_NEGATIVE_PREPARE
+- Local CI parity run 1: PASS
+- Local CI parity run 2: PASS
+- Production accessed: NO
+- DB push needed: NO

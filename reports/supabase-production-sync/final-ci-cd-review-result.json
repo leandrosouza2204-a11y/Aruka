@@ -1,0 +1,43 @@
+{
+  "decision": "READY_FOR_SUPABASE_FRONT_CLOSEOUT",
+  "manual_cutover_complete": true,
+  "manual_cutover_steps": 6,
+  "history_alignment_executed": true,
+  "history_alignment_validated": true,
+  "remote_history_count": 6,
+  "authorized_present_count": 6,
+  "baseline_history_present": false,
+  "unexpected_history_count": 0,
+  "executable_migration_count": 6,
+  "reference_baseline_count": 1,
+  "reference_baseline_sha256": "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B",
+  "pending_migration_count": 0,
+  "db_push_dry_run_executed": true,
+  "db_push_dry_run_exit_code": 0,
+  "db_push_needed": false,
+  "db_push_executed": false,
+  "db_push_allowed": false,
+  "production_mutation_executed_in_post_alignment": false,
+  "automatic_production_db_mutation_in_ci": false,
+  "required_validation_check_present": true,
+  "required_checks_expected": ["validation"],
+  "baseline_contract_valid": true,
+  "migration_hashes_preserved": true,
+  "qa_results": {
+    "qa:supabase-migration-history-alignment-apply": "PASS",
+    "qa:supabase-post-alignment-validation": "PASS",
+    "qa:supabase-db-push-dry-run": "PASS",
+    "qa:supabase-final-ci-cd-review": "PASS"
+  },
+  "unit_tests": "NOT_CONFIGURED",
+  "lint": "PASS",
+  "build": "PASS",
+  "ci_cd_classification": "CI_VALIDATES_NO_PRODUCTION_MUTATION",
+  "production_database_front_status": "CLOSED",
+  "residual_risks": [
+    "BACKUP_RESTORE_NOT_REHEARSED_IN_THIS_PHASE",
+    "FUTURE_MIGRATIONS_REQUIRE_SUPERVISED_RELEASE_FLOW",
+    "PRODUCTION_DB_DEPLOY_IS_NOT_AUTOMATED_BY_DESIGN"
+  ],
+  "next_action": "COMMIT_SUPABASE_CLOSEOUT_AND_RETURN_TO_ARUKA_FUNCTIONAL_AUDITS"
+}

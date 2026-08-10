@@ -1,0 +1,377 @@
+{
+  "migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql",
+  "object_count": 53,
+  "objects": [
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "table",
+      "object": "public.treino_eventos",
+      "source": "created by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treinos.lifecycle_status text default 'draft' not null",
+      "source": "altered by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treinos.template_origin_id text",
+      "source": "altered by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treinos.template_origin_type text",
+      "source": "altered by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treinos.template_origin_name text",
+      "source": "altered by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treinos.template_origin_snapshot jsonb",
+      "source": "altered by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treinos.applied_by uuid",
+      "source": "altered by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treinos.applied_at timestamptz",
+      "source": "altered by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treinos.delivered_by uuid",
+      "source": "altered by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treinos.delivered_at timestamptz",
+      "source": "altered by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treinos.completed_at timestamptz",
+      "source": "altered by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treinos.archived_at timestamptz",
+      "source": "altered by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treinos.data_fim date",
+      "source": "altered by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treinos.data_revisao date",
+      "source": "altered by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treinos.application_idempotency_key text",
+      "source": "altered by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treino_eventos.id uuid default gen_random_uuid() not null",
+      "source": "created by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treino_eventos.treino_id uuid not null",
+      "source": "created by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treino_eventos.user_id uuid not null",
+      "source": "created by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treino_eventos.aluno_id uuid not null",
+      "source": "created by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treino_eventos.event_type text not null",
+      "source": "created by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treino_eventos.from_status text",
+      "source": "created by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treino_eventos.to_status text",
+      "source": "created by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treino_eventos.actor_id uuid",
+      "source": "created by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treino_eventos.metadata jsonb default '{}'::jsonb not null",
+      "source": "created by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treino_eventos.occurred_at timestamptz default now() not null",
+      "source": "created by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "column",
+      "object": "public.treino_eventos.created_at timestamptz default now() not null",
+      "source": "created by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "constraint",
+      "object": "public.treinos.treinos_lifecycle_status_check",
+      "source": "created or replaced by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "constraint",
+      "object": "public.treinos.treinos_template_origin_type_check",
+      "source": "created or replaced by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "constraint",
+      "object": "public.treinos.treinos_template_origin_snapshot_object_check",
+      "source": "created or replaced by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "constraint",
+      "object": "public.treinos.treinos_lifecycle_dates_check",
+      "source": "created or replaced by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "constraint",
+      "object": "public.treino_eventos.treino_eventos_pkey",
+      "source": "created or replaced by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "constraint",
+      "object": "public.treino_eventos.treino_eventos_treino_id_fkey",
+      "source": "created or replaced by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "constraint",
+      "object": "public.treino_eventos.treino_eventos_aluno_id_fkey",
+      "source": "created or replaced by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "constraint",
+      "object": "public.treino_eventos.treino_eventos_event_type_check",
+      "source": "created or replaced by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "constraint",
+      "object": "public.treino_eventos.treino_eventos_metadata_object_check",
+      "source": "created or replaced by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "index",
+      "object": "public.treinos.treinos_user_aluno_lifecycle_idx",
+      "source": "created by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "index",
+      "object": "public.treinos.treinos_user_delivered_at_idx",
+      "source": "created by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "index",
+      "object": "public.treinos.treinos_user_template_origin_idx",
+      "source": "created by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "index",
+      "object": "public.treinos.treinos_user_application_idempotency_uidx",
+      "source": "created by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "index",
+      "object": "public.treino_eventos.treino_eventos_user_treino_occurred_idx",
+      "source": "created by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "index",
+      "object": "public.treino_eventos.treino_eventos_user_aluno_occurred_idx",
+      "source": "created by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "index",
+      "object": "public.treino_eventos.treino_eventos_treino_event_type_idx",
+      "source": "created by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "rls",
+      "object": "public.treino_eventos.row_level_security",
+      "source": "enabled by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "policy",
+      "object": "public.treino_eventos.Usuarios podem listar eventos dos seus treinos",
+      "source": "created by workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "grant",
+      "object": "public.treino_eventos anon all revoked",
+      "source": "defined by workout delivery migration and hardened by Phase 1 where applicable",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "grant",
+      "object": "public.treino_eventos authenticated select",
+      "source": "defined by workout delivery migration and hardened by Phase 1 where applicable",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "grant",
+      "object": "public.salvar_treino_composto(jsonb) authenticated execute",
+      "source": "defined by workout delivery migration and hardened by Phase 1 where applicable",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "grant",
+      "object": "public.entregar_treino(uuid) authenticated execute",
+      "source": "defined by workout delivery migration and hardened by Phase 1 where applicable",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "grant",
+      "object": "public.alterar_estado_treino(uuid,text) authenticated execute",
+      "source": "defined by workout delivery migration and hardened by Phase 1 where applicable",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "function",
+      "object": "public.salvar_treino_composto(jsonb)",
+      "source": "security definer with search_path=public in workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "function",
+      "object": "public.entregar_treino(uuid)",
+      "source": "security definer with search_path=public in workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "function",
+      "object": "public.alterar_estado_treino(uuid,text)",
+      "source": "security definer with search_path=public in workout delivery migration",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    },
+    {
+      "domain": "WORKOUT_DELIVERY",
+      "object_type": "trigger",
+      "object": "none",
+      "source": "workout delivery migration does not create triggers",
+      "existing_migration": "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql"
+    }
+  ]
+}

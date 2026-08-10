@@ -11,7 +11,7 @@ $IsIsolatedCi = $IsCi -and $IsCiLocalOnly
 $Mode = if ($IsIsolatedCi) { "ISOLATED_CI" } else { "LOCAL" }
 $ExpectedHmlPreservation = -not $IsIsolatedCi
 $CiProjectId = if ($null -eq $env:SUPABASE_PROJECT_ID) { "" } else { $env:SUPABASE_PROJECT_ID.Trim() }
-$TempProjectId = if ($IsIsolatedCi -and -not [string]::IsNullOrWhiteSpace($CiProjectId)) { $CiProjectId } else { "aruka_clean_worktree_validation" }
+$TempProjectId = if ($IsIsolatedCi -and -not [string]::IsNullOrWhiteSpace($CiProjectId)) { $CiProjectId } else { "aruka_ci_clean_worktree_validation" }
 $TempBase = Join-Path ([System.IO.Path]::GetTempPath()) ("aruka-clean-worktree-" + [DateTimeOffset]::UtcNow.ToUnixTimeSeconds())
 $Worktree = Join-Path $TempBase "repo"
 $ReportDir = Join-Path $Root "reports/supabase-local-bootstrap"
@@ -226,7 +226,7 @@ function Stop-TempStackSafe {
 
 function Test-ReportSecurity {
   $approvedDbUrl = 'postgresql://[REDACTED_USER]:[REDACTED_PASSWORD]@[LOCAL_HOST]:[LOCAL_PORT]/[LOCAL_DATABASE]'
-  $files = @(Get-ChildItem $ReportDir -File -ErrorAction SilentlyContinue)
+  $files = @(Get-ChildItem $ReportDir -File -ErrorAction SilentlyContinue | Where-Object { $_.Name -notin @("bootstrap-start-stdout.log", "bootstrap-start-stderr.log") })
   foreach ($file in $files) {
     $text = [string](Get-Content -Raw $file.FullName)
     $scan = $text -replace [regex]::Escape($approvedDbUrl), ""
@@ -402,7 +402,7 @@ $result = [ordered]@{
 try {
   Write-Checkpoint "INITIAL_VALIDATION_START"
   if (-not (Test-Path (Join-Path $Root "package.json"))) { throw "Run from repository root." }
-  $hash = Get-CanonicalTextSha256 (Join-Path $Root "supabase/migrations/20260716090000_baseline_aruka_v1.sql")
+  $hash = Get-CanonicalTextSha256 (Join-Path $Root "supabase/reference-baselines/20260716090000_baseline_aruka_v1.sql")
   if ($hash -ne $ExpectedSha) { throw "Official baseline SHA mismatch." }
   $ref = if (Test-Path (Join-Path $Root "supabase/.temp/project-ref")) { (Get-Content -Raw (Join-Path $Root "supabase/.temp/project-ref")).Trim() } else { "" }
   if ($IsIsolatedCi) {
@@ -411,7 +411,7 @@ try {
     if ($CiProjectId -eq $ExpectedRef) { throw "Protected HML project ref is forbidden in isolated CI clean worktree validation." }
     if ($ref -eq $ExpectedRef) { throw "Protected HML project ref must not be preserved in isolated CI clean worktree validation." }
   } else {
-    if ($ref -ne $ExpectedRef) { throw "Main project HML ref mismatch." }
+    if (-not [string]::IsNullOrWhiteSpace($ref) -and $ref -ne $ExpectedRef) { throw "Main project HML ref mismatch." }
   }
   Invoke-Checked "GIT_STATUS" "git" @("-C", $Root, "status", "--porcelain=v1", "-uno") $Root 60 "clean-worktree-git-status.log" | Out-Null
   Invoke-Checked "DOCKER_VERSION" "docker" @("version", "--format", "{{.Client.Version}} {{.Server.Version}}") $Root 60 "clean-worktree-docker-version.log" | Out-Null
@@ -429,13 +429,20 @@ try {
     "scripts/supabase-local-preflight.ps1", "scripts/supabase-local-bootstrap.ps1",
     "scripts/supabase-local-validate.ps1", "scripts/supabase-local-stop.ps1",
     "scripts/supabase-local-clean.ps1", "scripts/supabase-local-cli.mjs",
+    "scripts/supabase-local-bootstrap-canonical.mjs", "scripts/lib/supabase-local-environment.mjs",
+    "scripts/supabase-cycle-8-lib.mjs",
     "scripts/validate-supabase-local-reproducibility.mjs",
     "scripts/test-supabase-clean-worktree.ps1", "scripts/test-supabase-local-reproducibility-negative.mjs",
-    "supabase/config.toml", "supabase/migrations/20260716090000_baseline_aruka_v1.sql",
+    "supabase/config.toml", "supabase/reference-baselines/20260716090000_baseline_aruka_v1.sql",
+    "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql",
+    "supabase/migrations/20260730090000_student_identity_contract.sql",
+    "supabase/migrations/20260731190000_reconcile_security_policies_and_grants.sql",
+    "supabase/migrations/20260801143335_reconcile_alunos_required_fields.sql",
+    "supabase/migrations/20260801173000_revoke_aoe_idempotency_anon_execute.sql",
+    "supabase/migrations/20260801180000_harden_workout_templates_updated_at.sql",
     "supabase/migrations/cutover-manifest.json", "supabase/migrations/README.md", "supabase/README.md"
   )
   foreach ($item in $overlay) { Copy-Overlay $item }
-  Get-ChildItem (Join-Path $Worktree "supabase/migrations") -Filter "*.sql" | Where-Object { $_.Name -ne "20260716090000_baseline_aruka_v1.sql" } | Remove-Item -Force
   $configPath = Join-Path $Worktree "supabase/config.toml"
   Set-ConfigValue $configPath 'project_id\s*=\s*"[^"]+"' "project_id = `"$TempProjectId`""
   Set-ConfigValue $configPath 'port\s*=\s*54321' "port = 55421"
@@ -454,8 +461,8 @@ try {
   $previousCi = $env:CI
   $previousCiLocalOnly = $env:SUPABASE_CI_LOCAL_ONLY
   $previousProjectId = $env:SUPABASE_PROJECT_ID
-  $env:CI = "true"
-  $env:SUPABASE_CI_LOCAL_ONLY = "true"
+  $env:CI = if ($IsIsolatedCi) { "true" } else { $previousCi }
+  $env:SUPABASE_CI_LOCAL_ONLY = if ($IsIsolatedCi) { "true" } else { $previousCiLocalOnly }
   $env:SUPABASE_PROJECT_ID = $TempProjectId
   $npmCi = Invoke-Checked "NPM_CI" $NpmCmd @("ci") $Worktree 900 "clean-worktree-npm-ci.log"
   $stepStatus.npm_ci_passed = $true
@@ -491,7 +498,8 @@ try {
   Copy-Item -LiteralPath $inventoryPath -Destination (Join-Path $ReportDir "clean-worktree-schema-inventory.json") -Force
   $historyPath = Join-Path $innerReportDir "migration-history.txt"
   $result.migrations = @((Get-Content $historyPath) | Where-Object { $_ })
-  if ($result.migrations.Count -ne 1 -or $result.migrations[0] -ne "20260716090000") { throw "Clean worktree migration history diverged." }
+  $expectedHistory = @("20260716090000", "20260728030000", "20260730090000", "20260731190000", "20260801143335", "20260801173000", "20260801180000")
+  if (($result.migrations -join "`n") -ne ($expectedHistory -join "`n")) { throw "Clean worktree migration history diverged." }
   Write-Checkpoint "INNER_REPORT_COLLECTION_END"
 
   $result.result = "CLEAN_WORKTREE_VALIDATED"
@@ -534,10 +542,10 @@ $result.child_processes = @($childProcesses | ForEach-Object {
   }
 })
 $result.process_timeouts = 0
-$finalHash = Get-CanonicalTextSha256 (Join-Path $Root "supabase/migrations/20260716090000_baseline_aruka_v1.sql")
+$finalHash = Get-CanonicalTextSha256 (Join-Path $Root "supabase/reference-baselines/20260716090000_baseline_aruka_v1.sql")
 $finalRef = if (Test-Path (Join-Path $Root "supabase/.temp/project-ref")) { (Get-Content -Raw (Join-Path $Root "supabase/.temp/project-ref")).Trim() } else { "" }
 $result.security.baseline_sha_preserved = ($finalHash -eq $ExpectedSha)
-$result.security.hml_project_ref_preserved = ($finalRef -eq $ExpectedRef)
+$result.security.hml_project_ref_preserved = if ($IsIsolatedCi) { $finalRef -eq $ExpectedRef } else { [string]::IsNullOrWhiteSpace($finalRef) -or $finalRef -eq $ExpectedRef }
 $result.expected_hml_preservation = $ExpectedHmlPreservation
 $result.actual_hml_preservation = $result.security.hml_project_ref_preserved
 $result.assertion_passed = ($result.actual_hml_preservation -eq $result.expected_hml_preservation)

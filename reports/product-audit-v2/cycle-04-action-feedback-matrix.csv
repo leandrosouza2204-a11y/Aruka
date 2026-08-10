@@ -1,0 +1,9 @@
+module,action,risk,confirmation,pending_feedback,double_submit_protection,success_feedback,error_feedback,result,notes
+treinos,deliver workout,MEDIUM,yes,yes,yes,action-specific,action-specific,PASS,Uses lifecycle confirmation and specific success/error labels.
+treinos,complete workout,MEDIUM,yes,yes,yes,action-specific,action-specific,PASS,Uses lifecycle confirmation and specific success/error labels.
+treinos,archive workout,HIGH,yes,yes,yes,action-specific,action-specific,PASS,Destructive-style lifecycle change remains confirmed.
+financeiro,register payment,MEDIUM,modal form,yes,yes,contextual,contextual,PASS,Pending disables save and guard prevents duplicate execution.
+financeiro,renew plan,MEDIUM,modal form,yes,yes,contextual,contextual,PASS,Existing modal flow preserved.
+financeiro,undo last payment,HIGH,yes,yes,yes,contextual,contextual,PASS,High-risk action keeps confirmation.
+financeiro,close follow-up,HIGH,yes,yes,yes,contextual,contextual,PASS,Dedicated accessible modal collects reason before mutation.
+financeiro,reactivate student,MEDIUM,yes,yes,yes,contextual,contextual,PASS,Confirmation clarifies no automatic renewal.

@@ -1,0 +1,2936 @@
+[
+  {
+    "table_name": "aceites_legais",
+    "ordinal_position": "1",
+    "column_name": "id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": "gen_random_uuid()"
+  },
+  {
+    "table_name": "aceites_legais",
+    "ordinal_position": "10",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "aceites_legais",
+    "ordinal_position": "2",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aceites_legais",
+    "ordinal_position": "3",
+    "column_name": "politica_versao",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aceites_legais",
+    "ordinal_position": "4",
+    "column_name": "termos_versao",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aceites_legais",
+    "ordinal_position": "5",
+    "column_name": "politica_aceita",
+    "data_type": "boolean",
+    "udt_name": "bool",
+    "is_nullable": "NO",
+    "column_default": "false"
+  },
+  {
+    "table_name": "aceites_legais",
+    "ordinal_position": "6",
+    "column_name": "termos_aceitos",
+    "data_type": "boolean",
+    "udt_name": "bool",
+    "is_nullable": "NO",
+    "column_default": "false"
+  },
+  {
+    "table_name": "aceites_legais",
+    "ordinal_position": "7",
+    "column_name": "aceito_em",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aceites_legais",
+    "ordinal_position": "8",
+    "column_name": "ip",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aceites_legais",
+    "ordinal_position": "9",
+    "column_name": "user_agent",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "ordinal_position": "1",
+    "column_name": "id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": "gen_random_uuid()"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "ordinal_position": "10",
+    "column_name": "vencimento_anterior",
+    "data_type": "date",
+    "udt_name": "date",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "ordinal_position": "11",
+    "column_name": "vencimento_novo",
+    "data_type": "date",
+    "udt_name": "date",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "ordinal_position": "12",
+    "column_name": "metadata",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "is_nullable": "NO",
+    "column_default": "'{}'::jsonb"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "ordinal_position": "13",
+    "column_name": "event_key",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "ordinal_position": "14",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "ordinal_position": "2",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "ordinal_position": "3",
+    "column_name": "aluno_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "ordinal_position": "4",
+    "column_name": "tipo",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "ordinal_position": "5",
+    "column_name": "ocorrido_em",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "ordinal_position": "6",
+    "column_name": "motivo",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "ordinal_position": "7",
+    "column_name": "motivo_detalhe",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "ordinal_position": "8",
+    "column_name": "plano_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "acompanhamento_eventos",
+    "ordinal_position": "9",
+    "column_name": "plano_nome",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "admin_logs",
+    "ordinal_position": "1",
+    "column_name": "id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": "gen_random_uuid()"
+  },
+  {
+    "table_name": "admin_logs",
+    "ordinal_position": "10",
+    "column_name": "user_agent",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "admin_logs",
+    "ordinal_position": "11",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "admin_logs",
+    "ordinal_position": "2",
+    "column_name": "admin_user_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "admin_logs",
+    "ordinal_position": "3",
+    "column_name": "target_user_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "admin_logs",
+    "ordinal_position": "4",
+    "column_name": "acao",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "admin_logs",
+    "ordinal_position": "5",
+    "column_name": "entidade",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "admin_logs",
+    "ordinal_position": "6",
+    "column_name": "entidade_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "admin_logs",
+    "ordinal_position": "7",
+    "column_name": "dados_anteriores",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "admin_logs",
+    "ordinal_position": "8",
+    "column_name": "dados_novos",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "admin_logs",
+    "ordinal_position": "9",
+    "column_name": "ip",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "1",
+    "column_name": "id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": "gen_random_uuid()"
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "10",
+    "column_name": "plano",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "11",
+    "column_name": "valor",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "NO",
+    "column_default": "0"
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "12",
+    "column_name": "status",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "'Ativo'::text"
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "13",
+    "column_name": "pagamento_recebido",
+    "data_type": "boolean",
+    "udt_name": "bool",
+    "is_nullable": "NO",
+    "column_default": "false"
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "14",
+    "column_name": "data_pagamento",
+    "data_type": "date",
+    "udt_name": "date",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "15",
+    "column_name": "observacoes",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "16",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "17",
+    "column_name": "acompanhamento_status",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "'ativo'::text"
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "18",
+    "column_name": "acompanhamento_encerrado_em",
+    "data_type": "date",
+    "udt_name": "date",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "19",
+    "column_name": "acompanhamento_motivo",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "2",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "20",
+    "column_name": "acompanhamento_motivo_detalhe",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "21",
+    "column_name": "student_user_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "3",
+    "column_name": "nome",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "4",
+    "column_name": "whatsapp",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "5",
+    "column_name": "nascimento",
+    "data_type": "date",
+    "udt_name": "date",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "6",
+    "column_name": "inicio",
+    "data_type": "date",
+    "udt_name": "date",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "7",
+    "column_name": "vencimento",
+    "data_type": "date",
+    "udt_name": "date",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "8",
+    "column_name": "aviso7",
+    "data_type": "date",
+    "udt_name": "date",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "alunos",
+    "ordinal_position": "9",
+    "column_name": "aviso1",
+    "data_type": "date",
+    "udt_name": "date",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "1",
+    "column_name": "id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": "gen_random_uuid()"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "10",
+    "column_name": "dores_lesoes",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "11",
+    "column_name": "cirurgia",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "12",
+    "column_name": "restricao_medica",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "13",
+    "column_name": "liberado_exercicio",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "14",
+    "column_name": "experiencia_musculacao",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "15",
+    "column_name": "frequencia_semanal",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "16",
+    "column_name": "dias_disponiveis",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "17",
+    "column_name": "tempo_treino",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "18",
+    "column_name": "local_treino",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "19",
+    "column_name": "equipamentos",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "2",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "20",
+    "column_name": "escala_sono",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "21",
+    "column_name": "escala_estresse",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "22",
+    "column_name": "escala_energia",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "23",
+    "column_name": "escala_fome",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "24",
+    "column_name": "escala_motivacao",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "25",
+    "column_name": "escala_adesao_rotina",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "26",
+    "column_name": "sono",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "27",
+    "column_name": "horas_sono",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "28",
+    "column_name": "estresse",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "29",
+    "column_name": "agua",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "3",
+    "column_name": "aluno_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "30",
+    "column_name": "alcool",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "31",
+    "column_name": "tabagismo",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "32",
+    "column_name": "dieta",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "33",
+    "column_name": "nutricionista",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "34",
+    "column_name": "refeicoes_dia",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "35",
+    "column_name": "dificuldade_alimentacao",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "36",
+    "column_name": "fome_noite",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "37",
+    "column_name": "compulsao",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "38",
+    "column_name": "exercicios_gosta",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "39",
+    "column_name": "exercicios_nao_gosta",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "4",
+    "column_name": "profissao",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "40",
+    "column_name": "grupos_prioritarios",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "41",
+    "column_name": "limitacoes_horario",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "42",
+    "column_name": "observacoes",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "43",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "5",
+    "column_name": "rotina_trabalho",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "6",
+    "column_name": "objetivo_principal",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "7",
+    "column_name": "objetivo_secundario",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "8",
+    "column_name": "doenca_diagnosticada",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "anamneses",
+    "ordinal_position": "9",
+    "column_name": "usa_medicamento",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "ordinal_position": "1",
+    "column_name": "id",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "ordinal_position": "10",
+    "column_name": "outcome",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "ordinal_position": "11",
+    "column_name": "metadata",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "is_nullable": "NO",
+    "column_default": "'{}'::jsonb"
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "ordinal_position": "12",
+    "column_name": "versions",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "is_nullable": "NO",
+    "column_default": "'{}'::jsonb"
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "ordinal_position": "13",
+    "column_name": "occurred_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "ordinal_position": "2",
+    "column_name": "event_type",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "ordinal_position": "3",
+    "column_name": "actor_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "ordinal_position": "4",
+    "column_name": "actor_role",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "ordinal_position": "5",
+    "column_name": "organization_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "ordinal_position": "6",
+    "column_name": "resource_type",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "ordinal_position": "7",
+    "column_name": "resource_id",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "ordinal_position": "8",
+    "column_name": "request_id",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_audit_events",
+    "ordinal_position": "9",
+    "column_name": "correlation_id",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "ordinal_position": "1",
+    "column_name": "id",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "ordinal_position": "2",
+    "column_name": "decision_id",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "ordinal_position": "3",
+    "column_name": "organization_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "ordinal_position": "4",
+    "column_name": "trace_version",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "ordinal_position": "5",
+    "column_name": "trace_payload",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "ordinal_position": "6",
+    "column_name": "redaction_version",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "'1.0.0'::text"
+  },
+  {
+    "table_name": "aoe_decision_traces",
+    "ordinal_position": "7",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "1",
+    "column_name": "id",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "10",
+    "column_name": "alternatives",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "is_nullable": "NO",
+    "column_default": "'[]'::jsonb"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "11",
+    "column_name": "compatibility_score",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "12",
+    "column_name": "raw_score",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "13",
+    "column_name": "confidence_score",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "14",
+    "column_name": "confidence_level",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "15",
+    "column_name": "risk_score",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "16",
+    "column_name": "risk_level",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "17",
+    "column_name": "ambiguity_level",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "18",
+    "column_name": "warnings",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "is_nullable": "NO",
+    "column_default": "'[]'::jsonb"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "19",
+    "column_name": "reason_codes",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "is_nullable": "NO",
+    "column_default": "'[]'::jsonb"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "2",
+    "column_name": "request_id",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "20",
+    "column_name": "human_review_required",
+    "data_type": "boolean",
+    "udt_name": "bool",
+    "is_nullable": "NO",
+    "column_default": "false"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "21",
+    "column_name": "human_review_id",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "22",
+    "column_name": "versions",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "is_nullable": "NO",
+    "column_default": "'{}'::jsonb"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "23",
+    "column_name": "public_response",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "24",
+    "column_name": "trace_reference",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "25",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "26",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "3",
+    "column_name": "actor_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "4",
+    "column_name": "student_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "5",
+    "column_name": "organization_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "6",
+    "column_name": "status",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "7",
+    "column_name": "selected_model_code",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "8",
+    "column_name": "selected_model_version",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_decisions",
+    "ordinal_position": "9",
+    "column_name": "selected_apl_release",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "ordinal_position": "1",
+    "column_name": "id",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "ordinal_position": "10",
+    "column_name": "reviewer_role",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "ordinal_position": "11",
+    "column_name": "adjustments",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "is_nullable": "NO",
+    "column_default": "'[]'::jsonb"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "ordinal_position": "12",
+    "column_name": "notes",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "ordinal_position": "13",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "ordinal_position": "14",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "ordinal_position": "15",
+    "column_name": "completed_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "ordinal_position": "2",
+    "column_name": "decision_id",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "ordinal_position": "3",
+    "column_name": "organization_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "ordinal_position": "4",
+    "column_name": "status",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "ordinal_position": "5",
+    "column_name": "required",
+    "data_type": "boolean",
+    "udt_name": "bool",
+    "is_nullable": "NO",
+    "column_default": "true"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "ordinal_position": "6",
+    "column_name": "blocking",
+    "data_type": "boolean",
+    "udt_name": "bool",
+    "is_nullable": "NO",
+    "column_default": "false"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "ordinal_position": "7",
+    "column_name": "reason_codes",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "is_nullable": "NO",
+    "column_default": "'[]'::jsonb"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "ordinal_position": "8",
+    "column_name": "checklist",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "is_nullable": "NO",
+    "column_default": "'[]'::jsonb"
+  },
+  {
+    "table_name": "aoe_human_reviews",
+    "ordinal_position": "9",
+    "column_name": "reviewer_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "ordinal_position": "1",
+    "column_name": "id",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "ordinal_position": "10",
+    "column_name": "error_code",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "ordinal_position": "11",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "ordinal_position": "12",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "ordinal_position": "13",
+    "column_name": "expires_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "ordinal_position": "2",
+    "column_name": "actor_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "ordinal_position": "3",
+    "column_name": "organization_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "ordinal_position": "4",
+    "column_name": "operation",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "ordinal_position": "5",
+    "column_name": "idempotency_key",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "ordinal_position": "6",
+    "column_name": "request_fingerprint",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "ordinal_position": "7",
+    "column_name": "status",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "ordinal_position": "8",
+    "column_name": "decision_id",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "aoe_idempotency_keys",
+    "ordinal_position": "9",
+    "column_name": "response_payload",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "assinaturas",
+    "ordinal_position": "1",
+    "column_name": "id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": "gen_random_uuid()"
+  },
+  {
+    "table_name": "assinaturas",
+    "ordinal_position": "2",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "assinaturas",
+    "ordinal_position": "3",
+    "column_name": "plano",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "assinaturas",
+    "ordinal_position": "4",
+    "column_name": "status",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "'pendente'::text"
+  },
+  {
+    "table_name": "assinaturas",
+    "ordinal_position": "5",
+    "column_name": "data_inicio",
+    "data_type": "date",
+    "udt_name": "date",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "assinaturas",
+    "ordinal_position": "6",
+    "column_name": "data_vencimento",
+    "data_type": "date",
+    "udt_name": "date",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "assinaturas",
+    "ordinal_position": "7",
+    "column_name": "pagamento_id",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "assinaturas",
+    "ordinal_position": "8",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "1",
+    "column_name": "id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": "gen_random_uuid()"
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "10",
+    "column_name": "ombro",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "11",
+    "column_name": "torax",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "12",
+    "column_name": "cintura",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "13",
+    "column_name": "abdomen",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "14",
+    "column_name": "quadril",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "15",
+    "column_name": "braco_direito",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "16",
+    "column_name": "braco_esquerdo",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "17",
+    "column_name": "antebraco_direito",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "18",
+    "column_name": "antebraco_esquerdo",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "19",
+    "column_name": "coxa_direita",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "2",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "20",
+    "column_name": "coxa_esquerda",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "21",
+    "column_name": "panturrilha_direita",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "22",
+    "column_name": "panturrilha_esquerda",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "23",
+    "column_name": "dobra_peitoral",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "24",
+    "column_name": "dobra_abdominal",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "25",
+    "column_name": "dobra_coxa",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "26",
+    "column_name": "dobra_triceps",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "27",
+    "column_name": "dobra_subescapular",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "28",
+    "column_name": "dobra_supra_iliaca",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "29",
+    "column_name": "dobra_axilar_media",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "3",
+    "column_name": "aluno_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "30",
+    "column_name": "percentual_gordura",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "31",
+    "column_name": "percentual_massa_magra",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "32",
+    "column_name": "massa_gorda",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "33",
+    "column_name": "massa_magra",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "34",
+    "column_name": "imc",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "35",
+    "column_name": "status",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "'inicial'::text"
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "36",
+    "column_name": "objetivo_atual",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "37",
+    "column_name": "aderencia_treino",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "38",
+    "column_name": "aderencia_dieta",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "39",
+    "column_name": "foto_frente_url",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "4",
+    "column_name": "data_avaliacao",
+    "data_type": "date",
+    "udt_name": "date",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "40",
+    "column_name": "foto_lateral_url",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "41",
+    "column_name": "foto_costas_url",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "42",
+    "column_name": "observacoes",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "43",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "5",
+    "column_name": "idade",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "6",
+    "column_name": "sexo",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "7",
+    "column_name": "altura",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "8",
+    "column_name": "peso",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "avaliacoes",
+    "ordinal_position": "9",
+    "column_name": "pescoco",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "pagamentos",
+    "ordinal_position": "1",
+    "column_name": "id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": "gen_random_uuid()"
+  },
+  {
+    "table_name": "pagamentos",
+    "ordinal_position": "10",
+    "column_name": "tipo_movimento",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "'pagamento_avulso'::text"
+  },
+  {
+    "table_name": "pagamentos",
+    "ordinal_position": "11",
+    "column_name": "vencimento_parcela",
+    "data_type": "date",
+    "udt_name": "date",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "pagamentos",
+    "ordinal_position": "12",
+    "column_name": "vencimento_anterior",
+    "data_type": "date",
+    "udt_name": "date",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "pagamentos",
+    "ordinal_position": "13",
+    "column_name": "vencimento_novo",
+    "data_type": "date",
+    "udt_name": "date",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "pagamentos",
+    "ordinal_position": "14",
+    "column_name": "observacao",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "pagamentos",
+    "ordinal_position": "15",
+    "column_name": "observacoes",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "pagamentos",
+    "ordinal_position": "16",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "pagamentos",
+    "ordinal_position": "2",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "pagamentos",
+    "ordinal_position": "3",
+    "column_name": "aluno_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "pagamentos",
+    "ordinal_position": "4",
+    "column_name": "plano",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "pagamentos",
+    "ordinal_position": "5",
+    "column_name": "valor",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "NO",
+    "column_default": "0"
+  },
+  {
+    "table_name": "pagamentos",
+    "ordinal_position": "6",
+    "column_name": "data_pagamento",
+    "data_type": "date",
+    "udt_name": "date",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "pagamentos",
+    "ordinal_position": "7",
+    "column_name": "forma_pagamento",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "pagamentos",
+    "ordinal_position": "8",
+    "column_name": "parcela",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "'1'::text"
+  },
+  {
+    "table_name": "pagamentos",
+    "ordinal_position": "9",
+    "column_name": "total_parcelas",
+    "data_type": "integer",
+    "udt_name": "int4",
+    "is_nullable": "NO",
+    "column_default": "1"
+  },
+  {
+    "table_name": "perfis",
+    "ordinal_position": "1",
+    "column_name": "id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": "gen_random_uuid()"
+  },
+  {
+    "table_name": "perfis",
+    "ordinal_position": "2",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "perfis",
+    "ordinal_position": "3",
+    "column_name": "nome",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "perfis",
+    "ordinal_position": "4",
+    "column_name": "email",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "perfis",
+    "ordinal_position": "5",
+    "column_name": "role",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "'user'::text"
+  },
+  {
+    "table_name": "perfis",
+    "ordinal_position": "6",
+    "column_name": "tipo_acesso",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "'pendente'::text"
+  },
+  {
+    "table_name": "perfis",
+    "ordinal_position": "7",
+    "column_name": "status",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "'ativo'::text"
+  },
+  {
+    "table_name": "perfis",
+    "ordinal_position": "8",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "planos",
+    "ordinal_position": "1",
+    "column_name": "id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": "gen_random_uuid()"
+  },
+  {
+    "table_name": "planos",
+    "ordinal_position": "10",
+    "column_name": "intervalo_parcelas_meses",
+    "data_type": "integer",
+    "udt_name": "int4",
+    "is_nullable": "NO",
+    "column_default": "1"
+  },
+  {
+    "table_name": "planos",
+    "ordinal_position": "11",
+    "column_name": "ativo",
+    "data_type": "boolean",
+    "udt_name": "bool",
+    "is_nullable": "NO",
+    "column_default": "true"
+  },
+  {
+    "table_name": "planos",
+    "ordinal_position": "12",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "planos",
+    "ordinal_position": "2",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "planos",
+    "ordinal_position": "3",
+    "column_name": "nome",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "planos",
+    "ordinal_position": "4",
+    "column_name": "descricao",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "planos",
+    "ordinal_position": "5",
+    "column_name": "duracao_meses",
+    "data_type": "integer",
+    "udt_name": "int4",
+    "is_nullable": "NO",
+    "column_default": "1"
+  },
+  {
+    "table_name": "planos",
+    "ordinal_position": "6",
+    "column_name": "valor",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "NO",
+    "column_default": "0"
+  },
+  {
+    "table_name": "planos",
+    "ordinal_position": "7",
+    "column_name": "permite_parcelamento",
+    "data_type": "boolean",
+    "udt_name": "bool",
+    "is_nullable": "NO",
+    "column_default": "false"
+  },
+  {
+    "table_name": "planos",
+    "ordinal_position": "8",
+    "column_name": "quantidade_parcelas",
+    "data_type": "integer",
+    "udt_name": "int4",
+    "is_nullable": "NO",
+    "column_default": "1"
+  },
+  {
+    "table_name": "planos",
+    "ordinal_position": "9",
+    "column_name": "valor_parcela",
+    "data_type": "numeric",
+    "udt_name": "numeric",
+    "is_nullable": "NO",
+    "column_default": "0"
+  },
+  {
+    "table_name": "treino_dias",
+    "ordinal_position": "1",
+    "column_name": "id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": "gen_random_uuid()"
+  },
+  {
+    "table_name": "treino_dias",
+    "ordinal_position": "2",
+    "column_name": "treino_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "treino_dias",
+    "ordinal_position": "3",
+    "column_name": "nome",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "treino_dias",
+    "ordinal_position": "4",
+    "column_name": "grupo_muscular",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "treino_dias",
+    "ordinal_position": "5",
+    "column_name": "ordem",
+    "data_type": "integer",
+    "udt_name": "int4",
+    "is_nullable": "NO",
+    "column_default": "1"
+  },
+  {
+    "table_name": "treino_dias",
+    "ordinal_position": "6",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "treino_eventos",
+    "ordinal_position": "1",
+    "column_name": "id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": "gen_random_uuid()"
+  },
+  {
+    "table_name": "treino_eventos",
+    "ordinal_position": "10",
+    "column_name": "occurred_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "treino_eventos",
+    "ordinal_position": "11",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "treino_eventos",
+    "ordinal_position": "2",
+    "column_name": "treino_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "treino_eventos",
+    "ordinal_position": "3",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "treino_eventos",
+    "ordinal_position": "4",
+    "column_name": "aluno_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "treino_eventos",
+    "ordinal_position": "5",
+    "column_name": "event_type",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "treino_eventos",
+    "ordinal_position": "6",
+    "column_name": "from_status",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "treino_eventos",
+    "ordinal_position": "7",
+    "column_name": "to_status",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "treino_eventos",
+    "ordinal_position": "8",
+    "column_name": "actor_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "treino_eventos",
+    "ordinal_position": "9",
+    "column_name": "metadata",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "is_nullable": "NO",
+    "column_default": "'{}'::jsonb"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "ordinal_position": "1",
+    "column_name": "id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": "gen_random_uuid()"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "ordinal_position": "10",
+    "column_name": "ordem",
+    "data_type": "integer",
+    "udt_name": "int4",
+    "is_nullable": "NO",
+    "column_default": "1"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "ordinal_position": "11",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "ordinal_position": "2",
+    "column_name": "treino_dia_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "treino_exercicios",
+    "ordinal_position": "3",
+    "column_name": "nome",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "treino_exercicios",
+    "ordinal_position": "4",
+    "column_name": "series",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "ordinal_position": "5",
+    "column_name": "repeticoes",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "ordinal_position": "6",
+    "column_name": "carga",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "ordinal_position": "7",
+    "column_name": "descanso",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "ordinal_position": "8",
+    "column_name": "observacoes",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "treino_exercicios",
+    "ordinal_position": "9",
+    "column_name": "video_url",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "1",
+    "column_name": "id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": "gen_random_uuid()"
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "10",
+    "column_name": "data_inicio",
+    "data_type": "date",
+    "udt_name": "date",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "11",
+    "column_name": "data_revisao",
+    "data_type": "date",
+    "udt_name": "date",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "12",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "13",
+    "column_name": "lifecycle_status",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "'draft'::text"
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "14",
+    "column_name": "template_origin_id",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "15",
+    "column_name": "template_origin_type",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "16",
+    "column_name": "template_origin_name",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "17",
+    "column_name": "template_origin_snapshot",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "18",
+    "column_name": "applied_by",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "19",
+    "column_name": "applied_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "2",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "20",
+    "column_name": "delivered_by",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "21",
+    "column_name": "delivered_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "22",
+    "column_name": "completed_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "23",
+    "column_name": "archived_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "24",
+    "column_name": "data_fim",
+    "data_type": "date",
+    "udt_name": "date",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "25",
+    "column_name": "application_idempotency_key",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "YES",
+    "column_default": null
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "3",
+    "column_name": "aluno_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "4",
+    "column_name": "nome_rotina",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "5",
+    "column_name": "objetivo",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "6",
+    "column_name": "nivel",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "7",
+    "column_name": "dias_semana",
+    "data_type": "integer",
+    "udt_name": "int4",
+    "is_nullable": "NO",
+    "column_default": "0"
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "8",
+    "column_name": "observacoes",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "treinos",
+    "ordinal_position": "9",
+    "column_name": "status",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "'Ativo'::text"
+  },
+  {
+    "table_name": "workout_templates",
+    "ordinal_position": "1",
+    "column_name": "id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": "gen_random_uuid()"
+  },
+  {
+    "table_name": "workout_templates",
+    "ordinal_position": "10",
+    "column_name": "is_system",
+    "data_type": "boolean",
+    "udt_name": "bool",
+    "is_nullable": "NO",
+    "column_default": "false"
+  },
+  {
+    "table_name": "workout_templates",
+    "ordinal_position": "11",
+    "column_name": "is_active",
+    "data_type": "boolean",
+    "udt_name": "bool",
+    "is_nullable": "NO",
+    "column_default": "true"
+  },
+  {
+    "table_name": "workout_templates",
+    "ordinal_position": "12",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "workout_templates",
+    "ordinal_position": "13",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "udt_name": "timestamptz",
+    "is_nullable": "NO",
+    "column_default": "now()"
+  },
+  {
+    "table_name": "workout_templates",
+    "ordinal_position": "2",
+    "column_name": "owner_id",
+    "data_type": "uuid",
+    "udt_name": "uuid",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "workout_templates",
+    "ordinal_position": "3",
+    "column_name": "name",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": null
+  },
+  {
+    "table_name": "workout_templates",
+    "ordinal_position": "4",
+    "column_name": "reference_gender",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "'Unissex'::text"
+  },
+  {
+    "table_name": "workout_templates",
+    "ordinal_position": "5",
+    "column_name": "split_type",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "'Outro'::text"
+  },
+  {
+    "table_name": "workout_templates",
+    "ordinal_position": "6",
+    "column_name": "objective",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "workout_templates",
+    "ordinal_position": "7",
+    "column_name": "level",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "workout_templates",
+    "ordinal_position": "8",
+    "column_name": "description",
+    "data_type": "text",
+    "udt_name": "text",
+    "is_nullable": "NO",
+    "column_default": "''::text"
+  },
+  {
+    "table_name": "workout_templates",
+    "ordinal_position": "9",
+    "column_name": "template_data",
+    "data_type": "jsonb",
+    "udt_name": "jsonb",
+    "is_nullable": "NO",
+    "column_default": null
+  }
+]

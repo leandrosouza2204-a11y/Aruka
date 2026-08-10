@@ -1,0 +1,165 @@
+{
+  "decision": "LOCAL_CI_PARITY_VALIDATED",
+  "started_at": "2026-08-10T02:35:52.020Z",
+  "finished_at": "2026-08-10T02:51:27.983Z",
+  "gate_1_2": "PASS",
+  "gate_3": "PASS",
+  "gate_4": "PASS",
+  "gate_5": "PASS",
+  "gate_6": "PASS",
+  "gate_7": "PASS",
+  "gate_8": "PASS",
+  "gate_9": "PASS",
+  "cycle_9_1": "PASS",
+  "final_ci_local_parity": "PASS",
+  "failed": null,
+  "results": [
+    {
+      "gate": "Gate 1/2",
+      "command": "npm run qa:supabase-ci-static",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 38.298
+    },
+    {
+      "gate": "Harness static",
+      "command": "npm run qa:supabase-ci-harness-static",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 1.126
+    },
+    {
+      "gate": "Gate 3",
+      "command": "npm run supabase:preflight",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 11.236
+    },
+    {
+      "gate": "Gate 3",
+      "command": "npm run supabase:bootstrap",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 98.306
+    },
+    {
+      "gate": "Gate 3",
+      "command": "npm run supabase:validate",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 14.695
+    },
+    {
+      "gate": "Gate 4",
+      "command": "npm run supabase:seed:local",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 9.394
+    },
+    {
+      "gate": "Gate 4",
+      "command": "npm run supabase:fixtures:validate",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 11.375
+    },
+    {
+      "gate": "Gate 4",
+      "command": "npm run supabase:seed:local",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 9.675
+    },
+    {
+      "gate": "Gate 4",
+      "command": "npm run supabase:fixtures:validate",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 10.541
+    },
+    {
+      "gate": "Gate 5",
+      "command": "npm run qa:supabase-safe-reset",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 132.059
+    },
+    {
+      "gate": "Gate 6",
+      "command": "npm run qa:supabase-seeds-negative",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 10.603
+    },
+    {
+      "gate": "Gate 6",
+      "command": "npm run qa:supabase-local-negative",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 9.459
+    },
+    {
+      "gate": "Gate 6",
+      "command": "npm run qa:supabase-ci-negative",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 56.289
+    },
+    {
+      "gate": "Gate 7",
+      "command": "npm run qa:supabase-local-reproducibility",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 4.297
+    },
+    {
+      "gate": "Gate 7",
+      "command": "npm run qa:supabase-clean-worktree-wrapper",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 317.46
+    },
+    {
+      "gate": "Gate 7",
+      "command": "npm run qa:supabase-cycle-8",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 190.435
+    },
+    {
+      "gate": "Gate 8",
+      "command": "npm run qa:supabase-ci-evidence",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 2.222
+    },
+    {
+      "gate": "Gate 9",
+      "command": "npm run qa:supabase-cycle-9",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 1.843
+    },
+    {
+      "gate": "Cycle 9.1",
+      "command": "npm run qa:supabase-cycle-9-1-static",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 1.78
+    },
+    {
+      "gate": "Cycle 9.1",
+      "command": "npm run qa:supabase-cycle-9-1-negative",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 1.27
+    },
+    {
+      "gate": "Cycle 9.1",
+      "command": "npm run qa:supabase-cycle-9-1:prepare",
+      "status": 0,
+      "timed_out": false,
+      "duration_seconds": 3.581
+    }
+  ]
+}

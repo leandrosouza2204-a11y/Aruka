@@ -29,7 +29,8 @@ create table if not exists public.alunos (
   acompanhamento_status text default 'ativo'::text not null,
   acompanhamento_encerrado_em date,
   acompanhamento_motivo text,
-  acompanhamento_motivo_detalhe text default ''::text not null
+  acompanhamento_motivo_detalhe text default ''::text not null,
+  student_user_id uuid
 );
 
 create table if not exists public.planos (
@@ -206,8 +207,21 @@ create table if not exists public.treinos (
   dias_semana integer default 0 not null,
   observacoes text default ''::text not null,
   status text default 'Ativo'::text not null,
+  lifecycle_status text default 'draft'::text not null,
+  template_origin_id text,
+  template_origin_type text,
+  template_origin_name text,
+  template_origin_snapshot jsonb,
+  applied_by uuid,
+  applied_at timestamptz,
+  delivered_by uuid,
+  delivered_at timestamptz,
+  completed_at timestamptz,
+  archived_at timestamptz,
   data_inicio date,
+  data_fim date,
   data_revisao date,
+  application_idempotency_key text,
   created_at timestamptz default now() not null
 );
 
@@ -231,6 +245,20 @@ create table if not exists public.treino_exercicios (
   observacoes text default ''::text not null,
   video_url text default ''::text not null,
   ordem integer default 1 not null,
+  created_at timestamptz default now() not null
+);
+
+create table if not exists public.treino_eventos (
+  id uuid default gen_random_uuid() not null,
+  treino_id uuid not null,
+  user_id uuid not null,
+  aluno_id uuid not null,
+  event_type text not null,
+  from_status text,
+  to_status text,
+  actor_id uuid,
+  metadata jsonb default '{}'::jsonb not null,
+  occurred_at timestamptz default now() not null,
   created_at timestamptz default now() not null
 );
 

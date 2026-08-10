@@ -1,12 +1,28 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import {
+  assertSameOrigin,
+  buildAppUrl,
+  classifyRuntimeError,
+  resolveRuntimeConfig,
+  RUNTIME_MARKERS,
+} from "./lib/authenticated-runtime.js";
+import {
+  captureQaBrowserState,
+  cleanupAuthenticatedQaPage,
+  prepareAuthenticatedQaPage,
+  summarizeQaBrowserState,
+} from "./lib/authenticated-browser-state.js";
 
 const widths = [320, 360, 375, 390, 412, 430];
 const tolerance = 1;
 const cdpPort = process.env.CDP_PORT || "9222";
 const chromeVersionUrl = `http://127.0.0.1:${cdpPort}/json/version`;
 const chromeNewTargetUrl = `http://127.0.0.1:${cdpPort}/json/new`;
-const appUrl = "http://127.0.0.1:5173/financeiro";
+const runtimeConfig = resolveRuntimeConfig(process.env, {
+  legacyBaseUrlAliases: ["FINANCE_QA_BASE_URL", "FINANCE_BASE_URL", "QA_BASE_URL"],
+});
+const appUrl = buildAppUrl(runtimeConfig.baseUrl, "/financeiro");
 const screenshotDir = join("tmp-responsive-screenshots", "finance-modals");
 
 validateQaCredentials();
@@ -34,6 +50,25 @@ async function getWebSocketUrl() {
   }
 
   return version.webSocketDebuggerUrl;
+}
+
+async function verifyAuthenticatedBrowserOrigin(client) {
+  if (!runtimeConfig.baseUrl) {
+    throw new Error(RUNTIME_MARKERS.baseUrlUnavailable);
+  }
+
+  const browserUrl = await evaluate(client, "window.location.href");
+  const match = assertSameOrigin(runtimeConfig.baseUrl, browserUrl);
+  console.log(`RUNTIME_BASE_ORIGIN=${match.baseOrigin || runtimeConfig.baseUrl}`);
+  console.log(`CDP_ORIGIN=http://127.0.0.1:${cdpPort}`);
+  console.log(`AUTHENTICATED_BROWSER_ORIGIN_MATCH=${match.ok ? "YES" : "NO"}`);
+
+  if (!match.ok) {
+    const error = new Error(RUNTIME_MARKERS.authenticatedBrowserOriginMismatch);
+    error.runtimeMarker = RUNTIME_MARKERS.runtimeEnvironmentBlocked;
+    error.runtimeDetail = RUNTIME_MARKERS.authenticatedBrowserOriginMismatch;
+    throw error;
+  }
 }
 
 function createCdpClient(webSocketUrl) {
@@ -193,12 +228,16 @@ async function getAuthState(client) {
 }
 
 async function openReportsModal(client) {
+  await waitForFinanceiroReady(client);
   const openedReports = await clickText(client, "Relatórios");
   if (!openedReports) throw new Error("Botao Relatorios nao encontrado.");
   await waitFor(client, "document.querySelector('.financeiro-modal')");
 }
 
 async function openHistoryModal(client) {
+  await waitForFinanceiroReady(client);
+  await ensureHistoryActionableView(client);
+
   let openedHistory = await clickText(client, "Ver histórico", "button, [role='menuitem']");
   if (openedHistory) {
     await waitFor(client, "document.querySelector('.financeiro-modal')");
@@ -208,7 +247,8 @@ async function openHistoryModal(client) {
   const openedMenu = await evaluate(
     client,
     `(() => {
-      const trigger = document.querySelector('.financeiro-card-actions .table-actions-trigger, .financeiro-actions-inline .table-actions-trigger, .table-actions-trigger');
+      const triggers = [...document.querySelectorAll('.financeiro-card-actions .table-actions-trigger, .financeiro-actions-inline .table-actions-trigger, .table-actions-trigger')];
+      const trigger = triggers.find((item) => item.offsetParent !== null);
       if (!trigger) return false;
       trigger.click();
       return true;
@@ -221,6 +261,56 @@ async function openHistoryModal(client) {
   openedHistory = await clickText(client, "Ver histórico", "button, [role='menuitem']");
   if (!openedHistory) throw new Error("Acao Ver historico nao encontrada.");
   await waitFor(client, "document.querySelector('.financeiro-modal')");
+}
+
+async function waitForFinanceiroReady(client) {
+  await waitFor(
+    client,
+    `document.querySelector('.financeiro-page') && !/Verificando acesso|Carregando financeiro/i.test(document.body.innerText || "") && [...document.querySelectorAll('button')].some((button) => /Em acompanhamento|Encerrados/i.test(button.textContent || ""))`,
+    30000
+  );
+  await sleep(500);
+}
+
+async function ensureHistoryActionableView(client) {
+  const state = await getFinanceHistoryState(client);
+  if (state.visibleActionTriggers > 0) return;
+
+  if (state.closedCount > 0) {
+    const switched = await clickText(client, "Encerrados", "button");
+    if (!switched) {
+      throw new Error(`Visao Encerrados com historico nao encontrada. Estado: ${JSON.stringify(state)}`);
+    }
+    await sleep(900);
+  }
+
+  const after = await getFinanceHistoryState(client);
+  if (after.visibleActionTriggers === 0) {
+    throw new Error(`Menu de acoes para Historico nao encontrado. Estado: ${JSON.stringify(after)}`);
+  }
+}
+
+async function getFinanceHistoryState(client) {
+  return evaluate(
+    client,
+    `(() => {
+      const text = document.body.innerText || "";
+      const closedMatch = text.match(/Encerrados\\s*\\((\\d+)\\)/i);
+      const activeMatch = text.match(/Em acompanhamento\\s*\\((\\d+)\\)/i);
+      return {
+        path: location.pathname,
+        activeCount: activeMatch ? Number(activeMatch[1]) : null,
+        closedCount: closedMatch ? Number(closedMatch[1]) : null,
+        cards: document.querySelectorAll('.financeiro-list-card').length,
+        tableRows: [...document.querySelectorAll('.financeiro-desktop-table tbody tr')]
+          .filter((row) => row.offsetParent !== null).length,
+        visibleActionTriggers: [...document.querySelectorAll('.financeiro-card-actions .table-actions-trigger, .financeiro-actions-inline .table-actions-trigger, .table-actions-trigger')]
+          .filter((item) => item.offsetParent !== null).length,
+        hasHistoryAction: [...document.querySelectorAll('button, [role="menuitem"]')]
+          .some((item) => item.offsetParent !== null && /Ver hist[óo]rico/i.test(item.textContent || ""))
+      };
+    })()`
+  );
 }
 
 async function measure(client, width, scenario) {
@@ -370,6 +460,12 @@ function summarizeResults(results) {
 }
 
 async function run() {
+  if (!runtimeConfig.baseUrl) {
+    const error = new Error(RUNTIME_MARKERS.baseUrlUnavailable);
+    error.runtimeMarker = RUNTIME_MARKERS.baseUrlUnavailable;
+    throw error;
+  }
+
   const client = createCdpClient(await getWebSocketUrl());
   await client.ready;
 
@@ -381,16 +477,14 @@ async function run() {
     let authResult = null;
 
     for (const width of widths) {
-      await client.send("Emulation.setDeviceMetricsOverride", {
-        width,
-        height: 900,
-        deviceScaleFactor: 1,
-        mobile: true,
+      const startState = await prepareAuthenticatedQaPage(client, {
+        url: appUrl,
+        viewport: { width, height: 900, deviceScaleFactor: 1, mobile: true },
+        readyExpression: "document.querySelector('.financeiro-page') || document.querySelector('input[type=\"email\"], input[type=\"password\"]')",
+        readyTimeout: 30000,
       });
-
-      await client.send("Page.navigate", { url: appUrl });
-      await waitFor(client, "document.readyState === 'complete'");
-      await sleep(1800);
+      console.log(`QA_START_STATE finance-modals width=${width} ${summarizeQaBrowserState(startState)}`);
+      await verifyAuthenticatedBrowserOrigin(client);
 
       if (!authResult) {
         authResult = await loginIfNeeded(client);
@@ -403,6 +497,7 @@ async function run() {
       }
 
       await waitFor(client, "document.querySelector('.financeiro-page')");
+      await cleanupAuthenticatedQaPage(client);
 
       await openReportsModal(client);
       const reportMeasurement = await measure(client, width, "relatorios-financeiros");
@@ -427,6 +522,10 @@ async function run() {
       }
 
       await closeModal(client);
+      const endState = await cleanupAuthenticatedQaPage(client, {
+        neutralUrl: buildAppUrl(runtimeConfig.baseUrl, "/"),
+      });
+      console.log(`QA_END_STATE finance-modals width=${width} ${summarizeQaBrowserState(endState)}`);
     }
 
     const summary = summarizeResults(results);
@@ -438,6 +537,13 @@ async function run() {
       process.exitCode = 1;
     }
   } finally {
+    try {
+      const finalState = await captureQaBrowserState(client, "final");
+      console.log(`QA_FINAL_STATE finance-modals ${summarizeQaBrowserState(finalState)}`);
+      await client.send("Page.close");
+    } catch {
+      // The page may already be closed by Chrome after Page.close.
+    }
     client.close();
   }
 }
@@ -454,6 +560,9 @@ function sleep(ms) {
 }
 
 run().catch((error) => {
-  console.error(error.message);
+  const marker = error.runtimeMarker || classifyRuntimeError(error);
+  const detail = error.runtimeDetail || String(error?.message || error).replace(/fetch failed/gi, marker).slice(0, 240);
+  console.error(`RUNTIME_QA_RESULT=${marker}`);
+  console.error(`RUNTIME_QA_DETAIL=${detail}`);
   process.exitCode = 1;
 });

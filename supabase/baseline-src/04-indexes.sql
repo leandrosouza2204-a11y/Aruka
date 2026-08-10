@@ -3,6 +3,8 @@ create index if not exists perfis_tipo_acesso_idx on public.perfis using btree (
 create index if not exists perfis_status_idx on public.perfis using btree (status);
 create index if not exists alunos_user_vencimento_idx on public.alunos using btree (user_id, vencimento);
 create index if not exists alunos_user_acompanhamento_status_idx on public.alunos using btree (user_id, acompanhamento_status);
+create unique index if not exists alunos_student_user_id_uidx on public.alunos using btree (student_user_id) where student_user_id is not null;
+create index if not exists alunos_student_user_id_idx on public.alunos using btree (student_user_id) where student_user_id is not null;
 create index if not exists planos_user_id_idx on public.planos using btree (user_id);
 create index if not exists planos_ativo_idx on public.planos using btree (ativo);
 create index if not exists planos_user_ativo_idx on public.planos using btree (user_id, ativo);
@@ -33,8 +35,15 @@ create index if not exists anamneses_user_created_at_idx on public.anamneses usi
 create index if not exists treinos_user_id_idx on public.treinos using btree (user_id);
 create index if not exists treinos_aluno_id_idx on public.treinos using btree (aluno_id);
 create index if not exists treinos_user_created_at_idx on public.treinos using btree (user_id, created_at desc);
+create index if not exists treinos_user_aluno_lifecycle_idx on public.treinos using btree (user_id, aluno_id, lifecycle_status);
+create index if not exists treinos_user_delivered_at_idx on public.treinos using btree (user_id, delivered_at desc);
+create index if not exists treinos_user_template_origin_idx on public.treinos using btree (user_id, template_origin_type, template_origin_id);
+create unique index if not exists treinos_user_application_idempotency_uidx on public.treinos using btree (user_id, application_idempotency_key) where application_idempotency_key is not null;
 create index if not exists treino_dias_treino_id_idx on public.treino_dias using btree (treino_id);
 create index if not exists treino_exercicios_treino_dia_id_idx on public.treino_exercicios using btree (treino_dia_id);
+create index if not exists treino_eventos_user_treino_occurred_idx on public.treino_eventos using btree (user_id, treino_id, occurred_at desc);
+create index if not exists treino_eventos_user_aluno_occurred_idx on public.treino_eventos using btree (user_id, aluno_id, occurred_at desc);
+create index if not exists treino_eventos_treino_event_type_idx on public.treino_eventos using btree (treino_id, event_type);
 create index if not exists acompanhamento_eventos_user_id_idx on public.acompanhamento_eventos using btree (user_id);
 create index if not exists acompanhamento_eventos_aluno_id_idx on public.acompanhamento_eventos using btree (aluno_id);
 create index if not exists acompanhamento_eventos_ocorrido_em_idx on public.acompanhamento_eventos using btree (ocorrido_em desc);

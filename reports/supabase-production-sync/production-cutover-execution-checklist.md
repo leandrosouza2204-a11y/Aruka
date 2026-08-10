@@ -1,0 +1,90 @@
+# Production Cutover Execution Checklist
+
+- [x] Maintenance window approved
+- [x] Backup complete
+- [x] Backup verified
+- [x] Backup method recorded
+- [x] Backup timestamp recorded
+- [x] Backup reference recorded
+- [ ] Backup verified by named operator
+- [x] Restore method reviewed
+- [ ] Operator identified
+- [x] Correct Supabase project confirmed
+- [ ] SQL Editor access confirmed
+- [ ] Repository package open locally
+- [ ] Smoke test access confirmed
+- [ ] Start time recorded
+
+## Backup Gate
+
+- [x] projeto aruka confirmado
+- [x] project ref conferido
+- [x] backup method selected
+- [x] backup timestamp recorded
+- [x] backup reference recorded
+- [x] backup verified
+- [x] restore method reviewed
+- [x] Storage reviewed
+- [x] explicit authorization received
+
+## Step Loop
+
+Repeat for each step 01-06. Do not batch steps.
+
+- [x] Step01 apply authorized
+- [x] Step01 apply executed
+- [x] Step01 postcheck passed
+- [x] Step01 smoke passed
+- [x] Step01 production reconciled
+- [x] Step02 apply authorized
+- [x] Step02 apply executed
+- [x] Step02 postcheck passed
+- [x] Step02 runtime/smoke passed
+- [x] Step02 production reconciled
+- [x] Step03 apply authorized
+- [x] Step03 apply executed
+- [x] Step03 postcheck passed
+- [x] Step03 production reconciled
+- [x] Step04 apply authorized
+- [x] Step04 apply executed
+- [x] Step04 postcheck passed
+- [x] Step04 production reconciled
+- [x] Step05 apply authorized
+- [x] Step05 apply executed
+- [x] Step05 postcheck passed
+- [x] Step05 production reconciled
+- [x] Step06 apply authorized
+- [x] Step06 apply executed
+- [x] Step06 postcheck passed
+- [x] Step06 production reconciled
+
+## Manual Cutover Completion
+
+- [x] Step01 reconciled
+- [x] Step02 reconciled
+- [x] Step03 reconciled
+- [x] Step04 reconciled
+- [x] Step05 reconciled
+- [x] Step06 reconciled
+- [x] History Alignment authorized
+- [x] History Alignment executed
+- [x] History Alignment validated
+- [ ] DB push allowed
+- [ ] Post-alignment validation complete
+- [ ] CI/CD final validation complete
+
+- [ ] Backup verified
+- [ ] Precheck executed
+- [ ] Precheck reviewed
+- [ ] GO / NO_GO / STOP_AND_INVESTIGATE recorded
+- [ ] Apply SQL reviewed
+- [ ] Apply executed
+- [ ] Apply success confirmed
+- [ ] Postcheck executed
+- [ ] Postcheck PASS
+- [ ] Smoke PASS
+- [ ] Continue authorized by operator
+
+## Stop Rule
+
+If any postcheck or smoke test fails, do not execute the next step. Record `STOP_AND_RECOVER_OR_INVESTIGATE`.

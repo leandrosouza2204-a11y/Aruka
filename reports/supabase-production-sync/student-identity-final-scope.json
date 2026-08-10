@@ -1,0 +1,11 @@
+{
+  "objects_reviewed": 13,
+  "initial_local_drift_count": 1,
+  "covered_by_existing_migration_count": 13,
+  "remote_pending_count": 13,
+  "new_migration_required_count": 0,
+  "dependency_blocked_count": 0,
+  "final_local_drift_count": 0,
+  "deployment_ready_for_package": true,
+  "production_action_required": "NO"
+}

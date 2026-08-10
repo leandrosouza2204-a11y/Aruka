@@ -4,6 +4,7 @@ import { join } from "node:path";
 import {
   BASELINE_PATH,
   CYCLE_9_DECISION,
+  EXECUTABLE_BASELINE_PATH,
   EXPECTED_BASELINE_SHA,
   PROTECTED_PROJECT_REF,
   WORKFLOW_PATH,
@@ -18,13 +19,17 @@ const root = process.cwd();
 const errors = [];
 const fail = (message) => errors.push(message);
 const baselineExists = existsSync(join(root, BASELINE_PATH));
+const executableBaselineExists = existsSync(join(root, EXECUTABLE_BASELINE_PATH));
 const actualBaselineSha = baselineExists ? sha256CanonicalText(root, BASELINE_PATH) : null;
 
-if (!baselineExists) fail("Official baseline missing");
+if (executableBaselineExists) fail("Reference-only baseline must not be present in executable migrations");
+if (!baselineExists) fail("Reference baseline missing");
 else if (actualBaselineSha !== EXPECTED_BASELINE_SHA) fail("Official baseline SHA mismatch");
 
 const activeMigrations = listFiles(root, "supabase/migrations").filter((file) => file.endsWith(".sql"));
-if (activeMigrations.length !== 1 || activeMigrations[0] !== BASELINE_PATH) fail("Active migrations must contain only the official baseline SQL");
+const referenceBaselines = listFiles(root, "supabase/reference-baselines").filter((file) => file.endsWith(".sql"));
+if (activeMigrations.length !== 6) fail(`Active executable migrations must contain exactly 6 SQL files, got ${activeMigrations.length}`);
+if (referenceBaselines.length !== 1 || referenceBaselines[0] !== BASELINE_PATH) fail("Reference baselines must contain only the official reference baseline SQL");
 if (listFiles(root, "supabase/migrations").some((file) => /archive|agendar_encerramentos/i.test(file))) fail("Archived or operational migration appears in active chain");
 
 const trackedEnv = execFileSync("git", ["ls-files", ".env", ".env.*"], { cwd: root, encoding: "utf8" })
@@ -87,7 +92,12 @@ const payload = {
   baseline_sha: actualBaselineSha,
   expected_baseline_sha: EXPECTED_BASELINE_SHA,
   baseline_sha_preserved: actualBaselineSha === EXPECTED_BASELINE_SHA,
+  executable_baseline_present: executableBaselineExists,
   active_migrations: activeMigrations,
+  reference_baselines: referenceBaselines,
+  local_executable_migration_count: activeMigrations.length,
+  reference_only_baseline_count: referenceBaselines.length,
+  total_database_change_artifact_count: activeMigrations.length + referenceBaselines.length,
   forbidden_changes_found: false,
   remote_access_performed: false,
   edge_functions_deployed: false,
@@ -104,7 +114,9 @@ writeMarkdownReport(root, "repository-safety-summary.md", [
   `- Baseline SHA: ${payload.baseline_sha ?? "missing"}`,
   `- Expected baseline SHA: ${payload.expected_baseline_sha}`,
   `- Baseline preserved: ${payload.baseline_sha_preserved ? "yes" : "no"}`,
-  `- Active migrations: ${activeMigrations.join(", ")}`,
+  `- Executable baseline present: ${payload.executable_baseline_present ? "yes" : "no"}`,
+  `- Active executable migrations: ${activeMigrations.join(", ")}`,
+  `- Reference baselines: ${referenceBaselines.join(", ")}`,
   `- Primary error: ${payload.primary_error ?? "none"}`,
 ]);
 

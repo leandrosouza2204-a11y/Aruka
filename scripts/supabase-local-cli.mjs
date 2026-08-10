@@ -2,7 +2,7 @@ import { spawnSync } from "node:child_process";
 
 const commands = {
   preflight: ["scripts/supabase-local-preflight.ps1"],
-  bootstrap: ["scripts/supabase-local-bootstrap.ps1"],
+  bootstrap: ["node", "scripts/supabase-local-bootstrap-canonical.mjs"],
   validate: ["scripts/supabase-local-validate.ps1"],
   stop: ["scripts/supabase-local-stop.ps1"],
   clean: ["scripts/supabase-local-clean.ps1", "-CI"],
@@ -45,6 +45,10 @@ if (!commands[command]) {
 }
 
 const [script, ...scriptArgs] = commands[command];
+if (script === "node") {
+  const result = spawnSync("node", scriptArgs, { stdio: "inherit", shell: false });
+  process.exit(result.status ?? 1);
+}
 const powershellCommand = process.platform === "win32" ? "powershell.exe" : "pwsh";
 const result = spawnSync(powershellCommand, ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", script, ...scriptArgs], {
   stdio: "inherit",

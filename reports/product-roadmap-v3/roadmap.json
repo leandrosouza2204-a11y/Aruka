@@ -1,0 +1,77 @@
+{
+  "roadmap_version": "v3",
+  "generated_from": "Product Audit v2 final closeout",
+  "initiatives": [
+    {
+      "id": "ENABLE_AUTHENTICATED_RUNTIME_QA",
+      "title": "Enable authenticated runtime QA",
+      "problem": "Authenticated browser/CDP QA is unavailable for mobile and finance visual flows.",
+      "user_impact": "Reduces regression risk before product changes reach users.",
+      "business_impact": "Improves confidence for finance and mobile workflow releases.",
+      "technical_risk": "MEDIUM",
+      "effort": "M",
+      "dependencies": ["authenticated local or staging session", "documented CDP/browser startup"],
+      "priority": "P1",
+      "recommended_cycle": "Roadmap v3 Cycle 01"
+    },
+    {
+      "id": "FINANCE_WORKFLOW_RELIABILITY_PASS",
+      "title": "Finance workflow reliability pass",
+      "problem": "Finance remains the highest-impact operational module and should be hardened after runtime QA exists.",
+      "user_impact": "Reduces mistakes in payments, renewals and follow-up state changes.",
+      "business_impact": "Protects revenue tracking and operational trust.",
+      "technical_risk": "MEDIUM",
+      "effort": "M",
+      "dependencies": ["ENABLE_AUTHENTICATED_RUNTIME_QA"],
+      "priority": "P1",
+      "recommended_cycle": "Roadmap v3 Cycle 02"
+    },
+    {
+      "id": "DASHBOARD_DECISION_USEFULNESS",
+      "title": "Dashboard decision usefulness",
+      "problem": "Dashboard can evolve from summary to daily action surface.",
+      "user_impact": "Helps professionals decide what to do first.",
+      "business_impact": "Increases recurring operational value.",
+      "technical_risk": "LOW_MEDIUM",
+      "effort": "M",
+      "dependencies": ["stable current metrics"],
+      "priority": "P2",
+      "recommended_cycle": "Roadmap v3 Cycle 03"
+    },
+    {
+      "id": "STUDENT_EXPERIENCE_CONTINUITY",
+      "title": "Student experience continuity",
+      "problem": "Student-facing training continuity can be clearer around active workouts, history and next actions.",
+      "user_impact": "Improves comprehension and follow-through for students.",
+      "business_impact": "Supports retention and perceived value.",
+      "technical_risk": "MEDIUM",
+      "effort": "M",
+      "dependencies": ["workout lifecycle stable"],
+      "priority": "P2",
+      "recommended_cycle": "Roadmap v3 Cycle 04"
+    },
+    {
+      "id": "OPERATIONAL_OBSERVABILITY",
+      "title": "Operational observability",
+      "problem": "Diagnostics can become more actionable for support without changing core workflows.",
+      "user_impact": "Indirectly reduces support time.",
+      "business_impact": "Improves maintainability and incident response.",
+      "technical_risk": "LOW",
+      "effort": "M",
+      "dependencies": ["admin log conventions"],
+      "priority": "P3",
+      "recommended_cycle": "Later"
+    }
+  ],
+  "recommended_first_cycle": "ENABLE_AUTHENTICATED_RUNTIME_QA",
+  "rationale": "The recurring runtime limitation blocks full visual verification for authenticated mobile and finance flows. It is high leverage, isolated, and does not require reopening Product Audit v2 findings.",
+  "dependencies": [
+    "authenticated local or staging account",
+    "repeatable browser/CDP launch instructions",
+    "clear distinction between environment blocked and functional failure"
+  ],
+  "risks": [
+    "Runtime setup may require credentials or environment coordination outside repository changes.",
+    "Finance visual QA remains partially static until authenticated runtime is available."
+  ]
+}
