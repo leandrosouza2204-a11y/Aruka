@@ -1,6 +1,7 @@
 import TableActions, { TableActionItem } from "../../../components/TableActions";
 import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
 import { classeStatusAluno } from "../../../data/statusHelpers";
+import { formatarAtencaoCobranca } from "../utils/billingAttention";
 import FinanceiroEmptyState from "./FinanceiroEmptyState";
 
 function FinanceiroMobileCards({
@@ -82,12 +83,10 @@ function FinanceiroMobileCards({
                 </div>
               </>
             )}
-            {registro.atencaoCobranca?.requerAtencao && (
-              <div className="card-row">
-                <span className="card-label">Atenção de cobrança</span>
-                <strong className="card-value">{formatarAtencaoCobranca(registro)}</strong>
-              </div>
-            )}
+            <div className="card-row">
+              <span className="card-label">Cobrança</span>
+              <strong className="card-value">{formatarAtencaoCobranca(registro.atencaoCobranca)}</strong>
+            </div>
             <div className="card-row">
               <span className="card-label">Status</span>
               <strong className="card-value">{formatarStatusPagamento(registro)}</strong>
@@ -205,15 +204,6 @@ function getReceberLabel(registro) {
   return registro.statusAcompanhamento === "Aguardando renovação"
     ? "Receber débito"
     : "Receber";
-}
-
-function formatarAtencaoCobranca(registro) {
-  const atencao = registro.atencaoCobranca;
-
-  if (atencao.vencido) return "Atrasado";
-  if (atencao.urgente) return "Atenção 3 dias";
-
-  return "Atenção 7 dias";
 }
 
 export default FinanceiroMobileCards;

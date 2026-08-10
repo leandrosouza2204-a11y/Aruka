@@ -2,6 +2,7 @@ import TableActions, { TableActionItem } from "../../../components/TableActions"
 import LoadingState from "../../../components/LoadingState";
 import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
 import { classeStatusAluno } from "../../../data/statusHelpers";
+import { formatarAtencaoCobranca } from "../utils/billingAttention";
 import FinanceiroEmptyState from "./FinanceiroEmptyState";
 
 function FinanceiroTable({
@@ -30,6 +31,7 @@ function FinanceiroTable({
           <col className="financeiro-col-valor" />
           <col className="financeiro-col-recebido" />
           <col className="financeiro-col-vencimento" />
+          <col className="financeiro-col-cobranca" />
           <col className="financeiro-col-status" />
           <col className="financeiro-col-pagamento" />
           <col className="financeiro-col-acoes" />
@@ -43,6 +45,7 @@ function FinanceiroTable({
             <th className="cell-nowrap" style={styles.header}>Valor parcela</th>
             <th className="cell-nowrap" style={styles.header}>Recebido</th>
             <th className="cell-nowrap" style={styles.header}>Vencimento</th>
+            <th style={styles.header}>Cobrança</th>
             <th style={styles.header}>Acompanhamento</th>
             <th style={styles.header}>Pagamento</th>
             <th className="financeiro-actions-col" style={styles.header}>Ações</th>
@@ -52,7 +55,7 @@ function FinanceiroTable({
         <tbody>
           {carregando && (
             <tr>
-              <td style={styles.estadoVazio} colSpan="10">
+              <td style={styles.estadoVazio} colSpan="11">
                 <LoadingState texto="Carregando financeiro..." />
               </td>
             </tr>
@@ -75,6 +78,8 @@ function FinanceiroTable({
                 <td className="cell-nowrap" style={styles.celula}>{formatarMoeda(registro.totalRecebido)}</td>
                 <td className="cell-nowrap" style={styles.celula}>
                   <VencimentoInfo registro={registro} />
+                </td>
+                <td className="financeiro-status-cell" style={styles.celula}>
                   <AtencaoCobrancaInfo registro={registro} />
                 </td>
                 <td className="financeiro-status-cell" style={styles.celula}>
@@ -131,7 +136,7 @@ function FinanceiroTable({
 
           {!carregando && registros.length === 0 && (
             <tr>
-              <td style={styles.estadoVazio} colSpan="10">
+              <td style={styles.estadoVazio} colSpan="11">
                 <FinanceiroEmptyState visaoAcompanhamento={visaoAcompanhamento} />
               </td>
             </tr>
@@ -256,17 +261,11 @@ function PagamentoParceladoInfo({ registro }) {
 
 function AtencaoCobrancaInfo({ registro }) {
   const atencao = registro.atencaoCobranca;
-  if (!atencao?.requerAtencao) return null;
-
-  if (atencao.vencido) {
-    return <span className="financeiro-pagamento-info">Atrasado</span>;
-  }
-
-  if (atencao.urgente) {
-    return <span className="financeiro-pagamento-info">Atenção 3 dias</span>;
-  }
-
-  return <span className="financeiro-pagamento-info">Atenção 7 dias</span>;
+  return (
+    <span className="financeiro-pagamento-info">
+      <strong>{formatarAtencaoCobranca(atencao)}</strong>
+    </span>
+  );
 }
 
 export default FinanceiroTable;

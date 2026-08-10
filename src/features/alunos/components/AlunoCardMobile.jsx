@@ -2,6 +2,7 @@ import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
 import { classeStatusAluno } from "../../../data/statusHelpers";
 import { normalizarTelefoneWhatsApp } from "../../../services/whatsappService";
 import TableActions, { TableActionItem } from "../../../components/TableActions";
+import { formatarAtencaoCobranca } from "../../financeiro/utils/billingAttention";
 
 function AlunoCardMobile({
   aluno,
@@ -41,6 +42,10 @@ function AlunoCardMobile({
       <div className="card-row">
         <span className="card-label">Vencimento</span>
         <strong className="card-value">{formatarData(aluno.vencimento)}</strong>
+      </div>
+      <div className="card-row">
+        <span className="card-label">Cobrança</span>
+        <strong className="card-value">{formatarAtencaoCobranca(aluno.atencaoCobranca)}</strong>
       </div>
 
       <div className="card-actions">

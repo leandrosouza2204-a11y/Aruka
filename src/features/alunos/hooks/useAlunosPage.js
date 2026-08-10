@@ -140,14 +140,17 @@ export function useAlunosPage() {
     return ordenarPorVencimento(
       alunos
         .map(normalizarAluno)
-        .filter((aluno) => {
-          const combinaNome = aluno.nome.toLowerCase().includes(termoBusca);
-          const atencaoCobranca = montarAtencaoCobranca({
+        .map((aluno) => ({
+          ...aluno,
+          atencaoCobranca: montarAtencaoCobranca({
             aluno,
             plano: planosPorId.get(aluno.plano),
             pagamentos: pagamentosPorAluno.get(aluno.id) || [],
-          });
-          const combinaStatus = statusCombinaAtencaoCobranca(filtroStatus, atencaoCobranca);
+          }),
+        }))
+        .filter((aluno) => {
+          const combinaNome = aluno.nome.toLowerCase().includes(termoBusca);
+          const combinaStatus = statusCombinaAtencaoCobranca(filtroStatus, aluno.atencaoCobranca);
           const combinaPlano =
             filtroPlano === "todos" || aluno.plano === filtroPlano;
 
