@@ -1,0 +1,51 @@
+{
+  "roadmap_version": "v4",
+  "generated_from": "Post-merge main sync after Roadmap v3 closeout",
+  "product_state": {
+    "product_audit_v2": "CLOSED",
+    "roadmap_v3": "CLOSED",
+    "production_db_front": "CLOSED",
+    "ci_harness": "CANONICALIZED"
+  },
+  "principle": "PRODUCT_VALUE_FIRST",
+  "recommended_first_cycle": "STUDENT_PROGRESSION_SNAPSHOT",
+  "cycles": [
+    {
+      "id": "STUDENT_PROGRESSION_SNAPSHOT",
+      "title": "Student Progression Snapshot",
+      "priority": "P1",
+      "database_change_required": "POSSIBLE",
+      "objective": "Transform existing workout history, load, repetitions and cycle continuity into a clear progression surface."
+    },
+    {
+      "id": "ASSESSMENT_EVOLUTION_EXPERIENCE",
+      "title": "Assessment Evolution Experience",
+      "priority": "P1",
+      "database_change_required": "NO",
+      "objective": "Improve historical comparison and report-ready progress language for avaliacoes."
+    },
+    {
+      "id": "WORKOUT_INTELLIGENCE_FEEDBACK_LOOP",
+      "title": "Workout Intelligence Feedback Loop",
+      "priority": "P2",
+      "database_change_required": "POSSIBLE",
+      "objective": "Expose adherence, completion and adjustment signals without automatic AI decisions."
+    },
+    {
+      "id": "STUDENT_DAILY_EXPERIENCE",
+      "title": "Student Daily Experience",
+      "priority": "P2",
+      "database_change_required": "POSSIBLE",
+      "objective": "Make the student area continuous around current workout, history, progress and next action."
+    },
+    {
+      "id": "COMMERCIAL_READINESS",
+      "title": "Commercial Readiness",
+      "priority": "P2",
+      "database_change_required": "NO",
+      "objective": "Prepare beta/trial operation, onboarding, support and release readiness."
+    }
+  ],
+  "database_change_policy": "Any YES/POSSIBLE database change follows local migration -> local full CI -> dry-run -> review -> authorization -> production db push.",
+  "next_action": "COMMIT_ROADMAP_V4_AND_IMPLEMENT_FIRST_PRODUCT_VALUE_CYCLE"
+}

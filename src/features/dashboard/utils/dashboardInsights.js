@@ -58,6 +58,10 @@ function formatarMoeda(valor) {
 }
 
 function statusEstaVencido(status) {
+  if (typeof status === "object" && status !== null) {
+    return Boolean(status.vencido);
+  }
+
   return ["Vencido", "Parcela vencida", "Atrasado", "Parcela atrasada"].includes(status);
 }
 
