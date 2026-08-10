@@ -60,11 +60,14 @@ if (!existsSync(summaryPath)) fail("Missing clean worktree summary report.");
 const report = JSON.parse(readFileSync(reportPath, "utf8"));
 const powershellResultValidated = report.result === "CLEAN_WORKTREE_VALIDATED";
 const powershellDecisionValidated = report.decision === "LOCAL_REPRODUCIBILITY_VALIDATED";
+const hmlExpectationByMode = report.mode === "ISOLATED_CI" ? false : true;
 if (!powershellResultValidated) fail("Clean worktree JSON result is not validated.");
 if (!powershellDecisionValidated) fail("Clean worktree JSON decision is not validated.");
 if (!["LOCAL", "ISOLATED_CI"].includes(report.mode)) fail("Clean worktree report mode is invalid.");
 if (typeof report.expected_hml_preservation !== "boolean") fail("Clean worktree report is missing expected_hml_preservation.");
 if (typeof report.actual_hml_preservation !== "boolean") fail("Clean worktree report is missing actual_hml_preservation.");
+if (report.expected_hml_preservation !== hmlExpectationByMode) fail("Clean worktree HML expectation does not match execution mode.");
+if (report.expected_hml_preservation !== report.actual_hml_preservation) fail("Clean worktree HML preservation expectation does not match actual result.");
 if (report.assertion_passed !== true) fail("Clean worktree HML preservation assertion did not pass.");
 if (report.remote_access !== "none") fail("Clean worktree reported remote access.");
 if (!report.cleanup?.worktree_removed || !report.cleanup?.temp_dir_removed || !report.cleanup?.containers_removed || !report.cleanup?.volumes_removed) {
