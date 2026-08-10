@@ -9,6 +9,7 @@ import {
   nowIso,
   runCommand,
   runSupabaseDbReset,
+  runSupabaseStart,
   sha256CanonicalText,
   stableSnapshot,
   stringifyStable,
@@ -32,7 +33,7 @@ function runSupabaseStartIfNeeded(resetResult) {
   if (resetResult.status === 0 || !/supabase start is not running/i.test(`${resetResult.stderr}\n${resetResult.stdout}`)) {
     return resetResult;
   }
-  commandOutputOrThrow(runCommand(root, process.platform === "win32" ? "npx.cmd" : "npx", ["-y", "supabase@2.109.1", "start"], { timeoutMs: 240000 }), "Local Supabase start");
+  commandOutputOrThrow(runSupabaseStart(root), "Local Supabase start");
   return runSupabaseDbReset(root);
 }
 

@@ -1,28 +1,20 @@
 import { createHash } from "node:crypto";
 import { execFileSync, spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
+import {
+  EXECUTABLE_BASELINE_PATH,
+  EXPECTED_EPHEMERAL_MIGRATION_HISTORY,
+  EXPECTED_EXECUTABLE_MIGRATIONS,
+  REFERENCE_BASELINE_PATH,
+  REFERENCE_BASELINE_SHA256,
+  SUPABASE_CLI_VERSION,
+  createEphemeralSupabaseWorkdir,
+} from "./lib/supabase-local-environment.mjs";
 
-export const EXPECTED_BASELINE_SHA = "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B";
-export const BASELINE_PATH = "supabase/reference-baselines/20260716090000_baseline_aruka_v1.sql";
-export const EXECUTABLE_BASELINE_PATH = "supabase/migrations/20260716090000_baseline_aruka_v1.sql";
-export const EXPECTED_EXECUTABLE_MIGRATIONS = [
-  "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql",
-  "supabase/migrations/20260730090000_student_identity_contract.sql",
-  "supabase/migrations/20260731190000_reconcile_security_policies_and_grants.sql",
-  "supabase/migrations/20260801143335_reconcile_alunos_required_fields.sql",
-  "supabase/migrations/20260801173000_revoke_aoe_idempotency_anon_execute.sql",
-  "supabase/migrations/20260801180000_harden_workout_templates_updated_at.sql",
-];
-export const EXPECTED_EPHEMERAL_MIGRATION_HISTORY = [
-  "20260716090000",
-  "20260728030000",
-  "20260730090000",
-  "20260731190000",
-  "20260801143335",
-  "20260801173000",
-  "20260801180000",
-];
+export const EXPECTED_BASELINE_SHA = REFERENCE_BASELINE_SHA256;
+export const BASELINE_PATH = REFERENCE_BASELINE_PATH;
+export { EXECUTABLE_BASELINE_PATH, EXPECTED_EXECUTABLE_MIGRATIONS, EXPECTED_EPHEMERAL_MIGRATION_HISTORY };
 export const PROTECTED_PROJECT_REF = "xrmqdkpx" + "nfvusmenadnf";
 export const DECISION = "LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED";
 export const REPORT_DIR = "reports/supabase-local-seeds";
@@ -244,7 +236,7 @@ export function collectFixtureCounts(root = process.cwd()) {
 
 export function sanitizeText(text) {
   return String(text)
-    .replace(/postgres(?:ql)?:\/\/[^:\s]+:[^@\s]+@/gi, "postgresql://[REDACTED_USER]:[REDACTED_PASSWORD]@")
+    .replace(/postgres(?:ql)?:\/\/[^:\s]+:[^@\s]+@[^\s"',)]+/gi, "postgresql://[REDACTED_USER]:[REDACTED_PASSWORD]@[LOCAL_HOST]:[LOCAL_PORT]/[LOCAL_DATABASE]")
     .replace(/eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{10,}/g, "[REDACTED_JWT]")
     .replace(/sb_secret_[A-Za-z0-9_-]+/gi, "[REDACTED_SECRET]")
     .replaceAll(process.cwd().replaceAll("\\", "/"), "[WORKSPACE]")
@@ -310,18 +302,34 @@ export function stableSnapshot(root = process.cwd()) {
 }
 
 export function runSupabaseDbReset(root = process.cwd()) {
-  if (existsSync(join(root, EXECUTABLE_BASELINE_PATH))) {
-    throw new Error("Refusing db reset: executable baseline already exists");
-  }
-  const baselineSha = sha256CanonicalText(root, BASELINE_PATH);
-  if (baselineSha !== EXPECTED_BASELINE_SHA) throw new Error("Official baseline SHA mismatch");
+  const workdir = createEphemeralSupabaseWorkdir(root, "safe-reset");
   try {
-    writeFileSync(join(root, EXECUTABLE_BASELINE_PATH), readFileSync(join(root, BASELINE_PATH)));
-    return runCommand(root, process.platform === "win32" ? "npx.cmd" : "npx", ["-y", "supabase@2.109.1", "db", "reset"], { timeoutMs: 240000 });
+    return runCommand(root, process.platform === "win32" ? "npx.cmd" : "npx", [
+      "-y",
+      `supabase@${SUPABASE_CLI_VERSION}`,
+      "--workdir",
+      workdir.root,
+      "db",
+      "reset",
+      "--no-seed",
+    ], { timeoutMs: 240000 });
   } finally {
-    if (existsSync(join(root, EXECUTABLE_BASELINE_PATH))) {
-      rmSync(join(root, EXECUTABLE_BASELINE_PATH), { force: true });
-    }
+    workdir.cleanup();
+  }
+}
+
+export function runSupabaseStart(root = process.cwd()) {
+  const workdir = createEphemeralSupabaseWorkdir(root, "safe-start");
+  try {
+    return runCommand(root, process.platform === "win32" ? "npx.cmd" : "npx", [
+      "-y",
+      `supabase@${SUPABASE_CLI_VERSION}`,
+      "--workdir",
+      workdir.root,
+      "start",
+    ], { timeoutMs: 240000 });
+  } finally {
+    workdir.cleanup();
   }
 }
 

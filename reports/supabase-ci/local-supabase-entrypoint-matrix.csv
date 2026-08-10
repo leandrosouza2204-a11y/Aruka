@@ -1,0 +1,7 @@
+entrypoint,caller,gate,operation,fresh_db,canonical_bootstrap,baseline_handling,reset_behavior,result
+"supabase:bootstrap","package.json","Gate 3","fresh bootstrap","true","true","ephemeral workdir baseline+6","start via --workdir","PASS"
+"supabase:reset:safe","package.json","Gate 5/Gate 7","fresh reset","true","true","runSupabaseDbReset canonical workdir","db reset --workdir --no-seed","PASS"
+"qa:supabase-safe-reset","package.json","Gate 5","safe reset test","true","true","delegates reset-supabase-local-safe","delegated","PASS"
+"qa:supabase-cycle-8","package.json","Gate 7","reset + fixtures","true","true","delegates canonical reset","delegated","PASS"
+"qa:supabase-clean-worktree-wrapper","package.json","Gate 7","clean worktree bootstrap","true","true","inner npm run supabase:bootstrap","inner canonical bootstrap","PASS"
+"supabase:seed:local","package.json","Gate 4","seed","false","true","validates canonical contract before seed","none","PASS"

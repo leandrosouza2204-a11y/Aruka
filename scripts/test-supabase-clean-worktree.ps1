@@ -429,6 +429,8 @@ try {
     "scripts/supabase-local-preflight.ps1", "scripts/supabase-local-bootstrap.ps1",
     "scripts/supabase-local-validate.ps1", "scripts/supabase-local-stop.ps1",
     "scripts/supabase-local-clean.ps1", "scripts/supabase-local-cli.mjs",
+    "scripts/supabase-local-bootstrap-canonical.mjs", "scripts/lib/supabase-local-environment.mjs",
+    "scripts/supabase-cycle-8-lib.mjs",
     "scripts/validate-supabase-local-reproducibility.mjs",
     "scripts/test-supabase-clean-worktree.ps1", "scripts/test-supabase-local-reproducibility-negative.mjs",
     "supabase/config.toml", "supabase/reference-baselines/20260716090000_baseline_aruka_v1.sql",

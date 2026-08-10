@@ -1,0 +1,16 @@
+{
+  "decision": "SUPABASE_CI_HARNESS_STATIC_VALIDATED",
+  "fresh_db_entrypoint_count": 5,
+  "canonical_bootstrap_entrypoint_count": 6,
+  "bypass_bootstrap_entrypoint_count": 0,
+  "bypass_entrypoints": [],
+  "reference_baseline": "supabase/reference-baselines/20260716090000_baseline_aruka_v1.sql",
+  "executable_migrations": [
+    "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql",
+    "supabase/migrations/20260730090000_student_identity_contract.sql",
+    "supabase/migrations/20260731190000_reconcile_security_policies_and_grants.sql",
+    "supabase/migrations/20260801143335_reconcile_alunos_required_fields.sql",
+    "supabase/migrations/20260801173000_revoke_aoe_idempotency_anon_execute.sql",
+    "supabase/migrations/20260801180000_harden_workout_templates_updated_at.sql"
+  ]
+}

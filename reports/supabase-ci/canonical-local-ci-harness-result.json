@@ -1,0 +1,30 @@
+{
+  "decision": "READY_FOR_DEFINITIVE_CI_HARNESS_COMMIT",
+  "root_cause": "MULTIPLE_LOCAL_SUPABASE_BOOTSTRAP_PATHS_WITH_INCONSISTENT_REFERENCE_BASELINE_HANDLING",
+  "fresh_db_entrypoints": 5,
+  "canonical_entrypoints": 6,
+  "bypass_entrypoints_before": 2,
+  "bypass_entrypoints_after": 0,
+  "reference_baseline": {
+    "path": "supabase/reference-baselines/20260716090000_baseline_aruka_v1.sql",
+    "sha256": "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B"
+  },
+  "executable_migrations": 6,
+  "ephemeral_chain_count": 7,
+  "gate_1_2": "PASS",
+  "gate_3": "PASS",
+  "gate_4": "PASS",
+  "gate_5": "PASS",
+  "gate_6": "PASS",
+  "gate_7": "PASS",
+  "gate_8": "PASS",
+  "gate_9": "PASS",
+  "cycle_9_1": "PASS_STATIC_NEGATIVE_PREPARE",
+  "local_ci_run_1": "PASS",
+  "local_ci_run_2": "PASS",
+  "worktree_clean_after_runs": "PASS",
+  "production_accessed": false,
+  "production_mutation": false,
+  "db_push_needed": false,
+  "next_action": "COMMIT_AND_PUSH_ONLY_AFTER_LOCAL_FULL_CI_PASS_X2"
+}
