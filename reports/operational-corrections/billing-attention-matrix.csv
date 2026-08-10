@@ -1,0 +1,7 @@
+surface,previous_rule,corrected_rule,status
+dashboard,contract or installment status,count canonical billing attention,CORRECTED
+alunos,aluno.status only,filter canonical billing attention,CORRECTED
+financeiro,show next installment dates,show canonical attention labels,CORRECTED
+warning_7_days,implicit status,explicit canonical window,CORRECTED
+warning_3_days,not distinguished,explicit urgent attention,CORRECTED
+overdue,contract/installment status,canonical overdue attention,CORRECTED

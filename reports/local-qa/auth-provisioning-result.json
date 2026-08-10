@@ -1,0 +1,19 @@
+{
+  "decision": "READY_FOR_OPERATIONAL_AND_LOCAL_QA_HARDENING_COMMIT",
+  "root_cause": "LOCAL_QA_AUTH_FIXTURES_CREATE_INCOMPLETE_GOTRUE_USER_RECORDS",
+  "personal_user_present": true,
+  "admin_user_present": true,
+  "personal_auth_fields_compatible": true,
+  "admin_auth_fields_compatible": true,
+  "personal_has_password": false,
+  "admin_has_password": false,
+  "fixture_changed": true,
+  "setup_changed": true,
+  "manual_sql_required_after_fix": false,
+  "fresh_structural_provisioning": "PASS",
+  "runtime_precheck": "PASS",
+  "authenticated_runtime": "PASS",
+  "production_accessed": false,
+  "db_push": false,
+  "next_action": "COMMIT_OPERATIONAL_CORRECTIONS_AND_REPRODUCIBLE_LOCAL_QA_AUTH"
+}

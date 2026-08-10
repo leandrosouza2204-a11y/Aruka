@@ -1,0 +1,29 @@
+{
+  "decision": "IMPLEMENTED_WITHOUT_DATABASE_CHANGE",
+  "opsR01": {
+    "rootCause": "Dashboard used installment-aware due status while Alunos filtered only aluno.status.",
+    "canonicalRule": "contract_or_next_unpaid_installment_due_within_7_days_or_overdue",
+    "dashboardDueCountConsistency": "PASS",
+    "studentsNavigationConsistency": "PASS",
+    "financeAttentionVisibility": "PASS",
+    "warning7Day": "PASS",
+    "warning3Day": "PASS",
+    "overdueWarning": "PASS"
+  },
+  "opsR02": {
+    "rootCause": "Renewal mutates aluno.inicio for the current contract and report used it as original consultancy start.",
+    "tenureCalculation": "earliest_non_future_student_or_payment_history_date",
+    "originalConsultancyStartPreserved": "DERIVED_FROM_HISTORY",
+    "currentContractStart": "aluno.inicio",
+    "fieldSemanticReuseDetected": "NO",
+    "futureDatesExcludedFromTenure": "YES",
+    "databaseChangeRequired": "NO"
+  },
+  "protection": {
+    "productionAccessed": "NO",
+    "productionMutation": "NO",
+    "dbPush": "NO",
+    "migrationRepair": "NO",
+    "supabaseLink": "NO"
+  }
+}

@@ -6,7 +6,7 @@ insert into public.assinaturas (
   'Cycle8 Mensal Local',
   'ativo',
   '2026-01-10',
-  '2026-02-10',
+  '2027-02-10',
   'cycle8-pagamento-local-001',
   '2026-01-10T11:00:00Z'
 ) on conflict (id) do update set

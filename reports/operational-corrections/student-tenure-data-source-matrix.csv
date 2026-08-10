@@ -1,0 +1,6 @@
+field,current_source,corrected_source,status
+original_consultancy_start,aluno.inicio,earliest non-future aluno.inicio/payment vencimentoParcela/vencimentoAnterior/dataPagamento,CORRECTED
+current_contract_start,aluno.inicio,aluno.inicio,VISIBLE
+tenure_months,months from aluno.inicio,months from original_consultancy_start,CORRECTED
+renewal_history,pagamentos/acompanhamento_eventos,pagamentos/acompanhamento_eventos,PRESERVED
+previous_plan,acompanhamento_eventos planoNome or payment plano,acompanhamento_eventos/payment history,AVAILABLE_WHEN_RECORDED

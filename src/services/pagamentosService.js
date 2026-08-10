@@ -211,11 +211,14 @@ export function montarResumoFinanceiroAluno(aluno, pagamentos = [], plano = null
   const quantidadePagamentos = pagamentosOrdenados.length;
   const ultimoPagamento = pagamentosOrdenados[0] || null;
 
+  const dataInicioConsultoria = obterInicioConsultoria(aluno, pagamentosOrdenados);
+
   return {
     aluno,
     nomeAluno: aluno.nome,
-    dataInicio: aluno.inicio || "",
-    tempoConsultoriaMeses: calcularMesesEntre(aluno.inicio, dataHojeISO()),
+    dataInicio: dataInicioConsultoria,
+    dataInicioContratoAtual: aluno.inicio || "",
+    tempoConsultoriaMeses: calcularMesesEntre(dataInicioConsultoria, dataHojeISO()),
     totalPago,
     quantidadePagamentos,
     ticketMedio: quantidadePagamentos ? totalPago / quantidadePagamentos : 0,
@@ -225,6 +228,20 @@ export function montarResumoFinanceiroAluno(aluno, pagamentos = [], plano = null
     recorrenteEmDia:
       quantidadePagamentos >= 2 && !statusEstaVencido(calcularStatus(aluno.vencimento, aluno.plano)),
   };
+}
+
+export function obterInicioConsultoria(aluno, pagamentos = []) {
+  const hoje = dataHojeISO();
+  const datas = [
+    aluno?.inicio,
+    ...pagamentos.flatMap((pagamento) => [
+      pagamento.vencimentoParcela,
+      pagamento.vencimentoAnterior,
+      pagamento.dataPagamento,
+    ]),
+  ].filter((data) => data && data <= hoje);
+
+  return datas.sort()[0] || "";
 }
 
 export function montarRankingFinanceiroAlunos(alunos = [], pagamentos = [], planos = []) {

@@ -29,6 +29,7 @@ import {
   statusEstaVencido,
 } from "../../../data/alunosUtils";
 import { calcularSituacaoParcelamento } from "../utils/parcelamento";
+import { montarAtencaoCobranca } from "../utils/billingAttention";
 import { calcularSituacaoAcompanhamento } from "../utils/acompanhamento";
 import {
   ERRO_PAGAMENTO_DATA_FUTURA,
@@ -799,6 +800,11 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
       ? "Quitado"
       : calcularStatus(situacaoParcelamento.proximoVencimento, "trimestralParcelado")
     : calcularStatus(aluno.vencimento);
+  const atencaoCobranca = montarAtencaoCobranca({
+    aluno,
+    plano,
+    pagamentos: pagamentosContratoAtual,
+  });
   const valorPendente = Math.max(
     valorContrato -
       pagamentosContratoAtual.reduce(
@@ -842,6 +848,7 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
     aviso1Parcela: avisosParcela.aviso1,
     statusParcela: parcelado ? statusFinanceiro : "",
     statusFinanceiro,
+    atencaoCobranca,
     statusPagamento,
     statusAcompanhamento: acompanhamento.status,
     grupoAcompanhamento: acompanhamento.grupo,

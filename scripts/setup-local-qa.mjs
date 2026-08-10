@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 
 const npm = process.platform === "win32" ? "npm.cmd" : "npm";
-for (const script of ["qa:local:user", "qa:local:data", "qa:local:environment-check"]) {
+for (const script of ["setup:local-qa-auth", "qa:local:user", "qa:local:data", "qa:local:environment-check"]) {
   const result = spawnSync(npm, ["run", script], {
     stdio: "inherit",
     shell: process.platform === "win32",

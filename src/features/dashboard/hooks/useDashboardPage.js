@@ -1,11 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import {
-  calcularResumoParcelasAluno,
-  calcularStatus,
   formatarMoeda,
   normalizarAluno,
   statusEstaVencido,
-  statusEstaVencendo,
 } from "../../../data/alunosUtils";
 import { buscarAlunosSupabase } from "../../../services/alunosService";
 import { buscarAvaliacoesSupabase } from "../../../services/avaliacoesService";
@@ -17,6 +14,7 @@ import {
   montarAlertasConsultoria,
   montarSinaisFitness,
 } from "../utils/dashboardInsights";
+import { montarAtencaoCobranca } from "../../financeiro/utils/billingAttention";
 
 export function useDashboardPage() {
   const [alunos, setAlunos] = useState([]);
@@ -154,17 +152,15 @@ export function useDashboardPage() {
   );
 
   const alunosVencendo = useMemo(
-    () =>
-      alunos.filter((aluno) =>
-        statusEstaVencendo(statusPorAluno.get(aluno.id))
-      ).length,
+    () => alunos.filter((aluno) => statusPorAluno.get(aluno.id)?.vencendo).length,
     [alunos, statusPorAluno]
   );
 
   const alunosVencidos = useMemo(
     () =>
       alunos.filter((aluno) =>
-        statusEstaVencido(statusPorAluno.get(aluno.id))
+        statusPorAluno.get(aluno.id)?.vencido ||
+          statusEstaVencido(statusPorAluno.get(aluno.id)?.status)
       ).length,
     [alunos, statusPorAluno]
   );
@@ -175,7 +171,7 @@ export function useDashboardPage() {
         .map(normalizarAluno)
         .filter(
           (aluno) =>
-            !statusEstaVencido(statusPorAluno.get(aluno.id))
+            !statusPorAluno.get(aluno.id)?.vencido
         ),
     [alunos, statusPorAluno]
   );
@@ -325,19 +321,11 @@ export function useDashboardPage() {
 }
 
 function calcularStatusDashboard(aluno, pagamentosAluno, plano) {
-  const totalParcelas = plano?.permiteParcelamento
-    ? plano.quantidadeParcelas
-    : aluno.plano === "trimestralParcelado"
-      ? 3
-      : 1;
-  const resumoParcelas = calcularResumoParcelasAluno(
+  return montarAtencaoCobranca({
     aluno,
-    pagamentosAluno,
-    totalParcelas,
-    plano?.intervaloParcelasMeses || 1
-  );
-
-  return resumoParcelas.statusParcela || calcularStatus(aluno.vencimento);
+    plano,
+    pagamentos: pagamentosAluno,
+  });
 }
 
 function filtrarPagamentosContratoAtual(aluno, pagamentosAluno) {

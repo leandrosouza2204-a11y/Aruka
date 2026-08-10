@@ -75,6 +75,7 @@ function FinanceiroTable({
                 <td className="cell-nowrap" style={styles.celula}>{formatarMoeda(registro.totalRecebido)}</td>
                 <td className="cell-nowrap" style={styles.celula}>
                   <VencimentoInfo registro={registro} />
+                  <AtencaoCobrancaInfo registro={registro} />
                 </td>
                 <td className="financeiro-status-cell" style={styles.celula}>
                   <AcompanhamentoInfo registro={registro} />
@@ -251,6 +252,21 @@ function PagamentoParceladoInfo({ registro }) {
       )}
     </span>
   );
+}
+
+function AtencaoCobrancaInfo({ registro }) {
+  const atencao = registro.atencaoCobranca;
+  if (!atencao?.requerAtencao) return null;
+
+  if (atencao.vencido) {
+    return <span className="financeiro-pagamento-info">Atrasado</span>;
+  }
+
+  if (atencao.urgente) {
+    return <span className="financeiro-pagamento-info">Atenção 3 dias</span>;
+  }
+
+  return <span className="financeiro-pagamento-info">Atenção 7 dias</span>;
 }
 
 export default FinanceiroTable;

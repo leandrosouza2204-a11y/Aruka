@@ -43,7 +43,5 @@ delete from public.perfis where id in (
   '00000000-0000-4000-8000-000000000801',
   '00000000-0000-4000-8000-000000000802'
 );
-delete from auth.users where id in (
-  '00000000-0000-4000-8000-000000000801',
-  '00000000-0000-4000-8000-000000000802'
-);
+-- Keep deterministic auth.users rows so local-only password hashes can survive repeated seeds.
+-- The structural fixture upserts these IDs and repairs non-secret GoTrue fields idempotently.

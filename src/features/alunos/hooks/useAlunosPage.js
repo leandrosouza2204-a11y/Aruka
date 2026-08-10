@@ -17,6 +17,7 @@ import { buscarTreinosPorAlunoSupabase } from "../../../services/treinosService"
 import { buscarAvaliacoesPorAlunoSupabase } from "../../../services/avaliacoesService";
 import {
   buscarPagamentosPorAluno,
+  buscarPagamentosSupabase,
   montarResumoFinanceiroAluno,
 } from "../../../services/pagamentosService";
 import {
@@ -35,6 +36,10 @@ import { validarCadastroAluno } from "../utils/alunosCadastroValidacoes";
 import {
   montarUrlContextualAluno,
 } from "../utils/alunosContextNavigation";
+import {
+  montarAtencaoCobranca,
+  statusCombinaAtencaoCobranca,
+} from "../../financeiro/utils/billingAttention";
 
 export const formInicial = {
   id: "",
@@ -57,6 +62,7 @@ export function useAlunosPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [alunos, setAlunos] = useState([]);
   const [planos, setPlanos] = useState([]);
+  const [pagamentos, setPagamentos] = useState([]);
   const [form, setForm] = useState(formInicial);
   const [modalCadastroAberto, setModalCadastroAberto] = useState(false);
   const [alunoEditandoId, setAlunoEditandoId] = useState("");
@@ -76,16 +82,19 @@ export function useAlunosPage() {
       setErro("");
 
       try {
-        const [alunosSupabase, planosSupabase] = await Promise.all([
+        const [alunosSupabase, planosSupabase, pagamentosSupabase] = await Promise.all([
           buscarAlunosSupabase(),
           buscarPlanosSupabase(),
+          buscarPagamentosSupabase(),
         ]);
         setAlunos(alunosSupabase.map(normalizarAluno));
         setPlanos(planosSupabase);
+        setPagamentos(pagamentosSupabase);
       } catch (error) {
         setErro(`Erro ao buscar dados: ${error.message}`);
         setAlunos([]);
         setPlanos([]);
+        setPagamentos([]);
       } finally {
         setCarregando(false);
       }
@@ -108,6 +117,23 @@ export function useAlunosPage() {
   const filtroStatus = filtrosUrl.status;
   const filtroPlano = filtrosUrl.plano;
 
+  const planosPorId = useMemo(
+    () => new Map(planos.map((plano) => [plano.id, plano])),
+    [planos]
+  );
+
+  const pagamentosPorAluno = useMemo(() => {
+    const mapa = new Map();
+
+    pagamentos.forEach((pagamento) => {
+      const pagamentosAluno = mapa.get(pagamento.alunoId) || [];
+      pagamentosAluno.push(pagamento);
+      mapa.set(pagamento.alunoId, pagamentosAluno);
+    });
+
+    return mapa;
+  }, [pagamentos]);
+
   const alunosFiltrados = useMemo(() => {
     const termoBusca = busca.trim().toLowerCase();
 
@@ -116,15 +142,19 @@ export function useAlunosPage() {
         .map(normalizarAluno)
         .filter((aluno) => {
           const combinaNome = aluno.nome.toLowerCase().includes(termoBusca);
-          const combinaStatus =
-            filtroStatus === "todos" || aluno.status === filtroStatus;
+          const atencaoCobranca = montarAtencaoCobranca({
+            aluno,
+            plano: planosPorId.get(aluno.plano),
+            pagamentos: pagamentosPorAluno.get(aluno.id) || [],
+          });
+          const combinaStatus = statusCombinaAtencaoCobranca(filtroStatus, atencaoCobranca);
           const combinaPlano =
             filtroPlano === "todos" || aluno.plano === filtroPlano;
 
           return combinaNome && combinaStatus && combinaPlano;
         })
     );
-  }, [alunos, busca, filtroPlano, filtroStatus]);
+  }, [alunos, busca, filtroPlano, filtroStatus, pagamentosPorAluno, planosPorId]);
 
   const alunoSelecionado = useMemo(
     () =>
