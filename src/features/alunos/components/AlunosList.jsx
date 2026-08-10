@@ -6,6 +6,7 @@ import InlineDetails from "../../../components/InlineDetails";
 import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
 import { classeStatusAluno } from "../../../data/statusHelpers";
 import { trapModalFocus } from "../../../utils/modalAccessibility";
+import { formatarAtencaoCobranca } from "../../financeiro/utils/billingAttention";
 import { montarResumoOperacionalAluno } from "../utils/alunosResumoOperacional";
 import { useAlunosPage } from "../hooks/useAlunosPage";
 import AlunoCardMobile from "./AlunoCardMobile";
@@ -524,6 +525,7 @@ function AlunoDetalhesResponsivo({
             <InfoResponsivo label="Valor" valor={formatarMoeda(aluno.valor)} styles={styles} />
             <InfoResponsivo label="Início" valor={formatarData(aluno.inicio)} styles={styles} />
             <InfoResponsivo label="Vencimento" valor={formatarData(aluno.vencimento)} styles={styles} />
+            <InfoResponsivo label="Cobrança" valor={formatarAtencaoCobranca(aluno.atencaoCobranca)} styles={styles} />
           </div>
         </section>
 

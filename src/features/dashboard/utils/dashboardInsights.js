@@ -1,6 +1,7 @@
 export function montarAlertasConsultoria({
   alunosVencidos,
   alunosVencendo,
+  parcelasVencendo = 0,
   receitaPendente,
 }) {
   const alertas = [];
@@ -21,14 +22,28 @@ export function montarAlertasConsultoria({
 
   if (alunosVencendo > 0) {
     alertas.push({
-      titulo: "Enviar lembretes de vencimento",
-      texto: "Ha contratos ou parcelas proximos do vencimento que podem ser tratados com antecedencia.",
+      titulo: "Enviar lembretes de contrato",
+      texto: "Ha contratos proximos do vencimento que podem ser tratados com antecedencia.",
       rotulo: "Agenda",
       tom: "warning",
       acao: {
-        label: "Ver vencimentos",
+        label: "Ver contratos",
         to: "/alunos?status=Vencendo&origem=dashboard",
-        ariaLabel: "Ver alunos filtrados por status vencendo",
+        ariaLabel: "Ver alunos filtrados por contrato vencendo",
+      },
+    });
+  }
+
+  if (parcelasVencendo > 0) {
+    alertas.push({
+      titulo: "Cobrar parcelas em alerta",
+      texto: "Ha parcelas proximas do vencimento ou vencidas que precisam de contato financeiro.",
+      rotulo: "Cobranca",
+      tom: "warning",
+      acao: {
+        label: "Ver parcelas",
+        to: "/alunos?status=Vencendo%20parcela&origem=dashboard",
+        ariaLabel: "Ver alunos filtrados por parcela vencendo",
       },
     });
   }

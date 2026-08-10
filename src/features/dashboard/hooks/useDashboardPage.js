@@ -151,16 +151,25 @@ export function useDashboardPage() {
     [alunos, pagamentosPorAluno, planosPorId]
   );
 
-  const alunosVencendo = useMemo(
-    () => alunos.filter((aluno) => statusPorAluno.get(aluno.id)?.vencendo).length,
+  const contratosVencendo = useMemo(
+    () => alunos.filter((aluno) => statusPorAluno.get(aluno.id)?.contrato?.vencendo).length,
+    [alunos, statusPorAluno]
+  );
+
+  const parcelasVencendo = useMemo(
+    () =>
+      alunos.filter((aluno) => {
+        const parcela = statusPorAluno.get(aluno.id)?.parcela;
+        return parcela?.vencendo || parcela?.vencido;
+      }).length,
     [alunos, statusPorAluno]
   );
 
   const alunosVencidos = useMemo(
     () =>
       alunos.filter((aluno) =>
-        statusPorAluno.get(aluno.id)?.vencido ||
-          statusEstaVencido(statusPorAluno.get(aluno.id)?.status)
+        statusPorAluno.get(aluno.id)?.contrato?.vencido ||
+          statusEstaVencido(statusPorAluno.get(aluno.id)?.contrato?.status)
       ).length,
     [alunos, statusPorAluno]
   );
@@ -171,7 +180,7 @@ export function useDashboardPage() {
         .map(normalizarAluno)
         .filter(
           (aluno) =>
-            !statusPorAluno.get(aluno.id)?.vencido
+            !statusPorAluno.get(aluno.id)?.contrato?.vencido
         ),
     [alunos, statusPorAluno]
   );
@@ -201,11 +210,12 @@ export function useDashboardPage() {
     () =>
       montarAlertasConsultoria({
         alunosVencidos,
-        alunosVencendo,
+        alunosVencendo: contratosVencendo,
+        parcelasVencendo,
         alunosAtivosCheckin,
         receitaPendente,
       }),
-    [alunosVencidos, alunosAtivosCheckin, alunosVencendo, receitaPendente]
+    [alunosVencidos, alunosAtivosCheckin, contratosVencendo, parcelasVencendo, receitaPendente]
   );
 
   const onboardingStatus = useMemo(
@@ -259,15 +269,27 @@ export function useDashboardPage() {
         },
       },
       {
-        titulo: "Alunos Vencendo",
-        valor: carregando ? "..." : alunosVencendo,
+        titulo: "Contratos vencendo",
+        valor: carregando ? "..." : contratosVencendo,
         legenda: "Próximos do vencimento",
         tipo: "vencendo",
         destaque: "#f59e0b",
         acao: {
-          label: "Ver vencimentos",
+          label: "Ver contratos",
           to: "/alunos?status=Vencendo&origem=dashboard",
-          ariaLabel: "Ver alunos com vencimento proximo",
+          ariaLabel: "Ver alunos com contrato proximo do vencimento",
+        },
+      },
+      {
+        titulo: "Parcelas vencendo",
+        valor: carregando ? "..." : parcelasVencendo,
+        legenda: "Parcelas em alerta de cobranca",
+        tipo: "vencendo",
+        destaque: "#f97316",
+        acao: {
+          label: "Ver parcelas",
+          to: "/alunos?status=Vencendo%20parcela&origem=dashboard",
+          ariaLabel: "Ver alunos com parcela proxima do vencimento",
         },
       },
       {
@@ -285,8 +307,9 @@ export function useDashboardPage() {
     ],
     [
       alunosVencidos,
-      alunosVencendo,
+      contratosVencendo,
       carregando,
+      parcelasVencendo,
       receitaPendente,
       receitaPrevista,
       receitaRecebida,

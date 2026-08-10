@@ -92,7 +92,6 @@ const card = {
 const checkinCard = {
   display: "flex",
   flexDirection: "column",
-  gridColumn: "span 2",
   justifyContent: "space-between",
   minHeight: "154px",
 };

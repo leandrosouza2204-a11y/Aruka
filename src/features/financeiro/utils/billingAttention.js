@@ -23,12 +23,72 @@ export function montarAtencaoCobranca({
     hoje,
   });
   const parcelado = situacaoParcelamento.parcelado;
-  const dataReferencia = parcelado && !situacaoParcelamento.quitado
-    ? situacaoParcelamento.proximoVencimento
-    : aluno.vencimento || "";
-  const status = parcelado && !situacaoParcelamento.quitado
-    ? calcularStatus(dataReferencia, "trimestralParcelado", hoje)
-    : calcularStatus(dataReferencia, aluno.plano, hoje);
+  const contrato = montarAtencaoPorData({
+    dataReferencia: aluno.vencimento || "",
+    status: calcularStatus(aluno.vencimento, aluno.plano, hoje),
+    tipo: "contrato",
+    hoje,
+  });
+  const parcela = parcelado && !situacaoParcelamento.quitado
+    ? montarAtencaoPorData({
+        dataReferencia: situacaoParcelamento.proximoVencimento,
+        status: calcularStatus(situacaoParcelamento.proximoVencimento, "trimestralParcelado", hoje),
+        tipo: "parcela",
+        hoje,
+      })
+    : montarAtencaoVazia("parcela");
+  const prioridade = escolherMaiorPrioridade([parcela, contrato]);
+  const tipo = prioridade?.tipo || (parcelado ? "parcela" : "contrato");
+
+  return {
+    tipo,
+    status: prioridade?.status || "Em dia",
+    dataReferencia: prioridade?.dataReferencia || "",
+    diasAteVencimento: prioridade?.diasAteVencimento ?? null,
+    vencendo: Boolean(prioridade?.vencendo),
+    urgente: Boolean(prioridade?.urgente),
+    vencido: Boolean(prioridade?.vencido),
+    requerAtencao: Boolean(prioridade?.requerAtencao),
+    contrato,
+    parcela,
+    highestPriority: prioridade || montarAtencaoVazia(tipo),
+    situacaoParcelamento,
+    totalParcelas,
+  };
+}
+
+export function statusCombinaAtencaoCobranca(statusFiltro, atencao) {
+  if (!statusFiltro || String(statusFiltro).toLowerCase() === "todos") return true;
+  if (statusFiltro === "Vencendo") return Boolean(atencao?.contrato?.vencendo);
+  if (statusFiltro === "Vencido") return Boolean(atencao?.contrato?.vencido);
+  if (statusFiltro === "Vencendo parcela") return Boolean(atencao?.parcela?.vencendo || atencao?.parcela?.vencido);
+  if (statusFiltro === "Parcela vencida") return Boolean(atencao?.parcela?.vencido);
+
+  return atencao?.status === statusFiltro;
+}
+
+export function formatarAtencaoCobranca(atencao, { tipo = "prioridade" } = {}) {
+  const item = tipo === "contrato"
+    ? atencao?.contrato
+    : tipo === "parcela"
+      ? atencao?.parcela
+      : atencao?.highestPriority || atencao;
+
+  if (!item?.requerAtencao) return "Em dia";
+
+  const prefixo = item.tipo === "parcela" ? "Parcela" : "Contrato";
+  if (item.vencido) {
+    const dias = Math.abs(Number(item.diasAteVencimento || 0));
+    return dias <= 0 ? `${prefixo} vence hoje` : `${prefixo} vencida ha ${dias} dias`;
+  }
+
+  if (item.diasAteVencimento === 0) return `${prefixo} vence hoje`;
+  if (item.diasAteVencimento === 1) return `${prefixo} vence amanha`;
+
+  return `${prefixo} vence em ${item.diasAteVencimento} dias`;
+}
+
+function montarAtencaoPorData({ dataReferencia, status, tipo, hoje }) {
   const diasAteVencimento = calcularDiasAte(dataReferencia, hoje);
   const vencido = statusEstaVencido(status) || (diasAteVencimento !== null && diasAteVencimento < 0);
   const vencendo = statusEstaVencendo(status) ||
@@ -40,7 +100,7 @@ export function montarAtencaoCobranca({
     diasAteVencimento <= BILLING_URGENT_WINDOW_DAYS;
 
   return {
-    tipo: parcelado ? "parcela" : "contrato",
+    tipo,
     status,
     dataReferencia,
     diasAteVencimento,
@@ -48,17 +108,36 @@ export function montarAtencaoCobranca({
     urgente,
     vencido,
     requerAtencao: vencendo || vencido,
-    situacaoParcelamento,
-    totalParcelas,
+    prioridade: calcularPrioridade({ vencido, urgente, vencendo }),
   };
 }
 
-export function statusCombinaAtencaoCobranca(statusFiltro, atencao) {
-  if (!statusFiltro || statusFiltro === "todos") return true;
-  if (statusFiltro === "Vencendo") return Boolean(atencao?.vencendo);
-  if (statusFiltro === "Vencido") return Boolean(atencao?.vencido);
+function montarAtencaoVazia(tipo) {
+  return {
+    tipo,
+    status: "Em dia",
+    dataReferencia: "",
+    diasAteVencimento: null,
+    vencendo: false,
+    urgente: false,
+    vencido: false,
+    requerAtencao: false,
+    prioridade: 0,
+  };
+}
 
-  return atencao?.status === statusFiltro;
+function escolherMaiorPrioridade(itens) {
+  return itens
+    .filter((item) => item.requerAtencao)
+    .sort((a, b) => b.prioridade - a.prioridade)[0] || null;
+}
+
+function calcularPrioridade({ vencido, urgente, vencendo }) {
+  if (vencido) return 3;
+  if (urgente) return 2;
+  if (vencendo) return 1;
+
+  return 0;
 }
 
 function calcularTotalParcelas(aluno, plano) {

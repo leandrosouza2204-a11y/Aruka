@@ -3,6 +3,7 @@ import LoadingState from "../../../components/LoadingState";
 import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
 import { classeStatusAluno } from "../../../data/statusHelpers";
 import { normalizarTelefoneWhatsApp } from "../../../services/whatsappService";
+import { formatarAtencaoCobranca } from "../../financeiro/utils/billingAttention";
 import AlunosEmptyState from "./AlunosEmptyState";
 
 function AlunosTable({
@@ -29,6 +30,7 @@ function AlunosTable({
             <th style={styles.tabelaHeader}>Valor</th>
             <th style={styles.tabelaHeader}>Vencimento</th>
             <th style={styles.tabelaHeader}>Status</th>
+            <th style={styles.tabelaHeader}>Cobrança</th>
             <th style={styles.tabelaHeader}>Ações</th>
           </tr>
         </thead>
@@ -45,6 +47,11 @@ function AlunosTable({
                 <td style={styles.tabelaCelula}>
                   <span className={classeStatusAluno(aluno.status)}>
                     {aluno.status}
+                  </span>
+                </td>
+                <td style={styles.tabelaCelula}>
+                  <span className={classeStatusAluno(aluno.atencaoCobranca?.highestPriority?.status)}>
+                    {formatarAtencaoCobranca(aluno.atencaoCobranca)}
                   </span>
                 </td>
                 <td style={styles.tabelaCelula}>
@@ -91,7 +98,7 @@ function AlunosTable({
 
           {carregando && (
             <tr>
-              <td style={styles.estadoVazio} colSpan="7">
+              <td style={styles.estadoVazio} colSpan="8">
                 <LoadingState texto="Carregando alunos..." />
               </td>
             </tr>
@@ -99,7 +106,7 @@ function AlunosTable({
 
           {!carregando && alunos.length === 0 && (
             <tr>
-              <td style={styles.estadoVazio} colSpan="7">
+              <td style={styles.estadoVazio} colSpan="8">
                 <AlunosEmptyState
                   hasActiveFilters={hasActiveFilters}
                   onNovoAluno={onNovoAluno}

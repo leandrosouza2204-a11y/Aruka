@@ -10,6 +10,7 @@ const files = {
   atalhos: "src/features/dashboard/components/DashboardAtalhos.jsx",
   hook: "src/features/dashboard/hooks/useDashboardPage.js",
   insights: "src/features/dashboard/utils/dashboardInsights.js",
+  css: "src/index.css",
   tests: "src/features/dashboard/hooks/useDashboardPage.test.js",
   packageJson: "package.json",
 };
@@ -42,7 +43,8 @@ const checks = [
   check(
     "decision_blocks_have_actions",
     source.insights.includes("Ver vencidos") &&
-      source.insights.includes("Ver vencimentos") &&
+      source.insights.includes("Ver contratos") &&
+      source.insights.includes("Ver parcelas") &&
       source.insights.includes("Ver pendentes") &&
       source.sinais.includes("Abrir {sinal.modulo}") &&
       source.checkin.includes("Enviar check-ins"),
@@ -62,6 +64,14 @@ const checks = [
     "Teste existente cobre links contextuais do Dashboard."
   ),
   check(
+    "checkin_card_desktop_span_1",
+    source.checkin.includes("checkin-card") &&
+      !/const checkinCard = \{[\s\S]*?gridColumn:\s*['\"]span 2['\"][\s\S]*?\};/.test(source.page) &&
+      source.css.includes(".checkin-card button") &&
+      source.css.includes("grid-column: span 2 !important;"),
+    "Check-in semanal participa da mesma coluna dos cards operacionais no desktop."
+  ),
+  check(
     "package_script_present",
     source.packageJson.includes('"qa:dashboard-decision-usefulness"'),
     "Script npm do Cycle 03 esta registrado."
@@ -70,8 +80,8 @@ const checks = [
 
 const blocks = [
   row("onboarding_checklist", "planos/alunos/pagamentos", "ACTIONABLE", "P2", "yes", "yes", "config setup CTAs", "pass", "pass", "pass", "pass", "PASS", "Aparece somente enquanto onboarding esta incompleto; compacto quando concluido."),
-  row("alertas_consultoria", "alunos + pagamentos + planos", "ACTIONABLE", "P1", "yes", "yes", "Ver vencidos|Ver vencimentos|Ver pendentes", "pass", "pass", "pass", "pass", "PASS", "Movido para antes dos cards informativos."),
-  row("metric_cards", "alunos + pagamentos + planos", "ACTIONABLE", "P2", "yes", "yes", "Ver alunos|Revisar financeiro|Ver vencimentos|Ver vencidos", "pass", "pass", "pass", "pass", "PASS", "Cards criticos receberam CTAs reais; receita prevista/recebida permanecem informativas."),
+  row("alertas_consultoria", "alunos + pagamentos + planos", "ACTIONABLE", "P1", "yes", "yes", "Ver vencidos|Ver contratos|Ver parcelas|Ver pendentes", "pass", "pass", "pass", "pass", "PASS", "Movido para antes dos cards informativos."),
+  row("metric_cards", "alunos + pagamentos + planos", "ACTIONABLE", "P2", "yes", "yes", "Ver alunos|Revisar financeiro|Ver contratos|Ver parcelas|Ver vencidos", "pass", "pass", "pass", "pass", "PASS", "Cards criticos receberam CTAs reais; receita prevista/recebida permanecem informativas."),
   row("checkin_semanal", "alunos + status financeiro", "ACTIONABLE", "P2", "yes", "yes", "Enviar check-ins", "pass", "pass", "pass", "pass", "PASS", "Usa somente alunos sem contrato vencido."),
   row("treinos_avaliacoes", "treinos + avaliacoes + alunos", "ACTIONABLE", "P2", "yes", "yes", "Abrir Treinos|Abrir Avaliacoes", "pass", "pass", "pass", "pass", "PASS", "Sinais derivados de dados existentes."),
   row("receita_mensal", "pagamentos", "INFORMATIVE", "P3", "yes", "partial", "none", "pass", "pass", "pass", "pass", "PASS", "Grafico mantido como historico textual e visual, abaixo dos blocos acionaveis."),
@@ -94,6 +104,7 @@ const result = {
   mobile_runtime: "PENDING",
   desktop_runtime: "PENDING",
   performance_findings: "NO_DUPLICATE_FETCH_OR_POLLING_ADDED",
+  checkin_card_desktop_span: 1,
   database_change_required: false,
   supabase_changed: false,
   ci_changed: false,
