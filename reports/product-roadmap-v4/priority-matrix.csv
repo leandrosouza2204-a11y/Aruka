@@ -1,0 +1,9 @@
+candidate,user_value,business_value,complexity,database_change,risk,priority,recommended_cycle,rationale
+Student Progression Snapshot,HIGH,HIGH,MEDIUM,POSSIBLE,MEDIUM,P1,Cycle 01,"Uses existing treino/exercicio data to make progress visible and reduce manual explanation."
+Assessment Evolution Experience,HIGH,HIGH,LOW_MEDIUM,NO,LOW,P1,Cycle 02,"Avaliacoes already have history and deltas; improving presentation can raise perceived acompanhamento quickly."
+Workout Intelligence Feedback Loop,HIGH,HIGH,MEDIUM,POSSIBLE,MEDIUM,P2,Cycle 03,"Builds on workout lifecycle to surface adherence and adjustment needs without automatic decisions."
+Student Daily Experience,HIGH,MEDIUM_HIGH,MEDIUM,POSSIBLE,MEDIUM,P2,Cycle 04,"Improves student continuity around active workout, completed cycles and next action."
+Commercial Readiness,MEDIUM_HIGH,HIGH,LOW_MEDIUM,NO,LOW_MEDIUM,P2,Cycle 05,"Supports beta/trial/onboarding and repeatable support now that technical stabilization is closed."
+Coach Automation,MEDIUM_HIGH,HIGH,MEDIUM,POSSIBLE,MEDIUM,P3,Later,"Useful for operational scale, but should follow clearer progression and student value surfaces."
+Finance Expansion,MEDIUM,HIGH,MEDIUM,NO,LOW_MEDIUM,P3,Later,"Finance was hardened in v3; next finance work should wait for stronger commercial signals."
+Advanced Reporting,HIGH,MEDIUM_HIGH,HIGH,POSSIBLE,MEDIUM_HIGH,P4,Future,"Reports become stronger after progression and assessment evolution cycles define the source signals."
