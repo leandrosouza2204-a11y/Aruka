@@ -29,7 +29,10 @@ import {
   statusEstaVencido,
 } from "../../../data/alunosUtils";
 import { calcularSituacaoParcelamento } from "../utils/parcelamento";
-import { montarAtencaoCobranca } from "../utils/billingAttention";
+import {
+  filtrarPagamentosContratoAtual,
+  montarAtencaoCobranca,
+} from "../utils/billingAttention";
 import { calcularSituacaoAcompanhamento } from "../utils/acompanhamento";
 import {
   ERRO_PAGAMENTO_DATA_FUTURA,
@@ -878,32 +881,6 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
     valorPendente,
     resumoAluno: montarResumoFinanceiroAluno(aluno, pagamentosAluno, plano),
   };
-}
-
-function filtrarPagamentosContratoAtual(aluno, pagamentosAluno) {
-  if (!aluno.inicio && !aluno.vencimento) return pagamentosAluno;
-
-  return pagamentosAluno.filter((pagamento) => {
-    if (pagamento.vencimentoNovo && pagamento.vencimentoNovo === aluno.vencimento) {
-      return true;
-    }
-
-    if (
-      pagamento.vencimentoParcela &&
-      aluno.inicio &&
-      aluno.vencimento &&
-      pagamento.vencimentoParcela >= aluno.inicio &&
-      pagamento.vencimentoParcela <= aluno.vencimento
-    ) {
-      return true;
-    }
-
-    if (!pagamento.dataPagamento || !aluno.inicio) return false;
-    if (pagamento.dataPagamento < aluno.inicio) return false;
-    if (aluno.vencimento && pagamento.dataPagamento > aluno.vencimento) return false;
-
-    return true;
-  });
 }
 
 function calcularTotalParcelas(aluno, plano) {

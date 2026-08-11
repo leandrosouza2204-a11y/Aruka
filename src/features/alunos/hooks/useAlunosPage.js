@@ -37,6 +37,7 @@ import {
   montarUrlContextualAluno,
 } from "../utils/alunosContextNavigation";
 import {
+  filtrarPagamentosContratoAtual,
   montarAtencaoCobranca,
   statusCombinaAtencaoCobranca,
 } from "../../financeiro/utils/billingAttention";
@@ -145,7 +146,10 @@ export function useAlunosPage() {
           atencaoCobranca: montarAtencaoCobranca({
             aluno,
             plano: planosPorId.get(aluno.plano),
-            pagamentos: pagamentosPorAluno.get(aluno.id) || [],
+            pagamentos: filtrarPagamentosContratoAtual(
+              aluno,
+              pagamentosPorAluno.get(aluno.id) || []
+            ),
           }),
         }))
         .filter((aluno) => {

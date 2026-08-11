@@ -3233,7 +3233,7 @@ body[data-theme="dark"] .admin-logs-panel select {
 }
 
 .financeiro-desktop-table {
-  min-width: 1040px;
+  min-width: 1240px;
   table-layout: fixed;
   width: 100%;
 }
@@ -3395,16 +3395,20 @@ body[data-theme="dark"] .financeiro-report-info .card-value {
   width: 94px;
 }
 
+.financeiro-col-cobranca {
+  width: 138px;
+}
+
 .financeiro-col-status {
-  width: 116px;
+  width: 126px;
 }
 
 .financeiro-col-pagamento {
-  width: 112px;
+  width: 128px;
 }
 
 .financeiro-col-acoes {
-  width: 136px;
+  width: 150px;
 }
 
 .financeiro-text-cell {

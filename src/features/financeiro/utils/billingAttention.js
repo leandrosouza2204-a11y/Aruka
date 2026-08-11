@@ -88,6 +88,32 @@ export function formatarAtencaoCobranca(atencao, { tipo = "prioridade" } = {}) {
   return `${prefixo} vence em ${item.diasAteVencimento} dias`;
 }
 
+export function filtrarPagamentosContratoAtual(aluno = {}, pagamentosAluno = []) {
+  if (!aluno.inicio && !aluno.vencimento) return pagamentosAluno;
+
+  return pagamentosAluno.filter((pagamento) => {
+    if (pagamento.vencimentoNovo && pagamento.vencimentoNovo === aluno.vencimento) {
+      return true;
+    }
+
+    if (
+      pagamento.vencimentoParcela &&
+      aluno.inicio &&
+      aluno.vencimento &&
+      pagamento.vencimentoParcela >= aluno.inicio &&
+      pagamento.vencimentoParcela <= aluno.vencimento
+    ) {
+      return true;
+    }
+
+    if (!pagamento.dataPagamento || !aluno.inicio) return false;
+    if (pagamento.dataPagamento < aluno.inicio) return false;
+    if (aluno.vencimento && pagamento.dataPagamento > aluno.vencimento) return false;
+
+    return true;
+  });
+}
+
 function montarAtencaoPorData({ dataReferencia, status, tipo, hoje }) {
   const diasAteVencimento = calcularDiasAte(dataReferencia, hoje);
   const vencido = statusEstaVencido(status) || (diasAteVencimento !== null && diasAteVencimento < 0);

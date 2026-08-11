@@ -25,6 +25,8 @@
     "qa:finance-workflow-reliability": "node scripts/validate-finance-workflow-reliability.mjs",
     "qa:billing-due-attention-consistency": "node scripts/validate-billing-due-attention-consistency.mjs",
     "qa:billing-attention-semantic-navigation": "node scripts/validate-billing-attention-semantic-navigation.mjs",
+    "qa:billing-attention-runtime": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-billing-attention-runtime.mjs",
+    "test:billing-runtime-fixture": "node --env-file=.env.local --env-file=.env.qa.local --test scripts/validate-billing-runtime-fixture.test.mjs",
     "qa:student-tenure-renewal-history": "node scripts/validate-student-tenure-renewal-history.mjs",
     "qa:contextual-error-feedback": "node scripts/validate-contextual-error-feedback.mjs",
     "qa:student-context-consistency": "node scripts/validate-student-context-consistency.mjs",

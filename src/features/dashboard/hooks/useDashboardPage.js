@@ -14,7 +14,10 @@ import {
   montarAlertasConsultoria,
   montarSinaisFitness,
 } from "../utils/dashboardInsights";
-import { montarAtencaoCobranca } from "../../financeiro/utils/billingAttention";
+import {
+  filtrarPagamentosContratoAtual,
+  montarAtencaoCobranca,
+} from "../../financeiro/utils/billingAttention";
 
 export function useDashboardPage() {
   const [alunos, setAlunos] = useState([]);
@@ -348,32 +351,6 @@ function calcularStatusDashboard(aluno, pagamentosAluno, plano) {
     aluno,
     plano,
     pagamentos: pagamentosAluno,
-  });
-}
-
-function filtrarPagamentosContratoAtual(aluno, pagamentosAluno) {
-  if (!aluno.inicio && !aluno.vencimento) return pagamentosAluno;
-
-  return pagamentosAluno.filter((pagamento) => {
-    if (pagamento.vencimentoNovo && pagamento.vencimentoNovo === aluno.vencimento) {
-      return true;
-    }
-
-    if (
-      pagamento.vencimentoParcela &&
-      aluno.inicio &&
-      aluno.vencimento &&
-      pagamento.vencimentoParcela >= aluno.inicio &&
-      pagamento.vencimentoParcela <= aluno.vencimento
-    ) {
-      return true;
-    }
-
-    if (!pagamento.dataPagamento || !aluno.inicio) return false;
-    if (pagamento.dataPagamento < aluno.inicio) return false;
-    if (aluno.vencimento && pagamento.dataPagamento > aluno.vencimento) return false;
-
-    return true;
   });
 }
 
