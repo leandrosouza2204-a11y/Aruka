@@ -25,12 +25,14 @@ fs.writeFileSync(
 fs.copyFileSync("src/data/formatters.js", formattersPath);
 
 const {
+  filtrarPagamentosContratoAtual,
   formatarAtencaoCobranca,
   montarAtencaoCobranca,
   statusCombinaAtencaoCobranca,
 } = await import(pathToFileURL(helperPath).href);
 
 const hoje = new Date("2026-08-10T12:00:00");
+const planoMensal = { permiteParcelamento: false, quantidadeParcelas: 1 };
 const planoParcelado = { permiteParcelamento: true, quantidadeParcelas: 3 };
 
 function pagamento(parcela, dataVencimento = "2026-08-01") {
@@ -113,12 +115,62 @@ const simultaneo = montar({
 assert.equal(statusCombinaAtencaoCobranca("Vencendo", simultaneo), true);
 assert.equal(statusCombinaAtencaoCobranca("Vencendo parcela", simultaneo), true);
 
+const alunoA = {
+  id: "aluno-a",
+  plano: "mensal",
+  inicio: "2026-08-01",
+  vencimento: "2026-08-15",
+  status: "Ativo",
+};
+const alunoB = {
+  id: "aluno-b",
+  plano: "trimestralParcelado",
+  inicio: "2026-07-12",
+  vencimento: "2026-10-12",
+  status: "Ativo",
+};
+const pagamentosHistoricosB = [
+  { ...pagamento(1, "2026-03-12"), alunoId: "aluno-b", dataPagamento: "2026-03-12", vencimentoParcela: "2026-03-12" },
+  { ...pagamento(2, "2026-04-12"), alunoId: "aluno-b", dataPagamento: "2026-04-12", vencimentoParcela: "2026-04-12" },
+  { ...pagamento(3, "2026-05-12"), alunoId: "aluno-b", dataPagamento: "2026-05-12", vencimentoParcela: "2026-05-12" },
+  { ...pagamento(1, "2026-07-12"), alunoId: "aluno-b", dataPagamento: "2026-07-12", vencimentoParcela: "2026-07-12" },
+];
+const pagamentosAtuaisB = filtrarPagamentosContratoAtual(alunoB, pagamentosHistoricosB);
+const dashboardB = montarAtencaoCobranca({ aluno: alunoB, plano: planoParcelado, pagamentos: pagamentosAtuaisB, hoje });
+const financeiroB = montarAtencaoCobranca({ aluno: alunoB, plano: planoParcelado, pagamentos: pagamentosAtuaisB, hoje });
+const alunosB = montarAtencaoCobranca({ aluno: alunoB, plano: planoParcelado, pagamentos: pagamentosAtuaisB, hoje });
+const alunosSemFiltroContratoB = montarAtencaoCobranca({
+  aluno: alunoB,
+  plano: planoParcelado,
+  pagamentos: pagamentosHistoricosB,
+  hoje,
+});
+const alunos = [
+  montarAtencaoCobranca({ aluno: alunoA, plano: planoMensal, pagamentos: [], hoje }),
+  alunosB,
+];
+const contratosUnicos = alunos.filter((item) => statusCombinaAtencaoCobranca("Vencendo", item)).length;
+const parcelasUnicas = alunos.filter((item) => statusCombinaAtencaoCobranca("Vencendo parcela", item)).length;
+
+assert.equal(pagamentosAtuaisB.length, 1);
+assert.equal(formatarAtencaoCobranca(dashboardB), "Parcela vence em 2 dias");
+assert.deepEqual(dashboardB.parcela, financeiroB.parcela);
+assert.deepEqual(financeiroB.parcela, alunosB.parcela);
+assert.equal(statusCombinaAtencaoCobranca("Vencendo parcela", alunosB), true);
+assert.equal(statusCombinaAtencaoCobranca("Vencendo parcela", alunosSemFiltroContratoB), false);
+assert.equal(contratosUnicos, 1);
+assert.equal(parcelasUnicas, 1);
+
 console.log("DASHBOARD_CONTRACT_CARD=YES");
 console.log("DASHBOARD_INSTALLMENT_CARD=YES");
 console.log("CONTRACT_CTA_DESTINATION=/alunos?status=Vencendo&origem=dashboard");
 console.log("INSTALLMENT_CTA_DESTINATION=/alunos?status=Vencendo%20parcela&origem=dashboard");
 console.log("STUDENTS_CONTRACT_FILTER=PASS");
 console.log("STUDENTS_INSTALLMENT_FILTER=PASS");
+console.log("INSTALLMENT_FILTER_REAL_MATCH=PASS");
+console.log("BILLING_ATTENTION_DATA_PARITY=PASS");
+console.log(`DASHBOARD_INSTALLMENT_DUE_UNIQUE_COUNT=${parcelasUnicas}`);
+console.log(`ALUNOS_INSTALLMENT_FILTER_UNIQUE_COUNT=${parcelasUnicas}`);
 console.log("ACTIVE_STUDENT_INSTALLMENT_ALERT=PASS");
 console.log("FINANCE_ATTENTION_VISIBLE=PASS");
 console.log("BILLING_7_DAY_WARNING=PASS");
