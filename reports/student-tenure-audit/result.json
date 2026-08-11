@@ -1,0 +1,68 @@
+{
+  "decision": "BLOCKED_CANONICAL_TENURE_REQUIRES_DATA_MODEL_DECISION",
+  "systemicRootCause": "OVERLOADED_DOMAIN_FIELD",
+  "canonicalConsultancyStartDefinition": "First valid known date when the continuous consultancy relationship began.",
+  "canonicalStudentTenureDefinition": "Elapsed time between CONSULTANCY_START_DATE and current date.",
+  "canonicalCurrentContractStartDefinition": "Start date of the currently active commercial contract or plan period.",
+  "alunoInicioOverloaded": true,
+  "canonicalTenureFieldMissing": true,
+  "databaseChangeRequired": "RECOMMENDED",
+  "migrationRequired": false,
+  "productionReconciliationRequired": "RECOMMENDED_AFTER_DATA_MODEL_DECISION",
+  "renewalOverwritesAlunoInicio": true,
+  "previousPlanPreservation": "PARTIAL",
+  "historicalContractReconstruction": "PARTIAL_HEURISTIC",
+  "vencimentoParcelaSemanticAudit": {
+    "contract": "installment_due_date",
+    "usedAsContractStart": false,
+    "usedAsConsultancyStart": "only inside finance tenure heuristic, should be canonicalized"
+  },
+  "futureDateContamination": {
+    "financeHeuristic": "guarded_by_data_less_or_equal_today",
+    "detailsSummary": "uses_aluno_inicio_directly"
+  },
+  "realCase": {
+    "student": "Amabile Lopes",
+    "consultancyStart": "2026-05-10",
+    "currentContractStart": "2026-07-12",
+    "currentContract": "Semestral Parcelado",
+    "currentContractEnd": "2027-01-12",
+    "date": "2026-08-11",
+    "expectedStudentTenure": "approximately 3 months",
+    "notExpected": "less than 1 month"
+  },
+  "implementationsFound": [
+    "src/features/alunos/utils/alunosResumoOperacional.js::formatarTempoComoAluno",
+    "src/features/alunos/utils/alunosResumoOperacional.js::calcularMesesEntre",
+    "src/services/pagamentosService.js::obterInicioConsultoria",
+    "src/services/pagamentosService.js::calcularMesesEntre",
+    "src/features/financeiro/hooks/useFinanceiroPage.js::calcularParcelaAtual",
+    "src/features/financeiro/utils/billingAttention.js::filtrarPagamentosContratoAtual",
+    "src/data/alunosUtils.js::calcularDatas"
+  ],
+  "consumersFound": [
+    "Alunos details summary",
+    "Alunos details plan section",
+    "Alunos create/edit",
+    "Finance report",
+    "Finance ranking",
+    "Finance table/actions",
+    "Dashboard billing cards",
+    "Renewal modal",
+    "Renewal mutation",
+    "Accompaniment history",
+    "Treinos independent workout start",
+    "Avaliacoes independent assessment dates",
+    "Student Experience identity/workout access",
+    "Admin users/log filters"
+  ],
+  "singleSourceOfTruthStatus": "MISSING",
+  "recommendedNextAction": "REVIEW_CANONICAL_TENURE_DATA_MODEL_BEFORE_MIGRATION",
+  "productionAccessed": false,
+  "dbPush": false,
+  "migrationDiff": false,
+  "referenceBaselineDiff": false,
+  "seedDiff": false,
+  "ciDiff": false,
+  "lockfileDiff": false
+}

@@ -1,0 +1,21 @@
+{
+  "decision": "LOCAL_VALIDATION_PASSED_WITH_CDP_RUNTIME_BLOCKED",
+  "canonicalModel": "explicit_consultancy_start_and_contract_ledger",
+  "consultoriaInicioField": "alunos.consultoria_inicio",
+  "alunoInicioFinalSemantic": "CURRENT_CONTRACT_START_DATE",
+  "contractLedger": "public.aluno_contratos",
+  "renewalAtomicity": "RPC public.renovar_aluno_contrato",
+  "reactivationPolicy": "REACTIVATION_AFTER_CLOSURE preserves consultoria_inicio and creates a new active contract",
+  "legacyContractHistoryPartial": true,
+  "productionAccessed": false,
+  "dbPush": false,
+  "backfillCounts": {
+    "EXACT": 0,
+    "DERIVED_HIGH_CONFIDENCE": 0,
+    "DERIVED_LOW_CONFIDENCE": 0,
+    "UNKNOWN": 3
+  },
+  "studentTenureContractQa": "PASS",
+  "supabaseFullLocalCi": "PASS",
+  "authenticatedRuntime": "BLOCKED_CDP_UNAVAILABLE"
+}

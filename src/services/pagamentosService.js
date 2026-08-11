@@ -5,6 +5,11 @@ import {
   ERRO_PAGAMENTO_DATA_INVALIDA,
   validarDataPagamento,
 } from "../features/financeiro/utils/validarDataPagamento";
+import {
+  calculateCompleteMonths,
+  deriveConsultancyStart,
+  deriveCurrentContractTimeline,
+} from "../features/alunos/utils/studentContractTimeline";
 import { atualizarAlunoSupabase, buscarAlunosSupabase } from "./alunosService";
 import { buscarPlanosSupabase } from "./planosService";
 import { buscarUsuarioLogado } from "./authSessionService";
@@ -202,7 +207,7 @@ export async function calcularRankingFinanceiroAlunos() {
   return montarRankingFinanceiroAlunos(alunos, pagamentos, planos);
 }
 
-export function montarResumoFinanceiroAluno(aluno, pagamentos = [], plano = null) {
+export function montarResumoFinanceiroAluno(aluno, pagamentos = [], plano = null, contratos = []) {
   const pagamentosOrdenados = ordenarPagamentos(pagamentos);
   const totalPago = pagamentosOrdenados.reduce(
     (total, pagamento) => total + Number(pagamento.valor || 0),
@@ -211,14 +216,19 @@ export function montarResumoFinanceiroAluno(aluno, pagamentos = [], plano = null
   const quantidadePagamentos = pagamentosOrdenados.length;
   const ultimoPagamento = pagamentosOrdenados[0] || null;
 
-  const dataInicioConsultoria = obterInicioConsultoria(aluno, pagamentosOrdenados);
+  const consultancyStart = deriveConsultancyStart({ aluno, contratos, pagamentos: pagamentosOrdenados });
+  const currentContract = deriveCurrentContractTimeline({ aluno, contratos });
 
   return {
     aluno,
     nomeAluno: aluno.nome,
-    dataInicio: dataInicioConsultoria,
-    dataInicioContratoAtual: aluno.inicio || "",
-    tempoConsultoriaMeses: calcularMesesEntre(dataInicioConsultoria, dataHojeISO()),
+    dataInicio: consultancyStart.date,
+    consultoriaInicioConfianca: consultancyStart.confidence,
+    consultoriaInicioFonte: consultancyStart.source,
+    dataInicioContratoAtual: currentContract.startDate,
+    tempoConsultoriaMeses: calculateCompleteMonths(consultancyStart.date, dataHojeISO()),
+    contratos,
+    pagamentos: pagamentosOrdenados,
     totalPago,
     quantidadePagamentos,
     ticketMedio: quantidadePagamentos ? totalPago / quantidadePagamentos : 0,
@@ -231,17 +241,7 @@ export function montarResumoFinanceiroAluno(aluno, pagamentos = [], plano = null
 }
 
 export function obterInicioConsultoria(aluno, pagamentos = []) {
-  const hoje = dataHojeISO();
-  const datas = [
-    aluno?.inicio,
-    ...pagamentos.flatMap((pagamento) => [
-      pagamento.vencimentoParcela,
-      pagamento.vencimentoAnterior,
-      pagamento.dataPagamento,
-    ]),
-  ].filter((data) => data && data <= hoje);
-
-  return datas.sort()[0] || "";
+  return deriveConsultancyStart({ aluno, pagamentos }).date;
 }
 
 export function montarRankingFinanceiroAlunos(alunos = [], pagamentos = [], planos = []) {
@@ -421,21 +421,4 @@ function ordenarPorRegistro(pagamentos) {
 
     return String(b.dataPagamento).localeCompare(String(a.dataPagamento));
   });
-}
-
-function calcularMesesEntre(inicio, fim) {
-  if (!inicio || !fim) return 0;
-
-  const dataInicio = new Date(`${inicio}T00:00:00`);
-  const dataFim = new Date(`${fim}T00:00:00`);
-  let meses =
-    (dataFim.getFullYear() - dataInicio.getFullYear()) * 12 +
-    dataFim.getMonth() -
-    dataInicio.getMonth();
-
-  if (dataFim.getDate() < dataInicio.getDate()) {
-    meses -= 1;
-  }
-
-  return Math.max(meses, 0);
 }

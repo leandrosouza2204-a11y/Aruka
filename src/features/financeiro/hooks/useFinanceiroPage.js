@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useConfirm } from "../../../hooks/useConfirm";
 import { useToast } from "../../../hooks/useToast";
@@ -13,8 +13,11 @@ import {
   montarRankingFinanceiroAlunos,
   montarResumoFinanceiroAluno,
   registrarPagamento as registrarPagamentoService,
-  registrarPagamentoRenovacao,
 } from "../../../services/pagamentosService";
+import {
+  buscarContratosAlunosSupabase,
+  renovarAlunoContratoSupabase,
+} from "../../../services/alunoContratosService";
 import { buscarPlanosSupabase } from "../../../services/planosService";
 import {
   abrirWhatsApp,
@@ -73,6 +76,7 @@ export function useFinanceiroPage() {
   const [alunos, setAlunos] = useState([]);
   const [pagamentos, setPagamentos] = useState([]);
   const [planos, setPlanos] = useState([]);
+  const [contratos, setContratos] = useState([]);
   const [busca, setBusca] = useState("");
   const filtroAluno = searchParams.get("alunoId") || "todos";
   const [filtroStatus, setFiltroStatus] = useState("todos");
@@ -105,21 +109,24 @@ export function useFinanceiroPage() {
     setErro("");
 
     try {
-      const [alunosSupabase, pagamentosSupabase, planosSupabase] = await Promise.all([
+      const [alunosSupabase, pagamentosSupabase, planosSupabase, contratosSupabase] = await Promise.all([
         buscarAlunosSupabase(),
         buscarPagamentosSupabase(),
         buscarPlanosSupabase(),
+        buscarContratosAlunosSupabase(),
       ]);
 
       setAlunos(alunosSupabase);
       setPagamentos(pagamentosSupabase);
       setPlanos(planosSupabase);
+      setContratos(contratosSupabase);
     } catch (error) {
       console.error(error);
       setErro(userFacingError("carregar os dados financeiros", error));
       setAlunos([]);
       setPagamentos([]);
       setPlanos([]);
+      setContratos([]);
     } finally {
       setCarregando(false);
     }
@@ -148,10 +155,11 @@ export function useFinanceiroPage() {
         montarRegistroFinanceiro(
           aluno,
           planosPorId.get(aluno.plano),
-          pagamentosPorAluno.get(aluno.id) || []
+          pagamentosPorAluno.get(aluno.id) || [],
+          contratos.filter((contrato) => contrato.alunoId === aluno.id)
         )
       ),
-    [alunos, pagamentosPorAluno, planosPorId]
+    [alunos, contratos, pagamentosPorAluno, planosPorId]
   );
 
   const registrosFiltrados = useMemo(() => {
@@ -213,7 +221,7 @@ export function useFinanceiroPage() {
         (registro) => registro.statusAcompanhamento === "Ativo"
       ).length,
       alunosVencidos: registrosOperacionais.filter(
-        (registro) => registro.statusAcompanhamento === "Aguardando renovação"
+        (registro) => registro.statusAcompanhamento === "Aguardando renovaÃ§Ã£o"
       ).length,
     };
   }, [registrosFinanceiros]);
@@ -320,9 +328,6 @@ export function useFinanceiroPage() {
     const aluno = modalRenovacao.aluno;
     const novoPlano = planos.find((plano) => plano.id === formRenovacao.novoPlanoId);
     const valor = Number(novoPlano?.valor || 0);
-    const statusAnterior = aluno.acompanhamentoStatus || "ativo";
-    const estavaEncerrado = modalRenovacao.grupoAcompanhamento === "encerrados";
-    const vencimentoAnterior = aluno.vencimento || "";
     const operationId = formRenovacao.operationId || criarOperationId();
 
     if (!novoPlano || !formRenovacao.dataInicio) {
@@ -344,78 +349,25 @@ export function useFinanceiroPage() {
     setErro("");
 
     try {
-      await atualizarAlunoSupabase(aluno.id, {
-        ...aluno,
-        plano: novoPlano.id,
-        valor,
-        inicio: formRenovacao.dataInicio,
-        vencimento: datasRenovacao.vencimento,
-        aviso7: datasRenovacao.aviso7,
-        aviso1: datasRenovacao.aviso1,
-        pagamentoRecebido: Boolean(formRenovacao.registrarPagamentoAgora),
-        dataPagamento: formRenovacao.registrarPagamentoAgora ? dataHojeISO() : "",
-        status: "Ativo",
-        acompanhamentoStatus: "ativo",
-        acompanhamentoEncerradoEm: "",
-        acompanhamentoMotivo: "",
-        ...(Object.prototype.hasOwnProperty.call(aluno, "acompanhamentoMotivoDetalhe")
-          ? { acompanhamentoMotivoDetalhe: "" }
-          : {}),
-      });
-
-      if (formRenovacao.registrarPagamentoAgora) {
-        await registrarPagamentoRenovacao(
-          aluno,
-          {
-            dataPagamento: dataHojeISO(),
-            valor,
-            formaPagamento: formRenovacao.formaPagamento,
-            plano: novoPlano.nome,
-            vencimentoAnterior: aluno.vencimento || "",
-            vencimentoNovo: datasRenovacao.vencimento,
-            observacao: formRenovacao.observacao,
-          },
-          novoPlano
-        );
-      }
-
-      const historicoRegistrado = await registrarHistoricoAcompanhamento({
-        operacao: "renovacao",
+      await renovarAlunoContratoSupabase({
         alunoId: aluno.id,
-        tipo: "plano_renovado",
+        novoPlanoId: novoPlano.id,
+        novoInicio: formRenovacao.dataInicio,
+        novoVencimento: datasRenovacao.vencimento,
+        novoValor: valor,
+        registrarPagamentoAgora: formRenovacao.registrarPagamentoAgora,
+        formaPagamento: formRenovacao.formaPagamento,
+        observacao: formRenovacao.observacao,
         eventKey: `renovacao:${aluno.id}:${operationId}`,
-        evento: {
-          userId: aluno.userId,
-          alunoId: aluno.id,
-          tipo: "plano_renovado",
-          planoId: novoPlano.id,
-          planoNome: novoPlano.nome,
-          vencimentoAnterior,
-          vencimentoNovo: datasRenovacao.vencimento,
-          metadata: {
-            origem: "financeiro",
-            status_anterior: statusAnterior,
-            estava_encerrado: estavaEncerrado,
-            total_parcelas: Math.max(Number(novoPlano.quantidadeParcelas || 1), 1),
-          },
-          eventKey: `renovacao:${aluno.id}:${operationId}`,
-        },
       });
 
       await carregarDados();
       fecharRenovacaoPlano();
-      if (historicoRegistrado) {
-        toast.sucesso("Plano renovado", "O aluno foi atualizado com o novo vencimento.");
-      } else {
-        toast.aviso(
-          "Plano renovado",
-          "A alteração foi concluída, mas não foi possível registrar o histórico do acompanhamento."
-        );
-      }
+      toast.sucesso("Plano renovado", "O aluno foi atualizado com o novo vencimento.");
     } catch (error) {
       console.error(error);
       setErro(userFacingError("renovar o plano", error));
-      toast.erro("Não foi possível renovar o plano", "Tente novamente em alguns instantes.");
+      toast.erro("NÃ£o foi possÃ­vel renovar o plano", "Tente novamente em alguns instantes.");
     } finally {
       setAtualizandoId("");
     }
@@ -428,7 +380,7 @@ export function useFinanceiroPage() {
     const valor = Number(formPagamento.valor || 0);
 
     if (!formPagamento.dataPagamento || valor <= 0) {
-      toast.aviso("Pagamento incompleto", "Informe a data e um valor válido para o pagamento.");
+      toast.aviso("Pagamento incompleto", "Informe a data e um valor vÃ¡lido para o pagamento.");
       return;
     }
 
@@ -462,16 +414,16 @@ export function useFinanceiroPage() {
 
       await carregarDados();
       fecharModalPagamento();
-      toast.sucesso("Pagamento registrado", "Histórico financeiro atualizado.");
+      toast.sucesso("Pagamento registrado", "HistÃ³rico financeiro atualizado.");
     } catch (error) {
       console.error(error);
       if (error?.code === ERRO_PAGAMENTO_DATA_FUTURA) {
-        setErroDataPagamento("A data do pagamento não pode ser futura.");
+        setErroDataPagamento("A data do pagamento nÃ£o pode ser futura.");
         return;
       }
 
       setErro(userFacingError("registrar o pagamento", error));
-      toast.erro("Não foi possível registrar o pagamento", "Tente novamente em alguns instantes.");
+      toast.erro("NÃ£o foi possÃ­vel registrar o pagamento", "Tente novamente em alguns instantes.");
     } finally {
       setAtualizandoId("");
     }
@@ -484,9 +436,9 @@ export function useFinanceiroPage() {
     if (!pagamento) return;
 
     const confirmado = await confirmar({
-      titulo: "Desfazer último pagamento?",
-      descricao: `Apenas o último pagamento de ${registro.aluno.nome} será removido. Os pagamentos anteriores permanecem no histórico.`,
-      textoConfirmar: "Desfazer último",
+      titulo: "Desfazer Ãºltimo pagamento?",
+      descricao: `Apenas o Ãºltimo pagamento de ${registro.aluno.nome} serÃ¡ removido. Os pagamentos anteriores permanecem no histÃ³rico.`,
+      textoConfirmar: "Desfazer Ãºltimo",
     });
 
     if (!confirmado) return;
@@ -497,11 +449,11 @@ export function useFinanceiroPage() {
     try {
       await desfazerUltimoPagamento(registro.aluno.id);
       await carregarDados();
-      toast.sucesso("Pagamento desfeito", "O último pagamento foi removido com segurança.");
+      toast.sucesso("Pagamento desfeito", "O Ãºltimo pagamento foi removido com seguranÃ§a.");
     } catch (error) {
       console.error(error);
       setErro(userFacingError("desfazer o pagamento", error));
-      toast.erro("Não foi possível desfazer o pagamento", "Tente novamente em alguns instantes.");
+      toast.erro("NÃ£o foi possÃ­vel desfazer o pagamento", "Tente novamente em alguns instantes.");
     } finally {
       setAtualizandoId("");
     }
@@ -525,7 +477,7 @@ export function useFinanceiroPage() {
 
     if (!motivo || (motivo === "outro" && !detalhe)) {
       toast.aviso(
-        "Motivo obrigatório",
+        "Motivo obrigatÃ³rio",
         motivo === "outro"
           ? "Descreva o outro motivo antes de confirmar."
           : "Selecione o motivo do encerramento."
@@ -578,20 +530,20 @@ export function useFinanceiroPage() {
       if (historicoRegistrado) {
         toast.sucesso(
           "Aluno movido para Encerrados",
-          "Aluno movido para Encerrados. Todo o histórico foi preservado."
+          "Aluno movido para Encerrados. Todo o histÃ³rico foi preservado."
         );
       } else {
         toast.aviso(
           "Aluno movido para Encerrados",
-          "A alteração foi concluída, mas não foi possível registrar o histórico do acompanhamento."
+          "A alteraÃ§Ã£o foi concluÃ­da, mas nÃ£o foi possÃ­vel registrar o histÃ³rico do acompanhamento."
         );
       }
     } catch (error) {
       console.error(error);
       setErro(userFacingError("encerrar o acompanhamento", error));
       toast.erro(
-        "Não foi possível encerrar o acompanhamento",
-        "Não foi possível encerrar o acompanhamento. Tente novamente."
+        "NÃ£o foi possÃ­vel encerrar o acompanhamento",
+        "NÃ£o foi possÃ­vel encerrar o acompanhamento. Tente novamente."
       );
     } finally {
       setAtualizandoId("");
@@ -604,7 +556,7 @@ export function useFinanceiroPage() {
     const confirmado = await confirmar({
       titulo: "Reativar aluno?",
       descricao:
-        "O aluno voltará para a lista operacional, mas nenhuma renovação será criada automaticamente. Renove o plano para iniciar um novo ciclo.",
+        "O aluno voltarÃ¡ para a lista operacional, mas nenhuma renovaÃ§Ã£o serÃ¡ criada automaticamente. Renove o plano para iniciar um novo ciclo.",
       textoConfirmar: "Reativar aluno",
     });
 
@@ -655,18 +607,18 @@ export function useFinanceiroPage() {
       if (historicoRegistrado) {
         toast.sucesso(
           "Aluno reativado",
-          "Aluno reativado. Renove ou ajuste o plano para iniciar um novo período de acompanhamento."
+          "Aluno reativado. Renove ou ajuste o plano para iniciar um novo perÃ­odo de acompanhamento."
         );
       } else {
         toast.aviso(
           "Aluno reativado",
-          "A alteração foi concluída, mas não foi possível registrar o histórico do acompanhamento."
+          "A alteraÃ§Ã£o foi concluÃ­da, mas nÃ£o foi possÃ­vel registrar o histÃ³rico do acompanhamento."
         );
       }
     } catch (error) {
       console.error(error);
       setErro(userFacingError("reativar o aluno", error));
-      toast.erro("Não foi possível reativar o aluno", "Tente novamente em instantes.");
+      toast.erro("NÃ£o foi possÃ­vel reativar o aluno", "Tente novamente em instantes.");
     } finally {
       setAtualizandoId("");
     }
@@ -772,7 +724,7 @@ export function useFinanceiroPage() {
   };
 }
 
-function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
+function montarRegistroFinanceiro(aluno, plano, pagamentosAluno, contratosAluno = []) {
   const valorContrato = Number(aluno.valor || 0);
   const totalParcelas = calcularTotalParcelas(aluno, plano);
   const pagamentosContratoAtual = filtrarPagamentosContratoAtual(aluno, pagamentosAluno);
@@ -879,7 +831,7 @@ function montarRegistroFinanceiro(aluno, plano, pagamentosAluno) {
     pagamentoRecebido: statusPagamento === "Pago" || statusPagamento === "Quitado",
     totalRecebido,
     valorPendente,
-    resumoAluno: montarResumoFinanceiroAluno(aluno, pagamentosAluno, plano),
+    resumoAluno: montarResumoFinanceiroAluno(aluno, pagamentosAluno, plano, contratosAluno),
   };
 }
 
@@ -976,7 +928,7 @@ async function registrarHistoricoAcompanhamento({ operacao, alunoId, tipo, event
     const resultado = await registrarEventoAcompanhamento(evento);
 
     if (resultado.duplicate) {
-      console.info("Evento de acompanhamento já registrado:", {
+      console.info("Evento de acompanhamento jÃ¡ registrado:", {
         operacao,
         alunoId,
         tipo,
@@ -986,7 +938,7 @@ async function registrarHistoricoAcompanhamento({ operacao, alunoId, tipo, event
 
     return true;
   } catch (error) {
-    console.error("Falha ao registrar histórico de acompanhamento:", {
+    console.error("Falha ao registrar histÃ³rico de acompanhamento:", {
       operacao,
       alunoId,
       tipo,
@@ -1045,74 +997,74 @@ export function montarMensagemVencimento(registro) {
 
   if (dias < 0) {
     return [
-      "⚠️ *Consultoria com vencimento pendente*",
+      "âš ï¸ *Consultoria com vencimento pendente*",
       "",
-      `Olá, *${primeiroNome}*! Tudo bem? 😊`,
+      `OlÃ¡, *${primeiroNome}*! Tudo bem? ðŸ˜Š`,
       "",
       `Identifiquei que o vencimento do seu plano de consultoria estava previsto para o dia *${dataVencimento}* e consta como *pendente*.`,
       "",
-      "Para regularizar seu acompanhamento e manter o suporte ativo normalmente, peço que realize o pagamento assim que possível.",
+      "Para regularizar seu acompanhamento e manter o suporte ativo normalmente, peÃ§o que realize o pagamento assim que possÃ­vel.",
       "",
-      "📲 Qualquer dúvida, estou à disposição.",
+      "ðŸ“² Qualquer dÃºvida, estou Ã  disposiÃ§Ã£o.",
     ].join("\n");
   }
 
   if (dias === 0) {
     return [
-      "🚨 *Vencimento da consultoria hoje*",
+      "ðŸš¨ *Vencimento da consultoria hoje*",
       "",
-      `Olá, *${primeiroNome}*! Tudo bem? 😊`,
+      `OlÃ¡, *${primeiroNome}*! Tudo bem? ðŸ˜Š`,
       "",
-      "Hoje é a data de vencimento do seu plano de consultoria.",
+      "Hoje Ã© a data de vencimento do seu plano de consultoria.",
       "",
-      "💪 Para manter seu acompanhamento ativo, com:",
-      "✅ Treino atualizado",
-      "✅ Ajustes sempre que necessário",
-      "✅ Suporte direto",
-      "✅ Acompanhamento da sua evolução",
+      "ðŸ’ª Para manter seu acompanhamento ativo, com:",
+      "âœ… Treino atualizado",
+      "âœ… Ajustes sempre que necessÃ¡rio",
+      "âœ… Suporte direto",
+      "âœ… Acompanhamento da sua evoluÃ§Ã£o",
       "",
-      "Peço que realize o pagamento referente à renovação do plano.",
+      "PeÃ§o que realize o pagamento referente Ã  renovaÃ§Ã£o do plano.",
       "",
-      "📲 Qualquer dúvida, estou à disposição.",
+      "ðŸ“² Qualquer dÃºvida, estou Ã  disposiÃ§Ã£o.",
     ].join("\n");
   }
 
   if (dias === 1) {
     return [
-      "⏰ *Lembrete de vencimento da consultoria*",
+      "â° *Lembrete de vencimento da consultoria*",
       "",
-      `Olá, *${primeiroNome}*! Tudo bem? 😊`,
+      `OlÃ¡, *${primeiroNome}*! Tudo bem? ðŸ˜Š`,
       "",
-      `Passando para lembrar que o vencimento do seu plano de consultoria será *amanhã*, dia *${dataVencimento}*.`,
+      `Passando para lembrar que o vencimento do seu plano de consultoria serÃ¡ *amanhÃ£*, dia *${dataVencimento}*.`,
       "",
-      "💪 Para manter seu acompanhamento ativo, com:",
-      "✅ Treino atualizado",
-      "✅ Ajustes sempre que necessário",
-      "✅ Suporte direto",
-      "✅ Acompanhamento da sua evolução",
+      "ðŸ’ª Para manter seu acompanhamento ativo, com:",
+      "âœ… Treino atualizado",
+      "âœ… Ajustes sempre que necessÃ¡rio",
+      "âœ… Suporte direto",
+      "âœ… Acompanhamento da sua evoluÃ§Ã£o",
       "",
-      "Peço que realize o pagamento até a data de vencimento.",
+      "PeÃ§o que realize o pagamento atÃ© a data de vencimento.",
       "",
-      "📲 Qualquer dúvida, estou à disposição.",
+      "ðŸ“² Qualquer dÃºvida, estou Ã  disposiÃ§Ã£o.",
     ].join("\n");
   }
 
   return [
-    "📅 *Lembrete de vencimento da consultoria*",
+    "ðŸ“… *Lembrete de vencimento da consultoria*",
     "",
-    `Olá, *${primeiroNome}*! Tudo bem? 😊`,
+    `OlÃ¡, *${primeiroNome}*! Tudo bem? ðŸ˜Š`,
     "",
-    `Passando para lembrar que o vencimento do seu plano de consultoria será em *${dias} dias*, no dia *${dataVencimento}*.`,
+    `Passando para lembrar que o vencimento do seu plano de consultoria serÃ¡ em *${dias} dias*, no dia *${dataVencimento}*.`,
     "",
-    "💪 Para manter seu acompanhamento ativo, com:",
-    "✅ Treino atualizado",
-    "✅ Ajustes sempre que necessário",
-    "✅ Suporte direto",
-    "✅ Acompanhamento da sua evolução",
+    "ðŸ’ª Para manter seu acompanhamento ativo, com:",
+    "âœ… Treino atualizado",
+    "âœ… Ajustes sempre que necessÃ¡rio",
+    "âœ… Suporte direto",
+    "âœ… Acompanhamento da sua evoluÃ§Ã£o",
     "",
-    "Peço que se programe para realizar o pagamento até a data de vencimento.",
+    "PeÃ§o que se programe para realizar o pagamento atÃ© a data de vencimento.",
     "",
-    "📲 Qualquer dúvida, estou à disposição.",
+    "ðŸ“² Qualquer dÃºvida, estou Ã  disposiÃ§Ã£o.",
   ].join("\n");
 }
 

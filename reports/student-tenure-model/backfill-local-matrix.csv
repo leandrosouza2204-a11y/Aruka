@@ -1,0 +1,5 @@
+CLASSIFICATION,COUNT,NOTES
+EXACT,0,acompanhamento_iniciado not future
+DERIVED_HIGH_CONFIDENCE,0,reserved for unambiguous contract evidence
+DERIVED_LOW_CONFIDENCE,0,legacy alunos.inicio fallback
+UNKNOWN,3,no valid non-future source in deterministic local fixtures

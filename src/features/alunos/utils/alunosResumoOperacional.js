@@ -1,4 +1,18 @@
+import { deriveStudentTenure } from "./studentContractTimeline.js";
+
 export function montarResumoOperacionalAluno(aluno, resultado = {}) {
+  const resumoFinanceiro = resultado.financeiro?.data || null;
+  const tenure = deriveStudentTenure({
+    aluno: {
+      ...aluno,
+      consultoriaInicio: resumoFinanceiro?.dataInicio || aluno?.consultoriaInicio,
+      consultoriaInicioConfianca:
+        resumoFinanceiro?.consultoriaInicioConfianca || aluno?.consultoriaInicioConfianca,
+    },
+    contratos: resumoFinanceiro?.contratos || [],
+    pagamentos: resumoFinanceiro?.pagamentos || [],
+  });
+
   return {
     plano: {
       titulo: "Plano",
@@ -9,8 +23,8 @@ export function montarResumoOperacionalAluno(aluno, resultado = {}) {
     },
     tempo: {
       titulo: "Tempo como aluno",
-      estado: formatarTempoComoAluno(aluno?.inicio),
-      detalhe: aluno?.inicio ? `Início em ${formatarData(aluno.inicio)}` : "Data de início não informada.",
+      estado: tenure.label,
+      detalhe: tenure.detail,
     },
     treino: montarIndicadorTreino(resultado.treinos),
     avaliacao: montarIndicadorAvaliacao(resultado.avaliacoes),
@@ -37,7 +51,7 @@ export function montarIndicadorTreino(estado) {
 
 export function montarIndicadorAvaliacao(estado) {
   if (!estado || estado.status === "loading") {
-    return indicador("Avaliacoes", "Carregando...", "Consultando avaliacoes do aluno.");
+    return indicador("Avaliações", "Carregando...", "Consultando avaliações do aluno.");
   }
   if (estado.status === "error") {
     return indicador("Avaliações", "Erro ao carregar", "Não foi possível carregar o resumo de avaliações.", "erro");
@@ -50,10 +64,10 @@ export function montarIndicadorAvaliacao(estado) {
 
   const ultima = [...avaliacoes].sort((a, b) => String(b.data).localeCompare(String(a.data)))[0];
   return indicador(
-    "Avaliacoes",
+    "Avaliações",
     `Última em ${formatarData(ultima.data)}`,
     `${avaliacoes.length} avaliação(ões) no histórico.`,
-    "ok"
+    "ok",
   );
 }
 
@@ -73,32 +87,13 @@ export function montarIndicadorFinanceiro(estado) {
   return indicador(
     "Financeiro",
     `${resumo.quantidadePagamentos} pagamento(s)`,
-    `Total recebido: ${formatarMoeda(resumo.totalPago)}. Proximo vencimento: ${formatarData(resumo.proximoVencimento)}.`,
-    resumo.recorrenteEmDia ? "ok" : "atencao"
+    `Total recebido: ${formatarMoeda(resumo.totalPago)}. Próximo vencimento: ${formatarData(resumo.proximoVencimento)}.`,
+    resumo.recorrenteEmDia ? "ok" : "atencao",
   );
 }
 
 function indicador(titulo, estado, detalhe, tom = "neutro") {
   return { titulo, estado, detalhe, tom };
-}
-
-function formatarTempoComoAluno(inicio) {
-  if (!inicio) return "Sem inicio";
-  const meses = calcularMesesEntre(inicio, new Date());
-  if (meses <= 0) return "Menos de 1 mes";
-  if (meses === 1) return "1 mes";
-  return `${meses} meses`;
-}
-
-function calcularMesesEntre(inicio, fim) {
-  const dataInicio = new Date(`${inicio}T00:00:00`);
-  if (Number.isNaN(dataInicio.getTime())) return 0;
-  let meses =
-    (fim.getFullYear() - dataInicio.getFullYear()) * 12 +
-    fim.getMonth() -
-    dataInicio.getMonth();
-  if (fim.getDate() < dataInicio.getDate()) meses -= 1;
-  return Math.max(meses, 0);
 }
 
 function formatarData(valor) {

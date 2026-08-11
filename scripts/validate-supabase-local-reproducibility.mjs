@@ -21,6 +21,7 @@ const expectedExecutableMigrations = [
   "supabase/migrations/20260801143335_reconcile_alunos_required_fields.sql",
   "supabase/migrations/20260801173000_revoke_aoe_idempotency_anon_execute.sql",
   "supabase/migrations/20260801180000_harden_workout_templates_updated_at.sql",
+  "supabase/migrations/20260811090000_student_tenure_contract_model.sql",
 ];
 const forbiddenProjectRef = "xrmqdkpx" + "nfvusmenadnf";
 const APPROVED_REDACTED_DB_URL =
@@ -167,7 +168,7 @@ if (!existsSync(pathOf(baseline))) {
 
 const migrationFiles = listFiles("supabase/migrations").filter((file) => file.endsWith(".sql"));
 if (migrationFiles.join("\n") !== expectedExecutableMigrations.join("\n")) {
-  fail("Active migrations folder must contain exactly the 6 executable migrations");
+  fail(`Active migrations folder must contain exactly the ${expectedExecutableMigrations.length} executable migrations`);
 }
 
 for (const file of migrationFiles) {

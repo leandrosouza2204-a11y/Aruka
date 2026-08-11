@@ -1,0 +1,7 @@
+SCREEN,SOURCE_BEFORE,SOURCE_AFTER,STATUS
+Alunos details summary,aluno.inicio,deriveStudentTenure via consultoria_inicio,RECONCILED
+Alunos plan section,aluno.inicio label Inicio,aluno.inicio label Inicio do contrato,RECONCILED
+Finance report,obterInicioConsultoria heuristic,deriveConsultancyStart,RECONCILED
+Finance current contract,aluno.inicio,deriveCurrentContractTimeline/aluno_contratos active,RECONCILED
+Renewal flow,client-side multi-mutation,RPC renovar_aluno_contrato,RECONCILED
+Billing attention,current contract window,current contract window,UNCHANGED

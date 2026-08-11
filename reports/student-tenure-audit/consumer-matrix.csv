@@ -1,0 +1,16 @@
+SCREEN,DISPLAYED_CONCEPT,SOURCE,EXPECTED_CANONICAL_SOURCE,STATUS
+Alunos details summary,Tempo como aluno,aluno.inicio,deriveStudentTenure().consultancyStartDate,FAIL
+Alunos details plan section,Inicio,aluno.inicio,CURRENT_CONTRACT_START_DATE with label Inicio do contrato,AMBIGUOUS
+Alunos create/edit,Inicio do plano,form.inicio,CURRENT_CONTRACT_START_DATE,PASS
+Finance report,Data de inicio/Tempo na consultoria,obterInicioConsultoria heuristic,canonical consultancy start helper,PARTIAL
+Finance report,Contrato atual,aluno.inicio,CURRENT_CONTRACT_START_DATE,PASS
+Finance ranking,Tempo consultoria,obterInicioConsultoria heuristic,canonical consultancy start helper,PARTIAL
+Finance table/actions,Current installment/current contract,aluno.inicio/aluno.vencimento,CURRENT_CONTRACT_TIMELINE,PASS
+Dashboard billing cards,Contracts/installments due,billing attention helper,CURRENT_CONTRACT_TIMELINE,PASS
+Renewal modal,Data de inicio da renovacao,formRenovacao.dataInicio,new CURRENT_CONTRACT_START_DATE,PASS
+Renewal mutation,Current period update,aluno.inicio overwritten,CURRENT_CONTRACT_START_DATE only,PASS_WITH_OVERLOADED_FIELD
+Accompaniment history,Plano renovado,planoNome/vencimentoAnterior/vencimentoNovo,explicit previous/new contract timeline,PARTIAL
+Treinos,Workout start,treino.dataInicio,not student tenure,N/A
+Avaliacoes,Assessment timeline,avaliacao/anamnese dates,not student tenure,N/A
+Student Experience,Identity/workout continuity,student link/workout lifecycle,not student tenure,N/A
+Admin,Subscription/log date filters,assinaturas/admin logs,not student tenure,N/A

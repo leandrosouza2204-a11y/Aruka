@@ -21,6 +21,10 @@ import {
   montarResumoFinanceiroAluno,
 } from "../../../services/pagamentosService";
 import {
+  buscarContratosAlunosSupabase,
+  buscarContratosAlunoSupabase,
+} from "../../../services/alunoContratosService";
+import {
   calcularDatas,
   calcularStatus,
   formatarNomePlano,
@@ -64,6 +68,7 @@ export function useAlunosPage() {
   const [alunos, setAlunos] = useState([]);
   const [planos, setPlanos] = useState([]);
   const [pagamentos, setPagamentos] = useState([]);
+  const [contratos, setContratos] = useState([]);
   const [form, setForm] = useState(formInicial);
   const [modalCadastroAberto, setModalCadastroAberto] = useState(false);
   const [alunoEditandoId, setAlunoEditandoId] = useState("");
@@ -83,19 +88,22 @@ export function useAlunosPage() {
       setErro("");
 
       try {
-        const [alunosSupabase, planosSupabase, pagamentosSupabase] = await Promise.all([
+        const [alunosSupabase, planosSupabase, pagamentosSupabase, contratosSupabase] = await Promise.all([
           buscarAlunosSupabase(),
           buscarPlanosSupabase(),
           buscarPagamentosSupabase(),
+          buscarContratosAlunosSupabase(),
         ]);
         setAlunos(alunosSupabase.map(normalizarAluno));
         setPlanos(planosSupabase);
         setPagamentos(pagamentosSupabase);
+        setContratos(contratosSupabase);
       } catch (error) {
         setErro(`Erro ao buscar dados: ${error.message}`);
         setAlunos([]);
         setPlanos([]);
         setPagamentos([]);
+        setContratos([]);
       } finally {
         setCarregando(false);
       }
@@ -189,7 +197,7 @@ export function useAlunosPage() {
     setResumoOperacional(criarResumoCarregando());
     const plano = planos.find((item) => item.id === alunoSelecionado.plano) || null;
 
-    const [treinos, avaliacoes, pagamentos] = await Promise.allSettled([
+    const [treinos, avaliacoes, pagamentos, contratos] = await Promise.allSettled([
       executarResumoComFalhaControlada("treinos", () =>
         buscarTreinosPorAlunoSupabase(alunoSelecionado.id)
       ),
@@ -198,6 +206,9 @@ export function useAlunosPage() {
       ),
       executarResumoComFalhaControlada("financeiro", () =>
         buscarPagamentosPorAluno(alunoSelecionado.id)
+      ),
+      executarResumoComFalhaControlada("financeiro", () =>
+        buscarContratosAlunoSupabase(alunoSelecionado.id)
       ),
     ]);
 
@@ -208,7 +219,12 @@ export function useAlunosPage() {
         pagamentos.status === "fulfilled"
           ? {
               status: "success",
-              data: montarResumoFinanceiroAluno(alunoSelecionado, pagamentos.value, plano),
+              data: montarResumoFinanceiroAluno(
+                alunoSelecionado,
+                pagamentos.value,
+                plano,
+                contratos.status === "fulfilled" ? contratos.value : []
+              ),
             }
           : { status: "error", error: pagamentos.reason?.message || "Erro ao carregar financeiro." },
     });
@@ -477,6 +493,7 @@ export function useAlunosPage() {
     planosAtivos,
     recarregarResumoOperacional: carregarResumoOperacional,
     resumoOperacional,
+    contratos,
     salvarAluno,
     salvando,
     enviarCheckinSemanal,
