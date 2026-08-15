@@ -308,13 +308,15 @@ export function useFinanceiroPage() {
       return;
     }
 
+    const deveRegistrarPagamentoAgora = Number(planoPadrao.valor || 0) > 0;
+
     setModalRenovacao(registro);
     setFormRenovacao({
       novoPlanoId: planoPadrao.id,
       dataInicio: statusEstaVencido(registro.statusFinanceiro)
         ? dataHojeISO()
         : registro.aluno.vencimento || dataHojeISO(),
-      registrarPagamentoAgora: true,
+      registrarPagamentoAgora: deveRegistrarPagamentoAgora,
       formaPagamento: "Pix",
       observacao: "",
       operationId: criarOperationId(),
@@ -336,7 +338,9 @@ export function useFinanceiroPage() {
     }
 
     if (valor <= 0) {
-      toast.aviso("Valor invalido", "O novo plano precisa ter um valor valido.");
+      const mensagem = "Não foi possível renovar o plano. Tente novamente em alguns instantes.";
+      setErro(mensagem);
+      toast.erro("Não foi possível renovar o plano", "Tente novamente em alguns instantes.");
       return;
     }
 
@@ -355,7 +359,7 @@ export function useFinanceiroPage() {
         novoInicio: formRenovacao.dataInicio,
         novoVencimento: datasRenovacao.vencimento,
         novoValor: valor,
-        registrarPagamentoAgora: formRenovacao.registrarPagamentoAgora,
+        registrarPagamentoAgora: formRenovacao.registrarPagamentoAgora && valor > 0,
         formaPagamento: formRenovacao.formaPagamento,
         observacao: formRenovacao.observacao,
         eventKey: `renovacao:${aluno.id}:${operationId}`,
@@ -367,7 +371,7 @@ export function useFinanceiroPage() {
     } catch (error) {
       console.error(error);
       setErro(userFacingError("renovar o plano", error));
-      toast.erro("NÃ£o foi possÃ­vel renovar o plano", "Tente novamente em alguns instantes.");
+      toast.erro("Não foi possível renovar o plano", "Tente novamente em alguns instantes.");
     } finally {
       setAtualizandoId("");
     }

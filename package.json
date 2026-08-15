@@ -12,6 +12,7 @@
     "qa:visible-suspense-fallbacks": "node scripts/validate-visible-suspense-fallbacks.mjs",
     "qa:finance-modals": "node --env-file=.env.qa.local scripts/validate-finance-modals-cdp.mjs",
     "qa:modal-layout-runtime": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-modal-layout-runtime.mjs",
+    "qa:partnership-renewal-runtime": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-partnership-renewal-runtime.mjs",
     "qa:payment-registration-runtime": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-payment-registration-runtime.mjs",
     "qa:renovacao-mobile": "node --env-file=.env.qa.local scripts/validate-renovacao-plano-mobile-cdp.mjs",
     "qa:dashboard-mobile": "node --env-file=.env.local --env-file=.env.qa.local scripts/audit-dashboard-authenticated-local.mjs",
