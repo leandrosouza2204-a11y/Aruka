@@ -1,0 +1,70 @@
+{
+  "decision": "BLOCKED_PHASE_1_REMOTE_READONLY_DRY_RUN_AWAITING_SUPERVISED_DATABASE_CREDENTIAL_INPUT",
+  "baseline_commit": "e7f9497",
+  "deployment_compatibility": "DATABASE_FIRST",
+  "migration": {
+    "file": "supabase/migrations/20260811090000_student_tenure_contract_model.sql",
+    "sha256": "b768dbb73b1e97e50a5c85cd6b124df4d8ca23c83ab0f7c1855707aa2def10f6",
+    "expected_pending_count": 1,
+    "expected_pending_migration": "20260811090000_student_tenure_contract_model"
+  },
+  "manifest": {
+    "path": "C:\\Backups\\Aruka\\real-student-tenure-reconciliation-manifest.csv",
+    "sha256_expected": "aa958678d4c270f7e46c0b778d5513b21db363e5d410dc1c0078e7f5732de6ee",
+    "sha256_actual": "aa958678d4c270f7e46c0b778d5513b21db363e5d410dc1c0078e7f5732de6ee",
+    "row_count": 7,
+    "pii": "NO"
+  },
+  "scope": {
+    "real_students": 7,
+    "demo_students": 20,
+    "reconciliation_updates": [
+      "public.alunos.consultoria_inicio",
+      "public.alunos.consultoria_inicio_confianca"
+    ],
+    "protected_from_reconciliation": [
+      "public.alunos.inicio",
+      "public.alunos.vencimento",
+      "public.pagamentos",
+      "public.aluno_contratos"
+    ]
+  },
+  "external_artifacts": {
+    "migration_runner": "C:\\Backups\\Aruka\\apply-production-student-tenure-migration.ps1",
+    "reconciliation_runner": "C:\\Backups\\Aruka\\apply-production-student-tenure-reconciliation.ps1",
+    "dry_run_runner": "C:\\Backups\\Aruka\\dry-run-production-student-tenure-plan.ps1",
+    "validator_runner": "C:\\Backups\\Aruka\\validate-student-tenure-production-reconciliation.ps1",
+    "reconciliation_sql": "C:\\Backups\\Aruka\\student-tenure-production-reconciliation.sql"
+  },
+  "local_validation": {
+    "migration_schema_present": "PASS",
+    "reconciliation_dry_run": "PASS",
+    "consultoria_inicio_preserved": "YES",
+    "current_contract_start_preserved": "YES",
+    "current_contract_end_preserved": "YES",
+    "payments_preserved": "YES",
+    "ledger_preserved": "YES",
+    "amabile_equivalent": "PASS",
+    "qa_student_tenure_contract": "PASS",
+    "qa_billing_attention_runtime": "PASS",
+    "qa_authenticated_runtime": "PASS",
+    "lint": "PASS",
+    "build": "PASS"
+  },
+  "remote_execution": {
+    "production_accessed": "NO",
+    "production_mutation": "NO",
+    "remote_dry_run": "NO",
+    "db_push": "NO",
+    "migration_executed": "NO",
+    "reconciliation_executed": "NO"
+  },
+  "security": {
+    "powershell_parse": "PASS",
+    "reconciliation_sql_validation": "PASS",
+    "password_persisted": "NO",
+    "uri_with_password_persisted": "NO",
+    "secret_scan": "PASS"
+  },
+  "next_action": "EXECUTE_PRODUCTION_STUDENT_TENURE_READONLY_DRY_RUN"
+}

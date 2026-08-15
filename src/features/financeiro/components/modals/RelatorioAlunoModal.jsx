@@ -22,7 +22,7 @@ function RelatorioAlunoModal({ registro, onClose, styles }) {
       </div>
 
       <div className="financeiro-student-report-grid" style={styles.resumoGrid}>
-        <ResumoItem label="Data de início" valor={formatarData(resumo.dataInicio)} styles={styles} />
+        <ResumoItem label="Início na consultoria" valor={formatarData(resumo.dataInicio)} styles={styles} />
         <ResumoItem
           label="Contrato atual"
           valor={formatarData(resumo.dataInicioContratoAtual)}

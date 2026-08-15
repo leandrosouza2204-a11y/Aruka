@@ -68,18 +68,18 @@ try {
   const localRuntimeValidator = "scripts/supabase-local-validate.ps1";
   const localRuntimeText = readFileSync(join(root, localRuntimeValidator), "utf8");
   for (const [name, value] of [
-    ["ExpectedTables", "20"],
-    ["ExpectedFunctions", "20"],
-    ["ExpectedIndexes", "65"],
-    ["ExpectedPolicies", "59"],
-    ["ExpectedPublicPolicies", "55"],
+    ["ExpectedTables", "21"],
+    ["ExpectedFunctions", "22"],
+    ["ExpectedIndexes", "71"],
+    ["ExpectedPolicies", "60"],
+    ["ExpectedPublicPolicies", "56"],
     ["ExpectedStoragePolicies", "4"],
   ]) {
     if (!new RegExp(`\\$${name}\\s*=\\s*${value}\\b`).test(localRuntimeText)) {
       errors.push(`${localRuntimeValidator} must validate current local runtime ${name}=${value}`);
     }
   }
-  for (const version of ["20260728030000", "20260730090000", "20260731190000", "20260801143335", "20260801173000", "20260801180000"]) {
+  for (const version of ["20260728030000", "20260730090000", "20260731190000", "20260801143335", "20260801173000", "20260801180000", "20260811090000"]) {
     if (!localRuntimeText.includes(`"${version}"`)) {
       errors.push(`${localRuntimeValidator} must validate executable migration version ${version}`);
     }

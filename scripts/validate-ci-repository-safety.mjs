@@ -28,7 +28,10 @@ else if (actualBaselineSha !== EXPECTED_BASELINE_SHA) fail("Official baseline SH
 
 const activeMigrations = listFiles(root, "supabase/migrations").filter((file) => file.endsWith(".sql"));
 const referenceBaselines = listFiles(root, "supabase/reference-baselines").filter((file) => file.endsWith(".sql"));
-if (activeMigrations.length !== 6) fail(`Active executable migrations must contain exactly 6 SQL files, got ${activeMigrations.length}`);
+const expectedActiveMigrationCount = 7;
+if (activeMigrations.length !== expectedActiveMigrationCount) {
+  fail(`Active executable migrations must contain exactly ${expectedActiveMigrationCount} SQL files, got ${activeMigrations.length}`);
+}
 if (referenceBaselines.length !== 1 || referenceBaselines[0] !== BASELINE_PATH) fail("Reference baselines must contain only the official reference baseline SQL");
 if (listFiles(root, "supabase/migrations").some((file) => /archive|agendar_encerramentos/i.test(file))) fail("Archived or operational migration appears in active chain");
 

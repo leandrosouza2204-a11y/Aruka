@@ -399,7 +399,7 @@ function AlunoDetalhes({ aluno, className = "", nomePlano, onFechar, styles }) {
       <div style={styles.detalhesGrid}>
         <Info label="WhatsApp" valor={aluno.whatsapp} styles={styles} />
         <Info label="Nascimento" valor={formatarData(aluno.nascimento)} styles={styles} />
-        <Info label="Início" valor={formatarData(aluno.inicio)} styles={styles} />
+        <Info label="Início do contrato" valor={formatarData(aluno.inicio)} styles={styles} />
         <Info label="Plano" valor={nomePlano(aluno.plano)} styles={styles} />
         <Info label="Valor" valor={formatarMoeda(aluno.valor)} styles={styles} />
         <Info label="Vencimento" valor={formatarData(aluno.vencimento)} styles={styles} />
@@ -523,7 +523,7 @@ function AlunoDetalhesResponsivo({
           <div style={styles.detalhesGrid}>
             <InfoResponsivo label="Plano" valor={nomePlano(aluno.plano)} styles={styles} />
             <InfoResponsivo label="Valor" valor={formatarMoeda(aluno.valor)} styles={styles} />
-            <InfoResponsivo label="Início" valor={formatarData(aluno.inicio)} styles={styles} />
+            <InfoResponsivo label="Início do contrato" valor={formatarData(aluno.inicio)} styles={styles} />
             <InfoResponsivo label="Vencimento" valor={formatarData(aluno.vencimento)} styles={styles} />
             <InfoResponsivo label="Cobrança" valor={formatarAtencaoCobranca(aluno.atencaoCobranca)} styles={styles} />
           </div>

@@ -21,7 +21,8 @@ $ExpectedIncrementalMigrations = @(
   "20260731190000_reconcile_security_policies_and_grants.sql",
   "20260801143335_reconcile_alunos_required_fields.sql",
   "20260801173000_revoke_aoe_idempotency_anon_execute.sql",
-  "20260801180000_harden_workout_templates_updated_at.sql"
+  "20260801180000_harden_workout_templates_updated_at.sql",
+  "20260811090000_student_tenure_contract_model.sql"
 )
 
 function Get-CanonicalTextSha256($Path) {
@@ -82,9 +83,9 @@ $stderrPath = Join-Path $ReportDir "bootstrap-start-stderr.log"
 Copy-Item -LiteralPath $ReferenceBaselinePath -Destination $EphemeralBaselinePath
 $ephemeralBaselineCreated = $true
 try {
-  Write-Host "EPHEMERAL_BOOTSTRAP_MIGRATION_COUNT=7"
+  Write-Host "EPHEMERAL_BOOTSTRAP_MIGRATION_COUNT=8"
   Write-Host "EPHEMERAL_BOOTSTRAP_FIRST_VERSION=20260716090000"
-  Write-Host "EPHEMERAL_BOOTSTRAP_INCREMENTAL_COUNT=6"
+  Write-Host "EPHEMERAL_BOOTSTRAP_INCREMENTAL_COUNT=7"
   Write-Host "EPHEMERAL_BOOTSTRAP_ORDER=PASS"
   Write-Host "REFERENCE_BASELINE_HASH_PRESERVED=YES"
 
@@ -104,9 +105,9 @@ try {
   @(
     "SUPABASE_START_COMMAND=npx -y supabase@2.109.1 start",
     "SUPABASE_START_EXIT_CODE=$code",
-    "EPHEMERAL_BOOTSTRAP_MIGRATION_COUNT=7",
+    "EPHEMERAL_BOOTSTRAP_MIGRATION_COUNT=8",
     "EPHEMERAL_BOOTSTRAP_FIRST_VERSION=20260716090000",
-    "EPHEMERAL_BOOTSTRAP_INCREMENTAL_COUNT=6",
+    "EPHEMERAL_BOOTSTRAP_INCREMENTAL_COUNT=7",
     "EPHEMERAL_BOOTSTRAP_ORDER=PASS",
     "REFERENCE_BASELINE_SHA256=$baselineHash",
     "SUPABASE_START_STDOUT_BEGIN",
@@ -130,9 +131,9 @@ try {
 
 - Result: LOCAL_BOOTSTRAP_OK
 - Active migrations source: supabase/migrations with temporary reference baseline
-- Ephemeral bootstrap migration count: 7
+- Ephemeral bootstrap migration count: 8
 - Ephemeral bootstrap first version: 20260716090000
-- Ephemeral bootstrap incremental count: 6
+- Ephemeral bootstrap incremental count: 7
 - Archived migrations applied: no
 - Operations applied automatically: no
 - Duration seconds: $elapsed

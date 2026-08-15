@@ -1,0 +1,4 @@
+student_id,current_contract_start,candidate_consultancy_start,evidence_source,classification,reason,human_decision,review_notes
+example-uuid,2026-07-12,2026-05-10,acompanhamento_iniciado,EXACT,explicit start event exists,APPROVE,
+example-low-confidence,2026-07-12,2026-07-12,current_contract_start_legacy_fallback,DERIVED_LOW_CONFIDENCE,current contract start may be a renewal date,REVIEW_REQUIRED,
+example-unknown,,,,UNKNOWN,no safe evidence,EXTERNAL_EVIDENCE_REQUIRED,

@@ -6,12 +6,12 @@ $ReportDir = Join-Path $Root "reports/supabase-local-bootstrap"
 $ConfigText = Get-Content -Raw "supabase/config.toml"
 $ManifestPath = Join-Path $Root "supabase/baseline-candidate/manifest.json"
 $Manifest = Get-Content -Raw $ManifestPath | ConvertFrom-Json
-$ExpectedTables = 20
-$ExpectedFunctions = 20
-$ExpectedTriggers = [int]$Manifest.expected_triggers
-$ExpectedIndexes = 65
-$ExpectedPolicies = 59
-$ExpectedPublicPolicies = 55
+$ExpectedTables = 21
+$ExpectedFunctions = 22
+$ExpectedTriggers = 2
+$ExpectedIndexes = 71
+$ExpectedPolicies = 60
+$ExpectedPublicPolicies = 56
 $ExpectedStoragePolicies = 4
 $ExpectedExecutableMigrationVersions = @(
   "20260728030000",
@@ -19,7 +19,8 @@ $ExpectedExecutableMigrationVersions = @(
   "20260731190000",
   "20260801143335",
   "20260801173000",
-  "20260801180000"
+  "20260801180000",
+  "20260811090000"
 )
 $BaselineSqlPath = Join-Path $Root (Join-Path "supabase/baseline-candidate" $Manifest.main_file)
 $BaselineSql = Get-Content -Raw $BaselineSqlPath
@@ -58,7 +59,7 @@ $inventory = [ordered]@{
   total_policies = AssertCount "total_policies" $ExpectedPolicies "select count(*) from pg_policies;"
   public_policies = AssertCount "public_policies" $ExpectedPublicPolicies "select count(*) from pg_policies where schemaname='public';"
   storage_policies = AssertCount "storage_policies" $ExpectedStoragePolicies "select count(*) from pg_policies where schemaname='storage' and tablename='objects';"
-  public_rls_enabled_tables = AssertCount "public_rls_enabled_tables" 20 "select count(*) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind='r' and c.relrowsecurity;"
+  public_rls_enabled_tables = AssertCount "public_rls_enabled_tables" 21 "select count(*) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind='r' and c.relrowsecurity;"
   storage_bucket_avaliacoes_fotos = AssertCount "storage_bucket_avaliacoes_fotos" 1 "select count(*) from storage.buckets where id='avaliacoes-fotos' and public=false;"
   security_definer_without_search_path = AssertCount "security_definer_without_search_path" 0 "select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.prosecdef and not exists (select 1 from unnest(coalesce(p.proconfig,array[]::text[])) cfg where cfg like 'search_path=%');"
   archived_migrations_in_history = AssertCount "archived_migrations_in_history" 0 "select count(*) from supabase_migrations.schema_migrations where version < '20260716090000';"
