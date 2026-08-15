@@ -19,6 +19,7 @@ function RenovacaoPlanoModal({
 
   const planoAtual = registro.plano;
   const novoPlano = planos.find((plano) => plano.id === form.novoPlanoId);
+  const novoPlanoPermitePagamento = Number(novoPlano?.valor || 0) > 0;
 
   return (
     <ModalBase
@@ -47,7 +48,14 @@ function RenovacaoPlanoModal({
             <span style={styles.labelCampo}>Novo plano</span>
             <select
               value={form.novoPlanoId}
-              onChange={(e) => atualizar("novoPlanoId", e.target.value)}
+              onChange={(e) => {
+                const planoSelecionado = planos.find((plano) => plano.id === e.target.value);
+                onChange({
+                  ...form,
+                  novoPlanoId: e.target.value,
+                  registrarPagamentoAgora: Number(planoSelecionado?.valor || 0) > 0,
+                });
+              }}
               style={styles.campo}
             >
               {planos.map((plano) => (
@@ -86,6 +94,7 @@ function RenovacaoPlanoModal({
               value={form.registrarPagamentoAgora ? "sim" : "nao"}
               onChange={(e) => atualizar("registrarPagamentoAgora", e.target.value === "sim")}
               style={styles.campo}
+              disabled={!novoPlanoPermitePagamento}
             >
               <option value="sim">Sim</option>
               <option value="nao">Nao</option>
@@ -98,7 +107,7 @@ function RenovacaoPlanoModal({
               value={form.formaPagamento}
               onChange={(e) => atualizar("formaPagamento", e.target.value)}
               style={styles.campo}
-              disabled={!form.registrarPagamentoAgora}
+              disabled={!form.registrarPagamentoAgora || !novoPlanoPermitePagamento}
             >
               <option value="Pix">Pix</option>
               <option value="Cartao">Cartao</option>
