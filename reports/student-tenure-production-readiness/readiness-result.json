@@ -1,0 +1,27 @@
+{
+  "decision": "READY_FOR_SUPERVISED_PRODUCTION_READONLY_RECONCILIATION",
+  "baseline_commit": "e7f9497",
+  "migration": "supabase/migrations/20260811090000_student_tenure_contract_model.sql",
+  "production_read_only_access": "UNAVAILABLE",
+  "production_mutation": false,
+  "db_push": false,
+  "migration_repair": false,
+  "unsafe_interpretation_found": false,
+  "legacy_contract_history_partial": true,
+  "security_review": "PASS",
+  "readonly_audit_sql": "PASS",
+  "student_tenure_qa": "PASS",
+  "full_local_ci": "PASS",
+  "authenticated_runtime": "PASS",
+  "billing_runtime": "PASS",
+  "lint": "PASS",
+  "build": "PASS",
+  "production_totals": {
+    "total_students": null,
+    "exact": null,
+    "high_confidence": null,
+    "low_confidence": null,
+    "unknown": null
+  },
+  "next_action": "EXECUTE_SUPERVISED_PRODUCTION_READONLY_TENURE_AUDIT"
+}

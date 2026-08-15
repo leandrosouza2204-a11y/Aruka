@@ -29,6 +29,8 @@
     "test:billing-runtime-fixture": "node --env-file=.env.local --env-file=.env.qa.local --test scripts/validate-billing-runtime-fixture.test.mjs",
     "qa:student-tenure-renewal-history": "node scripts/validate-student-tenure-renewal-history.mjs",
     "qa:student-tenure-contract": "node scripts/validate-student-tenure-contract.mjs",
+    "qa:student-tenure-readonly-audit-sql": "node scripts/validate-student-tenure-readonly-audit-sql.mjs",
+    "qa:student-tenure-legacy-reconciliation-sql": "node scripts/validate-student-tenure-legacy-reconciliation-sql.mjs",
     "qa:contextual-error-feedback": "node scripts/validate-contextual-error-feedback.mjs",
     "qa:student-context-consistency": "node scripts/validate-student-context-consistency.mjs",
     "qa:local:setup": "node --env-file=.env.local --env-file=.env.qa.local scripts/setup-local-qa.mjs",

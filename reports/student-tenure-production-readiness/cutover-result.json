@@ -1,0 +1,50 @@
+{
+  "decision": "BLOCKED_PHASE_1_REMOTE_READONLY_DRY_RUN_AWAITING_SUPERVISED_DATABASE_CREDENTIAL_INPUT",
+  "exact_failed_phase": "PHASE_1_REMOTE_READONLY_DRY_RUN",
+  "exact_failed_check": "SUPERVISED_SESSION_POOLER_URI_AND_SECURESTRING_PASSWORD_REQUIRED",
+  "baseline_commit": "e7f9497",
+  "current_head": "e7f949702a114d075d4f759712e7d8a80928411a",
+  "current_branch": "fix/operational-billing-and-student-tenure",
+  "origin_main": "10a8f2d186d2d9eda5ffc5ff602802f3a92483fa",
+  "ahead_behind_origin_main": {
+    "ahead": 1,
+    "behind": 3
+  },
+  "migration": {
+    "file": "supabase/migrations/20260811090000_student_tenure_contract_model.sql",
+    "sha256_expected": "b768dbb73b1e97e50a5c85cd6b124df4d8ca23c83ab0f7c1855707aa2def10f6",
+    "sha256_actual": "b768dbb73b1e97e50a5c85cd6b124df4d8ca23c83ab0f7c1855707aa2def10f6",
+    "hash_match": "YES"
+  },
+  "manifest": {
+    "path": "C:\\Backups\\Aruka\\real-student-tenure-reconciliation-manifest.csv",
+    "sha256_expected": "aa958678d4c270f7e46c0b778d5513b21db363e5d410dc1c0078e7f5732de6ee",
+    "sha256_actual": "aa958678d4c270f7e46c0b778d5513b21db363e5d410dc1c0078e7f5732de6ee",
+    "hash_match": "YES",
+    "rows": 7,
+    "unique_student_ids": "YES",
+    "pii": "NO",
+    "future_dates": 0,
+    "validation": "PASS"
+  },
+  "local_validation": {
+    "qa_student_tenure_contract": "PASS",
+    "qa_billing_attention_runtime": "PASS",
+    "qa_authenticated_runtime": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "powershell_parse": "PASS",
+    "reconciliation_sql_validation": "PASS",
+    "local_reconciliation_dry_run": "PASS"
+  },
+  "production": {
+    "accessed": "NO",
+    "mutation": "NO",
+    "remote_dry_run": "NO",
+    "db_push": "NO",
+    "migration_executed": "NO",
+    "reconciliation_executed": "NO",
+    "rollback_state": "NOT_REQUIRED_NO_PRODUCTION_MUTATION"
+  },
+  "next_safe_action": "EXECUTE_PRODUCTION_STUDENT_TENURE_READONLY_DRY_RUN"
+}
