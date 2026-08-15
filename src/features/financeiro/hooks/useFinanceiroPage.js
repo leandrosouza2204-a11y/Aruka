@@ -894,8 +894,8 @@ function calcularStatusPagamento({ parcelado, quitado, valorPendente, statusFina
 }
 
 function calcularPodeReceber({ parcelado, quitado, proximaParcela, valorPendente }) {
-  if (valorPendente <= 0) return false;
   if (parcelado) return !quitado && Boolean(proximaParcela);
+  if (valorPendente <= 0) return false;
 
   return true;
 }

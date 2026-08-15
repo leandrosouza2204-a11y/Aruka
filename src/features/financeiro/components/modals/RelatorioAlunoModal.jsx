@@ -21,21 +21,22 @@ function RelatorioAlunoModal({ registro, onClose, styles }) {
         <button onClick={onClose} style={styles.botaoNeutro}>Fechar</button>
       </div>
 
-      <div className="financeiro-student-report-grid" style={styles.resumoGrid}>
-        <ResumoItem label="Início na consultoria" valor={formatarData(resumo.dataInicio)} styles={styles} />
-        <ResumoItem
-          label="Contrato atual"
-          valor={formatarData(resumo.dataInicioContratoAtual)}
-          styles={styles}
-        />
-        <ResumoItem label="Tempo na consultoria" valor={`${resumo.tempoConsultoriaMeses} meses`} styles={styles} />
-        <ResumoItem label="Total pago" valor={formatarMoeda(resumo.totalPago)} styles={styles} />
-        <ResumoItem label="Pagamentos" valor={resumo.quantidadePagamentos} styles={styles} />
-        <ResumoItem label="Ticket médio" valor={formatarMoeda(resumo.ticketMedio)} styles={styles} />
-        <ResumoItem label="Plano atual" valor={resumo.planoAtual} styles={styles} />
-        <ResumoItem label="Último pagamento" valor={formatarData(resumo.ultimoPagamento?.dataPagamento)} styles={styles} />
-        <ResumoItem label="Próximo vencimento" valor={formatarData(resumo.proximoVencimento)} styles={styles} />
-      </div>
+      <div className="financeiro-modal-scroll">
+        <div className="financeiro-student-report-grid" style={styles.resumoGrid}>
+          <ResumoItem label="Início na consultoria" valor={formatarData(resumo.dataInicio)} styles={styles} />
+          <ResumoItem
+            label="Contrato atual"
+            valor={formatarData(resumo.dataInicioContratoAtual)}
+            styles={styles}
+          />
+          <ResumoItem label="Tempo na consultoria" valor={`${resumo.tempoConsultoriaMeses} meses`} styles={styles} />
+          <ResumoItem label="Total pago" valor={formatarMoeda(resumo.totalPago)} styles={styles} />
+          <ResumoItem label="Pagamentos" valor={resumo.quantidadePagamentos} styles={styles} />
+          <ResumoItem label="Ticket médio" valor={formatarMoeda(resumo.ticketMedio)} styles={styles} />
+          <ResumoItem label="Plano atual" valor={resumo.planoAtual} styles={styles} />
+          <ResumoItem label="Último pagamento" valor={formatarData(resumo.ultimoPagamento?.dataPagamento)} styles={styles} />
+          <ResumoItem label="Próximo vencimento" valor={formatarData(resumo.proximoVencimento)} styles={styles} />
+        </div>
 
       <section className="financeiro-report-section" style={styles.relatorioBox}>
         <h3 style={styles.subtituloModal}>Resumo para promoções</h3>
@@ -55,27 +56,28 @@ function RelatorioAlunoModal({ registro, onClose, styles }) {
         />
       </section>
 
-      {registro.grupoAcompanhamento === "encerrados" && (
-        <section className="financeiro-report-section" style={styles.relatorioBox}>
-          <h3 style={styles.subtituloModal}>Encerramento do acompanhamento</h3>
-          <div className="financeiro-student-report-grid" style={styles.resumoGrid}>
-            <ResumoItem label="Status" valor={registro.statusAcompanhamento} styles={styles} />
-            <ResumoItem label="Motivo" valor={registro.motivoEncerramento.label} styles={styles} />
-            <ResumoItem
-              label="Data de encerramento"
-              valor={formatarData(registro.acompanhamento.encerradoEm)}
-              styles={styles}
-            />
-            {registro.motivoEncerramento.detalhe && (
+        {registro.grupoAcompanhamento === "encerrados" && (
+          <section className="financeiro-report-section" style={styles.relatorioBox}>
+            <h3 style={styles.subtituloModal}>Encerramento do acompanhamento</h3>
+            <div className="financeiro-student-report-grid" style={styles.resumoGrid}>
+              <ResumoItem label="Status" valor={registro.statusAcompanhamento} styles={styles} />
+              <ResumoItem label="Motivo" valor={registro.motivoEncerramento.label} styles={styles} />
               <ResumoItem
-                label="Observação"
-                valor={registro.motivoEncerramento.detalhe}
+                label="Data de encerramento"
+                valor={formatarData(registro.acompanhamento.encerradoEm)}
                 styles={styles}
               />
-            )}
-          </div>
-        </section>
-      )}
+              {registro.motivoEncerramento.detalhe && (
+                <ResumoItem
+                  label="Observação"
+                  valor={registro.motivoEncerramento.detalhe}
+                  styles={styles}
+                />
+              )}
+            </div>
+          </section>
+        )}
+      </div>
     </ModalBase>
   );
 }
