@@ -11,6 +11,8 @@
     "qa:visible-ui-copy": "node scripts/validate-visible-ui-copy.mjs",
     "qa:visible-suspense-fallbacks": "node scripts/validate-visible-suspense-fallbacks.mjs",
     "qa:finance-modals": "node --env-file=.env.qa.local scripts/validate-finance-modals-cdp.mjs",
+    "qa:modal-layout-runtime": "node scripts/validate-modal-layout-runtime.mjs",
+    "qa:payment-registration-runtime": "node scripts/validate-payment-registration-runtime.mjs",
     "qa:renovacao-mobile": "node --env-file=.env.qa.local scripts/validate-renovacao-plano-mobile-cdp.mjs",
     "qa:dashboard-mobile": "node --env-file=.env.local --env-file=.env.qa.local scripts/audit-dashboard-authenticated-local.mjs",
     "qa:core-mobile-layout": "node --env-file=.env.qa.local scripts/validate-core-mobile-layout.mjs",

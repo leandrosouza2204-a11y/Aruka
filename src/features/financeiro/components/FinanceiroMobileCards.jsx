@@ -130,6 +130,11 @@ function FinanceiroMobileCards({
                 </button>
               )}
               <TableActions>
+                {registro.podeReceber && (
+                  <TableActionItem onClick={() => onReceber(registro)} variant="success">
+                    Registrar pagamento
+                  </TableActionItem>
+                )}
                 <TableActionItem onClick={() => onRenovarPlano(registro)} variant="primary">
                   Renovar plano
                 </TableActionItem>

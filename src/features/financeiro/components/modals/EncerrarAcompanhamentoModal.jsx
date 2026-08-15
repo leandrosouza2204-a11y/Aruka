@@ -27,7 +27,7 @@ function EncerrarAcompanhamentoModal({
   }
 
   return (
-    <ModalBase onClose={onClose} styles={styles} largura="min(620px, 100%)">
+    <ModalBase onClose={onClose} styles={styles} size="md">
       <div className="financeiro-modal-topo" style={styles.modalTopo}>
         <div>
           <h2 style={styles.modalTitulo}>Encerrar acompanhamento</h2>

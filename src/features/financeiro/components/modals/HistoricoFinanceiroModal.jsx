@@ -14,7 +14,7 @@ function HistoricoFinanceiroModal({ registro, onClose, onRelatorio, styles }) {
   const totalPago = pagamentos.reduce((total, pagamento) => total + Number(pagamento.valor || 0), 0);
 
   return (
-    <ModalBase onClose={onClose} styles={styles} largura="min(980px, 100%)">
+    <ModalBase onClose={onClose} styles={styles} size="xl" contentClassName="historico-financeiro-modal">
       <div className="financeiro-modal-topo" style={styles.modalTopo}>
         <div>
           <h2 style={styles.modalTitulo}>Histórico financeiro do aluno</h2>

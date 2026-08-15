@@ -12,7 +12,7 @@ function RelatorioAlunoModal({ registro, onClose, styles }) {
   const historicoAcompanhamento = useHistoricoAcompanhamento({ userId, alunoId });
 
   return (
-    <ModalBase onClose={onClose} styles={styles} largura="min(720px, 100%)">
+    <ModalBase onClose={onClose} styles={styles} size="lg" contentClassName="relatorio-aluno-modal">
       <div className="financeiro-modal-topo" style={styles.modalTopo}>
         <div>
           <h2 style={styles.modalTitulo}>Relatório financeiro do aluno</h2>
