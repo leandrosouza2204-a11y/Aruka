@@ -24,7 +24,7 @@ function RenovacaoPlanoModal({
     <ModalBase
       onClose={onClose}
       styles={styles}
-      largura="min(760px, 100%)"
+      size="lg"
       contentClassName="renovacao-plano-modal"
     >
       <div className="financeiro-modal-topo" style={styles.modalTopo}>

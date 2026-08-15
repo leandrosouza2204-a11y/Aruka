@@ -4,7 +4,7 @@ import ModalBase from "./ModalBase";
 
 function RelatorioGeralModal({ ranking, onClose, styles }) {
   return (
-    <ModalBase onClose={onClose} styles={styles} largura="min(980px, 100%)">
+    <ModalBase onClose={onClose} styles={styles} size="xl">
       <div className="financeiro-modal-topo" style={styles.modalTopo}>
         <div>
           <h2 style={styles.modalTitulo}>Relatórios financeiros</h2>

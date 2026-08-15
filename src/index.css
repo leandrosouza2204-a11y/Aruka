@@ -5946,11 +5946,84 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
 }
 
 /* Ciclo 3.2: modais financeiros fullscreen no mobile */
+.financeiro-modal {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 48px);
+  max-height: calc(100dvh - 48px);
+  overflow: hidden;
+  width: var(--financeiro-modal-width, min(620px, calc(100vw - 48px))) !important;
+}
+
+.financeiro-modal .accessible-modal-body,
+.financeiro-modal-content {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+}
+
 .financeiro-modal-scroll {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  max-width: 100%;
+  min-height: 0;
+  min-width: 0;
+  overflow-x: clip;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.financeiro-modal-topo,
+.financeiro-modal-footer,
+.financeiro-modal-actions {
   box-sizing: border-box;
   max-width: 100%;
   min-width: 0;
   width: 100%;
+}
+
+.financeiro-modal.relatorio-aluno-modal {
+  width: min(760px, calc(100vw - 48px)) !important;
+}
+
+.financeiro-modal.relatorio-aluno-modal .financeiro-student-report-grid {
+  box-sizing: border-box;
+  display: grid !important;
+  gap: 12px !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  max-width: 100%;
+  width: 100%;
+}
+
+.financeiro-modal.relatorio-aluno-modal .financeiro-report-section {
+  box-sizing: border-box;
+  max-width: 100%;
+  width: 100%;
+}
+
+.financeiro-modal.historico-financeiro-modal {
+  width: min(1040px, calc(100vw - 48px)) !important;
+}
+
+.financeiro-modal.historico-financeiro-modal .financeiro-history-table {
+  box-sizing: border-box;
+  max-width: 100%;
+  width: 100%;
+}
+
+.financeiro-modal.historico-financeiro-modal .financeiro-history-data-table {
+  width: max(100%, 1260px);
+}
+
+@media (max-width: 900px) {
+  .financeiro-modal.relatorio-aluno-modal .financeiro-student-report-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
 }
 
 .renovacao-modal-scroll,
