@@ -5,6 +5,7 @@ const larguraPorTamanho = {
   md: "min(620px, calc(100vw - 48px))",
   lg: "min(760px, calc(100vw - 48px))",
   xl: "min(1040px, calc(100vw - 48px))",
+  wide: "min(1560px, 96vw)",
   content: "fit-content",
 };
 
@@ -16,7 +17,7 @@ function ModalBase({ children, onClose, largura, size = "md", contentClassName =
       isOpen
       onClose={onClose}
       ariaLabel="Modal financeiro"
-      size={size === "content" ? "lg" : size}
+      size={["content", "wide"].includes(size) ? "xl" : size}
       showCloseButton={false}
       contentClassName={`financeiro-modal ${contentClassName}`.trim()}
       className="financeiro-modal-overlay"
