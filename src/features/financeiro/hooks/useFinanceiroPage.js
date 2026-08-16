@@ -337,10 +337,8 @@ export function useFinanceiroPage() {
       return;
     }
 
-    if (valor <= 0) {
-      const mensagem = "Não foi possível renovar o plano. Tente novamente em alguns instantes.";
-      setErro(mensagem);
-      toast.erro("Não foi possível renovar o plano", "Tente novamente em alguns instantes.");
+    if (valor < 0) {
+      toast.aviso("Valor invalido", "O novo plano nao pode ter valor negativo.");
       return;
     }
 
@@ -360,7 +358,7 @@ export function useFinanceiroPage() {
         novoVencimento: datasRenovacao.vencimento,
         novoValor: valor,
         registrarPagamentoAgora: formRenovacao.registrarPagamentoAgora && valor > 0,
-        formaPagamento: formRenovacao.formaPagamento,
+        formaPagamento: valor > 0 ? formRenovacao.formaPagamento : "",
         observacao: formRenovacao.observacao,
         eventKey: `renovacao:${aluno.id}:${operationId}`,
       });

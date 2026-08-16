@@ -28,7 +28,7 @@ else if (actualBaselineSha !== EXPECTED_BASELINE_SHA) fail("Official baseline SH
 
 const activeMigrations = listFiles(root, "supabase/migrations").filter((file) => file.endsWith(".sql"));
 const referenceBaselines = listFiles(root, "supabase/reference-baselines").filter((file) => file.endsWith(".sql"));
-const expectedActiveMigrationCount = 7;
+const expectedActiveMigrationCount = 8;
 if (activeMigrations.length !== expectedActiveMigrationCount) {
   fail(`Active executable migrations must contain exactly ${expectedActiveMigrationCount} SQL files, got ${activeMigrations.length}`);
 }
