@@ -88,35 +88,44 @@ function RenovacaoPlanoModal({
             styles={styles}
           />
 
-          <label style={{ ...styles.campoGrupo, justifyContent: "center" }}>
-            <span style={styles.labelCampo}>Registrar pagamento agora?</span>
-            <select
-              value={form.registrarPagamentoAgora ? "sim" : "nao"}
-              onChange={(e) => atualizar("registrarPagamentoAgora", e.target.value === "sim")}
-              style={styles.campo}
-              disabled={!novoPlanoPermitePagamento}
-            >
-              <option value="sim">Sim</option>
-              <option value="nao">Nao</option>
-            </select>
-          </label>
+          {novoPlanoPermitePagamento ? (
+            <>
+              <label style={{ ...styles.campoGrupo, justifyContent: "center" }}>
+                <span style={styles.labelCampo}>Registrar pagamento agora?</span>
+                <select
+                  value={form.registrarPagamentoAgora ? "sim" : "nao"}
+                  onChange={(e) => atualizar("registrarPagamentoAgora", e.target.value === "sim")}
+                  style={styles.campo}
+                >
+                  <option value="sim">Sim</option>
+                  <option value="nao">Nao</option>
+                </select>
+              </label>
 
-          <label style={styles.campoGrupo}>
-            <span style={styles.labelCampo}>Forma de pagamento</span>
-            <select
-              value={form.formaPagamento}
-              onChange={(e) => atualizar("formaPagamento", e.target.value)}
-              style={styles.campo}
-              disabled={!form.registrarPagamentoAgora || !novoPlanoPermitePagamento}
-            >
-              <option value="Pix">Pix</option>
-              <option value="Cartao">Cartao</option>
-              <option value="Dinheiro">Dinheiro</option>
-              <option value="Transferencia">Transferencia</option>
-              <option value="Boleto">Boleto</option>
-              <option value="Outro">Outro</option>
-            </select>
-          </label>
+              <label style={styles.campoGrupo}>
+                <span style={styles.labelCampo}>Forma de pagamento</span>
+                <select
+                  value={form.formaPagamento}
+                  onChange={(e) => atualizar("formaPagamento", e.target.value)}
+                  style={styles.campo}
+                  disabled={!form.registrarPagamentoAgora}
+                >
+                  <option value="Pix">Pix</option>
+                  <option value="Cartao">Cartao</option>
+                  <option value="Dinheiro">Dinheiro</option>
+                  <option value="Transferencia">Transferencia</option>
+                  <option value="Boleto">Boleto</option>
+                  <option value="Outro">Outro</option>
+                </select>
+              </label>
+            </>
+          ) : (
+            <ResumoItem
+              label="Cobranca"
+              valor="Sem cobranca financeira"
+              styles={styles}
+            />
+          )}
 
           <label style={{ ...styles.campoGrupo, gridColumn: "1 / -1" }}>
             <span style={styles.labelCampo}>Observacoes</span>

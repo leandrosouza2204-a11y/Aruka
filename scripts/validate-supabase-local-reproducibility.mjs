@@ -22,6 +22,7 @@ const expectedExecutableMigrations = [
   "supabase/migrations/20260801173000_revoke_aoe_idempotency_anon_execute.sql",
   "supabase/migrations/20260801180000_harden_workout_templates_updated_at.sql",
   "supabase/migrations/20260811090000_student_tenure_contract_model.sql",
+  "supabase/migrations/20260815120000_allow_zero_value_contract_renewal.sql",
 ];
 const forbiddenProjectRef = "xrmqdkpx" + "nfvusmenadnf";
 const APPROVED_REDACTED_DB_URL =

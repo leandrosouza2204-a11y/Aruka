@@ -20,7 +20,8 @@ $ExpectedExecutableMigrationVersions = @(
   "20260801143335",
   "20260801173000",
   "20260801180000",
-  "20260811090000"
+  "20260811090000",
+  "20260815120000"
 )
 $BaselineSqlPath = Join-Path $Root (Join-Path "supabase/baseline-candidate" $Manifest.main_file)
 $BaselineSql = Get-Content -Raw $BaselineSqlPath
