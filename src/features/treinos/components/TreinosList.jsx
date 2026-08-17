@@ -154,6 +154,7 @@ function TreinosList() {
         <div className="treinos-detail-panel">
           <TreinoDetalhesModal
             treino={treinosPage.treinoSelecionado}
+            workoutHistory={treinosPage.treinosDoAlunoSelecionado}
             alterandoEstadoTreinoId={treinosPage.alterandoEstadoTreinoId}
             entregandoTreinoId={treinosPage.entregandoTreinoId}
             onEnviarWhatsApp={treinosPage.copiarTreinoWhatsApp}
@@ -960,6 +961,75 @@ const diasBloco = {
   padding: "20px",
 };
 
+const feedbackBloco = {
+  background: "#f8fafc",
+  borderTop: "1px solid rgba(226, 232, 240, 0.72)",
+  display: "grid",
+  gap: "14px",
+  padding: "20px",
+};
+
+const feedbackHeader = {
+  alignItems: "flex-start",
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "12px",
+  justifyContent: "space-between",
+};
+
+const feedbackTitulo = {
+  color: "#111827",
+  fontSize: "20px",
+  margin: 0,
+};
+
+const feedbackDescricao = {
+  color: "#6b7280",
+  fontSize: "13px",
+  lineHeight: 1.45,
+  marginTop: "5px",
+};
+
+const feedbackGrid = {
+  display: "grid",
+  gap: "10px",
+  gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))",
+};
+
+const feedbackCard = {
+  background: "white",
+  border: "1px solid #e5e7eb",
+  borderRadius: "8px",
+  display: "grid",
+  gap: "7px",
+  minWidth: 0,
+  padding: "12px",
+};
+
+const feedbackCardTitulo = {
+  color: "#111827",
+  fontSize: "14px",
+  lineHeight: 1.35,
+};
+
+const feedbackCardTexto = {
+  color: "#4b5563",
+  fontSize: "13px",
+  lineHeight: 1.45,
+  margin: 0,
+};
+
+const feedbackConfidence = {
+  color: "#6b7280",
+  fontSize: "12px",
+  fontWeight: "800",
+};
+
+const feedbackEmpty = {
+  borderRadius: "8px",
+  padding: "12px",
+};
+
 const diasHeader = {
   alignItems: "flex-start",
   display: "flex",
@@ -1149,6 +1219,16 @@ const styles = {
   estadoTreinoVazio,
   estadoVazio,
   exerciciosGrid,
+  feedbackBloco,
+  feedbackCard,
+  feedbackCardTexto,
+  feedbackCardTitulo,
+  feedbackConfidence,
+  feedbackDescricao,
+  feedbackEmpty,
+  feedbackGrid,
+  feedbackHeader,
+  feedbackTitulo,
   filtros,
   heroBadges,
   infoGrid,

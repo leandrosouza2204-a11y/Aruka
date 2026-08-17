@@ -12,6 +12,11 @@ import {
 import ExercicioCard from "../../../components/ExercicioCard";
 import { formatarData } from "../hooks/useTreinosPage";
 import {
+  WORKOUT_FEEDBACK_CONFIDENCE,
+  WORKOUT_FEEDBACK_TYPE,
+  buildWorkoutIntelligenceFeedback,
+} from "../utils/workoutIntelligenceFeedback";
+import {
   getWorkoutLifecyclePresentation,
   getWorkoutPrimaryLifecycleAction,
   getWorkoutRelevantDate,
@@ -21,6 +26,7 @@ import WorkoutOriginLabel from "./WorkoutOriginLabel";
 
 function TreinoDetalhesModal({
   treino,
+  workoutHistory = [],
   alterandoEstadoTreinoId = "",
   entregandoTreinoId = "",
   onEnviarWhatsApp,
@@ -33,6 +39,10 @@ function TreinoDetalhesModal({
   const lifecycle = getWorkoutLifecyclePresentation(treino);
   const relevantDate = getWorkoutRelevantDate(treino);
   const primaryAction = getWorkoutPrimaryLifecycleAction(treino);
+  const feedback = buildWorkoutIntelligenceFeedback({
+    currentWorkout: treino,
+    workoutHistory,
+  });
   const lifecycleLoading =
     entregandoTreinoId === treino.id || alterandoEstadoTreinoId === treino.id;
 
@@ -118,6 +128,8 @@ function TreinoDetalhesModal({
         <Info label="Observações" valor={treino.observacoes || "-"} destaque styles={styles} />
       </div>
 
+      <WorkoutFeedbackPanel feedback={feedback} styles={styles} />
+
       <section className="treinos-days-block" style={styles.diasBloco}>
         <div style={styles.diasHeader}>
           <div>
@@ -163,6 +175,123 @@ function TreinoDetalhesModal({
       </section>
     </section>
   );
+}
+
+function WorkoutFeedbackPanel({ feedback, styles }) {
+  const items = feedback.items || [];
+  const noData = items[0]?.type === WORKOUT_FEEDBACK_TYPE.NO_DATA;
+
+  return (
+    <section
+      className="workout-intelligence-feedback"
+      data-testid="workout-intelligence-feedback"
+      style={styles.feedbackBloco}
+    >
+      <div style={styles.feedbackHeader}>
+        <div>
+          <h3 style={styles.feedbackTitulo}>Feedback do treino</h3>
+          <p style={styles.feedbackDescricao}>
+            Sinais derivados da comparação entre fichas prescritas. O profissional decide a próxima ação.
+          </p>
+        </div>
+        <span className="status-badge status-badge-info">
+          {formatContinuity(feedback.continuity)}
+        </span>
+      </div>
+
+      {noData ? (
+        <div className="app-empty-state" data-testid="workout-intelligence-no-history" style={styles.feedbackEmpty}>
+          Ainda não há histórico suficiente para gerar feedback deste treino.
+        </div>
+      ) : (
+        <div style={styles.feedbackGrid} data-testid="workout-intelligence-items">
+          {items.map((item) => {
+            const presentation = getFeedbackPresentation(item);
+            return (
+              <article key={item.type} style={styles.feedbackCard}>
+                <span style={styles.infoLabel}>{presentation.label}</span>
+                <strong style={styles.feedbackCardTitulo}>{presentation.title}</strong>
+                <p style={styles.feedbackCardTexto}>{presentation.description}</p>
+                <small style={styles.feedbackConfidence}>
+                  Confiança {formatConfidence(item.confidence)}
+                </small>
+              </article>
+            );
+          })}
+        </div>
+      )}
+    </section>
+  );
+}
+
+function getFeedbackPresentation(item) {
+  const evidence = item.evidence || {};
+  const progressCount = (evidence.loadProgressCount || 0) + (evidence.repProgressCount || 0);
+
+  if (item.type === WORKOUT_FEEDBACK_TYPE.PROGRESSION_SIGNAL) {
+    return {
+      label: "Progressão prescrita",
+      title: `${progressCount} exercício(s) com aumento em carga ou repetições`,
+      description: "Sinais de progressão prescrita foram encontrados na comparação entre fichas.",
+    };
+  }
+
+  if (item.type === WORKOUT_FEEDBACK_TYPE.STABLE_PATTERN) {
+    return {
+      label: "Estrutura estável",
+      title: `${evidence.stableCount || 0} exercício(s) mantidos`,
+      description: "Boa parte da estrutura prescrita permanece estável entre as duas fichas.",
+    };
+  }
+
+  if (item.type === WORKOUT_FEEDBACK_TYPE.PARTIAL_HISTORY) {
+    return {
+      label: "Histórico parcial",
+      title: "Comparação limitada pelos dados disponíveis",
+      description: "Parte do histórico não é comparável por diferenças ou campos textuais da prescrição.",
+    };
+  }
+
+  if (item.type === WORKOUT_FEEDBACK_TYPE.NEW_EXERCISE) {
+    return {
+      label: "Novos exercícios",
+      title: `${evidence.newExerciseCount || 0} exercício(s) novos no treino atual`,
+      description: "Novos exercícios foram introduzidos no ciclo atual; isso não é tratado como progresso.",
+    };
+  }
+
+  if (item.type === WORKOUT_FEEDBACK_TYPE.CONTINUITY_BREAK) {
+    return {
+      label: "Continuidade baixa",
+      title: "Poucos exercícios comparáveis entre fichas",
+      description: "A ficha atual mudou bastante em relação à anterior, então a leitura deve ser feita com cautela.",
+    };
+  }
+
+  return {
+    label: "Contexto de revisão",
+    title: formatReviewContext(evidence.daysSinceReview),
+    description: "Este é um sinal informativo de tempo desde a última revisão registrada.",
+  };
+}
+
+function formatReviewContext(daysSinceReview) {
+  if (daysSinceReview === null || daysSinceReview === undefined) return "Sem data confiável de revisão";
+  if (daysSinceReview === 0) return "Última revisão registrada hoje";
+  return `Última revisão há ${daysSinceReview} dia(s)`;
+}
+
+function formatContinuity(value) {
+  if (value === "CONTINUITY_GOOD") return "Continuidade boa";
+  if (value === "CONTINUITY_PARTIAL") return "Continuidade parcial";
+  if (value === "CONTINUITY_LOW") return "Continuidade baixa";
+  return "Sem comparação";
+}
+
+function formatConfidence(confidence) {
+  if (confidence === WORKOUT_FEEDBACK_CONFIDENCE.HIGH) return "alta";
+  if (confidence === WORKOUT_FEEDBACK_CONFIDENCE.MEDIUM) return "média";
+  return "baixa";
 }
 
 function Info({ label, valor, icon, destaque = false, styles }) {
