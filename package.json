@@ -36,6 +36,8 @@
     "qa:student-tenure-legacy-reconciliation-sql": "node scripts/validate-student-tenure-legacy-reconciliation-sql.mjs",
     "qa:contextual-error-feedback": "node scripts/validate-contextual-error-feedback.mjs",
     "qa:student-context-consistency": "node scripts/validate-student-context-consistency.mjs",
+    "qa:student-progression-snapshot": "node scripts/validate-student-progression-snapshot.mjs",
+    "qa:student-progression-runtime": "node scripts/validate-student-progression-runtime.mjs",
     "qa:local:setup": "node --env-file=.env.local --env-file=.env.qa.local scripts/setup-local-qa.mjs",
     "setup:local-qa-auth": "node --env-file=.env.local --env-file=.env.qa.local scripts/setup-local-qa-auth.mjs",
     "qa:local-auth-fixture-compatibility": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-local-auth-fixture-compatibility.mjs && node --test scripts/validate-local-auth-fixture-compatibility.test.mjs",

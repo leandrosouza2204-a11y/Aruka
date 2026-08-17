@@ -489,7 +489,7 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
               style={campo}
             >
               <option value="Ativo">Ativo</option>
-              <option value="Em revisão">Em revisão</option>
+              <option value="Em revisao">Em revisão</option>
               <option value="Finalizado">Finalizado</option>
             </select>
           </Campo>

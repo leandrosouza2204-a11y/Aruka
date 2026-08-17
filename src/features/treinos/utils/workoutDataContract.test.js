@@ -175,10 +175,10 @@ test("gera payload manual sem origem e com idempotency key opcional vazia", () =
     dias: [{ nome: "A", exercicios: [{ nome: "Supino" }] }],
   });
 
-  assert.equal(payload.templateOriginType, "");
-  assert.equal(payload.templateOriginId, "");
-  assert.equal(payload.templateOriginName, "");
-  assert.equal(payload.templateOriginSnapshot, null);
+  assert.equal("templateOriginType" in payload, false);
+  assert.equal("templateOriginId" in payload, false);
+  assert.equal("templateOriginName" in payload, false);
+  assert.equal("templateOriginSnapshot" in payload, false);
   assert.equal(payload.applicationIdempotencyKey, "");
 });
 

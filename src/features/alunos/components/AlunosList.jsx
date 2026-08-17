@@ -13,6 +13,7 @@ import AlunoCardMobile from "./AlunoCardMobile";
 import AlunosFilters from "./AlunosFilters";
 import AlunosHeader from "./AlunosHeader";
 import AlunosTable from "./AlunosTable";
+import StudentProgressionSnapshot from "./StudentProgressionSnapshot";
 
 function AlunosList() {
   const page = useAlunosPage();
@@ -483,6 +484,11 @@ function AlunoDetalhesResponsivo({
             <ResumoIndicador indicador={indicadores.financeiro} testId="student-summary-financial" styles={styles} />
           </div>
         </section>
+
+        <StudentProgressionSnapshot
+          styles={styles}
+          treinosState={resumoOperacional?.treinos}
+        />
 
         <section
           className="aluno-details-section"
