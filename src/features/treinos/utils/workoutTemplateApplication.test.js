@@ -98,9 +98,13 @@ test("constroi previa com contagem de dias, exercicios e modelo oficial", () => 
 
   assert.equal(preview.templateOrigin, "official");
   assert.equal(preview.workoutName, "Treino Ana");
+  assert.equal(preview.studentId, "aluno-1");
+  assert.equal(preview.studentLabel, "Ana Silva");
   assert.equal(preview.dayCount, 1);
   assert.equal(preview.exerciseCount, 1);
   assert.deepEqual(preview.mainExercises, ["Supino"]);
+  assert.equal(preview.sanitized, true);
+  assert.equal(preview.sanitizedDetails, "");
   assert.equal(preview.validation.ok, true);
 });
 
