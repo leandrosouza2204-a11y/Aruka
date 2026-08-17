@@ -13,6 +13,7 @@ import {
   formatarStatus,
   gerarRecomendacoes,
 } from "../hooks/useAvaliacoesPage";
+import { buildAssessmentEvolutionExperience } from "../utils/assessmentEvolutionExperience";
 import AnamneseResumoCard from "./AnamneseResumoCard";
 import AvaliacaoFotoLightbox from "./AvaliacaoFotoLightbox";
 
@@ -44,6 +45,7 @@ function AvaliacaoDetalhesModal({
   styles,
 }) {
   const relatorioRef = useRef(null);
+  const assessmentEvolution = buildAssessmentEvolutionExperience(historicoAluno);
 
   useEffect(() => {
     if (!relatorioAtivo) return undefined;
@@ -140,6 +142,7 @@ function AvaliacaoDetalhesModal({
       {ultimaAvaliacao ? (
         <>
           <CardEvolucaoFisica primeira={primeiraAvaliacao} ultima={ultimaAvaliacao} />
+          <AssessmentEvolutionPanel evolution={assessmentEvolution} styles={styles} />
 
       <div style={styles.detalhesGrid}>
         <TabelaComposicaoCorporal avaliacao={ultimaAvaliacao} />
@@ -242,6 +245,7 @@ function AvaliacaoDetalhesModal({
               avaliacao={ultimaAvaliacao}
               anterior={avaliacaoAnterior}
               anamnese={anamneseAluno}
+              evolution={assessmentEvolution}
               styles={styles}
             />
           ) : (
@@ -302,7 +306,7 @@ function AvaliacaoDetalhesModal({
   );
 }
 
-function RelatorioAvaliacao({ aluno, avaliacao, anterior, anamnese, styles }) {
+function RelatorioAvaliacao({ aluno, avaliacao, anterior, anamnese, evolution, styles }) {
   const composicao = calcularComposicaoCorporal(avaliacao);
 
   return (
@@ -374,6 +378,15 @@ function RelatorioAvaliacao({ aluno, avaliacao, anterior, anamnese, styles }) {
           styles={styles}
         />
         <BlocoRelatorio
+          titulo="Resumo de evolução"
+          itens={[
+            ["Leitura geral", evolution.summary],
+            ["Narrativa para relatório", evolution.reportLanguage],
+            ["Principais sinais", evolution.highlights.join(" ")],
+          ]}
+          styles={styles}
+        />
+        <BlocoRelatorio
           titulo="Observações e recomendações"
           itens={[
             ["Observações", avaliacao.observacoes || "-"],
@@ -384,6 +397,50 @@ function RelatorioAvaliacao({ aluno, avaliacao, anterior, anamnese, styles }) {
           styles={styles}
         />
       </div>
+    </section>
+  );
+}
+
+function AssessmentEvolutionPanel({ evolution, styles }) {
+  return (
+    <section style={styles.evolucaoExperiencia} data-testid="assessment-evolution-experience">
+      <div style={styles.evolucaoExperienciaTopo}>
+        <div>
+          <h3 style={styles.painelTitulo}>Evolução da avaliação</h3>
+          <p style={styles.resumoLista}>{evolution.summary}</p>
+        </div>
+        <span className="status-badge status-badge-info">
+          {evolution.assessmentCount} avaliação(ões)
+        </span>
+      </div>
+
+      <div style={styles.evolucaoMetricasGrid}>
+        {evolution.cards.map((card) => (
+          <div key={card.key} style={styles.evolucaoMetricaCard}>
+            <span style={styles.infoLabel}>{card.label}</span>
+            <strong style={styles.evolucaoMetricaValor}>{card.current}</strong>
+            <small style={styles.evolucaoMetricaDelta}>
+              Anterior: {card.previousDelta}
+            </small>
+            <small style={styles.evolucaoMetricaDelta}>
+              Total: {card.totalDelta}
+            </small>
+          </div>
+        ))}
+      </div>
+
+      <div style={styles.evolucaoNarrativa}>
+        <strong>Linguagem pronta para relatório</strong>
+        <p>{evolution.reportLanguage}</p>
+      </div>
+
+      {evolution.highlights.length > 0 && (
+        <ul style={styles.evolucaoHighlights}>
+          {evolution.highlights.map((highlight) => (
+            <li key={highlight}>{highlight}</li>
+          ))}
+        </ul>
+      )}
     </section>
   );
 }
