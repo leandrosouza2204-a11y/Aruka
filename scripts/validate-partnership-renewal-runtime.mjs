@@ -284,7 +284,8 @@ async function submitRenewal() {
 async function seedFixture({ supabase, user }) {
   const today = "2026-08-15";
   const previousStart = addMonths(today, -2);
-  const nextEnd = addMonths(today, 2);
+  const renewalStart = dateAdd(today, 1);
+  const nextEnd = addMonths(renewalStart, 2);
   const consultancyStart = addMonths(today, -8);
 
   await upsertOrFail(supabase, "planos", [
@@ -299,7 +300,7 @@ async function seedFixture({ supabase, user }) {
     studentPayload(IDS.paidStudent, user.id, IDS.paidPlan, STUDENTS.paid, previousStart, today, consultancyStart, 120),
     studentPayload(IDS.installmentStudent, user.id, IDS.installmentPlan, STUDENTS.installment, previousStart, today, consultancyStart, 300),
   ]);
-  return { today, nextEnd, consultancyStart };
+  return { today, renewalStart, nextEnd, consultancyStart };
 }
 
 async function readRenewalState({ supabase, runtime }, accessToken, seeded, options) {
@@ -314,11 +315,11 @@ async function readRenewalState({ supabase, runtime }, accessToken, seeded, opti
   if (events.error) throw events.error;
 
   return {
-    studentStartOk: student.inicio === seeded.today,
+    studentStartOk: student.inicio === seeded.renewalStart,
     studentEndOk: student.vencimento === seeded.nextEnd,
     consultancyStartPreserved: student.consultoria_inicio === seeded.consultancyStart,
     previousContractRenewed: contracts.some((item) => item.status === "renovado" && item.inicio === addMonths(seeded.today, -2) && item.vencimento === seeded.today),
-    newContractOk: contracts.some((item) => item.status === "ativo" && item.inicio === seeded.today && item.vencimento === seeded.nextEnd && Number(item.valor) === options.value),
+    newContractOk: contracts.some((item) => item.status === "ativo" && item.inicio === seeded.renewalStart && item.vencimento === seeded.nextEnd && Number(item.valor) === options.value),
     activeContractCount: contracts.filter((item) => item.status === "ativo").length,
     paymentCreated: payments.some((item) => item.tipo_movimento === "renovacao_plano" && Number(item.valor) === options.value),
     eventCreated: (events.data || []).some((item) => item.vencimento_novo === seeded.nextEnd),
@@ -329,7 +330,7 @@ async function assertDirectRenewal(contextValue, accessToken, seeded, options) {
   const response = await callRenewalRpc(contextValue.runtime, accessToken, {
     p_aluno_id: options.studentId,
     p_novo_plano_id: options.planId,
-    p_novo_inicio: seeded.today,
+    p_novo_inicio: seeded.renewalStart,
     p_novo_vencimento: seeded.nextEnd,
     p_novo_valor: options.value,
     p_registrar_pagamento: true,
@@ -448,7 +449,7 @@ function studentPayload(id, userId, planId, name, start, due, consultancyStart, 
     observacoes: "Fixture deterministico LOCAL_QA parceria",
     acompanhamento_status: "ativo",
     acompanhamento_encerrado_em: null,
-    acompanhamento_motivo: null,
+    acompanhamento_motivo: "",
     acompanhamento_motivo_detalhe: "",
     consultoria_inicio: consultancyStart,
     consultoria_inicio_confianca: "EXACT",

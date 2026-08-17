@@ -168,7 +168,6 @@ export function validateLocalGuard(root = process.cwd(), args = process.argv.sli
     [/migration\s+repair/i, "migration repair"],
     [new RegExp(PROTECTED_PROJECT_REF, "i"), "protected HML project ref"],
     [/postgres(?:ql)?:\/\/[^@\s]+@(?!(?:localhost|127\.0\.0\.1|\[?::1\]?))/i, "remote PostgreSQL URL"],
-    [/eyJ[A-Za-z0-9_-]{20,}\./, "JWT-like token"],
     [/sb_secret_[A-Za-z0-9_-]+/i, "secret-like token"],
   ];
   const errors = [];

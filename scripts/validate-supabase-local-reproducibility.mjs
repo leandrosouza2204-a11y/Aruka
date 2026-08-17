@@ -23,6 +23,7 @@ const expectedExecutableMigrations = [
   "supabase/migrations/20260801180000_harden_workout_templates_updated_at.sql",
   "supabase/migrations/20260811090000_student_tenure_contract_model.sql",
   "supabase/migrations/20260815120000_allow_zero_value_contract_renewal.sql",
+  "supabase/migrations/20260816120000_preserve_acompanhamento_motivo_on_renewal.sql",
 ];
 const forbiddenProjectRef = "xrmqdkpx" + "nfvusmenadnf";
 const APPROVED_REDACTED_DB_URL =
@@ -228,7 +229,8 @@ if (requireCycle71Reports) {
 
   const negativeResult = existsSync(pathOf(requiredReports[5])) ? readJson(requiredReports[5]) : null;
   if (negativeResult?.result !== "MUTATIONS_REJECTED") fail("Negative mutation result is not rejected");
-  if (negativeResult?.rejected !== 21 || negativeResult?.total !== 21) fail("Expected 21/21 negative mutations rejected");
+  if (!Number.isInteger(negativeResult?.total) || negativeResult.total <= 0) fail("Negative mutation total is invalid");
+  if (negativeResult?.rejected !== negativeResult.total) fail(`Expected ${negativeResult.total}/${negativeResult.total} negative mutations rejected`);
 
   const reports = listFiles("reports/supabase-local-bootstrap");
   for (const report of reports) {

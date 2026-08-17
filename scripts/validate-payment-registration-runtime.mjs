@@ -210,7 +210,7 @@ async function seedFixture({ supabase, user }) {
     observacoes: "Fixture deterministico LOCAL_QA pagamento parcelado",
     acompanhamento_status: "ativo",
     acompanhamento_encerrado_em: null,
-    acompanhamento_motivo: null,
+    acompanhamento_motivo: "",
     acompanhamento_motivo_detalhe: "",
   }]);
   await upsertOrFail(supabase, "pagamentos", [{
