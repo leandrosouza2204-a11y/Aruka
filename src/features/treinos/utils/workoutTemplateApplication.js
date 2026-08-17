@@ -55,7 +55,7 @@ export function buildWorkoutTemplateApplicationPreview({ template, student, opti
       .slice(0, 8),
     sanitized: sanitized.ok,
     sanitizedDetails: sanitized.ok
-      ? "Contrato canônico normalizado e sem campos visuais ou dados de aluno."
+      ? ""
       : `Campos proibidos removidos ou rejeitados: ${sanitized.forbiddenPaths.join(", ")}.`,
     validation,
     warnings,
@@ -206,7 +206,7 @@ function buildPreviewWarnings({ template, student, days, sanitized, validation }
 
 function formatStudentLabel(student) {
   if (!student?.id) return "Aluno não selecionado";
-  return `${student.nome || "Aluno sem nome"} (${student.id})`;
+  return student.nome || "Aluno sem nome";
 }
 
 function buildTemplateOriginSnapshot(template) {

@@ -719,7 +719,7 @@ function TreinoTemplatesModal({
               <ApplicationSummary preview={applicationPreview} />
               <Preview modelo={modeloSelecionado} preview={applicationPreview} />
               <p className="treino-template-privacy">
-                Um novo treino sera criado para o aluno selecionado usando a RPC atomica salvar_treino_composto(jsonb).
+                Um novo treino sera criado para o aluno selecionado a partir deste modelo.
               </p>
             </div>
           )}
@@ -832,7 +832,7 @@ function ApplicationSummary({ preview }) {
       <span>Nivel: {preview.level}</span>
       <span>Divisao: {preview.split}</span>
       <span>{preview.dayCount} dias - {preview.exerciseCount} exercicios</span>
-      <span>{preview.sanitizedDetails}</span>
+      {preview.sanitizedDetails && <span>{preview.sanitizedDetails}</span>}
       {preview.mainExercises.length > 0 && (
         <span>Principais: {preview.mainExercises.join(", ")}</span>
       )}
