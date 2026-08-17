@@ -23,7 +23,8 @@ $ExpectedIncrementalMigrations = @(
   "20260801173000_revoke_aoe_idempotency_anon_execute.sql",
   "20260801180000_harden_workout_templates_updated_at.sql",
   "20260811090000_student_tenure_contract_model.sql",
-  "20260815120000_allow_zero_value_contract_renewal.sql"
+  "20260815120000_allow_zero_value_contract_renewal.sql",
+  "20260816120000_preserve_acompanhamento_motivo_on_renewal.sql"
 )
 
 function Get-CanonicalTextSha256($Path) {

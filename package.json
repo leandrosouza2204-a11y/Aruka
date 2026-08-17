@@ -41,6 +41,7 @@
     "qa:local-auth-fixture-compatibility": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-local-auth-fixture-compatibility.mjs && node --test scripts/validate-local-auth-fixture-compatibility.test.mjs",
     "qa:local:user": "node --env-file=.env.local --env-file=.env.qa.local scripts/setup-local-qa-user.mjs",
     "qa:local:data": "node --env-file=.env.local --env-file=.env.qa.local scripts/setup-local-qa-data.mjs",
+    "qa:local:canonical": "node --env-file=.env.local --env-file=.env.qa.local scripts/provision-canonical-local-qa-fixtures.mjs",
     "qa:local:data:empty-alunos": "node --env-file=.env.local --env-file=.env.qa.local scripts/setup-local-qa-data.mjs --empty-alunos",
     "qa:local:environment-check": "node --env-file=.env.local --env-file=.env.qa.local scripts/qa-local-environment-check.mjs",
     "qa:dashboard-authenticated": "node --env-file=.env.local --env-file=.env.qa.local scripts/audit-dashboard-authenticated-local.mjs",

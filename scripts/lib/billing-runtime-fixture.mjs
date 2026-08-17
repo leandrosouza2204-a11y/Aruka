@@ -217,7 +217,7 @@ export async function createBillingRuntimeFixtureContext(options = {}) {
       auth: { autoRefreshToken: false, persistSession: false },
     });
 
-  const email = options.email || process.env.QA_BILLING_RUNTIME_USER_EMAIL || "personal.cycle8@example.invalid";
+  const email = options.email || process.env.QA_BILLING_RUNTIME_USER_EMAIL || process.env.QA_USER_EMAIL || "qa.local@aruka.test";
   const user = options.user || (await findUserByEmail(supabase, email));
   if (!user) throw new Error(`BILLING_RUNTIME_FIXTURE_QA_USER_NOT_FOUND=${email}`);
 
@@ -274,7 +274,7 @@ function buildStudent({ id, userId, name, planId, start, due, value, paid, notes
     observacoes: `${FIXTURE_DESCRIPTION}. ${notes}`,
     acompanhamento_status: "ativo",
     acompanhamento_encerrado_em: null,
-    acompanhamento_motivo: null,
+    acompanhamento_motivo: "",
     acompanhamento_motivo_detalhe: "",
   };
 }

@@ -16,6 +16,7 @@ export const EXPECTED_EXECUTABLE_MIGRATIONS = [
   "supabase/migrations/20260801180000_harden_workout_templates_updated_at.sql",
   "supabase/migrations/20260811090000_student_tenure_contract_model.sql",
   "supabase/migrations/20260815120000_allow_zero_value_contract_renewal.sql",
+  "supabase/migrations/20260816120000_preserve_acompanhamento_motivo_on_renewal.sql",
 ];
 export const EXPECTED_EPHEMERAL_MIGRATION_HISTORY = [
   "20260716090000",
@@ -27,6 +28,7 @@ export const EXPECTED_EPHEMERAL_MIGRATION_HISTORY = [
   "20260801180000",
   "20260811090000",
   "20260815120000",
+  "20260816120000",
 ];
 
 export function listFiles(root, dir) {
