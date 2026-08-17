@@ -1,0 +1,37 @@
+{
+  "decision": "PASS",
+  "scope": "PRODUCT_ROADMAP_V4_CYCLE_01_STUDENT_PROGRESSION_RUNTIME_QA",
+  "qa_user": "qa.local@aruka.test",
+  "runtime_mode": "DETERMINISTIC_LOCAL_FIXTURE_CONTRACT",
+  "browser_runtime_required_for_this_validator": false,
+  "progressing_fixture": "PASS",
+  "stable_fixture": "PASS",
+  "no_history_fixture": "PASS",
+  "partial_fixture": "PASS",
+  "progressing_status_rendered": "PASS",
+  "load_progress_present": "PASS",
+  "rep_progress_present": "PASS",
+  "stable_present": "PASS",
+  "new_exercise_present": "PASS",
+  "insufficient_data_rendered": "PASS",
+  "partial_history_rendered": "PASS",
+  "mobile_viewports": {
+    "360x800": "STATIC_LAYOUT_CONTRACT_PASS",
+    "390x844": "STATIC_LAYOUT_CONTRACT_PASS",
+    "430x932": "STATIC_LAYOUT_CONTRACT_PASS"
+  },
+  "desktop_viewports": {
+    "1366x768": "STATIC_LAYOUT_CONTRACT_PASS",
+    "1440x900": "STATIC_LAYOUT_CONTRACT_PASS",
+    "1920x1080": "STATIC_LAYOUT_CONTRACT_PASS"
+  },
+  "document_horizontal_overflow": "NO_STATIC_TABLE_OR_CHART",
+  "snapshot_visible": "YES_COMPONENT_CONTRACT",
+  "snapshot_content_reachable": "YES_COMPONENT_CONTRACT",
+  "snapshot_fetch_count": 0,
+  "additional_snapshot_fetches": 0,
+  "database_change": false,
+  "new_migration": false,
+  "db_push": false,
+  "production_accessed": false
+}

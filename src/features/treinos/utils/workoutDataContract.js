@@ -323,7 +323,7 @@ export function workoutToPersistencePayload(workout) {
     })),
   }));
 
-  return {
+  const payload = {
     id: workout?.id || null,
     alunoId: text(workout?.alunoId),
     rotina: text(workout?.rotina),
@@ -333,13 +333,21 @@ export function workoutToPersistencePayload(workout) {
     observacoes: text(workout?.observacoes),
     status: normalizeWorkoutStatus(workout?.status),
     lifecycleStatus,
-    ...origin,
     applicationIdempotencyKey,
     dataInicio: workout?.dataInicio || null,
     dataFim: workout?.dataFim || workout?.data_fim || null,
     dataRevisao: workout?.dataRevisao || null,
     dias: days,
   };
+
+  if (origin.templateOriginType) {
+    payload.templateOriginId = origin.templateOriginId;
+    payload.templateOriginType = origin.templateOriginType;
+    payload.templateOriginName = origin.templateOriginName;
+    payload.templateOriginSnapshot = origin.templateOriginSnapshot || {};
+  }
+
+  return payload;
 }
 
 export function duplicateWorkoutDraft(workout) {

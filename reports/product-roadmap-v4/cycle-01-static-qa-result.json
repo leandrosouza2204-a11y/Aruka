@@ -1,0 +1,61 @@
+{
+  "decision": "PASS",
+  "scope": "PRODUCT_ROADMAP_V4_CYCLE_01_STUDENT_PROGRESSION_SNAPSHOT_STATIC_QA",
+  "helper_contract": "PASS",
+  "ui_integration": "PASS",
+  "additional_snapshot_fetches": 0,
+  "alunos_list_snapshot": "NOT_IMPLEMENTED_IN_CYCLE_01",
+  "volume_headline_present": false,
+  "regressing_status_present": false,
+  "chart_library_change": false,
+  "database_change": false,
+  "new_migration": false,
+  "db_push": false,
+  "checks": [
+    {
+      "id": "helper_contract_present",
+      "pass": true,
+      "note": "Helper puro de dominio existe."
+    },
+    {
+      "id": "status_enums_present",
+      "pass": true,
+      "note": "Enums incluem apenas status permitidos."
+    },
+    {
+      "id": "no_history_state",
+      "pass": true,
+      "note": "Estado sem historico usa mensagem canonica."
+    },
+    {
+      "id": "ui_integration",
+      "pass": true,
+      "note": "Detalhe do aluno usa treinos ja carregados."
+    },
+    {
+      "id": "no_list_n_plus_one",
+      "pass": true,
+      "note": "Lista nao adiciona fetch de snapshot."
+    },
+    {
+      "id": "no_fabricated_volume",
+      "pass": true,
+      "note": "Volume nao vira headline nem metrica fabricada."
+    },
+    {
+      "id": "no_chart",
+      "pass": true,
+      "note": "Nenhuma biblioteca de grafico foi adicionada."
+    },
+    {
+      "id": "package_scripts_present",
+      "pass": true,
+      "note": "Scripts QA do ciclo existem."
+    },
+    {
+      "id": "service_unchanged_contract",
+      "pass": true,
+      "note": "Service existente ja entrega dias/exercicios."
+    }
+  ]
+}
