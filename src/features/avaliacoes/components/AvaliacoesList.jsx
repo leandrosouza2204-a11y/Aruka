@@ -554,6 +554,70 @@ const alertaCard = {
   padding: "12px",
 };
 
+const evolucaoExperiencia = {
+  background: "#f8fafc",
+  border: "1px solid #dbeafe",
+  borderRadius: "8px",
+  display: "grid",
+  gap: "14px",
+  marginTop: "18px",
+  padding: "18px",
+};
+
+const evolucaoExperienciaTopo = {
+  alignItems: "flex-start",
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "12px",
+  justifyContent: "space-between",
+};
+
+const evolucaoMetricasGrid = {
+  display: "grid",
+  gap: "10px",
+  gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+};
+
+const evolucaoMetricaCard = {
+  background: "white",
+  border: "1px solid #e5e7eb",
+  borderRadius: "8px",
+  display: "grid",
+  gap: "5px",
+  padding: "12px",
+};
+
+const evolucaoMetricaValor = {
+  color: "#111827",
+  fontSize: "18px",
+};
+
+const evolucaoMetricaDelta = {
+  color: "#4b5563",
+  fontSize: "12px",
+  lineHeight: 1.35,
+};
+
+const evolucaoNarrativa = {
+  background: "white",
+  border: "1px solid #e5e7eb",
+  borderRadius: "8px",
+  color: "#374151",
+  fontSize: "14px",
+  lineHeight: 1.5,
+  padding: "12px",
+};
+
+const evolucaoHighlights = {
+  color: "#374151",
+  display: "grid",
+  fontSize: "14px",
+  gap: "6px",
+  lineHeight: 1.45,
+  margin: 0,
+  paddingLeft: "18px",
+};
+
 const graficosGrid = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
@@ -707,6 +771,14 @@ const styles = {
   detalhesTopo,
   erroBox,
   estadoVazio,
+  evolucaoExperiencia,
+  evolucaoExperienciaTopo,
+  evolucaoHighlights,
+  evolucaoMetricaCard,
+  evolucaoMetricaDelta,
+  evolucaoMetricaValor,
+  evolucaoMetricasGrid,
+  evolucaoNarrativa,
   filtros,
   fotoRelatorioCard,
   fotoRelatorioImagem,
