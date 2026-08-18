@@ -39,6 +39,8 @@
     "qa:student-progression-snapshot": "node scripts/validate-student-progression-snapshot.mjs",
     "qa:student-progression-runtime": "node scripts/validate-student-progression-runtime.mjs",
     "qa:product-roadmap-v4-cycle-02": "node scripts/validate-product-roadmap-v4-cycle-02.mjs",
+    "qa:product-roadmap-v4-cycle-03": "node scripts/validate-product-roadmap-v4-cycle-03.mjs",
+    "qa:workout-intelligence-runtime": "node --env-file=.env.qa.local scripts/validate-workout-intelligence-runtime.mjs",
     "qa:local:setup": "node --env-file=.env.local --env-file=.env.qa.local scripts/setup-local-qa.mjs",
     "setup:local-qa-auth": "node --env-file=.env.local --env-file=.env.qa.local scripts/setup-local-qa-auth.mjs",
     "qa:local-auth-fixture-compatibility": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-local-auth-fixture-compatibility.mjs && node --test scripts/validate-local-auth-fixture-compatibility.test.mjs",

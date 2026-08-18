@@ -127,6 +127,13 @@ export function useTreinosPage() {
     () => treinos.find((treino) => treino.id === treinoSelecionadoId),
     [treinoSelecionadoId, treinos]
   );
+  const treinosDoAlunoSelecionado = useMemo(
+    () =>
+      treinoSelecionado?.alunoId
+        ? treinos.filter((treino) => treino.alunoId === treinoSelecionado.alunoId)
+        : [],
+    [treinoSelecionado, treinos]
+  );
 
   const alunoContextual = contextoAluno.aluno;
 
@@ -568,6 +575,7 @@ export function useTreinosPage() {
     treinoBase,
     treinoEditando,
     treinoSelecionado,
+    treinosDoAlunoSelecionado,
     treinos,
     treinosFiltrados,
     aplicandoModelo,
