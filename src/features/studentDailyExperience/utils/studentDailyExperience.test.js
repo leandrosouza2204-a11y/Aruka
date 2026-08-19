@@ -19,6 +19,26 @@ test("shows no active workout with empty history", () => {
   assert.equal(daily.nextAction.type, "NO_WORKOUT_HISTORY");
 });
 
+test("shows friendly suspended access state without workout data", () => {
+  const daily = buildStudentDailyExperience({
+    student: { name: "Ana" },
+    studentAccess: { status: "suspended" },
+    activeWorkouts: [workout("a", "active", "2026-08-01")],
+  });
+  assert.equal(daily.state, "ACCESS_BLOCKED");
+  assert.match(daily.blockedState.title, /temporariamente indisponivel/i);
+  assert.equal(daily.activeWorkout.title, "Ficha a");
+});
+
+test("shows friendly revoked access state", () => {
+  const daily = buildStudentDailyExperience({
+    student: { name: "Ana" },
+    studentAccess: { status: "revoked" },
+  });
+  assert.equal(daily.state, "ACCESS_BLOCKED");
+  assert.match(daily.blockedState.title, /nao esta ativo/i);
+});
+
 test("builds active workout hero and review cue", () => {
   const daily = buildStudentDailyExperience({
     student: { name: "Ana" },

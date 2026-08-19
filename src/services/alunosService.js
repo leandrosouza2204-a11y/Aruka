@@ -83,6 +83,13 @@ function rowParaAluno(row) {
     dataPagamento: row.data_pagamento || "",
     observacoes: row.observacoes || "",
     createdAt: row.created_at || "",
+    studentAccessStatus: row.student_access_status || "not_invited",
+    studentAccessEmail: row.student_access_email || "",
+    studentAccessInvitedAt: row.student_access_invited_at || "",
+    studentAccessActivatedAt: row.student_access_activated_at || "",
+    studentAccessSuspendedAt: row.student_access_suspended_at || "",
+    studentAccessRevokedAt: row.student_access_revoked_at || "",
+    studentAccessReason: row.student_access_reason || "",
   };
 
   if (Object.prototype.hasOwnProperty.call(row, "acompanhamento_status")) {

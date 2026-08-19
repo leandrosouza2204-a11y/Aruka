@@ -443,6 +443,7 @@ try {
     "supabase/migrations/20260811090000_student_tenure_contract_model.sql",
     "supabase/migrations/20260815120000_allow_zero_value_contract_renewal.sql",
     "supabase/migrations/20260816120000_preserve_acompanhamento_motivo_on_renewal.sql",
+    "supabase/migrations/20260819090000_student_access_lifecycle.sql",
     "supabase/migrations/cutover-manifest.json", "supabase/migrations/README.md", "supabase/README.md"
   )
   foreach ($item in $overlay) { Copy-Overlay $item }
@@ -501,7 +502,7 @@ try {
   Copy-Item -LiteralPath $inventoryPath -Destination (Join-Path $ReportDir "clean-worktree-schema-inventory.json") -Force
   $historyPath = Join-Path $innerReportDir "migration-history.txt"
   $result.migrations = @((Get-Content $historyPath) | Where-Object { $_ })
-  $expectedHistory = @("20260716090000", "20260728030000", "20260730090000", "20260731190000", "20260801143335", "20260801173000", "20260801180000", "20260811090000", "20260815120000", "20260816120000")
+  $expectedHistory = @("20260716090000", "20260728030000", "20260730090000", "20260731190000", "20260801143335", "20260801173000", "20260801180000", "20260811090000", "20260815120000", "20260816120000", "20260819090000")
   if (($result.migrations -join "`n") -ne ($expectedHistory -join "`n")) { throw "Clean worktree migration history diverged." }
   Write-Checkpoint "INNER_REPORT_COLLECTION_END"
 

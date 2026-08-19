@@ -82,6 +82,18 @@ function MinhaArea() {
     );
   }
 
+  if (daily.state === "ACCESS_BLOCKED") {
+    return (
+      <main style={styles.page} data-testid="student-daily-page">
+        <section style={styles.stateBox} data-testid="student-access-blocked">
+          <AlertCircle size={22} />
+          <strong>{daily.blockedState.title}</strong>
+          <p>{daily.blockedState.message}</p>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main style={styles.page} data-testid="student-daily-page">
       <header style={styles.header}>

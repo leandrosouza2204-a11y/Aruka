@@ -9,6 +9,10 @@ import { trapModalFocus } from "../../../utils/modalAccessibility";
 import { formatarAtencaoCobranca } from "../../financeiro/utils/billingAttention";
 import { montarResumoOperacionalAluno } from "../utils/alunosResumoOperacional";
 import { useAlunosPage } from "../hooks/useAlunosPage";
+import {
+  getStudentAccessActions,
+  normalizeStudentAccessState,
+} from "../../studentAccess/utils/studentAccessLifecycle";
 import AlunoCardMobile from "./AlunoCardMobile";
 import AlunosFilters from "./AlunosFilters";
 import AlunosHeader from "./AlunosHeader";
@@ -137,6 +141,10 @@ function AlunosList() {
                     nomePlano={page.nomePlano}
                     onEditar={page.abrirEdicao}
                     onFechar={() => page.setAlunoSelecionadoId("")}
+                    onLiberarAcesso={page.liberarAcessoAluno}
+                    onReativarAcesso={page.reativarAcessoAluno}
+                    onRevogarAcesso={page.revogarAcessoAluno}
+                    onSuspenderAcesso={page.suspenderAcessoAluno}
                     onRecarregarResumo={page.recarregarResumoOperacional}
                     resumoOperacional={page.resumoOperacional}
                     styles={styles}
@@ -155,6 +163,10 @@ function AlunosList() {
             nomePlano={page.nomePlano}
             onEditar={page.abrirEdicao}
             onFechar={() => page.setAlunoSelecionadoId("")}
+            onLiberarAcesso={page.liberarAcessoAluno}
+            onReativarAcesso={page.reativarAcessoAluno}
+            onRevogarAcesso={page.revogarAcessoAluno}
+            onSuspenderAcesso={page.suspenderAcessoAluno}
             onRecarregarResumo={page.recarregarResumoOperacional}
             resumoOperacional={page.resumoOperacional}
             styles={styles}
@@ -422,6 +434,10 @@ function AlunoDetalhesResponsivo({
   nomePlano,
   onEditar,
   onFechar,
+  onLiberarAcesso,
+  onReativarAcesso,
+  onRevogarAcesso,
+  onSuspenderAcesso,
   onRecarregarResumo,
   resumoOperacional,
   styles,
@@ -488,6 +504,15 @@ function AlunoDetalhesResponsivo({
         <StudentProgressionSnapshot
           styles={styles}
           treinosState={resumoOperacional?.treinos}
+        />
+
+        <StudentAccessPanel
+          aluno={aluno}
+          onLiberarAcesso={onLiberarAcesso}
+          onReativarAcesso={onReativarAcesso}
+          onRevogarAcesso={onRevogarAcesso}
+          onSuspenderAcesso={onSuspenderAcesso}
+          styles={styles}
         />
 
         <section
@@ -588,6 +613,122 @@ function AlunoDetalhesResponsivo({
       </div>
     </section>
   );
+}
+
+function StudentAccessPanel({
+  aluno,
+  onLiberarAcesso,
+  onReativarAcesso,
+  onRevogarAcesso,
+  onSuspenderAcesso,
+  styles,
+}) {
+  const acesso = normalizeStudentAccessState({
+    status: aluno.studentAccessStatus,
+    email: aluno.studentAccessEmail,
+    invitedAt: aluno.studentAccessInvitedAt,
+    activatedAt: aluno.studentAccessActivatedAt,
+    suspendedAt: aluno.studentAccessSuspendedAt,
+    revokedAt: aluno.studentAccessRevokedAt,
+    reason: aluno.studentAccessReason,
+  });
+  const emailRef = useRef(null);
+  const actions = getStudentAccessActions(acesso);
+
+  return (
+    <section
+      className="aluno-details-section"
+      data-testid="student-access-panel"
+      style={styles.studentAccessPanel}
+    >
+      <div style={styles.studentAccessHeader}>
+        <div>
+          <h3>Acesso ao Aruka</h3>
+          <p style={styles.resumoLista}>Controle manual da area do aluno.</p>
+        </div>
+        <span style={{ ...styles.studentAccessBadge, ...studentAccessTone(acesso.tone) }}>
+          {acesso.label}
+        </span>
+      </div>
+
+      <label style={styles.studentAccessField}>
+        <span>E-mail de acesso</span>
+        <input
+          aria-label="E-mail de acesso ao Aruka"
+          defaultValue={acesso.email}
+          disabled={!actions.includes("invite") && !actions.includes("activate")}
+          key={`${aluno.id}-${acesso.email}-${acesso.status}`}
+          placeholder="aluno@email.com"
+          ref={emailRef}
+          style={styles.studentAccessInput}
+          type="email"
+        />
+      </label>
+
+      {acesso.reason && <p style={styles.studentAccessReason}>{acesso.reason}</p>}
+
+      <div style={styles.studentAccessActions}>
+        {actions.includes("invite") && (
+          <button
+            className="table-button table-button-primary"
+            data-testid="student-access-invite"
+            onClick={() => onLiberarAcesso?.(aluno, emailRef.current?.value || "")}
+            type="button"
+          >
+            Liberar acesso
+          </button>
+        )}
+        {actions.includes("activate") && (
+          <button
+            className="table-button table-button-primary"
+            data-testid="student-access-activate"
+            onClick={() => onLiberarAcesso?.(aluno, emailRef.current?.value || "")}
+            type="button"
+          >
+            Ativar acesso
+          </button>
+        )}
+        {actions.includes("suspend") && (
+          <button
+            className="table-button table-button-secondary"
+            data-testid="student-access-suspend"
+            onClick={() => onSuspenderAcesso?.(aluno)}
+            type="button"
+          >
+            Suspender acesso
+          </button>
+        )}
+        {actions.includes("reactivate") && (
+          <button
+            className="table-button table-button-primary"
+            data-testid="student-access-reactivate"
+            onClick={() => onReativarAcesso?.(aluno)}
+            type="button"
+          >
+            Reativar acesso
+          </button>
+        )}
+        {actions.includes("revoke") && (
+          <button
+            className="table-button table-button-secondary"
+            data-testid="student-access-revoke"
+            onClick={() => onRevogarAcesso?.(aluno)}
+            type="button"
+          >
+            Revogar acesso
+          </button>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function studentAccessTone(tone) {
+  if (tone === "success") return { background: "#dcfce7", color: "#166534" };
+  if (tone === "warning") return { background: "#fef3c7", color: "#92400e" };
+  if (tone === "danger") return { background: "#fee2e2", color: "#991b1b" };
+  if (tone === "info") return { background: "#dbeafe", color: "#1d4ed8" };
+  return { background: "#f3f4f6", color: "#374151" };
 }
 
 function ResumoIndicador({ indicador, testId, styles }) {
@@ -904,6 +1045,50 @@ const styles = {
     textAlign: "center",
     textDecoration: "none",
     whiteSpace: "normal",
+  },
+  studentAccessPanel: {
+    display: "grid",
+    gap: "14px",
+  },
+  studentAccessHeader: {
+    alignItems: "flex-start",
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "12px",
+    justifyContent: "space-between",
+  },
+  studentAccessBadge: {
+    borderRadius: "999px",
+    fontSize: "12px",
+    fontWeight: "800",
+    padding: "6px 10px",
+  },
+  studentAccessField: {
+    display: "grid",
+    gap: "8px",
+    fontSize: "13px",
+    fontWeight: "700",
+  },
+  studentAccessInput: {
+    border: "1px solid #d1d5db",
+    borderRadius: "8px",
+    boxSizing: "border-box",
+    minHeight: "44px",
+    padding: "10px 12px",
+    width: "100%",
+  },
+  studentAccessReason: {
+    background: "#f8fafc",
+    border: "1px solid #e5e7eb",
+    borderRadius: "8px",
+    color: "#4b5563",
+    margin: 0,
+    padding: "10px 12px",
+  },
+  studentAccessActions: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "10px",
   },
   infoItem: {
     border: "1px solid #eef2f7",
