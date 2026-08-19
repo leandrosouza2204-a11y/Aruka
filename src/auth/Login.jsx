@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BrandLogo from "../components/BrandLogo";
 import FooterLegal from "../components/FooterLegal";
 import { criarPerfilPadrao } from "../services/perfisService";
 import { supabase, supabaseConfigurado } from "../services/supabase";
+import { resolverDestinoPosLogin } from "./loginRouting";
 
 function Login() {
   const navigate = useNavigate();
@@ -12,10 +13,7 @@ function Login() {
   const [erro, setErro] = useState("");
   const [mensagem, setMensagem] = useState("");
   const [carregando, setCarregando] = useState(false);
-  const [autenticado, setAutenticado] = useState(false);
   const [modoCadastro, setModoCadastro] = useState(false);
-
-  const destino = "/dashboard";
 
   async function entrar(e) {
     e.preventDefault();
@@ -44,8 +42,8 @@ function Login() {
     }
 
     await criarPerfilPadrao();
-    setAutenticado(true);
-    navigate(destino, { replace: true });
+    const destinoPosLogin = await resolverDestinoPosLogin();
+    navigate(destinoPosLogin, { replace: true });
   }
 
   async function cadastrar(e) {
@@ -76,18 +74,14 @@ function Login() {
 
     if (data.session) {
       await criarPerfilPadrao();
-      setAutenticado(true);
-      navigate(destino, { replace: true });
+      const destinoPosLogin = await resolverDestinoPosLogin();
+      navigate(destinoPosLogin, { replace: true });
       return;
     }
 
     setMensagem(
       "Conta criada com sucesso. Verifique seu e-mail para confirmar o cadastro e depois retorne para entrar. Em seguida, o acesso ao painel pode depender da liberação da assinatura e do aceite dos termos."
     );
-  }
-
-  if (autenticado) {
-    return <Navigate to={destino} replace />;
   }
 
   return (
