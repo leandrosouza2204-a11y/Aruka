@@ -1,4 +1,8 @@
 import {
+  getStudentBlockedState,
+  normalizeStudentAccessState,
+} from "../../studentAccess/utils/studentAccessLifecycle.js";
+import {
   HISTORY_QUALITY,
   STUDENT_PROGRESSION_STATUS,
   buildStudentProgressionSnapshot,
@@ -6,6 +10,7 @@ import {
 
 export const STUDENT_DAILY_STATE = Object.freeze({
   UNLINKED_STUDENT: "UNLINKED_STUDENT",
+  ACCESS_BLOCKED: "ACCESS_BLOCKED",
   NO_ACTIVE_WORKOUT: "NO_ACTIVE_WORKOUT",
   ACTIVE_WORKOUT: "ACTIVE_WORKOUT",
 });
@@ -20,6 +25,8 @@ export const STUDENT_DAILY_NEXT_ACTION = Object.freeze({
 
 export function buildStudentDailyExperience(payload = {}, options = {}) {
   const student = payload?.student || null;
+  const studentAccess = normalizeStudentAccessState(payload?.studentAccess || {});
+  const blockedState = getStudentBlockedState({ studentAccess });
   const activeWorkouts = normalizeWorkouts(payload?.activeWorkouts || []);
   const completedWorkouts = normalizeWorkouts(payload?.completedWorkouts || []);
   const allWorkouts = [...activeWorkouts, ...completedWorkouts];
@@ -32,10 +39,14 @@ export function buildStudentDailyExperience(payload = {}, options = {}) {
   return {
     state: !student
       ? STUDENT_DAILY_STATE.UNLINKED_STUDENT
-      : activeWorkout
+      : blockedState.blocked
+        ? STUDENT_DAILY_STATE.ACCESS_BLOCKED
+        : activeWorkout
         ? STUDENT_DAILY_STATE.ACTIVE_WORKOUT
         : STUDENT_DAILY_STATE.NO_ACTIVE_WORKOUT,
     student: student ? { name: student.name || "Aluno" } : null,
+    studentAccess,
+    blockedState,
     activeWorkout: activeWorkout ? toActiveWorkoutView(activeWorkout) : null,
     nextAction,
     history: history.map(toHistoryItem),
@@ -60,6 +71,7 @@ export function normalizeStudentWorkoutPayload(payload = {}) {
       : null,
     activeWorkouts: normalizeWorkouts(payload?.activeWorkouts || payload?.active_workouts || []),
     completedWorkouts: normalizeWorkouts(payload?.completedWorkouts || payload?.completed_workouts || []),
+    studentAccess: normalizeStudentAccessState(payload?.studentAccess || payload?.student_access || {}),
   };
 }
 

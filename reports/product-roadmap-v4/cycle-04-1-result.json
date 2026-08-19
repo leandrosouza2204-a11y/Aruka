@@ -1,0 +1,22 @@
+{
+  "decision": "READY_FOR_STUDENT_ACCESS_LIFECYCLE_MIGRATION_REVIEW",
+  "scope": "PRODUCT_ROADMAP_V4_CYCLE_04_1_STUDENT_ACCESS_LIFECYCLE",
+  "statuses": ["not_invited", "invited", "active", "suspended", "revoked"],
+  "database_change_required": true,
+  "migration": "supabase/migrations/20260819090000_student_access_lifecycle.sql",
+  "rpc_changes": ["get_student_access_state", "manage_student_access", "get_my_student_workouts"],
+  "rls_changes": [],
+  "service_changes": ["src/services/studentAccessService.js"],
+  "student_reader_guard": "get_my_student_workouts requires student_access_status=active before returning protected workout data",
+  "ownership_isolation": true,
+  "cross_owner_mutation": "BLOCKED",
+  "student_management_privilege": "NO",
+  "production_accessed": false,
+  "production_mutation": false,
+  "db_push": false,
+  "future_automation": [
+    "real invite or magic-link delivery",
+    "overdue-payment signal only, no automatic suspension in MVP",
+    "optional grace-period automation in a later cycle"
+  ]
+}

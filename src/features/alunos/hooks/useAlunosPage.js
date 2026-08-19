@@ -25,6 +25,13 @@ import {
   buscarContratosAlunoSupabase,
 } from "../../../services/alunoContratosService";
 import {
+  activateStudentAccess,
+  inviteStudentAccess,
+  reactivateStudentAccess,
+  revokeStudentAccess,
+  suspendStudentAccess,
+} from "../../../services/studentAccessService";
+import {
   calcularDatas,
   calcularStatus,
   formatarNomePlano,
@@ -465,6 +472,81 @@ export function useAlunosPage() {
     abrirWhatsApp(aluno.whatsapp, gerarMensagemCheckinSemanal(aluno));
   }
 
+  function atualizarAcessoAluno(alunoId, acesso) {
+    setAlunos((alunosAtuais) =>
+      alunosAtuais.map((aluno) =>
+        aluno.id === alunoId
+          ? {
+              ...aluno,
+              studentAccessStatus: acesso.status,
+              studentAccessEmail: acesso.email,
+              studentAccessInvitedAt: acesso.invitedAt,
+              studentAccessActivatedAt: acesso.activatedAt,
+              studentAccessSuspendedAt: acesso.suspendedAt,
+              studentAccessRevokedAt: acesso.revokedAt,
+              studentAccessReason: acesso.reason,
+            }
+          : aluno
+      )
+    );
+  }
+
+  async function liberarAcessoAluno(aluno, email) {
+    try {
+      const acesso = aluno.studentAccessStatus === "invited"
+        ? await activateStudentAccess(aluno.id, email)
+        : await inviteStudentAccess(aluno.id, email);
+      atualizarAcessoAluno(aluno.id, acesso);
+      toast.sucesso("Acesso liberado.", "O aluno pode acessar a area do aluno.");
+    } catch (error) {
+      toast.erro("Não foi possível atualizar o acesso agora.", error.message);
+    }
+  }
+
+  async function suspenderAcessoAluno(aluno) {
+    const confirmado = await confirmar({
+      titulo: "Suspender acesso deste aluno?",
+      descricao: "O aluno deixara de ver a area do aluno ate uma nova reativacao.",
+      textoConfirmar: "Suspender acesso",
+    });
+    if (!confirmado) return;
+
+    try {
+      const acesso = await suspendStudentAccess(aluno.id);
+      atualizarAcessoAluno(aluno.id, acesso);
+      toast.sucesso("Acesso suspenso.", "O acesso do aluno foi suspenso.");
+    } catch (error) {
+      toast.erro("Não foi possível atualizar o acesso agora.", error.message);
+    }
+  }
+
+  async function reativarAcessoAluno(aluno) {
+    try {
+      const acesso = await reactivateStudentAccess(aluno.id);
+      atualizarAcessoAluno(aluno.id, acesso);
+      toast.sucesso("Acesso reativado.", "O aluno pode acessar a area do aluno novamente.");
+    } catch (error) {
+      toast.erro("Não foi possível atualizar o acesso agora.", error.message);
+    }
+  }
+
+  async function revogarAcessoAluno(aluno) {
+    const confirmado = await confirmar({
+      titulo: "Revogar acesso deste aluno?",
+      descricao: "O historico sera preservado, mas o aluno nao podera acessar a area do aluno.",
+      textoConfirmar: "Revogar acesso",
+    });
+    if (!confirmado) return;
+
+    try {
+      const acesso = await revokeStudentAccess(aluno.id);
+      atualizarAcessoAluno(aluno.id, acesso);
+      toast.sucesso("Acesso revogado.", "O acesso do aluno foi revogado.");
+    } catch (error) {
+      toast.erro("Não foi possível atualizar o acesso agora.", error.message);
+    }
+  }
+
   return {
     alunos,
     alunoEditandoId,
@@ -497,6 +579,10 @@ export function useAlunosPage() {
     salvarAluno,
     salvando,
     enviarCheckinSemanal,
+    liberarAcessoAluno,
+    reativarAcessoAluno,
+    revogarAcessoAluno,
+    suspenderAcessoAluno,
     setAlunoSelecionadoId,
     setBusca,
     setFiltroPlano,

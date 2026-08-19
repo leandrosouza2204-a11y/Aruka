@@ -143,6 +143,9 @@ student_row_update as (
       whatsapp = '11990001991',
       status = 'Ativo',
       pagamento_recebido = true,
+      student_access_status = 'active',
+      student_access_email = '${STUDENT_EMAIL}',
+      student_access_activated_at = coalesce(a.student_access_activated_at, now()),
       observacoes = 'Canonical local student QA fixture'
   from ids
   where a.student_user_id = ids.student_user_id
@@ -151,12 +154,14 @@ student_row_update as (
 student_row as (
   insert into public.alunos (
     user_id, student_user_id, nome, whatsapp, nascimento, inicio, vencimento,
-    aviso7, aviso1, plano, valor, status, pagamento_recebido, observacoes
+    aviso7, aviso1, plano, valor, status, pagamento_recebido, observacoes,
+    student_access_status, student_access_email, student_access_activated_at
   )
   select professional_user_id, student_user_id, 'Student QA Daily Experience', '11990001991',
     '1995-01-01'::date, current_date - 40, current_date + 80,
     current_date + 73, current_date + 79, 'LOCAL_QA_STUDENT', 0, 'Ativo', true,
-    'Canonical local student QA fixture'
+    'Canonical local student QA fixture',
+    'active', '${STUDENT_EMAIL}', now()
   from ids
   where not exists (select 1 from student_row_update)
   returning id, user_id, student_user_id
