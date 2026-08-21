@@ -7,24 +7,35 @@ const PROFESSIONAL_EMAIL = "qa.local@aruka.test";
 const STUDENT_EMAIL = "student.qa.local@aruka.test";
 const OTHER_PROFESSIONAL_EMAIL = "qa.student-access-other@aruka.test";
 
-const runtime = readLocalSupabaseRuntime();
-const admin = createClient(runtime.apiUrl, runtime.serviceRoleKey, {
-  auth: { persistSession: false, autoRefreshToken: false },
-});
+let runtime;
+let admin;
+let localSupabaseReady = false;
 
 const professionalPassword = process.env.QA_USER_PASSWORD || `LocalQa-${randomBytes(16).toString("base64url")}a1!`;
 const studentPassword = `LocalQa-${randomBytes(16).toString("base64url")}a1!`;
 const otherPassword = `LocalQa-${randomBytes(16).toString("base64url")}a1!`;
 
 try {
+  logStep("SUPABASE_RUNTIME");
+  runtime = readLocalSupabaseRuntime();
+  localSupabaseReady = true;
+  console.log("LOCAL_SUPABASE_READY=YES");
+  admin = createClient(runtime.apiUrl, runtime.serviceRoleKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+
+  logStep("STATIC_CONTRACT");
   assertStaticContract();
+  logStep("FIXTURE_PREPARE");
   const fixture = await prepareFixture();
 
+  logStep("SIGN_IN");
   const professional = await signedClient(PROFESSIONAL_EMAIL, professionalPassword);
   const student = await signedClient(STUDENT_EMAIL, studentPassword);
   const otherProfessional = await signedClient(OTHER_PROFESSIONAL_EMAIL, otherPassword);
 
   try {
+    logStep("ASSERT_LIFECYCLE");
     await assertProfessionalCanManageOwnStudent(professional, fixture.alunoId);
     await assertStatusConstraint(fixture.alunoId);
     await assertInvalidTransitionsRejected(professional, fixture.alunoId);
@@ -53,14 +64,23 @@ try {
     console.log("PRODUCTION_ACCESSED=NO");
     console.log("PRODUCTION_MUTATION=NO");
     console.log("DB_PUSH=NO");
+    logStep("COMPLETE");
   } finally {
     await professional.auth.signOut();
     await student.auth.signOut();
     await otherProfessional.auth.signOut();
   }
 } catch (error) {
+  console.log(`LOCAL_SUPABASE_READY=${localSupabaseReady ? "YES" : "NO"}`);
+  console.log("PRODUCTION_ACCESSED=NO");
+  console.log("PRODUCTION_MUTATION=NO");
+  console.log("DB_PUSH=NO");
   console.error(error.message);
   process.exit(1);
+}
+
+function logStep(step) {
+  console.log(`RUNTIME_STEP=${step}`);
 }
 
 function assertStaticContract() {

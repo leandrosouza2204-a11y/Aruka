@@ -1,30 +1,13 @@
-const planosAssinatura = [
-  {
-    nome: "Mensal",
-    descricao: "Acesso ao sistema por 30 dias.",
-  },
-  {
-    nome: "Trimestral",
-    descricao: "Acesso por 3 meses para operar a consultoria.",
-  },
-  {
-    nome: "Semestral",
-    descricao: "Acesso por 6 meses com melhor previsibilidade.",
-  },
-  {
-    nome: "Anual",
-    descricao: "Acesso por 12 meses para uso continuo do SaaS.",
-  },
-];
+import { commercialPlans } from "../data/commercialPlans";
 
 function EscolherPlano() {
   function solicitarLiberacao(plano) {
     const mensagem = [
-      "Olá, tudo bem?",
+      "Ola, tudo bem?",
       "",
-      `Quero solicitar a liberação de acesso ao sistema Aruka no plano *${plano.nome}*.`,
+      `Quero solicitar a liberacao de acesso ao sistema Aruka no plano *${plano.nome}*.`,
       "",
-      "Pode me enviar as informações para ativação da minha assinatura?",
+      "Se o pagamento for confirmado externamente, pode registrar a liberacao administrativa da minha assinatura?",
     ].join("\n");
 
     window.open(
@@ -38,21 +21,22 @@ function EscolherPlano() {
     <section style={secao}>
       <div style={topo}>
         <span style={etiqueta}>Assinatura</span>
-        <h2 style={titulo}>Escolha um plano para solicitar liberação</h2>
+        <h2 style={titulo}>Escolha um plano para solicitar liberacao</h2>
+        <p style={texto}>
+          A solicitacao abre uma conversa no WhatsApp. A liberacao do painel
+          continua sendo feita por um administrador apos confirmacao externa.
+        </p>
       </div>
 
       <div style={grid}>
-        {planosAssinatura.map((plano) => (
-          <div key={plano.nome} style={card}>
+        {commercialPlans.map((plano) => (
+          <div key={plano.id} style={card}>
             <div>
               <h3 style={cardTitulo}>{plano.nome}</h3>
               <p style={descricao}>{plano.descricao}</p>
             </div>
 
-            <button
-              onClick={() => solicitarLiberacao(plano)}
-              style={botao}
-            >
+            <button onClick={() => solicitarLiberacao(plano)} style={botao}>
               Solicitar pelo WhatsApp
             </button>
           </div>
@@ -82,6 +66,13 @@ const titulo = {
   color: "#111827",
   fontSize: "24px",
   margin: 0,
+};
+
+const texto = {
+  color: "#4b5563",
+  lineHeight: 1.55,
+  margin: "4px 0 0",
+  maxWidth: "720px",
 };
 
 const grid = {
