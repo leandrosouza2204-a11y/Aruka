@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { validateCommercialSubscriptionInput } from "../features/adminCommercial/utils/commercialAccountState";
 
 const formInicial = {
   nome: "",
@@ -17,12 +18,27 @@ function AdminUsuarioModal({ usuario, onClose, onSave, salvando }) {
     ...usuario,
     assinaturaStatus: usuario?.assinaturaStatus || "pendente",
   }));
+  const [erro, setErro] = useState("");
 
   function atualizar(campo, valor) {
     setForm({ ...form, [campo]: valor });
   }
 
   function salvar() {
+    setErro("");
+
+    const validation = validateCommercialSubscriptionInput({
+      plano: form.assinaturaPlano.trim() || "pendente",
+      status: form.assinaturaStatus,
+      dataInicio: form.dataInicio || null,
+      dataVencimento: form.dataVencimento || null,
+    });
+
+    if (!validation.valid) {
+      setErro(validation.errors[0]);
+      return;
+    }
+
     onSave({
       nome: form.nome.trim(),
       role: form.role,
@@ -103,6 +119,10 @@ function AdminUsuarioModal({ usuario, onClose, onSave, salvando }) {
 
         <div style={secao}>
           <h3 style={secaoTitulo}>Assinatura</h3>
+          <p style={secaoTexto}>
+            Registre a situacao comercial depois da confirmacao externa. O Aruka nao
+            processa pagamento automaticamente neste fluxo.
+          </p>
           <div className="admin-modal-grid" style={grid}>
             <Campo label="Plano">
               <input
@@ -146,6 +166,13 @@ function AdminUsuarioModal({ usuario, onClose, onSave, salvando }) {
             </Campo>
           </div>
         </div>
+
+        <div style={avisoAlunos}>
+          O acesso dos alunos e gerenciado separadamente. Alterar assinatura do
+          profissional nao suspende alunos automaticamente.
+        </div>
+
+        {erro && <div className="app-error">{erro}</div>}
 
         <div className="admin-modal-footer" style={rodape}>
           <button type="button" onClick={onClose} style={botaoSecundario}>
@@ -215,6 +242,25 @@ const secaoTitulo = {
   color: "#111827",
   fontSize: "16px",
   margin: "0 0 12px",
+};
+
+const secaoTexto = {
+  color: "#6b7280",
+  fontSize: "13px",
+  lineHeight: 1.5,
+  margin: "0 0 12px",
+};
+
+const avisoAlunos = {
+  background: "#f8fafc",
+  border: "1px solid #e5e7eb",
+  borderRadius: "8px",
+  color: "#374151",
+  fontSize: "13px",
+  fontWeight: "700",
+  lineHeight: 1.5,
+  marginTop: "18px",
+  padding: "12px",
 };
 
 const grid = {

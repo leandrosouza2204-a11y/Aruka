@@ -8,6 +8,13 @@ import TableActions, { TableActionItem } from "../components/TableActions";
 import { useConfirm } from "../hooks/useConfirm";
 import { formatarData } from "../data/alunosUtils";
 import {
+  COMMERCIAL_FILTERS,
+  buildCommercialAccountState,
+  buildCommercialSummary,
+  usuarioMatchesCommercialFilter,
+  validateCommercialSubscriptionInput,
+} from "../features/adminCommercial/utils/commercialAccountState";
+import {
   atualizarPerfilAdmin,
   bloquearUsuarioAdmin,
   liberarAssinanteAdmin,
@@ -53,21 +60,7 @@ function AdminUsuarios() {
   }
 
   const resumo = useMemo(() => {
-    return {
-      total: usuarios.length,
-      pendentes: usuarios.filter((usuario) => usuario.tipoAcesso === "pendente")
-        .length,
-      betas: usuarios.filter((usuario) => usuario.tipoAcesso === "beta").length,
-      assinantes: usuarios.filter(
-        (usuario) =>
-          usuario.tipoAcesso === "assinante" &&
-          usuario.assinaturaStatus === "ativo"
-      ).length,
-      bloqueados: usuarios.filter(
-        (usuario) =>
-          usuario.tipoAcesso === "bloqueado" || usuario.status === "inativo"
-      ).length,
-    };
+    return buildCommercialSummary(usuarios);
   }, [usuarios]);
 
   const usuariosFiltrados = useMemo(() => {
@@ -78,14 +71,7 @@ function AdminUsuarios() {
         usuario.nome.toLowerCase().includes(termo) ||
         usuario.email.toLowerCase().includes(termo);
       const combinaFiltro =
-        filtro === "todos" ||
-        (filtro === "pendentes" && usuario.tipoAcesso === "pendente") ||
-        (filtro === "beta" && usuario.tipoAcesso === "beta") ||
-        (filtro === "assinantes" && usuario.tipoAcesso === "assinante") ||
-        (filtro === "bloqueados" &&
-          (usuario.tipoAcesso === "bloqueado" || usuario.status === "inativo")) ||
-        (filtro === "admins" &&
-          (usuario.role === "admin" || usuario.tipoAcesso === "admin"));
+        filtro === "todos" || usuarioMatchesCommercialFilter(usuario, filtro);
 
       return combinaBusca && combinaFiltro;
     });
@@ -112,6 +98,12 @@ function AdminUsuarios() {
 
   async function salvarEdicao(dados) {
     if (!usuarioEditando) return;
+
+    const validation = validateCommercialSubscriptionInput(dados.assinatura || {});
+    if (!validation.valid) {
+      setErro(validation.errors[0]);
+      return;
+    }
 
     await executarAcao(async () => {
       await atualizarPerfilAdmin(usuarioEditando.userId, {
@@ -286,8 +278,8 @@ function AdminUsuarios() {
       <main className="admin-users-page app-main page-container" style={conteudo}>
         <PageHero
           eyebrow="ADMINISTRAÇÃO"
-          title="Usuários"
-          description="Gerencie acessos, perfis, assinaturas e permissões do sistema."
+          title="Operacao comercial"
+          description="Acompanhe liberacoes beta, assinaturas, vencimentos e bloqueios sem misturar billing SaaS com financeiro dos alunos."
           actions={
             <button onClick={carregarUsuarios} style={botaoSecundario}>
               Atualizar lista
@@ -296,15 +288,23 @@ function AdminUsuarios() {
         />
 
         <div className="admin-summary-grid" style={cards}>
-          <CardResumo titulo="Total de usuários" valor={resumo.total} />
-          <CardResumo titulo="Pendentes" valor={resumo.pendentes} destaque="#f59e0b" />
-          <CardResumo titulo="Betas" valor={resumo.betas} destaque="#2563eb" />
+          <CardResumo titulo="Total" valor={resumo.total} />
+          <CardResumo titulo="Aguardando" valor={resumo.aguardando} destaque="#f59e0b" />
+          <CardResumo titulo="Ativos" valor={resumo.ativos} destaque="#16a34a" />
+          <CardResumo titulo="Beta/Teste" valor={resumo.betaTeste} destaque="#2563eb" />
           <CardResumo
-            titulo="Assinantes ativos"
-            valor={resumo.assinantes}
-            destaque="#16a34a"
+            titulo="Proximos do vencimento"
+            valor={resumo.proximosVencimento}
+            destaque="#b45309"
           />
+          <CardResumo titulo="Vencidos" valor={resumo.vencidos} destaque="#dc2626" />
+          <CardResumo titulo="Cancelados" valor={resumo.cancelados} destaque="#6b7280" />
           <CardResumo titulo="Bloqueados" valor={resumo.bloqueados} destaque="#dc2626" />
+        </div>
+
+        <div style={avisoOperacional}>
+          Pagamentos SaaS sao confirmados fora do Aruka neste ciclo. O acesso
+          dos alunos continua independente do estado comercial do profissional.
         </div>
 
         {erro && <div className="app-error">{erro}</div>}
@@ -313,7 +313,7 @@ function AdminUsuarios() {
         <section style={painel}>
           <div style={listaTopo}>
             <div>
-              <h2>Usuários cadastrados</h2>
+              <h2>Profissionais e contas comerciais</h2>
               <p style={subtituloLista}>
                 {usuariosFiltrados.length} de {usuarios.length} usuários exibidos
               </p>
@@ -332,12 +332,11 @@ function AdminUsuarios() {
                 onChange={(e) => setFiltro(e.target.value)}
                 style={campoFiltro}
               >
-                <option value="todos">Todos</option>
-                <option value="pendentes">Pendentes</option>
-                <option value="beta">Beta</option>
-                <option value="assinantes">Assinantes</option>
-                <option value="bloqueados">Bloqueados</option>
-                <option value="admins">Admins</option>
+                {COMMERCIAL_FILTERS.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.label}
+                  </option>
+                ))}
               </select>
 
               <button onClick={limparFiltros} style={botaoSecundario}>
@@ -350,14 +349,14 @@ function AdminUsuarios() {
             <table className="app-table" style={tabela}>
               <thead>
                 <tr style={linhaCabecalho}>
-                  <th style={th}>Usuário</th>
-                  <th style={th}>Role</th>
-                  <th style={th}>Acesso</th>
-                  <th style={th}>Status</th>
-                  <th style={th}>Criado em</th>
+                  <th style={th}>Profissional</th>
+                  <th style={th}>Estado comercial</th>
                   <th style={th}>Assinatura</th>
+                  <th style={th}>Atencao</th>
+                  <th style={th}>Criado em</th>
+                  <th style={th}>Inicio</th>
                   <th style={th}>Vencimento</th>
-                  <th style={th}>Ações</th>
+                  <th style={th}>Acoes</th>
                 </tr>
               </thead>
 
@@ -379,107 +378,20 @@ function AdminUsuarios() {
                   </tr>
                 ) : (
                   usuariosFiltrados.map((usuario) => (
-                    <tr key={usuario.userId}>
-                      <td className="cell-wide" style={td}>
-                        <strong>{usuario.nome || "Sem nome"}</strong>
-                        <span style={email}>{usuario.email}</span>
-                      </td>
-                      <td style={td}>
-                        <span className={classeBadgeAcesso(usuario.role)}>
-                          {usuario.role}
-                        </span>
-                      </td>
-                      <td style={td}>
-                        <span className={classeBadgeAcesso(usuario.tipoAcesso)}>
-                          {usuario.tipoAcesso}
-                        </span>
-                      </td>
-                      <td style={td}>
-                        <span className={classeBadgeStatus(usuario.status)}>
-                          {usuario.status}
-                        </span>
-                      </td>
-                      <td style={td}>{formatarData(usuario.createdAt?.split("T")[0])}</td>
-                      <td style={td}>
-                        <strong>{usuario.assinaturaStatus || "-"}</strong>
-                        <span style={email}>{usuario.assinaturaPlano || "-"}</span>
-                      </td>
-                      <td style={td}>{formatarData(usuario.dataVencimento)}</td>
-                      <td style={td}>
-                        <div className="table-actions-inline">
-                          <button
-                            onClick={() => setUsuarioEditando(usuario)}
-                            className="table-button table-button-primary"
-                          >
-                            Editar
-                          </button>
-                          <TableActions>
-                            <TableActionItem
-                              onClick={() => liberarComoBeta(usuario)}
-                              disabled={salvando}
-                              variant="primary"
-                            >
-                              Beta
-                            </TableActionItem>
-                            <TableActionItem
-                              onClick={() => liberarComoAssinante(usuario)}
-                              disabled={salvando}
-                              variant="primary"
-                            >
-                              Assinante
-                            </TableActionItem>
-                            {usuario.role === "admin" ||
-                            usuario.tipoAcesso === "admin" ? (
-                              <TableActionItem
-                                onClick={() => removerAdmin(usuario)}
-                                disabled={salvando}
-                              >
-                                Remover admin
-                              </TableActionItem>
-                            ) : (
-                              <TableActionItem
-                                onClick={() => tornarAdmin(usuario)}
-                                disabled={salvando}
-                                variant="primary"
-                              >
-                                Admin
-                              </TableActionItem>
-                            )}
-                            {usuario.status === "inativo" ||
-                            usuario.tipoAcesso === "bloqueado" ? (
-                              <TableActionItem
-                                onClick={() => reativarUsuario(usuario)}
-                                disabled={salvando}
-                                variant="success"
-                              >
-                                Reativar
-                              </TableActionItem>
-                            ) : (
-                              <TableActionItem
-                                onClick={() => bloquearUsuario(usuario)}
-                                disabled={salvando}
-                                variant="danger"
-                              >
-                                Bloquear
-                              </TableActionItem>
-                            )}
-                            <TableActionItem
-                              onClick={() => cancelarAssinatura(usuario)}
-                              disabled={salvando}
-                              variant="danger"
-                            >
-                              Cancelar assinatura
-                            </TableActionItem>
-                            <TableActionItem
-                              onClick={() => setUsuarioTransferindo(usuario)}
-                              disabled={salvando}
-                            >
-                              Transferir acesso
-                            </TableActionItem>
-                          </TableActions>
-                        </div>
-                      </td>
-                    </tr>
+                    <UsuarioLinha
+                      key={usuario.userId}
+                      salvando={salvando}
+                      usuario={usuario}
+                      onAssinante={liberarComoAssinante}
+                      onBeta={liberarComoBeta}
+                      onBloquear={bloquearUsuario}
+                      onCancelarAssinatura={cancelarAssinatura}
+                      onEditar={setUsuarioEditando}
+                      onReativar={reativarUsuario}
+                      onRemoverAdmin={removerAdmin}
+                      onTornarAdmin={tornarAdmin}
+                      onTransferir={setUsuarioTransferindo}
+                    />
                   ))
                 )}
               </tbody>
@@ -543,6 +455,113 @@ function AdminUsuarios() {
   );
 }
 
+function UsuarioLinha({
+  salvando,
+  usuario,
+  onAssinante,
+  onBeta,
+  onBloquear,
+  onCancelarAssinatura,
+  onEditar,
+  onReativar,
+  onRemoverAdmin,
+  onTornarAdmin,
+  onTransferir,
+}) {
+  const estado = buildCommercialAccountState(usuario);
+  const admin = estado.isAdmin;
+  const bloqueado = estado.isBlocked;
+
+  return (
+    <tr>
+      <td className="cell-wide" style={td}>
+        <strong>{usuario.nome || "Sem nome"}</strong>
+        <span style={email}>{usuario.email}</span>
+      </td>
+      <td style={td}>
+        <span className={classeBadgeComercial(estado.commercialStatus)}>
+          {estado.commercialLabel}
+        </span>
+        <span style={email}>{estado.accessLabel}</span>
+      </td>
+      <td style={td}>
+        <strong>{estado.subscriptionLabel}</strong>
+        <span style={email}>Plano: {estado.plan}</span>
+      </td>
+      <td style={td}>
+        <span className={classeBadgeAtencao(estado.attentionTone)}>
+          {estado.attentionLabel}
+        </span>
+      </td>
+      <td style={td}>{formatarData(usuario.createdAt?.split("T")[0])}</td>
+      <td style={td}>{estado.startsAt ? formatarData(estado.startsAt) : "-"}</td>
+      <td style={td}>{estado.renewalDate ? formatarData(estado.renewalDate) : "-"}</td>
+      <td style={td}>
+        <div className="table-actions-inline">
+          <button
+            onClick={() => onEditar(usuario)}
+            className="table-button table-button-primary"
+          >
+            Editar
+          </button>
+          <TableActions>
+            <TableActionItem onClick={() => onBeta(usuario)} disabled={salvando} variant="primary">
+              Beta
+            </TableActionItem>
+            <TableActionItem
+              onClick={() => onAssinante(usuario)}
+              disabled={salvando}
+              variant="primary"
+            >
+              Liberar assinatura
+            </TableActionItem>
+            {admin ? (
+              <TableActionItem onClick={() => onRemoverAdmin(usuario)} disabled={salvando}>
+                Remover admin
+              </TableActionItem>
+            ) : (
+              <TableActionItem
+                onClick={() => onTornarAdmin(usuario)}
+                disabled={salvando}
+                variant="primary"
+              >
+                Admin
+              </TableActionItem>
+            )}
+            {bloqueado ? (
+              <TableActionItem
+                onClick={() => onReativar(usuario)}
+                disabled={salvando}
+                variant="success"
+              >
+                Reativar
+              </TableActionItem>
+            ) : (
+              <TableActionItem
+                onClick={() => onBloquear(usuario)}
+                disabled={salvando}
+                variant="danger"
+              >
+                Bloquear
+              </TableActionItem>
+            )}
+            <TableActionItem
+              onClick={() => onCancelarAssinatura(usuario)}
+              disabled={salvando}
+              variant="danger"
+            >
+              Cancelar assinatura
+            </TableActionItem>
+            <TableActionItem onClick={() => onTransferir(usuario)} disabled={salvando}>
+              Transferir acesso
+            </TableActionItem>
+          </TableActions>
+        </div>
+      </td>
+    </tr>
+  );
+}
+
 function UsuarioCard({
   salvando,
   usuario,
@@ -556,8 +575,9 @@ function UsuarioCard({
   onTornarAdmin,
   onTransferir,
 }) {
-  const admin = usuario.role === "admin" || usuario.tipoAcesso === "admin";
-  const bloqueado = usuario.status === "inativo" || usuario.tipoAcesso === "bloqueado";
+  const estado = buildCommercialAccountState(usuario);
+  const admin = estado.isAdmin;
+  const bloqueado = estado.isBlocked;
 
   return (
     <article className="mobile-list-card admin-user-card">
@@ -566,7 +586,9 @@ function UsuarioCard({
           <span className="card-label">Nome</span>
           <strong className="card-value card-title">{usuario.nome || "Sem nome"}</strong>
         </div>
-        <span className={classeBadgeStatus(usuario.status)}>{usuario.status}</span>
+        <span className={classeBadgeComercial(estado.commercialStatus)}>
+          {estado.commercialLabel}
+        </span>
       </div>
 
       <div className="card-row card-row-block">
@@ -574,19 +596,27 @@ function UsuarioCard({
         <strong className="card-value card-break">{usuario.email || "-"}</strong>
       </div>
       <div className="card-row">
-        <span className="card-label">Role</span>
-        <span className={classeBadgeAcesso(usuario.role)}>{usuario.role}</span>
+        <span className="card-label">Acesso</span>
+        <span className={classeBadgeAcesso(estado.profileAccess)}>
+          {estado.accessLabel}
+        </span>
       </div>
       <div className="card-row">
-        <span className="card-label">Acesso</span>
-        <span className={classeBadgeAcesso(usuario.tipoAcesso)}>
-          {usuario.tipoAcesso}
+        <span className="card-label">Atencao</span>
+        <span className={classeBadgeAtencao(estado.attentionTone)}>
+          {estado.attentionLabel}
         </span>
       </div>
       <div className="card-row">
         <span className="card-label">Assinatura</span>
         <strong className="card-value">
-          {usuario.assinaturaStatus || "-"} / {usuario.assinaturaPlano || "-"}
+          {estado.subscriptionLabel}
+        </strong>
+      </div>
+      <div className="card-row">
+        <span className="card-label">Vencimento</span>
+        <strong className="card-value">
+          {estado.renewalDate ? formatarData(estado.renewalDate) : "-"}
         </strong>
       </div>
 
@@ -607,7 +637,7 @@ function UsuarioCard({
             disabled={salvando}
             variant="primary"
           >
-            Assinante
+            Liberar assinatura
           </TableActionItem>
           {admin ? (
             <TableActionItem onClick={() => onRemoverAdmin(usuario)} disabled={salvando}>
@@ -703,7 +733,7 @@ function TransferirAcessoModal({ usuario, onClose, onSave, salvando }) {
           <div>
             <h2 style={modalTitulo}>Transferir acesso da conta</h2>
             <p style={modalTexto}>
-              Altere o e-mail de login mantendo o mesmo user_id e todos os dados vinculados.
+              Altere o e-mail de login mantendo a conta e os dados vinculados.
             </p>
           </div>
           <button type="button" onClick={onClose} style={botaoSecundario}>
@@ -712,9 +742,12 @@ function TransferirAcessoModal({ usuario, onClose, onSave, salvando }) {
         </div>
 
         <div style={resumoTransferencia}>
-          <InfoTransferencia label="Nome do usuário" valor={usuario.nome || "Sem nome"} />
+          <InfoTransferencia label="Nome do usuario" valor={usuario.nome || "Sem nome"} />
           <InfoTransferencia label="E-mail atual" valor={usuario.email} />
-          <InfoTransferencia label="User ID" valor={usuario.userId} />
+          <InfoTransferencia
+            label="Estado comercial"
+            valor={buildCommercialAccountState(usuario).commercialLabel}
+          />
         </div>
 
         <label style={campoTransferencia}>
@@ -795,10 +828,25 @@ function classeBadgeAcesso(valor) {
   return "status-badge status-badge-muted";
 }
 
-function classeBadgeStatus(status) {
-  if (status === "ativo") return "status-badge status-badge-success";
-  if (status === "inativo") return "status-badge status-badge-danger";
+function classeBadgeComercial(status) {
+  if (status === "ativo" || status === "admin" || status === "beta_teste") {
+    return "status-badge status-badge-success";
+  }
+  if (status === "aguardando" || status === "proximo_vencimento" || status === "atencao") {
+    return "status-badge status-badge-warning";
+  }
+  if (status === "vencido" || status === "bloqueado") {
+    return "status-badge status-badge-danger";
+  }
+  if (status === "cancelado") return "status-badge status-badge-muted";
 
+  return "status-badge status-badge-info";
+}
+
+function classeBadgeAtencao(tone) {
+  if (tone === "success") return "status-badge status-badge-success";
+  if (tone === "warning") return "status-badge status-badge-warning";
+  if (tone === "danger") return "status-badge status-badge-danger";
   return "status-badge status-badge-muted";
 }
 
@@ -813,6 +861,18 @@ const cards = {
   gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
   gap: "14px",
   marginTop: "24px",
+};
+
+const avisoOperacional = {
+  background: "#f8fafc",
+  border: "1px solid #e5e7eb",
+  borderRadius: "8px",
+  color: "#374151",
+  fontSize: "14px",
+  fontWeight: "700",
+  lineHeight: 1.5,
+  marginTop: "14px",
+  padding: "14px",
 };
 
 const card = {
