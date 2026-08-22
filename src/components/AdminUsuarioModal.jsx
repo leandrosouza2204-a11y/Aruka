@@ -10,6 +10,8 @@ const formInicial = {
   assinaturaStatus: "pendente",
   dataInicio: "",
   dataVencimento: "",
+  graceUntil: "",
+  cancelAtPeriodEnd: false,
 };
 
 function AdminUsuarioModal({ usuario, onClose, onSave, salvando }) {
@@ -49,6 +51,8 @@ function AdminUsuarioModal({ usuario, onClose, onSave, salvando }) {
         status: form.assinaturaStatus,
         dataInicio: form.dataInicio || null,
         dataVencimento: form.dataVencimento || null,
+        graceUntil: form.graceUntil || null,
+        cancelAtPeriodEnd: Boolean(form.cancelAtPeriodEnd),
       },
     });
   }
@@ -164,6 +168,24 @@ function AdminUsuarioModal({ usuario, onClose, onSave, salvando }) {
                 style={campo}
               />
             </Campo>
+
+            <Campo label="Tolerancia ate">
+              <input
+                type="date"
+                value={form.graceUntil || ""}
+                onChange={(e) => atualizar("graceUntil", e.target.value)}
+                style={campo}
+              />
+            </Campo>
+
+            <label style={checkboxCampo}>
+              <input
+                type="checkbox"
+                checked={Boolean(form.cancelAtPeriodEnd)}
+                onChange={(e) => atualizar("cancelAtPeriodEnd", e.target.checked)}
+              />
+              <span>Cancelar ao fim do periodo atual</span>
+            </label>
           </div>
         </div>
 
@@ -287,6 +309,16 @@ const campo = {
   borderRadius: "8px",
   padding: "9px 11px",
   outline: "none",
+};
+
+const checkboxCampo = {
+  alignItems: "center",
+  color: "#374151",
+  display: "flex",
+  fontSize: "13px",
+  fontWeight: "700",
+  gap: "8px",
+  minHeight: "42px",
 };
 
 const rodape = {

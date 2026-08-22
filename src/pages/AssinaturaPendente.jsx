@@ -66,7 +66,7 @@ function AssinaturaPendente() {
 
         {erro && <div style={erroBox}>{erro}</div>}
 
-        {motivo !== "bloqueado" && <EscolherPlano />}
+        {!["bloqueado", "suspenso", "cancelado"].includes(motivo) && <EscolherPlano />}
 
         <div style={rodape}>
           <button
@@ -195,6 +195,30 @@ const mensagensPorMotivo = {
     titulo: "Assinatura não encontrada ou vencida.",
     texto:
       "Sua conta existe, mas o painel depende de uma assinatura ativa. Escolha uma opção abaixo e solicite a regularização.",
+  },
+  vencido: {
+    badge: "Assinatura vencida",
+    titulo: "Sua assinatura precisa ser regularizada.",
+    texto:
+      "O período contratado terminou. Para voltar ao painel, solicite a regularização com um pagamento confirmado externamente.",
+  },
+  grace: {
+    badge: "Período de tolerância",
+    titulo: "Seu acesso está em período de tolerância.",
+    texto:
+      "Você ainda pode acessar o painel por enquanto. Regularize a assinatura antes do fim da tolerância para evitar suspensão.",
+  },
+  suspenso: {
+    badge: "Acesso profissional suspenso",
+    titulo: "Seu acesso ao painel está suspenso.",
+    texto:
+      "A assinatura precisa ser reativada por uma ação administrativa. Seus dados permanecem preservados.",
+  },
+  cancelado: {
+    badge: "Assinatura cancelada",
+    titulo: "Sua assinatura foi cancelada.",
+    texto:
+      "Sua conta e dados permanecem preservados. Entre em contato para solicitar uma reativacao administrativa.",
   },
   erro: {
     badge: "Erro na verificação",

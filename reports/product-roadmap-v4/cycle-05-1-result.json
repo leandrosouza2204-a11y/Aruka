@@ -1,0 +1,59 @@
+{
+  "cycle": "05.1",
+  "name": "Subscription lifecycle policy",
+  "status": "implemented",
+  "defaultGracePeriodDays": 7,
+  "productionTouched": false,
+  "dbPushExecuted": false,
+  "gatewayIntegrationAdded": false,
+  "webhooksAdded": false,
+  "autoChargeAdded": false,
+  "studentFinanceChanged": false,
+  "ownerStudentAccessAutomation": false,
+  "paymentReactivationClearsAdminBlock": false,
+  "artifacts": {
+    "migration": "supabase/migrations/20260821120000_subscription_lifecycle_policy.sql",
+    "documentation": "docs/product-roadmap-v4/08-cycle-05-1-subscription-lifecycle-policy.md",
+    "staticQa": "scripts/validate-product-roadmap-v4-cycle-05-1.mjs",
+    "routeMatrixQa": "scripts/validate-subscription-lifecycle-route-matrix.mjs",
+    "studentImpactQa": "scripts/validate-subscription-lifecycle-student-impact.mjs",
+    "adminRuntimeQa": "scripts/validate-subscription-lifecycle-admin-runtime.mjs"
+  },
+  "qa": {
+    "static": "pass",
+    "routeMatrix": "pass",
+    "studentImpact": "pass",
+    "unit": "pass",
+    "lint": "pass",
+    "build": "pass",
+    "financeModalsRegression": "pass",
+    "cycle05Regression": "pass",
+    "authenticatedRuntime": "pass",
+    "renovacaoMobileRegression": "pass_after_session_reuse",
+    "supabaseCiStatic": "pass",
+    "supabaseCiPreflightIsolation": "pass",
+    "migrationChainStatic": "pass_11_executable_migrations",
+    "essentialRuntime": "pass",
+    "authApiReachable": "yes",
+    "restApiReachable": "yes",
+    "localDatabaseTcpReachable": "yes",
+    "visibleUiCopy": "blocked_by_pre_existing_copy_debt",
+    "adminRuntime": "blocked_by_local_supabase_status_einval",
+    "studentAccessRuntime": "blocked_by_local_supabase_status_einval",
+    "commercialOperationsRuntime": "blocked_by_local_supabase_status_einval",
+    "localExistingStateUpgrade": "blocked_no_psql_no_sql_driver_cli_docker_inaccessible",
+    "supabaseLocal": "blocked_by_docker_cli_npx_environment"
+  },
+  "blockedEvidence": {
+    "supabasePreflight": [
+      "Docker Server unavailable.",
+      "Docker context must be desktop-linux.",
+      "Supabase CLI unavailable through npx."
+    ],
+    "supabaseValidate": "docker config access denied / Docker API inaccessible",
+    "supabaseCiStatic": "CI_STATIC_VALIDATED",
+    "adminRuntime": "Supabase local indisponivel. npx supabase status falhou: status=unknown error=EINVAL",
+    "localSchemaProbe": "REST confirmed column assinaturas.grace_until does not exist",
+    "localSqlApplyPath": "psql, node pg, and node postgres are unavailable; Docker and Supabase CLI are inaccessible"
+  }
+}

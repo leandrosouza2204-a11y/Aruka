@@ -18,18 +18,26 @@ export async function buscarAssinaturaUsuario() {
 }
 
 export async function verificarAcessoAtivo() {
-  return verificarAssinaturaAtiva();
+  const resultado = await verificarAssinaturaAtiva();
+  return resultado.liberado;
 }
 
 export async function verificarAssinaturaAtiva() {
   const assinatura = await buscarAssinaturaUsuario();
 
-  if (!assinatura) return false;
+  if (!assinatura) return { liberado: false, motivo: "sem-assinatura", assinatura: null };
 
-  return (
-    String(assinatura.status || "").toLowerCase() === "ativo" &&
-    dataEhHojeOuFutura(assinatura.dataVencimento)
-  );
+  const status = String(assinatura.status || "").toLowerCase();
+  if (status === "teste") return { liberado: true, motivo: "teste", assinatura };
+  if (status === "ativo" && dataEhHojeOuFutura(assinatura.dataVencimento)) {
+    return { liberado: true, motivo: assinatura.cancelAtPeriodEnd ? "cancelamento-agendado" : "assinante", assinatura };
+  }
+  if (status === "vencido" && !assinatura.suspendedAt && dataEhHojeOuFutura(assinatura.graceUntil)) {
+    return { liberado: true, motivo: "grace", assinatura };
+  }
+  if (status === "cancelado") return { liberado: false, motivo: "cancelado", assinatura };
+  if (status === "vencido" && assinatura.suspendedAt) return { liberado: false, motivo: "suspenso", assinatura };
+  return { liberado: false, motivo: "vencido", assinatura };
 }
 
 export async function criarAssinaturaPendente(plano = "pendente") {
@@ -76,6 +84,11 @@ function rowParaAssinatura(row) {
     dataInicio: row.data_inicio || "",
     dataVencimento: row.data_vencimento || "",
     pagamentoId: row.pagamento_id || "",
+    graceUntil: row.grace_until || "",
+    cancelAtPeriodEnd: Boolean(row.cancel_at_period_end),
+    cancelledAt: row.cancelled_at || "",
+    suspendedAt: row.suspended_at || "",
+    reactivatedAt: row.reactivated_at || "",
     createdAt: row.created_at || "",
   };
 }

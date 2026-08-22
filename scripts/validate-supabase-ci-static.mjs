@@ -69,8 +69,8 @@ try {
   const localRuntimeText = readFileSync(join(root, localRuntimeValidator), "utf8");
   for (const [name, value] of [
     ["ExpectedTables", "21"],
-    ["ExpectedFunctions", "24"],
-    ["ExpectedIndexes", "73"],
+    ["ExpectedFunctions", "26"],
+    ["ExpectedIndexes", "76"],
     ["ExpectedPolicies", "60"],
     ["ExpectedPublicPolicies", "56"],
     ["ExpectedStoragePolicies", "4"],
@@ -79,7 +79,7 @@ try {
       errors.push(`${localRuntimeValidator} must validate current local runtime ${name}=${value}`);
     }
   }
-  for (const version of ["20260728030000", "20260730090000", "20260731190000", "20260801143335", "20260801173000", "20260801180000", "20260811090000", "20260815120000", "20260816120000", "20260819090000"]) {
+  for (const version of ["20260728030000", "20260730090000", "20260731190000", "20260801143335", "20260801173000", "20260801180000", "20260811090000", "20260815120000", "20260816120000", "20260819090000", "20260821120000"]) {
     if (!localRuntimeText.includes(`"${version}"`)) {
       errors.push(`${localRuntimeValidator} must validate executable migration version ${version}`);
     }

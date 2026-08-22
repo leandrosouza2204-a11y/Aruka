@@ -89,6 +89,69 @@ describe("commercialAccountState", () => {
     assert.ok(state.availableActions.includes("reativar_assinatura"));
   });
 
+  it("keeps professionals in grace without mutating student access semantics", () => {
+    const state = buildCommercialAccountState(
+      {
+        tipoAcesso: "assinante",
+        assinaturaStatus: "vencido",
+        dataVencimento: "2026-08-19",
+        graceUntil: "2026-08-27",
+        studentAccessStatus: "active",
+      },
+      { today }
+    );
+
+    assert.equal(state.commercialStatus, "grace");
+    assert.equal(state.hasGraceAccess, true);
+    assert.equal(state.attentionLabel, "Periodo de tolerancia ativo");
+    assert.ok(state.availableActions.includes("suspender_assinatura"));
+    assert.equal(state.studentAccessStatus, undefined);
+  });
+
+  it("separates suspended subscriptions from administrative profile blocks", () => {
+    const suspended = buildCommercialAccountState(
+      {
+        tipoAcesso: "assinante",
+        status: "ativo",
+        assinaturaStatus: "vencido",
+        suspendedAt: "2026-08-20",
+      },
+      { today }
+    );
+    const adminBlocked = buildCommercialAccountState(
+      {
+        tipoAcesso: "bloqueado",
+        status: "inativo",
+        assinaturaStatus: "ativo",
+        dataVencimento: "2026-09-20",
+        reactivatedAt: "2026-08-20",
+      },
+      { today }
+    );
+
+    assert.equal(suspended.commercialStatus, "suspenso");
+    assert.equal(suspended.isSuspended, true);
+    assert.equal(adminBlocked.commercialStatus, "bloqueado");
+    assert.equal(adminBlocked.hasActiveSubscription, true);
+    assert.ok(adminBlocked.availableActions.includes("reativar"));
+  });
+
+  it("derives cancel-at-period-end while keeping access until renewal date", () => {
+    const state = buildCommercialAccountState(
+      {
+        tipoAcesso: "assinante",
+        assinaturaStatus: "ativo",
+        dataVencimento: "2026-09-20",
+        cancelAtPeriodEnd: true,
+      },
+      { today }
+    );
+
+    assert.equal(state.commercialStatus, "cancelamento_agendado");
+    assert.equal(state.hasActiveSubscription, true);
+    assert.equal(state.attentionLabel, "Cancelamento ao fim do periodo");
+  });
+
   it("marks blocked profile independently from subscription cancellation", () => {
     const state = buildCommercialAccountState(
       {
@@ -121,6 +184,9 @@ describe("commercialAccountState", () => {
       { tipoAcesso: "pendente" },
       { tipoAcesso: "beta" },
       { tipoAcesso: "assinante", assinaturaStatus: "ativo", dataVencimento: "2026-08-24" },
+      { tipoAcesso: "assinante", assinaturaStatus: "vencido", graceUntil: "2026-08-24" },
+      { tipoAcesso: "assinante", assinaturaStatus: "vencido", suspendedAt: "2026-08-20" },
+      { tipoAcesso: "assinante", assinaturaStatus: "ativo", dataVencimento: "2026-09-20", cancelAtPeriodEnd: true },
       { tipoAcesso: "assinante", assinaturaStatus: "vencido" },
       { tipoAcesso: "assinante", assinaturaStatus: "cancelado" },
       { tipoAcesso: "bloqueado", status: "inativo" },
@@ -130,10 +196,14 @@ describe("commercialAccountState", () => {
     assert.equal(summary.aguardando, 1);
     assert.equal(summary.betaTeste, 1);
     assert.equal(summary.proximosVencimento, 1);
+    assert.equal(summary.grace, 1);
+    assert.equal(summary.suspensos, 1);
+    assert.equal(summary.cancelamentoAgendado, 1);
     assert.equal(summary.vencidos, 1);
     assert.equal(summary.cancelados, 1);
     assert.equal(summary.bloqueados, 1);
     assert.equal(usuarioMatchesCommercialFilter(usuarios[2], "proximos_vencimento", { today }), true);
+    assert.equal(usuarioMatchesCommercialFilter(usuarios[3], "grace", { today }), true);
   });
 
   it("validates subscription edits without card or payment data", () => {
