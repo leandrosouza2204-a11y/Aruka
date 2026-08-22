@@ -14,6 +14,7 @@ import {
   gerarMensagemCheckinSemanal,
 } from "../../../services/whatsappService";
 import { buscarTreinosPorAlunoSupabase } from "../../../services/treinosService";
+import { buscarHistoricoExecucaoAluno } from "../../../services/workoutExecutionService";
 import { buscarAvaliacoesPorAlunoSupabase } from "../../../services/avaliacoesService";
 import {
   buscarPagamentosPorAluno,
@@ -204,7 +205,7 @@ export function useAlunosPage() {
     setResumoOperacional(criarResumoCarregando());
     const plano = planos.find((item) => item.id === alunoSelecionado.plano) || null;
 
-    const [treinos, avaliacoes, pagamentos, contratos] = await Promise.allSettled([
+    const [treinos, avaliacoes, pagamentos, contratos, execucoes] = await Promise.allSettled([
       executarResumoComFalhaControlada("treinos", () =>
         buscarTreinosPorAlunoSupabase(alunoSelecionado.id)
       ),
@@ -217,11 +218,15 @@ export function useAlunosPage() {
       executarResumoComFalhaControlada("financeiro", () =>
         buscarContratosAlunoSupabase(alunoSelecionado.id)
       ),
+      executarResumoComFalhaControlada("treinos", () =>
+        buscarHistoricoExecucaoAluno(alunoSelecionado.id, 5)
+      ),
     ]);
 
     setResumoOperacional({
       treinos: normalizarResultadoResumo(treinos),
       avaliacoes: normalizarResultadoResumo(avaliacoes),
+      execucoes: normalizarResultadoResumo(execucoes),
       financeiro:
         pagamentos.status === "fulfilled"
           ? {
@@ -612,6 +617,7 @@ function formatarWhatsApp(valor) {
 function criarResumoInicial() {
   return {
     treinos: { status: "idle", data: [] },
+    execucoes: { status: "idle", data: [] },
     avaliacoes: { status: "idle", data: [] },
     financeiro: { status: "idle", data: null },
   };
@@ -620,6 +626,7 @@ function criarResumoInicial() {
 function criarResumoCarregando() {
   return {
     treinos: { status: "loading", data: [] },
+    execucoes: { status: "loading", data: [] },
     avaliacoes: { status: "loading", data: [] },
     financeiro: { status: "loading", data: null },
   };

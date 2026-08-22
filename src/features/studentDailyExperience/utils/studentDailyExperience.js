@@ -154,6 +154,7 @@ function buildProgressionSummary(snapshot) {
 
 function toActiveWorkoutView(workout) {
   return {
+    id: workout.id || "",
     title: workout.rotina || "Treino atual",
     objective: workout.objetivo || "Objetivo não informado",
     period: formatPeriod(workout),
@@ -163,9 +164,11 @@ function toActiveWorkoutView(workout) {
       ? `Revisão prevista: ${formatDate(workout.dataRevisao)}`
       : "Sem revisão prevista cadastrada.",
     days: workout.dias.map((day) => ({
+      id: day.id || "",
       name: day.nome || "Dia de treino",
       notes: day.descricao || "",
       exercises: day.exercicios.map((exercise) => ({
+        id: exercise.id || "",
         name: exercise.nome || "Exercício",
         prescription: compactJoin([
           exercise.series ? `${exercise.series} séries` : "",
@@ -208,9 +211,11 @@ function normalizeWorkouts(workouts = []) {
 
 function normalizeDays(days = []) {
   return (Array.isArray(days) ? days : []).map((day) => ({
+    id: day.id || "",
     nome: day.nome || day.name || "",
     descricao: day.descricao || day.notes || "",
     exercicios: (day.exercicios || day.exercises || []).map((exercise) => ({
+      id: exercise.id || "",
       nome: exercise.nome || exercise.name || "",
       series: exercise.series || "",
       repeticoes: exercise.repeticoes || exercise.repetitions || "",
