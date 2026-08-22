@@ -13,6 +13,7 @@ import {
   getStudentAccessActions,
   normalizeStudentAccessState,
 } from "../../studentAccess/utils/studentAccessLifecycle";
+import { buildExecutionHistorySummary } from "../../workoutExecution/utils/workoutExecutionSession";
 import AlunoCardMobile from "./AlunoCardMobile";
 import AlunosFilters from "./AlunosFilters";
 import AlunosHeader from "./AlunosHeader";
@@ -506,6 +507,11 @@ function AlunoDetalhesResponsivo({
           treinosState={resumoOperacional?.treinos}
         />
 
+        <StudentExecutionHistoryPanel
+          execucoesState={resumoOperacional?.execucoes}
+          styles={styles}
+        />
+
         <StudentAccessPanel
           aluno={aluno}
           onLiberarAcesso={onLiberarAcesso}
@@ -723,6 +729,70 @@ function StudentAccessPanel({
   );
 }
 
+function StudentExecutionHistoryPanel({ execucoesState, styles }) {
+  if (!execucoesState || execucoesState.status === "idle" || execucoesState.status === "loading") {
+    return (
+      <section className="aluno-details-section" data-testid="student-execution-history" style={styles.resumoOperacional}>
+        <ExecutionHistoryHeader />
+        <div className="app-loading" data-testid="student-execution-history-loading" style={executionHistoryStyles.stateBox}>
+          Carregando execucoes...
+        </div>
+      </section>
+    );
+  }
+
+  if (execucoesState.status === "error") {
+    return (
+      <section className="aluno-details-section" data-testid="student-execution-history" style={styles.resumoOperacional}>
+        <ExecutionHistoryHeader />
+        <div className="app-empty-state" data-testid="student-execution-history-error" style={executionHistoryStyles.stateBox}>
+          Não foi possível carregar o histórico de execução agora.
+        </div>
+      </section>
+    );
+  }
+
+  const history = buildExecutionHistorySummary(execucoesState.data || []);
+
+  return (
+    <section className="aluno-details-section" data-testid="student-execution-history" style={styles.resumoOperacional}>
+      <ExecutionHistoryHeader />
+      {history.length ? (
+        <div style={executionHistoryStyles.grid}>
+          {history.map((item) => (
+            <article key={item.id} style={styles.resumoIndicador} data-testid="student-execution-history-item">
+              <span style={styles.infoLabel}>{item.statusLabel}</span>
+              <strong style={styles.infoValor}>{item.workoutTitle}</strong>
+              <p style={styles.resumoIndicadorTexto}>
+                {item.dayName} - {item.dateLabel}
+              </p>
+              <p style={styles.resumoIndicadorTexto}>
+                {item.exerciseCount} exercicio(s), {item.completedSetCount} serie(s) concluidas
+              </p>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div className="app-empty-state" data-testid="student-execution-history-empty" style={executionHistoryStyles.stateBox}>
+          Nenhum treino executado registrado ainda.
+        </div>
+      )}
+    </section>
+  );
+}
+
+function ExecutionHistoryHeader() {
+  return (
+    <div style={executionHistoryStyles.header}>
+      <div>
+        <h3 style={executionHistoryStyles.title}>Historico de execucao</h3>
+        <p style={executionHistoryStyles.description}>Leitura recente dos treinos registrados pelo aluno.</p>
+      </div>
+      <History size={20} aria-hidden="true" />
+    </div>
+  );
+}
+
 function studentAccessTone(tone) {
   if (tone === "success") return { background: "#dcfce7", color: "#166534" };
   if (tone === "warning") return { background: "#fef3c7", color: "#92400e" };
@@ -772,6 +842,34 @@ function Info({ label, valor, styles }) {
     </div>
   );
 }
+
+const executionHistoryStyles = {
+  header: {
+    alignItems: "flex-start",
+    display: "flex",
+    gap: "12px",
+    justifyContent: "space-between",
+  },
+  title: {
+    fontSize: "16px",
+    margin: 0,
+  },
+  description: {
+    color: "#6b7280",
+    fontSize: "14px",
+    lineHeight: 1.45,
+    margin: "5px 0 0",
+  },
+  grid: {
+    display: "grid",
+    gap: "10px",
+    gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))",
+  },
+  stateBox: {
+    borderRadius: "8px",
+    padding: "12px",
+  },
+};
 
 const styles = {
   formGrid: {

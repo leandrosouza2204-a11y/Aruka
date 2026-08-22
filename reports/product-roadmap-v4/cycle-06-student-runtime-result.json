@@ -1,0 +1,27 @@
+{
+  "decision": "PASS",
+  "scope": "PRODUCT_ROADMAP_V4_CYCLE_06_STUDENT_RUNTIME_CONTRACT",
+  "runtime_mode": "DETERMINISTIC_LOCAL_FIXTURE_CONTRACT",
+  "browser_runtime_required_for_this_validator": false,
+  "database_change": false,
+  "db_push": false,
+  "production_accessed": false,
+  "start_continue_contract": "PASS",
+  "save_payload_contract": "PASS",
+  "complete_gate_contract": "PASS",
+  "zero_value_set_contract": "PASS",
+  "summary": {
+    "id": "qa-session",
+    "status": "completed",
+    "date": "2026-08-22",
+    "dateLabel": "22/08/2026",
+    "workoutTitle": "Treino QA",
+    "dayName": "Dia A",
+    "statusLabel": "Concluido",
+    "exerciseCount": 1,
+    "setCount": 1,
+    "completedSetCount": 1,
+    "completedAt": "2026-08-22T12:00:00Z",
+    "abandonedAt": ""
+  }
+}

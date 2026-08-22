@@ -1,0 +1,42 @@
+{
+  "decision": "READY_FOR_WORKOUT_EXECUTION_HISTORY_MIGRATION_REVIEW_WITH_DOCKER_HARNESS_DEBT",
+  "cycle": "PRODUCT_ROADMAP_V4_CYCLE_06_WORKOUT_EXECUTION_HISTORY_FOUNDATION",
+  "branch": "feat/product-roadmap-v4-cycle-06-workout-execution-history",
+  "production_accessed": false,
+  "db_push": false,
+  "migration": {
+    "path": "supabase/migrations/20260822120000_workout_execution_history_foundation.sql",
+    "executable_migrations_after": 12,
+    "sha256": "5720CBC421D808B8C9AA7C8AAA7C4DD3ECFA3328B8D35AAB617E62C191FF1AB6",
+    "local_apply": "pass"
+  },
+  "implementation": {
+    "student_area": "src/pages/MinhaArea.jsx",
+    "professional_history": "src/features/alunos/components/AlunosList.jsx",
+    "professional_summary_hook": "src/features/alunos/hooks/useAlunosPage.js",
+    "service": "src/services/workoutExecutionService.js",
+    "domain": "src/features/workoutExecution/utils/workoutExecutionSession.js"
+  },
+  "qa": {
+    "static_cycle_06": "pass",
+    "authorization": "pass",
+    "student_runtime_contract": "pass",
+    "professional_runtime_contract": "pass",
+    "unit": "pass",
+    "lint": "pass",
+    "build": "pass",
+    "supabase_ci_static": "pass",
+    "supabase_preflight": "pass",
+    "supabase_bootstrap": "pass",
+    "supabase_validate": "pass",
+    "supabase_local_reproducibility": "pass",
+    "supabase_clean_worktree_wrapper": "pass",
+    "supabase_safe_reset": "pass",
+    "cycle06_sql_runtime": "pass",
+    "student_access_runtime_regression": "blocked_http_host_connection_closed_but_sql_access_guards_pass",
+    "authenticated_runtime": "blocked_base_url_unavailable",
+    "core_mobile_layout": "pass_static_with_auth_session_runtime_limitation",
+    "visible_ui_copy": "blocked_pre_existing_mojibake_outside_cycle_06"
+  },
+  "next_action": "Review migration and prepare supervised production cutover; keep HTTP host harness debt tracked separately."
+}

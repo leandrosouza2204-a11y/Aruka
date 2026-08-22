@@ -26,7 +26,8 @@ $ExpectedIncrementalMigrations = @(
   "20260815120000_allow_zero_value_contract_renewal.sql",
   "20260816120000_preserve_acompanhamento_motivo_on_renewal.sql",
   "20260819090000_student_access_lifecycle.sql",
-  "20260821120000_subscription_lifecycle_policy.sql"
+  "20260821120000_subscription_lifecycle_policy.sql",
+  "20260822120000_workout_execution_history_foundation.sql"
 )
 
 function Get-CanonicalTextSha256($Path) {
