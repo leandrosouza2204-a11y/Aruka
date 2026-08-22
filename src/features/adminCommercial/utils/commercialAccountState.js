@@ -8,6 +8,9 @@ export const COMMERCIAL_FILTERS = [
   { id: "ativos", label: "Ativos" },
   { id: "beta_teste", label: "Beta/Teste" },
   { id: "proximos_vencimento", label: "Proximos do vencimento" },
+  { id: "grace", label: "Em tolerancia" },
+  { id: "suspensos", label: "Suspensos" },
+  { id: "cancelamento_agendado", label: "Cancelamento agendado" },
   { id: "vencidos", label: "Vencidos" },
   { id: "cancelados", label: "Cancelados" },
   { id: "bloqueados", label: "Bloqueados" },
@@ -22,21 +25,32 @@ export function buildCommercialAccountState(usuario = {}, options = {}) {
   const plan = String(usuario.assinaturaPlano || "").trim();
   const renewalDate = parseDate(usuario.dataVencimento);
   const startsAt = parseDate(usuario.dataInicio);
+  const graceUntil = parseDate(usuario.graceUntil);
+  const suspendedAt = parseDate(usuario.suspendedAt);
+  const cancelledAt = parseDate(usuario.cancelledAt);
+  const reactivatedAt = parseDate(usuario.reactivatedAt);
+  const cancelAtPeriodEnd = Boolean(usuario.cancelAtPeriodEnd);
   const blocked = profileStatus === "inativo" || profileAccess === "bloqueado";
   const admin = role === "admin" || profileAccess === "admin";
   const beta = profileAccess === "beta";
   const subscriberProfile = profileAccess === "assinante";
   const activeSubscription = subscriptionStatus === "ativo" && (!renewalDate || renewalDate >= today);
   const expiredByDate = subscriptionStatus === "ativo" && renewalDate && renewalDate < today;
+  const inGrace = subscriptionStatus === "vencido" && graceUntil && graceUntil >= today && !suspendedAt;
+  const suspended = subscriptionStatus === "vencido" && Boolean(suspendedAt);
   const expiringSoon = activeSubscription && renewalDate && daysBetween(today, renewalDate) <= 7;
 
   let commercialStatus = "aguardando";
   if (blocked) commercialStatus = "bloqueado";
   else if (subscriptionStatus === "cancelado") commercialStatus = "cancelado";
+  else if (suspended) commercialStatus = "suspenso";
+  else if (inGrace) commercialStatus = "grace";
   else if (subscriptionStatus === "vencido" || expiredByDate) commercialStatus = "vencido";
   else if (admin) commercialStatus = "admin";
   else if (beta || subscriptionStatus === "teste") commercialStatus = "beta_teste";
-  else if (subscriberProfile && activeSubscription) commercialStatus = expiringSoon ? "proximo_vencimento" : "ativo";
+  else if (subscriberProfile && activeSubscription) {
+    commercialStatus = cancelAtPeriodEnd ? "cancelamento_agendado" : expiringSoon ? "proximo_vencimento" : "ativo";
+  }
   else if (subscriberProfile) commercialStatus = "atencao";
   else if (profileAccess === "pendente" || subscriptionStatus === "pendente" || !subscriptionStatus) commercialStatus = "aguardando";
 
@@ -48,6 +62,7 @@ export function buildCommercialAccountState(usuario = {}, options = {}) {
     profileStatus,
     subscriberProfile,
     subscriptionStatus,
+    inGrace,
   });
 
   return {
@@ -58,6 +73,11 @@ export function buildCommercialAccountState(usuario = {}, options = {}) {
     plan: plan || "Sem plano",
     startsAt: startsAt ? toIsoDate(startsAt) : "",
     renewalDate: renewalDate ? toIsoDate(renewalDate) : "",
+    graceUntil: graceUntil ? toIsoDate(graceUntil) : "",
+    cancelledAt: cancelledAt ? toIsoDate(cancelledAt) : "",
+    suspendedAt: suspendedAt ? toIsoDate(suspendedAt) : "",
+    reactivatedAt: reactivatedAt ? toIsoDate(reactivatedAt) : "",
+    cancelAtPeriodEnd,
     commercialStatus,
     commercialLabel: commercialLabel(commercialStatus),
     accessLabel: accessLabel(profileAccess, profileStatus, role),
@@ -77,7 +97,10 @@ export function buildCommercialAccountState(usuario = {}, options = {}) {
     isBlocked: blocked,
     isExpiringSoon: expiringSoon,
     hasActiveSubscription: activeSubscription,
+    hasGraceAccess: inGrace,
+    isSuspended: suspended,
     daysUntilRenewal: renewalDate ? daysBetween(today, renewalDate) : null,
+    daysUntilGraceEnds: graceUntil ? daysBetween(today, graceUntil) : null,
   };
 }
 
@@ -89,6 +112,9 @@ export function buildCommercialSummary(usuarios = [], options = {}) {
     ativos: states.filter((state) => state.filterKeys.includes("ativos")).length,
     betaTeste: states.filter((state) => state.filterKeys.includes("beta_teste")).length,
     proximosVencimento: states.filter((state) => state.filterKeys.includes("proximos_vencimento")).length,
+    grace: states.filter((state) => state.filterKeys.includes("grace")).length,
+    suspensos: states.filter((state) => state.filterKeys.includes("suspensos")).length,
+    cancelamentoAgendado: states.filter((state) => state.filterKeys.includes("cancelamento_agendado")).length,
     vencidos: states.filter((state) => state.filterKeys.includes("vencidos")).length,
     cancelados: states.filter((state) => state.filterKeys.includes("cancelados")).length,
     bloqueados: states.filter((state) => state.filterKeys.includes("bloqueados")).length,
@@ -133,6 +159,7 @@ function buildAttention({
   profileStatus,
   subscriberProfile,
   subscriptionStatus,
+  inGrace,
 }) {
   if (blocked) {
     return { required: true, label: "Acesso bloqueado administrativamente", tone: "danger" };
@@ -149,7 +176,16 @@ function buildAttention({
   if (commercialStatus === "proximo_vencimento") {
     return { required: true, label: "Renovacao proxima", tone: "warning" };
   }
-  if (subscriberProfile && subscriptionStatus !== "ativo") {
+  if (commercialStatus === "grace") {
+    return { required: true, label: "Periodo de tolerancia ativo", tone: "warning" };
+  }
+  if (commercialStatus === "suspenso") {
+    return { required: true, label: "Acesso profissional suspenso", tone: "danger" };
+  }
+  if (commercialStatus === "cancelamento_agendado") {
+    return { required: true, label: "Cancelamento ao fim do periodo", tone: "warning" };
+  }
+  if (subscriberProfile && subscriptionStatus !== "ativo" && !inGrace) {
     return { required: true, label: "Perfil assinante sem assinatura ativa", tone: "warning" };
   }
   if (profileAccess === "assinante" && profileStatus !== "ativo") {
@@ -167,9 +203,9 @@ function buildAvailableActions({ admin, blocked, commercialStatus, subscriberPro
   else actions.push("bloquear");
 
   if (subscriberProfile || ["ativo", "teste", "vencido", "pendente"].includes(subscriptionStatus)) {
-    actions.push("cancelar_assinatura");
+    actions.push("registrar_pagamento", "estender_tolerancia", "suspender_assinatura", "agendar_cancelamento", "cancelar_agora", "cancelar_assinatura");
   }
-  if (["cancelado", "vencido"].includes(subscriptionStatus) || commercialStatus === "vencido") {
+  if (["cancelado", "vencido"].includes(subscriptionStatus) || ["vencido", "grace", "suspenso", "cancelamento_agendado"].includes(commercialStatus)) {
     actions.push("reativar_assinatura");
   }
 
@@ -183,6 +219,9 @@ function buildFilterKeys({ blocked, commercialStatus, expiringSoon }) {
   if (commercialStatus === "ativo" || commercialStatus === "admin") keys.push("ativos");
   if (commercialStatus === "beta_teste") keys.push("beta_teste");
   if (commercialStatus === "proximo_vencimento" || expiringSoon) keys.push("proximos_vencimento", "ativos");
+  if (commercialStatus === "grace") keys.push("grace");
+  if (commercialStatus === "suspenso") keys.push("suspensos");
+  if (commercialStatus === "cancelamento_agendado") keys.push("cancelamento_agendado", "ativos");
   if (commercialStatus === "vencido") keys.push("vencidos");
   if (commercialStatus === "cancelado") keys.push("cancelados");
   if (commercialStatus === "atencao") keys.push("aguardando");
@@ -198,7 +237,10 @@ function commercialLabel(status) {
     beta_teste: "Beta/Teste",
     bloqueado: "Bloqueado",
     cancelado: "Cancelado",
+    cancelamento_agendado: "Cancelamento agendado",
+    grace: "Em tolerancia",
     proximo_vencimento: "Renovacao proxima",
+    suspenso: "Suspenso",
     vencido: "Vencido",
   };
   return labels[status] || "Revisar";

@@ -74,12 +74,13 @@ export async function verificarAcessoUsuario() {
   }
 
   if (perfil.tipoAcesso === "assinante") {
-    const assinaturaAtiva = await verificarAssinaturaAtiva();
+    const assinatura = await verificarAssinaturaAtiva();
 
     return {
-      liberado: assinaturaAtiva,
-      motivo: assinaturaAtiva ? "assinante" : "sem-assinatura",
+      liberado: assinatura.liberado,
+      motivo: assinatura.motivo,
       perfil,
+      assinatura: assinatura.assinatura,
     };
   }
 

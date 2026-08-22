@@ -29,6 +29,22 @@ export async function upsertAssinaturaAdmin(userId, assinatura) {
     p_data_inicio: assinatura.dataInicio || null,
     p_data_vencimento: assinatura.dataVencimento || null,
     p_user_agent: obterUserAgent(),
+    p_grace_until: assinatura.graceUntil || null,
+    p_cancel_at_period_end: Boolean(assinatura.cancelAtPeriodEnd),
+  });
+
+  if (error) throw error;
+}
+
+export async function executarLifecycleAssinaturaAdmin(userId, action, assinatura = {}) {
+  const { error } = await supabase.rpc("admin_subscription_lifecycle_action", {
+    p_user_id: userId,
+    p_action: action,
+    p_plano: assinatura.plano || null,
+    p_data_inicio: assinatura.dataInicio || null,
+    p_data_vencimento: assinatura.dataVencimento || null,
+    p_grace_until: assinatura.graceUntil || null,
+    p_user_agent: obterUserAgent(),
   });
 
   if (error) throw error;
@@ -103,5 +119,10 @@ function rowParaUsuarioAdmin(row) {
     assinaturaStatus: row.assinatura_status || "",
     dataInicio: row.data_inicio || "",
     dataVencimento: row.data_vencimento || "",
+    graceUntil: row.grace_until || "",
+    cancelAtPeriodEnd: Boolean(row.cancel_at_period_end),
+    cancelledAt: row.cancelled_at || "",
+    suspendedAt: row.suspended_at || "",
+    reactivatedAt: row.reactivated_at || "",
   };
 }

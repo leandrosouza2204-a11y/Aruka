@@ -17,6 +17,7 @@ import {
 import {
   atualizarPerfilAdmin,
   bloquearUsuarioAdmin,
+  executarLifecycleAssinaturaAdmin,
   liberarAssinanteAdmin,
   liberarBetaAdmin,
   listarUsuariosAdmin,
@@ -257,6 +258,29 @@ function AdminUsuarios() {
     );
   }
 
+  async function executarLifecycle(usuario, action, titulo, descricao, textoConfirmar, mensagemSucesso, extras = {}) {
+    const confirmado = await confirmar({ titulo, descricao, textoConfirmar });
+    if (!confirmado) return;
+
+    const hoje = new Date();
+    const vencimento = new Date(hoje);
+    vencimento.setMonth(vencimento.getMonth() + 1);
+    const grace = new Date(hoje);
+    grace.setDate(grace.getDate() + 7);
+
+    executarAcao(
+      () =>
+        executarLifecycleAssinaturaAdmin(usuario.userId, action, {
+          plano: usuario.assinaturaPlano || "Mensal",
+          dataInicio: hoje.toISOString().split("T")[0],
+          dataVencimento: vencimento.toISOString().split("T")[0],
+          graceUntil: grace.toISOString().split("T")[0],
+          ...extras,
+        }),
+      mensagemSucesso
+    );
+  }
+
   function limparFiltros() {
     setBusca("");
     setFiltro("todos");
@@ -296,6 +320,13 @@ function AdminUsuarios() {
             titulo="Proximos do vencimento"
             valor={resumo.proximosVencimento}
             destaque="#b45309"
+          />
+          <CardResumo titulo="Em tolerancia" valor={resumo.grace} destaque="#b45309" />
+          <CardResumo titulo="Suspensos" valor={resumo.suspensos} destaque="#dc2626" />
+          <CardResumo
+            titulo="Cancelamento agendado"
+            valor={resumo.cancelamentoAgendado}
+            destaque="#6b7280"
           />
           <CardResumo titulo="Vencidos" valor={resumo.vencidos} destaque="#dc2626" />
           <CardResumo titulo="Cancelados" valor={resumo.cancelados} destaque="#6b7280" />
@@ -387,6 +418,7 @@ function AdminUsuarios() {
                       onBloquear={bloquearUsuario}
                       onCancelarAssinatura={cancelarAssinatura}
                       onEditar={setUsuarioEditando}
+                      onLifecycle={executarLifecycle}
                       onReativar={reativarUsuario}
                       onRemoverAdmin={removerAdmin}
                       onTornarAdmin={tornarAdmin}
@@ -421,6 +453,7 @@ function AdminUsuarios() {
                   onBloquear={bloquearUsuario}
                   onCancelarAssinatura={cancelarAssinatura}
                   onEditar={setUsuarioEditando}
+                  onLifecycle={executarLifecycle}
                   onReativar={reativarUsuario}
                   onRemoverAdmin={removerAdmin}
                   onTornarAdmin={tornarAdmin}
@@ -463,6 +496,7 @@ function UsuarioLinha({
   onBloquear,
   onCancelarAssinatura,
   onEditar,
+  onLifecycle,
   onReativar,
   onRemoverAdmin,
   onTornarAdmin,
@@ -552,6 +586,21 @@ function UsuarioLinha({
             >
               Cancelar assinatura
             </TableActionItem>
+            <TableActionItem onClick={() => onLifecycle(usuario, "mark_paid", "Registrar pagamento confirmado?", "Registra pagamento confirmado externamente e libera novo ciclo mensal.", "Registrar pagamento", "Pagamento externo registrado.")} disabled={salvando} variant="success">
+              Registrar pagamento confirmado externamente
+            </TableActionItem>
+            <TableActionItem onClick={() => onLifecycle(usuario, "extend_grace", "Estender tolerancia?", "Estende o periodo de tolerancia por 7 dias corridos.", "Estender tolerancia", "Periodo de tolerancia estendido.")} disabled={salvando}>
+              Estender periodo de tolerancia
+            </TableActionItem>
+            <TableActionItem onClick={() => onLifecycle(usuario, "suspend_subscription", "Suspender acesso profissional?", "Suspende o acesso do profissional sem alterar acesso dos alunos.", "Suspender acesso", "Assinatura suspensa.")} disabled={salvando} variant="danger">
+              Suspender acesso profissional
+            </TableActionItem>
+            <TableActionItem onClick={() => onLifecycle(usuario, "schedule_cancellation", "Cancelar ao fim do periodo?", "Agenda o cancelamento para o fim do periodo atual sem apagar dados.", "Agendar cancelamento", "Cancelamento ao fim do periodo agendado.")} disabled={salvando}>
+              Cancelar ao fim do periodo
+            </TableActionItem>
+            <TableActionItem onClick={() => onLifecycle(usuario, "cancel_now", "Cancelar agora?", "Cancela a assinatura imediatamente sem apagar dados ou suspender alunos automaticamente.", "Cancelar agora", "Assinatura cancelada agora.")} disabled={salvando} variant="danger">
+              Cancelar agora
+            </TableActionItem>
             <TableActionItem onClick={() => onTransferir(usuario)} disabled={salvando}>
               Transferir acesso
             </TableActionItem>
@@ -570,6 +619,7 @@ function UsuarioCard({
   onBloquear,
   onCancelarAssinatura,
   onEditar,
+  onLifecycle,
   onReativar,
   onRemoverAdmin,
   onTornarAdmin,
@@ -675,6 +725,21 @@ function UsuarioCard({
             variant="danger"
           >
             Cancelar assinatura
+          </TableActionItem>
+          <TableActionItem onClick={() => onLifecycle(usuario, "mark_paid", "Registrar pagamento confirmado?", "Registra pagamento confirmado externamente e libera novo ciclo mensal.", "Registrar pagamento", "Pagamento externo registrado.")} disabled={salvando} variant="success">
+            Registrar pagamento confirmado externamente
+          </TableActionItem>
+          <TableActionItem onClick={() => onLifecycle(usuario, "extend_grace", "Estender tolerancia?", "Estende o periodo de tolerancia por 7 dias corridos.", "Estender tolerancia", "Periodo de tolerancia estendido.")} disabled={salvando}>
+            Estender periodo de tolerancia
+          </TableActionItem>
+          <TableActionItem onClick={() => onLifecycle(usuario, "suspend_subscription", "Suspender acesso profissional?", "Suspende o acesso do profissional sem alterar acesso dos alunos.", "Suspender acesso", "Assinatura suspensa.")} disabled={salvando} variant="danger">
+            Suspender acesso profissional
+          </TableActionItem>
+          <TableActionItem onClick={() => onLifecycle(usuario, "schedule_cancellation", "Cancelar ao fim do periodo?", "Agenda o cancelamento para o fim do periodo atual sem apagar dados.", "Agendar cancelamento", "Cancelamento ao fim do periodo agendado.")} disabled={salvando}>
+            Cancelar ao fim do periodo
+          </TableActionItem>
+          <TableActionItem onClick={() => onLifecycle(usuario, "cancel_now", "Cancelar agora?", "Cancela a assinatura imediatamente sem apagar dados ou suspender alunos automaticamente.", "Cancelar agora", "Assinatura cancelada agora.")} disabled={salvando} variant="danger">
+            Cancelar agora
           </TableActionItem>
           <TableActionItem onClick={() => onTransferir(usuario)} disabled={salvando}>
             Transferir acesso
@@ -832,10 +897,10 @@ function classeBadgeComercial(status) {
   if (status === "ativo" || status === "admin" || status === "beta_teste") {
     return "status-badge status-badge-success";
   }
-  if (status === "aguardando" || status === "proximo_vencimento" || status === "atencao") {
+  if (status === "aguardando" || status === "proximo_vencimento" || status === "atencao" || status === "grace" || status === "cancelamento_agendado") {
     return "status-badge status-badge-warning";
   }
-  if (status === "vencido" || status === "bloqueado") {
+  if (status === "vencido" || status === "bloqueado" || status === "suspenso") {
     return "status-badge status-badge-danger";
   }
   if (status === "cancelado") return "status-badge status-badge-muted";

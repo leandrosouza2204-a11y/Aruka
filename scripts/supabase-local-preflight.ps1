@@ -21,7 +21,8 @@ $ExpectedActiveMigrations = @(
   "20260811090000_student_tenure_contract_model.sql",
   "20260815120000_allow_zero_value_contract_renewal.sql",
   "20260816120000_preserve_acompanhamento_motivo_on_renewal.sql",
-  "20260819090000_student_access_lifecycle.sql"
+  "20260819090000_student_access_lifecycle.sql",
+  "20260821120000_subscription_lifecycle_policy.sql"
 )
 $IsCi = $env:CI -eq "true"
 $IsCiLocalOnly = $env:SUPABASE_CI_LOCAL_ONLY -eq "true"

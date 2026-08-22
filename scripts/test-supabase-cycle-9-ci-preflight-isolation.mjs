@@ -31,6 +31,7 @@ function copyFixture() {
     "20260815120000_allow_zero_value_contract_renewal.sql",
     "20260816120000_preserve_acompanhamento_motivo_on_renewal.sql",
     "20260819090000_student_access_lifecycle.sql",
+    "20260821120000_subscription_lifecycle_policy.sql",
   ]) {
     cpSync(join(root, "supabase/migrations", file), join(tempRoot, "supabase/migrations", file));
   }
@@ -138,9 +139,9 @@ try {
   if (positiveReport.project_id !== "aruka_ci_test_1") throw new Error("positive report project_id mismatch");
   if (positiveReport.temp_project_ref_present !== false) throw new Error("positive preflight required a temp project-ref");
   if (positiveReport.baseline_sha256 !== expectedSha || positiveReport.baseline_sha_preserved !== true) throw new Error("positive baseline SHA was not preserved");
-  if (positiveReport.executable_migration_count !== 10) throw new Error("positive executable migration count mismatch");
+  if (positiveReport.executable_migration_count !== 11) throw new Error("positive executable migration count mismatch");
   if (positiveReport.reference_only_baseline_count !== 1) throw new Error("positive reference baseline count mismatch");
-  if (positiveReport.total_database_change_artifact_count !== 11) throw new Error("positive total artifact count mismatch");
+  if (positiveReport.total_database_change_artifact_count !== 12) throw new Error("positive total artifact count mismatch");
   if (positiveReport.remote_access_performed !== false || positiveReport.edge_functions_deployed !== false) throw new Error("positive report must record no remote access and no Edge Function deploy");
 
   expectReject("ci_without_local_only", () => {}, "CI preflight requires SUPABASE_CI_LOCAL_ONLY=true", { SUPABASE_CI_LOCAL_ONLY: "false" });
