@@ -7,6 +7,7 @@ import {
   ClipboardList,
   Dumbbell,
   History,
+  HelpCircle,
   Play,
   RefreshCcw,
   Save,
@@ -26,7 +27,13 @@ import {
   WORKOUT_EXECUTION_EXERCISE_STATUS,
   buildExecutionHistorySummary,
   canCompleteSession,
+  hasExecutionSetPerformanceData,
 } from "../features/workoutExecution/utils/workoutExecutionSession.js";
+import {
+  EXECUTION_PROGRESS_SIGNAL,
+  buildExecutionProgressionSnapshot,
+  formatSetReference,
+} from "../features/workoutExecution/utils/workoutExecutionProgression.js";
 
 function MinhaArea() {
   const [payload, setPayload] = useState(null);
@@ -37,6 +44,7 @@ function MinhaArea() {
   const [erro, setErro] = useState("");
   const [treinoAberto, setTreinoAberto] = useState(false);
   const [savingState, setSavingState] = useState("idle");
+  const [completionSummary, setCompletionSummary] = useState(null);
 
   async function carregar() {
     setStatus("loading");
@@ -84,6 +92,13 @@ function MinhaArea() {
   const historySummary = useMemo(
     () => buildExecutionHistorySummary(executionState?.recentSessions || []),
     [executionState]
+  );
+  const executionProgression = useMemo(
+    () => buildExecutionProgressionSnapshot({
+      currentSession: executionSession,
+      recentSessions: executionState?.recentSessions || [],
+    }),
+    [executionSession, executionState]
   );
   const activeDays = daily.activeWorkout?.days || [];
   const selectedDay = activeDays.find((day) => day.id === selectedDayId) || activeDays[0] || null;
@@ -138,7 +153,17 @@ function MinhaArea() {
     setSavingState("completing");
     try {
       const completed = await concluirExecucaoTreino(saved.id);
+      const summary = buildExecutionProgressionSnapshot({
+        currentSession: completed,
+        recentSessions: executionState?.recentSessions || [],
+      });
       setExecutionSession(null);
+      setCompletionSummary({
+        registeredExercises: buildExecutionHistorySummary(completed)?.exerciseCount || 0,
+        completedSets: buildExecutionHistorySummary(completed)?.completedSetCount || 0,
+        safeComparisonCount: summary.safeComparisonCount,
+        frequency: summary.frequency,
+      });
       setExecutionState((current) => ({
         ...(current || {}),
         activeSession: null,
@@ -182,9 +207,16 @@ function MinhaArea() {
   function updateSet(exerciseId, setNumber, field, value) {
     updateExercise(exerciseId, (exercise) => {
       const existing = exercise.sets.find((item) => item.setNumber === setNumber) || { setNumber };
+      const nextSet = { ...existing, [field]: value };
+      if (["reps", "loadValue"].includes(field)) {
+        nextSet.completed = hasExecutionSetPerformanceData(nextSet);
+      }
+      if (field === "completed") {
+        nextSet.completed = Boolean(value) && hasExecutionSetPerformanceData(nextSet);
+      }
       const sets = [
         ...exercise.sets.filter((item) => item.setNumber !== setNumber),
-        { ...existing, [field]: value },
+        nextSet,
       ].sort((a, b) => a.setNumber - b.setNumber);
       return { ...exercise, status: WORKOUT_EXECUTION_EXERCISE_STATUS.PARTIAL, sets };
     });
@@ -195,7 +227,7 @@ function MinhaArea() {
       <main style={styles.page} data-testid="student-daily-page">
         <section style={styles.stateBox} data-testid="student-daily-loading">
           <RefreshCcw size={22} />
-          <strong>Carregando sua area...</strong>
+          <strong>Carregando sua área...</strong>
         </section>
       </main>
     );
@@ -221,8 +253,8 @@ function MinhaArea() {
       <main style={styles.page} data-testid="student-daily-page">
         <section style={styles.stateBox} data-testid="student-daily-unlinked">
           <AlertCircle size={22} />
-          <strong>Perfil de aluno nao encontrado</strong>
-          <p>Nao encontramos um perfil de aluno vinculado a esta conta.</p>
+          <strong>Perfil de aluno não encontrado</strong>
+          <p>Não encontramos um perfil de aluno vinculado a esta conta.</p>
         </section>
       </main>
     );
@@ -243,8 +275,8 @@ function MinhaArea() {
   return (
     <main style={styles.page} data-testid="student-daily-page">
       <header style={styles.header}>
-        <span style={styles.kicker}>Minha area</span>
-        <h1 style={styles.title}>Ola, {daily.student?.name || "aluno"}</h1>
+        <span style={styles.kicker}>Minha área</span>
+        <h1 style={styles.title}>Olá, {daily.student?.name || "aluno"}</h1>
       </header>
 
       {erro && <div style={styles.errorBox}>{erro}</div>}
@@ -262,8 +294,8 @@ function MinhaArea() {
           <>
             <div style={styles.heroGrid}>
               <Info label="Objetivo" value={daily.activeWorkout.objective} />
-              <Info label="Frequencia prescrita" value={daily.activeWorkout.daysText} />
-              <Info label="Periodo" value={daily.activeWorkout.period} />
+              <Info label="Frequência prescrita" value={daily.activeWorkout.daysText} />
+              <Info label="Período" value={daily.activeWorkout.period} />
               <Info label="Status" value={daily.activeWorkout.statusText} />
             </div>
             <p style={styles.reviewText}>{daily.activeWorkout.reviewText}</p>
@@ -318,9 +350,22 @@ function MinhaArea() {
           onSave={() => salvarExecucao()}
           onUpdateExercise={updateExercise}
           onUpdateSet={updateSet}
+          progression={executionProgression}
           savingState={savingState}
           session={executionSession}
         />
+      )}
+
+      {completionSummary && (
+        <section style={styles.section} data-testid="student-execution-completion-summary">
+          <h2 style={styles.sectionTitle}>Resumo realizado</h2>
+          <div style={styles.compactList}>
+            <span>{pluralizePt(completionSummary.registeredExercises, "exercício registrado", "exercícios registrados")}</span>
+            <span>{pluralizePt(completionSummary.completedSets, "série concluída", "séries concluídas")}</span>
+            <span>{pluralizePt(completionSummary.safeComparisonCount, "comparação com execução anterior", "comparações com execuções anteriores")}</span>
+            <span>{pluralizePt(completionSummary.frequency.completed7d, "sessão concluída nos últimos 7 dias", "sessões concluídas nos últimos 7 dias")}</span>
+          </div>
+        </section>
       )}
 
       <section style={styles.cue} data-testid="student-daily-next-action">
@@ -356,8 +401,8 @@ function MinhaArea() {
       <section style={styles.section} data-testid="student-execution-history">
         <div style={styles.sectionHeader}>
           <div>
-            <h2 style={styles.sectionTitle}>Historico de execucao</h2>
-            <p style={styles.muted}>Registros recentes feitos por voce.</p>
+            <h2 style={styles.sectionTitle}>Histórico de execução</h2>
+            <p style={styles.muted}>Registros recentes feitos por você.</p>
           </div>
           <History size={18} />
         </div>
@@ -368,7 +413,7 @@ function MinhaArea() {
                 <strong>{item.workoutTitle}</strong>
                 <span>{item.dayName}</span>
                 <p>{item.statusLabel} em {item.dateLabel}</p>
-                <small>{item.exerciseCount} exercicio(s) e {item.completedSetCount} serie(s) concluidas</small>
+                <small>{pluralizePt(item.exerciseCount, "exercício", "exercícios")} e {pluralizePt(item.completedSetCount, "série concluída", "séries concluídas")}</small>
               </article>
             ))}
           </div>
@@ -385,13 +430,13 @@ function MinhaArea() {
             {daily.progression.items.map((item) => <span key={item}>{item}</span>)}
           </div>
         ) : (
-          <p style={styles.emptyText}>Sem comparacao disponivel entre fichas.</p>
+          <p style={styles.emptyText}>Sem comparação disponível entre fichas.</p>
         )}
       </section>
 
       <section style={styles.section} data-testid="student-daily-history">
         <div style={styles.sectionHeader}>
-          <h2 style={styles.sectionTitle}>Historico de fichas</h2>
+          <h2 style={styles.sectionTitle}>Histórico de fichas</h2>
           <History size={18} />
         </div>
         {daily.history.length ? (
@@ -406,7 +451,7 @@ function MinhaArea() {
             ))}
           </div>
         ) : (
-          <p style={styles.emptyText}>Ainda nao ha historico de fichas disponivel.</p>
+          <p style={styles.emptyText}>Ainda não há histórico de fichas disponível.</p>
         )}
       </section>
 
@@ -428,14 +473,17 @@ function ExecutionSessionPanel({
   onSave,
   onUpdateExercise,
   onUpdateSet,
+  progression,
   savingState,
   session,
 }) {
+  const progressionByExercise = new Map((progression?.exercises || []).map((item) => [item.exerciseId, item]));
+
   return (
     <section style={styles.executionPanel} data-testid="student-execution-session">
       <div style={styles.sectionHeader}>
         <div>
-          <h2 style={styles.sectionTitle}>Execucao em andamento</h2>
+          <h2 style={styles.sectionTitle}>Execução em andamento</h2>
           <p style={styles.muted}>{session.workoutTitle || "Treino atual"} - {session.dayName || "Dia de treino"}</p>
         </div>
         <CheckCircle2 size={20} />
@@ -444,13 +492,17 @@ function ExecutionSessionPanel({
       <div style={styles.executionList}>
         {session.exercises.map((exercise) => (
           <article style={styles.executionExercise} key={exercise.id} data-testid="student-execution-exercise">
+            {(() => {
+              const reference = progressionByExercise.get(exercise.id);
+              return (
+                <>
             <div style={styles.exerciseHeader}>
               <div>
                 <h3 style={styles.cardTitle}>{exercise.name}</h3>
                 <p style={styles.muted}>
                   {[exercise.prescribedSets, exercise.prescribedReps, exercise.prescribedLoad, exercise.prescribedRest]
                     .filter(Boolean)
-                    .join(" - ") || "Prescricao nao informada"}
+                    .join(" - ") || "Prescrição não informada"}
                 </p>
               </div>
               <button
@@ -466,6 +518,8 @@ function ExecutionSessionPanel({
                 Pular
               </button>
             </div>
+
+            <ExecutionProgressionHint reference={reference} />
 
             <div style={styles.setGrid}>
               {[1, 2, 3, 4, 5].map((setNumber) => {
@@ -484,11 +538,15 @@ function ExecutionSessionPanel({
                       onChange={(value) => onUpdateSet(exercise.id, setNumber, "loadValue", value)}
                     />
                     <NumericField
+                      help={RIR_HELP}
+                      helpLabel="Entenda o que é RIR"
                       label="RIR"
                       value={set.rir ?? ""}
                       onChange={(value) => onUpdateSet(exercise.id, setNumber, "rir", value)}
                     />
                     <NumericField
+                      help={RPE_HELP}
+                      helpLabel="Entenda o que é RPE"
                       label="RPE"
                       value={set.rpe ?? ""}
                       onChange={(value) => onUpdateSet(exercise.id, setNumber, "rpe", value)}
@@ -505,6 +563,9 @@ function ExecutionSessionPanel({
                 );
               })}
             </div>
+                </>
+              );
+            })()}
           </article>
         ))}
       </div>
@@ -527,10 +588,51 @@ function ExecutionSessionPanel({
   );
 }
 
-function NumericField({ label, onChange, value }) {
+function ExecutionProgressionHint({ reference }) {
+  if (!reference || reference.signal === EXECUTION_PROGRESS_SIGNAL.NOT_COMPARABLE) {
+    return (
+      <p style={styles.executionHint} data-testid="student-execution-progression-hint">
+        Primeiro registro deste exercício.
+      </p>
+    );
+  }
+
+  if (reference.signal === EXECUTION_PROGRESS_SIGNAL.FIRST_RECORD) {
+    return (
+      <p style={styles.executionHint} data-testid="student-execution-progression-hint">
+        Primeiro registro deste exercício.
+      </p>
+    );
+  }
+
+  return (
+    <div style={styles.executionHint} data-testid="student-execution-progression-hint">
+      <strong>Última execução registrada</strong>
+      <span>{formatSetReference(reference.previousBestSet)}</span>
+      {reference.reason && <small>{reference.reason}</small>}
+      {(reference.previousBestSet?.rir !== "" || reference.previousBestSet?.rpe !== "") && (
+        <small>
+          {[reference.previousBestSet?.rir !== "" ? `RIR ${reference.previousBestSet.rir}` : "", reference.previousBestSet?.rpe !== "" ? `RPE ${reference.previousBestSet.rpe}` : ""].filter(Boolean).join(" - ")}
+        </small>
+      )}
+    </div>
+  );
+}
+
+function NumericField({ help = "", helpLabel = "", label, onChange, value }) {
   return (
     <label style={styles.numericField}>
-      <span>{label}</span>
+      <span style={styles.numericLabel}>
+        {label}
+        {help && (
+          <details style={styles.helpDetails}>
+            <summary aria-label={helpLabel} style={styles.helpButton}>
+              <HelpCircle size={14} aria-hidden="true" />
+            </summary>
+            <span style={styles.helpText}>{help}</span>
+          </details>
+        )}
+      </span>
       <input
         inputMode="decimal"
         min="0"
@@ -596,13 +698,25 @@ const styles = {
   historyItem: { display: "grid", gap: 5, border: "1px solid #e5e9f1", borderRadius: 8, padding: 12 },
   executionList: { display: "grid", gap: 12, marginTop: 12 },
   executionExercise: { border: "1px solid #e5e9f1", borderRadius: 8, padding: 14 },
+  executionHint: { background: "#f8fafc", border: "1px solid #e5e9f1", borderRadius: 8, color: "#384252", display: "grid", gap: 3, fontSize: 13, lineHeight: 1.35, margin: "0 0 12px", padding: "8px 10px" },
   exerciseHeader: { display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, marginBottom: 12 },
   setGrid: { display: "grid", gap: 8 },
   setRow: { alignItems: "end", display: "grid", gap: 8, gridTemplateColumns: "28px repeat(4, minmax(64px, 1fr)) minmax(70px, auto)" },
   numericField: { display: "grid", gap: 4, color: "#5b6472", fontSize: 12, fontWeight: 800 },
+  numericLabel: { alignItems: "center", display: "flex", gap: 4 },
+  helpDetails: { position: "relative" },
+  helpButton: { alignItems: "center", background: "#eef2ff", border: "1px solid #c7d2fe", borderRadius: 999, color: "#174ea6", cursor: "pointer", display: "inline-flex", height: 22, justifyContent: "center", listStyle: "none", padding: 0, width: 22 },
+  helpText: { background: "#ffffff", border: "1px solid #cbd5e1", borderRadius: 8, boxShadow: "0 12px 30px rgba(15, 23, 42, 0.16)", boxSizing: "border-box", color: "#1f2937", display: "block", fontSize: 12, fontWeight: 600, left: "-120px", lineHeight: 1.35, marginTop: 6, maxWidth: "min(260px, calc(100vw - 32px))", padding: 10, position: "absolute", width: 260, zIndex: 5 },
   numberInput: { border: "1px solid #cbd5e1", borderRadius: 8, boxSizing: "border-box", minHeight: 36, minWidth: 0, padding: "0 8px", width: "100%" },
   checkLabel: { alignItems: "center", display: "flex", gap: 6, minHeight: 36, whiteSpace: "nowrap" },
   stateBox: { minHeight: "70vh", display: "grid", placeItems: "center", gap: 12, textAlign: "center", color: "#334155" },
 };
+
+const RIR_HELP = "RIR - Repetições em reserva. Quantas repetições você acha que ainda conseguiria fazer ao terminar a série. RIR 0: não conseguiria outra repetição. RIR 2: conseguiria aproximadamente mais 2.";
+const RPE_HELP = "RPE - Percepção de esforço. Indica o quanto a série foi difícil para você, em uma escala de 0 a 10. RPE 10: esforço máximo. RPE 8: muito difícil, mas ainda havia alguma margem.";
+
+function pluralizePt(count, singular, plural) {
+  return `${count} ${count === 1 ? singular : plural}`;
+}
 
 export default MinhaArea;

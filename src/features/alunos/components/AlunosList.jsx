@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
+import { History as HistoryIcon } from "lucide-react";
 import Sidebar from "../../../components/Sidebar";
 import InlineDetails from "../../../components/InlineDetails";
 import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
@@ -14,6 +15,12 @@ import {
   normalizeStudentAccessState,
 } from "../../studentAccess/utils/studentAccessLifecycle";
 import { buildExecutionHistorySummary } from "../../workoutExecution/utils/workoutExecutionSession";
+import {
+  EXECUTION_PROGRESS_SIGNAL,
+  buildExecutionProgressionForSessions,
+  buildExecutionSessionFrequency,
+  formatSetReference,
+} from "../../workoutExecution/utils/workoutExecutionProgression";
 import AlunoCardMobile from "./AlunoCardMobile";
 import AlunosFilters from "./AlunosFilters";
 import AlunosHeader from "./AlunosHeader";
@@ -650,7 +657,7 @@ function StudentAccessPanel({
       <div style={styles.studentAccessHeader}>
         <div>
           <h3>Acesso ao Aruka</h3>
-          <p style={styles.resumoLista}>Controle manual da area do aluno.</p>
+          <p style={styles.resumoLista}>Controle manual da área do aluno.</p>
         </div>
         <span style={{ ...styles.studentAccessBadge, ...studentAccessTone(acesso.tone) }}>
           {acesso.label}
@@ -735,7 +742,7 @@ function StudentExecutionHistoryPanel({ execucoesState, styles }) {
       <section className="aluno-details-section" data-testid="student-execution-history" style={styles.resumoOperacional}>
         <ExecutionHistoryHeader />
         <div className="app-loading" data-testid="student-execution-history-loading" style={executionHistoryStyles.stateBox}>
-          Carregando execucoes...
+          Carregando execuções...
         </div>
       </section>
     );
@@ -753,10 +760,18 @@ function StudentExecutionHistoryPanel({ execucoesState, styles }) {
   }
 
   const history = buildExecutionHistorySummary(execucoesState.data || []);
+  const progressionBySession = new Map(
+    buildExecutionProgressionForSessions(execucoesState.data || []).map((item) => [item.sessionId, item])
+  );
+  const frequency = buildExecutionSessionFrequency(execucoesState.data || []);
 
   return (
     <section className="aluno-details-section" data-testid="student-execution-history" style={styles.resumoOperacional}>
       <ExecutionHistoryHeader />
+      <div style={executionHistoryStyles.frequency} data-testid="student-execution-frequency">
+        <span>{pluralizePt(frequency.completed7d, "sessão concluída nos últimos 7 dias", "sessões concluídas nos últimos 7 dias")}</span>
+        <span>{pluralizePt(frequency.completed30d, "sessão concluída nos últimos 30 dias", "sessões concluídas nos últimos 30 dias")}</span>
+      </div>
       {history.length ? (
         <div style={executionHistoryStyles.grid}>
           {history.map((item) => (
@@ -767,30 +782,68 @@ function StudentExecutionHistoryPanel({ execucoesState, styles }) {
                 {item.dayName} - {item.dateLabel}
               </p>
               <p style={styles.resumoIndicadorTexto}>
-                {item.exerciseCount} exercicio(s), {item.completedSetCount} serie(s) concluidas
+                {pluralizePt(item.exerciseCount, "exercício", "exercícios")}, {pluralizePt(item.completedSetCount, "série concluída", "séries concluídas")}
               </p>
+              <ExecutionProgressionDetails progression={progressionBySession.get(item.id)} styles={styles} />
             </article>
           ))}
         </div>
       ) : (
         <div className="app-empty-state" data-testid="student-execution-history-empty" style={executionHistoryStyles.stateBox}>
-          Nenhum treino executado registrado ainda.
+          Nenhuma execução registrada por este aluno ainda.
         </div>
       )}
     </section>
   );
 }
 
+function ExecutionProgressionDetails({ progression, styles }) {
+  const exercises = (progression?.exercises || []).slice(0, 3);
+  if (!exercises.length) return null;
+
+  return (
+    <div style={executionHistoryStyles.exerciseDetails} data-testid="professional-execution-progression">
+      {exercises.map((exercise) => (
+        <div key={exercise.exerciseId || exercise.exerciseName} style={executionHistoryStyles.exerciseDetail}>
+          <strong style={styles.infoValor}>{exercise.exerciseName}</strong>
+          <span style={styles.resumoIndicadorTexto}>Realizado: {formatSetReference(exercise.currentBestSet) || "sem série concluída"}</span>
+          <span style={styles.resumoIndicadorTexto}>
+            {formatProfessionalReference(exercise)}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function formatProfessionalReference(exercise) {
+  if (!exercise || exercise.signal === EXECUTION_PROGRESS_SIGNAL.FIRST_RECORD) {
+    return "Primeiro registro deste exercício.";
+  }
+  if (!exercise.previousBestSet) {
+    return "Sem execução anterior comparável.";
+  }
+  const pieces = [`Última execução registrada: ${formatSetReference(exercise.previousBestSet)}`];
+  if (exercise.reason) pieces.push(exercise.reason);
+  if (exercise.previousBestSet.rir !== "") pieces.push(`RIR ${exercise.previousBestSet.rir}`);
+  if (exercise.previousBestSet.rpe !== "") pieces.push(`RPE ${exercise.previousBestSet.rpe}`);
+  return pieces.join(" - ");
+}
+
 function ExecutionHistoryHeader() {
   return (
     <div style={executionHistoryStyles.header}>
       <div>
-        <h3 style={executionHistoryStyles.title}>Historico de execucao</h3>
+        <h3 style={executionHistoryStyles.title}>Histórico de execução</h3>
         <p style={executionHistoryStyles.description}>Leitura recente dos treinos registrados pelo aluno.</p>
       </div>
-      <History size={20} aria-hidden="true" />
+      <HistoryIcon size={20} aria-hidden="true" />
     </div>
   );
+}
+
+function pluralizePt(count, singular, plural) {
+  return `${count} ${count === 1 ? singular : plural}`;
 }
 
 function studentAccessTone(tone) {
@@ -864,6 +917,25 @@ const executionHistoryStyles = {
     display: "grid",
     gap: "10px",
     gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))",
+  },
+  frequency: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "8px",
+    color: "#374151",
+    fontSize: "13px",
+    fontWeight: 700,
+  },
+  exerciseDetails: {
+    borderTop: "1px solid #e5e7eb",
+    display: "grid",
+    gap: "8px",
+    marginTop: "10px",
+    paddingTop: "10px",
+  },
+  exerciseDetail: {
+    display: "grid",
+    gap: "3px",
   },
   stateBox: {
     borderRadius: "8px",

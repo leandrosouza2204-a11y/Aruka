@@ -1,6 +1,9 @@
 import { readFileSync } from "node:fs";
 
-const migration = readFileSync("supabase/migrations/20260822120000_workout_execution_history_foundation.sql", "utf8");
+const migration = [
+  "supabase/migrations/20260822120000_workout_execution_history_foundation.sql",
+  "supabase/migrations/20260824120000_workout_execution_session_local_date.sql",
+].map((file) => readFileSync(file, "utf8")).join("\n");
 const statements = migration
   .replace(/--.*$/gm, "")
   .split(";")
@@ -27,6 +30,8 @@ add("no_anon_execute_grants", !/grant execute on function public\..*workout_exec
 add("rpc_auth_required", (migration.match(/AUTH_REQUIRED/g) || []).length >= 2);
 add("professional_history_rpc_checks_owner", /get_student_workout_execution_history[\s\S]*where id = p_aluno_id and user_id = v_professional_user_id/i.test(migration));
 add("student_start_validates_active_workout", /lifecycle_status = 'active'/.test(migration));
+add("student_start_requires_client_civil_date", /p_session_date date/.test(migration) && /WORKOUT_EXECUTION_SESSION_DATE_REQUIRED/.test(migration));
+add("student_start_bounds_client_civil_date", /WORKOUT_EXECUTION_SESSION_DATE_OUT_OF_RANGE/.test(migration));
 
 const failed = checks.filter((check) => !check.passed);
 for (const check of checks) console.log(`${check.passed ? "PASS" : "FAIL"} ${check.name}`);
