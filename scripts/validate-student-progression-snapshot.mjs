@@ -43,7 +43,7 @@ assert.ok(fixtureSnapshot.signals.some((signal) => signal.type === STUDENT_PROGR
 const checks = [
   check("helper_contract_present", source.helper.includes("buildStudentProgressionSnapshot") && source.helper.includes("normalizeExerciseName"), "Helper puro de dominio existe."),
   check("status_enums_present", source.helper.includes("PROGRESSING") && source.helper.includes("INSUFFICIENT_DATA") && !source.helper.includes("REGRESSING"), "Enums incluem apenas status permitidos."),
-  check("no_history_state", source.component.includes("Ainda nao ha historico suficiente para comparar a evolucao."), "Estado sem historico usa mensagem canonica."),
+  check("no_history_state", source.component.includes("Ainda não há histórico suficiente para comparar a evolução."), "Estado sem historico usa mensagem canonica."),
   check("ui_integration", source.alunosList.includes("StudentProgressionSnapshot") && source.alunosList.includes("resumoOperacional?.treinos"), "Detalhe do aluno usa treinos ja carregados."),
   check("no_list_n_plus_one", !source.alunosList.includes("buscarTreinosPorAlunoSupabase("), "Lista nao adiciona fetch de snapshot."),
   check("no_fabricated_volume", !source.component.toLowerCase().includes("volume") && !source.helper.toLowerCase().includes("volume"), "Volume nao vira headline nem metrica fabricada."),

@@ -1,0 +1,51 @@
+{
+  "program": "Product Roadmap v4",
+  "cycle": "06.1",
+  "cycleName": "Execution-Driven Progression & Feedback",
+  "decision": "READY_FOR_CYCLE_06_1_SESSION_DATE_MIGRATION_REVIEW",
+  "databaseChange": true,
+  "migration": "supabase/migrations/20260824120000_workout_execution_session_local_date.sql",
+  "rpcChange": "start_workout_execution_session accepts p_session_date date",
+  "newIndex": false,
+  "materializedView": false,
+  "adherencePercentageImplemented": false,
+  "automaticLoadRecommendation": false,
+  "implemented": {
+    "executionProgressionHelper": "src/features/workoutExecution/utils/workoutExecutionProgression.js",
+    "domainTests": "src/features/workoutExecution/utils/workoutExecutionProgression.test.js",
+    "studentUi": "src/pages/MinhaArea.jsx",
+    "professionalUi": "src/features/alunos/components/AlunosList.jsx",
+    "sessionDateContract": "scripts/validate-workout-execution-session-date-contract.mjs",
+    "documentation": "docs/product-roadmap-v4/10-cycle-06-1-execution-driven-progression.md"
+  },
+  "qa": {
+    "focused": "qa:product-roadmap-v4-cycle-06-1",
+    "domain": "qa:execution-progression",
+    "studentRuntime": "qa:execution-progression-student-runtime",
+    "professionalRuntime": "qa:execution-progression-professional-runtime",
+    "authorization": "qa:execution-progression-authorization",
+    "sessionDateContract": "qa:workout-execution-session-date-contract"
+  },
+  "sessionDate": {
+    "strategy": "client local civil date sent to RPC",
+    "dbType": "date",
+    "serverTimestampsPreserved": true,
+    "idempotencyPreserved": true,
+    "backfillRequired": false
+  },
+  "guards": {
+    "workoutEditHistoryComparison": "SAFE",
+    "falseMatchBlocked": true,
+    "unitMismatchDeltaBlocked": true,
+    "bodyweightLoadDeltaBlocked": true,
+    "abandonedSessionExcludedFromProgression": true,
+    "skippedExerciseExcluded": true,
+    "nPlusOneIntroduced": false
+  },
+  "productionAccessed": false,
+  "productionMutation": false,
+  "dbPush": false,
+  "commit": false,
+  "push": false,
+  "pr": false
+}

@@ -20,9 +20,12 @@ const files = {
 };
 
 const source = Object.fromEntries(Object.entries(files).map(([key, file]) => [key, readFileSync(file, "utf8")]));
+const migrationChain = readFileSync(files.migration, "utf8")
+  + "\n"
+  + readFileSync("supabase/migrations/20260824120000_workout_execution_session_local_date.sql", "utf8");
 const migrations = readdirSync("supabase/migrations").filter((file) => file.endsWith(".sql"));
 
-check("migration_count_12", migrations.length === 12);
+check("migration_count_13", migrations.length === 13);
 check("three_execution_tables", [
   "workout_execution_sessions",
   "workout_execution_exercises",
@@ -41,8 +44,8 @@ check("rls_enabled_all_tables", [
   "alter table public.workout_execution_exercises enable row level security",
   "alter table public.workout_execution_sets enable row level security",
 ].every((line) => source.migration.includes(line)));
-check("student_and_professional_read_policies", /student_user_id = auth\.uid\(\)/.test(source.migration) && /a\.user_id = auth\.uid\(\)/.test(source.migration));
-check("student_active_write_policies", /student_access_status = 'active'/.test(source.migration) && /status = 'in_progress'/.test(source.migration));
+check("student_and_professional_read_policies", /student_user_id = auth\.uid\(\)/.test(migrationChain) && /a\.user_id = auth\.uid\(\)/.test(migrationChain));
+check("student_active_write_policies", /student_access_status = 'active'/.test(migrationChain) && /status = 'in_progress'/.test(migrationChain));
 check("rpc_contract", [
   "start_workout_execution_session",
   "save_workout_execution",
@@ -50,7 +53,8 @@ check("rpc_contract", [
   "abandon_workout_execution_session",
   "get_my_workout_execution_state",
   "get_student_workout_execution_history",
-].every((fn) => source.migration.includes(`public.${fn}`)));
+].every((fn) => migrationChain.includes(`public.${fn}`)));
+check("local_session_date_contract", migrationChain.includes("p_session_date date") && migrationChain.includes("WORKOUT_EXECUTION_SESSION_DATE_REQUIRED"));
 check("idempotency_and_active_unique", source.migration.includes("workout_execution_sessions_idempotency_uidx") && source.migration.includes("workout_execution_sessions_active_uidx"));
 check("no_execution_analytics_scope", !/score|gamification|wearable|timer|volume_pr|adherence/i.test(source.migration + source.service + source.studentPage));
 check("student_ui_contract", [
@@ -75,7 +79,7 @@ assert.equal(canCompleteSession({ status: "in_progress", exercises: [{ status: "
 assert.equal(buildExecutionHistorySummary([{ id: "s1", status: "completed", sessionDate: "2026-08-22", exercises: [] }]).length, 1);
 
 console.log("PRODUCT_ROADMAP_V4_CYCLE_06_QA=PASS");
-console.log("EXECUTABLE_MIGRATIONS=12");
+console.log("EXECUTABLE_MIGRATIONS=13");
 console.log("PRODUCTION_ACCESSED=NO");
 console.log("REMOTE_DB_PUSH=NO");
 

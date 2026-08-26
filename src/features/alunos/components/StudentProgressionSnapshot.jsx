@@ -7,23 +7,23 @@ import {
 
 const STATUS_LABELS = {
   [STUDENT_PROGRESSION_STATUS.PROGRESSING]: {
-    label: "Evolucao identificada",
-    detail: "Ha sinal confiavel de aumento em carga ou repeticoes prescritas.",
+    label: "Evolução identificada",
+    detail: "Há sinal confiável de aumento em carga ou repetições prescritas.",
     tone: "ok",
   },
   [STUDENT_PROGRESSION_STATUS.STABLE]: {
-    label: "Estavel",
-    detail: "As fichas comparaveis mantem carga e repeticoes prescritas.",
+    label: "Estável",
+    detail: "As fichas comparáveis mantêm carga e repetições prescritas.",
     tone: "neutro",
   },
   [STUDENT_PROGRESSION_STATUS.PARTIAL_HISTORY]: {
-    label: "Historico parcial",
-    detail: "Existem fichas, mas parte dos dados nao permite comparacao segura.",
+    label: "Histórico parcial",
+    detail: "Existem fichas, mas parte dos dados não permite comparação segura.",
     tone: "atencao",
   },
   [STUDENT_PROGRESSION_STATUS.INSUFFICIENT_DATA]: {
     label: "Dados insuficientes",
-    detail: "Ainda nao ha historico suficiente para comparar a evolucao.",
+    detail: "Ainda não há histórico suficiente para comparar a evolução.",
     tone: "vazio",
   },
 };
@@ -43,7 +43,7 @@ function StudentProgressionSnapshot({ treinosState, styles }) {
       <section className="aluno-details-section" data-testid="student-progression-snapshot" style={styles.resumoOperacional}>
         <SnapshotHeader />
         <div className="app-loading" data-testid="student-progression-loading" style={snapshotStyles.stateBox}>
-          Carregando progressao...
+          Carregando progressão...
         </div>
       </section>
     );
@@ -54,7 +54,7 @@ function StudentProgressionSnapshot({ treinosState, styles }) {
       <section className="aluno-details-section" data-testid="student-progression-snapshot" style={styles.resumoOperacional}>
         <SnapshotHeader />
         <div className="app-empty-state" data-testid="student-progression-error" style={snapshotStyles.stateBox}>
-          Nao foi possivel carregar a progressao agora.
+          Não foi possível carregar a progressão agora.
         </div>
       </section>
     );
@@ -82,23 +82,23 @@ function StudentProgressionSnapshot({ treinosState, styles }) {
           <p style={styles.resumoIndicadorTexto}>{status.detail}</p>
         </article>
         <article data-testid="student-progression-review-cue" style={styles.resumoIndicador}>
-          <span style={styles.infoLabel}>Ultima revisao</span>
+          <span style={styles.infoLabel}>Última revisão</span>
           <strong style={styles.infoValor}>{formatReviewCue(snapshot)}</strong>
-          <p style={styles.resumoIndicadorTexto}>Cue informativo; o profissional decide a proxima acao.</p>
+          <p style={styles.resumoIndicadorTexto}>Cue informativo; o profissional decide a próxima ação.</p>
         </article>
         <article data-testid="student-progression-comparable-count" style={styles.resumoIndicador}>
-          <span style={styles.infoLabel}>Exercicios comparaveis</span>
+          <span style={styles.infoLabel}>Exercícios comparáveis</span>
           <strong style={styles.infoValor}>
             {snapshot.comparableExercisesCount}/{snapshot.currentExercisesCount}
           </strong>
-          <p style={styles.resumoIndicadorTexto}>Comparacao conservadora entre a ficha atual e a anterior.</p>
+          <p style={styles.resumoIndicadorTexto}>Comparação conservadora entre a ficha atual e a anterior.</p>
         </article>
       </div>
 
       {snapshot.status === STUDENT_PROGRESSION_STATUS.INSUFFICIENT_DATA ? (
         <div className="app-empty-state" data-testid="student-progression-no-history" style={snapshotStyles.stateBox}>
-          <strong>Ainda nao ha historico suficiente para comparar a evolucao.</strong>
-          <p className="app-muted">Cadastre ou entregue mais de uma ficha com exercicios comparaveis.</p>
+          <strong>Ainda não há histórico suficiente para comparar a evolução.</strong>
+          <p className="app-muted">Cadastre ou entregue mais de uma ficha com exercícios comparáveis.</p>
         </div>
       ) : (
         <div className="student-progression-signals" data-testid="student-progression-signals" style={snapshotStyles.signalsGrid}>
@@ -115,8 +115,8 @@ function SnapshotHeader() {
   return (
     <div style={snapshotStyles.header}>
       <div>
-        <h3 style={snapshotStyles.title}>Progressao recente</h3>
-        <p style={snapshotStyles.description}>Sinais simples da evolucao prescrita entre fichas.</p>
+        <h3 style={snapshotStyles.title}>Progressão recente</h3>
+        <p style={snapshotStyles.description}>Sinais simples da evolução prescrita entre fichas.</p>
       </div>
       <TrendingUp size={20} aria-hidden="true" />
     </div>
@@ -148,14 +148,14 @@ function getSignalPresentation(signal) {
   }
   if (signal.type === STUDENT_PROGRESSION_SIGNAL.REP_PROGRESS) {
     return {
-      label: "Repeticoes aumentaram",
+      label: "Repetições aumentaram",
       detail: `${signal.previous?.repeticoes || "-"} -> ${signal.current?.repeticoes || "-"} reps`,
       icon: <Activity size={16} aria-hidden="true" />,
     };
   }
   if (signal.type === STUDENT_PROGRESSION_SIGNAL.STABLE) {
     return {
-      label: "Estavel entre as fichas",
+      label: "Estável entre as fichas",
       detail: `${signal.current?.carga || "-"} · ${signal.current?.repeticoes || "-"} reps`,
       icon: <Clock3 size={16} aria-hidden="true" />,
     };
@@ -163,22 +163,22 @@ function getSignalPresentation(signal) {
   if (signal.type === STUDENT_PROGRESSION_SIGNAL.NEW_EXERCISE) {
     return {
       label: "Novo no treino atual",
-      detail: "Sem equivalente confiavel na ficha anterior.",
+      detail: "Sem equivalente confiável na ficha anterior.",
       icon: <Dumbbell size={16} aria-hidden="true" />,
     };
   }
 
   return {
-    label: "Dados nao comparaveis",
-    detail: "Os campos das fichas nao permitem comparacao segura.",
+    label: "Dados não comparáveis",
+    detail: "Os campos das fichas não permitem comparação segura.",
     icon: <Activity size={16} aria-hidden="true" />,
   };
 }
 
 function formatReviewCue(snapshot) {
-  if (snapshot.daysSinceReview === null) return "Sem data confiavel";
+  if (snapshot.daysSinceReview === null) return "Sem data confiável";
   if (snapshot.daysSinceReview === 0) return "Revisada hoje";
-  return `Ha ${snapshot.daysSinceReview} dia(s)`;
+  return `Há ${snapshot.daysSinceReview} dia(s)`;
 }
 
 const snapshotStyles = {

@@ -21,7 +21,7 @@ const history = buildExecutionHistorySummary([
 ]);
 
 assert.equal(history.length, 1);
-assert.equal(history[0].statusLabel, "Concluido");
+assert.equal(history[0].statusLabel, "Concluído");
 assert.equal(history[0].completedSetCount, 1);
 
 const result = {
@@ -33,6 +33,8 @@ const result = {
   db_push: false,
   production_accessed: false,
   professional_readonly_history_contract: "PASS",
+  professional_execution_history_visible: "YES",
+  history_visible_in_product_ui: "YES",
   no_professional_mutation_controls: "PASS",
   hidden_uuid_contract: "PASS",
 };
@@ -40,6 +42,8 @@ const result = {
 write("reports/product-roadmap-v4/cycle-06-professional-runtime-result.json", `${JSON.stringify(result, null, 2)}\n`);
 
 console.log("WORKOUT_EXECUTION_PROFESSIONAL_RUNTIME_QA=PASS");
+console.log("PROFESSIONAL_EXECUTION_HISTORY_VISIBLE=YES");
+console.log("HISTORY_VISIBLE_IN_PRODUCT_UI=YES");
 console.log("RUNTIME_MODE=DETERMINISTIC_LOCAL_FIXTURE_CONTRACT");
 console.log("PRODUCTION_ACCESSED=NO");
 

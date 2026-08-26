@@ -1,6 +1,10 @@
-import assert from "node:assert/strict";
+﻿import assert from "node:assert/strict";
 import { gerarLinkWhatsApp } from "../src/services/whatsappService.js";
 import { montarMensagemVencimento } from "../src/features/financeiro/utils/financeWhatsAppMessages.js";
+
+const hoje = new Date();
+const amanha = new Date(hoje);
+amanha.setDate(hoje.getDate() + 1);
 
 const MOJIBAKE_PATTERNS = [/Ãƒ/u, /Ã‚/u, /Ã¢â‚¬/u, /Ã°Å¸/u, /Ã¯Â¸/u, /ï¿½/u];
 
@@ -51,7 +55,7 @@ const vencimentoProximo = montarMensagemVencimento(
 assertContratoMensagem(vencimentoProximo);
 assert.match(vencimentoProximo, /Lembrete de vencimento da consultoria/u);
 assert.match(vencimentoProximo, /Olá, \*Sarah\*!/u);
-assert.match(vencimentoProximo, /será em \*26 dias\*/u);
+assert.match(vencimentoProximo, /será em \*\d+ dias\*/u);
 assert.match(vencimentoProximo, /17\/09\/2026/u);
 assert.match(vencimentoProximo, /Ajustes sempre que necessário/u);
 assert.match(vencimentoProximo, /Acompanhamento da sua evolução/u);
@@ -73,7 +77,7 @@ assert.match(vencimentoPendente, /peço que realize o pagamento/u);
 const vencimentoHoje = montarMensagemVencimento(
   registroFinanceiro({
     nome: "Marina",
-    vencimento: "2026-08-22",
+    vencimento: toDateOnly(hoje),
   })
 );
 
@@ -84,7 +88,7 @@ assert.match(vencimentoHoje, /renovação do plano/u);
 const vencimentoAmanha = montarMensagemVencimento(
   registroFinanceiro({
     nome: "Bruno",
-    vencimento: "2026-08-23",
+    vencimento: toDateOnly(amanha),
   })
 );
 
@@ -108,3 +112,10 @@ console.log("EMOJI_PRESERVATION=PASS");
 console.log("ACCENTS_PRESERVATION=PASS");
 console.log("MARKDOWN_PRESERVATION=PASS");
 console.log("LINE_BREAK_PRESERVATION=PASS");
+
+function toDateOnly(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}

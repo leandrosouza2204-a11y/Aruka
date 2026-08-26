@@ -1,5 +1,6 @@
 import {
   buildExecutionSavePayload,
+  getLocalDateOnly,
   normalizeExecutionSession,
 } from "../features/workoutExecution/utils/workoutExecutionSession.js";
 import { buscarUsuarioLogado } from "./authSessionService";
@@ -26,6 +27,7 @@ export async function iniciarExecucaoTreino({ treinoId, treinoDiaId = "", idempo
     p_treino_id: treinoId,
     p_treino_dia_id: treinoDiaId || null,
     p_idempotency_key: idempotencyKey || createExecutionIdempotencyKey(treinoId, treinoDiaId),
+    p_session_date: getLocalDateOnly(),
   });
   if (error) throw sanitizeWorkoutExecutionError(error);
   return normalizeExecutionSession(data);

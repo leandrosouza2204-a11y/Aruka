@@ -3,7 +3,11 @@ import { test } from "node:test";
 import {
   WORKOUT_EXECUTION_EXERCISE_STATUS,
   buildExecutionHistorySummary,
+  buildExecutionSavePayload,
   canCompleteSession,
+  formatDateOnlyPtBr,
+  getLocalDateOnly,
+  hasExecutionSetPerformanceData,
   normalizeExecutionSet,
   validateExecutionSet,
 } from "./workoutExecutionSession.js";
@@ -14,6 +18,40 @@ test("normalizes zero load and zero reps as valid performed data", () => {
   assert.equal(set.reps, 0);
   assert.equal(set.loadValue, 0);
   assert.equal(validateExecutionSet(set).valid, true);
+  assert.equal(hasExecutionSetPerformanceData({ reps: 0 }), true);
+  assert.equal(hasExecutionSetPerformanceData({ loadValue: 0 }), true);
+});
+
+test("formats date-only values independently from machine timezone", () => {
+  for (const [input, expected] of [
+    ["2026-01-01", "01/01/2026"],
+    ["2026-08-23", "23/08/2026"],
+    ["2026-08-24", "24/08/2026"],
+    ["2026-08-25", "25/08/2026"],
+    ["2026-12-31", "31/12/2026"],
+  ]) {
+    assert.equal(formatDateOnlyPtBr(input), expected);
+  }
+});
+
+test("builds local date-only from the runtime calendar instead of UTC ISO", () => {
+  const localBoundary = new Date(2026, 7, 24, 22, 0, 0);
+
+  assert.equal(getLocalDateOnly(localBoundary), "2026-08-24");
+  assert.equal(getLocalDateOnly(new Date(2026, 7, 24, 23, 59, 0)), "2026-08-24");
+  assert.equal(getLocalDateOnly(new Date(2026, 7, 25, 0, 1, 0)), "2026-08-25");
+  assert.equal(getLocalDateOnly(new Date(2026, 0, 1, 0, 1, 0)), "2026-01-01");
+});
+
+test("does not complete or persist empty sets as performed", () => {
+  const emptyChecked = normalizeExecutionSet({ setNumber: 1, completed: true });
+
+  assert.equal(emptyChecked.completed, false);
+  assert.equal(hasExecutionSetPerformanceData({}), false);
+  assert.equal(canCompleteSession({
+    status: "in_progress",
+    exercises: [{ status: WORKOUT_EXECUTION_EXERCISE_STATUS.PARTIAL, sets: [{ setNumber: 1, completed: true }] }],
+  }), false);
 });
 
 test("validates RIR and RPE ranges", () => {
@@ -22,8 +60,12 @@ test("validates RIR and RPE ranges", () => {
   assert.equal(validateExecutionSet({ setNumber: 1, reps: 10, rpe: -1 }).valid, false);
 });
 
-test("allows completion only with touched exercise or completed set", () => {
+test("allows completion only with skipped exercise or completed real set", () => {
   assert.equal(canCompleteSession({ status: "in_progress", exercises: [] }), false);
+  assert.equal(canCompleteSession({
+    status: "in_progress",
+    exercises: [{ status: WORKOUT_EXECUTION_EXERCISE_STATUS.PARTIAL, sets: [] }],
+  }), false);
   assert.equal(canCompleteSession({
     status: "in_progress",
     exercises: [{ status: WORKOUT_EXECUTION_EXERCISE_STATUS.SKIPPED, sets: [] }],
@@ -36,6 +78,26 @@ test("allows completion only with touched exercise or completed set", () => {
     status: "completed",
     exercises: [{ status: "completed", sets: [{ setNumber: 1, reps: 8, completed: true }] }],
   }), false);
+});
+
+test("save payload keeps zero values and completed contract explicit", () => {
+  const payload = buildExecutionSavePayload({
+    id: "session",
+    status: "in_progress",
+    exercises: [{
+      id: "exercise",
+      status: "partial",
+      sets: [
+        { setNumber: 1, reps: 0, loadValue: 0, rir: 0, rpe: 0, completed: true },
+        { setNumber: 2, reps: "", loadValue: "", completed: true },
+      ],
+    }],
+  });
+
+  assert.deepEqual(payload[0].sets, [
+    { setNumber: 1, reps: 0, loadValue: 0, loadUnit: "kg", bodyweight: false, rir: 0, rpe: 0, completed: true },
+    { setNumber: 2, reps: 0, loadValue: null, loadUnit: "kg", bodyweight: false, rir: null, rpe: null, completed: false },
+  ]);
 });
 
 test("summarizes recent history without analytics claims", () => {
@@ -61,7 +123,7 @@ test("summarizes recent history without analytics claims", () => {
     dateLabel: "22/08/2026",
     workoutTitle: "Treino A",
     dayName: "Dia 1",
-    statusLabel: "Concluido",
+    statusLabel: "Concluído",
     exerciseCount: 1,
     setCount: 1,
     completedSetCount: 1,

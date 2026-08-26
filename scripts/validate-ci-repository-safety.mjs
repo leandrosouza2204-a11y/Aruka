@@ -14,6 +14,7 @@ import {
   writeJsonReport,
   writeMarkdownReport,
 } from "./supabase-cycle-9-lib.mjs";
+import { EXPECTED_EXECUTABLE_MIGRATIONS } from "./lib/supabase-local-environment.mjs";
 
 const root = process.cwd();
 const errors = [];
@@ -28,7 +29,7 @@ else if (actualBaselineSha !== EXPECTED_BASELINE_SHA) fail("Official baseline SH
 
 const activeMigrations = listFiles(root, "supabase/migrations").filter((file) => file.endsWith(".sql"));
 const referenceBaselines = listFiles(root, "supabase/reference-baselines").filter((file) => file.endsWith(".sql"));
-const expectedActiveMigrationCount = 12;
+const expectedActiveMigrationCount = EXPECTED_EXECUTABLE_MIGRATIONS.length;
 if (activeMigrations.length !== expectedActiveMigrationCount) {
   fail(`Active executable migrations must contain exactly ${expectedActiveMigrationCount} SQL files, got ${activeMigrations.length}`);
 }

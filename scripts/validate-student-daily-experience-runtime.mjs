@@ -15,7 +15,7 @@ loadQaEnvFile(".env.qa.local");
 
 const runtime = readLocalSupabaseRuntime();
 const qa = validateQaEnvironment(process.env, { detectedSupabaseUrl: runtime.apiUrl });
-const studentPassword = `LocalQa-${randomBytes(18).toString("base64url")}a1!`;
+const studentPassword = process.env.QA_USER_PASSWORD || `LocalQa-${randomBytes(18).toString("base64url")}a1!`;
 
 let devServer;
 let chrome;
@@ -136,6 +136,55 @@ student_profile_insert as (
   where not exists (select 1 from student_profile)
   returning user_id
 ),
+qa_plan_update as (
+  update public.planos p
+  set descricao = 'Fixture local do aluno QA',
+      duracao_meses = 1,
+      valor = 0,
+      permite_parcelamento = false,
+      quantidade_parcelas = 1,
+      valor_parcela = 0,
+      intervalo_parcelas_meses = 1,
+      ativo = true
+  from ids
+  where p.user_id = ids.professional_user_id
+    and p.nome = 'LOCAL_QA_STUDENT'
+  returning p.id, p.user_id
+),
+qa_plan_insert as (
+  insert into public.planos (
+    user_id, nome, descricao, duracao_meses, valor,
+    permite_parcelamento, quantidade_parcelas, valor_parcela, intervalo_parcelas_meses, ativo
+  )
+  select professional_user_id, 'LOCAL_QA_STUDENT', 'Fixture local do aluno QA', 1, 0,
+    false, 1, 0, 1, true
+  from ids
+  where not exists (select 1 from qa_plan_update)
+  returning id, user_id
+),
+qa_plan as (
+  select id, user_id from qa_plan_update
+  union all
+  select id, user_id from qa_plan_insert
+),
+qa_student_plan_repair as (
+  update public.alunos a
+  set plano = qa_plan.id::text,
+      valor = 0
+  from ids, qa_plan
+  where a.user_id = ids.professional_user_id
+    and a.nome in ('Student QA Daily Experience', 'Student QA Isolation Control')
+    and (
+      nullif(a.plano, '') is null
+      or not exists (
+        select 1
+        from public.planos p
+        where p.user_id = a.user_id
+          and p.id::text = a.plano
+      )
+    )
+  returning a.id
+),
 student_row_update as (
   update public.alunos a
   set user_id = ids.professional_user_id,
@@ -143,11 +192,13 @@ student_row_update as (
       whatsapp = '11990001991',
       status = 'Ativo',
       pagamento_recebido = true,
+      plano = qa_plan.id::text,
+      valor = 0,
       student_access_status = 'active',
       student_access_email = '${STUDENT_EMAIL}',
       student_access_activated_at = coalesce(a.student_access_activated_at, now()),
       observacoes = 'Canonical local student QA fixture'
-  from ids
+  from ids, qa_plan
   where a.student_user_id = ids.student_user_id
   returning a.id, a.user_id, a.student_user_id
 ),
@@ -159,10 +210,10 @@ student_row as (
   )
   select professional_user_id, student_user_id, 'Student QA Daily Experience', '11990001991',
     '1995-01-01'::date, current_date - 40, current_date + 80,
-    current_date + 73, current_date + 79, 'LOCAL_QA_STUDENT', 0, 'Ativo', true,
+    current_date + 73, current_date + 79, qa_plan.id::text, 0, 'Ativo', true,
     'Canonical local student QA fixture',
     'active', '${STUDENT_EMAIL}', now()
-  from ids
+  from ids, qa_plan
   where not exists (select 1 from student_row_update)
   returning id, user_id, student_user_id
 ),
@@ -178,9 +229,9 @@ other_student as (
   )
   select professional_user_id, 'Student QA Isolation Control', '11990001992',
     '1994-01-01'::date, current_date - 30, current_date + 60,
-    current_date + 53, current_date + 59, 'LOCAL_QA_STUDENT', 0, 'Ativo', true,
+    current_date + 53, current_date + 59, qa_plan.id::text, 0, 'Ativo', true,
     'Canonical local isolation control fixture'
-  from ids
+  from ids, qa_plan
   on conflict do nothing
   returning id, user_id
 ),

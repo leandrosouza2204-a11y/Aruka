@@ -12,7 +12,7 @@ let admin;
 let localSupabaseReady = false;
 
 const professionalPassword = process.env.QA_USER_PASSWORD || `LocalQa-${randomBytes(16).toString("base64url")}a1!`;
-const studentPassword = `LocalQa-${randomBytes(16).toString("base64url")}a1!`;
+const studentPassword = process.env.QA_USER_PASSWORD || `LocalQa-${randomBytes(16).toString("base64url")}a1!`;
 const otherPassword = `LocalQa-${randomBytes(16).toString("base64url")}a1!`;
 
 try {
