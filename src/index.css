@@ -6,6 +6,44 @@
   box-sizing: border-box;
 }
 
+.coach-signal-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+}
+
+.coach-signal-pill {
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  color: #374151;
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.25;
+  max-width: 100%;
+  padding: 5px 8px;
+  white-space: normal;
+}
+
+.coach-signal-high {
+  background: #fef2f2 !important;
+  border-color: #fecaca !important;
+  color: #991b1b !important;
+}
+
+.coach-signal-medium {
+  background: #fffbeb !important;
+  border-color: #fde68a !important;
+  color: #92400e !important;
+}
+
+.coach-signal-info {
+  background: #eff6ff !important;
+  border-color: #bfdbfe !important;
+  color: #1d4ed8 !important;
+}
+
 .treino-modal-overlay,
 .treino-editor-modal,
 .treino-editor-modal *,

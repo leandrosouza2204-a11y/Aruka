@@ -81,10 +81,10 @@ function StudentProgressionSnapshot({ treinosState, styles }) {
           <strong style={styles.infoValor}>{status.label}</strong>
           <p style={styles.resumoIndicadorTexto}>{status.detail}</p>
         </article>
-        <article data-testid="student-progression-review-cue" style={styles.resumoIndicador}>
+        <article data-testid="student-progression-review-note" style={styles.resumoIndicador}>
           <span style={styles.infoLabel}>Última revisão</span>
-          <strong style={styles.infoValor}>{formatReviewCue(snapshot)}</strong>
-          <p style={styles.resumoIndicadorTexto}>Cue informativo; o profissional decide a próxima ação.</p>
+          <strong style={styles.infoValor}>{formatReviewNote(snapshot)}</strong>
+          <p style={styles.resumoIndicadorTexto}>Sinal informativo; o profissional decide a próxima ação.</p>
         </article>
         <article data-testid="student-progression-comparable-count" style={styles.resumoIndicador}>
           <span style={styles.infoLabel}>Exercícios comparáveis</span>
@@ -175,7 +175,7 @@ function getSignalPresentation(signal) {
   };
 }
 
-function formatReviewCue(snapshot) {
+function formatReviewNote(snapshot) {
   if (snapshot.daysSinceReview === null) return "Sem data confiável";
   if (snapshot.daysSinceReview === 0) return "Revisada hoje";
   return `Há ${snapshot.daysSinceReview} dia(s)`;

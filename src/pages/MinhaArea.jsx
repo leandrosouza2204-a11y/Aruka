@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   AlertCircle,
   CalendarDays,
@@ -8,12 +9,15 @@ import {
   Dumbbell,
   History,
   HelpCircle,
+  LogOut,
   Play,
   RefreshCcw,
   Save,
   XCircle,
 } from "lucide-react";
+import { markSessionLoggedOut } from "../hooks/useAutoLogout.js";
 import { buscarMinhaExperienciaDiariaAluno } from "../services/studentDailyExperienceService.js";
+import { supabase } from "../services/supabase.js";
 import {
   abandonarExecucaoTreino,
   buscarMeuEstadoExecucaoTreino,
@@ -36,6 +40,7 @@ import {
 } from "../features/workoutExecution/utils/workoutExecutionProgression.js";
 
 function MinhaArea() {
+  const navigate = useNavigate();
   const [payload, setPayload] = useState(null);
   const [executionState, setExecutionState] = useState(null);
   const [executionSession, setExecutionSession] = useState(null);
@@ -102,6 +107,16 @@ function MinhaArea() {
   );
   const activeDays = daily.activeWorkout?.days || [];
   const selectedDay = activeDays.find((day) => day.id === selectedDayId) || activeDays[0] || null;
+
+  async function sair() {
+    markSessionLoggedOut();
+    setPayload(null);
+    setExecutionState(null);
+    setExecutionSession(null);
+    setCompletionSummary(null);
+    await supabase.auth.signOut();
+    navigate("/login", { replace: true });
+  }
 
   async function iniciarOuContinuarExecucao() {
     if (executionSession) {
@@ -275,8 +290,19 @@ function MinhaArea() {
   return (
     <main style={styles.page} data-testid="student-daily-page">
       <header style={styles.header}>
-        <span style={styles.kicker}>Minha área</span>
-        <h1 style={styles.title}>Olá, {daily.student?.name || "aluno"}</h1>
+        <div style={styles.headerText}>
+          <span style={styles.kicker}>Minha área</span>
+          <h1 style={styles.title}>Olá, {daily.student?.name || "aluno"}</h1>
+        </div>
+        <button
+          data-testid="student-logout"
+          onClick={sair}
+          style={styles.logoutButton}
+          type="button"
+        >
+          <LogOut size={17} aria-hidden="true" />
+          Sair
+        </button>
       </header>
 
       {erro && <div style={styles.errorBox}>{erro}</div>}
@@ -293,10 +319,10 @@ function MinhaArea() {
         {daily.activeWorkout ? (
           <>
             <div style={styles.heroGrid}>
-              <Info label="Objetivo" value={daily.activeWorkout.objective} />
-              <Info label="Frequência prescrita" value={daily.activeWorkout.daysText} />
-              <Info label="Período" value={daily.activeWorkout.period} />
-              <Info label="Status" value={daily.activeWorkout.statusText} />
+              <Info label="Objetivo" testId="student-workout-objective" value={daily.activeWorkout.objective} />
+              <Info label="Frequência prescrita" testId="student-workout-frequency" value={daily.activeWorkout.daysText} />
+              <Info label="Período" testId="student-workout-period" value={daily.activeWorkout.period} />
+              <Info label="Status" testId="student-workout-status" value={daily.activeWorkout.statusText} />
             </div>
             <p style={styles.reviewText}>{daily.activeWorkout.reviewText}</p>
             {activeDays.length > 1 && !executionSession && (
@@ -368,7 +394,7 @@ function MinhaArea() {
         </section>
       )}
 
-      <section style={styles.cue} data-testid="student-daily-next-action">
+      <section style={styles.nextAction} data-testid="student-daily-next-action">
         <CalendarDays size={20} />
         <div>
           <strong>{daily.nextAction.title}</strong>
@@ -646,11 +672,11 @@ function NumericField({ help = "", helpLabel = "", label, onChange, value }) {
   );
 }
 
-function Info({ label, value }) {
+function Info({ label, testId, value }) {
   return (
-    <div style={styles.infoItem}>
-      <span>{label}</span>
-      <strong>{value}</strong>
+    <div data-testid={testId} style={styles.infoItem}>
+      <span style={styles.infoLabel}>{label}</span>
+      <strong style={styles.infoValue}>{value}</strong>
     </div>
   );
 }
@@ -664,7 +690,14 @@ const styles = {
     maxWidth: 1120,
     margin: "0 auto",
   },
-  header: { marginBottom: 18 },
+  header: {
+    alignItems: "flex-start",
+    display: "flex",
+    gap: 14,
+    justifyContent: "space-between",
+    marginBottom: 18,
+  },
+  headerText: { minWidth: 0 },
   kicker: { color: "#5b6472", fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0 },
   title: { margin: "6px 0 0", fontSize: 30, lineHeight: 1.1 },
   hero: { background: "#ffffff", border: "1px solid #dde3ee", borderRadius: 8, padding: 20, marginBottom: 14 },
@@ -672,12 +705,15 @@ const styles = {
   iconBubble: { width: 40, height: 40, borderRadius: 8, display: "grid", placeItems: "center", background: "#e8f1ff", color: "#174ea6" },
   heroTitle: { margin: "4px 0 0", fontSize: 24, lineHeight: 1.15 },
   heroGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 10 },
-  infoItem: { border: "1px solid #e5e9f1", borderRadius: 8, padding: 12, background: "#fbfcfe" },
+  infoItem: { border: "1px solid #e5e9f1", borderRadius: 8, display: "grid", gap: 6, minWidth: 0, padding: 12, background: "#fbfcfe" },
+  infoLabel: { color: "#5b6472", display: "block", fontSize: 12, fontWeight: 800, lineHeight: 1.25, textTransform: "uppercase" },
+  infoValue: { color: "#111827", display: "block", fontSize: 16, lineHeight: 1.35, overflowWrap: "anywhere" },
   reviewText: { margin: "14px 0", color: "#384252", fontWeight: 600 },
   primaryButton: { border: 0, borderRadius: 8, background: "#174ea6", color: "#fff", minHeight: 44, padding: "0 16px", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, fontWeight: 800, cursor: "pointer" },
   secondaryButton: { border: "1px solid #cbd5e1", borderRadius: 8, background: "#fff", color: "#1f2937", minHeight: 40, padding: "0 14px", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, fontWeight: 800, cursor: "pointer" },
+  logoutButton: { border: "1px solid #cbd5e1", borderRadius: 8, background: "#fff", color: "#1f2937", flexShrink: 0, minHeight: 40, padding: "0 14px", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, fontWeight: 800, cursor: "pointer" },
   dangerButton: { border: "1px solid #fecaca", borderRadius: 8, background: "#fff5f5", color: "#991b1b", minHeight: 40, padding: "0 14px", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, fontWeight: 800, cursor: "pointer" },
-  cue: { display: "flex", gap: 12, borderRadius: 8, padding: 16, background: "#ecfdf5", border: "1px solid #bbf7d0", color: "#14532d", marginBottom: 14 },
+  nextAction: { display: "flex", gap: 12, borderRadius: 8, padding: 16, background: "#ecfdf5", border: "1px solid #bbf7d0", color: "#14532d", marginBottom: 14 },
   section: { background: "#ffffff", border: "1px solid #dde3ee", borderRadius: 8, padding: 18, marginBottom: 14 },
   executionPanel: { background: "#ffffff", border: "1px solid #bfdbfe", borderRadius: 8, padding: 18, marginBottom: 14 },
   sectionHeader: { display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 },

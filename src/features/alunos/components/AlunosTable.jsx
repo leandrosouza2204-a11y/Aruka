@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import TableActions, { TableActionItem } from "../../../components/TableActions";
 import LoadingState from "../../../components/LoadingState";
 import { formatarData, formatarMoeda } from "../../../data/alunosUtils";
@@ -15,6 +16,8 @@ function AlunosTable({
   onEditar,
   onExcluir,
   onNovoAluno,
+  renderInlineDetails,
+  selectedAlunoId = "",
   hasActiveFilters = false,
   styles,
   totalAlunos = 0,
@@ -38,62 +41,71 @@ function AlunosTable({
         <tbody>
           {!carregando &&
             alunos.map((aluno) => (
-              <tr key={aluno.id}>
-                <td className="cell-wide" style={styles.tabelaCelula}>{aluno.nome}</td>
-                <td style={styles.tabelaCelula}>{aluno.whatsapp || "-"}</td>
-                <td style={styles.tabelaCelula}>{nomePlano(aluno.plano)}</td>
-                <td style={styles.tabelaCelula}>{formatarMoeda(aluno.valor)}</td>
-                <td style={styles.tabelaCelula}>{formatarData(aluno.vencimento)}</td>
-                <td style={styles.tabelaCelula}>
-                  <span className={classeStatusAluno(aluno.status)}>
-                    {aluno.status}
-                  </span>
-                </td>
-                <td style={styles.tabelaCelula}>
-                  <span className={classeStatusAluno(aluno.atencaoCobranca?.highestPriority?.status)}>
-                    {formatarAtencaoCobranca(aluno.atencaoCobranca)}
-                  </span>
-                </td>
-                <td style={styles.tabelaCelula}>
-                  <div className="table-actions-inline">
-                    <button
-                      onClick={() => onDetalhes(aluno.id)}
-                      className="table-button table-button-secondary"
-                      data-testid="aluno-action-details"
-                    >
-                      Detalhes
-                    </button>
-                    <button
-                      onClick={() => onCheckin(aluno)}
-                      className="table-button table-button-success"
-                      data-testid="aluno-action-whatsapp"
-                      disabled={!normalizarTelefoneWhatsApp(aluno.whatsapp)}
-                      title={
-                        normalizarTelefoneWhatsApp(aluno.whatsapp)
-                          ? "Enviar check-in semanal pelo WhatsApp"
-                          : "WhatsApp não cadastrado"
-                      }
-                    >
-                      Check-in
-                    </button>
-                    <TableActions>
-                      <TableActionItem
-                        data-testid="aluno-action-edit"
-                        onClick={() => onEditar(aluno)}
+              <Fragment key={aluno.id}>
+                <tr>
+                  <td className="cell-wide" style={styles.tabelaCelula}>{aluno.nome}</td>
+                  <td style={styles.tabelaCelula}>{aluno.whatsapp || "-"}</td>
+                  <td style={styles.tabelaCelula}>{nomePlano(aluno.plano)}</td>
+                  <td style={styles.tabelaCelula}>{formatarMoeda(aluno.valor)}</td>
+                  <td style={styles.tabelaCelula}>{formatarData(aluno.vencimento)}</td>
+                  <td style={styles.tabelaCelula}>
+                    <span className={classeStatusAluno(aluno.status)}>
+                      {aluno.status}
+                    </span>
+                  </td>
+                  <td style={styles.tabelaCelula}>
+                    <span className={classeStatusAluno(aluno.atencaoCobranca?.highestPriority?.status)}>
+                      {formatarAtencaoCobranca(aluno.atencaoCobranca)}
+                    </span>
+                  </td>
+                  <td style={styles.tabelaCelula}>
+                    <div className="table-actions-inline">
+                      <button
+                        onClick={() => onDetalhes(aluno.id)}
+                        className="table-button table-button-secondary"
+                        data-testid="aluno-action-details"
                       >
-                        Editar
-                      </TableActionItem>
-                      <TableActionItem
-                        data-testid="aluno-action-delete"
-                        onClick={() => onExcluir(aluno.id)}
-                        variant="danger"
+                        Detalhes
+                      </button>
+                      <button
+                        onClick={() => onCheckin(aluno)}
+                        className="table-button table-button-success"
+                        data-testid="aluno-action-whatsapp"
+                        disabled={!normalizarTelefoneWhatsApp(aluno.whatsapp)}
+                        title={
+                          normalizarTelefoneWhatsApp(aluno.whatsapp)
+                            ? "Enviar check-in semanal pelo WhatsApp"
+                            : "WhatsApp não cadastrado"
+                        }
                       >
-                        Excluir
-                      </TableActionItem>
-                    </TableActions>
-                  </div>
-                </td>
-              </tr>
+                        Check-in
+                      </button>
+                      <TableActions>
+                        <TableActionItem
+                          data-testid="aluno-action-edit"
+                          onClick={() => onEditar(aluno)}
+                        >
+                          Editar
+                        </TableActionItem>
+                        <TableActionItem
+                          data-testid="aluno-action-delete"
+                          onClick={() => onExcluir(aluno.id)}
+                          variant="danger"
+                        >
+                          Excluir
+                        </TableActionItem>
+                      </TableActions>
+                    </div>
+                  </td>
+                </tr>
+                {selectedAlunoId === aluno.id && renderInlineDetails && (
+                  <tr data-testid="aluno-inline-details-row">
+                    <td colSpan="8" style={styles.tabelaCelula}>
+                      {renderInlineDetails(aluno)}
+                    </td>
+                  </tr>
+                )}
+              </Fragment>
             ))}
 
           {carregando && (

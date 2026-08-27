@@ -39,16 +39,29 @@ test("shows friendly revoked access state", () => {
   assert.match(daily.blockedState.title, /nao esta ativo/i);
 });
 
-test("builds active workout hero and review cue", () => {
+test("builds active workout hero and review note", () => {
   const daily = buildStudentDailyExperience({
     student: { name: "Ana" },
-    activeWorkouts: [workout("a", "active", "2026-08-01", "2026-09-01")],
+    activeWorkouts: [workout("a", "active", "2026-08-01", "2026-09-01", "20 kg", "10", { objective: "Forca", daysPerWeek: 3 })],
     completedWorkouts: [],
   });
   assert.equal(daily.state, "ACTIVE_WORKOUT");
   assert.equal(daily.activeWorkout.title, "Ficha a");
+  assert.equal(daily.activeWorkout.objective, "Força");
+  assert.equal(daily.activeWorkout.daysText, "3 dias por semana");
   assert.equal(daily.nextAction.type, "REVIEW_CONTEXT");
   assert.match(daily.activeWorkout.reviewText, /Revisão prevista/);
+});
+
+test("formats one prescribed day naturally", () => {
+  const daily = buildStudentDailyExperience({
+    student: { name: "Ana" },
+    activeWorkouts: [workout("a", "active", "2026-08-01", "", "20 kg", "10", { daysPerWeek: 1 })],
+    completedWorkouts: [],
+  });
+
+  assert.equal(daily.activeWorkout.daysText, "1 dia por semana");
+  assert.doesNotMatch(daily.activeWorkout.daysText, /dia\(s\)/i);
 });
 
 test("orders multiple active workouts without relying on array order", () => {
@@ -107,7 +120,7 @@ test("normalizes rpc payload into app workout shape", () => {
   assert.equal(payload.activeWorkouts[0].dias[0].exercicios[0].carga, "20 kg");
 });
 
-function workout(id, lifecycleStatus, deliveredAt, dataRevisao = "", carga = "20 kg", repeticoes = "10") {
+function workout(id, lifecycleStatus, deliveredAt, dataRevisao = "", carga = "20 kg", repeticoes = "10", overrides = {}) {
   return {
     id,
     name: `Ficha ${id}`,
@@ -121,5 +134,6 @@ function workout(id, lifecycleStatus, deliveredAt, dataRevisao = "", carga = "20
       name: "Dia A",
       exercises: [{ name: "Supino", series: "3", repetitions: repeticoes, prescribedLoad: carga, rest: "90s" }],
     }],
+    ...overrides,
   };
 }

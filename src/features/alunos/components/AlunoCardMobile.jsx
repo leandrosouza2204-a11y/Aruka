@@ -13,6 +13,7 @@ function AlunoCardMobile({
   onEditar,
   onExcluir,
   onCheckin,
+  signals = [],
 }) {
   return (
     <article
@@ -47,6 +48,16 @@ function AlunoCardMobile({
         <span className="card-label">Cobrança</span>
         <strong className="card-value">{formatarAtencaoCobranca(aluno.atencaoCobranca)}</strong>
       </div>
+
+      {signals.length > 0 && (
+        <div className="coach-signal-pills" data-testid="student-list-signals">
+          {signals.map((signal) => (
+            <span className={`coach-signal-pill coach-signal-${signal.priority.toLowerCase()}`} key={signal.type}>
+              {signal.title}
+            </span>
+          ))}
+        </div>
+      )}
 
       <div className="card-actions">
         <button

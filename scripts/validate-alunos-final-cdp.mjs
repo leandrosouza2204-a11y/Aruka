@@ -17,7 +17,8 @@ const scenarios = [
 ];
 
 const cdpPort = process.env.CDP_PORT || "9222";
-const appUrl = "http://127.0.0.1:5173/alunos";
+const appOrigin = (process.env.QA_BASE_URL || process.env.ARUKA_QA_BASE_URL || "http://127.0.0.1:5173").replace(/\/$/, "");
+const appUrl = `${appOrigin}/alunos`;
 const screenshotDir = join("tmp-responsive-screenshots", "alunos-final");
 const tolerance = 1;
 
@@ -101,7 +102,7 @@ async function loginIfNeeded(client) {
   );
   if (!filled) throw new Error("Falha no login QA: campos nao encontrados.");
   await clickText(client, "Entrar", 'button[type="submit"], button');
-  await sleep(5500);
+  await waitFor(client, "!location.pathname.includes('/login') || document.querySelector('[style*=\"rgb(153, 27, 27)\"]')", 20000);
   const after = await authState(client);
   if (after.path.includes("/login") || after.hasLoginForm) throw new Error(`Falha no login QA. Rota atual: ${after.path}.`);
   return "logged-in";
@@ -113,7 +114,7 @@ function authState(client) {
 
 async function openAlunos(client) {
   await client.send("Page.navigate", { url: appUrl });
-  await waitFor(client, "document.readyState === 'complete'");
+  await waitFor(client, "document.querySelector('[data-testid=\"alunos-page\"], .alunos-page, input[type=\"email\"], input[type=\"password\"]')", 25000);
   await sleep(700);
   const state = await authState(client);
   if (state.path.includes("/login") || state.hasLoginForm) await loginIfNeeded(client);
@@ -354,8 +355,8 @@ async function run() {
     await client.send("Page.enable");
     await client.send("Runtime.enable");
     await client.send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
-    await client.send("Page.navigate", { url: "http://127.0.0.1:5173/login" });
-    await waitFor(client, "document.readyState === 'complete'");
+    await client.send("Page.navigate", { url: `${appOrigin}/login` });
+    await waitFor(client, "document.querySelector('[data-testid=\"alunos-page\"], .alunos-page, input[type=\"email\"], input[type=\"password\"]')", 25000);
     await sleep(1200);
     const auth = await loginIfNeeded(client);
     console.log(auth === "logged-in" ? "Autenticacao QA realizada com sucesso." : "Sessao QA existente reaproveitada.");

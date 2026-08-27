@@ -156,7 +156,7 @@ function toActiveWorkoutView(workout) {
   return {
     id: workout.id || "",
     title: workout.rotina || "Treino atual",
-    objective: workout.objetivo || "Objetivo não informado",
+    objective: formatObjectiveForDisplay(workout.objetivo),
     period: formatPeriod(workout),
     daysText: formatDaysText(workout),
     statusText: "Ativo para consulta",
@@ -254,9 +254,19 @@ function formatPeriod(workout) {
 
 function formatDaysText(workout) {
   const daysPerWeek = Number(workout.diasPorSemana || 0);
-  if (daysPerWeek > 0) return `${daysPerWeek} dia(s) por semana`;
+  if (daysPerWeek > 0) return pluralizePt(daysPerWeek, "dia por semana", "dias por semana");
   const days = workout.dias?.length || 0;
-  return days > 0 ? `${days} dia(s) na ficha` : "Dias não informados";
+  return days > 0 ? pluralizePt(days, "dia na ficha", "dias na ficha") : "Dias não informados";
+}
+
+function formatObjectiveForDisplay(value) {
+  const normalized = String(value || "").trim();
+  const labels = {
+    Forca: "Força",
+    Resistencia: "Resistência",
+    Reabilitacao: "Reabilitação",
+  };
+  return labels[normalized] || normalized || "Objetivo não informado";
 }
 
 function formatDate(value) {
@@ -273,4 +283,8 @@ function normalizeDate(value) {
 
 function compactJoin(parts) {
   return parts.filter(Boolean).join(" · ") || "Prescrição não informada";
+}
+
+function pluralizePt(count, singular, plural) {
+  return `${count} ${count === 1 ? singular : plural}`;
 }

@@ -12,6 +12,9 @@ const cdpPort = String(9400 + Math.floor(Math.random() * 400));
 
 loadQaEnvFile(".env.local");
 loadQaEnvFile(".env.qa.local");
+if (process.env.ARUKA_QA_BASE_URL) {
+  process.env.QA_BASE_URL = process.env.ARUKA_QA_BASE_URL;
+}
 
 const runtime = readLocalSupabaseRuntime();
 const qa = validateQaEnvironment(process.env, { detectedSupabaseUrl: runtime.apiUrl });
@@ -52,6 +55,18 @@ try {
     console.log("FIRST_POST_LOGIN_URL=/minha-area");
     console.log("PROFILE_NOT_FOUND_VISIBLE=NO");
     console.log("PERSISTED=LOCAL_FIXTURE_ONLY");
+    console.log("STUDENT_LOGOUT_VISIBLE=YES");
+    console.log("STUDENT_LOGOUT=PASS");
+    console.log("SESSION_CLEARED_AFTER_LOGOUT=YES");
+    console.log("PROTECTED_STUDENT_ROUTE_AFTER_LOGOUT=BLOCKED");
+    console.log("STUDENT_RELOGIN=PASS");
+    console.log("OBJECTIVE_LABEL_VALUE_SEPARATED=YES");
+    console.log("FREQUENCY_LABEL_VALUE_SEPARATED=YES");
+    console.log("PERIOD_LABEL_VALUE_SEPARATED=YES");
+    console.log("STATUS_LABEL_VALUE_SEPARATED=YES");
+    console.log("FORCA_VISIBLE=NO");
+    console.log("FORÃ‡A_VISIBLE=YES");
+    console.log("DIA_S_VISIBLE=NO");
     for (const [name, result] of Object.entries(results)) console.log(`${name}=${result.status}`);
     console.log(JSON.stringify({
       runtime_model: "REAL_BROWSER_STUDENT_AUTH_SESSION",
@@ -116,6 +131,47 @@ professional_profile_insert as (
   select professional_user_id, 'QA Local Aruka', '${PROFESSIONAL_EMAIL}', 'user', 'assinante', 'ativo'
   from ids
   where not exists (select 1 from professional_profile)
+  returning user_id
+),
+professional_subscription_current as (
+  select s.id
+  from public.assinaturas s, ids
+  where s.user_id = ids.professional_user_id
+  order by s.created_at desc
+  limit 1
+),
+professional_subscription_update as (
+  update public.assinaturas s
+  set plano = 'LOCAL_QA',
+      status = 'ativo',
+      data_inicio = current_date,
+      data_vencimento = current_date + interval '1 year',
+      grace_until = null,
+      suspended_at = null,
+      cancel_at_period_end = false,
+      pagamento_id = 'student-daily-runtime-fixture'
+  from professional_subscription_current c
+  where s.id = c.id
+  returning s.id
+),
+professional_subscription_insert as (
+  insert into public.assinaturas (user_id, plano, status, data_inicio, data_vencimento, pagamento_id)
+  select professional_user_id, 'LOCAL_QA', 'ativo', current_date, current_date + interval '1 year', 'student-daily-runtime-fixture'
+  from ids
+  where not exists (select 1 from professional_subscription_current)
+  returning id
+),
+professional_legal_acceptance as (
+  insert into public.aceites_legais (
+    user_id, politica_versao, termos_versao, politica_aceita, termos_aceitos, aceito_em, ip, user_agent
+  )
+  select professional_user_id, '1.0', '1.0', true, true, now(), null, 'student daily runtime fixture'
+  from ids
+  on conflict (user_id, politica_versao, termos_versao) do update set
+    politica_aceita = excluded.politica_aceita,
+    termos_aceitos = excluded.termos_aceitos,
+    aceito_em = excluded.aceito_em,
+    user_agent = excluded.user_agent
   returning user_id
 ),
 student_profile as (
@@ -415,20 +471,43 @@ async function validateViewport(client, viewport) {
       const rect = node.getBoundingClientRect();
       return rect.width > 0 && rect.height > 0;
     };
+    const readCard = (testId) => {
+      const node = document.querySelector('[data-testid="' + testId + '"]');
+      return {
+        label: node?.children?.[0]?.innerText?.trim?.() || "",
+        value: node?.children?.[1]?.innerText?.trim?.() || "",
+        childCount: node?.children?.length || 0,
+      };
+    };
+    const normalizeLabel = (value) => String(value || "").trim().toLocaleLowerCase("pt-BR");
+    const objective = readCard("student-workout-objective");
+    const frequency = readCard("student-workout-frequency");
+    const period = readCard("student-workout-period");
+    const status = readCard("student-workout-status");
     return {
       path: location.pathname,
       text,
       page: visible('[data-testid="student-daily-page"]'),
+      logoutVisible: visible('[data-testid="student-logout"]') && /Sair/.test(document.querySelector('[data-testid="student-logout"]')?.innerText || ""),
       activeWorkout: visible('[data-testid="student-daily-active-workout"]'),
       nextAction: visible('[data-testid="student-daily-next-action"]'),
       history: visible('[data-testid="student-daily-history"]'),
       workoutDaysAfterOpen: Boolean(document.querySelector('[data-testid="student-daily-workout-days"]')),
-      profileNotFound: /Perfil de aluno n[aã]o encontrado/i.test(text),
+      summaryCards: { objective, frequency, period, status },
+      objectiveSeparated: normalizeLabel(objective.label) === "objetivo" && objective.value === "For\u00e7a" && objective.childCount >= 2,
+      frequencySeparated: normalizeLabel(frequency.label) === "frequ\u00eancia prescrita" && frequency.value === "3 dias por semana" && frequency.childCount >= 2,
+      periodSeparated: normalizeLabel(period.label) === "per\u00edodo" && /^Desde 24\\/08\\/2026$/.test(period.value || "") && period.childCount >= 2,
+      statusSeparated: normalizeLabel(status.label) === "status" && status.value === "Ativo para consulta" && status.childCount >= 2,
+      forcaVisible: /\\bForca\\b/.test(text),
+      forcaAccentedVisible: text.includes("For\u00e7a"),
+      dayParentheticalVisible: /dia\\(s\\)/i.test(text),
+      concatenatedCardCopy: new RegExp("ObjetivoForca|ObjetivoFor\\u00e7a|prescrita3|Per\\u00edodoDesde|StatusAtivo").test(text),
+      profileNotFound: /Perfil de aluno n[aÃ£]o encontrado/i.test(text),
       ownActive: /Ficha atual QA Student/i.test(text),
       ownHistory: /Ficha anterior QA Student/i.test(text),
       otherStudentHistory: /Student QA Isolation Control/i.test(text),
       technicalMetadata: /auth\\.uid|student_user_id|aluno_id|rpc|uuid|sqlstate|constraint|service_role/i.test(text),
-      executionClaim: /voc[eê] realizou|voc[eê] treinou|desempenho melhorou|performance real|ader[eê]ncia/i.test(text),
+      executionClaim: /voc[eÃª] realizou|voc[eÃª] treinou|desempenho melhorou|performance real|ader[eÃª]ncia/i.test(text),
       overflow: document.documentElement.scrollWidth > window.innerWidth + 2,
     };
   })()`);
@@ -436,7 +515,16 @@ async function validateViewport(client, viewport) {
   const failures = [];
   if (state.path !== APP_ROUTE) failures.push("ROUTE_NOT_STUDENT_AREA");
   if (!state.page) failures.push("STUDENT_DAILY_PAGE_MISSING");
+  if (!state.logoutVisible) failures.push("STUDENT_LOGOUT_VISIBLE_NO");
   if (!state.activeWorkout || !state.ownActive) failures.push("ACTIVE_WORKOUT_VISIBLE_NO");
+  if (!state.objectiveSeparated) failures.push("OBJECTIVE_LABEL_VALUE_SEPARATED_NO");
+  if (!state.frequencySeparated) failures.push("FREQUENCY_LABEL_VALUE_SEPARATED_NO");
+  if (!state.periodSeparated) failures.push("PERIOD_LABEL_VALUE_SEPARATED_NO");
+  if (!state.statusSeparated) failures.push("STATUS_LABEL_VALUE_SEPARATED_NO");
+  if (state.forcaVisible) failures.push("FORCA_VISIBLE");
+  if (!state.forcaAccentedVisible) failures.push("FORCA_ACCENTED_VISIBLE_NO");
+  if (state.dayParentheticalVisible) failures.push("DIA_S_VISIBLE");
+  if (state.concatenatedCardCopy) failures.push("CARD_COPY_CONCATENATED");
   if (!state.nextAction) failures.push("NEXT_ACTION_VISIBLE_NO");
   if (!state.history || !state.ownHistory) failures.push("OWN_HISTORY_VISIBLE_NO");
   if (!state.workoutDaysAfterOpen) failures.push("CURRENT_WORKOUT_OPEN_FAILED");
@@ -450,6 +538,8 @@ async function validateViewport(client, viewport) {
     const excerpt = String(state.text || "").replace(/\s+/g, " ").slice(0, 500);
     throw new Error(`${viewport.name}: ${failures.join(", ")}. Visible text: ${excerpt}`);
   }
+
+  const logoutState = await validateStudentLogoutAndRelogin(client);
   return {
     status: "PASS",
     width: viewport.width,
@@ -458,10 +548,47 @@ async function validateViewport(client, viewport) {
     active_workout_visible: true,
     next_action_visible: true,
     own_history_visible: true,
+    logout_visible: state.logoutVisible,
+    logout: logoutState.logout,
+    session_cleared_after_logout: logoutState.sessionCleared,
+    protected_route_after_logout: logoutState.protectedRouteBlocked,
+    relogin: logoutState.relogin,
+    objective_label_value_separated: state.objectiveSeparated,
+    frequency_label_value_separated: state.frequencySeparated,
+    period_label_value_separated: state.periodSeparated,
+    status_label_value_separated: state.statusSeparated,
+    forca_visible: state.forcaVisible,
+    forca_accented_visible: state.forcaAccentedVisible,
+    day_parenthetical_visible: state.dayParentheticalVisible,
     profile_not_found_visible: false,
     other_student_history_visible: false,
     technical_metadata_visible: false,
   };
+}
+
+async function validateStudentLogoutAndRelogin(client) {
+  await evaluate(client, `document.querySelector('[data-testid="student-logout"]')?.click?.(); true`);
+  await waitFor(client, "location.pathname.includes('/login') || document.querySelector('input[type=\"email\"], input[name=\"email\"], #email')", 20000);
+  const sessionCleared = await evaluate(client, `(() => {
+    const storage = JSON.stringify({ local: { ...localStorage }, session: { ...sessionStorage } });
+    return !/supabase\\.auth\\.token|sb-[^"]+-auth-token|student\\.qa\\.local@aruka\\.test/i.test(storage);
+  })()`);
+  await client.send("Page.navigate", { url: `${qa.baseUrl}${APP_ROUTE}` });
+  await waitFor(client, "location.pathname.includes('/login') || document.querySelector('input[type=\"email\"], input[name=\"email\"], #email')", 20000);
+  const protectedRouteBlocked = await evaluate(client, "location.pathname.includes('/login') || Boolean(document.querySelector('input[type=\"email\"], input[name=\"email\"], #email'))");
+  await client.send("Page.navigate", { url: `${qa.baseUrl}/login` });
+  await waitFor(
+    client,
+    "document.querySelector('input[type=\"email\"], input[name=\"email\"], #email') && document.querySelector('input[type=\"password\"], input[name=\"password\"], #password')",
+    20000,
+  );
+  await fillAndSubmitLogin(client, STUDENT_EMAIL, studentPassword);
+  await waitFor(client, "!location.pathname.includes('/login')", 20000);
+  const relogin = await evaluate(client, `location.pathname === ${JSON.stringify(APP_ROUTE)}`);
+  assert(sessionCleared, "SESSION_CLEARED_AFTER_LOGOUT_NO");
+  assert(protectedRouteBlocked, "PROTECTED_STUDENT_ROUTE_AFTER_LOGOUT_NOT_BLOCKED");
+  assert(relogin, "STUDENT_RELOGIN_FAILED");
+  return { logout: true, sessionCleared, protectedRouteBlocked, relogin };
 }
 
 async function ensureFrontend(url) {

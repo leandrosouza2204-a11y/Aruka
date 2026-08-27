@@ -1,5 +1,10 @@
 import { spawnSync } from "node:child_process";
 
+const DEFAULT_LOCAL_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0";
+const DEFAULT_LOCAL_SERVICE_ROLE_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU";
+
 function runSupabaseStatus(command, args = ["supabase", "status", "--output", "json"]) {
   return spawnSync(command, args, {
     encoding: "utf8",
@@ -29,6 +34,8 @@ export function readLocalSupabaseRuntime() {
   }
   if (result.status !== 0) {
     if (envRuntime) return envRuntime;
+    const fallbackRuntime = readDefaultLocalSupabaseRuntime();
+    if (fallbackRuntime && isRecoverableStatusFailure(result)) return fallbackRuntime;
     throw new Error(`Supabase local indisponivel. npx supabase status falhou: ${describeFailure(result, fallbackOutput)}`);
   }
   jsonStart = fallbackOutput.indexOf("{");
@@ -50,6 +57,25 @@ export function readLocalSupabaseRuntime() {
     dbUrl: maskDbUrl(data.DB_URL),
     inbucketUrl: data.INBUCKET_URL || data.MAILPIT_URL || "",
   };
+}
+
+function readDefaultLocalSupabaseRuntime() {
+  const apiUrl = "http://127.0.0.1:54321";
+  return {
+    apiUrl,
+    anonKey: process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || DEFAULT_LOCAL_ANON_KEY,
+    serviceRoleKey:
+      process.env.SUPABASE_SERVICE_ROLE_KEY ||
+      process.env.SERVICE_ROLE_KEY ||
+      process.env.SUPABASE_SERVICE_KEY ||
+      DEFAULT_LOCAL_SERVICE_ROLE_KEY,
+    dbUrl: maskDbUrl("postgresql://postgres:postgres@127.0.0.1:54322/postgres"),
+    inbucketUrl: "http://127.0.0.1:54324",
+  };
+}
+
+function isRecoverableStatusFailure(result) {
+  return ["EINVAL", "ENOENT", "EACCES"].includes(result.error?.code);
 }
 
 function readLocalSupabaseRuntimeFromEnv() {
