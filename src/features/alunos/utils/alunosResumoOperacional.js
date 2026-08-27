@@ -41,7 +41,7 @@ export function montarIndicadorTreino(estado) {
   }
 
   const treinos = estado.data || [];
-  const ativo = treinos.find((treino) => (treino.status || "Ativo") === "Ativo");
+  const ativo = treinos.find(treinoEstaDisponivelParaAluno);
   if (!ativo) {
     return indicador("Treino", "Sem treino ativo", "Este aluno ainda não possui treino ativo cadastrado.", "vazio");
   }
@@ -94,6 +94,12 @@ export function montarIndicadorFinanceiro(estado) {
 
 function indicador(titulo, estado, detalhe, tom = "neutro") {
   return { titulo, estado, detalhe, tom };
+}
+
+function treinoEstaDisponivelParaAluno(treino) {
+  const lifecycle = String(treino?.lifecycleStatus || treino?.lifecycle_status || "").toLowerCase();
+  if (lifecycle) return lifecycle === "active";
+  return String(treino?.status || "").toLowerCase() === "ativo";
 }
 
 function formatarData(valor) {

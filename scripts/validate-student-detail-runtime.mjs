@@ -3,11 +3,15 @@ import { loadQaEnvFile, validateQaEnvironment } from "./lib/qa-environment-guard
 
 loadQaEnvFile(".env.local");
 loadQaEnvFile(".env.qa.local");
+if (process.env.ARUKA_QA_BASE_URL) {
+  process.env.QA_BASE_URL = process.env.ARUKA_QA_BASE_URL;
+}
 
 const PROFESSIONAL_EMAIL = process.env.QA_USER_EMAIL || "qa.local@aruka.test";
 const PROFESSIONAL_PASSWORD = process.env.QA_USER_PASSWORD;
 const cdpPort = process.env.CDP_PORT || "9222";
 const qa = validateQaEnvironment(process.env);
+const baseUrl = qa.baseUrl;
 
 if (!PROFESSIONAL_PASSWORD) throw new Error("QA_USER_PASSWORD_REQUIRED");
 
@@ -37,7 +41,7 @@ try {
       mobile: false,
     });
     await login(client);
-    await client.send("Page.navigate", { url: `${qa.baseUrl}/alunos` });
+    await client.send("Page.navigate", { url: `${baseUrl}/alunos` });
     try {
       await waitFor(client, "document.querySelector('[data-testid=\"alunos-page\"]')");
     } catch (error) {
@@ -113,8 +117,10 @@ try {
 }
 
 async function login(client) {
-  await client.send("Page.navigate", { url: `${qa.baseUrl}/login` });
-  await waitFor(client, "document.querySelector('input[type=\"email\"], input[name=\"email\"], #email')");
+  await client.send("Page.navigate", { url: `${baseUrl}/login` });
+  await waitFor(client, "document.querySelector('input[type=\"email\"], input[name=\"email\"], #email') || !location.pathname.includes('/login')", 25000);
+  const hasLoginForm = await evaluate(client, "Boolean(document.querySelector('input[type=\"email\"], input[name=\"email\"], #email'))");
+  if (!hasLoginForm) return;
   await evaluate(client, `(() => {
     const setValue = (input, value) => {
       const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;

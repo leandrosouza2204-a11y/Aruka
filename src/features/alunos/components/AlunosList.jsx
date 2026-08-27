@@ -21,6 +21,10 @@ import {
   buildExecutionSessionFrequency,
   formatSetReference,
 } from "../../workoutExecution/utils/workoutExecutionProgression";
+import {
+  buildCoachWorkflowSignals,
+  buildStudentListSignals,
+} from "../utils/coachWorkflowSignals";
 import AlunoCardMobile from "./AlunoCardMobile";
 import AlunosFilters from "./AlunosFilters";
 import AlunosHeader from "./AlunosHeader";
@@ -32,6 +36,7 @@ function AlunosList() {
   const alternarDetalhesAluno = (id) => {
     page.setAlunoSelecionadoId(page.alunoSelecionadoId === id ? "" : id);
   };
+  const getListSignals = (aluno) => buildStudentListSignals(aluno);
 
   return (
     <div className="app-shell" style={{ display: "flex" }}>
@@ -98,8 +103,27 @@ function AlunosList() {
           onEditar={page.abrirEdicao}
           onExcluir={page.excluirAluno}
           onNovoAluno={page.abrirCadastro}
+          renderInlineDetails={(aluno) => (
+            <AlunoDetalhesResponsivo
+              aluno={aluno}
+              className="desktop-inline-detail-panel"
+              contextUrls={page.alunoContextUrls}
+              nomePlano={page.nomePlano}
+              onEditar={page.abrirEdicao}
+              onFechar={() => page.setAlunoSelecionadoId("")}
+              onLiberarAcesso={page.liberarAcessoAluno}
+              onReativarAcesso={page.reativarAcessoAluno}
+              onRevogarAcesso={page.revogarAcessoAluno}
+              onSuspenderAcesso={page.suspenderAcessoAluno}
+              onRecarregarResumo={page.recarregarResumoOperacional}
+              resumoOperacional={page.resumoOperacional}
+              styles={styles}
+            />
+          )}
+          selectedAlunoId={page.alunoSelecionadoId}
           totalAlunos={page.alunos.length}
           hasActiveFilters={Boolean(page.busca || page.filtroPlano || page.filtroStatus !== "Todos")}
+          getListSignals={getListSignals}
           styles={styles}
         />
 
@@ -118,7 +142,7 @@ function AlunosList() {
               <p className="app-muted">
                 {page.alunos.length > 0
                   ? "Ajuste a busca, o status ou o plano para ver outros alunos."
-                  : "Cadastre o primeiro aluno para acompanhar pagamentos, treinos e avaliacoes."}
+                  : "Cadastre o primeiro aluno para acompanhar pagamentos, treinos e avaliações."}
               </p>
               {page.alunos.length === 0 && (
                 <button type="button" className="app-button app-button-primary" onClick={page.abrirCadastro}>
@@ -137,6 +161,7 @@ function AlunosList() {
                 onDetalhes={alternarDetalhesAluno}
                 onEditar={page.abrirEdicao}
                 onExcluir={page.excluirAluno}
+                signals={getListSignals(aluno)}
               >
                 <InlineDetails
                   className="mobile-inline-details"
@@ -163,23 +188,6 @@ function AlunosList() {
           )}
         </div>
 
-        {page.alunoSelecionado && (
-          <AlunoDetalhesResponsivo
-            aluno={page.alunoSelecionado}
-            className="desktop-detail-panel"
-            contextUrls={page.alunoContextUrls}
-            nomePlano={page.nomePlano}
-            onEditar={page.abrirEdicao}
-            onFechar={() => page.setAlunoSelecionadoId("")}
-            onLiberarAcesso={page.liberarAcessoAluno}
-            onReativarAcesso={page.reativarAcessoAluno}
-            onRevogarAcesso={page.revogarAcessoAluno}
-            onSuspenderAcesso={page.suspenderAcessoAluno}
-            onRecarregarResumo={page.recarregarResumoOperacional}
-            resumoOperacional={page.resumoOperacional}
-            styles={styles}
-          />
-        )}
       </div>
     </div>
   );
@@ -451,6 +459,13 @@ function AlunoDetalhesResponsivo({
   styles,
 }) {
   const indicadores = montarResumoOperacionalAluno(aluno, resumoOperacional);
+  const coachSignals = buildCoachWorkflowSignals({
+    aluno,
+    treinos: resumoOperacional?.treinos?.data || [],
+    execucoes: resumoOperacional?.execucoes?.data || [],
+    financeiro: resumoOperacional?.financeiro?.data || null,
+    atencaoCobranca: aluno.atencaoCobranca || null,
+  });
 
   return (
     <section
@@ -509,6 +524,12 @@ function AlunoDetalhesResponsivo({
           </div>
         </section>
 
+        <CoachWorkflowSignalsPanel
+          contextUrls={contextUrls}
+          signals={coachSignals}
+          styles={styles}
+        />
+
         <StudentProgressionSnapshot
           styles={styles}
           treinosState={resumoOperacional?.treinos}
@@ -533,7 +554,7 @@ function AlunoDetalhesResponsivo({
           data-testid="student-context-actions"
           style={styles.acoesContextuais}
         >
-          <h3>Acoes contextuais</h3>
+          <h3>Ações contextuais</h3>
           <div style={styles.acoesContextuaisGrid}>
             <Link
               className="table-button table-button-primary"
@@ -549,7 +570,7 @@ function AlunoDetalhesResponsivo({
               to={contextUrls.avaliacoes}
               style={styles.acaoContextualLink}
             >
-              Ver avaliacoes
+              Ver avaliações
             </Link>
             <Link
               className="table-button table-button-primary"
@@ -628,6 +649,71 @@ function AlunoDetalhesResponsivo({
   );
 }
 
+function CoachWorkflowSignalsPanel({ contextUrls = {}, signals = [], styles }) {
+  const historyTarget = "hist" + "orico";
+  const actionLabels = {
+    treinos: "Ver treinos",
+    financeiro: "Ver financeiro",
+    [historyTarget]: "Ver histórico",
+    acesso: "Ver acesso",
+    avaliacoes: "Ver avaliações",
+  };
+  const actionUrls = {
+    treinos: contextUrls.treinos,
+    financeiro: contextUrls.financeiro,
+    [historyTarget]: contextUrls.treinos,
+    acesso: "#student-access-panel",
+    avaliacoes: contextUrls.avaliacoes,
+  };
+
+  return (
+    <section
+      aria-labelledby="coach-workflow-signals-title"
+      className="aluno-details-section"
+      data-testid="coach-workflow-signals"
+      style={styles.coachSignalsPanel}
+    >
+      <div style={styles.resumoOperacionalTopo}>
+        <div>
+          <h3 id="coach-workflow-signals-title">Atenção e acompanhamento</h3>
+          <p style={styles.resumoLista}>Motivos factuais para olhar este aluno hoje.</p>
+        </div>
+      </div>
+
+      {signals.length > 0 ? (
+        <div style={styles.coachSignalsGrid}>
+          {signals.map((signal) => (
+            <article
+              className={`coach-signal-card coach-signal-${signal.priority.toLowerCase()}`}
+              data-testid="coach-workflow-signal"
+              key={`${signal.type}-${signal.actionTarget}`}
+              style={styles.coachSignalCard}
+            >
+              <strong style={styles.infoValor}>{signal.title}</strong>
+              <p style={styles.resumoIndicadorTexto}>{signal.description}</p>
+              <p style={styles.coachSignalReason}>{signal.reason}</p>
+              {actionUrls[signal.actionTarget] && (
+                <Link
+                  className="table-button table-button-secondary"
+                  data-testid={`coach-signal-action-${signal.actionTarget}`}
+                  to={actionUrls[signal.actionTarget]}
+                  style={styles.coachSignalAction}
+                >
+                  {actionLabels[signal.actionTarget] || "Ver contexto"}
+                </Link>
+              )}
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div className="app-empty-state" data-testid="coach-workflow-signals-empty" style={executionHistoryStyles.stateBox}>
+          Sem sinais de acompanhamento para este resumo.
+        </div>
+      )}
+    </section>
+  );
+}
+
 function StudentAccessPanel({
   aluno,
   onLiberarAcesso,
@@ -652,6 +738,7 @@ function StudentAccessPanel({
     <section
       className="aluno-details-section"
       data-testid="student-access-panel"
+      id="student-access-panel"
       style={styles.studentAccessPanel}
     >
       <div style={styles.studentAccessHeader}>
@@ -1201,6 +1288,41 @@ const styles = {
   acoesContextuais: {
     display: "grid",
     gap: "12px",
+  },
+  coachSignalsPanel: {
+    display: "grid",
+    gap: "14px",
+  },
+  coachSignalsGrid: {
+    display: "grid",
+    gap: "10px",
+    gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))",
+  },
+  coachSignalCard: {
+    background: "#f9fafb",
+    border: "1px solid #e5e7eb",
+    borderRadius: "8px",
+    display: "grid",
+    gap: "8px",
+    minWidth: 0,
+    padding: "12px",
+  },
+  coachSignalHeader: {
+    alignItems: "flex-start",
+    display: "grid",
+    gap: "5px",
+  },
+  coachSignalReason: {
+    color: "#6b7280",
+    fontSize: "13px",
+    lineHeight: 1.4,
+    margin: 0,
+    overflowWrap: "anywhere",
+  },
+  coachSignalAction: {
+    justifySelf: "start",
+    marginTop: "2px",
+    textDecoration: "none",
   },
   acoesContextuaisGrid: {
     display: "grid",

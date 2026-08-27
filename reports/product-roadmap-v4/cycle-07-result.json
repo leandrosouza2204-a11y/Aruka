@@ -1,0 +1,45 @@
+{
+  "decision": "READY_FOR_PRODUCT_ROADMAP_V4_CYCLE_07_COMMIT",
+  "program": "Product Roadmap v4",
+  "cycle": "07",
+  "cycle_name": "Coach Workflow Signals",
+  "baseline_commit": "884543de21369777651103ecc1927d94f6c59a05",
+  "origin_main": "884543de21369777651103ecc1927d94f6c59a05",
+  "branch": "feat/product-roadmap-v4-cycle-07-coach-workflow-signals",
+  "signal_model": "derived deterministic domain",
+  "signal_persistence": "none",
+  "max_signals_per_student": 3,
+  "adherence_percentage_implemented": "NO",
+  "automatic_recommendations": "NO",
+  "database_change": "NO",
+  "migration": "NO",
+  "rpc_change": "NO",
+  "new_table": "NO",
+  "new_index": "NO",
+  "n_plus_one_introduced": "NO",
+  "student_ui_changed": "NO",
+  "professional_execution_mutation": "NO",
+  "production_accessed": "NO",
+  "production_mutation": "NO",
+  "db_push": "NO",
+  "signals_implemented": [
+    "NO_ACTIVE_WORKOUT",
+    "STUDENT_ACCESS_ATTENTION",
+    "FINANCE_ATTENTION",
+    "RECENT_ABANDONED_SESSION",
+    "EXECUTION_INACTIVITY",
+    "RECENT_EXECUTION_ACTIVITY"
+  ],
+  "signals_later": [
+    "ASSESSMENT_DUE_OR_STALE",
+    "progression_stagnation",
+    "post_workout_feedback",
+    "true_adherence",
+    "pr_detection"
+  ],
+  "signals_rejected": [
+    "adherence_percentage",
+    "automatic_training_recommendation",
+    "persisted_signal_table"
+  ]
+}
