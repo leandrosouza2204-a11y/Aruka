@@ -9,6 +9,11 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "qa:visible-ui-copy": "node scripts/validate-visible-ui-copy.mjs",
+    "qa:pwa-installability": "node scripts/validate-pwa-installability.mjs",
+    "qa:pwa-role-install-experience": "node scripts/validate-pwa-role-install-experience.mjs",
+    "qa:pwa-install-state": "node scripts/validate-pwa-install-state.mjs",
+    "qa:pwa-update-safety": "node scripts/validate-pwa-update-safety.mjs",
+    "qa:pwa-cache-security": "node scripts/validate-pwa-cache-security.mjs",
     "qa:visible-suspense-fallbacks": "node scripts/validate-visible-suspense-fallbacks.mjs",
     "qa:finance-modals": "node --env-file=.env.qa.local scripts/validate-finance-modals-cdp.mjs",
     "qa:finance-whatsapp-encoding": "node scripts/validate-finance-whatsapp-encoding.mjs",
@@ -325,6 +330,7 @@
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
     "vite": "^8.0.12",
+    "vite-plugin-pwa": "^1.3.0",
     "yaml": "^2.8.1"
   }
 }

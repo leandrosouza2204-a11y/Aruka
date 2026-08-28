@@ -6,6 +6,7 @@ import AdminRoute from "./auth/AdminRoute";
 import LegalRoute from "./auth/LegalRoute";
 import LoadingFallback from "./components/LoadingFallback";
 import MobileBottomNavigation from "./components/MobileBottomNavigation";
+import PwaExperienceManager from "./features/pwa/PwaExperienceManager";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Alunos = lazy(() => import("./pages/Alunos"));
@@ -217,6 +218,7 @@ function AppMobileNav({ children }) {
     <>
       {children}
       <MobileBottomNavigation />
+      <PwaExperienceManager role="professional" />
     </>
   );
 }
