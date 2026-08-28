@@ -1,3 +1,5 @@
+import { parseExerciseVideoUrl } from "../../workoutExecution/utils/exerciseVideoProvider.js";
+
 const emptyWorkout = {
   alunoId: "",
   rotina: "",
@@ -68,12 +70,23 @@ export function validateTreinoEditorState(state = {}, alunos = []) {
   if (!normalized.dias.some((dia) => dia.exercicios.some(isValidExercise))) {
     errors.exercises = "Adicione pelo menos um exercicio antes de salvar.";
   }
+  if (hasUnsupportedVideoUrl(normalized)) {
+    errors.video = "Use um link valido do YouTube, youtu.be ou Shorts no video demonstrativo.";
+  }
 
   return {
     ok: Object.keys(errors).length === 0,
     errors,
     normalized,
   };
+}
+
+function hasUnsupportedVideoUrl(workout) {
+  return workout.dias.some((dia) =>
+    dia.exercicios.some((exercise) => exercise.video && !parseExerciseVideoUrl(exercise.video))
+  ) || Object.values(workout.exerciseDrafts || {}).some((exercise) =>
+    exercise.video && !parseExerciseVideoUrl(exercise.video)
+  );
 }
 
 export function isValidExercise(exercise) {

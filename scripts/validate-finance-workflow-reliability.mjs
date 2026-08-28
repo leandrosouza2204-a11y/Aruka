@@ -32,7 +32,8 @@ const rows = [
     error: hasInFunction("confirmarRenovacaoPlano", /userFacingError\("renovar o plano"/),
     retry: hasInFunction("confirmarRenovacaoPlano", /finally[\s\S]*setAtualizandoId\(""\)/),
     state_refresh: hasInFunction("confirmarRenovacaoPlano", /await carregarDados\(\)/),
-    history: /operacao: "renovacao"/.test(hook) && /tipo: "plano_renovado"/.test(hook),
+    history: (/operacao: "renovacao"/.test(hook) && /tipo: "plano_renovado"/.test(hook))
+      || (/renovarAlunoContratoSupabase/.test(hook) && /eventKey: `renovacao:/.test(hook) && /p_event_key/.test(read("src/services/alunoContratosService.js"))),
     mobile: /onRenovarPlano\(registro\)/.test(mobileCards),
     desktop: /onRenovarPlano\(registro\)/.test(table),
     notes: "Renewal uses operationId/eventKey for history idempotency and keeps payment optional.",

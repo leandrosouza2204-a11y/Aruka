@@ -5,6 +5,9 @@ import {
   EXECUTION_PROGRESS_SIGNAL,
   buildExecutionProgressionSnapshot,
   buildExecutionSessionFrequency,
+  formatPerformedSetLine,
+  formatSetReference,
+  getCompletedExerciseSets,
 } from "./workoutExecutionProgression.js";
 
 test("returns first record when there is no comparable previous execution", () => {
@@ -32,6 +35,34 @@ test("detects same reps with more load as factual load delta", () => {
   assert.equal(snapshot.exercises[0].signal, EXECUTION_PROGRESS_SIGNAL.LOAD_INCREASE_SAME_REPS);
   assert.equal(snapshot.exercises[0].loadComparable, true);
   assert.equal(snapshot.exercises[0].deltaLoad, 2);
+});
+
+test("returns previous completed session with detailed actual sets", () => {
+  const snapshot = buildExecutionProgressionSnapshot({
+    currentSession: session("current", "in_progress", "2026-08-28", [
+      exercise("Supino reto", "Peito", []),
+    ]),
+    recentSessions: [
+      session("session-a", "completed", "2026-08-27", [
+        exercise("Supino reto", "Peito", [
+          set(1, 12, 22, "kg", false, 4, 6),
+          set(2, 10, 24, "kg", false, 2, 8),
+          set(3, 10, 26, "kg", false, 0, 10),
+        ]),
+      ]),
+    ],
+  });
+
+  const reference = snapshot.exercises[0];
+  const previousSets = getCompletedExerciseSets(reference.previousExercise);
+
+  assert.equal(reference.previousSessionDate, "2026-08-27");
+  assert.deepEqual(previousSets.map((item) => item.loadValue), [22, 24, 26]);
+  assert.deepEqual(previousSets.map((item) => item.reps), [12, 10, 10]);
+  assert.deepEqual(previousSets.map((item) => item.rir), [4, 2, 0]);
+  assert.deepEqual(previousSets.map((item) => item.rpe), [6, 8, 10]);
+  assert.equal(formatPerformedSetLine(previousSets[0]), "12 reps · 22 kg · RIR 4 · RPE 6");
+  assert.equal(formatSetReference(reference.previousBestSet), "26 kg x 10");
 });
 
 test("detects same load with more reps as factual rep delta", () => {
@@ -77,6 +108,23 @@ test("blocks unit mismatch delta", () => {
   assert.equal(snapshot.exercises[0].deltaLoad, null);
 });
 
+test("keeps previous actual sets visible when units differ but blocks delta", () => {
+  const snapshot = buildExecutionProgressionSnapshot({
+    currentSession: session("current", "in_progress", "2026-08-28", [
+      exercise("Supino reto", "Peito", [set(1, 10, 30, "kg")]),
+    ]),
+    recentSessions: [
+      session("previous", "completed", "2026-08-27", [
+        exercise("Supino reto", "Peito", [set(1, 10, 66, "lb")]),
+      ]),
+    ],
+  });
+
+  assert.equal(snapshot.exercises[0].loadComparable, false);
+  assert.equal(snapshot.exercises[0].deltaLoad, null);
+  assert.equal(formatPerformedSetLine(getCompletedExerciseSets(snapshot.exercises[0].previousExercise)[0]), "10 reps · 66 lb");
+});
+
 test("compares bodyweight reps but never load", () => {
   const snapshot = buildExecutionProgressionSnapshot({
     currentSession: session("current", "in_progress", "2026-08-22", [
@@ -90,6 +138,8 @@ test("compares bodyweight reps but never load", () => {
   assert.equal(snapshot.exercises[0].loadComparable, false);
   assert.equal(snapshot.exercises[0].repComparable, true);
   assert.equal(snapshot.exercises[0].deltaReps, 3);
+  assert.equal(formatPerformedSetLine(snapshot.exercises[0].previousBestSet), "12 reps · Peso corporal");
+  assert.equal(formatSetReference(snapshot.exercises[0].previousBestSet), "Peso corporal x 12");
 });
 
 test("handles missing load, missing RIR and missing RPE", () => {
@@ -211,7 +261,7 @@ function exercise(name, group, sets) {
   };
 }
 
-function set(setNumber, reps, loadValue, loadUnit = "kg", bodyweight = false) {
+function set(setNumber, reps, loadValue, loadUnit = "kg", bodyweight = false, rir = "", rpe = "") {
   return {
     setNumber,
     reps,
@@ -219,7 +269,7 @@ function set(setNumber, reps, loadValue, loadUnit = "kg", bodyweight = false) {
     loadUnit,
     bodyweight,
     completed: true,
-    rir: "",
-    rpe: "",
+    rir,
+    rpe,
   };
 }

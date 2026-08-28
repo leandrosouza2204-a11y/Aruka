@@ -38,7 +38,7 @@ const PRESENTATION = {
 
 const ACTIONS = {
   [WORKOUT_LIFECYCLE_STATUS.DRAFT]: ["edit", "deliver", "archive"],
-  [WORKOUT_LIFECYCLE_STATUS.ACTIVE]: ["view", "complete", "archive"],
+  [WORKOUT_LIFECYCLE_STATUS.ACTIVE]: ["view", "edit", "complete", "archive"],
   [WORKOUT_LIFECYCLE_STATUS.COMPLETED]: ["view", "archive"],
   [WORKOUT_LIFECYCLE_STATUS.ARCHIVED]: ["view"],
 };

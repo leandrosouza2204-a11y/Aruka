@@ -20,6 +20,8 @@ import {
   buildExecutionProgressionForSessions,
   buildExecutionSessionFrequency,
   formatSetReference,
+  formatPerformedSetLine,
+  getCompletedExerciseSets,
 } from "../../workoutExecution/utils/workoutExecutionProgression";
 import {
   buildCoachWorkflowSignals,
@@ -861,7 +863,9 @@ function StudentExecutionHistoryPanel({ execucoesState, styles }) {
       </div>
       {history.length ? (
         <div style={executionHistoryStyles.grid}>
-          {history.map((item) => (
+          {(execucoesState.data || []).map((session) => {
+            const item = buildExecutionHistorySummary(session);
+            return (
             <article key={item.id} style={styles.resumoIndicador} data-testid="student-execution-history-item">
               <span style={styles.infoLabel}>{item.statusLabel}</span>
               <strong style={styles.infoValor}>{item.workoutTitle}</strong>
@@ -871,9 +875,14 @@ function StudentExecutionHistoryPanel({ execucoesState, styles }) {
               <p style={styles.resumoIndicadorTexto}>
                 {pluralizePt(item.exerciseCount, "exercício", "exercícios")}, {pluralizePt(item.completedSetCount, "série concluída", "séries concluídas")}
               </p>
+              <details data-testid="professional-execution-history-details" style={executionHistoryStyles.details}>
+                <summary style={executionHistoryStyles.summary}>Ver detalhes</summary>
+                <ProfessionalExecutionSessionDetails session={session} styles={styles} />
+              </details>
               <ExecutionProgressionDetails progression={progressionBySession.get(item.id)} styles={styles} />
             </article>
-          ))}
+            );
+          })}
         </div>
       ) : (
         <div className="app-empty-state" data-testid="student-execution-history-empty" style={executionHistoryStyles.stateBox}>
@@ -897,6 +906,32 @@ function ExecutionProgressionDetails({ progression, styles }) {
           <span style={styles.resumoIndicadorTexto}>
             {formatProfessionalReference(exercise)}
           </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ProfessionalExecutionSessionDetails({ session, styles }) {
+  const exercises = (session?.exercises || []).filter((exercise) => getCompletedExerciseSets(exercise).length);
+  if (!exercises.length) {
+    return <p style={styles.resumoIndicadorTexto}>Sem séries realizadas para detalhar.</p>;
+  }
+
+  return (
+    <div style={executionHistoryStyles.exerciseDetails} data-testid="professional-execution-set-details">
+      {exercises.map((exercise) => (
+        <div key={exercise.id || exercise.name} style={executionHistoryStyles.exerciseDetail}>
+          <strong style={styles.infoValor}>{exercise.name}</strong>
+          <span style={styles.resumoIndicadorTexto}>
+            Prescrito: {[exercise.prescribedSeries ? `${exercise.prescribedSeries} séries` : "", exercise.prescribedReps ? `${exercise.prescribedReps} reps` : "", exercise.prescribedLoad ? `carga prescrita ${exercise.prescribedLoad}` : ""].filter(Boolean).join(" - ") || "não informado"}
+          </span>
+          <span style={styles.resumoIndicadorTexto}>Realizado:</span>
+          {getCompletedExerciseSets(exercise).map((set) => (
+            <span key={set.setNumber} style={styles.resumoIndicadorTexto} data-testid="professional-execution-set">
+              Série {set.setNumber} - {formatPerformedSetLine(set)}
+            </span>
+          ))}
         </div>
       ))}
     </div>
@@ -1019,6 +1054,17 @@ const executionHistoryStyles = {
     gap: "8px",
     marginTop: "10px",
     paddingTop: "10px",
+  },
+  details: {
+    display: "grid",
+    gap: "8px",
+    marginTop: "8px",
+  },
+  summary: {
+    color: "#1d4ed8",
+    cursor: "pointer",
+    fontSize: "13px",
+    fontWeight: 800,
   },
   exerciseDetail: {
     display: "grid",

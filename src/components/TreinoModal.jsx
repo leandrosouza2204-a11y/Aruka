@@ -72,6 +72,7 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
   const { confirmar } = useConfirm();
 
   const titulo = treino?.id ? "Editar Treino" : "Cadastro de Treino";
+  const editingActiveWorkout = treino?.lifecycleStatus === "active" || treino?.lifecycle_status === "active";
 
   const alunosPorId = useMemo(
     () => new Map(alunos.map((aluno) => [aluno.id, aluno])),
@@ -431,7 +432,11 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
               ref={alunoRef}
               value={form.alunoId || ""}
               onChange={(e) => atualizarCampo("alunoId", e.target.value)}
-              style={campoComErro(errosValidacao.student)}
+              disabled={editingActiveWorkout}
+              style={{
+                ...campoComErro(errosValidacao.student),
+                ...(editingActiveWorkout ? disabledCampo : {}),
+              }}
               data-testid="treino-form-student"
               aria-invalid={Boolean(errosValidacao.student)}
               aria-describedby={errosValidacao.student ? "treino-editor-error-student" : undefined}
@@ -486,7 +491,8 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
             <select
               value={form.status}
               onChange={(e) => atualizarCampo("status", e.target.value)}
-              style={campo}
+              disabled={editingActiveWorkout}
+              style={{ ...campo, ...(editingActiveWorkout ? disabledCampo : {}) }}
             >
               <option value="Ativo">Ativo</option>
               <option value="Em revisao">Em revisão</option>
@@ -652,20 +658,24 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
                       data-testid="exercise-rest"
                       aria-label="Descanso"
                     />
-                    <input
-                      placeholder="Link de vídeo"
-                      value={exercicioAtual.video}
-                      onChange={(e) =>
-                        atualizarExercicioTemporario(
-                          dia.id,
-                          "video",
-                          e.target.value
-                        )
-                      }
-                      style={campo}
-                      data-testid="exercise-video"
-                      aria-label="Link de vídeo"
-                    />
+                    <label style={campoGrupo}>
+                      <span style={labelCampo}>Vídeo demonstrativo (opcional)</span>
+                      <input
+                        placeholder="Cole um link do YouTube"
+                        value={exercicioAtual.video}
+                        onChange={(e) =>
+                          atualizarExercicioTemporario(
+                            dia.id,
+                            "video",
+                            e.target.value
+                          )
+                        }
+                        style={campo}
+                        data-testid="exercise-video"
+                        aria-label="Vídeo demonstrativo opcional"
+                      />
+                      <span style={helpText}>Compatível com YouTube, youtu.be e Shorts.</span>
+                    </label>
                     <textarea
                       rows="2"
                       placeholder="Observações"
@@ -881,10 +891,22 @@ const campoErro = {
   boxShadow: "0 0 0 3px rgba(220, 38, 38, 0.12)",
 };
 
+const disabledCampo = {
+  background: "#f8fafc",
+  color: "#64748b",
+  cursor: "not-allowed",
+};
+
 const erroCampo = {
   color: "#991b1b",
   fontSize: "12px",
   fontWeight: "750",
+};
+
+const helpText = {
+  color: "#6b7280",
+  fontSize: "12px",
+  fontWeight: "650",
 };
 
 const validationSummary = {

@@ -393,7 +393,11 @@ export function useTreinosPage() {
   }
 
   async function salvarTreino(treino) {
-    const alunoSelecionado = alunos.find((aluno) => aluno.id === treino.alunoId);
+    const editingActiveWorkout =
+      treinoEditando?.lifecycleStatus === WORKOUT_LIFECYCLE_STATUS.ACTIVE ||
+      treinoEditando?.lifecycle_status === WORKOUT_LIFECYCLE_STATUS.ACTIVE;
+    const alunoIdParaSalvar = editingActiveWorkout ? treinoEditando.alunoId : treino.alunoId;
+    const alunoSelecionado = alunos.find((aluno) => aluno.id === alunoIdParaSalvar);
 
     if (!alunoSelecionado) {
       toast.aviso(
@@ -411,6 +415,15 @@ export function useTreinosPage() {
         alunoId: alunoSelecionado.id,
         aluno: alunoSelecionado.nome,
         nomeAluno: alunoSelecionado.nome,
+        ...(editingActiveWorkout
+          ? {
+              alunoId: treinoEditando.alunoId,
+              aluno: treinoEditando.aluno,
+              nomeAluno: treinoEditando.nomeAluno || treinoEditando.aluno,
+              status: treinoEditando.status,
+              lifecycleStatus: WORKOUT_LIFECYCLE_STATUS.ACTIVE,
+            }
+          : {}),
       };
 
       const treinoSalvo = treinoEditando

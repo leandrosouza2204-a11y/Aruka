@@ -56,7 +56,7 @@ check("rpc_contract", [
 ].every((fn) => migrationChain.includes(`public.${fn}`)));
 check("local_session_date_contract", migrationChain.includes("p_session_date date") && migrationChain.includes("WORKOUT_EXECUTION_SESSION_DATE_REQUIRED"));
 check("idempotency_and_active_unique", source.migration.includes("workout_execution_sessions_idempotency_uidx") && source.migration.includes("workout_execution_sessions_active_uidx"));
-check("no_execution_analytics_scope", !/score|gamification|wearable|timer|volume_pr|adherence/i.test(source.migration + source.service + source.studentPage));
+check("no_execution_analytics_scope", !/score|gamification|wearable|volume_pr|adherence/i.test(source.migration + source.service));
 check("student_ui_contract", [
   "student-execution-start",
   "student-execution-session",

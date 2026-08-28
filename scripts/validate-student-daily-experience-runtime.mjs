@@ -19,6 +19,7 @@ if (process.env.ARUKA_QA_BASE_URL) {
 const runtime = readLocalSupabaseRuntime();
 const qa = validateQaEnvironment(process.env, { detectedSupabaseUrl: runtime.apiUrl });
 const studentPassword = process.env.QA_USER_PASSWORD || `LocalQa-${randomBytes(18).toString("base64url")}a1!`;
+const expectedActiveStartLabel = `Desde ${formatDatePt(addDays(new Date(), -3))}`;
 
 let devServer;
 let chrome;
@@ -496,7 +497,7 @@ async function validateViewport(client, viewport) {
       summaryCards: { objective, frequency, period, status },
       objectiveSeparated: normalizeLabel(objective.label) === "objetivo" && objective.value === "For\u00e7a" && objective.childCount >= 2,
       frequencySeparated: normalizeLabel(frequency.label) === "frequ\u00eancia prescrita" && frequency.value === "3 dias por semana" && frequency.childCount >= 2,
-      periodSeparated: normalizeLabel(period.label) === "per\u00edodo" && /^Desde 24\\/08\\/2026$/.test(period.value || "") && period.childCount >= 2,
+      periodSeparated: normalizeLabel(period.label) === "per\u00edodo" && period.value === ${JSON.stringify(expectedActiveStartLabel)} && period.childCount >= 2,
       statusSeparated: normalizeLabel(status.label) === "status" && status.value === "Ativo para consulta" && status.childCount >= 2,
       forcaVisible: /\\bForca\\b/.test(text),
       forcaAccentedVisible: text.includes("For\u00e7a"),
@@ -720,6 +721,16 @@ async function evaluate(client, expression) {
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
+}
+
+function addDays(date, days) {
+  const copy = new Date(date);
+  copy.setDate(copy.getDate() + days);
+  return copy;
+}
+
+function formatDatePt(date) {
+  return new Intl.DateTimeFormat("pt-BR", { timeZone: "America/Sao_Paulo" }).format(date);
 }
 
 function sleep(ms) {
