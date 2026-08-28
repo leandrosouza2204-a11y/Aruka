@@ -83,11 +83,19 @@ export function buildExerciseProgression(exercise = {}, priorSessions = []) {
 
   const currentBestSet = pickBestSet(normalizedExercise.sets);
   if (!currentBestSet) {
+    const previous = findPreviousExerciseMatch(normalizedExercise, priorSessions);
     return createProgressionResult({
       exercise: normalizedExercise,
+      previousExercise: previous.exercise || null,
+      previousBestSet: previous.bestSet || null,
+      previousSession: previous.session || null,
       signal: EXECUTION_PROGRESS_SIGNAL.NOT_COMPARABLE,
-      confidence: EXECUTION_PROGRESSION_CONFIDENCE.INSUFFICIENT,
-      reason: "Sem série concluída para comparação.",
+      confidence: previous.exercise
+        ? previous.confidence
+        : EXECUTION_PROGRESSION_CONFIDENCE.INSUFFICIENT,
+      reason: previous.exercise
+        ? "Última execução registrada encontrada como referência."
+        : "Sem série concluída para comparação.",
     });
   }
 
@@ -124,9 +132,28 @@ export function buildExerciseProgression(exercise = {}, priorSessions = []) {
 export function formatSetReference(set = null) {
   if (!set) return "";
   const reps = `${set.reps} reps`;
-  if (set.bodyweight || set.loadUnit === "bodyweight") return reps;
+  if (set.bodyweight || set.loadUnit === "bodyweight") return `Peso corporal x ${set.reps}`;
   if (set.loadValue === "" || set.loadValue === null || set.loadValue === undefined) return reps;
   return `${formatNumber(set.loadValue)} ${set.loadUnit} x ${set.reps}`;
+}
+
+export function formatPerformedSetLine(set = null) {
+  if (!set) return "";
+  const parts = [`${set.reps || 0} reps`];
+  if (set.bodyweight || set.loadUnit === "bodyweight") {
+    parts.push("Peso corporal");
+  } else if (set.loadValue !== "" && set.loadValue !== null && set.loadValue !== undefined) {
+    parts.push(`${formatNumber(set.loadValue)} ${set.loadUnit || "kg"}`);
+  }
+  if (set.rir !== "" && set.rir !== null && set.rir !== undefined) parts.push(`RIR ${set.rir}`);
+  if (set.rpe !== "" && set.rpe !== null && set.rpe !== undefined) parts.push(`RPE ${set.rpe}`);
+  return parts.join(" · ");
+}
+
+export function getCompletedExerciseSets(exercise = null) {
+  return (exercise?.sets || [])
+    .filter((set) => set.completed)
+    .sort((a, b) => a.setNumber - b.setNumber);
 }
 
 function normalizeSessions(sessions = []) {
@@ -284,6 +311,7 @@ function createProgressionResult({
     exerciseId: exercise.id || "",
     exerciseName: exercise.name || "Exercício",
     currentBestSet,
+    previousExercise,
     previousExerciseName: previousExercise?.name || "",
     previousBestSet,
     previousSessionDate: previousSession?.sessionDate || previousSession?.startedAt || "",

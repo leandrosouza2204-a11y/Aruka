@@ -3,7 +3,7 @@ import { getWorkoutLifecycleActions } from "../utils/workoutLifecyclePresentatio
 
 const ACTION_META = {
   view: { label: "Visualizar", icon: Eye },
-  edit: { label: "Editar", icon: Pencil },
+  edit: { label: "Editar treino", icon: Pencil },
   deliver: { label: "Entregar treino", icon: Send },
   complete: { label: "Concluir treino", icon: CheckCircle2 },
   archive: { label: "Arquivar treino", icon: Archive },

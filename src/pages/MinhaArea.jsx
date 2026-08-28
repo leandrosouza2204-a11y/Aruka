@@ -10,9 +10,11 @@ import {
   History,
   HelpCircle,
   LogOut,
+  Minimize2,
   Play,
   RefreshCcw,
   Save,
+  Timer,
   XCircle,
 } from "lucide-react";
 import { markSessionLoggedOut } from "../hooks/useAutoLogout.js";
@@ -31,13 +33,27 @@ import {
   WORKOUT_EXECUTION_EXERCISE_STATUS,
   buildExecutionHistorySummary,
   canCompleteSession,
+  formatDateOnlyPtBr,
   hasExecutionSetPerformanceData,
 } from "../features/workoutExecution/utils/workoutExecutionSession.js";
 import {
   EXECUTION_PROGRESS_SIGNAL,
   buildExecutionProgressionSnapshot,
   formatSetReference,
+  formatPerformedSetLine,
+  getCompletedExerciseSets,
 } from "../features/workoutExecution/utils/workoutExecutionProgression.js";
+import ExerciseVideoPlayer from "../features/workoutExecution/components/ExerciseVideoPlayer.jsx";
+import {
+  clearRestTimerState,
+  buildExecutionSetNumbers,
+  createRestTimerState,
+  formatRestDuration,
+  getRemainingRestTime,
+  restoreRestTimerForSession,
+  saveRestTimerState,
+  shouldStartRestAfterSetUpdate,
+} from "../features/workoutExecution/utils/restTimer.js";
 
 function MinhaArea() {
   const navigate = useNavigate();
@@ -50,6 +66,11 @@ function MinhaArea() {
   const [treinoAberto, setTreinoAberto] = useState(false);
   const [savingState, setSavingState] = useState("idle");
   const [completionSummary, setCompletionSummary] = useState(null);
+  const [activeRestTimer, setActiveRestTimer] = useState(null);
+  const [completedRestTimer, setCompletedRestTimer] = useState(null);
+  const [restOverlayOpen, setRestOverlayOpen] = useState(false);
+  const [restRemaining, setRestRemaining] = useState(0);
+  const [restAnnouncement, setRestAnnouncement] = useState("");
 
   async function carregar() {
     setStatus("loading");
@@ -105,8 +126,59 @@ function MinhaArea() {
     }),
     [executionSession, executionState]
   );
-  const activeDays = daily.activeWorkout?.days || [];
+  const activeDays = useMemo(() => daily.activeWorkout?.days || [], [daily.activeWorkout?.days]);
   const selectedDay = activeDays.find((day) => day.id === selectedDayId) || activeDays[0] || null;
+  const videoByExerciseId = useMemo(() => {
+    const entries = activeDays.flatMap((day) =>
+      (day.exercises || []).map((exercise) => [exercise.id, exercise.videoUrl || ""])
+    );
+    return new Map(entries);
+  }, [activeDays]);
+
+  useEffect(() => {
+    if (!executionSession?.id) return;
+    const restored = restoreRestTimerForSession(window.localStorage, { sessionId: executionSession.id });
+    if (restored) {
+      window.setTimeout(() => {
+        setActiveRestTimer(restored);
+        setCompletedRestTimer(null);
+        setRestOverlayOpen(false);
+        setRestRemaining(getRemainingRestTime(restored.restEndsAt));
+      }, 0);
+    }
+  }, [executionSession?.id]);
+
+  useEffect(() => {
+    if (!activeRestTimer) {
+      return undefined;
+    }
+
+    function syncRemaining() {
+      const remaining = getRemainingRestTime(activeRestTimer.restEndsAt);
+      setRestRemaining(remaining);
+      if (remaining <= 0) {
+        setRestAnnouncement("Descanso concluído.");
+        clearRestTimerState(window.localStorage);
+        setCompletedRestTimer(activeRestTimer);
+        setActiveRestTimer(null);
+        setRestOverlayOpen(true);
+        if (navigator.vibrate) navigator.vibrate(120);
+      }
+    }
+
+    syncRemaining();
+    const intervalId = window.setInterval(syncRemaining, 500);
+    window.addEventListener("focus", syncRemaining);
+    window.addEventListener("pageshow", syncRemaining);
+    document.addEventListener("visibilitychange", syncRemaining);
+
+    return () => {
+      window.clearInterval(intervalId);
+      window.removeEventListener("focus", syncRemaining);
+      window.removeEventListener("pageshow", syncRemaining);
+      document.removeEventListener("visibilitychange", syncRemaining);
+    };
+  }, [activeRestTimer]);
 
   async function sair() {
     markSessionLoggedOut();
@@ -114,6 +186,10 @@ function MinhaArea() {
     setExecutionState(null);
     setExecutionSession(null);
     setCompletionSummary(null);
+    clearRestTimerState(window.localStorage);
+    setActiveRestTimer(null);
+    setCompletedRestTimer(null);
+    setRestOverlayOpen(false);
     await supabase.auth.signOut();
     navigate("/login", { replace: true });
   }
@@ -173,6 +249,10 @@ function MinhaArea() {
         recentSessions: executionState?.recentSessions || [],
       });
       setExecutionSession(null);
+      clearRestTimerState(window.localStorage);
+      setActiveRestTimer(null);
+      setCompletedRestTimer(null);
+      setRestOverlayOpen(false);
       setCompletionSummary({
         registeredExercises: buildExecutionHistorySummary(completed)?.exerciseCount || 0,
         completedSets: buildExecutionHistorySummary(completed)?.completedSetCount || 0,
@@ -198,6 +278,10 @@ function MinhaArea() {
     try {
       const abandoned = await abandonarExecucaoTreino(executionSession.id);
       setExecutionSession(null);
+      clearRestTimerState(window.localStorage);
+      setActiveRestTimer(null);
+      setCompletedRestTimer(null);
+      setRestOverlayOpen(false);
       setExecutionState((current) => ({
         ...(current || {}),
         activeSession: null,
@@ -223,11 +307,20 @@ function MinhaArea() {
     updateExercise(exerciseId, (exercise) => {
       const existing = exercise.sets.find((item) => item.setNumber === setNumber) || { setNumber };
       const nextSet = { ...existing, [field]: value };
-      if (["reps", "loadValue"].includes(field)) {
-        nextSet.completed = hasExecutionSetPerformanceData(nextSet);
-      }
       if (field === "completed") {
         nextSet.completed = Boolean(value) && hasExecutionSetPerformanceData(nextSet);
+      }
+      if (
+        shouldStartRestAfterSetUpdate({
+          field,
+          value,
+          set: nextSet,
+          setNumber,
+          prescribedRest: exercise.prescribedRest,
+          prescribedSeries: exercise.prescribedSeries,
+        })
+      ) {
+        startRestTimer(exercise, setNumber);
       }
       const sets = [
         ...exercise.sets.filter((item) => item.setNumber !== setNumber),
@@ -235,6 +328,60 @@ function MinhaArea() {
       ].sort((a, b) => a.setNumber - b.setNumber);
       return { ...exercise, status: WORKOUT_EXECUTION_EXERCISE_STATUS.PARTIAL, sets };
     });
+  }
+
+  function startRestTimer(exercise, setNumber) {
+    const state = createRestTimerState({
+      sessionId: executionSession?.id,
+      exerciseId: exercise.id,
+      exerciseName: exercise.name,
+      setNumber,
+      durationSeconds: exercise.prescribedRest,
+    });
+    if (!state) return;
+    setActiveRestTimer(state);
+    setCompletedRestTimer(null);
+    setRestOverlayOpen(true);
+    setRestRemaining(state.durationSeconds);
+    setRestAnnouncement("Descanso iniciado.");
+    saveRestTimerState(window.localStorage, state);
+  }
+
+  function restartRestTimer() {
+    if (!activeRestTimer) return;
+    const state = createRestTimerState({
+      ...activeRestTimer,
+      now: Date.now(),
+    });
+    setActiveRestTimer(state);
+    setCompletedRestTimer(null);
+    setRestOverlayOpen(true);
+    setRestRemaining(state.durationSeconds);
+    setRestAnnouncement("Descanso reiniciado.");
+    saveRestTimerState(window.localStorage, state);
+  }
+
+  function skipRestTimer() {
+    clearRestTimerState(window.localStorage);
+    setActiveRestTimer(null);
+    setCompletedRestTimer(null);
+    setRestOverlayOpen(false);
+    setRestRemaining(0);
+    setRestAnnouncement("Descanso pulado.");
+  }
+
+  function minimizeRestTimer() {
+    setRestOverlayOpen(false);
+  }
+
+  function openRestTimer() {
+    setRestOverlayOpen(true);
+  }
+
+  function closeCompletedRestTimer() {
+    setCompletedRestTimer(null);
+    setRestOverlayOpen(false);
+    setRestRemaining(0);
   }
 
   if (status === "loading") {
@@ -379,8 +526,27 @@ function MinhaArea() {
           progression={executionProgression}
           savingState={savingState}
           session={executionSession}
+          videoByExerciseId={videoByExerciseId}
         />
       )}
+
+      <RestTimerOverlay
+        announcement={restAnnouncement}
+        isOpen={restOverlayOpen}
+        onCloseCompleted={closeCompletedRestTimer}
+        onMinimize={minimizeRestTimer}
+        onRestart={restartRestTimer}
+        onSkip={skipRestTimer}
+        remaining={restRemaining}
+        timer={activeRestTimer || completedRestTimer}
+        timerCompleted={!activeRestTimer && Boolean(completedRestTimer)}
+      />
+      <CompactRestTimer
+        onOpen={openRestTimer}
+        remaining={restRemaining}
+        timer={activeRestTimer}
+        visible={Boolean(activeRestTimer) && !restOverlayOpen}
+      />
 
       {completionSummary && (
         <section style={styles.section} data-testid="student-execution-completion-summary">
@@ -415,6 +581,7 @@ function MinhaArea() {
                     <div style={styles.exerciseItem} key={exercise.id || `${exercise.name}-${exerciseIndex}`}>
                       <strong>{exercise.name}</strong>
                       <span>{exercise.prescription}</span>
+                      <ExerciseVideoPlayer title={exercise.name} videoUrl={exercise.videoUrl} />
                     </div>
                   ))}
                 </div>
@@ -434,14 +601,21 @@ function MinhaArea() {
         </div>
         {historySummary.length ? (
           <div style={styles.historyList}>
-            {historySummary.map((item) => (
+            {(executionState?.recentSessions || []).map((session) => {
+              const item = buildExecutionHistorySummary(session);
+              return (
               <article style={styles.historyItem} key={item.id}>
                 <strong>{item.workoutTitle}</strong>
                 <span>{item.dayName}</span>
                 <p>{item.statusLabel} em {item.dateLabel}</p>
                 <small>{pluralizePt(item.exerciseCount, "exercício", "exercícios")} e {pluralizePt(item.completedSetCount, "série concluída", "séries concluídas")}</small>
+                <details data-testid="student-execution-history-details" style={styles.historyDetails}>
+                  <summary style={styles.detailsSummary}>Ver detalhes</summary>
+                  <ExecutionSessionSetDetails session={session} />
+                </details>
               </article>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <p style={styles.emptyText}>Nenhum treino executado registrado ainda.</p>
@@ -502,6 +676,7 @@ function ExecutionSessionPanel({
   progression,
   savingState,
   session,
+  videoByExerciseId,
 }) {
   const progressionByExercise = new Map((progression?.exercises || []).map((item) => [item.exerciseId, item]));
 
@@ -526,10 +701,16 @@ function ExecutionSessionPanel({
               <div>
                 <h3 style={styles.cardTitle}>{exercise.name}</h3>
                 <p style={styles.muted}>
-                  {[exercise.prescribedSets, exercise.prescribedReps, exercise.prescribedLoad, exercise.prescribedRest]
+                  {[
+                    exercise.prescribedSets,
+                    exercise.prescribedReps ? `${exercise.prescribedReps} reps` : "",
+                    exercise.prescribedLoad ? `carga prescrita ${exercise.prescribedLoad}` : "",
+                    exercise.prescribedRest ? `descanso ${exercise.prescribedRest}` : "",
+                  ]
                     .filter(Boolean)
                     .join(" - ") || "Prescrição não informada"}
                 </p>
+                <ExerciseVideoPlayer title={exercise.name} videoUrl={videoByExerciseId.get(exercise.treinoExercicioId)} />
               </div>
               <button
                 style={styles.secondaryButton}
@@ -545,10 +726,9 @@ function ExecutionSessionPanel({
               </button>
             </div>
 
-            <ExecutionProgressionHint reference={reference} />
-
+            <ExecutionProgressionHint exercise={exercise} reference={reference} />
             <div style={styles.setGrid}>
-              {[1, 2, 3, 4, 5].map((setNumber) => {
+              {buildExecutionSetNumbers(exercise.prescribedSeries, exercise.sets).map((setNumber) => {
                 const set = exercise.sets.find((item) => item.setNumber === setNumber) || {};
                 return (
                   <div style={styles.setRow} key={setNumber}>
@@ -559,7 +739,7 @@ function ExecutionSessionPanel({
                       onChange={(value) => onUpdateSet(exercise.id, setNumber, "reps", value)}
                     />
                     <NumericField
-                      label="Carga"
+                      label="Carga realizada"
                       value={set.loadValue ?? ""}
                       onChange={(value) => onUpdateSet(exercise.id, setNumber, "loadValue", value)}
                     />
@@ -614,8 +794,117 @@ function ExecutionSessionPanel({
   );
 }
 
-function ExecutionProgressionHint({ reference }) {
-  if (!reference || reference.signal === EXECUTION_PROGRESS_SIGNAL.NOT_COMPARABLE) {
+function RestTimerOverlay({
+  announcement,
+  isOpen,
+  onCloseCompleted,
+  onMinimize,
+  onRestart,
+  onSkip,
+  remaining,
+  timer,
+  timerCompleted,
+}) {
+  if (!timer || !isOpen) return null;
+
+  const progress = timer.durationSeconds
+    ? Math.max(0, Math.min(1, remaining / timer.durationSeconds))
+    : 0;
+  const radius = 58;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference * (1 - progress);
+
+  return (
+    <div style={styles.restOverlay} data-testid="student-rest-timer-overlay">
+      <div
+        aria-label="Timer de descanso"
+        role="dialog"
+        style={styles.restOverlayCard}
+        tabIndex={-1}
+        onKeyDown={(event) => {
+          if (event.key === "Escape") {
+            timerCompleted ? onCloseCompleted() : onMinimize();
+          }
+        }}
+      >
+        <button
+          aria-label={timerCompleted ? "Fechar timer" : "Minimizar timer"}
+          data-testid={timerCompleted ? "student-rest-close" : "student-rest-minimize"}
+          onClick={timerCompleted ? onCloseCompleted : onMinimize}
+          style={styles.restIconButton}
+          type="button"
+        >
+          <Minimize2 size={18} />
+        </button>
+        <div style={styles.restDial} data-testid="student-rest-dial">
+          <svg aria-hidden="true" height="152" viewBox="0 0 152 152" width="152">
+            <circle cx="76" cy="76" fill="none" r={radius} stroke="#dbeafe" strokeWidth="12" />
+            <circle
+              cx="76"
+              cy="76"
+              fill="none"
+              r={radius}
+              stroke={timerCompleted ? "#16a34a" : "#174ea6"}
+              strokeDasharray={circumference}
+              strokeDashoffset={strokeDashoffset}
+              strokeLinecap="round"
+              strokeWidth="12"
+              style={styles.restProgressCircle}
+            />
+          </svg>
+          <div style={styles.restDialCenter}>
+            <Timer size={24} />
+            <strong style={styles.restTime}>{formatRestDuration(remaining)}</strong>
+          </div>
+        </div>
+        <div style={styles.restOverlayText}>
+          <span style={styles.infoLabel}>{timerCompleted ? "Descanso concluído" : "Descanso"}</span>
+          <p style={styles.restContext}>
+            Após a série {timer.setNumber} de {timer.exerciseName || "exercício"}
+          </p>
+        </div>
+        {!timerCompleted ? (
+          <div style={styles.restActions}>
+            <button type="button" style={styles.secondaryButton} onClick={onSkip} data-testid="student-rest-skip">
+              Pular descanso
+            </button>
+            <button type="button" style={styles.secondaryButton} onClick={onRestart} data-testid="student-rest-restart">
+              Reiniciar descanso
+            </button>
+          </div>
+        ) : (
+          <button type="button" style={styles.primaryButton} onClick={onCloseCompleted} data-testid="student-rest-done">
+            Fechar
+          </button>
+        )}
+        <span style={styles.srOnly} aria-live="polite">{announcement}</span>
+      </div>
+    </div>
+  );
+}
+
+function CompactRestTimer({ onOpen, remaining, timer, visible }) {
+  if (!visible || !timer) return null;
+
+  return (
+    <button
+      aria-label="Abrir timer de descanso"
+      data-testid="student-rest-compact"
+      onClick={onOpen}
+      style={styles.compactRestTimer}
+      type="button"
+    >
+      <Timer size={18} />
+      <span>Descanso</span>
+      <strong>{formatRestDuration(remaining)}</strong>
+    </button>
+  );
+}
+
+function ExecutionProgressionHint({ exercise, reference }) {
+  const [expanded, setExpanded] = useState(false);
+
+  if (!reference || (reference.signal === EXECUTION_PROGRESS_SIGNAL.NOT_COMPARABLE && !reference.previousExercise)) {
     return (
       <p style={styles.executionHint} data-testid="student-execution-progression-hint">
         Primeiro registro deste exercício.
@@ -631,16 +920,68 @@ function ExecutionProgressionHint({ reference }) {
     );
   }
 
+  const previousSets = getCompletedExerciseSets(reference.previousExercise);
+  const detailsId = `student-previous-execution-details-${exercise?.id || reference?.exerciseId || "exercise"}`;
+  const sessionDate = reference.previousSessionDate ? formatDateOnlyPtBr(reference.previousSessionDate) : "Data da sessão não informada";
+
   return (
     <div style={styles.executionHint} data-testid="student-execution-progression-hint">
-      <strong>Última execução registrada</strong>
-      <span>{formatSetReference(reference.previousBestSet)}</span>
-      {reference.reason && <small>{reference.reason}</small>}
-      {(reference.previousBestSet?.rir !== "" || reference.previousBestSet?.rpe !== "") && (
-        <small>
-          {[reference.previousBestSet?.rir !== "" ? `RIR ${reference.previousBestSet.rir}` : "", reference.previousBestSet?.rpe !== "" ? `RPE ${reference.previousBestSet.rpe}` : ""].filter(Boolean).join(" - ")}
-        </small>
+      <div style={styles.previousExecutionCompact} data-testid="student-previous-execution-compact">
+        <strong>Última execução · {sessionDate}</strong>
+        <span data-testid="student-previous-execution-best-set">Melhor série: {formatSetReference(reference.previousBestSet)}</span>
+        <span data-testid="student-previous-execution-series-count">
+          {previousSets.length ? pluralizePt(previousSets.length, "série registrada", "séries registradas") : "Sem séries registradas"}
+        </span>
+        {previousSets.length ? (
+          <button
+            aria-controls={detailsId}
+            aria-expanded={expanded}
+            data-testid="student-previous-execution-toggle"
+            onClick={() => setExpanded((current) => !current)}
+            style={styles.previousExecutionToggle}
+            type="button"
+          >
+            {expanded ? "Ocultar detalhes" : "Ver detalhes"}
+          </button>
+        ) : null}
+      </div>
+      {expanded && previousSets.length ? (
+        <div
+          data-testid="student-previous-execution-details"
+          id={detailsId}
+          style={styles.previousSetList}
+        >
+          {previousSets.map((set) => (
+            <span key={set.setNumber} data-testid="student-previous-execution-set" style={styles.previousSetItem}>
+              <strong>Série {set.setNumber}</strong>
+              <span>{formatPerformedSetLine(set)}</span>
+            </span>
+          ))}
+        </div>
+      ) : (
+        <span>Sem séries concluídas na execução anterior.</span>
       )}
+    </div>
+  );
+}
+
+function ExecutionSessionSetDetails({ session }) {
+  const exercises = (session?.exercises || []).filter((exercise) => getCompletedExerciseSets(exercise).length);
+  if (!exercises.length) {
+    return <p style={styles.muted}>Sem séries realizadas para detalhar.</p>;
+  }
+
+  return (
+    <div style={styles.historyDetailList} data-testid="student-execution-history-set-details">
+      {exercises.map((exercise) => (
+        <div key={exercise.id || exercise.name} style={styles.historyExerciseDetail}>
+          <strong>{exercise.name}</strong>
+          <span style={styles.infoLabel}>Realizado</span>
+          {getCompletedExerciseSets(exercise).map((set) => (
+            <span key={set.setNumber}>Série {set.setNumber} - {formatPerformedSetLine(set)}</span>
+          ))}
+        </div>
+      ))}
     </div>
   );
 }
@@ -732,9 +1073,29 @@ const styles = {
   compactList: { display: "grid", gap: 8, marginTop: 12 },
   historyList: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 10 },
   historyItem: { display: "grid", gap: 5, border: "1px solid #e5e9f1", borderRadius: 8, padding: 12 },
+  historyDetails: { display: "grid", gap: 8, marginTop: 4 },
+  detailsSummary: { color: "#174ea6", cursor: "pointer", fontSize: 13, fontWeight: 800 },
+  historyDetailList: { display: "grid", gap: 10, marginTop: 8 },
+  historyExerciseDetail: { borderTop: "1px solid #e5e9f1", display: "grid", gap: 4, paddingTop: 8 },
   executionList: { display: "grid", gap: 12, marginTop: 12 },
   executionExercise: { border: "1px solid #e5e9f1", borderRadius: 8, padding: 14 },
   executionHint: { background: "#f8fafc", border: "1px solid #e5e9f1", borderRadius: 8, color: "#384252", display: "grid", gap: 3, fontSize: 13, lineHeight: 1.35, margin: "0 0 12px", padding: "8px 10px" },
+  prescriptionReference: { display: "grid", gap: 3, marginTop: 4 },
+  previousExecutionCompact: { alignItems: "start", display: "grid", gap: 4 },
+  previousExecutionToggle: { alignItems: "center", background: "#ffffff", border: "1px solid #cbd5e1", borderRadius: 8, color: "#174ea6", cursor: "pointer", display: "inline-flex", fontWeight: 800, justifyContent: "center", justifySelf: "start", marginTop: 2, minHeight: 40, padding: "0 12px" },
+  previousSetList: { borderTop: "1px solid #e5e9f1", display: "grid", gap: 6, marginTop: 6, paddingTop: 8 },
+  previousSetItem: { display: "grid", gap: 2 },
+  restOverlay: { alignItems: "center", background: "rgba(15, 23, 42, 0.52)", display: "flex", inset: 0, justifyContent: "center", padding: 16, position: "fixed", zIndex: 40 },
+  restOverlayCard: { alignItems: "center", background: "#ffffff", border: "1px solid #dbeafe", borderRadius: 8, boxShadow: "0 24px 60px rgba(15, 23, 42, 0.28)", display: "grid", gap: 14, justifyItems: "center", maxWidth: 380, outline: "none", padding: "18px 18px 20px", position: "relative", textAlign: "center", width: "min(100%, 380px)" },
+  restIconButton: { alignItems: "center", background: "#f8fafc", border: "1px solid #cbd5e1", borderRadius: 8, color: "#1f2937", cursor: "pointer", display: "inline-flex", height: 38, justifyContent: "center", padding: 0, position: "absolute", right: 12, top: 12, width: 38 },
+  restDial: { display: "grid", height: 152, placeItems: "center", position: "relative", width: 152 },
+  restDialCenter: { alignItems: "center", color: "#174ea6", display: "grid", gap: 4, justifyItems: "center", position: "absolute" },
+  restProgressCircle: { transform: "rotate(-90deg)", transformOrigin: "76px 76px", transition: "stroke-dashoffset 0.35s ease" },
+  restTime: { color: "#174ea6", display: "block", fontSize: 34, lineHeight: 1.05, marginTop: 2 },
+  restOverlayText: { display: "grid", gap: 6 },
+  restContext: { color: "#384252", fontSize: 15, fontWeight: 700, lineHeight: 1.35, margin: 0 },
+  restActions: { display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" },
+  compactRestTimer: { alignItems: "center", background: "#174ea6", border: "1px solid #0f3d86", borderRadius: 8, bottom: 18, boxShadow: "0 16px 36px rgba(23, 78, 166, 0.3)", color: "#ffffff", cursor: "pointer", display: "inline-flex", gap: 8, fontWeight: 800, minHeight: 44, padding: "0 14px", position: "fixed", right: 18, zIndex: 35 },
   exerciseHeader: { display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, marginBottom: 12 },
   setGrid: { display: "grid", gap: 8 },
   setRow: { alignItems: "end", display: "grid", gap: 8, gridTemplateColumns: "28px repeat(4, minmax(64px, 1fr)) minmax(70px, auto)" },
@@ -746,6 +1107,7 @@ const styles = {
   numberInput: { border: "1px solid #cbd5e1", borderRadius: 8, boxSizing: "border-box", minHeight: 36, minWidth: 0, padding: "0 8px", width: "100%" },
   checkLabel: { alignItems: "center", display: "flex", gap: 6, minHeight: 36, whiteSpace: "nowrap" },
   stateBox: { minHeight: "70vh", display: "grid", placeItems: "center", gap: 12, textAlign: "center", color: "#334155" },
+  srOnly: { border: 0, clip: "rect(0 0 0 0)", height: 1, margin: -1, overflow: "hidden", padding: 0, position: "absolute", whiteSpace: "nowrap", width: 1 },
 };
 
 const RIR_HELP = "RIR - Repetições em reserva. Quantas repetições você acha que ainda conseguiria fazer ao terminar a série. RIR 0: não conseguiria outra repetição. RIR 2: conseguiria aproximadamente mais 2.";

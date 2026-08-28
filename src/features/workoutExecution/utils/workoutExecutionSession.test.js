@@ -100,6 +100,41 @@ test("save payload keeps zero values and completed contract explicit", () => {
   ]);
 });
 
+test("save payload records actual set load without mutating prescribed load snapshot", () => {
+  const payload = buildExecutionSavePayload({
+    id: "session",
+    status: "in_progress",
+    exercises: [{
+      id: "exercise",
+      status: "partial",
+      prescribedLoad: "24 kg",
+      sets: [
+        { setNumber: 1, reps: 10, loadValue: 20, loadUnit: "kg", completed: true },
+        { setNumber: 2, reps: 9, loadValue: 22, loadUnit: "kg", completed: true },
+        { setNumber: 3, reps: 8, loadValue: 24, loadUnit: "kg", completed: true },
+      ],
+    }],
+  });
+
+  assert.deepEqual(payload[0].sets.map((set) => set.loadValue), [20, 22, 24]);
+  assert.equal("prescribedLoad" in payload[0], false);
+});
+
+test("prescribed load is not automatically recorded as executed load", () => {
+  const payload = buildExecutionSavePayload({
+    id: "session",
+    status: "in_progress",
+    exercises: [{
+      id: "exercise",
+      status: "partial",
+      prescribedLoad: "24 kg",
+      sets: [{ setNumber: 1, reps: 10, completed: true }],
+    }],
+  });
+
+  assert.equal(payload[0].sets[0].loadValue, null);
+});
+
 test("summarizes recent history without analytics claims", () => {
   const summary = buildExecutionHistorySummary({
     id: "session-1",

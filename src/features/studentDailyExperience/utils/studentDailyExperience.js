@@ -169,6 +169,7 @@ function toActiveWorkoutView(workout) {
       notes: day.descricao || "",
       exercises: day.exercicios.map((exercise) => ({
         id: exercise.id || "",
+        videoUrl: exercise.video || "",
         name: exercise.nome || "Exercício",
         prescription: compactJoin([
           exercise.series ? `${exercise.series} séries` : "",
@@ -221,6 +222,7 @@ function normalizeDays(days = []) {
       repeticoes: exercise.repeticoes || exercise.repetitions || "",
       carga: exercise.carga || exercise.prescribedLoad || "",
       descanso: exercise.descanso || exercise.rest || "",
+      video: exercise.video || exercise.videoUrl || "",
     })),
   }));
 }
