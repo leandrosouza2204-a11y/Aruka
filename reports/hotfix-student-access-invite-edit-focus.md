@@ -481,3 +481,352 @@ Next controlled step:
 
 - Decision: `READY_TO_PUBLISH_HOTFIX_PREVIEW_FOR_REAL_INVITE_QA`
 - Next action: commit and push the hotfix branch, create/obtain the Vercel Preview URL, allow-list the preview `/criar-senha`, configure invite redirect for that preview if needed, then send one controlled QA invite.
+
+## Real invite QA
+
+Execution date: 2026-08-29
+
+Git/PR:
+
+- Commit SHA: `ebd8d44f483885f61dcb3c7a05274f78ecafb12d`
+- Commit message: `fix: corrige convite de acesso e edição de aluno`
+- Push: SUCCESS
+- PR: `#55`
+- PR URL: `https://github.com/leandrosouza2204-a11y/Aruka/pull/55`
+- PR #54: not modified
+- Merge: NO
+
+Preview:
+
+- Preview URL: `https://aruka-cxbu5laiv-leandrosouzafitness.vercel.app`
+- Create password URL: `https://aruka-cxbu5laiv-leandrosouzafitness.vercel.app/criar-senha`
+- GitHub deployment status: success
+- Runtime validation: BLOCKED by Vercel protection/auth page for unauthenticated access from this environment
+- `/criar-senha` HTTP check: reachable, but full runtime validation remains blocked by Preview protection/auth
+- Hotfix code present: partially confirmed through deployment SHA and route/static hints; full UI/runtime validation still requires authorized Preview access
+
+Auth/redirect:
+
+- Auth redirect allow-list update: NOT_DONE
+- Required manual allow-list URL: `https://aruka-cxbu5laiv-leandrosouzafitness.vercel.app/criar-senha`
+- `STUDENT_INVITE_REDIRECT_TO`: NOT_CONFIGURED in this step
+- Reason: Auth redirect allow-list could not be changed safely from available CLI/tooling, and the mission requires allow-list before setting the invite redirect and sending the real invite.
+- Site URL changed: NO
+
+Real invite QA status:
+
+- Professional QA login: NOT_RUN
+- Student QA selected: NOT_RUN
+- Initial student state: NOT_CONFIRMED
+- Invite sent: NO
+- E-mail delivery: NOT_RUN
+- Auth log: NOT_RUN
+- Function log: NOT_RUN
+- Password setup: NOT_RUN
+- Claim: NOT_RUN
+- Student access validation: NOT_RUN
+- Resend: NOT_RUN
+- Edit modal runtime focus: NOT_RUN
+
+Local QA after commit/push:
+
+- Function tests: PASS
+- Student access lifecycle: PASS
+- Student identity contract: PASS
+- Student account linking: PASS
+- Edit focus test: PASS
+- Visible UI copy: PASS
+- Lint: PASS
+- Build: PASS
+
+Stop point:
+
+- Decision: `WAITING_FOR_USER_AUTH_REDIRECT_ALLOWLIST_AND_PREVIEW_ACCESS`
+- Next action: grant/open Preview access for QA and add `https://aruka-cxbu5laiv-leandrosouzafitness.vercel.app/criar-senha` to Supabase Auth Redirect URLs. After that, configure `STUDENT_INVITE_REDIRECT_TO` to this Preview URL and run one controlled QA invite.
+
+## Real invite QA resume after preview access
+
+Attempt date: 2026-08-29
+
+Preview recheck:
+
+- Preview URL: `https://aruka-cxbu5laiv-leandrosouzafitness.vercel.app`
+- Create password URL: `https://aruka-cxbu5laiv-leandrosouzafitness.vercel.app/criar-senha`
+- Preview root HTTP status: 200
+- Preview root result: still shows Vercel protection/auth page to this execution environment
+- `/criar-senha` HTTP status: 200
+- `/criar-senha` result: still shows Vercel protection/auth page to this execution environment
+- Preview access: NO
+
+Stop point:
+
+- Decision: `BLOCKED_BY_VERCEL_PREVIEW_ACCESS`
+- No redirect secret was configured.
+- No Auth configuration was changed.
+- No real invite was sent.
+- No Auth user was created.
+- No student QA mutation was executed.
+- No merge was performed.
+
+Required action before next resume:
+
+- Grant this execution/browser environment access to the Vercel Preview or provide an accessible Preview URL for `https://aruka-cxbu5laiv-leandrosouzafitness.vercel.app`.
+- Confirm the Supabase Auth Redirect URLs include `https://aruka-cxbu5laiv-leandrosouzafitness.vercel.app/criar-senha`.
+
+## Real invite QA resume after Auth allow-list confirmation
+
+Attempt date: 2026-08-29
+
+Confirmed by user:
+
+- Preview access: PASS
+- Create password route: PASS
+- Supabase Auth Redirect URLs include `https://aruka-cxbu5laiv-leandrosouzafitness.vercel.app/criar-senha`
+- Current legacy Site URL: `https://consultoria-fitness-gamma.vercel.app`
+- Legacy Site URL review required: YES
+- Site URL changed: NO
+
+Secret configuration:
+
+- `STUDENT_INVITE_REDIRECT_TO`: configured to the Preview `/criar-senha` URL
+- Secret presence after configuration: PRESENT
+- Other secret values printed in report/final output: NO
+- Edge Function redeploy: NO
+- Rationale: the deployed Edge Function reads `STUDENT_INVITE_REDIRECT_TO` from runtime environment; no code redeploy was needed.
+
+QA handoff:
+
+- Decision: `WAITING_FOR_USER_REAL_INVITE_INTERACTION`
+- Next action: user opens the Preview, logs in with professional QA, validates edit modal focus, selects a student QA with `student_user_id = null`, sends one invite, checks inbox/spam/logs, opens the invite, completes password setup, and reports the observed results.
+- Real invite sent by Codex: NO
+- Auth user created by Codex: NO
+- Student QA mutation by Codex: NO
+- Real customer data changed: NO
+
+## Real invite attempt #1 diagnosis
+
+Attempt date: 2026-08-29
+
+Observed by user:
+
+- Professional login: PASS
+- Edit modal focus runtime: PASS
+- Invite UI: FAIL
+- Toast title: `Não foi possível atualizar o acesso agora.`
+- Toast detail: `Não foi possível enviar o convite agora.`
+- E-mail delivery: NO
+- UI remained: access not released, CTA `Enviar convite`
+
+Client path:
+
+- Invocation file: `src/services/studentAccessService.js`
+- Invocation function: `requestStudentAccessInvite(action, alunoId, options)`
+- API: `supabase.functions.invoke("student-access-invite", { body: { action, alunoId, email } })`
+- Caller: `src/features/alunos/hooks/useAlunosPage.js`, `liberarAcessoAluno(aluno, email)`
+- Toast path: `toast.erro("Não foi possível atualizar o acesso agora.", error.message)`
+- Detailed backend error preserved: NO when `functions.invoke` returns `error`; the service throws the generic `Não foi possível enviar o convite agora.`
+
+Edge/CORS diagnosis:
+
+- Function status: ACTIVE
+- Preview origin: `https://aruka-cxbu5laiv-leandrosouzafitness.vercel.app`
+- `STUDENT_INVITE_REDIRECT_TO`: PRESENT
+- `STUDENT_INVITE_ALLOWED_ORIGINS`: ABSENT
+- Code fallback origins: `http://localhost:5173`, `http://127.0.0.1:5173`, `https://www.aruka.com.br`
+- Preview origin allowed by current deployed Function config: NO
+- OPTIONS supported: YES
+- OPTIONS HTTP status: 200
+- `Access-Control-Allow-Headers`: `authorization, x-client-info, apikey, content-type`
+- `Access-Control-Allow-Methods`: `POST, OPTIONS`
+- `Access-Control-Allow-Origin` for Preview origin: missing/empty
+
+Layer classification:
+
+- Function reached: YES for browser preflight OPTIONS
+- Actual invite POST likely reached Function: NO/UNKNOWN, but browser CORS would block it before a usable `functions.invoke` response
+- Auth provider reached: UNKNOWN, likely NO because CORS preflight did not allow the Preview origin
+- QA e-mail already registered: UNKNOWN; not checked because CORS is already a sufficient primary failure
+- Student state after failure: not remotely inspected in this diagnosis; user observed UI remained not released
+- Root cause classification: `CORS_ORIGIN_REJECTED`
+- Confidence: HIGH
+
+Required fix:
+
+- Add the Preview origin to the Edge Function allowed origins, preferably by setting `STUDENT_INVITE_ALLOWED_ORIGINS=https://aruka-cxbu5laiv-leandrosouzafitness.vercel.app` while QA runs on this Preview.
+- Revalidate OPTIONS returns `Access-Control-Allow-Origin: https://aruka-cxbu5laiv-leandrosouzafitness.vercel.app`.
+- Redeploy is probably not required if Edge Function secrets are read at runtime, but validation should confirm after the secret update.
+
+Remote mutations during diagnosis:
+
+- DB mutation: NO
+- Auth mutation: NO
+- Student mutation: NO
+- Secret mutation: NO
+- Edge deploy: NO
+- Invite resent: NO
+
+## CORS for Preview
+
+Execution date: 2026-08-29
+
+Attempt #1:
+
+- Result: blocked by CORS.
+- Cause: Preview origin was not present in `STUDENT_INVITE_ALLOWED_ORIGINS`, and the Function fallback origins included only localhost plus production.
+
+Fix:
+
+- Secret configured: `STUDENT_INVITE_ALLOWED_ORIGINS`
+- Preview origin: `https://aruka-cxbu5laiv-leandrosouzafitness.vercel.app`
+- Production origin preserved: `https://www.aruka.com.br`
+- Localhost origins preserved: `http://localhost:5173`, `http://127.0.0.1:5173`
+- Wildcard used: NO
+- Edge redeploy required: NO
+- Evidence: updated secret was consumed by the deployed Function at runtime.
+
+OPTIONS after fix:
+
+- Preview OPTIONS: PASS
+- HTTP status: 200
+- `Access-Control-Allow-Origin`: `https://aruka-cxbu5laiv-leandrosouzafitness.vercel.app`
+- `Access-Control-Allow-Methods`: contains `POST, OPTIONS`
+- `Access-Control-Allow-Headers`: contains `authorization, x-client-info, apikey, content-type`
+- Arbitrary origin rejected: YES, `https://example.invalid` did not receive `Access-Control-Allow-Origin`
+
+Attempt #2:
+
+- Invite sent: WAITING_USER
+- UI result: WAITING_USER
+- Student status: WAITING_USER
+- `student_user_id`: WAITING_USER
+- E-mail delivery: WAITING_USER
+
+Remote mutations:
+
+- DB mutation: NO
+- Auth config mutation: NO
+- Secret mutation: YES, only `STUDENT_INVITE_ALLOWED_ORIGINS`
+- Edge mutation: NO
+- Real customer data changed: NO
+
+## Real invite attempts after CORS fix
+
+Attempt date: 2026-08-29
+
+Observed by user:
+
+- Professional login: PASS
+- Edit modal focus runtime: PASS
+- CORS preflight after fix: PASS
+- Two controlled QA e-mails were tried by the user.
+- Both attempts failed with the same generic UI toast.
+- Toast title: `Não foi possível atualizar o acesso agora.`
+- Toast detail: `Não foi possível enviar o convite agora.`
+- UI remained: access not released, CTA `Enviar convite`
+- E-mail delivery: NO
+
+Client diagnosis:
+
+- Invocation path: `src/services/studentAccessService.js`
+- Function: `requestStudentAccessInvite(action, alunoId, options)`
+- Request body: `{ action, alunoId, email }`
+- Body field match: PASS for Edge Function contract.
+- Supabase client handles `Authorization`, `apikey`, and client headers automatically.
+- Detailed backend error preserved: NO when `supabase.functions.invoke()` returns `error`; the frontend throws the generic invite failure.
+
+Runtime/project diagnosis:
+
+- Preview Supabase project ref: `vrizeuhuhvtvbrmtvdik`
+- Preview uses remote Supabase URL: YES
+- Redirect configured: `STUDENT_INVITE_REDIRECT_TO` present and points to the Preview `/criar-senha`
+- Resolved redirect validity: expected PASS, but not observed from a successful provider call yet
+- Service role runtime availability: expected present from secret list, but not confirmed by logs during failing POST
+
+Evidence gap:
+
+- Supabase CLI 2.109.1 does not provide Function logs through `functions --help`.
+- No safe log integration was available in this environment for Auth/Function invocation logs.
+- QA e-mail addresses and aluno QA id were not available to perform read-only Auth/student-specific inspection.
+- POST HTTP status and response JSON were not captured from the browser.
+
+Root-cause status:
+
+- CORS remains cleared and should not be the primary classification without new evidence.
+- Current classification: `UNKNOWN_REQUIRES_BROWSER_NETWORK_CAPTURE`
+- Needed evidence: browser Network entry for the failed `student-access-invite` POST, specifically Status Code and Response/Preview JSON only.
+
+Remote mutations during this diagnosis:
+
+- DB mutation: NO
+- Auth mutation: NO
+- Student mutation: NO
+- Secret mutation: NO
+- Edge deploy: NO
+- New invite: NO
+
+## Existing Auth user invite error UX and delete diagnosis
+
+Execution date: 2026-08-29
+
+Input evidence from user:
+
+- Browser POST result after CORS fix: `409 Conflict`
+- Backend code: `ALREADY_REGISTERED_UNLINKED`
+- Backend message: `Este e-mail ja possui uma conta. Use o fluxo seguro de vinculacao antes de ativar o acesso.`
+- Previous UI toast title: `Não foi possível atualizar o acesso agora.`
+- Previous UI toast detail: `Não foi possível enviar o convite agora.`
+- Supabase Dashboard Auth deletion attempt: `Failed to delete selected users: Database error deleting user`
+- E-mail delivery after the failed invite: NO
+- New invite sent in this mission: NO
+
+Frontend fix:
+
+- `src/services/studentAccessService.js` now preserves the safe Edge Function error payload returned through `supabase.functions.invoke().error.context`.
+- `src/services/studentInviteErrorService.js` maps `ALREADY_REGISTERED_UNLINKED` to a user-facing message that tells the professional the e-mail already has an Aruka account and must use another e-mail or the future safe linking flow.
+- Unknown Function errors remain generic.
+- The UI does not expose HTTP status, Auth internals, service role details, JWTs, stack traces, or raw provider payloads.
+
+Expected UI after fix:
+
+- Toast title remains: `Não foi possível atualizar o acesso agora.`
+- Toast detail becomes: `Este e-mail já possui uma conta no Aruka. Use outro e-mail ou utilize o fluxo de vinculação quando ele estiver disponível.`
+- Student access should remain not released.
+- Invite should not be resent automatically.
+
+Read-only Auth deletion diagnosis:
+
+- Remote schema-only audit found public foreign keys that reference `auth.users`.
+- Non-blocking or destructive-by-design relationships include many `ON DELETE CASCADE` tables and `alunos.student_user_id ON DELETE SET NULL`.
+- Potential delete blockers, if the selected Auth user is referenced, include:
+  - `admin_logs.admin_user_id` with default `NO ACTION`
+  - `admin_logs.target_user_id` with default `NO ACTION`
+  - `aoe_decisions.actor_id ON DELETE RESTRICT`
+  - `aoe_human_reviews.reviewer_id ON DELETE RESTRICT`
+  - `aoe_idempotency_keys.actor_id ON DELETE RESTRICT`
+- `alunos.student_user_id` alone should not block deletion because it is `ON DELETE SET NULL`.
+- Specific row-level cause for the user's Auth deletion failure was not proven because no QA Auth user UUID or e-mail was available for read-only reference counts.
+- `DELETE_BLOCKED_BY_FK=UNKNOWN`
+
+Validation:
+
+- `node --test src\services\studentAccessService.test.js`: PASS
+- `npm.cmd run qa:student-access-lifecycle`: PASS
+- `npm.cmd run qa:student-identity-contract`: PASS
+- `npm.cmd run qa:student-account-linking`: PASS
+- `npm.cmd run qa:visible-ui-copy`: PASS
+- `npm.cmd run lint`: PASS
+- `npm.cmd run build`: PASS
+
+Remote mutations during this mission:
+
+- DB mutation: NO
+- Auth mutation: NO
+- Student mutation: NO
+- Secret mutation: NO
+- Edge deploy: NO
+- New invite: NO
+- Real customer data changed: NO
+
+Decision: `WAITING_FOR_CLEAN_QA_EMAIL_OR_READ_ONLY_AUTH_REFERENCE_AUDIT`
+
+NEXT_ACTION=`USER_SELECT_CLEAN_QA_EMAIL_OR_PROVIDE_QA_AUTH_USER_ID_FOR_REFERENCE_COUNTS`
