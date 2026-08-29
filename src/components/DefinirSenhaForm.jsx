@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { supabase } from "../services/supabase";
+import { claimPendingStudentInvite } from "../services/studentInviteLinkingService";
 
 const senhaForteRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/;
 
@@ -82,12 +83,14 @@ function DefinirSenhaForm() {
 
       if (error) throw error;
 
+      await claimPendingStudentInvite();
+
       setNovaSenha("");
       setConfirmacao("");
       setSucesso("Senha criada com sucesso. Redirecionando...");
 
       window.setTimeout(() => {
-        navigate("/dashboard", { replace: true });
+        navigate("/minha-area", { replace: true });
       }, 1200);
     } catch (error) {
       setErro(error.message || "Não foi possível criar a senha.");

@@ -41,7 +41,7 @@ check("professional_history_discoverable", source.professionalUi.includes("Hist�
 check("rpe_rir_help", source.studentPage.includes("Entenda o que é RIR") && source.studentPage.includes("Entenda o que é RPE") && source.studentPage.includes("Repetições em reserva") && source.studentPage.includes("Percepção de esforço"));
 check("set_persistence_script", source.packageJson.includes("qa:workout-execution-set-persistence"));
 check("cycle_06_1_copy", !/(Última execução registrada encontrada como referência|data-testid="student-prescription-reference")/i.test(source.studentPage));
-check("session_date_migration", migrations.length === 13 && source.sessionDateMigration.includes("p_session_date date"));
+check("session_date_migration", migrations.length === 14 && source.sessionDateMigration.includes("p_session_date date"));
 check("client_local_date_contract", source.studentPage.includes("iniciarExecucaoTreino") && readFileSync("src/services/workoutExecutionService.js", "utf8").includes("p_session_date: getLocalDateOnly()"));
 check("no_rpc_change", !/create or replace function public\.(?!set_workout_execution_updated_at|workout_execution_session_payload|start_workout_execution_session|save_workout_execution|complete_workout_execution_session|abandon_workout_execution_session|get_my_workout_execution_state|get_student_workout_execution_history)/.test(source.helper + source.studentPage + source.professionalUi));
 check("no_prohibited_copy", !/(regress[aã]o|estagna[cç][aã]o|falhou|ader[eê]ncia|performance ruim)/i.test(allCycleSource));

@@ -83,6 +83,7 @@ function rowParaAluno(row) {
     dataPagamento: row.data_pagamento || "",
     observacoes: row.observacoes || "",
     createdAt: row.created_at || "",
+    studentUserId: row.student_user_id || "",
     studentAccessStatus: row.student_access_status || "not_invited",
     studentAccessEmail: row.student_access_email || "",
     studentAccessInvitedAt: row.student_access_invited_at || "",

@@ -30,6 +30,7 @@ import {
   inviteStudentAccess,
   reactivateStudentAccess,
   revokeStudentAccess,
+  resendStudentAccessInvite,
   suspendStudentAccess,
 } from "../../../services/studentAccessService";
 import {
@@ -86,6 +87,7 @@ export function useAlunosPage() {
   const [formErrors, setFormErrors] = useState({});
   const [validationAttempt, setValidationAttempt] = useState(0);
   const [resumoOperacional, setResumoOperacional] = useState(criarResumoInicial());
+  const [studentAccessRequestAlunoId, setStudentAccessRequestAlunoId] = useState("");
   const [salvando, setSalvando] = useState(false);
   const toast = useToast();
   const { confirmar } = useConfirm();
@@ -497,14 +499,36 @@ export function useAlunosPage() {
   }
 
   async function liberarAcessoAluno(aluno, email) {
+    if (studentAccessRequestAlunoId) return;
+    setStudentAccessRequestAlunoId(aluno.id);
     try {
-      const acesso = aluno.studentAccessStatus === "invited"
+      const acesso = aluno.studentUserId
         ? await activateStudentAccess(aluno.id, email)
         : await inviteStudentAccess(aluno.id, email);
       atualizarAcessoAluno(aluno.id, acesso);
-      toast.sucesso("Acesso liberado.", "O aluno pode acessar a area do aluno.");
+      if (acesso.status === "invited") {
+        toast.sucesso("Convite enviado.", "Aguarde o aluno aceitar o convite antes de ativar o acesso.");
+        return;
+      }
+      toast.sucesso("Acesso ativado.", "O aluno pode acessar a area do aluno.");
     } catch (error) {
       toast.erro("Não foi possível atualizar o acesso agora.", error.message);
+    } finally {
+      setStudentAccessRequestAlunoId("");
+    }
+  }
+
+  async function reenviarConviteAluno(aluno) {
+    if (studentAccessRequestAlunoId) return;
+    setStudentAccessRequestAlunoId(aluno.id);
+    try {
+      const acesso = await resendStudentAccessInvite(aluno.id);
+      atualizarAcessoAluno(aluno.id, acesso);
+      toast.sucesso("Convite reenviado.", "Um novo e-mail de convite foi solicitado para o aluno.");
+    } catch (error) {
+      toast.erro("Não foi possível reenviar o convite.", error.message);
+    } finally {
+      setStudentAccessRequestAlunoId("");
     }
   }
 
@@ -578,11 +602,13 @@ export function useAlunosPage() {
     nomePlano,
     planos,
     planosAtivos,
+    reenviarConviteAluno,
     recarregarResumoOperacional: carregarResumoOperacional,
     resumoOperacional,
     contratos,
     salvarAluno,
     salvando,
+    studentAccessRequestAlunoId,
     enviarCheckinSemanal,
     liberarAcessoAluno,
     reativarAcessoAluno,

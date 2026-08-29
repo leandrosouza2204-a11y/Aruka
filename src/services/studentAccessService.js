@@ -10,7 +10,11 @@ export async function getStudentAccessState(alunoId) {
 }
 
 export async function inviteStudentAccess(alunoId, email) {
-  return manageStudentAccess(alunoId, "invite", { email });
+  return requestStudentAccessInvite("send", alunoId, { email });
+}
+
+export async function resendStudentAccessInvite(alunoId) {
+  return requestStudentAccessInvite("resend", alunoId);
 }
 
 export async function activateStudentAccess(alunoId, email) {
@@ -40,12 +44,28 @@ async function manageStudentAccess(alunoId, action, options = {}) {
   return normalizeStudentAccessState(data || {});
 }
 
+async function requestStudentAccessInvite(action, alunoId, options = {}) {
+  const { data, error } = await supabase.functions.invoke("student-access-invite", {
+    body: {
+      action,
+      alunoId,
+      email: options.email || null,
+    },
+  });
+  if (error) throw new Error("Não foi possível enviar o convite agora.");
+  if (data?.error) throw new Error(data.error);
+  return normalizeStudentAccessState(data?.access || {});
+}
+
 function sanitizeStudentAccessError(error) {
   if (error.message === "STUDENT_ACCESS_EMAIL_REQUIRED") {
     return new Error("Informe um e-mail valido para liberar o acesso.");
   }
   if (error.message === "STUDENT_ACCESS_AUTH_LINK_REQUIRED") {
     return new Error("Vincule uma conta de aluno antes de ativar o acesso.");
+  }
+  if (error.message === "STUDENT_ACCESS_TRANSITION_INVALID") {
+    return new Error("Esta acao nao esta disponivel para o estado atual do acesso.");
   }
   return new Error("Não foi possível atualizar o acesso agora.");
 }

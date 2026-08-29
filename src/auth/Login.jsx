@@ -4,6 +4,7 @@ import BrandLogo from "../components/BrandLogo";
 import FooterLegal from "../components/FooterLegal";
 import { criarPerfilPadrao } from "../services/perfisService";
 import { supabase, supabaseConfigurado } from "../services/supabase";
+import { claimPendingStudentInvite } from "../services/studentInviteLinkingService";
 import { resolverDestinoPosLogin } from "./loginRouting";
 
 function Login() {
@@ -41,7 +42,8 @@ function Login() {
       return;
     }
 
-    await criarPerfilPadrao();
+    const studentAccess = await claimPendingStudentInvite({ optional: true });
+    if (!studentAccess) await criarPerfilPadrao();
     const destinoPosLogin = await resolverDestinoPosLogin();
     navigate(destinoPosLogin, { replace: true });
   }

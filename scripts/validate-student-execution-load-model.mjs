@@ -7,7 +7,7 @@ const page = readFileSync("src/pages/MinhaArea.jsx", "utf8");
 const migration = readFileSync("supabase/migrations/20260822120000_workout_execution_history_foundation.sql", "utf8");
 const migrations = readdirSync("supabase/migrations").filter((file) => /^\d+.*\.sql$/.test(file));
 
-assert.equal(migrations.length, 13);
+assert.equal(migrations.length, 14);
 assert.match(migration, /prescribed_load_snapshot text not null default ''/);
 assert.match(migration, /load_value numeric/);
 assert.match(migration, /load_unit text not null default 'kg'/);
