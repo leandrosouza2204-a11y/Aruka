@@ -37,6 +37,9 @@ Deno.serve(async (req) => {
     const userClient = createClient(env.supabaseUrl, env.anonKey, {
       global: { headers: { Authorization: authorization } },
     });
+    const authEmailClient = createClient(env.supabaseUrl, env.anonKey, {
+      auth: { autoRefreshToken: false, persistSession: false },
+    });
     const adminClient = createClient(env.supabaseUrl, env.serviceRoleKey, {
       auth: { autoRefreshToken: false, persistSession: false },
     });
@@ -58,18 +61,20 @@ Deno.serve(async (req) => {
       .from("alunos")
       .select("id,user_id,student_user_id,student_access_status,student_access_email")
       .eq("id", alunoId)
-      .eq("user_id", user.id)
       .maybeSingle<AlunoRow>();
 
     if (alunoError) throw alunoError;
     if (!aluno) return jsonResponse({ error: "Aluno nao encontrado." }, 404, corsHeaders);
+    if (aluno.user_id !== user.id) return jsonResponse({ error: "Aluno nao encontrado." }, 403, corsHeaders);
     if (aluno.student_user_id) {
       return jsonResponse({ error: "Este aluno ja possui uma conta vinculada." }, 409, corsHeaders);
     }
 
+    const persistedInviteEmail = normalizarEmail(aluno.student_access_email || "");
+    const requestedEmail = normalizarEmail(body.email || "");
     const email = action === "resend"
-      ? normalizarEmail(aluno.student_access_email || "")
-      : normalizarEmail(body.email || "");
+      ? persistedInviteEmail
+      : requestedEmail;
 
     if (!emailValido(email)) return jsonResponse({ error: "Informe um e-mail valido." }, 400, corsHeaders);
 
@@ -81,18 +86,49 @@ Deno.serve(async (req) => {
       return jsonResponse({ error: "Reenvio disponivel apenas para convite pendente." }, 409, corsHeaders);
     }
 
+    if (action === "resend" && requestedEmail && requestedEmail !== persistedInviteEmail) {
+      return jsonResponse({
+        error: "O e-mail do convite pendente nao corresponde ao e-mail informado.",
+        code: "INVITE_EMAIL_MISMATCH",
+      }, 409, corsHeaders);
+    }
+
     const existingUserId = await findAuthUserIdByEmail(adminClient, email);
-    if (existingUserId) {
+    if (action === "send" && existingUserId) {
       return jsonResponse({
         error: "Este e-mail ja possui uma conta. Use o fluxo seguro de vinculacao antes de ativar o acesso.",
         code: "ALREADY_REGISTERED_UNLINKED",
       }, 409, corsHeaders);
     }
 
+    if (action === "resend" && !existingUserId) {
+      return jsonResponse({ error: "Convite pendente nao encontrado para este e-mail." }, 409, corsHeaders);
+    }
+
     const redirectTo = buildRedirectTo(req, env.redirectTo);
     if (!redirectTo) {
       return jsonResponse({ error: "Redirect de convite nao configurado." }, 500, corsHeaders);
     }
+
+    if (action === "resend") {
+      const { error: recoveryError } = await authEmailClient.auth.resetPasswordForEmail(email, {
+        redirectTo,
+      });
+
+      if (recoveryError) {
+        return jsonResponse(mapInviteError(recoveryError), statusForInviteError(recoveryError), corsHeaders);
+      }
+
+      const accessState = await persistResend(adminClient, alunoId, user.id, email);
+
+      return jsonResponse({
+        ok: true,
+        action,
+        redirectTo,
+        access: accessState,
+      }, 200, corsHeaders);
+    }
+
     const { data: inviteData, error: inviteError } = await adminClient.auth.admin.inviteUserByEmail(email, {
       redirectTo,
     });
@@ -103,9 +139,7 @@ Deno.serve(async (req) => {
 
     let accessState;
     try {
-      accessState = action === "send"
-        ? await persistNewInvite(userClient, alunoId, email)
-        : await persistResend(adminClient, alunoId, user.id, email);
+      accessState = await persistNewInvite(userClient, alunoId, email);
     } catch (persistError) {
       const invitedUserId = String(inviteData?.user?.id || "");
       if (invitedUserId) {

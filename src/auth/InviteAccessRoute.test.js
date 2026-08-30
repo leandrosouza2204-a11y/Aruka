@@ -22,6 +22,12 @@ test("create-password route waits for invite session bootstrap before deciding",
   assert.doesNotMatch(routeSource, /Navigate|navigate\("\/login"|replaceState/);
 });
 
+test("create-password route accepts password recovery sessions", () => {
+  assert.match(routeSource, /onAuthStateChange/);
+  assert.match(routeSource, /session\?\.user \? "authenticated" : "invalid"/);
+  assert.doesNotMatch(routeSource, /PASSWORD_RECOVERY[\s\S]{0,120}invalid/);
+});
+
 test("direct unauthenticated create-password access shows safe expired invite state", () => {
   assert.match(routeSource, /status === "invalid"/);
   assert.match(routeSource, /Convite invalido ou expirado/);

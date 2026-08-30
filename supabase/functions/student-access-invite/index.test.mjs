@@ -15,7 +15,7 @@ test("student invite validates JWT, ownership and linked account before provider
   assert.match(source, /verifyAuthenticatedUser\(userClient, accessToken, env\.supabaseUrl\)/);
   assert.match(source, /userClient\.auth\.getUser\(accessToken\)/);
   assert.match(source, /\.eq\("id", alunoId\)/);
-  assert.match(source, /\.eq\("user_id", user\.id\)/);
+  assert.match(source, /aluno\.user_id !== user\.id/);
   assert.match(source, /if \(aluno\.student_user_id\)/);
   assert.match(source, /ALREADY_REGISTERED_UNLINKED/);
 });
@@ -40,15 +40,32 @@ test("student invite validates JWT issuer and audience after auth verification",
 test("student invite calls auth provider before persisting invite state", () => {
   const providerCall = source.indexOf("adminClient.auth.admin.inviteUserByEmail");
   const sendPersist = source.indexOf("persistNewInvite");
-  const resendPersist = source.indexOf("persistResend");
 
   assert.ok(providerCall > -1, "provider call missing");
   assert.ok(providerCall < sendPersist, "send persists before provider accepts invite");
-  assert.ok(providerCall < resendPersist, "resend persists before provider accepts invite");
+});
+
+test("student invite uses recovery flow for an already-created pending invited auth user", () => {
+  assert.match(source, /action === "resend"/);
+  assert.match(source, /aluno\.student_access_status !== "invited"/);
+  assert.match(source, /requestedEmail && requestedEmail !== persistedInviteEmail/);
+  assert.match(source, /INVITE_EMAIL_MISMATCH/);
+  assert.match(source, /action === "resend" && !existingUserId/);
+  assert.match(source, /authEmailClient\.auth\.resetPasswordForEmail\(email, \{\s*redirectTo,\s*\}\)/);
+  const recoveryCall = source.indexOf("authEmailClient.auth.resetPasswordForEmail");
+  const firstInviteCall = source.indexOf("adminClient.auth.admin.inviteUserByEmail");
+  assert.ok(recoveryCall > -1, "resend recovery call missing");
+  assert.ok(firstInviteCall > recoveryCall, "first invite call should stay outside resend block");
+});
+
+test("student invite keeps arbitrary existing auth user blocked on first invite", () => {
+  assert.match(source, /action === "send" && existingUserId/);
+  assert.match(source, /ALREADY_REGISTERED_UNLINKED/);
+  assert.match(source, /action === "send" && !\["not_invited", "revoked"\]\.includes\(aluno\.student_access_status\)/);
 });
 
 test("student invite supports idempotent resend without duplicating aluno records", () => {
-  assert.match(source, /action === "resend"/);
+  assert.match(source, /persistResend/);
   assert.match(source, /\.eq\("student_access_status", "invited"\)/);
   assert.match(source, /\.is\("student_user_id", null\)/);
   assert.doesNotMatch(source, /\.insert\(/);
