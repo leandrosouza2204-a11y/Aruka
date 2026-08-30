@@ -29,6 +29,7 @@ const expectedExecutableMigrations = [
   "supabase/migrations/20260822120000_workout_execution_history_foundation.sql",
   "supabase/migrations/20260824120000_workout_execution_session_local_date.sql",
   "supabase/migrations/20260829120000_student_pending_invite_claim.sql",
+  "supabase/migrations/20260829173000_student_pending_invite_claim_permissions.sql",
 ];
 const forbiddenProjectRef = "xrmqdkpx" + "nfvusmenadnf";
 const APPROVED_REDACTED_DB_URL =
