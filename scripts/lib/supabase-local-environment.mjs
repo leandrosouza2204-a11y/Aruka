@@ -22,6 +22,7 @@ export const EXPECTED_EXECUTABLE_MIGRATIONS = [
   "supabase/migrations/20260822120000_workout_execution_history_foundation.sql",
   "supabase/migrations/20260824120000_workout_execution_session_local_date.sql",
   "supabase/migrations/20260829120000_student_pending_invite_claim.sql",
+  "supabase/migrations/20260829173000_student_pending_invite_claim_permissions.sql",
 ];
 export const EXPECTED_EPHEMERAL_MIGRATION_HISTORY = [
   "20260716090000",
@@ -39,6 +40,7 @@ export const EXPECTED_EPHEMERAL_MIGRATION_HISTORY = [
   "20260822120000",
   "20260824120000",
   "20260829120000",
+  "20260829173000",
 ];
 
 export function listFiles(root, dir) {
