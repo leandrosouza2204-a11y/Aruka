@@ -4,6 +4,7 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 import SubscriptionRoute from "./auth/SubscriptionRoute";
 import AdminRoute from "./auth/AdminRoute";
 import LegalRoute from "./auth/LegalRoute";
+import InviteAccessRoute from "./auth/InviteAccessRoute";
 import LoadingFallback from "./components/LoadingFallback";
 import MobileBottomNavigation from "./components/MobileBottomNavigation";
 
@@ -75,9 +76,9 @@ function App() {
           <Route
             path="/criar-senha"
             element={
-              <ProtectedRoute>
+              <InviteAccessRoute>
                 <CriarSenha />
-              </ProtectedRoute>
+              </InviteAccessRoute>
             }
           />
           <Route path="/" element={<LandingPage />} />
