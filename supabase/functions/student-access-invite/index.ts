@@ -29,7 +29,8 @@ Deno.serve(async (req) => {
     if (!env.ok) return jsonResponse({ error: env.error }, 500, corsHeaders);
 
     const authorization = req.headers.get("Authorization") || "";
-    if (!authorization.toLowerCase().startsWith("bearer ")) {
+    const accessToken = extractBearerToken(authorization);
+    if (!accessToken) {
       return jsonResponse({ error: "Sessao nao informada." }, 401, corsHeaders);
     }
 
@@ -40,12 +41,9 @@ Deno.serve(async (req) => {
       auth: { autoRefreshToken: false, persistSession: false },
     });
 
-    const {
-      data: { user },
-      error: userError,
-    } = await userClient.auth.getUser();
-
-    if (userError || !user) return jsonResponse({ error: "Sessao invalida." }, 401, corsHeaders);
+    const authResult = await verifyAuthenticatedUser(userClient, accessToken, env.supabaseUrl);
+    if (!authResult.ok) return jsonResponse({ error: "Sessao invalida." }, 401, corsHeaders);
+    const user = authResult.user;
 
     const body = await safeJson(req);
     if ("error" in body) return jsonResponse({ error: body.error }, 400, corsHeaders);
@@ -210,6 +208,47 @@ function readEnv() {
   }
 
   return { ok: true as const, supabaseUrl, anonKey, serviceRoleKey, redirectTo };
+}
+
+async function verifyAuthenticatedUser(
+  userClient: ReturnType<typeof createClient>,
+  accessToken: string,
+  supabaseUrl: string,
+) {
+  const {
+    data: { user },
+    error: userError,
+  } = await userClient.auth.getUser(accessToken);
+
+  if (userError || !user) return { ok: false as const };
+
+  const claims = decodeJwtPayload(accessToken);
+  const expectedIssuer = `${supabaseUrl.replace(/\/$/, "")}/auth/v1`;
+  if (claims?.iss !== expectedIssuer || claims?.aud !== "authenticated") {
+    return { ok: false as const };
+  }
+
+  return { ok: true as const, user };
+}
+
+function extractBearerToken(authorization: string) {
+  const match = authorization.match(/^Bearer\s+(.+)$/i);
+  return match ? match[1].trim() : "";
+}
+
+function decodeJwtPayload(accessToken: string) {
+  try {
+    const [, payload] = accessToken.split(".");
+    if (!payload) return null;
+    return JSON.parse(atob(base64UrlToBase64(payload))) as { iss?: string; aud?: string };
+  } catch {
+    return null;
+  }
+}
+
+function base64UrlToBase64(value: string) {
+  const base64 = value.replace(/-/g, "+").replace(/_/g, "/");
+  return base64.padEnd(base64.length + ((4 - base64.length % 4) % 4), "=");
 }
 
 async function safeJson(req: Request): Promise<Payload | { error: string }> {

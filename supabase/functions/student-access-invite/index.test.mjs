@@ -11,11 +11,30 @@ test("student invite edge function keeps service role server-side", () => {
 });
 
 test("student invite validates JWT, ownership and linked account before provider call", () => {
-  assert.match(source, /userClient\.auth\.getUser\(\)/);
+  assert.match(source, /extractBearerToken\(authorization\)/);
+  assert.match(source, /verifyAuthenticatedUser\(userClient, accessToken, env\.supabaseUrl\)/);
+  assert.match(source, /userClient\.auth\.getUser\(accessToken\)/);
   assert.match(source, /\.eq\("id", alunoId\)/);
   assert.match(source, /\.eq\("user_id", user\.id\)/);
   assert.match(source, /if \(aluno\.student_user_id\)/);
   assert.match(source, /ALREADY_REGISTERED_UNLINKED/);
+});
+
+test("student invite can run behind handler-level JWT verification", () => {
+  const config = readFileSync(new URL("../../config.toml", import.meta.url), "utf8");
+
+  assert.match(config, /\[functions\.student-access-invite\]\s+verify_jwt = false/);
+  assert.match(source, /if \(!accessToken\)/);
+  assert.match(source, /return jsonResponse\(\{ error: "Sessao nao informada\." \}, 401, corsHeaders\)/);
+  assert.match(source, /if \(!authResult\.ok\)/);
+  assert.match(source, /return jsonResponse\(\{ error: "Sessao invalida\." \}, 401, corsHeaders\)/);
+});
+
+test("student invite validates JWT issuer and audience after auth verification", () => {
+  assert.match(source, /decodeJwtPayload\(accessToken\)/);
+  assert.match(source, /const expectedIssuer = `\$\{supabaseUrl\.replace\(\/\\\/\$\/, ""\)\}\/auth\/v1`/);
+  assert.match(source, /claims\?\.iss !== expectedIssuer/);
+  assert.match(source, /claims\?\.aud !== "authenticated"/);
 });
 
 test("student invite calls auth provider before persisting invite state", () => {
