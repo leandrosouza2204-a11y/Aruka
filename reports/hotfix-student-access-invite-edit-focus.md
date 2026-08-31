@@ -492,6 +492,10 @@ Git/PR:
 - Commit message: `fix: corrige convite de acesso e edição de aluno`
 - Push: SUCCESS
 - PR: `#55`
+- Vercel status: SUCCESS
+- GitHub `Supabase Local Quality Gates`: FAILURE
+- CI failure reason: `Active executable migrations must contain exactly 14 SQL files, got 15`
+- CI failure classification: existing Supabase CI migration-count expectation drift, not caused by invite error UX files.
 - PR URL: `https://github.com/leandrosouza2204-a11y/Aruka/pull/55`
 - PR #54: not modified
 - Merge: NO
@@ -830,3 +834,1105 @@ Remote mutations during this mission:
 Decision: `WAITING_FOR_CLEAN_QA_EMAIL_OR_READ_ONLY_AUTH_REFERENCE_AUDIT`
 
 NEXT_ACTION=`USER_SELECT_CLEAN_QA_EMAIL_OR_PROVIDE_QA_AUTH_USER_ID_FOR_REFERENCE_COUNTS`
+
+## Invite error UX publish and clean QA preparation
+
+Execution date: 2026-08-29
+
+Git:
+
+- Previous published commit: `ebd8d44f483885f61dcb3c7a05274f78ecafb12d`
+- New commit: `25c14ebf0a5f40d62592df03d53a6adb22e4cd9b`
+- Commit message: `fix: melhora retorno de erro no convite de aluno`
+- Push: SUCCESS
+- PR: `#55`
+
+Preview:
+
+- Deployment id: `6161282974`
+- Deployment commit: `25c14ebf0a5f40d62592df03d53a6adb22e4cd9b`
+- New Preview URL: `https://aruka-8fkn8jtsq-leandrosouzafitness.vercel.app`
+- Preview access: PASS, HTTP 200
+- Previous allow-listed Preview origin: `https://aruka-cxbu5laiv-leandrosouzafitness.vercel.app`
+- New Preview origin matches previous allow-listed origin: NO
+- `CORS_CONFIG_STILL_VALID=NO`
+- `REDIRECT_CONFIG_STILL_VALID=NO_FOR_NEW_PREVIEW_ORIGIN`
+
+Operational decision:
+
+- The new deployment is published and matches the new commit.
+- The Preview origin changed.
+- No invite should be sent against this new deployment until `STUDENT_INVITE_ALLOWED_ORIGINS`, `STUDENT_INVITE_REDIRECT_TO`, and Supabase Auth Redirect URLs are reviewed for the new Preview URL.
+- `AUTH_DELETE_LIFECYCLE_FOLLOWUP_REQUIRED=YES`
+- Auth user deletion lifecycle remains a separate follow-up and does not block the invite hotfix mechanics.
+
+Remote mutations during this publish/preparation step:
+
+- DB mutation: NO
+- Auth mutation: NO
+- Student mutation: NO
+- Secret mutation: NO
+- Edge mutation: NO
+- Invite sent: NO
+
+Decision: `WAITING_FOR_NEW_PREVIEW_ORIGIN_CONFIGURATION`
+
+NEXT_ACTION=`UPDATE_PREVIEW_CORS_AND_AUTH_REDIRECT_BEFORE_INVITE`
+
+## Final PR55 Preview configuration after green CI
+
+Execution date: 2026-08-30
+
+PR:
+
+- PR: `#55`
+- Head: `584aaff2646396108f36b30b06225513cf0f96a9`
+- GitHub Actions / Supabase Local Quality Gates: SUCCESS
+- Vercel: SUCCESS
+
+Preview:
+
+- Final Preview URL: `https://aruka-5ys21fvuo-leandrosouzafitness.vercel.app`
+- Final Preview origin: `https://aruka-5ys21fvuo-leandrosouzafitness.vercel.app`
+- Deployment commit: `584aaff2646396108f36b30b06225513cf0f96a9`
+- Matches PR head: YES
+- Preview access: PASS, HTTP 200
+- Create password route: PASS, HTTP 200
+
+CORS:
+
+- `STUDENT_INVITE_ALLOWED_ORIGINS` updated for final Preview origin.
+- Production origin preserved: YES
+- Localhost origins preserved: YES
+- Wildcard used: NO
+- Final Preview OPTIONS: PASS
+- Arbitrary origin rejected: YES
+
+Auth redirect:
+
+- Required final create-password URL: `https://aruka-5ys21fvuo-leandrosouzafitness.vercel.app/criar-senha`
+- Codex did not use broad `config push`.
+- User manual allow-list required before updating `STUDENT_INVITE_REDIRECT_TO`.
+- Site URL changed: NO
+
+Edge:
+
+- Function: `student-access-invite`
+- Status: ACTIVE
+- `verify_jwt`: true
+- Redeploy required: NO
+- Redeploy performed: NO
+
+Database:
+
+- Local migrations: 15
+- Remote migrations: 15
+- Pending: 0
+- Mutation: NO
+
+Invite:
+
+- New invite sent: NO
+
+Validation:
+
+- Function auth tests: PASS
+- `qa:student-access-lifecycle`: PASS
+- `qa:student-identity-contract`: PASS
+- `qa:student-account-linking`: PASS
+- `qa:visible-ui-copy`: PASS
+- `lint`: PASS
+- `build`: PASS
+- Remote function status after deploy: ACTIVE
+- Remote function version after deploy: 7
+- Remote `verify_jwt` after deploy: false
+- Remote POST without Authorization: 401 by handler
+- Remote POST with malformed/invalid Bearer: 401 by handler
+- Remote POST with wrong-project JWT: 401 by handler
+- New invite sent after fix: NO
+
+## Post-JWT-fix preview configuration
+
+Execution date: 2026-08-30
+
+PR:
+
+- PR: #55
+- Head: `a75dfc38057b799e539d3eb910017b6735d103fa`
+- Supabase Local Quality Gates: PASS
+- Vercel: PASS
+- Merge: NO
+
+Preview:
+
+- URL: `https://aruka-jnvr5wjtt-leandrosouzafitness.vercel.app`
+- Origin: `https://aruka-jnvr5wjtt-leandrosouzafitness.vercel.app`
+- Create password URL: `https://aruka-jnvr5wjtt-leandrosouzafitness.vercel.app/criar-senha`
+- Deployment commit matches PR head: YES
+- Preview access: PASS
+- Create password route: PASS
+
+CORS:
+
+- `STUDENT_INVITE_ALLOWED_ORIGINS` updated: YES
+- Production preserved: YES
+- Localhost preserved: YES
+- Previous known preview origins preserved: YES
+- Wildcard used: NO
+- New preview OPTIONS: PASS
+- Access-Control-Allow-Origin: `https://aruka-jnvr5wjtt-leandrosouzafitness.vercel.app`
+- Arbitrary origin rejected: YES
+
+Auth:
+
+- New create-password URL allow-listed: USER_ACTION_REQUIRED
+- `STUDENT_INVITE_REDIRECT_TO` updated: NO
+- Site URL changed: NO
+
+Edge:
+
+- Function: `student-access-invite`
+- Status: ACTIVE
+- Remote `verify_jwt`: false
+- Redeploy: NO
+
+Database:
+
+- Local migrations: 15
+- Remote migrations: 15
+- Pending: 0
+- Mutation: NO
+
+Invite:
+
+- Clean QA email reserved: YES
+- Invite sent: NO
+- Auth user created: NO
+- Student mutation: NO
+
+Decision: `WAITING_FOR_USER_POST_JWT_FIX_AUTH_REDIRECT`
+
+NEXT_ACTION=`USER_ADD_POST_JWT_FIX_PREVIEW_CREATE_PASSWORD_URL_TO_SUPABASE_AUTH`
+
+## Post-JWT-fix redirect release gate
+
+Execution date: 2026-08-30
+
+PR:
+
+- PR: #55
+- Head: `a75dfc38057b799e539d3eb910017b6735d103fa`
+- Supabase Local Quality Gates: PASS
+- Vercel: PASS
+
+Preview:
+
+- URL: `https://aruka-jnvr5wjtt-leandrosouzafitness.vercel.app`
+- Create password URL: `https://aruka-jnvr5wjtt-leandrosouzafitness.vercel.app/criar-senha`
+- Deployment commit matches PR head: YES
+
+Auth:
+
+- Create-password redirect allow-listed by user evidence: YES
+- `STUDENT_INVITE_REDIRECT_TO` updated to final preview: YES
+- Site URL changed: NO
+
+JWT:
+
+- Signing algorithm: ES256
+- Remote `verify_jwt`: false
+- Internal auth: ENABLED
+- Anonymous protection: PRESERVED
+
+CORS:
+
+- Final preview origin allowed: YES
+- OPTIONS: PASS
+- Access-Control-Allow-Origin: `https://aruka-jnvr5wjtt-leandrosouzafitness.vercel.app`
+- Arbitrary origin rejected: YES
+- Wildcard used: NO
+
+Edge:
+
+- Function: `student-access-invite`
+- Status: ACTIVE
+- Version reported after secret update: 9
+- Redeploy required: NO
+- Redeploy performed: NO
+
+Database:
+
+- Local migrations: 15
+- Remote migrations: 15
+- Pending: 0
+- Mutation: NO
+
+Invite:
+
+- Clean QA email user-confirmed: YES
+- Invite sent: NO
+- Auth user created: NO
+- Student mutation: NO
+
+Decision: `READY_TO_RETRY_SINGLE_CLEAN_QA_INVITE`
+
+NEXT_ACTION=`USER_SEND_EXACTLY_ONE_INVITE_TO_CLEAN_QA_EMAIL`
+
+## Invite acceptance redirect and password setup diagnosis
+
+Execution date: 2026-08-30
+
+Invite delivery:
+
+- JWT blocker resolved: YES
+- Invite creation: PASS by user evidence
+- Professional UI: PASS, `Convite enviado`
+- Student lifecycle: `invited`
+- `student_user_id`: NULL
+- E-mail delivery: PASS
+- Auth user created by invite: YES by user evidence
+- New invite sent during diagnosis: NO
+- Auth user deleted: NO
+- Network observation: first DevTools capture was paused, not a product defect
+
+Redirect and route diagnosis:
+
+- Handler redirectTo source: `STUDENT_INVITE_REDIRECT_TO`
+- Handler redirectTo expected value: `https://aruka-jnvr5wjtt-leandrosouzafitness.vercel.app/criar-senha`
+- Invite template link mode: NOT_CONFIRMED_WITHOUT_DASHBOARD_TEMPLATE_ACCESS
+- Final path observed from user evidence: `/login`
+- Hash fragment present: NOT_CAPTURED_SANITIZED
+- Query present: NOT_CAPTURED_SANITIZED
+- Access token parameter present: NOT_CAPTURED_SANITIZED
+- Code parameter present: NOT_CAPTURED_SANITIZED
+- Error parameter present: NOT_CAPTURED_SANITIZED
+
+Frontend auth:
+
+- Create-password component: `src/pages/CriarSenha.jsx`
+- Create-password form: `src/components/DefinirSenhaForm.jsx`
+- Previous route guard: generic `ProtectedRoute`
+- New route guard: `InviteAccessRoute`
+- Bootstrap order after fix: `getSession()` then optional `exchangeCodeForSession(code)` then `onAuthStateChange`
+- `persistSession`: true
+- `detectSessionInUrl`: true
+- `autoRefreshToken`: true
+- Race condition found: YES, create-password used generic login redirect when invite session was unavailable during first-access bootstrap
+
+Fix:
+
+- Frontend changed: YES
+- Auth bootstrap changed: YES
+- Create-password changed: route wrapper only
+- Routing changed: YES, `/criar-senha` no longer redirects to `/login` while invite bootstrap resolves
+- Edge changed: NO
+- DB changed: NO
+- Direct unauthenticated `/criar-senha`: safe expired/invalid invite state
+- Expired/invalid invite handling: safe user copy, no internals
+- Service role in browser: NO
+- Claim still bound to auth identity: YES
+
+QA:
+
+- Invite-flow tests: PASS
+- Existing password/linking tests: PASS
+- `qa:student-access-lifecycle`: PASS
+- `qa:student-identity-contract`: PASS
+- `qa:student-account-linking`: PASS
+- `qa:visible-ui-copy`: PASS
+- `lint`: PASS
+- `build`: PASS
+
+Decision: `READY_FOR_POST_FIRST_ACCESS_FIX_PREVIEW_CONFIGURATION`
+
+NEXT_ACTION=`CONFIGURE_NEW_PREVIEW_THEN_SEND_ONE_NEW_QA_INVITE_IF_REQUIRED`
+
+Post-commit:
+
+- Commit: `ddbced2e89a43fcd01cef2a7cfc91a9ad8450a3c`
+- Push: YES
+- PR: #55
+- Merge: NO
+- Vercel preview: `https://aruka-m3pedjrbi-leandrosouzafitness.vercel.app`
+- Vercel preview status: PASS
+- Supabase Local Quality Gates on GitHub: IN_PROGRESS at last check
+- New preview needs CORS config: YES
+- New preview needs Auth Redirect config: YES
+- New preview needs redirect secret update: YES
+- Current invite reused: NO
+- New invite sent: NO
+
+## First-access-fix preview configuration
+
+Execution date: 2026-08-30
+
+PR:
+
+- PR: #55
+- Head: `ddbced2e89a43fcd01cef2a7cfc91a9ad8450a3c`
+- Supabase Local Quality Gates: PASS
+- Vercel: PASS
+
+Preview:
+
+- URL: `https://aruka-m3pedjrbi-leandrosouzafitness.vercel.app`
+- Create password URL: `https://aruka-m3pedjrbi-leandrosouzafitness.vercel.app/criar-senha`
+- Deployment commit matches PR head: YES
+- Preview access: PASS
+- Create-password route: PASS
+
+CORS:
+
+- `STUDENT_INVITE_ALLOWED_ORIGINS` updated: YES
+- Final preview origin allowed: YES
+- OPTIONS: PASS
+- Access-Control-Allow-Origin: `https://aruka-m3pedjrbi-leandrosouzafitness.vercel.app`
+- Arbitrary origin rejected: YES
+- Wildcard used: NO
+
+Auth:
+
+- Create-password URL allow-listed: USER_ACTION_REQUIRED
+- `STUDENT_INVITE_REDIRECT_TO` updated to new preview: NO
+- Site URL changed: NO
+
+Edge:
+
+- Function: `student-access-invite`
+- Status: ACTIVE
+- Remote `verify_jwt`: false
+- Internal auth: ENABLED
+- Redeploy: NO
+
+Database:
+
+- Local migrations: 15
+- Remote migrations: 15
+- Pending: 0
+- Mutation: NO
+
+Invite state:
+
+- Clean QA e-mail reserved: YES
+- Auth user already exists: YES
+- Current invite reusable: NO
+- New invite sent: NO
+- `student_user_id`: NULL
+
+Decision: `WAITING_FOR_USER_FIRST_ACCESS_FIX_AUTH_REDIRECT`
+
+NEXT_ACTION=`USER_ADD_FIRST_ACCESS_FIX_PREVIEW_CREATE_PASSWORD_URL`
+
+## First-access-fix redirect release for resend
+
+Execution date: 2026-08-30
+
+PR:
+
+- PR: #55
+- Head: `ddbced2e89a43fcd01cef2a7cfc91a9ad8450a3c`
+- Supabase Local Quality Gates: PASS
+- Vercel: PASS
+
+Preview:
+
+- URL: `https://aruka-m3pedjrbi-leandrosouzafitness.vercel.app`
+- Create password URL: `https://aruka-m3pedjrbi-leandrosouzafitness.vercel.app/criar-senha`
+- Deployment commit matches PR head: YES
+
+Auth:
+
+- Create-password URL allow-listed by user evidence: YES
+- `STUDENT_INVITE_REDIRECT_TO` updated to first-access-fix preview: YES
+- Site URL changed: NO
+
+JWT:
+
+- Remote `verify_jwt`: false
+- Internal auth: ENABLED
+
+CORS:
+
+- Final preview origin allowed: YES
+- OPTIONS: PASS
+- Access-Control-Allow-Origin: `https://aruka-m3pedjrbi-leandrosouzafitness.vercel.app`
+- Arbitrary origin rejected: YES
+- Wildcard used: NO
+
+Edge:
+
+- Function: `student-access-invite`
+- Status: ACTIVE
+- Version reported after secret update: 11
+- Redeploy required: NO
+- Redeploy performed: NO
+
+Database:
+
+- Local migrations: 15
+- Remote migrations: 15
+- Pending: 0
+- Mutation: NO
+
+Invite:
+
+- Clean QA e-mail reserved: YES
+- Auth user already exists: YES
+- `student_user_id`: NULL
+- New invite sent by Codex: NO
+
+Decision: `READY_FOR_ONE_NEW_FIRST_ACCESS_QA_INVITE`
+
+NEXT_ACTION=`USER_CLICK_RESEND_INVITE_ON_QA_STUDENT_ONCE`
+
+## Resend existing pending auth user
+
+Execution date: 2026-08-30
+
+Diagnosis:
+
+- Current resend HTTP: 409
+- Current code: `ALREADY_REGISTERED_UNLINKED`
+- Root cause: `INITIAL_INVITE_AND_RESEND_SHARE_EXISTING_USER_REJECTION`
+- Supabase strategy reviewed: `resetPasswordForEmail(email, { redirectTo })` supports recovery e-mail, redirect back to app, and `updateUser({ password })`
+
+Design:
+
+- First invite method: `auth.admin.inviteUserByEmail`
+- Pending resend method: `auth.resetPasswordForEmail`
+- Recovery flow used: `PASSWORD_RECOVERY_FOR_PENDING_INVITED_USER`
+- Redirect: `STUDENT_INVITE_REDIRECT_TO`
+- Existing arbitrary account still blocked: YES
+- Pending invited account allowed: YES
+- Auto-link by e-mail: NO
+
+Security:
+
+- Authorization required: YES
+- Internal JWT auth: ENABLED
+- Ownership enforced: YES
+- Email match enforced: YES
+- Cross-professional request: BLOCKED
+- Anonymous request: 401
+- Invalid JWT: 401
+- Service role in browser: NO
+
+First access:
+
+- Invite session supported: YES
+- Password recovery session supported: YES
+- Password update precedes claim: YES
+- Post-claim route: `/minha-area`
+
+QA:
+
+- Resend tests: PASS
+- First invite regression: PASS
+- Existing-user protection: PASS
+- Invite access tests: PASS
+- `qa:student-access-lifecycle`: PASS
+- `qa:student-identity-contract`: PASS
+- `qa:student-account-linking`: PASS
+- `qa:visible-ui-copy`: PASS
+- `lint`: PASS
+- `build`: PASS
+
+Database:
+
+- Migration: NO
+- Schema changed: NO
+- RPC changed: NO
+
+Invite:
+
+- New resend executed by Codex: NO
+- Auth user deleted: NO
+- Student linked: NO
+
+Post-commit:
+
+- Commit: `4ef4badfb3391f5d48ef5c54cbe48e434ca88264`
+- Push: YES
+- Deploy `student-access-invite`: YES
+- Remote status: ACTIVE
+- Remote version: 12
+- Remote `verify_jwt`: false
+- Remote anonymous request: 401
+- Remote invalid JWT: 401
+- Vercel preview from commit: `https://aruka-ixgbb12tj-leandrosouzafitness.vercel.app`
+- Frontend runtime changed in this commit: NO
+- Existing configured first-access preview remains: `https://aruka-m3pedjrbi-leandrosouzafitness.vercel.app`
+- Supabase Local Quality Gates on GitHub: IN_PROGRESS at last check
+
+Decision: `WAITING_FOR_RESEND_FIX_CI_COMPLETION`
+
+NEXT_ACTION=`CONFIRM_RESEND_FIX_CI_PASS_THEN_RELEASE_ONE_MANUAL_RESEND`
+
+## Resend fix CI release
+
+Execution date: 2026-08-30
+
+PR:
+
+- PR: #55
+- Head: `4ef4badfb3391f5d48ef5c54cbe48e434ca88264`
+- Supabase Local Quality Gates: PASS
+- Vercel: PASS
+
+Edge:
+
+- Function: `student-access-invite`
+- Version: 12
+- Status: ACTIVE
+- Remote `verify_jwt`: false
+- Internal auth: ENABLED
+
+Preview:
+
+- Runtime preview: `https://aruka-m3pedjrbi-leandrosouzafitness.vercel.app`
+- New preview configuration required: NO
+
+Database:
+
+- Local migrations: 15
+- Remote migrations: 15
+- Pending: 0
+- Mutation: NO
+
+Invite:
+
+- Clean QA e-mail reserved: YES
+- Status expected before manual resend: `invited`
+- `student_user_id`: NULL
+- Auth user exists: YES
+- Resend executed by Codex: NO
+
+Decision: `READY_TO_RETRY_PENDING_STUDENT_INVITE_RESEND`
+
+NEXT_ACTION=`USER_CLICK_RESEND_INVITE_ONCE_AND_VALIDATE_RECOVERY_FIRST_ACCESS`
+- Clean QA email selected: NO
+
+Follow-up:
+
+- `AUTH_DELETE_LIFECYCLE_FOLLOWUP_REQUIRED=YES`
+- Blocking current invite QA: NO
+
+Decision: `WAITING_FOR_USER_FINAL_PREVIEW_AUTH_REDIRECT`
+
+NEXT_ACTION=`USER_ADD_FINAL_PREVIEW_CREATE_PASSWORD_URL_TO_SUPABASE_AUTH`
+
+## Final student invite redirect for clean QA
+
+Execution date: 2026-08-30
+
+Preflight:
+
+- Branch: `fix/student-access-invite-and-edit-focus`
+- PR: `#55`
+- Head: `584aaff2646396108f36b30b06225513cf0f96a9`
+- GitHub Actions / Supabase Local Quality Gates: SUCCESS
+- Vercel: SUCCESS
+
+Preview:
+
+- URL: `https://aruka-5ys21fvuo-leandrosouzafitness.vercel.app`
+- Origin: `https://aruka-5ys21fvuo-leandrosouzafitness.vercel.app`
+- Create password route: `https://aruka-5ys21fvuo-leandrosouzafitness.vercel.app/criar-senha`
+- Deployment commit: `584aaff2646396108f36b30b06225513cf0f96a9`
+- Matches PR head: YES
+
+Auth and redirect:
+
+- `FINAL_AUTH_REDIRECT_CONFIRMED_BY_USER=YES`
+- `STUDENT_INVITE_REDIRECT_TO`: configured for final Preview `/criar-senha`
+- `STUDENT_INVITE_REDIRECT_TO`: PRESENT
+- `STUDENT_INVITE_ALLOWED_ORIGINS`: PRESENT
+- `SUPABASE_SERVICE_ROLE_KEY`: PRESENT
+- Site URL changed: NO
+- Auth config mutation by Codex: NO
+
+CORS:
+
+- Final Preview OPTIONS: PASS
+- `Access-Control-Allow-Origin`: `https://aruka-5ys21fvuo-leandrosouzafitness.vercel.app`
+- Arbitrary origin rejected: YES
+- Wildcard used: NO
+
+Edge:
+
+- Function: `student-access-invite`
+- Status: ACTIVE
+- `verify_jwt`: true
+- Redeploy required: NO
+- Redeploy performed: NO
+
+Database:
+
+- Local migrations: 15
+- Remote migrations: 15
+- Pending: 0
+- DB mutation: NO
+
+Invite:
+
+- Invite sent: NO
+- Auth user created: NO
+- Student mutation: NO
+- Clean QA email selected: NO
+
+Follow-up:
+
+- `AUTH_DELETE_LIFECYCLE_FOLLOWUP_REQUIRED=YES`
+- Blocking current invite QA: NO
+
+Decision: `WAITING_FOR_CLEAN_QA_EMAIL`
+
+NEXT_ACTION=`USER_PROVIDE_NEW_CONTROLLED_QA_EMAIL`
+
+## Clean QA end-to-end invite
+
+Execution date: 2026-08-30
+
+Clean QA email:
+
+- User-confirmed newly created controlled e-mail: YES
+- Full e-mail stored in report: NO
+- `CLEAN_QA_EMAIL_USER_CONFIRMED=YES`
+
+Initial student QA state:
+
+- Professional QA login for read-only precheck: PASS
+- Student QA selected: `594b0183-7c3c-4214-b980-23a5859380a3`
+- Student name: `Student QA Isolation Control`
+- Initial access status: `not_invited`
+- Initial `student_user_id`: NULL
+
+Invite attempt:
+
+- Exactly one real POST reached `student-access-invite`: YES
+- HTTP status: 401
+- Sanitized response code: `UNAUTHORIZED_ASYMMETRIC_JWT`
+- UI-equivalent result: failure
+- Status after invite: `not_invited`
+- `student_user_id` after invite: NULL
+- Student access e-mail matches clean QA e-mail: NO
+- Invited timestamp present: NO
+- E-mail delivery: NO
+- Repeated invite click/request: NO
+
+First access:
+
+- Invite redirect: NOT_RUN
+- Password update: NOT_RUN
+- Claim: NOT_RUN
+- `student_user_id` linked: NO
+- Status after claim: NOT_RUN
+- Post-claim redirect: NOT_RUN
+- Student routing: NOT_RUN
+
+Normal login:
+
+- Result: NOT_RUN
+- Redirect: NOT_RUN
+
+Professional view:
+
+- Access view after claim: NOT_RUN
+
+Remote:
+
+- DB mutation from app flow: NO
+- Auth user created by invite: NO
+- Student lifecycle mutation: NO
+- Infrastructure mutation: NO
+- Real customer data changed: NO
+
+Follow-up:
+
+- Resend tested: NO
+- Auth delete lifecycle follow-up: YES
+
+Decision: `BLOCKED_CLEAN_QA_INVITE_POST`
+
+NEXT_ACTION=`DIAGNOSE_CLEAN_QA_INVITE_RESPONSE`
+
+## Asymmetric JWT incident
+
+Execution date: 2026-08-30
+
+Diagnosis:
+
+- Previous remote POST status: 401
+- Previous sanitized response code: `UNAUTHORIZED_ASYMMETRIC_JWT`
+- Gateway rejection before handler: YES
+- Handler reached on failing POST: NO
+- Function source emits `UNAUTHORIZED_ASYMMETRIC_JWT`: NO
+- Session JWT algorithm observed in QA token metadata: `ES256`
+- Session JWT `kid` present: YES
+- Session JWT subject/e-mail/token values stored: NO
+
+Auth contract:
+
+- Previous remote `verify_jwt`: true
+- Local target `verify_jwt`: false for `student-access-invite` only
+- Handler-level Authorization required: YES
+- Handler-level Auth verification: `userClient.auth.getUser(accessToken)`
+- Issuer validation after Auth verification: YES
+- Audience validation after Auth verification: YES
+- Professional ownership remains enforced by `alunos.id` plus `alunos.user_id = user.id`
+- Service role used as caller identity: NO
+
+Scope:
+
+- Migration: NO
+- DB/RPC mutation: NO
+- Invite behavior changed: NO
+- CORS behavior changed: NO
+- Redirect behavior changed: NO
+- Real customer data changed: NO
+- New invite sent: NO
+
+## Pending student first access role classification incident
+
+Execution date: 2026-08-30
+
+Diagnosis:
+
+- Role conflict copy source: `studentInviteLinkingService.js`, mapped from RPC error `STUDENT_INVITE_PROFILE_INCOMPATIBLE`
+- Role conflict condition: `claim_pending_student_invite()` rejected an existing default profile with `role='user'`, `tipo_acesso='pendente'`, `status='ativo'`
+- Root cause: the RPC did not classify the default profile created during first authenticated access as a pending invited student state
+- Frontend route source: no conflicting role classification found in `InviteAccessRoute` or `DefinirSenhaForm`
+
+Fix:
+
+- Migration applied: `20260830203000_pending_student_claim_allows_default_profile.sql`
+- Role resolution changed: default pending profile is converted to `role='student'` during claim
+- Real professional conflict remains blocked: YES
+- Other active student account reuse remains blocked: YES
+- Auto-link by e-mail from frontend: NO
+- Claim remains bound to `auth.uid()` and `auth.jwt()->>'email'`
+
+QA:
+
+- Migration contract tests: PASS
+- Invite first access tests: PASS
+- Student lifecycle QA: PASS
+- Student identity contract QA: PASS
+- Student account linking QA: PASS
+- Visible UI copy QA: PASS
+- Lint: PASS
+- Build: PASS
+
+Remote:
+
+- DB migration applied to linked Supabase project: YES
+- Edge Function redeployed: NO
+- Frontend changed: NO
+- New Preview required: NO
+- New invite/resend executed: NO
+- Auth user deleted: NO
+- Real customer data changed: NO
+
+Decision: `READY_TO_RETRY_PENDING_STUDENT_FIRST_ACCESS`
+
+NEXT_ACTION=`USER_REOPEN_RECOVERY_LINK_AND_COMPLETE_PASSWORD_AND_CLAIM`
+
+## Post password claim return path incident
+
+Execution date: 2026-08-31
+
+Observed flow:
+
+- Recovery session: PASS
+- Create password route: PASS
+- Password update: PASS
+- Claim: FAIL before fix
+- Failure code: `42501`
+- Failure message: `STUDENT_ACCESS_OWNER_REQUIRED`
+
+Root cause:
+
+- `claim_pending_student_invite()` completed the validated profile/student transitions but returned through `public.get_student_access_state(v_aluno.id)`
+- `get_student_access_state()` is a professional-owner helper and requires `alunos.user_id = auth.uid()`
+- In the claim flow, `auth.uid()` is the invited student identity, so the helper raised `STUDENT_ACCESS_OWNER_REQUIRED` and rolled back the transaction
+
+Fix:
+
+- Migration applied: `20260831090000_fix_pending_student_claim_return.sql`
+- RPC changed: `public.claim_pending_student_invite()`
+- Return path changed: direct minimal payload `{ ok: true, status: "active", linked: true }`
+- `get_student_access_state()` changed: NO
+- Frontend changed: NO
+- Edge changed: NO
+
+Security:
+
+- Professional conflict preserved: YES
+- Other student conflict preserved: YES
+- Ambiguity protection preserved: YES
+- Owner helper protection preserved: YES
+- Auto-link by e-mail: NO
+- Claim bound to auth identity: YES
+- Sensitive data returned by claim: NO
+
+QA:
+
+- Claim migration tests: PASS
+- Owner helper regression: PASS
+- Student lifecycle QA: PASS
+- Student identity contract QA: PASS
+- Student account linking QA: PASS
+- Visible UI copy QA: PASS
+- Lint: PASS
+- Build: PASS
+
+Remote:
+
+- DB migration applied to linked Supabase project: YES
+- Local/remote migrations aligned: YES
+- Persistent claim executed by Codex: NO
+- Auth user deleted: NO
+- Student linked remotely: NO
+- New resend executed: NO
+
+Decision: `READY_FOR_MINIMAL_CLAIM_RETRY_UX_DECISION`
+
+NEXT_ACTION=`DETERMINE_SAFE_WAY_TO_COMPLETE_ALREADY_CREATED_PASSWORD_FLOW`
+
+## CI migration baseline and post-password claim retry UX
+
+Execution date: 2026-08-31
+
+CI migration baseline:
+
+- Previous expected executable migrations: 15
+- New expected executable migrations: 17
+- Added strict entries: `20260830203000_pending_student_claim_allows_default_profile.sql`, `20260831090000_fix_pending_student_claim_return.sql`
+- Strict guard preserved: YES
+- `qa:supabase-ci-static`: PASS
+
+Post-password claim retry UX:
+
+- Current post-password failure state before fix: same form remained available, so submitting again would attempt password update again
+- New state: password created plus claim failed
+- Retry action: `Concluir acesso`
+- Retry calls only: `claim_pending_student_invite()`
+- Password update repeated by retry: NO
+- Session required before retry: YES
+- Success route: `/minha-area`
+- Failure state: remains in claim retry state with safe message
+
+Scope:
+
+- Frontend changed: `DefinirSenhaForm`
+- Linking service changed: NO
+- RPC changed: NO
+- New migration: NO
+- Edge changed: NO
+- Remote claim executed: NO
+- New resend executed: NO
+
+QA:
+
+- Claim retry tests: PASS
+- Password update call count test: PASS
+- Student lifecycle QA: PASS
+- Student identity contract QA: PASS
+- Student account linking QA: PASS
+- Visible UI copy QA: PASS
+- Supabase static QA: PASS
+- Lint: PASS
+- Build: PASS
+- GitHub Actions validation: PASS
+- Vercel Preview: PASS
+- New Preview URL: `https://aruka-git-fix-student-access-invite-338617-leandrosouzafitness.vercel.app`
+
+Decision: `READY_TO_RETRY_STUDENT_CLAIM_ONLY`
+
+NEXT_ACTION=`USER_OPEN_NEW_PREVIEW_WITH_EXISTING_QA_SESSION_AND_CLICK_CONCLUIR_ACESSO`
+
+## QA password login diagnosis and password recovery UX
+
+Execution date: 2026-08-31
+
+Login diagnosis:
+
+- Auth method: `supabase.auth.signInWithPassword({ email, password })`
+- Manual QA login result: `Invalid login credentials`
+- Authentication rejected: YES
+- Post-login routing rejected: NO
+- Auth user exists: YES
+- Email confirmed: YES
+- Password capable user: UNKNOWN by read-only inspection
+
+Password visibility:
+
+- Login password show/hide implemented: YES
+- Default hidden: YES
+- Accessible labels: `Mostrar senha`, `Ocultar senha`
+- Password value persistence on toggle: YES
+
+Password recovery:
+
+- Recovery request method: `supabase.auth.resetPasswordForEmail`
+- Recovery route: `/redefinir-senha`
+- Recovery redirect URL for current Preview: pending new deployment URL plus `/redefinir-senha`
+- Generic anti-enumeration copy: YES
+- Normal recovery triggers student claim: NO
+- Student invite claim retry preserved: YES
+
+Scope:
+
+- Database migration: NO
+- RPC changed: NO
+- Edge changed: NO
+- Remote claim executed: NO
+- New invite/resend executed: NO
+
+QA:
+
+- Login tests: PASS
+- Password visibility tests: PASS
+- Recovery request tests: PASS
+- Recovery session tests: PASS
+- Student lifecycle QA: PASS
+- Student identity contract QA: PASS
+- Student account linking QA: PASS
+- Visible UI copy QA: PASS
+- Supabase static QA: PASS
+- Lint: PASS
+- Build: PASS
+
+Decision: `READY_TO_CONFIGURE_PASSWORD_RECOVERY_PREVIEW`
+
+NEXT_ACTION=`CONFIGURE_RECOVERY_REDIRECT_THEN_USER_RESET_QA_PASSWORD`
+
+## Password recovery redirect origin fix
+
+Execution date: 2026-08-31
+
+Diagnosis:
+
+- Recovery service: `src/auth/Login.jsx`
+- Redirect helper: `src/auth/passwordRecoveryRedirect.js`
+- Redirect strategy: `new URL("/redefinir-senha", window.location.origin)`
+- Local redirect: `http://localhost:5173/redefinir-senha`
+- Preview redirect: `https://aruka-git-fix-student-access-invite-338617-leandrosouzafitness.vercel.app/redefinir-senha`
+- Production canonical redirect when accessed from canonical origin: `https://www.aruka.com.br/redefinir-senha`
+- Hardcoded Preview URL: NO
+- Query/localStorage/user-input origin accepted: NO
+- Legacy production URL found in recovery app source: NO
+- Observed legacy redirect cause: consistent with Supabase Auth fallback/stale deployment behavior when the accepted `redirect_to` is absent, mismatched, or not served by the deployment used for the recovery request.
+- Previous recovery link: `INVALID_FOR_QA_CONTINUATION=YES`
+
+Scope:
+
+- Student invite redirect changed: NO
+- `STUDENT_INVITE_REDIRECT_TO` changed: NO
+- Edge Function changed: NO
+- DB/RPC/claim changed: NO
+- Recovery email sent: NO
+- Password changed: NO
+- Remote claim executed: NO
+- Student linked: NO
+- Real customer data changed: NO
+- `LEGACY_SITE_URL_REVIEW_REQUIRED=YES`
+
+QA:
+
+- Focused recovery tests: PASS
+- Student lifecycle QA: PASS
+- Student identity contract QA: PASS
+- Student account linking QA: PASS
+- Visible UI copy QA: PASS
+- Supabase static QA: PASS
+- Lint: PASS
+- Build: PASS
+- Supabase migration list linked: PASS, 17 local/remote entries aligned
+
+Decision: `READY_TO_COMMIT_PASSWORD_RECOVERY_REDIRECT_FIX`
+
+NEXT_ACTION=`COMMIT_PUSH_AND_VALIDATE_PR55_PREVIEW`
+
+## Final end-to-end QA and merge gate
+
+Execution date: 2026-08-31
+
+FINAL END-TO-END QA:
+
+- First invite: PASS
+- Pending resend: PASS
+- Recovery email: PASS
+- Recovery redirect: PASS
+- Password reset: PASS
+- Normal student login: PASS
+- Pending student claim: PASS
+- Student access status: active
+- `student_user_id` linked: YES
+- Final route: `/minha-area`
+- Professional access flow preserved: YES
+- No real customer data changed: YES
+
+PASSWORD RECOVERY UX:
+
+- Show/hide password: PASS
+- Forgot password: PASS
+- Anti-enumeration copy: PASS
+- Preview-aware redirect: PASS
+- Current-origin redirect helper: PASS
+- Legacy recovery fallback: NO
+
+Security:
+
+- Auto-link by email: NO
+- First invite existing user blocked: YES
+- Pending invite resend allowed: YES
+- Professional conflict blocked: YES
+- Other student conflict blocked: YES
+- Anonymous Edge request: 401
+- Invalid JWT: 401
+- Cross-professional access: BLOCKED
+- Service role in browser: NO
+- `get_student_access_state()` owner protection: PRESERVED
+
+Database:
+
+- Local migrations: 17
+- Remote migrations: 17
+- Pending: 0
+- Remote DB mutation during finalization: NO
+- New migration during finalization: NO
+
+Edge:
+
+- Function: `student-access-invite`
+- Status: ACTIVE
+- Version: 12
+- `verify_jwt`: false
+- Internal JWT auth: ENABLED
+- Redeploy during finalization: NO
+
+Final QA gates:
+
+- Student access lifecycle: PASS
+- Student identity contract: PASS
+- Student account linking: PASS
+- Visible UI copy: PASS
+- Supabase static: PASS
+- Lint: PASS
+- Build: PASS
+- Authenticated runtime precheck: PASS
+- GitHub Actions / Supabase Local Quality Gates: PASS
+- Vercel: PASS
+
+Follow-up:
+
+- `AUTH_DELETE_LIFECYCLE_FOLLOWUP_REQUIRED=YES`
+- `LEGACY_SITE_URL_REVIEW_REQUIRED=YES`
+- `PREVIEW_REDIRECT_CLEANUP_FOLLOWUP=YES`
+- `PRODUCTION_INVITE_REDIRECT_CUTOVER_REQUIRED=YES`
+- PR #54 not modified: YES
+
+Decision: `READY_TO_MERGE_PR55`
+
+NEXT_ACTION=`MERGE_PR55_THEN_SYNC_MAIN`
