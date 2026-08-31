@@ -147,3 +147,50 @@ Follow-up:
 - `PRODUCTION_INVITE_REDIRECT_CUTOVER_REQUIRED=YES`
 - Android install QA: NOT_RUN
 - iOS install QA: NOT_RUN
+
+## Desktop installability QA
+
+Execution date: 2026-08-31
+
+Preview:
+
+- URL: `https://aruka-git-feat-product-roadmap-v4-cy-83978b-leandrosouzafitness.vercel.app`
+- PR head: `5b36943efa4b2b646e11791bfcc1678608129f35`
+- Browser: Chrome Desktop
+
+Manual QA evidence:
+
+- Chrome install icon: PASS
+- Chrome menu install: PASS
+- Internal Aruka prompt: NOT_SHOWN_NON_BLOCKING
+- Install completed: PASS
+- App opened immediately: PASS
+- Standalone launch: PASS
+- Logout inside installed PWA: PASS
+- Close and reopen installed PWA: PASS
+- Session/app behavior after reopen: PASS
+- Desktop PWA installability: PASS
+
+Internal prompt contract:
+
+- `beforeinstallprompt` dependency: YES
+- Prompt visibility: event-dependent and conditional
+- Dismissal window: 14 days
+- Prompt not shown blocks native installability: NO
+- Artificial prompt forcing added: NO
+
+Android preparation:
+
+- Android test ready: YES
+- Android browser: current Chrome Android
+- Preview URL: `https://aruka-git-feat-product-roadmap-v4-cy-83978b-leandrosouzafitness.vercel.app`
+- Login required: YES, use controlled QA account
+- Expected install surfaces: internal Aruka prompt, Chrome `Instalar app`, or Chrome `Adicionar a tela inicial` when treated as installable PWA
+- Role test: professional QA required; student QA if viable
+- Offline shell test: optional, NOT_RUN
+- Update UX test: NOT_RUN
+- iOS test: NOT_RUN
+
+Decision: `READY_FOR_MANUAL_ANDROID_PWA_INSTALL_QA`
+
+NEXT_ACTION=`USER_INSTALL_ARUKA_ON_ANDROID_AND_VALIDATE_STANDALONE_SESSION`
