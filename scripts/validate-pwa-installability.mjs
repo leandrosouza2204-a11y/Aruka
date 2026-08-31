@@ -37,7 +37,7 @@ for (const icon of icons) {
   assert.match(viteConfig + index, new RegExp(icon.replace("public/", "").replaceAll("/", "\\/")));
 }
 
-assert.equal(migrations.length, 13);
+assert.equal(migrations.length, 17);
 
 console.log("PWA_INSTALLABILITY_QA=PASS");
 console.log("MANIFEST=CONFIGURED");
