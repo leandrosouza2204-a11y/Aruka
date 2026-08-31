@@ -449,6 +449,8 @@ try {
     "supabase/migrations/20260824120000_workout_execution_session_local_date.sql",
     "supabase/migrations/20260829120000_student_pending_invite_claim.sql",
     "supabase/migrations/20260829173000_student_pending_invite_claim_permissions.sql",
+    "supabase/migrations/20260830203000_pending_student_claim_allows_default_profile.sql",
+    "supabase/migrations/20260831090000_fix_pending_student_claim_return.sql",
     "supabase/migrations/cutover-manifest.json", "supabase/migrations/README.md", "supabase/README.md"
   )
   foreach ($item in $overlay) { Copy-Overlay $item }

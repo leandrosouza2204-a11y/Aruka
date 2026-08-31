@@ -30,7 +30,9 @@ $ExpectedIncrementalMigrations = @(
   "20260822120000_workout_execution_history_foundation.sql",
   "20260824120000_workout_execution_session_local_date.sql",
   "20260829120000_student_pending_invite_claim.sql",
-  "20260829173000_student_pending_invite_claim_permissions.sql"
+  "20260829173000_student_pending_invite_claim_permissions.sql",
+  "20260830203000_pending_student_claim_allows_default_profile.sql",
+  "20260831090000_fix_pending_student_claim_return.sql"
 )
 $ExpectedTotalMigrationCount = $ExpectedIncrementalMigrations.Count + 1
 
