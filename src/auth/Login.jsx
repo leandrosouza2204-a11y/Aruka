@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 import BrandLogo from "../components/BrandLogo";
 import FooterLegal from "../components/FooterLegal";
 import { criarPerfilPadrao } from "../services/perfisService";
 import { supabase, supabaseConfigurado } from "../services/supabase";
+import { claimPendingStudentInvite } from "../services/studentInviteLinkingService";
 import { resolverDestinoPosLogin } from "./loginRouting";
+import { passwordRecoveryRedirectTo } from "./passwordRecoveryRedirect";
 
 function Login() {
   const navigate = useNavigate();
@@ -14,6 +17,8 @@ function Login() {
   const [mensagem, setMensagem] = useState("");
   const [carregando, setCarregando] = useState(false);
   const [modoCadastro, setModoCadastro] = useState(false);
+  const [modoRecuperacao, setModoRecuperacao] = useState(false);
+  const [mostrarSenha, setMostrarSenha] = useState(false);
 
   async function entrar(e) {
     e.preventDefault();
@@ -41,9 +46,43 @@ function Login() {
       return;
     }
 
-    await criarPerfilPadrao();
+    const studentAccess = await claimPendingStudentInvite({ optional: true });
+    if (!studentAccess) await criarPerfilPadrao();
     const destinoPosLogin = await resolverDestinoPosLogin();
     navigate(destinoPosLogin, { replace: true });
+  }
+
+  async function recuperarSenha(e) {
+    e.preventDefault();
+    setErro("");
+    setMensagem("");
+
+    if (!supabaseConfigurado) {
+      setErro(
+        "Configure VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY no arquivo .env para habilitar a recuperação de senha."
+      );
+      return;
+    }
+
+    if (!email.trim() || !email.includes("@")) {
+      setErro("Informe um e-mail válido para receber as instruções.");
+      return;
+    }
+
+    setCarregando(true);
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: passwordRecoveryRedirectTo(),
+    });
+
+    setCarregando(false);
+
+    if (error) {
+      setErro("Não foi possível enviar as instruções agora. Tente novamente em instantes.");
+      return;
+    }
+
+    setMensagem("Se existir uma conta com este e-mail, você receberá as instruções para redefinir sua senha.");
   }
 
   async function cadastrar(e) {
@@ -86,10 +125,11 @@ function Login() {
 
   return (
     <div style={pagina}>
-      <form onSubmit={modoCadastro ? cadastrar : entrar} style={card}>
+      <form onSubmit={modoRecuperacao ? recuperarSenha : modoCadastro ? cadastrar : entrar} style={card}>
         <div style={marca}>
           <BrandLogo variant="full" size="login" />
-          <p style={subtitulo}>
+          {modoRecuperacao && <p style={subtitulo}>Receba instruções para redefinir sua senha.</p>}
+          <p style={modoRecuperacao ? { ...subtitulo, display: "none" } : subtitulo}>
             {modoCadastro
               ? "Crie sua conta para iniciar a liberação de acesso."
               : "Acesse sua área de gestão."}
@@ -108,17 +148,29 @@ function Login() {
           />
         </label>
 
-        <label style={campoGrupo}>
-          <span style={label}>Senha</span>
-          <input
-            type="password"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            placeholder="Sua senha"
-            style={campo}
-            required
-          />
-        </label>
+        {!modoRecuperacao && (
+          <label style={campoGrupo}>
+            <span style={label}>Senha</span>
+            <div style={senhaLinha}>
+              <input
+                type={mostrarSenha ? "text" : "password"}
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                placeholder="Sua senha"
+                style={campo}
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setMostrarSenha(!mostrarSenha)}
+                style={botaoIcone}
+                aria-label={mostrarSenha ? "Ocultar senha" : "Mostrar senha"}
+              >
+                {mostrarSenha ? <EyeOff size={18} aria-hidden="true" /> : <Eye size={18} aria-hidden="true" />}
+              </button>
+            </div>
+          </label>
+        )}
 
         {modoCadastro && (
           <p className="app-muted" style={orientacaoCadastro}>
@@ -132,18 +184,57 @@ function Login() {
 
         <button type="submit" disabled={carregando} style={botao}>
           {carregando
-            ? modoCadastro
+            ? modoRecuperacao
+              ? "Enviando..."
+              : modoCadastro
               ? "Criando conta..."
               : "Entrando..."
-            : modoCadastro
+            : modoRecuperacao
+              ? "Enviar instruções"
+              : modoCadastro
               ? "Criar conta"
               : "Entrar"}
         </button>
 
+        {!modoCadastro && !modoRecuperacao && (
+          <button
+            type="button"
+            onClick={() => {
+              setModoRecuperacao(true);
+              setErro("");
+              setMensagem("");
+            }}
+            style={botaoTexto}
+          >
+            Esqueci minha senha
+          </button>
+        )}
+
+        {modoRecuperacao && (
+          <button
+            type="button"
+            onClick={() => {
+              setModoRecuperacao(false);
+              setModoCadastro(false);
+              setErro("");
+              setMensagem("");
+            }}
+            style={botaoAlternar}
+          >
+            Voltar para o login
+          </button>
+        )}
+
+        {!modoRecuperacao && (
         <button
           type="button"
           onClick={() => {
-            setModoCadastro(!modoCadastro);
+            if (modoRecuperacao) {
+              setModoRecuperacao(false);
+              setModoCadastro(false);
+            } else {
+              setModoCadastro(!modoCadastro);
+            }
             setErro("");
             setMensagem("");
           }}
@@ -151,6 +242,8 @@ function Login() {
         >
           {modoCadastro ? "Já tenho conta" : "Criar nova conta"}
         </button>
+
+        )}
 
         <FooterLegal compact />
       </form>
@@ -217,6 +310,23 @@ const campo = {
   outline: "none",
 };
 
+const senhaLinha = {
+  display: "grid",
+  gap: "8px",
+  gridTemplateColumns: "1fr auto",
+};
+
+const botaoIcone = {
+  width: "44px",
+  border: "1px solid #d1d5db",
+  borderRadius: "8px",
+  background: "#f9fafb",
+  color: "#111827",
+  cursor: "pointer",
+  display: "grid",
+  placeItems: "center",
+};
+
 const orientacaoCadastro = {
   background: "#f8fafc",
   border: "1px solid #e5e7eb",
@@ -269,6 +379,17 @@ const botaoAlternar = {
   cursor: "pointer",
   fontWeight: "700",
   minHeight: "44px",
+};
+
+const botaoTexto = {
+  background: "transparent",
+  border: "none",
+  color: "#2563eb",
+  cursor: "pointer",
+  fontWeight: "700",
+  minHeight: "32px",
+  padding: "0",
+  textAlign: "center",
 };
 
 export default Login;

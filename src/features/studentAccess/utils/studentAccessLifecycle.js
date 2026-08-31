@@ -47,10 +47,12 @@ export function getStudentAccessActions(access) {
   if (state.status === STUDENT_ACCESS_STATUS.NOT_INVITED) {
     return state.hasStudentUser ? ["activate"] : ["invite"];
   }
-  if (state.status === STUDENT_ACCESS_STATUS.INVITED) return ["activate", "revoke"];
+  if (state.status === STUDENT_ACCESS_STATUS.INVITED) return ["resend_invite"];
   if (state.status === STUDENT_ACCESS_STATUS.ACTIVE) return ["suspend"];
   if (state.status === STUDENT_ACCESS_STATUS.SUSPENDED) return ["reactivate", "revoke"];
-  if (state.status === STUDENT_ACCESS_STATUS.REVOKED) return ["invite"];
+  if (state.status === STUDENT_ACCESS_STATUS.REVOKED) {
+    return state.hasStudentUser ? ["reactivate"] : ["invite"];
+  }
   return [];
 }
 

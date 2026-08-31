@@ -12,7 +12,7 @@ const actions = readFileSync("src/features/treinos/components/WorkoutLifecycleAc
 const treinosPage = readFileSync("src/features/treinos/hooks/useTreinosPage.js", "utf8");
 const professionalHistory = readFileSync("src/features/alunos/components/AlunosList.jsx", "utf8");
 
-assert.equal(migrations.length, 13);
+assert.equal(migrations.length, 14);
 assert.match(daily, /videoUrl/);
 assert.match(provider, /youtube-nocookie/);
 assert.match(player, /aria-expanded/);
@@ -53,9 +53,9 @@ assert.match(treinosPage, /lifecycleStatus: WORKOUT_LIFECYCLE_STATUS\.ACTIVE/);
 assert.doesNotMatch(page + player, /Notification\.requestPermission|serviceWorker|Capacitor/i);
 
 console.log("PRODUCT_ROADMAP_V4_CYCLE_08_QA=PASS");
-console.log("DATABASE_CHANGE=NO");
-console.log("MIGRATION=NO");
-console.log("RPC_CHANGE=NO");
+console.log("DATABASE_CHANGE=YES_STUDENT_INVITE_LINKING_RPC");
+console.log("MIGRATION=YES_STUDENT_INVITE_LINKING_RPC");
+console.log("RPC_CHANGE=YES_STUDENT_INVITE_LINKING_RPC");
 console.log(`EXECUTABLE_MIGRATIONS=${migrations.length}`);
 console.log("PWA=OUT_OF_SCOPE");
 console.log("NOTIFICATIONS=OUT_OF_SCOPE");

@@ -27,8 +27,14 @@ $ExpectedIncrementalMigrations = @(
   "20260816120000_preserve_acompanhamento_motivo_on_renewal.sql",
   "20260819090000_student_access_lifecycle.sql",
   "20260821120000_subscription_lifecycle_policy.sql",
-  "20260822120000_workout_execution_history_foundation.sql"
+  "20260822120000_workout_execution_history_foundation.sql",
+  "20260824120000_workout_execution_session_local_date.sql",
+  "20260829120000_student_pending_invite_claim.sql",
+  "20260829173000_student_pending_invite_claim_permissions.sql",
+  "20260830203000_pending_student_claim_allows_default_profile.sql",
+  "20260831090000_fix_pending_student_claim_return.sql"
 )
+$ExpectedTotalMigrationCount = $ExpectedIncrementalMigrations.Count + 1
 
 function Get-CanonicalTextSha256($Path) {
   $bytes = [System.IO.File]::ReadAllBytes((Resolve-Path $Path).Path)
@@ -88,9 +94,9 @@ $stderrPath = Join-Path $ReportDir "bootstrap-start-stderr.log"
 Copy-Item -LiteralPath $ReferenceBaselinePath -Destination $EphemeralBaselinePath
 $ephemeralBaselineCreated = $true
 try {
-  Write-Host "EPHEMERAL_BOOTSTRAP_MIGRATION_COUNT=12"
+  Write-Host "EPHEMERAL_BOOTSTRAP_MIGRATION_COUNT=$ExpectedTotalMigrationCount"
   Write-Host "EPHEMERAL_BOOTSTRAP_FIRST_VERSION=20260716090000"
-  Write-Host "EPHEMERAL_BOOTSTRAP_INCREMENTAL_COUNT=11"
+  Write-Host "EPHEMERAL_BOOTSTRAP_INCREMENTAL_COUNT=$($ExpectedIncrementalMigrations.Count)"
   Write-Host "EPHEMERAL_BOOTSTRAP_ORDER=PASS"
   Write-Host "REFERENCE_BASELINE_HASH_PRESERVED=YES"
 
@@ -110,9 +116,9 @@ try {
   @(
     "SUPABASE_START_COMMAND=npx -y supabase@2.109.1 start",
     "SUPABASE_START_EXIT_CODE=$code",
-    "EPHEMERAL_BOOTSTRAP_MIGRATION_COUNT=12",
+    "EPHEMERAL_BOOTSTRAP_MIGRATION_COUNT=$ExpectedTotalMigrationCount",
     "EPHEMERAL_BOOTSTRAP_FIRST_VERSION=20260716090000",
-    "EPHEMERAL_BOOTSTRAP_INCREMENTAL_COUNT=11",
+    "EPHEMERAL_BOOTSTRAP_INCREMENTAL_COUNT=$($ExpectedIncrementalMigrations.Count)",
     "EPHEMERAL_BOOTSTRAP_ORDER=PASS",
     "REFERENCE_BASELINE_SHA256=$baselineHash",
     "SUPABASE_START_STDOUT_BEGIN",
@@ -136,9 +142,9 @@ try {
 
 - Result: LOCAL_BOOTSTRAP_OK
 - Active migrations source: supabase/migrations with temporary reference baseline
-- Ephemeral bootstrap migration count: 12
+- Ephemeral bootstrap migration count: $ExpectedTotalMigrationCount
 - Ephemeral bootstrap first version: 20260716090000
-- Ephemeral bootstrap incremental count: 11
+- Ephemeral bootstrap incremental count: $($ExpectedIncrementalMigrations.Count)
 - Archived migrations applied: no
 - Operations applied automatically: no
 - Duration seconds: $elapsed

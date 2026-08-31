@@ -21,6 +21,10 @@ export const EXPECTED_EXECUTABLE_MIGRATIONS = [
   "supabase/migrations/20260821120000_subscription_lifecycle_policy.sql",
   "supabase/migrations/20260822120000_workout_execution_history_foundation.sql",
   "supabase/migrations/20260824120000_workout_execution_session_local_date.sql",
+  "supabase/migrations/20260829120000_student_pending_invite_claim.sql",
+  "supabase/migrations/20260829173000_student_pending_invite_claim_permissions.sql",
+  "supabase/migrations/20260830203000_pending_student_claim_allows_default_profile.sql",
+  "supabase/migrations/20260831090000_fix_pending_student_claim_return.sql",
 ];
 export const EXPECTED_EPHEMERAL_MIGRATION_HISTORY = [
   "20260716090000",
@@ -37,6 +41,10 @@ export const EXPECTED_EPHEMERAL_MIGRATION_HISTORY = [
   "20260821120000",
   "20260822120000",
   "20260824120000",
+  "20260829120000",
+  "20260829173000",
+  "20260830203000",
+  "20260831090000",
 ];
 
 export function listFiles(root, dir) {

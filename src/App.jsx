@@ -4,6 +4,8 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 import SubscriptionRoute from "./auth/SubscriptionRoute";
 import AdminRoute from "./auth/AdminRoute";
 import LegalRoute from "./auth/LegalRoute";
+import InviteAccessRoute from "./auth/InviteAccessRoute";
+import PasswordRecoveryRoute from "./auth/PasswordRecoveryRoute";
 import LoadingFallback from "./components/LoadingFallback";
 import MobileBottomNavigation from "./components/MobileBottomNavigation";
 import PwaExperienceManager from "./features/pwa/PwaExperienceManager";
@@ -21,6 +23,7 @@ const LandingPage = lazy(() => import("./pages/LandingPage"));
 const Login = lazy(() => import("./auth/Login"));
 const AssinaturaPendente = lazy(() => import("./pages/AssinaturaPendente"));
 const CriarSenha = lazy(() => import("./pages/CriarSenha"));
+const RedefinirSenha = lazy(() => import("./pages/RedefinirSenha"));
 const AceiteLegal = lazy(() => import("./pages/AceiteLegal"));
 const PoliticaPrivacidade = lazy(() => import("./pages/PoliticaPrivacidade"));
 const TermosUso = lazy(() => import("./pages/TermosUso"));
@@ -76,9 +79,17 @@ function App() {
           <Route
             path="/criar-senha"
             element={
-              <ProtectedRoute>
+              <InviteAccessRoute>
                 <CriarSenha />
-              </ProtectedRoute>
+              </InviteAccessRoute>
+            }
+          />
+          <Route
+            path="/redefinir-senha"
+            element={
+              <PasswordRecoveryRoute>
+                <RedefinirSenha />
+              </PasswordRecoveryRoute>
             }
           />
           <Route path="/" element={<LandingPage />} />

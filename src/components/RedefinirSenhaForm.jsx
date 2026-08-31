@@ -2,11 +2,10 @@ import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { supabase } from "../services/supabase";
-import { claimPendingStudentInvite } from "../services/studentInviteLinkingService";
 
 const senhaForteRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/;
 
-function DefinirSenhaForm() {
+function RedefinirSenhaForm() {
   const navigate = useNavigate();
   const [novaSenha, setNovaSenha] = useState("");
   const [confirmacao, setConfirmacao] = useState("");
@@ -15,31 +14,14 @@ function DefinirSenhaForm() {
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState("");
   const [sucesso, setSucesso] = useState("");
-  const [senhaCriada, setSenhaCriada] = useState(false);
-  const [falhaVinculo, setFalhaVinculo] = useState(false);
 
   const requisitos = useMemo(
     () => [
-      {
-        texto: "Mínimo de 12 caracteres",
-        ok: novaSenha.length >= 12,
-      },
-      {
-        texto: "Pelo menos 1 letra maiúscula",
-        ok: /[A-Z]/.test(novaSenha),
-      },
-      {
-        texto: "Pelo menos 1 letra minúscula",
-        ok: /[a-z]/.test(novaSenha),
-      },
-      {
-        texto: "Pelo menos 1 número",
-        ok: /\d/.test(novaSenha),
-      },
-      {
-        texto: "Pelo menos 1 caractere especial",
-        ok: /[\W_]/.test(novaSenha),
-      },
+      { texto: "Mínimo de 12 caracteres", ok: novaSenha.length >= 12 },
+      { texto: "Pelo menos 1 letra maiúscula", ok: /[A-Z]/.test(novaSenha) },
+      { texto: "Pelo menos 1 letra minúscula", ok: /[a-z]/.test(novaSenha) },
+      { texto: "Pelo menos 1 número", ok: /\d/.test(novaSenha) },
+      { texto: "Pelo menos 1 caractere especial", ok: /[\W_]/.test(novaSenha) },
     ],
     [novaSenha]
   );
@@ -49,7 +31,7 @@ function DefinirSenhaForm() {
   const senhasDiferentes = Boolean(confirmacao) && novaSenha !== confirmacao;
   const mostrarAvisoSenhaFraca = Boolean(novaSenha) && !senhaValida;
 
-  async function definirSenha(e) {
+  async function redefinirSenha(e) {
     e.preventDefault();
     setErro("");
     setSucesso("");
@@ -73,11 +55,7 @@ function DefinirSenhaForm() {
       } = await supabase.auth.getUser();
 
       if (erroUsuario) throw erroUsuario;
-      if (!user) {
-        throw new Error(
-          "Sessão não encontrada. Abra novamente o link do convite enviado por e-mail."
-        );
-      }
+      if (!user) throw new Error("Sessão expirada. Solicite uma nova recuperação pela tela de login.");
 
       const { error } = await supabase.auth.updateUser({
         password: novaSenha,
@@ -85,77 +63,22 @@ function DefinirSenhaForm() {
 
       if (error) throw error;
 
-      setSenhaCriada(true);
       setNovaSenha("");
       setConfirmacao("");
-
-      try {
-        await claimPendingStudentInvite();
-      } catch (claimError) {
-        setFalhaVinculo(true);
-        throw claimError;
-      }
-
-      setFalhaVinculo(false);
-      setSucesso("Senha criada com sucesso. Redirecionando...");
+      setSucesso("Senha redefinida com sucesso. Redirecionando para o login...");
 
       window.setTimeout(() => {
-        navigate("/minha-area", { replace: true });
+        navigate("/login", { replace: true });
       }, 1200);
     } catch (error) {
-      setErro(error.message || "Não foi possível criar a senha.");
+      setErro(error.message || "Não foi possível redefinir a senha.");
     } finally {
       setCarregando(false);
     }
-  }
-
-  async function concluirAcesso() {
-    setErro("");
-    setSucesso("");
-    setCarregando(true);
-
-    try {
-      const {
-        data: { user },
-        error: erroUsuario,
-      } = await supabase.auth.getUser();
-
-      if (erroUsuario) throw erroUsuario;
-      if (!user) {
-        throw new Error("Sua sessão expirou. Entre novamente para concluir seu acesso.");
-      }
-
-      await claimPendingStudentInvite();
-
-      setFalhaVinculo(false);
-      setSucesso("Acesso concluído com sucesso. Redirecionando...");
-
-      window.setTimeout(() => {
-        navigate("/minha-area", { replace: true });
-      }, 800);
-    } catch (error) {
-      setFalhaVinculo(true);
-      setErro(error.message || "Não foi possível concluir o vínculo com o convite.");
-    } finally {
-      setCarregando(false);
-    }
-  }
-
-  if (senhaCriada && falhaVinculo) {
-    return (
-      <div style={form}>
-        {erro && <div style={erroBox}>{erro}</div>}
-        {sucesso && <div style={sucessoBox}>{sucesso}</div>}
-
-        <button type="button" disabled={carregando} style={botaoPrimario} onClick={concluirAcesso}>
-          {carregando ? "Concluindo acesso..." : "Concluir acesso"}
-        </button>
-      </div>
-    );
   }
 
   return (
-    <form onSubmit={definirSenha} style={form}>
+    <form onSubmit={redefinirSenha} style={form}>
       <CampoSenha
         label="Nova senha"
         value={novaSenha}
@@ -173,9 +96,7 @@ function DefinirSenhaForm() {
                 background: item.ok ? "#16a34a" : "#d1d5db",
               }}
             />
-            <span style={{ color: item.ok ? "#166534" : "#6b7280" }}>
-              {item.texto}
-            </span>
+            <span style={{ color: item.ok ? "#166534" : "#6b7280" }}>{item.texto}</span>
           </div>
         ))}
       </div>
@@ -189,21 +110,16 @@ function DefinirSenhaForm() {
         erro={senhasDiferentes}
       />
 
-      {senhasDiferentes && (
-        <div style={alertaValidacao}>A confirmação da senha não confere.</div>
-      )}
-
+      {senhasDiferentes && <div style={alertaValidacao}>A confirmação da senha não confere.</div>}
       {mostrarAvisoSenhaFraca && (
-        <div style={alertaValidacao}>
-          A senha ainda não atende todos os requisitos de segurança.
-        </div>
+        <div style={alertaValidacao}>A senha ainda não atende todos os requisitos de segurança.</div>
       )}
 
       {erro && <div style={erroBox}>{erro}</div>}
       {sucesso && <div style={sucessoBox}>{sucesso}</div>}
 
       <button type="submit" disabled={carregando} style={botaoPrimario}>
-        {carregando ? "Criando senha..." : "Criar senha"}
+        {carregando ? "Redefinindo..." : "Redefinir senha"}
       </button>
     </form>
   );
@@ -347,4 +263,4 @@ const botaoPrimario = {
   padding: "10px 14px",
 };
 
-export default DefinirSenhaForm;
+export default RedefinirSenhaForm;
