@@ -7,6 +7,7 @@ import { criarPerfilPadrao } from "../services/perfisService";
 import { supabase, supabaseConfigurado } from "../services/supabase";
 import { claimPendingStudentInvite } from "../services/studentInviteLinkingService";
 import { resolverDestinoPosLogin } from "./loginRouting";
+import { passwordRecoveryRedirectTo } from "./passwordRecoveryRedirect";
 
 function Login() {
   const navigate = useNavigate();
@@ -71,7 +72,7 @@ function Login() {
     setCarregando(true);
 
     const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-      redirectTo: `${window.location.origin}/redefinir-senha`,
+      redirectTo: passwordRecoveryRedirectTo(),
     });
 
     setCarregando(false);

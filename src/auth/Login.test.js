@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { PASSWORD_RECOVERY_PATH, passwordRecoveryRedirectTo } from "./passwordRecoveryRedirect.js";
 
 const source = readFileSync(new URL("./Login.jsx", import.meta.url), "utf8");
 
@@ -27,9 +28,27 @@ test("login password visibility is accessible and preserves the input value", ()
 test("forgot password requests official Supabase recovery without enumeration", () => {
   assert.match(source, /async function recuperarSenha\(e\)/);
   assert.match(source, /supabase\.auth\.resetPasswordForEmail\(email\.trim\(\), \{/);
-  assert.match(source, /redirectTo: `\$\{window\.location\.origin\}\/redefinir-senha`/);
+  assert.match(source, /redirectTo: passwordRecoveryRedirectTo\(\)/);
   assert.match(source, /Se existir uma conta com este e-mail, você receberá as instruções para redefinir sua senha\./);
   assert.doesNotMatch(source, /usu[aá]rio n[aã]o encontrado/i);
+});
+
+test("password recovery redirect follows the active browser origin", () => {
+  assert.equal(PASSWORD_RECOVERY_PATH, "/redefinir-senha");
+  assert.equal(
+    passwordRecoveryRedirectTo("http://localhost:5173"),
+    "http://localhost:5173/redefinir-senha"
+  );
+  assert.equal(
+    passwordRecoveryRedirectTo("https://aruka-git-fix-student-access-invite-338617-leandrosouzafitness.vercel.app"),
+    "https://aruka-git-fix-student-access-invite-338617-leandrosouzafitness.vercel.app/redefinir-senha"
+  );
+  assert.equal(passwordRecoveryRedirectTo("https://www.aruka.com.br"), "https://www.aruka.com.br/redefinir-senha");
+});
+
+test("password recovery redirect has no legacy production fallback", () => {
+  assert.doesNotMatch(source, /consultoria-fitness-gamma|STUDENT_INVITE_REDIRECT_TO|VITE_(APP|SITE|PUBLIC|BASE|REDIRECT)/);
+  assert.doesNotMatch(passwordRecoveryRedirectTo("https://preview.example.vercel.app"), /consultoria-fitness-gamma/);
 });
 
 test("forgot password mode does not submit login or invite operations", () => {
