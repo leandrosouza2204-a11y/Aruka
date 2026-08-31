@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const source = readFileSync(new URL("./20260829120000_student_pending_invite_claim.sql", import.meta.url), "utf8");
+const defaultProfileFix = readFileSync(new URL("./20260830203000_pending_student_claim_allows_default_profile.sql", import.meta.url), "utf8");
 
 test("claim pending invite derives student identity and email server-side", () => {
   assert.match(source, /v_student_user_id uuid := auth\.uid\(\)/);
@@ -20,8 +21,23 @@ test("claim pending invite blocks no match and ambiguous invite matches", () => 
 test("claim pending invite prevents account reuse and incompatible profiles", () => {
   assert.match(source, /where student_user_id = v_student_user_id/);
   assert.match(source, /message = 'STUDENT_ACCOUNT_ALREADY_LINKED'/);
-  assert.match(source, /v_profile\.role <> 'student'/);
-  assert.match(source, /message = 'STUDENT_INVITE_PROFILE_INCOMPATIBLE'/);
+  assert.match(defaultProfileFix, /where student_user_id = v_student_user_id/);
+  assert.match(defaultProfileFix, /message = 'STUDENT_ACCOUNT_ALREADY_LINKED'/);
+  assert.match(defaultProfileFix, /message = 'STUDENT_INVITE_PROFILE_INCOMPATIBLE'/);
+});
+
+test("claim pending invite accepts default pending profile as transient invited student", () => {
+  assert.match(defaultProfileFix, /v_profile\.role = 'user'/);
+  assert.match(defaultProfileFix, /v_profile\.tipo_acesso = 'pendente'/);
+  assert.match(defaultProfileFix, /v_profile\.status = 'ativo'/);
+  assert.match(defaultProfileFix, /set role = 'student'/);
+  assert.doesNotMatch(defaultProfileFix, /p_aluno_id|p_student_user_id|p_professional_user_id/);
+});
+
+test("claim pending invite keeps real professional and incompatible profile blocked", () => {
+  assert.match(defaultProfileFix, /elsif found then\s+raise exception using errcode = '22023', message = 'STUDENT_INVITE_PROFILE_INCOMPATIBLE'/);
+  assert.doesNotMatch(defaultProfileFix, /tipo_acesso = 'assinante'[\s\S]{0,120}set role = 'student'/);
+  assert.doesNotMatch(defaultProfileFix, /role = 'admin'[\s\S]{0,120}set role = 'student'/);
 });
 
 test("claim pending invite links and activates atomically", () => {
