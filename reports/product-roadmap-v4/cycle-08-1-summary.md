@@ -121,6 +121,24 @@ Validation:
 - `build`: PASS
 - `qa:authenticated-runtime-precheck`: PASS after starting local Vite dev server
 
+PR #54 Preview after sync:
+
+- PR head after sync: latest pushed PR #54 head after documentation commit
+- Preview URL: `https://aruka-git-feat-product-roadmap-v4-cy-83978b-leandrosouzafitness.vercel.app`
+- Preview matches PR head: YES
+- GitHub Actions / Supabase Local Quality Gates: PASS
+- Vercel: PASS
+- `/`: 200
+- `/login`: 200
+- `/minha-area`: 200
+- `/redefinir-senha`: 200
+- Manifest on Preview: PASS, `application/manifest+json`
+- Service worker asset on Preview: PASS, `application/javascript`
+- Icons on Preview: PASS
+- Service worker registration on anonymous `/login`: not active, because PWA manager is mounted in authenticated app surfaces
+- Desktop installability static criteria: PASS
+- Desktop install manual action: required, do not auto-install from Codex
+
 Follow-up:
 
 - `AUTH_DELETE_LIFECYCLE_FOLLOWUP_REQUIRED=YES`
