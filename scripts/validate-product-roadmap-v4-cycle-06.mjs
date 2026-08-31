@@ -25,7 +25,7 @@ const migrationChain = readFileSync(files.migration, "utf8")
   + readFileSync("supabase/migrations/20260824120000_workout_execution_session_local_date.sql", "utf8");
 const migrations = readdirSync("supabase/migrations").filter((file) => file.endsWith(".sql"));
 
-check("migration_count_13", migrations.length === 13);
+check("migration_count_14", migrations.length === 14);
 check("three_execution_tables", [
   "workout_execution_sessions",
   "workout_execution_exercises",
@@ -79,7 +79,7 @@ assert.equal(canCompleteSession({ status: "in_progress", exercises: [{ status: "
 assert.equal(buildExecutionHistorySummary([{ id: "s1", status: "completed", sessionDate: "2026-08-22", exercises: [] }]).length, 1);
 
 console.log("PRODUCT_ROADMAP_V4_CYCLE_06_QA=PASS");
-console.log("EXECUTABLE_MIGRATIONS=13");
+console.log("EXECUTABLE_MIGRATIONS=14");
 console.log("PRODUCTION_ACCESSED=NO");
 console.log("REMOTE_DB_PUSH=NO");
 

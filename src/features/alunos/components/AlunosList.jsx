@@ -111,9 +111,11 @@ function AlunosList() {
               className="desktop-inline-detail-panel"
               contextUrls={page.alunoContextUrls}
               nomePlano={page.nomePlano}
+              accessRequestAlunoId={page.studentAccessRequestAlunoId}
               onEditar={page.abrirEdicao}
               onFechar={() => page.setAlunoSelecionadoId("")}
               onLiberarAcesso={page.liberarAcessoAluno}
+              onReenviarConvite={page.reenviarConviteAluno}
               onReativarAcesso={page.reativarAcessoAluno}
               onRevogarAcesso={page.revogarAcessoAluno}
               onSuspenderAcesso={page.suspenderAcessoAluno}
@@ -174,9 +176,11 @@ function AlunosList() {
                     aluno={aluno}
                     contextUrls={page.alunoContextUrls}
                     nomePlano={page.nomePlano}
+                    accessRequestAlunoId={page.studentAccessRequestAlunoId}
                     onEditar={page.abrirEdicao}
                     onFechar={() => page.setAlunoSelecionadoId("")}
                     onLiberarAcesso={page.liberarAcessoAluno}
+                    onReenviarConvite={page.reenviarConviteAluno}
                     onReativarAcesso={page.reativarAcessoAluno}
                     onRevogarAcesso={page.revogarAcessoAluno}
                     onSuspenderAcesso={page.suspenderAcessoAluno}
@@ -202,8 +206,12 @@ function AlunoModal({ page, styles }) {
   const descricaoId = "aluno-form-description";
   const dialogRef = useRef(null);
   const closeButtonRef = useRef(null);
+  const fecharModalRef = useRef(page.fecharModal);
   const previouslyFocusedRef = useRef(null);
-  const fecharModal = page.fecharModal;
+
+  useEffect(() => {
+    fecharModalRef.current = page.fecharModal;
+  });
 
   useEffect(() => {
     previouslyFocusedRef.current = document.activeElement;
@@ -214,7 +222,7 @@ function AlunoModal({ page, styles }) {
     function handleKeyDown(event) {
       if (event.key === "Escape") {
         event.stopPropagation();
-        fecharModal();
+        fecharModalRef.current?.();
       }
     }
 
@@ -225,7 +233,7 @@ function AlunoModal({ page, styles }) {
       document.body.style.overflow = overflowAnterior;
       previouslyFocusedRef.current?.focus?.();
     };
-  }, [fecharModal]);
+  }, []);
 
   useEffect(() => {
     if (!page.validationAttempt) return;
@@ -447,12 +455,14 @@ function AlunoDetalhes({ aluno, className = "", nomePlano, onFechar, styles }) {
 
 function AlunoDetalhesResponsivo({
   aluno,
+  accessRequestAlunoId = "",
   className = "",
   contextUrls = {},
   nomePlano,
   onEditar,
   onFechar,
   onLiberarAcesso,
+  onReenviarConvite,
   onReativarAcesso,
   onRevogarAcesso,
   onSuspenderAcesso,
@@ -544,7 +554,9 @@ function AlunoDetalhesResponsivo({
 
         <StudentAccessPanel
           aluno={aluno}
+          accessRequestAlunoId={accessRequestAlunoId}
           onLiberarAcesso={onLiberarAcesso}
+          onReenviarConvite={onReenviarConvite}
           onReativarAcesso={onReativarAcesso}
           onRevogarAcesso={onRevogarAcesso}
           onSuspenderAcesso={onSuspenderAcesso}
@@ -718,7 +730,9 @@ function CoachWorkflowSignalsPanel({ contextUrls = {}, signals = [], styles }) {
 
 function StudentAccessPanel({
   aluno,
+  accessRequestAlunoId = "",
   onLiberarAcesso,
+  onReenviarConvite,
   onReativarAcesso,
   onRevogarAcesso,
   onSuspenderAcesso,
@@ -727,6 +741,7 @@ function StudentAccessPanel({
   const acesso = normalizeStudentAccessState({
     status: aluno.studentAccessStatus,
     email: aluno.studentAccessEmail,
+    hasStudentUser: Boolean(aluno.studentUserId),
     invitedAt: aluno.studentAccessInvitedAt,
     activatedAt: aluno.studentAccessActivatedAt,
     suspendedAt: aluno.studentAccessSuspendedAt,
@@ -735,6 +750,7 @@ function StudentAccessPanel({
   });
   const emailRef = useRef(null);
   const actions = getStudentAccessActions(acesso);
+  const accessBusy = accessRequestAlunoId === aluno.id;
 
   return (
     <section
@@ -769,15 +785,33 @@ function StudentAccessPanel({
 
       {acesso.reason && <p style={styles.studentAccessReason}>{acesso.reason}</p>}
 
+      {acesso.status === "invited" && (
+        <p data-testid="student-access-pending-note" style={styles.studentAccessReason}>
+          Convite pendente. Reenvie se o aluno nao recebeu o e-mail ou se o convite expirou.
+        </p>
+      )}
+
       <div style={styles.studentAccessActions}>
         {actions.includes("invite") && (
           <button
             className="table-button table-button-primary"
             data-testid="student-access-invite"
+            disabled={accessBusy}
             onClick={() => onLiberarAcesso?.(aluno, emailRef.current?.value || "")}
             type="button"
           >
-            Liberar acesso
+            {accessBusy ? "Enviando..." : "Enviar convite"}
+          </button>
+        )}
+        {actions.includes("resend_invite") && (
+          <button
+            className="table-button table-button-primary"
+            data-testid="student-access-resend"
+            disabled={accessBusy}
+            onClick={() => onReenviarConvite?.(aluno)}
+            type="button"
+          >
+            {accessBusy ? "Reenviando..." : "Reenviar convite"}
           </button>
         )}
         {actions.includes("activate") && (
