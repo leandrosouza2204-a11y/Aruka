@@ -507,7 +507,7 @@ try {
   Copy-Item -LiteralPath $inventoryPath -Destination (Join-Path $ReportDir "clean-worktree-schema-inventory.json") -Force
   $historyPath = Join-Path $innerReportDir "migration-history.txt"
   $result.migrations = @((Get-Content $historyPath) | Where-Object { $_ })
-  $expectedHistory = @("20260716090000", "20260728030000", "20260730090000", "20260731190000", "20260801143335", "20260801173000", "20260801180000", "20260811090000", "20260815120000", "20260816120000", "20260819090000", "20260821120000", "20260822120000", "20260824120000", "20260829120000", "20260829173000")
+  $expectedHistory = @("20260716090000", "20260728030000", "20260730090000", "20260731190000", "20260801143335", "20260801173000", "20260801180000", "20260811090000", "20260815120000", "20260816120000", "20260819090000", "20260821120000", "20260822120000", "20260824120000", "20260829120000", "20260829173000", "20260830203000", "20260831090000")
   if (($result.migrations -join "`n") -ne ($expectedHistory -join "`n")) {
     $missingVersions = @($expectedHistory | Where-Object { $_ -notin $result.migrations })
     $extraVersions = @($result.migrations | Where-Object { $_ -notin $expectedHistory })
