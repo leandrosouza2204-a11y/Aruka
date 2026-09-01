@@ -1,8 +1,6 @@
-export const PWA_INSTALL_DISMISSED_AT_KEY = "aruka:pwaInstallDismissedAt:v1";
-export const PWA_INSTALL_DISMISSAL_DAYS = 14;
-export const PWA_INSTALL_PROMPT_DELAY_MS = 1600;
-
-const DAY_MS = 24 * 60 * 60 * 1000;
+export const PWA_INSTALL_HIDE_BANNER_KEY = "aruka_pwa_install_hide_banner";
+export const PWA_INSTALL_PROMPT_DELAY_MS = 3000;
+export const PWA_INSTALL_MOBILE_QUERY = "(max-width: 767px)";
 
 export function isStandaloneMode({ matchMedia, navigator } = getBrowserEnv()) {
   const displayStandalone = Boolean(
@@ -32,13 +30,17 @@ export function canShowIosInstallGuide(env = getBrowserEnv()) {
   return isIosSafari(env) && !isStandaloneMode(env);
 }
 
+export function isMobileViewport({ matchMedia } = getBrowserEnv()) {
+  return Boolean(matchMedia?.(PWA_INSTALL_MOBILE_QUERY)?.matches);
+}
+
 export function getInstallPromptCopy(role) {
   if (role === "student") {
     return {
       title: "Instale o Aruka no seu celular",
       description:
         "Acesse seus treinos, histórico, vídeos e timer diretamente pela tela inicial.",
-      actionLabel: "Instalar",
+      actionLabel: "Instalar aplicativo",
       laterLabel: "Agora nao",
       iosActionLabel: "Entendi",
       iosDescription:
@@ -47,10 +49,10 @@ export function getInstallPromptCopy(role) {
   }
 
   return {
-    title: "Instale o Aruka no seu dispositivo",
+    title: "Instale o Aruka no seu celular",
     description:
-      "Tenha acesso mais rápido à gestão dos seus alunos, treinos e acompanhamento.",
-    actionLabel: "Instalar",
+      "Tenha acesso mais rápido aos seus alunos e treinos, direto pela tela inicial.",
+    actionLabel: "Instalar aplicativo",
     laterLabel: "Agora nao",
     iosActionLabel: "Entendi",
     iosDescription:
@@ -58,43 +60,44 @@ export function getInstallPromptCopy(role) {
   };
 }
 
-export function readInstallDismissal(storage, now = Date.now()) {
-  const dismissedAt = Number(storage?.getItem?.(PWA_INSTALL_DISMISSED_AT_KEY));
-  if (!Number.isFinite(dismissedAt) || dismissedAt <= 0) {
-    return { dismissedAt: null, active: false, expiresAt: null };
-  }
-
-  const expiresAt = dismissedAt + PWA_INSTALL_DISMISSAL_DAYS * DAY_MS;
-  return {
-    dismissedAt,
-    active: now < expiresAt,
-    expiresAt,
-  };
+export function readInstallHidePreference(storage) {
+  return storage?.getItem?.(PWA_INSTALL_HIDE_BANNER_KEY) === "true";
 }
 
-export function markInstallDismissed(storage, now = Date.now()) {
-  storage?.setItem?.(PWA_INSTALL_DISMISSED_AT_KEY, String(now));
+export function markInstallBannerHidden(storage) {
+  storage?.setItem?.(PWA_INSTALL_HIDE_BANNER_KEY, "true");
 }
 
-export function clearInstallDismissal(storage) {
-  storage?.removeItem?.(PWA_INSTALL_DISMISSED_AT_KEY);
+export function clearInstallBannerHidden(storage) {
+  storage?.removeItem?.(PWA_INSTALL_HIDE_BANNER_KEY);
 }
 
 export function shouldShowInstallPrompt({
   role,
   isAuthenticatedHomeReady,
+  isMobile,
   isStandalone,
-  hasDeferredPrompt,
-  canShowIosGuide,
-  dismissed,
+  hideBanner,
+  bannerClosed,
   updatePromptVisible = false,
 } = {}) {
   if (!role) return false;
   if (!isAuthenticatedHomeReady) return false;
+  if (!isMobile) return false;
   if (isStandalone) return false;
-  if (dismissed) return false;
+  if (hideBanner) return false;
+  if (bannerClosed) return false;
   if (updatePromptVisible) return false;
-  return Boolean(hasDeferredPrompt || canShowIosGuide);
+  return true;
+}
+
+export function canShowInstallMenuItem({
+  isMobile,
+  isStandalone,
+} = {}) {
+  if (!isMobile) return false;
+  if (isStandalone) return false;
+  return true;
 }
 
 export function getBrowserEnv() {

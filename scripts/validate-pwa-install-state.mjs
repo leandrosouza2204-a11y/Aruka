@@ -1,40 +1,112 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import {
+  canShowInstallMenuItem,
   isStandaloneMode,
+  readInstallHidePreference,
   shouldShowInstallPrompt,
 } from "../src/features/pwa/utils/pwaInstallState.js";
 
 const manager = readFileSync("src/features/pwa/PwaExperienceManager.jsx", "utf8");
 const state = readFileSync("src/features/pwa/utils/pwaInstallState.js", "utf8");
+const menu = readFileSync("src/components/MobileBottomNavigation.jsx", "utf8");
+const sidebar = readFileSync("src/components/Sidebar.jsx", "utf8");
 
 assert.match(manager, /beforeinstallprompt/);
 assert.match(manager, /event\.preventDefault\(\)/);
 assert.match(manager, /setDeferredPrompt\(event\)/);
+assert.match(manager, /setInstallAvailable\(true\)/);
+assert.match(manager, /requestPwaInstall/);
 assert.match(manager, /promptEvent\.prompt\(\)/);
 assert.match(manager, /promptEvent\.userChoice/);
+assert.match(manager, /choice\?\.outcome === "accepted"/);
+assert.match(manager, /setInstallGuidanceOpen\(true\)/);
+assert.doesNotMatch(manager, /choice\?\.outcome === "dismissed"[\s\S]*markInstallBannerHidden/);
 assert.match(manager, /appinstalled/);
-assert.match(state, /aruka:pwaInstallDismissedAt:v1/);
-assert.match(state, /PWA_INSTALL_DISMISSAL_DAYS = 14/);
+assert.match(manager, /clearInstallBannerHidden/);
+assert.match(manager, /Nao mostrar novamente/);
+assert.match(manager, /Instalar e criar atalho/);
+assert.match(state, /aruka_pwa_install_hide_banner/);
+assert.doesNotMatch(state, /aruka_pwa_install_dismissed_at/);
+assert.match(state, /PWA_INSTALL_PROMPT_DELAY_MS = 3000/);
+assert.match(state, /PWA_INSTALL_MOBILE_QUERY = "\(.+767px\)"/);
 assert.match(state, /display-mode: standalone/);
 assert.match(state, /navigator\?\.standalone/);
-assert.match(state, /CriOS\|FxiOS\|EdgiOS\|OPiOS/);
+assert.match(menu, /usePwaInstall/);
+assert.match(menu, /showInstallOption/);
+assert.match(menu, /Instalar aplicativo/);
+assert.doesNotMatch(menu, /canInstall|canNativePrompt|deferredPrompt|installAvailable/);
+assert.match(sidebar, /usePwaInstall/);
+assert.match(sidebar, /showInstallOption/);
+assert.match(sidebar, /requestInstall/);
+assert.match(sidebar, /Instalar aplicativo/);
+assert.doesNotMatch(sidebar, /canInstall|canNativePrompt|deferredPrompt|installAvailable/);
 assert.equal(isStandaloneMode({ matchMedia: () => ({ matches: true }), navigator: {} }), true);
+assert.equal(readInstallHidePreference({ getItem: () => "true" }), true);
+assert.equal(readInstallHidePreference({ getItem: () => "invalid" }), false);
 assert.equal(
   shouldShowInstallPrompt({
     role: "student",
     isAuthenticatedHomeReady: true,
+    isMobile: true,
     isStandalone: true,
     hasDeferredPrompt: true,
-    canShowIosGuide: false,
-    dismissed: false,
+    hideBanner: false,
+    bannerClosed: false,
+  }),
+  false
+);
+assert.equal(
+  shouldShowInstallPrompt({
+    role: "professional",
+    isAuthenticatedHomeReady: true,
+    isMobile: true,
+    isStandalone: false,
+    hasDeferredPrompt: true,
+    hideBanner: true,
+    bannerClosed: false,
+  }),
+  false
+);
+assert.equal(
+  shouldShowInstallPrompt({
+    role: "professional",
+    isAuthenticatedHomeReady: true,
+    isMobile: true,
+    isStandalone: false,
+    hasDeferredPrompt: false,
+    hideBanner: false,
+    bannerClosed: false,
+  }),
+  true
+);
+assert.equal(
+  canShowInstallMenuItem({
+    isMobile: true,
+    isStandalone: false,
+    hasDeferredPrompt: false,
+  }),
+  true
+);
+assert.equal(
+  canShowInstallMenuItem({
+    isMobile: true,
+    isStandalone: true,
+    hasDeferredPrompt: true,
   }),
   false
 );
 
 console.log("PWA_INSTALL_STATE_QA=PASS");
 console.log("BEFOREINSTALLPROMPT=CAPTURED_IN_MEMORY");
-console.log("DISMISSAL_WINDOW_DAYS=14");
-console.log("PROMPT_REAPPEARS_EVERY_LOGIN=NO");
+console.log("NATIVE_PROMPT_DISMISSAL_PERSISTED=NO");
+console.log("HIDE_BANNER_REQUIRES_EXPLICIT_CHECKBOX=YES");
+console.log("MENU_INSTALL_ITEM=YES");
+console.log("HAMBURGER_INSTALL_ITEM=YES");
+console.log("MENU_REQUIRES_DEFERRED_PROMPT=NO");
+console.log("BANNER_REQUIRES_DEFERRED_PROMPT=NO");
+console.log("SHARED_INSTALL_ACTION=YES");
+console.log("MANUAL_INSTALL_GUIDANCE=YES");
 console.log("PROMPT_WHEN_STANDALONE=NO");
+console.log("PROMPT_WHEN_DESKTOP=NO");
 console.log("APPINSTALLED_HANDLING=YES");

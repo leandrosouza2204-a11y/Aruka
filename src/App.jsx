@@ -226,11 +226,10 @@ function App() {
 
 function AppMobileNav({ children }) {
   return (
-    <>
+    <PwaExperienceManager role="professional">
       {children}
       <MobileBottomNavigation />
-      <PwaExperienceManager role="professional" />
-    </>
+    </PwaExperienceManager>
   );
 }
 

@@ -1,16 +1,17 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
-  PWA_INSTALL_DISMISSED_AT_KEY,
-  PWA_INSTALL_DISMISSAL_DAYS,
+  PWA_INSTALL_HIDE_BANNER_KEY,
+  canShowInstallMenuItem,
   canShowIosInstallGuide,
-  clearInstallDismissal,
+  clearInstallBannerHidden,
   getInstallPromptCopy,
   isIosDevice,
   isIosSafari,
+  isMobileViewport,
   isStandaloneMode,
-  markInstallDismissed,
-  readInstallDismissal,
+  markInstallBannerHidden,
+  readInstallHidePreference,
   shouldShowInstallPrompt,
 } from "./pwaInstallState.js";
 
@@ -38,6 +39,12 @@ test("detecta standalone por display-mode e navigator standalone", () => {
   );
 });
 
+test("detecta viewport mobile por media query", () => {
+  assert.equal(isMobileViewport({ matchMedia: () => ({ matches: true }) }), true);
+  assert.equal(isMobileViewport({ matchMedia: () => ({ matches: false }) }), false);
+  assert.equal(isMobileViewport({ matchMedia: null }), false);
+});
+
 test("detecta iOS Safari sem aceitar browsers iOS alternativos", () => {
   const safari = {
     navigator: {
@@ -62,50 +69,60 @@ test("copy de instalacao separa profissional e aluno", () => {
   const professional = getInstallPromptCopy("professional");
   const student = getInstallPromptCopy("student");
 
-  assert.match(professional.description, /gestão dos seus alunos/);
+  assert.match(professional.description, /alunos e treinos/);
   assert.doesNotMatch(professional.description, /timer/);
   assert.match(student.description, /treinos, histórico, vídeos e timer/);
   assert.doesNotMatch(student.description, /gestão dos seus alunos/);
 });
 
-test("dismissal usa janela de 14 dias em storage local", () => {
+test("preferencia explicita de ocultar banner usa storage local", () => {
   const local = storage();
-  const now = Date.UTC(2026, 7, 28);
-  markInstallDismissed(local, now);
+  markInstallBannerHidden(local);
 
-  assert.equal(local.getItem(PWA_INSTALL_DISMISSED_AT_KEY), String(now));
-  assert.equal(readInstallDismissal(local, now + 13 * 24 * 60 * 60 * 1000).active, true);
-  assert.equal(
-    readInstallDismissal(local, now + (PWA_INSTALL_DISMISSAL_DAYS + 1) * 24 * 60 * 60 * 1000)
-      .active,
-    false
-  );
+  assert.equal(local.getItem(PWA_INSTALL_HIDE_BANNER_KEY), "true");
+  assert.equal(readInstallHidePreference(local), true);
+  assert.equal(readInstallHidePreference({ getItem: () => "invalid" }), false);
+  assert.equal(readInstallHidePreference(null), false);
 
-  clearInstallDismissal(local);
-  assert.equal(readInstallDismissal(local, now).active, false);
+  clearInstallBannerHidden(local);
+  assert.equal(readInstallHidePreference(local), false);
 });
 
-test("elegibilidade bloqueia login, standalone, dismissal e browser sem suporte", () => {
+test("elegibilidade bloqueia login, desktop, standalone, preferencia e browser sem suporte", () => {
   const base = {
     role: "professional",
     isAuthenticatedHomeReady: true,
+    isMobile: true,
     isStandalone: false,
-    hasDeferredPrompt: true,
-    canShowIosGuide: false,
-    dismissed: false,
+    hideBanner: false,
+    bannerClosed: false,
   };
 
   assert.equal(shouldShowInstallPrompt(base), true);
   assert.equal(shouldShowInstallPrompt({ ...base, role: null }), false);
   assert.equal(shouldShowInstallPrompt({ ...base, isAuthenticatedHomeReady: false }), false);
+  assert.equal(shouldShowInstallPrompt({ ...base, isMobile: false }), false);
   assert.equal(shouldShowInstallPrompt({ ...base, isStandalone: true }), false);
-  assert.equal(shouldShowInstallPrompt({ ...base, dismissed: true }), false);
+  assert.equal(shouldShowInstallPrompt({ ...base, hideBanner: true }), false);
+  assert.equal(shouldShowInstallPrompt({ ...base, bannerClosed: true }), false);
+  assert.equal(shouldShowInstallPrompt({ ...base, hasDeferredPrompt: false }), true);
+});
+
+test("menu de instalacao independe da preferencia do banner e bloqueia standalone", () => {
   assert.equal(
-    shouldShowInstallPrompt({ ...base, hasDeferredPrompt: false, canShowIosGuide: false }),
+    canShowInstallMenuItem({ isMobile: true, isStandalone: false, hasDeferredPrompt: true }),
+    true
+  );
+  assert.equal(
+    canShowInstallMenuItem({ isMobile: true, isStandalone: true, hasDeferredPrompt: true }),
     false
   );
   assert.equal(
-    shouldShowInstallPrompt({ ...base, hasDeferredPrompt: false, canShowIosGuide: true }),
+    canShowInstallMenuItem({ isMobile: true, isStandalone: false, hasDeferredPrompt: false }),
     true
+  );
+  assert.equal(
+    canShowInstallMenuItem({ isMobile: false, isStandalone: false, hasDeferredPrompt: true }),
+    false
   );
 });
