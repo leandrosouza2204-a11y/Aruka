@@ -194,3 +194,70 @@ Android preparation:
 Decision: `READY_FOR_MANUAL_ANDROID_PWA_INSTALL_QA`
 
 NEXT_ACTION=`USER_INSTALL_ARUKA_ON_ANDROID_AND_VALIDATE_STANDALONE_SESSION`
+
+## Android PWA formal closeout
+
+Execution date: 2026-09-01
+
+Traceability:
+
+- Branch: `feat/product-roadmap-v4-cycle-08-1-pwa-installability`
+- Functional HEAD before closure: `c07538b5f672a37db79bceb53eaf1d87781458da`
+- Functional commit: `fix: garante acesso persistente à instalação PWA`
+- PR: #54
+- Vercel target: `https://vercel.com/leandrosouzafitness/aruka/ACb4UmaUU87q4BZb4q2muSC6VNJg`
+- Preview URL: `https://aruka-git-feat-product-roadmap-v4-cy-83978b-leandrosouzafitness.vercel.app`
+- GitHub Actions run: `33517937883`
+- GitHub Actions / validation: PASS
+- Vercel Preview: PASS
+
+Automated validation:
+
+- `node --test src/features/pwa/utils/pwaInstallState.test.js src/features/pwa/utils/pwaUpdateState.test.js`: PASS
+- `npm.cmd run qa:pwa-install-state`: PASS
+- `npm.cmd run qa:pwa-role-install-experience`: PASS
+- `npm.cmd run qa:pwa-installability`: PASS
+- `npm.cmd run qa:pwa-cache-security`: PASS
+- `npm.cmd run lint`: PASS
+- `npm.cmd run build`: PASS
+- Typecheck: NOT_APPLICABLE, no script in `package.json`
+
+Manual Android QA:
+
+- Banner interno after Chrome Android login: PASS
+- Title `Instale o Aruka no seu celular`: PASS
+- CTA `Instalar aplicativo`: PASS
+- Action `Agora nao`: PASS; closes the banner and it returns after refresh when `Nao mostrar novamente` is not selected
+- Checkbox `Nao mostrar novamente`: PASS; hides only the automatic banner after reload/navigation
+- Mobile menu path `Mais -> Acessos adicionais -> Instalar aplicativo`: PASS
+- Header hamburger action `Instalar aplicativo`: PASS
+- Fallback without `beforeinstallprompt`: PASS; modal `Instalar o Aruka` shows Chrome menu instructions
+- Effective Android installation: PASS; Aruka installed with own icon and opens separately from Chrome
+- Standalone launch: PASS; no install banner/options shown when installed app is already running standalone
+- QA visual executado em dispositivo Android real e confirmado pelo responsável pelo teste.
+
+`beforeinstallprompt` limitation:
+
+- Chrome controls emission of `beforeinstallprompt`, native prompt availability and native banner reappearance.
+- Chrome may not emit the event, may stop emitting it after cancellation, may apply engagement/elegibility heuristics and may delay its own native banner.
+- This browser behavior is not an Aruka failure.
+- Aruka mitigation: install discovery independent of `beforeinstallprompt`, permanent install shortcuts while not standalone, and internal manual guidance fallback.
+
+Checklist:
+
+- [x] Banner internal independent of `deferredPrompt`
+- [x] Mobile `Mais` install shortcut independent of `beforeinstallprompt`
+- [x] Header hamburger install shortcut independent of `beforeinstallprompt`
+- [x] Manual fallback modal available
+- [x] Hide preference `aruka_pwa_install_hide_banner` validated for automatic banner only
+- [x] Standalone detection hides install surfaces
+- [x] Android install and relaunch validated on real device
+- [x] Automated validators passed
+- [x] Preview deployment validated
+- [ ] iOS Safari Add to Home Screen validation
+
+Decision: `PASS`
+
+`CYCLE_STATUS=PASS`
+`CYCLE=PRODUCT_ROADMAP_V4_CYCLE_08_1_PWA_ANDROID`
+`NEXT_ACTION=PWA_IOS_VALIDATION`

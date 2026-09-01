@@ -52,15 +52,17 @@ This keeps cross-user devices safe when a professional logs out and a student lo
 
 The prompt appears after authenticated home render plus a short delay. It never appears on `/login`, never appears in standalone mode and respects a device-level dismissal key:
 
-`aruka:pwaInstallDismissedAt:v1`
+`aruka_pwa_install_hide_banner`
 
-Dismissal window: 14 days.
+The hide preference controls only the automatic internal banner. Manual install entry points remain available while the app is running in browser mode and is not standalone.
 
 Professional copy focuses on management. Student copy focuses on training, videos, history and timer.
 
 ## Platform Behavior
 
 Android and Chromium desktop use `beforeinstallprompt` when the browser provides it. The event is kept only in memory and `prompt()` is called only after user action.
+
+Chrome controls `beforeinstallprompt`, native prompt availability and native banner reappearance. Chrome can omit the event, stop emitting it after a cancellation, apply engagement/elegibility heuristics or delay its own native banner. This is not treated as an Aruka failure. Aruka mitigates it with install discovery independent of the event, persistent install shortcuts in browser mode and an internal manual guidance fallback.
 
 iOS Safari does not support `beforeinstallprompt`; Aruka shows manual guidance instead: Share, then Add to Home Screen. The iOS CTA is informational, not a fake install button.
 
@@ -93,3 +95,60 @@ The workout rest timer remains logically correct because it uses an absolute `re
 - Capacitor/native shell.
 - Play Store/App Store distribution.
 - Offline-first data sync.
+
+## Cycle 08.1 Android Closeout
+
+Closure date: 2026-09-01.
+
+Status:
+
+- Android PWA validation: PASS.
+- Cycle 08.1 Android scope: COMPLETE.
+- iOS validation: PENDING, not started in this cycle closure.
+
+Manual Android QA:
+
+- Internal banner after Chrome Android login: PASS.
+- Internal banner title `Instale o Aruka no seu celular`: PASS.
+- CTA `Instalar aplicativo`: PASS.
+- Action `Agora nao`: PASS; closes the banner and the banner returns after refresh when the hide checkbox is not selected.
+- Checkbox `Nao mostrar novamente`: PASS; hides the automatic banner across reload/navigation.
+- Manual install entry in `Mais -> Acessos adicionais -> Instalar aplicativo`: PASS.
+- Header hamburger install entry: PASS.
+- Fallback without `beforeinstallprompt`: PASS; modal `Instalar o Aruka` shows Chrome menu guidance.
+- Effective Android installation: PASS; Aruka installed with its own icon and opens separately from Chrome.
+- Standalone launch: PASS; install banner/options are not shown when already running standalone.
+
+QA visual executado em dispositivo Android real e confirmado pelo responsável pelo teste.
+
+Automated validation registered for the Android closeout:
+
+- `node --test src/features/pwa/utils/pwaInstallState.test.js src/features/pwa/utils/pwaUpdateState.test.js`: PASS.
+- `npm.cmd run qa:pwa-install-state`: PASS.
+- `npm.cmd run qa:pwa-role-install-experience`: PASS.
+- `npm.cmd run qa:pwa-installability`: PASS.
+- `npm.cmd run qa:pwa-cache-security`: PASS.
+- `npm.cmd run lint`: PASS.
+- `npm.cmd run build`: PASS.
+- Typecheck: NOT_APPLICABLE, no script in `package.json`.
+
+Checklist:
+
+- [x] Single role-neutral Aruka PWA.
+- [x] Manifest and icons generated.
+- [x] Service worker cache policy verified.
+- [x] Internal install banner available after authenticated browser render.
+- [x] Automatic banner hide preference validated.
+- [x] Manual install entry in mobile `Mais`.
+- [x] Manual install entry in header hamburger.
+- [x] Manual install fallback independent of `beforeinstallprompt`.
+- [x] Android real-device install and standalone relaunch.
+- [x] Automated PWA validation.
+- [x] Preview deployment validated.
+- [ ] iOS Safari Add to Home Screen validation.
+
+Cycle markers:
+
+`CYCLE_STATUS=PASS`
+`CYCLE=PRODUCT_ROADMAP_V4_CYCLE_08_1_PWA_ANDROID`
+`NEXT_ACTION=PWA_IOS_VALIDATION`

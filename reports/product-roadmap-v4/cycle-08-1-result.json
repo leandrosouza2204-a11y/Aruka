@@ -2,7 +2,10 @@
   "program": "Product Roadmap v4",
   "cycle": "08.1",
   "cycleName": "PWA Installability & Role-Aware App Experience",
-  "decision": "READY_FOR_CYCLE_08_1_FINAL_MANUAL_REVIEW",
+  "decision": "PASS",
+  "cycleStatus": "PASS",
+  "closedScope": "PRODUCT_ROADMAP_V4_CYCLE_08_1_PWA_ANDROID",
+  "nextAction": "PWA_IOS_VALIDATION",
   "architecture": {
     "singlePwa": true,
     "appName": "Aruka",
@@ -38,6 +41,7 @@
     "cacheSecurity": "PASS",
     "lint": "PASS",
     "build": "PASS",
+    "typecheck": "NOT_APPLICABLE_NO_PACKAGE_SCRIPT",
     "visibleCopy": "PASS",
     "cycle08": "STATIC_PASS_RUNTIME_BLOCKED_LOCAL_SUPABASE_CONTAINER",
     "cycle07": "PASS",
@@ -51,11 +55,15 @@
   },
   "install": {
     "promptAfterLogin": true,
-    "dismissalWindowDays": 14,
-    "dismissalStorage": "aruka:pwaInstallDismissedAt:v1",
+    "dismissalWindowDays": null,
+    "dismissalStorage": "aruka_pwa_install_hide_banner",
+    "dismissalScope": "automatic_internal_banner_only",
+    "manualEntryPointsRemainAvailable": true,
     "standaloneDetection": true,
     "appinstalledHandling": true,
-    "alreadyInstalledPrompt": false
+    "alreadyInstalledPrompt": false,
+    "beforeInstallPromptDependency": "NATIVE_PROMPT_ONLY_BROWSER_CONTROLLED",
+    "manualFallbackWithoutBeforeInstallPrompt": true
   },
   "update": {
     "autoReload": false,
@@ -69,9 +77,31 @@
     "executableMigrations": 13
   },
   "manualValidationRequired": {
-    "androidRealDevice": true,
+    "androidRealDevice": false,
     "iosRealDevice": true,
-    "desktopInstall": true
+    "desktopInstall": false
+  },
+  "manualValidation": {
+    "androidRealDevice": "PASS",
+    "androidVisualEvidence": "QA visual executado em dispositivo Android real e confirmado pelo responsavel pelo teste.",
+    "internalBanner": "PASS",
+    "installCta": "PASS",
+    "dismissWithoutHide": "PASS",
+    "hideAutomaticBanner": "PASS",
+    "mobileMoreInstallShortcut": "PASS",
+    "headerHamburgerInstallShortcut": "PASS",
+    "manualGuidanceFallback": "PASS",
+    "effectiveInstall": "PASS",
+    "standaloneRelaunch": "PASS",
+    "desktopInstall": "PASS",
+    "iosRealDevice": "PENDING"
+  },
+  "preview": {
+    "url": "https://aruka-git-feat-product-roadmap-v4-cy-83978b-leandrosouzafitness.vercel.app",
+    "vercelTarget": "https://vercel.com/leandrosouzafitness/aruka/ACb4UmaUU87q4BZb4q2muSC6VNJg",
+    "githubActionsRun": "33517937883",
+    "githubActionsValidation": "PASS",
+    "vercel": "PASS"
   },
   "outOfScope": [
     "push notifications",
