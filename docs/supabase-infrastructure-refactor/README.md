@@ -101,6 +101,24 @@ Artefatos de baseline:
 - `reports/supabase-ci/`
 - `reports/supabase-ci-runtime/`
 
+## Validator report write mode
+
+Local validator execution is non-destructive by default. These commands validate and print their PASS/FAIL markers without updating canonical files under `reports/`:
+
+- `node scripts/validate-authenticated-runtime-precheck.mjs`
+- `node scripts/validate-ci-repository-safety.mjs`
+- `node scripts/validate-supabase-ci-static.mjs`
+- `npm run qa:supabase-ci-static`
+
+Canonical reports are updated only when explicitly requested with `--write-report`:
+
+- `node scripts/validate-authenticated-runtime-precheck.mjs --write-report`
+- `node scripts/validate-ci-repository-safety.mjs --write-report`
+- `node scripts/validate-supabase-ci-static.mjs --write-report`
+- `npm run qa:supabase-ci-static:write-report`
+
+The flag preserves the existing report paths and schemas. It is intended for official evidence generation in CI or controlled documentation runs, not ordinary local validation.
+
 Fonte principal: `supabase/*.sql`, `supabase/migrations/*.sql`, `supabase/functions/**`, `src/services/**` e scripts de validacao que usam Supabase.
 
 Observacao: a candidate foi promovida a baseline oficial no Ciclo 6 e validada localmente a partir da pasta ativa de migrations. A SHA oficial vigente da baseline ativa e a SHA textual canonica LF `F7C580FD9677D4E2C6F28E2944CBA75BC17D0F88528F1372BFD3F1C0DC04000A`; a SHA `745601B2963721AA060063F1DB250CBF11091EB2C5B74E799A675CCC73CB8DCE` permanece apenas como evidencia historica de uma representacao Windows com finais mistos. Nenhuma escrita remota foi executada; HML/producao exigem ciclo posterior com runbook e verificacoes read-only. O ruleset `Protect main` e o required check `validation` foram reportados como ativos, mas a decisao automatizada atual do Ciclo 9.1 permanece `CYCLE_9_1_RUNTIME_EVIDENCE_REQUIRED`.

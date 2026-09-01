@@ -2,8 +2,10 @@ import { spawnSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { CYCLE_9_DECISION, writeJsonReport, writeMarkdownReport } from "./supabase-cycle-9-lib.mjs";
+import { printReportWriteMode, shouldWriteCanonicalReport } from "./lib/report-write-mode.mjs";
 
 const root = process.cwd();
+const writeReport = shouldWriteCanonicalReport();
 const errors = [];
 
 function list(dir) {
@@ -115,17 +117,23 @@ const payload = {
   primary_error: errors[0] ?? null,
 };
 
-writeJsonReport(root, "ci-static-result.json", payload);
-writeMarkdownReport(root, "ci-static-summary.md", [
-  "# CI Static Validation",
-  "",
-  `- Result: ${payload.result}`,
-  `- Node files checked: ${payload.node_files_checked}`,
-  `- PowerShell files checked: ${payload.powershell_files_checked}`,
-  `- JSON reports checked: ${payload.json_reports_checked}`,
-  `- Primary error: ${payload.primary_error ?? "none"}`,
-]);
+if (writeReport) {
+  writeJsonReport(root, "ci-static-result.json", payload);
+  writeMarkdownReport(root, "ci-static-summary.md", [
+    "# CI Static Validation",
+    "",
+    `- Result: ${payload.result}`,
+    `- Node files checked: ${payload.node_files_checked}`,
+    `- PowerShell files checked: ${payload.powershell_files_checked}`,
+    `- JSON reports checked: ${payload.json_reports_checked}`,
+    `- Primary error: ${payload.primary_error ?? "none"}`,
+  ]);
+}
 
+printReportWriteMode(writeReport);
+console.log(`NODE_FILES_CHECKED=${payload.node_files_checked}`);
+console.log(`POWERSHELL_FILES_CHECKED=${payload.powershell_files_checked}`);
+console.log(`JSON_REPORTS_CHECKED=${payload.json_reports_checked}`);
 if (errors.length) {
   for (const error of errors) console.error(`- ${error}`);
   process.exit(1);

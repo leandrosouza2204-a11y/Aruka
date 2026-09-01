@@ -8,10 +8,12 @@ import {
   RUNTIME_MARKERS,
   resolveRuntimeConfig,
 } from "./lib/authenticated-runtime.js";
+import { printReportWriteMode, shouldWriteCanonicalReport } from "./lib/report-write-mode.mjs";
 
 const RESULT_PATH = "reports/product-roadmap-v3/cycle-01-runtime-qa-result.json";
 
 async function main() {
+  const writeReport = shouldWriteCanonicalReport();
   const config = resolveRuntimeConfig();
   const blockers = [];
   const state = {
@@ -92,7 +94,8 @@ async function main() {
   console.log(`RUNTIME_PRECHECK=${precheck.decision}`);
   if (result.environment_blockers.length) console.log(`RUNTIME_BLOCKERS=${result.environment_blockers.join("|")}`);
 
-  await writeFile(RESULT_PATH, `${JSON.stringify(result, null, 2)}\n`);
+  printReportWriteMode(writeReport);
+  if (writeReport) await writeFile(RESULT_PATH, `${JSON.stringify(result, null, 2)}\n`);
   if (precheck.decision !== "PASS") process.exitCode = 2;
 }
 
