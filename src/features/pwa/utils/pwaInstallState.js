@@ -30,11 +30,26 @@ export function canShowIosInstallGuide(env = getBrowserEnv()) {
   return isIosSafari(env) && !isStandaloneMode(env);
 }
 
+export function getInstallPlatform(env = getBrowserEnv()) {
+  if (isIosDevice(env)) return isIosSafari(env) ? "ios-safari" : "ios-browser";
+  return "android";
+}
+
 export function isMobileViewport({ matchMedia } = getBrowserEnv()) {
   return Boolean(matchMedia?.(PWA_INSTALL_MOBILE_QUERY)?.matches);
 }
 
-export function getInstallPromptCopy(role) {
+export function getInstallPromptCopy(role, { platform = "android" } = {}) {
+  if (platform === "ios-safari" || platform === "ios-browser") {
+    return {
+      title: "Instale o Aruka no seu iPhone",
+      description:
+        "Adicione o Aruka a Tela de Inicio para acessar o sistema como um aplicativo.",
+      actionLabel: "Como instalar",
+      laterLabel: "Agora nao",
+    };
+  }
+
   if (role === "student") {
     return {
       title: "Instale o Aruka no seu celular",
@@ -62,6 +77,50 @@ export function getInstallPromptCopy(role) {
 
 export function readInstallHidePreference(storage) {
   return storage?.getItem?.(PWA_INSTALL_HIDE_BANNER_KEY) === "true";
+}
+
+export function getInstallGuidanceCopy(platform = "android") {
+  if (platform === "ios-safari") {
+    return {
+      title: "Instalar o Aruka",
+      description:
+        "Adicione o Aruka a Tela de Inicio para acessar o sistema como um aplicativo.",
+      steps: [
+        "Toque no botao Compartilhar do Safari.",
+        "Role as opcoes e toque em \"Adicionar a Tela de Inicio\".",
+        "Toque em \"Adicionar\".",
+      ],
+      finalMessage: "O Aruka ficara disponivel junto aos seus aplicativos.",
+      actionLabel: "Entendi",
+    };
+  }
+
+  if (platform === "ios-browser") {
+    return {
+      title: "Instalar o Aruka no iPhone",
+      description: "Para adicionar o Aruka a Tela de Inicio, abra esta pagina no Safari.",
+      steps: [
+        "Copie ou abra este endereco no Safari.",
+        "Toque em Compartilhar.",
+        "Escolha \"Adicionar a Tela de Inicio\".",
+        "Toque em \"Adicionar\".",
+      ],
+      finalMessage: "O Safari oferece o caminho mais confiavel para instalar o Aruka no iPhone.",
+      actionLabel: "Entendi",
+    };
+  }
+
+  return {
+    title: "Instalar o Aruka",
+    description: "Instale o Aruka na tela inicial para acessar o sistema como um aplicativo.",
+    steps: [
+      "Toque nos tres pontos (⋮) do Chrome.",
+      "Selecione \"Instalar e criar atalho\".",
+      "Toque em \"Instalar\".",
+    ],
+    finalMessage: "Depois disso, o Aruka ficara disponivel na sua tela inicial.",
+    actionLabel: "Entendi",
+  };
 }
 
 export function markInstallBannerHidden(storage) {

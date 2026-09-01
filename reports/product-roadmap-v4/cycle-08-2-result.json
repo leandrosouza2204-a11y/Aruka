@@ -1,0 +1,53 @@
+{
+  "program": "Product Roadmap v4",
+  "cycle": "08.2",
+  "cycleName": "PWA iOS Validation",
+  "cycleStatus": "IN_PROGRESS",
+  "implementationStatus": "READY_FOR_MANUAL_QA",
+  "manualIosQa": "PENDING",
+  "nextAction": "USER_RUN_IOS_VISUAL_QA",
+  "ios": {
+    "deviceDetection": "IPHONE_IPAD_IPOD_AND_IPADOS_TOUCH",
+    "safariDetection": true,
+    "nonSafariBrowserGuidance": true,
+    "beforeInstallPromptRequired": false,
+    "standaloneDetection": [
+      "display-mode: standalone",
+      "navigator.standalone"
+    ],
+    "bannerCta": "Como instalar",
+    "manualGuidance": true
+  },
+  "androidRegression": {
+    "status": "PASS",
+    "nativePromptPreserved": true,
+    "manualChromeFallbackPreserved": true,
+    "mobileMoreInstallEntryPreserved": true,
+    "hamburgerInstallEntryPreserved": true,
+    "standaloneInstallSurfacesHidden": true,
+    "hideBannerOnlyAffectsAutomaticBanner": true
+  },
+  "manifest": {
+    "name": "Aruka",
+    "shortName": "Aruka",
+    "startUrl": "/",
+    "scope": "/",
+    "display": "standalone",
+    "appleTouchIcon": "public/pwa/apple-touch-icon.png",
+    "iosMetaTags": true
+  },
+  "qa": {
+    "automated": "PASS",
+    "pwaUnitTests": "PASS",
+    "pwaInstallState": "PASS",
+    "pwaRoleInstallExperience": "PASS",
+    "pwaInstallability": "PASS",
+    "pwaCacheSecurity": "PASS",
+    "pwaIosExperience": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "manualIphoneSafari": "PENDING",
+    "manualIpadSafari": "PENDING_OPTIONAL",
+    "manualIosNonSafari": "PENDING_COMPLEMENTARY"
+  }
+}
