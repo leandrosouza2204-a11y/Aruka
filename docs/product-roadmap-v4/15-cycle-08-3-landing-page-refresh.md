@@ -298,6 +298,27 @@ V5_IMPLEMENTED=YES
 V5_AUTOMATED_QA=PASS
 V5_DESKTOP_MANUAL_QA=PENDING
 
+## ABOUT SPA NAVIGATION AND DESKTOP ALIGNMENT FIX
+
+Manual validation after V5:
+
+- V5_MANUAL_DESKTOP_COMPOSITION=PASS
+- ABOUT_DIRECT_LOAD=PASS
+- ABOUT_BRAND_STORY_CTA=FAIL
+- ABOUT_DESKTOP_ALIGNMENT=NEEDS_REFINEMENT
+
+Implemented fix:
+
+- route changes now reset window scroll position through the router, so the brand story CTA opens `/sobre` at the top without a hard reload;
+- header and footer About links keep using the same router navigation contract;
+- `/sobre` desktop hero, origin, manifesto and values section introductions now use centered editorial composition;
+- mission and vision remain as two cards on desktop, with card content left aligned for readability;
+- footer desktop composition was preserved.
+
+ABOUT_BRAND_STORY_CTA_FIXED=YES
+ABOUT_DESKTOP_CENTERING_IMPLEMENTED=YES
+FINAL_MANUAL_QA=PENDING
+
 ## FLAGS
 
 Implementation started: YES
@@ -321,3 +342,8 @@ V4 manual desktop QA: FAIL
 V5 implemented: YES
 V5 automated QA: PASS
 V5 desktop manual QA: PENDING
+V5 manual desktop composition: PASS
+About direct load: PASS
+About brand story CTA: FIXED
+About desktop centering implemented: YES
+Final manual QA: PENDING
