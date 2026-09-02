@@ -210,6 +210,43 @@ PRODUCT_FOLLOW_UP=YES
 V2_IMPLEMENTED=YES
 V2_MANUAL_QA=PENDING
 
+## MANUAL VISUAL QA - V2
+
+User visual QA on desktop and Android approved the V2 direction with refinements:
+
+- desktop heading widths were too restrictive and caused premature wrapping;
+- some section intros used less horizontal space than the composition allowed;
+- mobile editorial paragraphs needed more controlled alignment;
+- one functionality paragraph still used internal implementation language;
+- the landing needed a short institutional brand story;
+- full institutional brand content needed a dedicated public page instead of making the commercial landing too long.
+
+V2_MANUAL_VISUAL_QA=PASS_WITH_REFINEMENTS
+
+## V3_BRAND_AND_TYPOGRAPHY
+
+V3 implemented:
+
+- wider desktop section heading containers without forcing `white-space: nowrap`;
+- controlled mobile text justification for editorial paragraphs only;
+- commercial replacement copy in the funcionalidades section;
+- short landing brand story after benefícios and before como funciona;
+- public `/sobre` route with institutional story, origin, manifesto, mission, vision, values and signature;
+- clear statement that Aruka is an original brand name and does not correspond to an existing tupi-guarani word;
+- footer tagline updated to `Tecnologia para quem transforma vidas.`;
+- public navigation includes `Sobre` without changing authenticated routes.
+
+Institutional safeguards:
+
+- no generic indigenous images, symbols or decorative cultural graphics were introduced;
+- no translation or false etymology was invented for Aruka;
+- no product feature, pricing or feature gating model was changed.
+
+V3_IMPLEMENTED=YES
+BRAND_STORY_SECTION=YES
+ABOUT_PAGE=YES
+V3_MANUAL_QA=PENDING
+
 ## FLAGS
 
 Implementation started: YES
@@ -223,3 +260,7 @@ Pricing changed: NO
 Manual visual QA: PENDING
 V2 implemented: YES
 V2 manual QA: PENDING
+V3 implemented: YES
+Brand story section: YES
+About page: YES
+V3 manual QA: PENDING

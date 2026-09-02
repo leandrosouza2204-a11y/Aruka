@@ -23,6 +23,7 @@ import "./LandingPage.css";
 const navItems = [
   { label: "Benefícios", href: "#beneficios" },
   { label: "Funcionalidades", href: "#funcionalidades" },
+  { label: "Sobre", href: "/sobre" },
   { label: "Como funciona", href: "#como-funciona" },
   { label: "Planos", href: "#planos" },
 ];
@@ -184,6 +185,7 @@ function LandingPage() {
       <ProductShowcase />
       <StudentExperience />
       <Benefits />
+      <BrandStory />
       <HowItWorks />
       <Pricing />
       <FAQ />
@@ -201,7 +203,7 @@ function LandingHeader({ menuId, mobileMenuOpen, onCloseMenu, onToggleMenu }) {
 
         <nav className="landing-nav landing-nav-desktop" aria-label="Navegação pública">
           {navItems.map((item) => (
-            <a href={item.href} key={item.href}>{item.label}</a>
+            <HeaderNavLink item={item} key={item.href} />
           ))}
         </nav>
 
@@ -230,7 +232,7 @@ function LandingHeader({ menuId, mobileMenuOpen, onCloseMenu, onToggleMenu }) {
         id={menuId}
       >
         {navItems.map((item) => (
-          <a href={item.href} key={item.href} onClick={onCloseMenu}>{item.label}</a>
+          <HeaderNavLink item={item} key={item.href} onClick={onCloseMenu} />
         ))}
         <Link to="/login" onClick={onCloseMenu}>Entrar</Link>
         <Link className="landing-button landing-button-primary" to="/login" onClick={onCloseMenu}>
@@ -239,6 +241,14 @@ function LandingHeader({ menuId, mobileMenuOpen, onCloseMenu, onToggleMenu }) {
       </nav>
     </header>
   );
+}
+
+function HeaderNavLink({ item, onClick }) {
+  if (item.href.startsWith("/")) {
+    return <Link to={item.href} onClick={onClick}>{item.label}</Link>;
+  }
+
+  return <a href={item.href} onClick={onClick}>{item.label}</a>;
 }
 
 function LandingBrand({ tone = "dark" }) {
@@ -323,8 +333,8 @@ function ProductShowcase() {
         <span className="landing-eyebrow">Funcionalidades</span>
         <h2>O dia a dia da consultoria em um só lugar.</h2>
         <p>
-          A landing apresenta recursos já presentes no Aruka, com exemplos visuais
-          fiéis à organização do produto e dados fictícios.
+          Alunos, treinos, avaliações, financeiro e acompanhamento conectados
+          para facilitar sua rotina de atendimento.
         </p>
       </div>
       <div className="landing-showcase-grid">
@@ -338,6 +348,34 @@ function ProductShowcase() {
             <ProductMiniFrame variant={module.preview} />
           </article>
         ))}
+      </div>
+    </section>
+  );
+}
+
+function BrandStory() {
+  return (
+    <section className="landing-section landing-brand-story">
+      <div className="landing-brand-symbol" aria-hidden="true">
+        <BrandLogo variant="icon" size="lg" />
+      </div>
+      <div className="landing-brand-story-copy">
+        <span className="landing-eyebrow">Por trás do nome</span>
+        <h2>Aruka. Uma marca inspirada em jornada, movimento e transformação.</h2>
+        <p>
+          A Aruka nasceu inspirada na riqueza cultural e linguística dos povos
+          originários do Brasil, especialmente na sonoridade das línguas da família
+          tupi-guarani.
+        </p>
+        <p>
+          O nome é uma criação original e representa os conceitos que orientam
+          nossa marca: acompanhar jornadas, simplificar caminhos e impulsionar a
+          evolução por meio da tecnologia.
+        </p>
+        <Link className="landing-story-link" to="/sobre">
+          Conheça nossa história
+          <ArrowRight size={17} />
+        </Link>
       </div>
     </section>
   );
@@ -498,14 +536,15 @@ function LandingFooter() {
           <LandingBrand tone="light" />
           <p>Sistema para consultoria fitness online com gestão, treino, acompanhamento e financeiro.</p>
         </div>
-        <nav aria-label="Links da landing">
+        <nav aria-label="Links públicos">
           <a href="#beneficios">Benefícios</a>
           <a href="#funcionalidades">Funcionalidades</a>
+          <Link to="/sobre">Sobre</Link>
           <a href="#planos">Planos</a>
           <Link to="/politica-privacidade">Privacidade</Link>
           <Link to="/termos-de-uso">Termos</Link>
         </nav>
-        <p className="landing-copyright">Aruka. Organize. Guie. Transforme.</p>
+        <p className="landing-copyright">Aruka. Tecnologia para quem transforma vidas.</p>
       </div>
     </footer>
   );
