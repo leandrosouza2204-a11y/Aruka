@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import {
   canShowInstallMenuItem,
+  getInstallGuidanceCopy,
+  getInstallPlatform,
   isStandaloneMode,
   readInstallHidePreference,
   shouldShowInstallPrompt,
@@ -21,17 +23,24 @@ assert.match(manager, /promptEvent\.prompt\(\)/);
 assert.match(manager, /promptEvent\.userChoice/);
 assert.match(manager, /choice\?\.outcome === "accepted"/);
 assert.match(manager, /setInstallGuidanceOpen\(true\)/);
+assert.match(manager, /installPlatform === "ios-safari"/);
+assert.match(manager, /installPlatform === "ios-browser"/);
 assert.doesNotMatch(manager, /choice\?\.outcome === "dismissed"[\s\S]*markInstallBannerHidden/);
 assert.match(manager, /appinstalled/);
 assert.match(manager, /clearInstallBannerHidden/);
 assert.match(manager, /Nao mostrar novamente/);
 assert.match(manager, /Instalar e criar atalho/);
+assert.match(manager, /PwaInstallGuidance[\s\S]*platform=\{installPlatform\}/);
 assert.match(state, /aruka_pwa_install_hide_banner/);
 assert.doesNotMatch(state, /aruka_pwa_install_dismissed_at/);
 assert.match(state, /PWA_INSTALL_PROMPT_DELAY_MS = 3000/);
 assert.match(state, /PWA_INSTALL_MOBILE_QUERY = "\(.+767px\)"/);
 assert.match(state, /display-mode: standalone/);
 assert.match(state, /navigator\?\.standalone/);
+assert.match(state, /MacIntel/);
+assert.match(state, /CriOS\|FxiOS\|EdgiOS\|OPiOS/);
+assert.match(state, /getInstallPlatform/);
+assert.match(state, /getInstallGuidanceCopy/);
 assert.match(menu, /usePwaInstall/);
 assert.match(menu, /showInstallOption/);
 assert.match(menu, /Instalar aplicativo/);
@@ -44,6 +53,26 @@ assert.doesNotMatch(sidebar, /canInstall|canNativePrompt|deferredPrompt|installA
 assert.equal(isStandaloneMode({ matchMedia: () => ({ matches: true }), navigator: {} }), true);
 assert.equal(readInstallHidePreference({ getItem: () => "true" }), true);
 assert.equal(readInstallHidePreference({ getItem: () => "invalid" }), false);
+assert.equal(
+  getInstallPlatform({
+    navigator: {
+      userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit Safari",
+      platform: "iPhone",
+    },
+  }),
+  "ios-safari"
+);
+assert.equal(
+  getInstallPlatform({
+    navigator: {
+      userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) CriOS Safari",
+      platform: "iPhone",
+    },
+  }),
+  "ios-browser"
+);
+assert.match(getInstallGuidanceCopy("ios-safari").steps.join(" "), /Compartilhar do Safari/);
+assert.match(getInstallGuidanceCopy("ios-browser").description, /Safari/);
 assert.equal(
   shouldShowInstallPrompt({
     role: "student",
@@ -110,3 +139,6 @@ console.log("MANUAL_INSTALL_GUIDANCE=YES");
 console.log("PROMPT_WHEN_STANDALONE=NO");
 console.log("PROMPT_WHEN_DESKTOP=NO");
 console.log("APPINSTALLED_HANDLING=YES");
+console.log("IOS_DEFERRED_PROMPT_REQUIRED=NO");
+console.log("IOS_SAFARI_GUIDANCE=YES");
+console.log("IOS_BROWSER_SAFARI_GUIDANCE=YES");

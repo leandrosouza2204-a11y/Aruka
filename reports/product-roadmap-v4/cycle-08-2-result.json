@@ -1,0 +1,87 @@
+{
+  "program": "Product Roadmap v4",
+  "cycle": "08.2",
+  "cycleName": "PWA iOS Validation",
+  "cycleStatus": "PASS",
+  "implementationStatus": "PASS",
+  "manualIosQa": "PASS",
+  "automatedQa": "PASS",
+  "pwaIos": "PASS",
+  "deploymentStatus": "PASS",
+  "nextAction": "PLAN_COACH_AUTOMATION_CYCLE",
+  "nextPlannedCycle": "COACH_AUTOMATION",
+  "nextPlannedCycleObjective": "Operational automation for follow-up, stalled students and repeated coach decisions after the progression/student value surfaces.",
+  "branch": "feat/product-roadmap-v4-cycle-08-2-pwa-ios",
+  "functionalCommit": "fc64e5b2c25da46e1c531ba7d8c1e09fb8ca63f3",
+  "pr": 56,
+  "preview": "https://aruka-git-feat-product-roadmap-v4-cy-58b9c9-leandrosouzafitness.vercel.app",
+  "ios": {
+    "deviceDetection": "IPHONE_IPAD_IPOD_AND_IPADOS_TOUCH",
+    "safariDetection": true,
+    "nonSafariBrowserGuidance": true,
+    "beforeInstallPromptRequired": false,
+    "standaloneDetection": [
+      "display-mode: standalone",
+      "navigator.standalone"
+    ],
+    "bannerCta": "Como instalar",
+    "manualGuidance": true
+  },
+  "androidRegression": {
+    "status": "PASS",
+    "nativePromptPreserved": true,
+    "manualChromeFallbackPreserved": true,
+    "mobileMoreInstallEntryPreserved": true,
+    "hamburgerInstallEntryPreserved": true,
+    "standaloneInstallSurfacesHidden": true,
+    "hideBannerOnlyAffectsAutomaticBanner": true
+  },
+  "manifest": {
+    "name": "Aruka",
+    "shortName": "Aruka",
+    "startUrl": "/",
+    "scope": "/",
+    "display": "standalone",
+    "appleTouchIcon": "public/pwa/apple-touch-icon.png",
+    "iosMetaTags": true
+  },
+  "qa": {
+    "automated": "PASS",
+    "pwaUnitTests": "PASS",
+    "pwaInstallState": "PASS",
+    "pwaRoleInstallExperience": "PASS",
+    "pwaInstallability": "PASS",
+    "pwaCacheSecurity": "PASS",
+    "pwaIosExperience": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "manualIphoneSafari": "PASS",
+    "manualIpadSafari": "NOT_AVAILABLE_OPTIONAL",
+    "manualIosNonSafari": "NOT_EXECUTED_COMPLEMENTARY"
+  },
+  "manualTests": {
+    "pwaIosBanner": "PASS",
+    "pwaIosDismissSession": "PASS",
+    "pwaIosHideBanner": "PASS",
+    "pwaIosInstallation": "PASS",
+    "pwaIosStandalone": "PASS",
+    "pwaIosRelaunch": "PASS"
+  },
+  "visualEvidence": {
+    "realIphoneScreenshotsProvided": true,
+    "bannerIos": "PASS",
+    "safariGuidanceModal": "PASS",
+    "installationUiIntegrated": "PASS"
+  },
+  "deployment": {
+    "vercel": "PASS",
+    "githubValidation": "NOT_PRESENT_IN_FINAL_STATUS_ROLLUP_AFTER_DOCUMENTATION_ONLY_AMEND",
+    "vercelPreviewComments": "PASS",
+    "previewReady": true
+  },
+  "limitations": {
+    "iosBeforeInstallPrompt": "NOT_REQUIRED",
+    "ipadQa": "NOT_AVAILABLE_NON_BLOCKING",
+    "iosAlternativeBrowserQa": "NOT_EXECUTED_NON_BLOCKING"
+  }
+}

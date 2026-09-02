@@ -5,6 +5,8 @@ import {
   PWA_INSTALL_PROMPT_DELAY_MS,
   canShowInstallMenuItem,
   clearInstallBannerHidden,
+  getInstallGuidanceCopy,
+  getInstallPlatform,
   getInstallPromptCopy,
   isMobileViewport,
   isStandaloneMode,
@@ -26,6 +28,7 @@ function PwaExperienceManager({ role, activeWorkout = false, children = null }) 
   const [installedThisSession, setInstalledThisSession] = useState(false);
   const [installAvailable, setInstallAvailable] = useState(false);
   const [mobileViewport, setMobileViewport] = useState(() => isMobileViewport());
+  const [installPlatform, setInstallPlatform] = useState(() => getInstallPlatform());
   const [hideBanner, setHideBanner] = useState(() =>
     readInstallHidePreference(getLocalStorage())
   );
@@ -80,10 +83,16 @@ function PwaExperienceManager({ role, activeWorkout = false, children = null }) 
       setMobileViewport(isMobileViewport());
     }
 
+    function syncPlatform() {
+      setInstallPlatform(getInstallPlatform());
+    }
+
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     window.addEventListener("appinstalled", handleAppInstalled);
     window.addEventListener("focus", syncStandalone);
+    window.addEventListener("focus", syncPlatform);
     document.addEventListener("visibilitychange", syncStandalone);
+    document.addEventListener("visibilitychange", syncPlatform);
 
     const media = window.matchMedia?.("(display-mode: standalone)");
     media?.addEventListener?.("change", syncStandalone);
@@ -94,7 +103,9 @@ function PwaExperienceManager({ role, activeWorkout = false, children = null }) 
       window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
       window.removeEventListener("appinstalled", handleAppInstalled);
       window.removeEventListener("focus", syncStandalone);
+      window.removeEventListener("focus", syncPlatform);
       document.removeEventListener("visibilitychange", syncStandalone);
+      document.removeEventListener("visibilitychange", syncPlatform);
       media?.removeEventListener?.("change", syncStandalone);
       mobileMedia?.removeEventListener?.("change", syncViewport);
     };
@@ -126,7 +137,7 @@ function PwaExperienceManager({ role, activeWorkout = false, children = null }) 
   async function requestPwaInstall() {
     if (standalone || installedThisSession || !mobileViewport) return;
 
-    if (!deferredPrompt) {
+    if (installPlatform === "ios-safari" || installPlatform === "ios-browser" || !deferredPrompt) {
       setInstallGuidanceOpen(true);
       setInstallClosed(true);
       return;
@@ -190,7 +201,7 @@ function PwaExperienceManager({ role, activeWorkout = false, children = null }) 
       />
     );
   } else if (installVisible) {
-    const copy = getInstallPromptCopy(role);
+    const copy = getInstallPromptCopy(role, { platform: installPlatform });
 
     panel = (
       <PwaPanel
@@ -213,7 +224,10 @@ function PwaExperienceManager({ role, activeWorkout = false, children = null }) 
       {children}
       {panel}
       {installGuidanceOpen && (
-        <PwaInstallGuidance onClose={() => setInstallGuidanceOpen(false)} />
+        <PwaInstallGuidance
+          platform={installPlatform}
+          onClose={() => setInstallGuidanceOpen(false)}
+        />
       )}
     </PwaInstallContext.Provider>
   );
@@ -272,7 +286,47 @@ function PwaPanel({
   );
 }
 
-function PwaInstallGuidance({ onClose }) {
+function PwaInstallGuidance({ onClose, platform = "android" }) {
+  const copy = getInstallGuidanceCopy(platform);
+
+  if (platform === "ios-safari" || platform === "ios-browser") {
+    return (
+      <div className="pwa-guidance-overlay" role="presentation">
+        <section
+          aria-labelledby="pwa-guidance-title"
+          aria-modal="true"
+          className="pwa-guidance-panel"
+          role="dialog"
+        >
+          <button
+            className="pwa-panel-close"
+            type="button"
+            onClick={onClose}
+            aria-label="Fechar orientacao de instalacao"
+          >
+            <X size={16} aria-hidden="true" />
+          </button>
+          <div className="pwa-panel-icon">
+            <Download size={18} aria-hidden="true" />
+          </div>
+          <div className="pwa-guidance-copy">
+            <h2 id="pwa-guidance-title">{copy.title}</h2>
+            <p>{copy.description}</p>
+            <ol>
+              {copy.steps.map((step) => (
+                <li key={step}>{step}</li>
+              ))}
+            </ol>
+            <p>{copy.finalMessage}</p>
+          </div>
+          <button className="pwa-panel-primary" type="button" onClick={onClose}>
+            {copy.actionLabel}
+          </button>
+        </section>
+      </div>
+    );
+  }
+
   return (
     <div className="pwa-guidance-overlay" role="presentation">
       <section

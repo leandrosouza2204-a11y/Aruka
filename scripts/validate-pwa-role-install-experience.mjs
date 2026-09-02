@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import {
   canShowInstallMenuItem,
+  getInstallGuidanceCopy,
   getInstallPromptCopy,
   shouldShowInstallPrompt,
 } from "../src/features/pwa/utils/pwaInstallState.js";
@@ -36,6 +37,12 @@ assert.equal(student.laterLabel, "Agora nao");
 assert.match(student.description, /timer/);
 assert.doesNotMatch(student.description, /gest/);
 
+const ios = getInstallPromptCopy("professional", { platform: "ios-safari" });
+assert.equal(ios.title, "Instale o Aruka no seu iPhone");
+assert.equal(ios.actionLabel, "Como instalar");
+assert.match(getInstallGuidanceCopy("ios-safari").steps.join(" "), /Compartilhar do Safari/);
+assert.match(getInstallGuidanceCopy("ios-browser").description, /Safari/);
+
 assert.equal(
   shouldShowInstallPrompt({
     role: "professional",
@@ -65,4 +72,7 @@ console.log("ROLE_AWARE_INSTALL_COPY=YES");
 console.log("MOBILE_MENU_INSTALL_ENTRY=YES");
 console.log("HAMBURGER_INSTALL_ENTRY=YES");
 console.log("ANDROID_NULL_DEFERRED_PROMPT_DISCOVERY=PASS");
+console.log("IOS_ROLE_AWARE_INSTALL_COPY=PASS");
+console.log("IOS_SAFARI_INSTALL_GUIDANCE=PASS");
+console.log("IOS_BROWSER_INSTALL_GUIDANCE=PASS");
 console.log("ADDITIONAL_ROLE_FETCH=0");

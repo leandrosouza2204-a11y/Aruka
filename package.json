@@ -11,6 +11,7 @@
     "qa:visible-ui-copy": "node scripts/validate-visible-ui-copy.mjs",
     "qa:pwa-installability": "node scripts/validate-pwa-installability.mjs",
     "qa:pwa-role-install-experience": "node scripts/validate-pwa-role-install-experience.mjs",
+    "qa:pwa-ios-experience": "node scripts/validate-pwa-ios-experience.mjs",
     "qa:pwa-install-state": "node scripts/validate-pwa-install-state.mjs",
     "qa:pwa-update-safety": "node scripts/validate-pwa-update-safety.mjs",
     "qa:pwa-cache-security": "node scripts/validate-pwa-cache-security.mjs",
