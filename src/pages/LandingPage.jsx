@@ -2,24 +2,26 @@ import { useId, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
-  BarChart3,
   CheckCircle2,
   ChevronDown,
   ClipboardList,
   Dumbbell,
+  FileText,
+  HeartPulse,
   Menu,
   MessageCircle,
   ShieldCheck,
-  Sparkles,
+  Smartphone,
   UserRoundCheck,
   WalletCards,
   X,
 } from "lucide-react";
+import { commercialPlans } from "../data/commercialPlans";
 import BrandLogo from "../components/BrandLogo";
 import "./LandingPage.css";
 
 const navItems = [
-  { label: "Beneficios", href: "#beneficios" },
+  { label: "Benefícios", href: "#beneficios" },
   { label: "Funcionalidades", href: "#funcionalidades" },
   { label: "Como funciona", href: "#como-funciona" },
   { label: "Planos", href: "#planos" },
@@ -28,116 +30,137 @@ const navItems = [
 const valueStrip = [
   "Alunos em ordem",
   "Treinos centralizados",
-  "Financeiro visivel",
+  "Financeiro visível",
   "Acompanhamento claro",
+];
+
+const solutionBenefits = [
+  {
+    icon: <ClipboardList size={20} />,
+    title: "Informações centralizadas",
+    text: "Dados importantes deixam de ficar espalhados entre planilhas, PDFs e históricos soltos.",
+  },
+  {
+    icon: <ShieldCheck size={20} />,
+    title: "Rotina mais organizada",
+    text: "Alunos, treinos, avaliações, contratos e vencimentos passam a ter um ponto de consulta.",
+  },
+  {
+    icon: <HeartPulse size={20} />,
+    title: "Mais clareza no acompanhamento",
+    text: "Sinais factuais ajudam a enxergar quem precisa de atenção na rotina da consultoria.",
+  },
 ];
 
 const productModules = [
   {
     icon: <UserRoundCheck size={20} />,
-    title: "Gestao de alunos",
-    text: "Cadastro, contratos, acesso do aluno, avaliacoes, treinos e acompanhamento ficam conectados no mesmo fluxo.",
+    title: "Gestão de alunos",
+    text: "Cadastro, status, contrato, acesso do aluno, treino e acompanhamento conectados ao mesmo registro.",
     preview: "students",
   },
   {
     icon: <Dumbbell size={20} />,
     title: "Treinos",
-    text: "Monte prescricoes, organize fichas ativas e entregue uma experiencia mais profissional para cada aluno.",
+    text: "Organize fichas, exercícios, status e entrega dos treinos sem perder o vínculo com cada aluno.",
     preview: "workouts",
   },
   {
-    icon: <BarChart3 size={20} />,
-    title: "Acompanhamento",
-    text: "Veja historico de execucao, progresso e sinais factuais que ajudam a identificar quem precisa de atencao.",
-    preview: "tracking",
+    icon: <FileText size={20} />,
+    title: "Avaliações",
+    text: "Registre avaliações e mantenha o histórico do aluno disponível para consulta na evolução do atendimento.",
+    preview: "assessments",
   },
   {
     icon: <WalletCards size={20} />,
     title: "Financeiro",
-    text: "Acompanhe contratos, parcelas, vencimentos e pendencias sem depender de controles espalhados.",
+    text: "Acompanhe contratos, parcelas, vencimentos e pendências dentro da operação da consultoria.",
     preview: "finance",
+  },
+  {
+    icon: <HeartPulse size={20} />,
+    title: "Acompanhamento",
+    text: "Use alertas e sinais existentes para priorizar alunos sem treino ativo, acesso pendente ou atenção financeira.",
+    preview: "tracking",
   },
 ];
 
 const benefits = [
   {
     icon: <ClipboardList size={22} />,
-    title: "Mais organizacao",
-    text: "Uma rotina unica para consultar dados importantes antes de decidir o proximo contato.",
+    title: "Mais organização",
+    text: "Uma rotina única para consultar dados importantes antes de decidir o próximo contato.",
   },
   {
     icon: <ShieldCheck size={22} />,
     title: "Mais controle",
-    text: "Visao clara de alunos, treinos, avaliacoes, financeiro e acesso sem perder contexto.",
-  },
-  {
-    icon: <Sparkles size={22} />,
-    title: "Mais profissionalismo",
-    text: "A entrega fica mais consistente para o profissional e mais simples para o aluno.",
+    text: "Visão clara de alunos, treinos, avaliações, financeiro e acesso sem perder contexto.",
   },
   {
     icon: <MessageCircle size={22} />,
-    title: "Mais tempo para acompanhar",
-    text: "O WhatsApp continua util, mas a operacao deixa de depender so da memoria e de mensagens soltas.",
+    title: "WhatsApp no lugar certo",
+    text: "O WhatsApp continua fazendo parte do atendimento; o Aruka organiza o que não deveria depender apenas das conversas.",
+  },
+  {
+    icon: <Smartphone size={22} />,
+    title: "Use também no celular",
+    text: "A experiência se adapta ao navegador do celular e pode ser instalada em dispositivos compatíveis.",
   },
 ];
 
 const steps = [
   {
     title: "Organize seus alunos",
-    text: "Cadastre alunos, planos, contratos, acesso e informacoes importantes.",
+    text: "Cadastre alunos, planos, contratos, acesso e informações importantes.",
   },
   {
     title: "Monte e entregue treinos",
     text: "Crie fichas, acompanhe status e mantenha o aluno com um caminho claro.",
   },
   {
-    title: "Acompanhe a evolucao",
-    text: "Use historico, avaliacoes e sinais do produto para priorizar sua rotina.",
+    title: "Acompanhe a evolução",
+    text: "Use histórico, avaliações e sinais do produto para priorizar sua rotina.",
   },
   {
     title: "Gerencie a consultoria",
-    text: "Tenha financeiro, vencimentos e proximas acoes no mesmo ambiente.",
-  },
-];
-
-const plans = [
-  {
-    title: "Starter",
-    marker: "Essencial",
-    items: ["Organizacao de alunos", "Treinos centralizados", "Acompanhamento basico"],
-  },
-  {
-    title: "Profissional",
-    marker: "Mais usado",
-    featured: true,
-    items: ["Dashboard completo", "Avaliacoes com historico", "Planos e vencimentos"],
-  },
-  {
-    title: "Premium",
-    marker: "Escala",
-    items: ["Operacao avancada", "Relatorios visuais", "Experiencia premium"],
+    text: "Tenha financeiro, vencimentos e próximas ações no mesmo ambiente.",
   },
 ];
 
 const faqs = [
   {
-    question: "Para quem e o Aruka?",
-    answer: "Para personal trainers e consultores fitness que querem organizar alunos, treinos, avaliacoes e financeiro em uma plataforma propria.",
+    question: "Para quem é o Aruka?",
+    answer: "Para personal trainers e consultores fitness que querem organizar alunos, treinos, avaliações, financeiro e acompanhamento em uma plataforma própria.",
   },
   {
-    question: "O aluno tambem acessa o sistema?",
-    answer: "Sim. O aluno pode acessar a area do aluno para visualizar e executar treinos quando o acesso estiver liberado.",
+    question: "Meu aluno também acessa o Aruka?",
+    answer: "Sim. Quando o acesso está liberado, o aluno entra na área do aluno para visualizar o treino ativo, executar sessões e consultar histórico.",
+  },
+  {
+    question: "Consigo montar e enviar treinos pelo Aruka?",
+    answer: "Sim. O Aruka permite cadastrar fichas, organizar exercícios, acompanhar status e manter os treinos vinculados aos alunos.",
+  },
+  {
+    question: "Posso acompanhar avaliações e evolução dos alunos?",
+    answer: "Sim. O produto mantém registros e históricos de avaliações para apoiar o acompanhamento do profissional.",
   },
   {
     question: "O Aruka funciona no celular?",
-    answer: "Sim. O Aruka pode ser usado no navegador e instalado como app no Android e no iPhone, com a experiencia PWA validada.",
+    answer: "Sim. O Aruka pode ser usado pelo navegador do celular e instalado como aplicativo em dispositivos compatíveis.",
   },
   {
-    question: "Os planos mudaram nesta landing?",
-    answer: "Nao. Esta etapa renova apenas a apresentacao publica; regras comerciais, cobranca e assinatura permanecem iguais.",
+    question: "O que está incluído no meu plano?",
+    answer: "Os planos atuais liberam o acesso ao sistema. A diferença comercial apresentada no produto é o período de acesso contratado.",
   },
 ];
+
+const miniFrameTitle = {
+  students: "Alunos",
+  workouts: "Treinos",
+  assessments: "Avaliações",
+  finance: "Financeiro",
+  tracking: "Acompanhamento",
+};
 
 function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -174,11 +197,9 @@ function LandingHeader({ menuId, mobileMenuOpen, onCloseMenu, onToggleMenu }) {
   return (
     <header className="landing-header">
       <div className="landing-header-inner">
-        <Link className="landing-brand" to="/" aria-label="Aruka">
-          <BrandLogo variant="full" size="sm" />
-        </Link>
+        <LandingBrand tone="dark" />
 
-        <nav className="landing-nav landing-nav-desktop" aria-label="Navegacao publica">
+        <nav className="landing-nav landing-nav-desktop" aria-label="Navegação pública">
           {navItems.map((item) => (
             <a href={item.href} key={item.href}>{item.label}</a>
           ))}
@@ -187,7 +208,7 @@ function LandingHeader({ menuId, mobileMenuOpen, onCloseMenu, onToggleMenu }) {
         <div className="landing-header-actions">
           <Link className="landing-login-link" to="/login">Entrar</Link>
           <Link className="landing-button landing-button-primary landing-header-cta" to="/login">
-            Comecar agora
+            Começar agora
           </Link>
           <button
             aria-controls={menuId}
@@ -203,7 +224,7 @@ function LandingHeader({ menuId, mobileMenuOpen, onCloseMenu, onToggleMenu }) {
       </div>
 
       <nav
-        aria-label="Menu publico mobile"
+        aria-label="Menu público mobile"
         className={`landing-mobile-menu${mobileMenuOpen ? " landing-mobile-menu-open" : ""}`}
         hidden={!mobileMenuOpen}
         id={menuId}
@@ -213,10 +234,19 @@ function LandingHeader({ menuId, mobileMenuOpen, onCloseMenu, onToggleMenu }) {
         ))}
         <Link to="/login" onClick={onCloseMenu}>Entrar</Link>
         <Link className="landing-button landing-button-primary" to="/login" onClick={onCloseMenu}>
-          Comecar agora
+          Começar agora
         </Link>
       </nav>
     </header>
+  );
+}
+
+function LandingBrand({ tone = "dark" }) {
+  return (
+    <Link className={`landing-brand landing-brand-${tone}`} to="/" aria-label="Aruka">
+      <BrandLogo variant="icon" size="legal" />
+      <span>ARUKA</span>
+    </Link>
   );
 }
 
@@ -227,12 +257,12 @@ function Hero() {
         <span className="landing-eyebrow">Sistema para consultoria fitness online</span>
         <h1>Sua consultoria fitness, organizada para crescer.</h1>
         <p>
-          Alunos, treinos, avaliacoes, financeiro e acompanhamento em uma unica plataforma
-          para uma operacao mais profissional.
+          Alunos, treinos, avaliações, financeiro e acompanhamento em uma única plataforma
+          para uma operação mais profissional.
         </p>
         <div className="landing-hero-actions">
           <Link className="landing-button landing-button-primary" to="/login">
-            Comecar agora
+            Começar agora
             <ArrowRight size={18} />
           </Link>
           <a className="landing-button landing-button-secondary" href="#funcionalidades">
@@ -241,8 +271,8 @@ function Hero() {
         </div>
       </div>
 
-      <div className="landing-hero-product" aria-label="Previa visual do dashboard Aruka">
-        <ProductFrame variant="dashboard" />
+      <div className="landing-hero-product" aria-label="Prévia visual do dashboard Aruka">
+        <ProductFrame />
       </div>
     </section>
   );
@@ -265,24 +295,22 @@ function ProblemSolution() {
   return (
     <section className="landing-section landing-problem">
       <div className="landing-section-heading">
-        <span className="landing-eyebrow">Operacao mais leve</span>
+        <span className="landing-eyebrow">Operação mais leve</span>
         <h2>Menos tempo organizando. Mais tempo acompanhando seus alunos.</h2>
         <p>
           O Aruka centraliza dados que antes ficavam espalhados entre planilhas,
-          PDFs, historicos soltos e conversas. O WhatsApp continua no atendimento;
-          a gestao deixa de depender somente dele.
+          PDFs, históricos e conversas. O WhatsApp continua fazendo parte do atendimento;
+          o sistema organiza o que precisa virar rotina.
         </p>
       </div>
-      <div className="landing-problem-panel">
-        <div>
-          <strong>Antes</strong>
-          <p>Informacoes fragmentadas, revisoes manuais e pouco contexto para decidir quem precisa de atencao.</p>
-        </div>
-        <ArrowRight aria-hidden="true" size={22} />
-        <div>
-          <strong>Com Aruka</strong>
-          <p>Aluno, treino, avaliacao, financeiro e sinais de acompanhamento no mesmo lugar.</p>
-        </div>
+      <div className="landing-solution-grid">
+        {solutionBenefits.map((benefit) => (
+          <article className="landing-solution-card" key={benefit.title}>
+            <span className="landing-card-icon">{benefit.icon}</span>
+            <h3>{benefit.title}</h3>
+            <p>{benefit.text}</p>
+          </article>
+        ))}
       </div>
     </section>
   );
@@ -293,10 +321,10 @@ function ProductShowcase() {
     <section className="landing-section landing-showcase" id="funcionalidades">
       <div className="landing-section-heading">
         <span className="landing-eyebrow">Funcionalidades</span>
-        <h2>Tudo acontece no Aruka.</h2>
+        <h2>O dia a dia da consultoria em um só lugar.</h2>
         <p>
-          Uma visao do produto real, organizada por blocos que refletem a rotina
-          do profissional sem prometer automacoes ainda nao implementadas.
+          A landing apresenta recursos já presentes no Aruka, com exemplos visuais
+          fiéis à organização do produto e dados fictícios.
         </p>
       </div>
       <div className="landing-showcase-grid">
@@ -319,25 +347,25 @@ function StudentExperience() {
   return (
     <section className="landing-section landing-student">
       <div className="landing-student-copy">
-        <span className="landing-eyebrow">Experiencia do aluno</span>
-        <h2>Seu aluno tambem sente a diferenca.</h2>
+        <span className="landing-eyebrow">Área do aluno</span>
+        <h2>Seu aluno acessa o treino com mais clareza.</h2>
         <p>
-          A area do aluno permite visualizar o treino ativo, executar sessoes,
-          acompanhar historico e acessar o Aruka no celular como um app instalado.
+          A área do aluno permite visualizar o treino ativo, executar sessões,
+          consultar histórico e usar o Aruka pelo celular quando o acesso estiver liberado.
         </p>
         <div className="landing-student-tags">
-          <span>Area do aluno</span>
-          <span>Execucao de treino</span>
-          <span>Historico</span>
-          <span>PWA no celular</span>
+          <span>Treino ativo</span>
+          <span>Execução da sessão</span>
+          <span>Histórico</span>
+          <span>Acesso pelo celular</span>
         </div>
       </div>
-      <div className="landing-phone-frame" aria-label="Previa mobile da area do aluno">
+      <div className="landing-phone-frame" aria-label="Prévia mobile da área do aluno">
         <div className="landing-phone-top" />
         <div className="landing-phone-card landing-phone-card-strong">
-          <span>Treino de hoje</span>
-          <strong>Forca superior</strong>
-          <p>5 exercicios cadastrados</p>
+          <span>Treino ativo</span>
+          <strong>Força superior</strong>
+          <p>5 exercícios cadastrados</p>
         </div>
         <div className="landing-phone-list">
           <span>Supino reto</span>
@@ -354,8 +382,8 @@ function Benefits() {
   return (
     <section className="landing-section" id="beneficios">
       <div className="landing-section-heading">
-        <span className="landing-eyebrow">Beneficios</span>
-        <h2>Uma operacao mais clara sem deixar sua consultoria pesada.</h2>
+        <span className="landing-eyebrow">Benefícios</span>
+        <h2>Uma operação mais clara sem deixar sua consultoria pesada.</h2>
       </div>
       <div className="landing-benefits-grid">
         {benefits.map((benefit) => (
@@ -375,7 +403,7 @@ function HowItWorks() {
     <section className="landing-section landing-steps" id="como-funciona">
       <div className="landing-section-heading">
         <span className="landing-eyebrow">Como funciona</span>
-        <h2>Da primeira organizacao ao acompanhamento continuo.</h2>
+        <h2>Da primeira organização ao acompanhamento contínuo.</h2>
       </div>
       <div className="landing-steps-grid">
         {steps.map((step, index) => (
@@ -395,29 +423,32 @@ function Pricing() {
     <section className="landing-section" id="planos">
       <div className="landing-section-heading">
         <span className="landing-eyebrow">Planos</span>
-        <h2>Escolha a estrutura ideal para apresentar sua consultoria com mais valor.</h2>
-        <p>A apresentacao visual foi renovada. Precos e regras comerciais continuam os mesmos do produto.</p>
+        <h2>Todos os recursos do Aruka incluídos no acesso liberado.</h2>
+        <p>
+          Os planos atuais diferenciam o período de acesso ao sistema. A liberação
+          continua sendo confirmada administrativamente após a solicitação.
+        </p>
       </div>
-      <div className="landing-pricing-grid">
-        {plans.map((plan) => (
-          <article className={`landing-price-card${plan.featured ? " landing-price-card-featured" : ""}`} key={plan.title}>
-            <div>
-              <span>{plan.marker}</span>
-              <h3>{plan.title}</h3>
+      <div className="landing-access-card">
+        <div className="landing-access-copy">
+          <span>Acesso completo</span>
+          <h3>Escolha o período que faz sentido para sua consultoria.</h3>
+          <p>
+            Mensal, trimestral, semestral ou anual: em todos eles, o acesso liberado
+            inclui os recursos atuais do Aruka, sem divisão artificial por funcionalidades.
+          </p>
+        </div>
+        <div className="landing-plan-list" aria-label="Períodos de acesso disponíveis">
+          {commercialPlans.map((plan) => (
+            <div className="landing-plan-option" key={plan.id}>
+              <strong>{plan.nome}</strong>
+              <span>{plan.descricao}</span>
             </div>
-            <ul>
-              {plan.items.map((item) => (
-                <li key={item}>
-                  <CheckCircle2 size={17} />
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <Link className="landing-button landing-button-primary" to="/login">
-              Comecar agora
-            </Link>
-          </article>
-        ))}
+          ))}
+        </div>
+        <Link className="landing-button landing-button-primary" to="/login">
+          Começar agora
+        </Link>
       </div>
     </section>
   );
@@ -427,7 +458,7 @@ function FAQ() {
   return (
     <section className="landing-section landing-faq">
       <div className="landing-section-heading">
-        <span className="landing-eyebrow">Duvidas comuns</span>
+        <span className="landing-eyebrow">Dúvidas comuns</span>
         <h2>Direto ao ponto.</h2>
       </div>
       <div className="landing-faq-list">
@@ -448,11 +479,11 @@ function FAQ() {
 function FinalCTA() {
   return (
     <section className="landing-final-cta">
-      <span className="landing-eyebrow">Proximo passo</span>
-      <h2>Sua consultoria merece uma operacao mais profissional.</h2>
-      <p>Comece a organizar alunos, treinos, financeiro e acompanhamento em um so lugar.</p>
+      <span className="landing-eyebrow">Próximo passo</span>
+      <h2>Sua consultoria merece uma operação mais profissional.</h2>
+      <p>Comece a organizar alunos, treinos, financeiro e acompanhamento em um só lugar.</p>
       <Link className="landing-button landing-button-primary" to="/login">
-        Comecar agora
+        Começar agora
         <ArrowRight size={18} />
       </Link>
     </section>
@@ -462,25 +493,27 @@ function FinalCTA() {
 function LandingFooter() {
   return (
     <footer className="landing-footer">
-      <div className="landing-footer-brand">
-        <BrandLogo variant="full" size="sm" />
-        <p>Sistema para consultoria fitness online com gestao, treino, acompanhamento e financeiro.</p>
+      <div className="landing-footer-inner">
+        <div className="landing-footer-brand">
+          <LandingBrand tone="light" />
+          <p>Sistema para consultoria fitness online com gestão, treino, acompanhamento e financeiro.</p>
+        </div>
+        <nav aria-label="Links da landing">
+          <a href="#beneficios">Benefícios</a>
+          <a href="#funcionalidades">Funcionalidades</a>
+          <a href="#planos">Planos</a>
+          <Link to="/politica-privacidade">Privacidade</Link>
+          <Link to="/termos-de-uso">Termos</Link>
+        </nav>
+        <p className="landing-copyright">Aruka. Organize. Guie. Transforme.</p>
       </div>
-      <nav aria-label="Links da landing">
-        <a href="#beneficios">Beneficios</a>
-        <a href="#funcionalidades">Funcionalidades</a>
-        <a href="#planos">Planos</a>
-        <Link to="/politica-privacidade">Privacidade</Link>
-        <Link to="/termos-de-uso">Termos</Link>
-      </nav>
-      <p className="landing-copyright">Aruka. Organize. Guie. Transforme.</p>
     </footer>
   );
 }
 
-function ProductFrame({ variant }) {
+function ProductFrame() {
   return (
-    <div className={`landing-product-frame landing-product-${variant}`}>
+    <div className="landing-product-frame">
       <div className="landing-product-window">
         <span />
         <span />
@@ -508,18 +541,17 @@ function ProductFrame({ variant }) {
             <Metric label="Vencimentos" value="4" />
           </div>
           <div className="landing-product-content">
-            <div className="landing-product-chart">
-              <span />
-              <span />
-              <span />
-              <span />
-              <span />
-            </div>
             <div className="landing-product-feed">
-              <strong>Atencao e acompanhamento</strong>
+              <strong>Atenção e acompanhamento</strong>
               <ProductRow title="Aluno sem treino ativo" tag="Treinos" />
-              <ProductRow title="Sessao concluida recente" tag="Historico" />
-              <ProductRow title="Contrato proximo" tag="Financeiro" />
+              <ProductRow title="Sessão concluída recente" tag="Histórico" />
+              <ProductRow title="Contrato próximo" tag="Financeiro" />
+            </div>
+            <div className="landing-product-list">
+              <strong>Rotina de hoje</strong>
+              <ProductRow title="Revisar ficha de Marina" tag="Ação" />
+              <ProductRow title="Registrar avaliação de Rafael" tag="Avaliação" />
+              <ProductRow title="Conferir acesso de Camila" tag="Acesso" />
             </div>
           </div>
         </div>
@@ -530,22 +562,42 @@ function ProductFrame({ variant }) {
 
 function ProductMiniFrame({ variant }) {
   const rows = {
-    students: ["Marina, ativo", "Rafael, convite enviado", "Camila, revisar plano"],
-    workouts: ["Ficha superior", "Treino entregue", "Revisao em aberto"],
-    tracking: ["Execucao recente", "Sem sessao 7 dias", "Avaliacao registrada"],
-    finance: ["Parcela proxima", "Pagamento confirmado", "Renovacao planejada"],
+    students: [
+      { title: "Marina Costa", tag: "Ativo" },
+      { title: "Rafael Lima", tag: "Convite" },
+      { title: "Camila Rocha", tag: "Revisar" },
+    ],
+    workouts: [
+      { title: "Ficha superior", tag: "Ativo" },
+      { title: "Treino entregue", tag: "Aluno" },
+      { title: "Revisão em aberto", tag: "Status" },
+    ],
+    assessments: [
+      { title: "Avaliação registrada", tag: "Hoje" },
+      { title: "Histórico corporal", tag: "Aluno" },
+      { title: "Observações salvas", tag: "Ficha" },
+    ],
+    finance: [
+      { title: "Parcela próxima", tag: "Vence" },
+      { title: "Pagamento confirmado", tag: "Pago" },
+      { title: "Renovação planejada", tag: "Plano" },
+    ],
+    tracking: [
+      { title: "Sem treino ativo", tag: "Alerta" },
+      { title: "Acesso pendente", tag: "Aluno" },
+      { title: "Sessão concluída", tag: "Histórico" },
+    ],
   };
 
   return (
     <div className={`landing-mini-frame landing-mini-${variant}`}>
-      <div className="landing-mini-bars">
+      <div className="landing-mini-header">
         <span />
-        <span />
-        <span />
+        <strong>{miniFrameTitle[variant]}</strong>
       </div>
       <div className="landing-mini-list">
         {rows[variant].map((row) => (
-          <ProductRow key={row} title={row} tag="" />
+          <ProductRow key={row.title} title={row.title} tag={row.tag} />
         ))}
       </div>
     </div>

@@ -133,6 +133,83 @@ Manual visual QA is pending by design.
 
 The PR must remain open until the user reviews the Preview and either approves or requests refinements.
 
+## MANUAL VISUAL QA - V1
+
+User visual QA on desktop and Android identified required refinements:
+
+- accentuation issues in Portuguese visible copy and metadata;
+- problem/solution card redesign required;
+- functionality visuals inaccurate because generic charts suggested unsupported product behavior;
+- student/PWA terminology inaccurate for the buyer-facing message;
+- pricing tiers inaccurate because Starter/Profissional/Premium implied feature gating;
+- FAQ needed a commercial rewrite without internal development commentary;
+- desktop header and footer needed stronger integration.
+
+## V2_REFINEMENT
+
+V2 implemented a fidelity-focused revision:
+
+- visible landing copy and SEO metadata use accented Portuguese;
+- internal/development copy was removed from the public landing;
+- the problem/solution block now uses compact benefits instead of the previous before/after panel;
+- generic charts were removed from the hero and functionality cards;
+- product previews use anonymized, fictitious data shaped after existing Aruka surfaces: cards, lists, status badges, alerts and payment/access rows;
+- student experience copy focuses on the existing area do aluno flow: active workout, execution session, history and mobile access;
+- PWA terminology was removed from buyer-facing student copy;
+- pricing now reflects the current full-access model with periods from `src/data/commercialPlans.js`.
+
+## PRODUCT_FIDELITY_REVIEW
+
+Feature fidelity checklist:
+
+| Feature | Exists in product | Visual match | Copy accurate |
+| --- | --- | --- | --- |
+| Gestão de alunos | YES | PASS | PASS |
+| Treinos | YES | PASS | PASS |
+| Avaliações | YES | PASS | PASS |
+| Financeiro | YES | PASS | PASS |
+| Acompanhamento | YES | PASS | PASS |
+| Área do aluno | YES | PASS | PASS |
+
+Marketing accuracy:
+
+- MARKETING_ACCURACY=REQUIRED
+- MARKETING_PRODUCT_FIDELITY=PASS
+- Fake charts removed: YES
+- Future automation promises: NO
+- Customer data used: NO
+
+## PLANS_REVIEW
+
+Current commercial model observed in the codebase:
+
+- CURRENT_PLANS=Mensal, Trimestral, Semestral, Anual
+- CURRENT_PRICES=NOT_PUBLIC_IN_CODE
+- BILLING_PERIODS=30 days, 3 months, 6 months, 12 months
+- STUDENT_LIMITS=NOT_EVIDENCED
+- FEATURE_GATING=NO
+- FULL_ACCESS=YES_WHEN_ACCESS_IS_RELEASED
+
+Landing representation:
+
+- fake Starter/Profissional/Premium feature tiers removed;
+- no feature gating added;
+- all current resources are represented as included after access release;
+- future tier segmentation remains a separate product decision.
+
+PRODUCT_FOLLOW_UP=YES
+
+## PWA_TRUTH
+
+- PWA_TECHNICAL_SUPPORT=YES
+- MANUAL_STUDENT_ROLE_PWA_QA=NOT_EVIDENCED_IN_THIS_CYCLE
+- Landing copy uses conservative wording: browser mobile access and installable app on compatible devices.
+
+## V2_STATUS
+
+V2_IMPLEMENTED=YES
+V2_MANUAL_QA=PENDING
+
 ## FLAGS
 
 Implementation started: YES
@@ -144,3 +221,5 @@ Edge changed: NO
 Auth changed: NO
 Pricing changed: NO
 Manual visual QA: PENDING
+V2 implemented: YES
+V2 manual QA: PENDING
