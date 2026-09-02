@@ -15,8 +15,10 @@ import {
   FileText,
   ListChecks,
   Sun,
+  Smartphone,
 } from "lucide-react";
 import BrandLogo from "./BrandLogo";
+import { usePwaInstall } from "../features/pwa/PwaInstallContext";
 import { markSessionLoggedOut } from "../hooks/useAutoLogout";
 import { supabase } from "../services/supabase";
 import { buscarPerfilUsuario } from "../services/perfisService";
@@ -31,6 +33,7 @@ function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { isDark, toggleTheme } = useTheme();
+  const { requestInstall, showInstallOption } = usePwaInstall();
 
   const isActive = (path) => location.pathname === path;
   const nomeUsuario =
@@ -107,6 +110,11 @@ function Sidebar() {
     setMenuAberto(false);
   }
 
+  async function instalarAplicativo() {
+    setMenuAberto(false);
+    await requestInstall();
+  }
+
   return (
     <div className="app-sidebar" style={styles.sidebar}>
       <div className="app-sidebar-header" style={styles.header}>
@@ -143,6 +151,18 @@ function Sidebar() {
                 {isDark ? <Sun size={16} /> : <Moon size={16} />}
                 {isDark ? "Modo claro" : "Modo escuro"}
               </button>
+
+              {showInstallOption && (
+                <button
+                  type="button"
+                  className="app-sidebar-menu-item"
+                  onClick={instalarAplicativo}
+                  style={styles.menuItem}
+                >
+                  <Smartphone size={16} />
+                  Instalar aplicativo
+                </button>
+              )}
 
               <button
                 type="button"

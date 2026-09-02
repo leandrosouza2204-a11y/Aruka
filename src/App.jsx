@@ -8,6 +8,7 @@ import InviteAccessRoute from "./auth/InviteAccessRoute";
 import PasswordRecoveryRoute from "./auth/PasswordRecoveryRoute";
 import LoadingFallback from "./components/LoadingFallback";
 import MobileBottomNavigation from "./components/MobileBottomNavigation";
+import PwaExperienceManager from "./features/pwa/PwaExperienceManager";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Alunos = lazy(() => import("./pages/Alunos"));
@@ -225,10 +226,10 @@ function App() {
 
 function AppMobileNav({ children }) {
   return (
-    <>
+    <PwaExperienceManager role="professional">
       {children}
       <MobileBottomNavigation />
-    </>
+    </PwaExperienceManager>
   );
 }
 

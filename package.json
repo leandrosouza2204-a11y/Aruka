@@ -9,6 +9,11 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "qa:visible-ui-copy": "node scripts/validate-visible-ui-copy.mjs",
+    "qa:pwa-installability": "node scripts/validate-pwa-installability.mjs",
+    "qa:pwa-role-install-experience": "node scripts/validate-pwa-role-install-experience.mjs",
+    "qa:pwa-install-state": "node scripts/validate-pwa-install-state.mjs",
+    "qa:pwa-update-safety": "node scripts/validate-pwa-update-safety.mjs",
+    "qa:pwa-cache-security": "node scripts/validate-pwa-cache-security.mjs",
     "qa:visible-suspense-fallbacks": "node scripts/validate-visible-suspense-fallbacks.mjs",
     "qa:finance-modals": "node --env-file=.env.qa.local scripts/validate-finance-modals-cdp.mjs",
     "qa:finance-whatsapp-encoding": "node scripts/validate-finance-whatsapp-encoding.mjs",
@@ -21,6 +26,7 @@
     "qa:authenticated-runtime-precheck": "node --env-file=.env.qa.local scripts/validate-authenticated-runtime-precheck.mjs",
     "qa:authenticated-runtime": "npm run qa:authenticated-runtime-precheck && npm run qa:core-mobile-layout && npm run qa:finance-modals && npm run qa:renovacao-mobile",
     "test:authenticated-runtime": "node --test scripts/__tests__/authenticated-runtime.test.mjs",
+    "test:validator-report-write-mode": "node --test scripts/__tests__/validator-report-write-mode.test.mjs",
     "qa:route-fallback": "node scripts/validate-route-fallback.mjs",
     "qa:modal-accessibility-parity": "node scripts/validate-modal-accessibility-parity.mjs",
     "qa:empty-states": "node scripts/validate-empty-states.mjs",
@@ -277,6 +283,7 @@
     "qa:supabase-baseline-line-endings": "node scripts/test-supabase-baseline-line-endings.mjs",
     "qa:supabase-ci-preflight-isolation": "node scripts/test-supabase-cycle-9-ci-preflight-isolation.mjs",
     "qa:supabase-ci-static": "node scripts/test-supabase-baseline-line-endings.mjs && node scripts/validate-ci-repository-safety.mjs && node scripts/validate-supabase-ci-static.mjs",
+    "qa:supabase-ci-static:write-report": "node scripts/test-supabase-baseline-line-endings.mjs && node scripts/validate-ci-repository-safety.mjs --write-report && node scripts/validate-supabase-ci-static.mjs --write-report",
     "qa:supabase-ci-harness-static": "node scripts/validate-supabase-ci-harness-static.mjs",
     "qa:supabase-ci-full-local": "node scripts/run-supabase-ci-full-local.mjs",
     "qa:supabase-ci-negative": "node scripts/test-supabase-ci-negative.mjs",
@@ -325,6 +332,7 @@
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
     "vite": "^8.0.12",
+    "vite-plugin-pwa": "^1.3.0",
     "yaml": "^2.8.1"
   }
 }

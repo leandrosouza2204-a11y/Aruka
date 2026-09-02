@@ -44,6 +44,7 @@ import {
   getCompletedExerciseSets,
 } from "../features/workoutExecution/utils/workoutExecutionProgression.js";
 import ExerciseVideoPlayer from "../features/workoutExecution/components/ExerciseVideoPlayer.jsx";
+import PwaExperienceManager from "../features/pwa/PwaExperienceManager.jsx";
 import {
   clearRestTimerState,
   buildExecutionSetNumbers,
@@ -436,6 +437,7 @@ function MinhaArea() {
 
   return (
     <main style={styles.page} data-testid="student-daily-page">
+      <PwaExperienceManager role="student" activeWorkout={Boolean(executionSession)} />
       <header style={styles.header}>
         <div style={styles.headerText}>
           <span style={styles.kicker}>Minha área</span>

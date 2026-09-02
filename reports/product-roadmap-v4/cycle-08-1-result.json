@@ -1,0 +1,117 @@
+{
+  "program": "Product Roadmap v4",
+  "cycle": "08.1",
+  "cycleName": "PWA Installability & Role-Aware App Experience",
+  "decision": "PASS",
+  "cycleStatus": "PASS",
+  "closedScope": "PRODUCT_ROADMAP_V4_CYCLE_08_1_PWA_ANDROID",
+  "nextAction": "PWA_IOS_VALIDATION",
+  "architecture": {
+    "singlePwa": true,
+    "appName": "Aruka",
+    "roleSpecificManifest": false,
+    "roleAwareCopy": true
+  },
+  "manifest": {
+    "startUrl": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "any",
+    "icons": "configured",
+    "maskable": true,
+    "appleTouchIcon": true
+  },
+  "serviceWorker": {
+    "library": "vite-plugin-pwa",
+    "registered": true,
+    "staticCache": "precache versioned app shell",
+    "htmlNavigationCache": "navigation fallback to app shell",
+    "supabaseApiCache": "NETWORK_ONLY",
+    "sensitiveApiCache": false,
+    "youtubeCache": false,
+    "crossUserCacheGuard": true,
+    "offlineShell": true
+  },
+  "qa": {
+    "pwaUnitTests": "PASS",
+    "pwaInstallability": "PASS",
+    "roleInstallExperience": "PASS",
+    "installState": "PASS",
+    "updateSafety": "PASS",
+    "cacheSecurity": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "typecheck": "NOT_APPLICABLE_NO_PACKAGE_SCRIPT",
+    "visibleCopy": "PASS",
+    "cycle08": "STATIC_PASS_RUNTIME_BLOCKED_LOCAL_SUPABASE_CONTAINER",
+    "cycle07": "PASS",
+    "cycle061": "PASS",
+    "cycle06": "PASS",
+    "studentDaily": "BLOCKED_LOCAL_SUPABASE_CONTAINER",
+    "studentAccess": "PASS",
+    "finance": "STATIC_PASS_RUNTIME_PARTIAL_ENVIRONMENT_BLOCKED",
+    "authenticatedRuntime": "BLOCKED_AUTHENTICATED_BROWSER_ORIGIN_MISMATCH",
+    "precacheSizeKiB": 13955.62
+  },
+  "install": {
+    "promptAfterLogin": true,
+    "dismissalWindowDays": null,
+    "dismissalStorage": "aruka_pwa_install_hide_banner",
+    "dismissalScope": "automatic_internal_banner_only",
+    "manualEntryPointsRemainAvailable": true,
+    "standaloneDetection": true,
+    "appinstalledHandling": true,
+    "alreadyInstalledPrompt": false,
+    "beforeInstallPromptDependency": "NATIVE_PROMPT_ONLY_BROWSER_CONTROLLED",
+    "manualFallbackWithoutBeforeInstallPrompt": true
+  },
+  "update": {
+    "autoReload": false,
+    "userUpdatePrompt": true,
+    "activeWorkoutForcedReload": false
+  },
+  "database": {
+    "databaseChange": false,
+    "migration": false,
+    "rpcChange": false,
+    "executableMigrations": 13
+  },
+  "manualValidationRequired": {
+    "androidRealDevice": false,
+    "iosRealDevice": true,
+    "desktopInstall": false
+  },
+  "manualValidation": {
+    "androidRealDevice": "PASS",
+    "androidVisualEvidence": "QA visual executado em dispositivo Android real e confirmado pelo responsavel pelo teste.",
+    "internalBanner": "PASS",
+    "installCta": "PASS",
+    "dismissWithoutHide": "PASS",
+    "hideAutomaticBanner": "PASS",
+    "mobileMoreInstallShortcut": "PASS",
+    "headerHamburgerInstallShortcut": "PASS",
+    "manualGuidanceFallback": "PASS",
+    "effectiveInstall": "PASS",
+    "standaloneRelaunch": "PASS",
+    "desktopInstall": "PASS",
+    "iosRealDevice": "PENDING"
+  },
+  "preview": {
+    "url": "https://aruka-git-feat-product-roadmap-v4-cy-83978b-leandrosouzafitness.vercel.app",
+    "vercelTarget": "https://vercel.com/leandrosouzafitness/aruka/ACb4UmaUU87q4BZb4q2muSC6VNJg",
+    "githubActionsRun": "33517937883",
+    "githubActionsValidation": "PASS",
+    "vercel": "PASS"
+  },
+  "outOfScope": [
+    "push notifications",
+    "background notifications",
+    "Capacitor",
+    "Play Store",
+    "App Store",
+    "offline-first",
+    "offline DB sync",
+    "analytics",
+    "app badging"
+  ]
+}

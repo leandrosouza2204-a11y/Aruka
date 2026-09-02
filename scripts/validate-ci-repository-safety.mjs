@@ -15,8 +15,10 @@ import {
   writeMarkdownReport,
 } from "./supabase-cycle-9-lib.mjs";
 import { EXPECTED_EXECUTABLE_MIGRATIONS } from "./lib/supabase-local-environment.mjs";
+import { printReportWriteMode, shouldWriteCanonicalReport } from "./lib/report-write-mode.mjs";
 
 const root = process.cwd();
+const writeReport = shouldWriteCanonicalReport();
 const errors = [];
 const fail = (message) => errors.push(message);
 const baselineExists = existsSync(join(root, BASELINE_PATH));
@@ -109,21 +111,26 @@ const payload = {
   primary_error: errors[0] ?? null,
 };
 
-writeJsonReport(root, "repository-safety-result.json", payload);
-writeMarkdownReport(root, "repository-safety-summary.md", [
-  "# CI Repository Safety",
-  "",
-  `- Result: ${payload.result}`,
-  `- Decision: ${payload.decision}`,
-  `- Baseline SHA: ${payload.baseline_sha ?? "missing"}`,
-  `- Expected baseline SHA: ${payload.expected_baseline_sha}`,
-  `- Baseline preserved: ${payload.baseline_sha_preserved ? "yes" : "no"}`,
-  `- Executable baseline present: ${payload.executable_baseline_present ? "yes" : "no"}`,
-  `- Active executable migrations: ${activeMigrations.join(", ")}`,
-  `- Reference baselines: ${referenceBaselines.join(", ")}`,
-  `- Primary error: ${payload.primary_error ?? "none"}`,
-]);
+if (writeReport) {
+  writeJsonReport(root, "repository-safety-result.json", payload);
+  writeMarkdownReport(root, "repository-safety-summary.md", [
+    "# CI Repository Safety",
+    "",
+    `- Result: ${payload.result}`,
+    `- Decision: ${payload.decision}`,
+    `- Baseline SHA: ${payload.baseline_sha ?? "missing"}`,
+    `- Expected baseline SHA: ${payload.expected_baseline_sha}`,
+    `- Baseline preserved: ${payload.baseline_sha_preserved ? "yes" : "no"}`,
+    `- Executable baseline present: ${payload.executable_baseline_present ? "yes" : "no"}`,
+    `- Active executable migrations: ${activeMigrations.join(", ")}`,
+    `- Reference baselines: ${referenceBaselines.join(", ")}`,
+    `- Primary error: ${payload.primary_error ?? "none"}`,
+  ]);
+}
 
+printReportWriteMode(writeReport);
+console.log(`ACTIVE_EXECUTABLE_MIGRATIONS=${payload.local_executable_migration_count}`);
+console.log(`REFERENCE_BASELINES=${payload.reference_only_baseline_count}`);
 if (errors.length) {
   for (const error of errors) console.error(`- ${error}`);
   process.exit(1);

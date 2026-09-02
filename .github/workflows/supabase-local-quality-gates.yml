@@ -164,7 +164,7 @@ jobs:
 
       - name: Gate 1 and 2 - repository safety and static validation
         if: ${{ steps.detect_changes.outputs.supabase_relevant == 'true' }}
-        run: npm run qa:supabase-ci-static
+        run: npm run qa:supabase-ci-static:write-report
 
       - name: Gate 3 - local bootstrap
         if: ${{ steps.detect_changes.outputs.supabase_relevant == 'true' }}

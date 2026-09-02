@@ -10,11 +10,13 @@ import {
   ListChecks,
   LogOut,
   MoreHorizontal,
+  Smartphone,
   ShieldCheck,
   Tags,
   Users,
   X,
 } from "lucide-react";
+import { usePwaInstall } from "../features/pwa/PwaInstallContext";
 import { markSessionLoggedOut } from "../hooks/useAutoLogout";
 import { buscarPerfilUsuario } from "../services/perfisService";
 import { supabase } from "../services/supabase";
@@ -22,6 +24,7 @@ import { supabase } from "../services/supabase";
 function MobileBottomNavigation() {
   const [maisAberto, setMaisAberto] = useState(false);
   const [usuarioAdmin, setUsuarioAdmin] = useState(false);
+  const { requestInstall, showInstallOption } = usePwaInstall();
   const painelRef = useRef(null);
   const maisButtonRef = useRef(null);
   const location = useLocation();
@@ -96,6 +99,11 @@ function MobileBottomNavigation() {
     setMaisAberto(false);
   }
 
+  async function instalarAplicativo() {
+    setMaisAberto(false);
+    await requestInstall();
+  }
+
   return (
     <>
       {maisAberto && (
@@ -158,6 +166,12 @@ function MobileBottomNavigation() {
                 label="Alterar senha"
                 onNavigate={fecharMais}
               />
+              {showInstallOption && (
+                <button className="mobile-more-item" onClick={instalarAplicativo} type="button">
+                  <Smartphone size={18} />
+                  <span>Instalar aplicativo</span>
+                </button>
+              )}
               <MoreLink
                 to="/termos-de-uso"
                 icon={<FileText size={18} />}

@@ -2,7 +2,7 @@ import { CYCLE_9_DECISION, runCommand, writeJsonReport, writeMarkdownReport } fr
 
 const root = process.cwd();
 const steps = [
-  ["repository_safety", "node", ["scripts/validate-ci-repository-safety.mjs"]],
+  ["repository_safety", "node", ["scripts/validate-ci-repository-safety.mjs", "--write-report"]],
   ["ci_negative", "node", ["scripts/test-supabase-ci-negative.mjs"]],
   ["ci_evidence", "node", ["scripts/validate-supabase-ci-evidence.mjs"]],
   ["cycle_9", "node", ["scripts/validate-supabase-cycle-9.mjs"]],
