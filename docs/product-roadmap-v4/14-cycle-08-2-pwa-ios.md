@@ -6,9 +6,9 @@ Cycle 08.2 validates and adapts the Aruka PWA installation experience for iOS wh
 
 Status:
 
-- `CYCLE_STATUS=IN_PROGRESS`
+- `CYCLE_STATUS=PASS`
 - `CYCLE=PRODUCT_ROADMAP_V4_CYCLE_08_2_PWA_IOS`
-- `MANUAL_IOS_QA=PENDING`
+- `MANUAL_IOS_QA=PASS`
 
 ## Scope
 
@@ -53,8 +53,60 @@ Android remains unchanged:
 - Standalone mode hides install surfaces.
 - `aruka_pwa_install_hide_banner` controls only the automatic banner.
 
-## Manual QA Required
+## Manual QA Closeout
 
-Manual iPhone/iPad QA is required before closing this cycle.
+Manual iPhone QA was executed by the user on the published Preview and all required tests passed.
 
-`NEXT_ACTION=USER_RUN_IOS_VISUAL_QA`
+Visual evidence was provided through real iPhone screenshots confirming:
+
+- iOS banner with `Instale o Aruka no seu iPhone`, `Como instalar`, `Agora nao` and `Nao mostrar novamente`: PASS.
+- Safari guidance modal `Instalar o Aruka` with Share, `Adicionar a Tela de Inicio` and `Adicionar`: PASS.
+- Installation experience integrated into the Aruka UI and physically validated on iPhone: PASS.
+
+Manual test matrix:
+
+| Test | Result |
+| --- | --- |
+| Banner iOS | PASS |
+| Agora nao + retorno | PASS |
+| Nao mostrar novamente + menus preservados | PASS |
+| Safari -> Adicionar a Tela de Inicio | PASS |
+| Standalone | PASS |
+| Relaunch standalone | PASS |
+
+Validated behavior:
+
+- iOS installation uses Safari -> Share -> Add to Home Screen -> Add.
+- Aruka does not depend on `beforeinstallprompt` on iOS.
+- The internal banner is the discovery surface.
+- `Como instalar` opens iOS-specific guidance.
+- Manual install entries remain available in `Mais` and the header hamburger while not standalone.
+- Standalone mode removes install UI.
+- Relaunch from the Home Screen preserves standalone behavior.
+
+`aruka_pwa_install_hide_banner=true` controls only the automatic banner. The manual install entries remain available when the app is running in browser mode and is not standalone.
+
+Complementary QA:
+
+- `IPAD_QA=NOT_AVAILABLE`
+- `IOS_ALTERNATIVE_BROWSER_QA=NOT_EXECUTED`
+
+## Cycle Closeout
+
+- Implementation: PASS.
+- Automated PWA QA: PASS.
+- Manual iPhone Safari QA: PASS.
+- Android regression: PASS.
+- Deployment: PASS.
+- PR #56 checks: Vercel PASS; Vercel Preview Comments PASS; GitHub validation not present in the final status rollup after the documentation-only amend.
+- Functional commit: `fc64e5b2c25da46e1c531ba7d8c1e09fb8ca63f3`.
+- Preview: `https://aruka-git-feat-product-roadmap-v4-cy-58b9c9-leandrosouzafitness.vercel.app`.
+
+Android can use `beforeinstallprompt` as an enhancement when the browser provides it; otherwise Aruka uses its manual fallback. iOS uses the Safari-provided Add to Home Screen flow, and the absence of `beforeinstallprompt` on iOS is not a failure.
+
+Next planned roadmap item:
+
+- `NEXT_PLANNED_CYCLE=COACH_AUTOMATION`
+- Objective: operational automation for follow-up, stalled students and repeated coach decisions after the progression/student value surfaces.
+
+`NEXT_ACTION=PLAN_COACH_AUTOMATION_CYCLE`
