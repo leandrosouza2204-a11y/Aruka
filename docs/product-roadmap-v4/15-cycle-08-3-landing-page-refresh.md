@@ -274,6 +274,30 @@ V4 implemented:
 V4_IMPLEMENTED=YES
 V4_MANUAL_QA=PENDING
 
+## MANUAL VISUAL QA - V4
+
+User visual QA found blocking issues still required before closing Cycle 08.3:
+
+1. desktop section introductions still did not follow the requested centered composition;
+2. `/sobre` continued rendering only the institutional tagline in the user's real Preview validation.
+
+V4_MANUAL_DESKTOP_QA=FAIL
+
+## V5_DESKTOP_AND_ABOUT_FIX
+
+V5 implemented:
+
+- desktop section introductions for operation, functionalities, benefits, how it works, plans and FAQ now use a centered editorial composition;
+- headings and introductory paragraphs are centered inside a wide section heading container without manual line breaks;
+- card grids and approved factual content were preserved;
+- FAQ received an introductory paragraph so it follows the same required composition contract;
+- `/sobre` was validated in the production build with direct navigation, reload and landing CTA navigation;
+- no mobile-specific work, database work, auth work, pricing change or PWA strategy change was performed.
+
+V5_IMPLEMENTED=YES
+V5_AUTOMATED_QA=PASS
+V5_DESKTOP_MANUAL_QA=PENDING
+
 ## FLAGS
 
 Implementation started: YES
@@ -293,3 +317,7 @@ About page: YES
 V3 manual QA: PENDING
 V4 implemented: YES
 V4 manual QA: PENDING
+V4 manual desktop QA: FAIL
+V5 implemented: YES
+V5 automated QA: PASS
+V5 desktop manual QA: PENDING

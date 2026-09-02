@@ -513,6 +513,9 @@ function FAQ() {
       <div className="landing-section-heading">
         <span className="landing-eyebrow">Dúvidas comuns</span>
         <h2>Direto ao ponto.</h2>
+        <p>
+          Respostas rápidas sobre acesso, uso no celular, treinos, avaliações e planos.
+        </p>
       </div>
       <div className="landing-faq-list">
         {faqs.map((faq) => (
