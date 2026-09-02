@@ -228,6 +228,7 @@ function Sobre() {
           <nav aria-label="Links institucionais">
             <Link to="/#beneficios">Benefícios</Link>
             <Link to="/#funcionalidades">Funcionalidades</Link>
+            <Link to="/sobre">Sobre</Link>
             <Link to="/#planos">Planos</Link>
             <Link to="/politica-privacidade">Privacidade</Link>
             <Link to="/termos-de-uso">Termos</Link>

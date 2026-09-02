@@ -247,6 +247,33 @@ BRAND_STORY_SECTION=YES
 ABOUT_PAGE=YES
 V3_MANUAL_QA=PENDING
 
+## MANUAL VISUAL QA - V3
+
+User visual QA found refinements still required:
+
+- incomplete mobile paragraph justification;
+- brand story logo composition too small for the reserved visual area;
+- `/sobre` did not show the complete institutional content in the manual preview;
+- pricing copy still sounded too internal;
+- desktop width and composition still felt narrow in large viewports.
+
+V3_MANUAL_VISUAL_QA=FAIL_REFINEMENTS_REQUIRED
+
+## V4_FINAL_POLISH
+
+V4 implemented:
+
+- mobile editorial paragraph justification expanded to hero support copy, section intros, brand story, final CTA and `/sobre` prose;
+- card descriptions, labels, badges, navigation and headings remain left-aligned;
+- desktop containers expanded to better use large viewports while preserving the approved V2/V3 structure;
+- brand story visual composition replaced the empty logo card with a larger integrated Aruka symbol;
+- `/sobre` kept the complete institutional content: story, origin, manifesto, mission, vision, values and signature;
+- plans copy was rewritten with a more commercial tone and simple period descriptions;
+- internal wording such as administrative release language was removed from public plan copy.
+
+V4_IMPLEMENTED=YES
+V4_MANUAL_QA=PENDING
+
 ## FLAGS
 
 Implementation started: YES
@@ -264,3 +291,5 @@ V3 implemented: YES
 Brand story section: YES
 About page: YES
 V3 manual QA: PENDING
+V4 implemented: YES
+V4 manual QA: PENDING

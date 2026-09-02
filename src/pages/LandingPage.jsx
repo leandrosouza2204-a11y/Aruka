@@ -135,7 +135,7 @@ const faqs = [
   },
   {
     question: "Meu aluno também acessa o Aruka?",
-    answer: "Sim. Quando o acesso está liberado, o aluno entra na área do aluno para visualizar o treino ativo, executar sessões e consultar histórico.",
+    answer: "Sim. Quando o acesso está disponível, o aluno entra na área do aluno para visualizar o treino ativo, executar sessões e consultar histórico.",
   },
   {
     question: "Consigo montar e enviar treinos pelo Aruka?",
@@ -151,9 +151,16 @@ const faqs = [
   },
   {
     question: "O que está incluído no meu plano?",
-    answer: "Os planos atuais liberam o acesso ao sistema. A diferença comercial apresentada no produto é o período de acesso contratado.",
+    answer: "Os planos atuais incluem acesso completo ao Aruka. A diferença entre eles é o período contratado.",
   },
 ];
+
+const planDescriptions = {
+  mensal: "Acesso por 30 dias.",
+  trimestral: "Acesso por 3 meses.",
+  semestral: "Acesso por 6 meses.",
+  anual: "Acesso por 12 meses.",
+};
 
 const miniFrameTitle = {
   students: "Alunos",
@@ -389,7 +396,7 @@ function StudentExperience() {
         <h2>Seu aluno acessa o treino com mais clareza.</h2>
         <p>
           A área do aluno permite visualizar o treino ativo, executar sessões,
-          consultar histórico e usar o Aruka pelo celular quando o acesso estiver liberado.
+          consultar histórico e usar o Aruka pelo celular quando o acesso estiver disponível.
         </p>
         <div className="landing-student-tags">
           <span>Treino ativo</span>
@@ -422,6 +429,10 @@ function Benefits() {
       <div className="landing-section-heading">
         <span className="landing-eyebrow">Benefícios</span>
         <h2>Uma operação mais clara sem deixar sua consultoria pesada.</h2>
+        <p>
+          O Aruka reúne o que sustenta a rotina da consultoria para que cada
+          decisão tenha mais contexto e menos retrabalho.
+        </p>
       </div>
       <div className="landing-benefits-grid">
         {benefits.map((benefit) => (
@@ -442,6 +453,10 @@ function HowItWorks() {
       <div className="landing-section-heading">
         <span className="landing-eyebrow">Como funciona</span>
         <h2>Da primeira organização ao acompanhamento contínuo.</h2>
+        <p>
+          Um fluxo simples para estruturar a base de alunos, entregar treinos e
+          acompanhar a evolução da consultoria no dia a dia.
+        </p>
       </div>
       <div className="landing-steps-grid">
         {steps.map((step, index) => (
@@ -461,26 +476,26 @@ function Pricing() {
     <section className="landing-section" id="planos">
       <div className="landing-section-heading">
         <span className="landing-eyebrow">Planos</span>
-        <h2>Todos os recursos do Aruka incluídos no acesso liberado.</h2>
+        <h2>Escolha o período ideal para sua consultoria.</h2>
         <p>
-          Os planos atuais diferenciam o período de acesso ao sistema. A liberação
-          continua sendo confirmada administrativamente após a solicitação.
+          Tenha acesso completo ao Aruka durante todo o período contratado, com
+          as funcionalidades disponíveis na plataforma.
         </p>
       </div>
       <div className="landing-access-card">
         <div className="landing-access-copy">
-          <span>Acesso completo</span>
-          <h3>Escolha o período que faz sentido para sua consultoria.</h3>
+          <span>Plano simples</span>
+          <h3>Um plano simples. Acesso completo ao Aruka.</h3>
           <p>
-            Mensal, trimestral, semestral ou anual: em todos eles, o acesso liberado
-            inclui os recursos atuais do Aruka, sem divisão artificial por funcionalidades.
+            Escolha como prefere começar e mantenha sua operação organizada pelo
+            período contratado.
           </p>
         </div>
         <div className="landing-plan-list" aria-label="Períodos de acesso disponíveis">
           {commercialPlans.map((plan) => (
             <div className="landing-plan-option" key={plan.id}>
               <strong>{plan.nome}</strong>
-              <span>{plan.descricao}</span>
+              <span>{planDescriptions[plan.id] || "Período de acesso ao Aruka."}</span>
             </div>
           ))}
         </div>
