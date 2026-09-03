@@ -344,6 +344,30 @@ MOBILE_CENTERED_COMPOSITION_IMPLEMENTED=YES
 REAL_DASHBOARD_SCREENSHOT_IMPLEMENTED=YES
 FINAL_MANUAL_QA=PENDING
 
+## ABOUT PAGE PREMIUM REDESIGN
+
+Continuation after approved functional About QA:
+
+- ABOUT_PAGE_FUNCTIONAL_QA=PASS
+- ABOUT_PAGE_VISUAL_REDESIGN_REQUESTED=YES
+- ABOUT_PAGE_VISUAL_DIRECTION=premium / editorial / sophisticated brand experience
+- ABOUT_PAGE_REDESIGN_IMPLEMENTED=YES
+- ABOUT_PAGE_FINAL_VISUAL_QA=PENDING
+
+Implemented refinement:
+
+- `/sobre` now uses a premium editorial composition with fewer card-like blocks;
+- the Aruka brand symbol is integrated as a large abstract visual element instead of a generic illustration;
+- hero, origin, manifesto, mission, vision, values, closing signature and footer preserve the approved institutional content;
+- desktop widths 1280, 1366, 1440 and 1920 were validated against horizontal overflow and section structure;
+- mobile widths 360, 390 and 412 were validated for stacked reading flow and horizontal overflow;
+- landing-to-About navigation, brand story CTA, footer About link and About-to-home navigation were validated.
+
+ABOUT_PAGE_PREMIUM_REDESIGN_IMPLEMENTED=YES
+ABOUT_PAGE_RESPONSIVE_QA=PASS
+ABOUT_PAGE_NAVIGATION_REGRESSION=PASS
+ABOUT_PAGE_FINAL_VISUAL_QA=PENDING
+
 ## FLAGS
 
 Implementation started: YES
@@ -378,3 +402,7 @@ Mobile centered composition requested: YES
 Real dashboard screenshot requested: YES
 Mobile centered composition implemented: YES
 Real dashboard screenshot implemented: YES
+About page functional QA: PASS
+About page visual redesign requested: YES
+About page redesign implemented: YES
+About page final visual QA: PENDING

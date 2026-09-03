@@ -3,13 +3,7 @@ import { Link } from "react-router-dom";
 import {
   ArrowLeft,
   ArrowRight,
-  Leaf,
   Menu,
-  ShieldCheck,
-  Sparkles,
-  Target,
-  TrendingUp,
-  Users,
   X,
 } from "lucide-react";
 import BrandLogo from "../components/BrandLogo";
@@ -23,12 +17,12 @@ const aboutNavItems = [
 ];
 
 const values = [
-  { icon: <TrendingUp size={18} />, label: "Evolução contínua" },
-  { icon: <Sparkles size={18} />, label: "Simplicidade" },
-  { icon: <ShieldCheck size={18} />, label: "Confiança" },
-  { icon: <Target size={18} />, label: "Tecnologia com propósito" },
-  { icon: <Users size={18} />, label: "Respeito às pessoas" },
-  { icon: <Leaf size={18} />, label: "Crescimento sustentável" },
+  "Evolução contínua",
+  "Simplicidade",
+  "Confiança",
+  "Tecnologia com propósito",
+  "Respeito às pessoas",
+  "Crescimento sustentável",
 ];
 
 function Sobre() {
@@ -112,68 +106,110 @@ function Sobre() {
         </nav>
       </header>
 
+      <AboutHero />
+      <BrandOrigin />
+      <Manifesto />
+      <MissionVision />
+      <BrandValues />
+      <BrandClosing />
+      <AboutFooter />
+    </main>
+  );
+}
+
+function AboutHero() {
+  return (
       <section className="about-hero">
         <Link className="about-back-link" to="/">
           <ArrowLeft size={17} />
           Voltar para o início
         </Link>
-        <span className="landing-eyebrow">Nossa história</span>
-        <h1>Aruka. Tecnologia para quem transforma vidas.</h1>
-        <p>
-          Uma marca criada para acompanhar jornadas, simplificar rotinas e
-          impulsionar a evolução por meio da tecnologia.
-        </p>
+        <div className="about-hero-symbol" aria-hidden="true">
+          <BrandLogo variant="icon" size="lg" />
+        </div>
+        <div className="about-hero-copy">
+          <span className="landing-eyebrow">Nossa história</span>
+          <h1>Aruka. Tecnologia para quem transforma vidas.</h1>
+          <p>
+            Uma marca criada para acompanhar jornadas, simplificar rotinas e
+            impulsionar a evolução por meio da tecnologia.
+          </p>
+        </div>
       </section>
+  );
+}
 
+function BrandOrigin() {
+  return (
       <section className="about-editorial-section">
-        <span className="landing-eyebrow">Origem da marca</span>
-        <h2>Aruka</h2>
-        <div className="about-prose">
-          <p>
-            Inspirada na riqueza linguística dos povos originários do Brasil,
-            especialmente na sonoridade das línguas da família tupi-guarani.
-          </p>
-          <p>
-            A Aruka é uma marca original, criada a partir da inspiração na
-            riqueza linguística dos povos originários do Brasil e nos conceitos
-            de jornada, movimento, evolução e transformação que essa herança
-            cultural evoca.
-          </p>
-          <p>
-            O nome não corresponde a uma palavra existente em tupi-guarani. Ele
-            foi cuidadosamente desenvolvido para refletir os valores que definem
-            a essência da marca: acompanhar o crescimento dos profissionais,
-            simplificar sua rotina e impulsionar sua evolução por meio da tecnologia.
-          </p>
+        <div className="about-origin-mark" aria-hidden="true">
+          <BrandLogo variant="icon" size="lg" />
+          <span>Jornada, movimento e transformação.</span>
+        </div>
+        <div className="about-origin-copy">
+          <span className="landing-eyebrow">Origem da marca</span>
+          <h2>Aruka</h2>
+          <div className="about-prose">
+            <p>
+              Inspirada na riqueza linguística dos povos originários do Brasil,
+              especialmente na sonoridade das línguas da família tupi-guarani.
+            </p>
+            <p>
+              A Aruka é uma marca original, criada a partir da inspiração na
+              riqueza linguística dos povos originários do Brasil e nos conceitos
+              de jornada, movimento, evolução e transformação que essa herança
+              cultural evoca.
+            </p>
+            <p className="about-origin-note">
+              O nome não corresponde a uma palavra existente em tupi-guarani. Ele
+              foi cuidadosamente desenvolvido para refletir os valores que definem
+              a essência da marca: acompanhar o crescimento dos profissionais,
+              simplificar sua rotina e impulsionar sua evolução por meio da tecnologia.
+            </p>
+          </div>
         </div>
       </section>
+  );
+}
 
+function Manifesto() {
+  return (
       <section className="about-manifest-section">
-        <span className="landing-eyebrow">Manifesto</span>
-        <h2>Toda evolução começa com um caminho.</h2>
-        <div className="about-prose">
-          <p>
-            Inspirada na riqueza cultural e linguística dos povos originários do
-            Brasil, a Aruka nasceu para caminhar ao lado de quem transforma vidas
-            por meio do movimento.
-          </p>
-          <p>
-            Acreditamos que a tecnologia deve eliminar a complexidade, organizar
-            processos e impulsionar o crescimento de profissionais que dedicam
-            seu tempo ao cuidado com outras pessoas.
-          </p>
-          <p>
-            Mais do que um software, construímos uma plataforma que acompanha
-            cada etapa dessa jornada, permitindo que nossos clientes foquem no
-            que realmente importa: transformar vidas.
-          </p>
-          <p>Porque evoluir não significa apenas chegar mais longe.</p>
-          <p>Significa percorrer o caminho certo.</p>
+        <div className="about-manifest-symbol" aria-hidden="true">
+          <BrandLogo variant="icon" size="lg" />
+        </div>
+        <div className="about-manifest-inner">
+          <span className="landing-eyebrow">Manifesto</span>
+          <h2>Toda evolução começa com um caminho.</h2>
+          <div className="about-prose">
+            <p>
+              Inspirada na riqueza cultural e linguística dos povos originários do
+              Brasil, a Aruka nasceu para caminhar ao lado de quem transforma vidas
+              por meio do movimento.
+            </p>
+            <p>
+              Acreditamos que a tecnologia deve eliminar a complexidade, organizar
+              processos e impulsionar o crescimento de profissionais que dedicam
+              seu tempo ao cuidado com outras pessoas.
+            </p>
+            <p className="about-manifest-emphasis">
+              Mais do que um software, construímos uma plataforma que acompanha
+              cada etapa dessa jornada, permitindo que nossos clientes foquem no
+              que realmente importa: transformar vidas.
+            </p>
+            <p className="about-manifest-line">Porque evoluir não significa apenas chegar mais longe.</p>
+            <p className="about-manifest-line">Significa percorrer o caminho certo.</p>
+          </div>
         </div>
       </section>
+  );
+}
 
+function MissionVision() {
+  return (
       <section className="about-purpose-grid">
         <article>
+          <span className="about-purpose-number">01</span>
           <span className="landing-eyebrow">Nossa missão</span>
           <h2>Simplificar a gestão.</h2>
           <p>
@@ -182,6 +218,7 @@ function Sobre() {
           </p>
         </article>
         <article>
+          <span className="about-purpose-number">02</span>
           <span className="landing-eyebrow">Nossa visão</span>
           <h2>Tecnologia como aliada.</h2>
           <p>
@@ -190,22 +227,30 @@ function Sobre() {
           </p>
         </article>
       </section>
+  );
+}
 
+function BrandValues() {
+  return (
       <section className="about-values-section">
         <div className="landing-section-heading about-wide-heading">
           <span className="landing-eyebrow">Nossos valores</span>
           <h2>O que orienta cada decisão da Aruka.</h2>
         </div>
         <div className="about-values-list">
-          {values.map((value) => (
-            <div className="about-value-item" key={value.label}>
-              <span>{value.icon}</span>
-              <strong>{value.label}</strong>
+          {values.map((value, index) => (
+            <div className="about-value-item" key={value}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <strong>{value}</strong>
             </div>
           ))}
         </div>
       </section>
+  );
+}
 
+function BrandClosing() {
+  return (
       <section className="about-signature">
         <BrandLogo variant="icon" size="lg" />
         <h2>Aruka</h2>
@@ -215,7 +260,11 @@ function Sobre() {
           <ArrowRight size={18} />
         </Link>
       </section>
+  );
+}
 
+function AboutFooter() {
+  return (
       <footer className="landing-footer">
         <div className="landing-footer-inner">
           <div className="landing-footer-brand">
@@ -236,7 +285,6 @@ function Sobre() {
           <p className="landing-copyright">Aruka. Tecnologia para quem transforma vidas.</p>
         </div>
       </footer>
-    </main>
   );
 }
 
