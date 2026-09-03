@@ -571,48 +571,15 @@ function LandingFooter() {
 function ProductFrame() {
   return (
     <div className="landing-product-frame">
-      <div className="landing-product-window">
-        <span />
-        <span />
-        <span />
-      </div>
-      <div className="landing-product-shell">
-        <aside>
-          <BrandLogo variant="icon" size="legal" />
-          <span />
-          <span />
-          <span />
-          <span />
-        </aside>
-        <div className="landing-product-screen">
-          <div className="landing-product-top">
-            <div>
-              <span>Dashboard</span>
-              <strong>Boa tarde, profissional</strong>
-            </div>
-            <i>Hoje</i>
-          </div>
-          <div className="landing-product-kpis">
-            <Metric label="Alunos ativos" value="32" />
-            <Metric label="Treinos ativos" value="18" />
-            <Metric label="Vencimentos" value="4" />
-          </div>
-          <div className="landing-product-content">
-            <div className="landing-product-feed">
-              <strong>Atenção e acompanhamento</strong>
-              <ProductRow title="Aluno sem treino ativo" tag="Treinos" />
-              <ProductRow title="Sessão concluída recente" tag="Histórico" />
-              <ProductRow title="Contrato próximo" tag="Financeiro" />
-            </div>
-            <div className="landing-product-list">
-              <strong>Rotina de hoje</strong>
-              <ProductRow title="Revisar ficha de Marina" tag="Ação" />
-              <ProductRow title="Registrar avaliação de Rafael" tag="Avaliação" />
-              <ProductRow title="Conferir acesso de Camila" tag="Acesso" />
-            </div>
-          </div>
-        </div>
-      </div>
+      <img
+        alt="Dashboard do Aruka com indicadores de alunos, financeiro, check-ins, treinos e avaliações"
+        className="landing-product-screenshot"
+        decoding="async"
+        fetchPriority="high"
+        height="1097"
+        src="/aruka-dashboard.png"
+        width="1336"
+      />
     </div>
   );
 }
@@ -657,15 +624,6 @@ function ProductMiniFrame({ variant }) {
           <ProductRow key={row.title} title={row.title} tag={row.tag} />
         ))}
       </div>
-    </div>
-  );
-}
-
-function Metric({ label, value }) {
-  return (
-    <div className="landing-metric">
-      <span>{label}</span>
-      <strong>{value}</strong>
     </div>
   );
 }

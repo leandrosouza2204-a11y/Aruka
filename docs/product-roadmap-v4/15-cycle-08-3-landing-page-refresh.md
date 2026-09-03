@@ -319,6 +319,31 @@ ABOUT_BRAND_STORY_CTA_FIXED=YES
 ABOUT_DESKTOP_CENTERING_IMPLEMENTED=YES
 FINAL_MANUAL_QA=PENDING
 
+## MOBILE CENTERING AND REAL DASHBOARD SCREENSHOT
+
+Continuation after blocked asset:
+
+- PREVIOUS_BLOCKER=DASHBOARD_ASSET_NOT_ACCESSIBLE
+- DASHBOARD_ASSET_NOW_AVAILABLE=YES
+- DASHBOARD_ASSET_PATH=public/aruka-dashboard.png
+- DESKTOP_CENTERED_COMPOSITION_MANUAL_QA=PASS
+- ABOUT_PAGE_MANUAL_QA=PASS
+- MOBILE_CENTERED_COMPOSITION_REQUESTED=YES
+- REAL_DASHBOARD_SCREENSHOT_REQUESTED=YES
+
+Implemented fix:
+
+- mobile landing section introductions now follow the same centered editorial composition approved on desktop;
+- mobile hero eyebrow, headline, supporting copy and CTA flow are centered;
+- mobile supporting copy for landing introductions no longer uses justified alignment;
+- the hero dashboard mock was replaced by the real dashboard screenshot provided by the user;
+- the real dashboard image uses intrinsic dimensions, high-priority loading, descriptive alt text and a discreet image container;
+- no database, Auth, Supabase, pricing, About content or Cycle 09 work was performed.
+
+MOBILE_CENTERED_COMPOSITION_IMPLEMENTED=YES
+REAL_DASHBOARD_SCREENSHOT_IMPLEMENTED=YES
+FINAL_MANUAL_QA=PENDING
+
 ## FLAGS
 
 Implementation started: YES
@@ -347,3 +372,9 @@ About direct load: PASS
 About brand story CTA: FIXED
 About desktop centering implemented: YES
 Final manual QA: PENDING
+Previous blocker: DASHBOARD_ASSET_NOT_ACCESSIBLE
+Dashboard asset now available: YES
+Mobile centered composition requested: YES
+Real dashboard screenshot requested: YES
+Mobile centered composition implemented: YES
+Real dashboard screenshot implemented: YES
