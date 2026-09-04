@@ -30,7 +30,6 @@ const requiredMobileIntent = [
   ".about-manifest-line",
   ".about-purpose-grid article",
   "font-size: inherit",
-  "font-weight: 700",
   "justify-items: center",
   "text-align: center",
 ];
@@ -75,12 +74,18 @@ const conclusionUsesBodyScale =
   lineRule.includes("font-size: inherit");
 
 const conclusionUsesWeightForEmphasis =
-  emphasisRule.includes("font-weight: 700") &&
-  lineRule.includes("font-weight: 700");
+  getFontWeight(emphasisRule) <= 600 &&
+  getFontWeight(lineRule) <= 600 &&
+  getFontWeight(emphasisRule) > 400 &&
+  getFontWeight(lineRule) > 400;
 
 const conclusionAvoidsHeadlineScale =
   !emphasisRule.includes("font-size: clamp(") &&
   !lineRule.includes("font-size: clamp(");
+
+const conclusionAvoidsHeadlineWeight =
+  !emphasisRule.includes("font-weight: 700") &&
+  !lineRule.includes("font-weight: 700");
 
 if (
   missingStructure.length ||
@@ -91,7 +96,8 @@ if (
   !missionVisionCentered ||
   !conclusionUsesBodyScale ||
   !conclusionUsesWeightForEmphasis ||
-  !conclusionAvoidsHeadlineScale
+  !conclusionAvoidsHeadlineScale ||
+  !conclusionAvoidsHeadlineWeight
 ) {
   console.error("ABOUT_FINAL_TYPOGRAPHY_ALIGNMENT_QA=FAIL");
   if (missingStructure.length) console.error(`MISSING_STRUCTURE=${missingStructure.join(",")}`);
@@ -103,6 +109,7 @@ if (
   if (!conclusionUsesBodyScale) console.error("MANIFEST_CONCLUSION_BODY_SCALE=NO");
   if (!conclusionUsesWeightForEmphasis) console.error("MANIFEST_CONCLUSION_WEIGHT_EMPHASIS=NO");
   if (!conclusionAvoidsHeadlineScale) console.error("MANIFEST_CONCLUSION_AVOIDS_HEADLINE_SCALE=NO");
+  if (!conclusionAvoidsHeadlineWeight) console.error("MANIFEST_CONCLUSION_AVOIDS_HEADLINE_WEIGHT=NO");
   process.exit(1);
 }
 
@@ -112,5 +119,11 @@ console.log("MANIFEST_CONCLUSION_FAMILY_ALIGNED=YES");
 console.log("MANIFEST_CONCLUSION_BODY_SCALE=YES");
 console.log("MANIFEST_CONCLUSION_WEIGHT_EMPHASIS=YES");
 console.log("MANIFEST_CONCLUSION_AVOIDS_HEADLINE_SCALE=YES");
+console.log("MANIFEST_CONCLUSION_AVOIDS_HEADLINE_WEIGHT=YES");
 console.log("MISSION_VISION_CENTERED=YES");
 console.log("VALUES_STRUCTURE_PRESERVED=YES");
+
+function getFontWeight(rule) {
+  const match = rule.match(/font-weight:\s*(\d+)/);
+  return match ? Number(match[1]) : 0;
+}

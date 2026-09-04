@@ -1834,14 +1834,14 @@
 
   .about-manifest-emphasis {
     font-size: inherit !important;
-    font-weight: 700;
+    font-weight: 600;
     line-height: 1.58 !important;
     padding-top: 4px;
   }
 
   .about-manifest-line {
     font-size: inherit !important;
-    font-weight: 700;
+    font-weight: 500;
     line-height: 1.58 !important;
   }
 
