@@ -29,7 +29,6 @@ const requiredMobileIntent = [
   ".about-manifest-emphasis",
   ".about-manifest-line",
   ".about-purpose-grid article",
-  "font-size: inherit",
   "justify-items: center",
   "text-align: center",
 ];
@@ -58,26 +57,30 @@ const forbidden = forbiddenGlobalChanges.filter((item) => css.includes(item));
 const emphasisRule = mobileCss.match(/\.about-manifest-emphasis \{[\s\S]*?\n  \}/)?.[0] ?? "";
 const lineRule = mobileCss.match(/\.about-manifest-line \{[\s\S]*?\n  \}/)?.[0] ?? "";
 const purposeRule = mobileCss.match(/\.about-purpose-grid article \{[\s\S]*?\n  \}/)?.[0] ?? "";
+const bodyRule =
+  mobileCss.match(/\.about-prose p,\n  \.about-purpose-grid p,\n  \.about-signature p \{[\s\S]*?\n  \}/)?.[0] ?? "";
+
+const bodyTypography = getTypography(bodyRule);
+const emphasisTypography = getTypography(emphasisRule);
+const lineTypography = getTypography(lineRule);
 
 const hierarchyFamilyAligned =
-  emphasisRule.includes("font-size: inherit") &&
-  lineRule.includes("font-size: inherit") &&
-  emphasisRule.includes("line-height:") &&
-  lineRule.includes("line-height:");
+  typographyMatchesBody(emphasisTypography, bodyTypography) &&
+  typographyMatchesBody(lineTypography, bodyTypography);
 
 const missionVisionCentered =
   purposeRule.includes("justify-items: center") &&
   purposeRule.includes("text-align: center");
 
 const conclusionUsesBodyScale =
-  emphasisRule.includes("font-size: inherit") &&
-  lineRule.includes("font-size: inherit");
+  emphasisTypography.fontSize === bodyTypography.fontSize &&
+  lineTypography.fontSize === bodyTypography.fontSize &&
+  emphasisTypography.lineHeight === bodyTypography.lineHeight &&
+  lineTypography.lineHeight === bodyTypography.lineHeight;
 
 const conclusionUsesWeightForEmphasis =
-  getFontWeight(emphasisRule) <= 600 &&
-  getFontWeight(lineRule) <= 600 &&
-  getFontWeight(emphasisRule) > 400 &&
-  getFontWeight(lineRule) > 400;
+  emphasisTypography.fontWeight === bodyTypography.fontWeight &&
+  lineTypography.fontWeight === bodyTypography.fontWeight;
 
 const conclusionAvoidsHeadlineScale =
   !emphasisRule.includes("font-size: clamp(") &&
@@ -85,7 +88,15 @@ const conclusionAvoidsHeadlineScale =
 
 const conclusionAvoidsHeadlineWeight =
   !emphasisRule.includes("font-weight: 700") &&
-  !lineRule.includes("font-weight: 700");
+  !lineRule.includes("font-weight: 700") &&
+  !emphasisRule.includes("font-weight: 600") &&
+  !lineRule.includes("font-weight: 600") &&
+  !emphasisRule.includes("font-weight: 500") &&
+  !lineRule.includes("font-weight: 500");
+
+const conclusionMatchesBodyOpacity =
+  emphasisTypography.opacity === bodyTypography.opacity &&
+  lineTypography.opacity === bodyTypography.opacity;
 
 if (
   missingStructure.length ||
@@ -97,7 +108,8 @@ if (
   !conclusionUsesBodyScale ||
   !conclusionUsesWeightForEmphasis ||
   !conclusionAvoidsHeadlineScale ||
-  !conclusionAvoidsHeadlineWeight
+  !conclusionAvoidsHeadlineWeight ||
+  !conclusionMatchesBodyOpacity
 ) {
   console.error("ABOUT_FINAL_TYPOGRAPHY_ALIGNMENT_QA=FAIL");
   if (missingStructure.length) console.error(`MISSING_STRUCTURE=${missingStructure.join(",")}`);
@@ -110,6 +122,7 @@ if (
   if (!conclusionUsesWeightForEmphasis) console.error("MANIFEST_CONCLUSION_WEIGHT_EMPHASIS=NO");
   if (!conclusionAvoidsHeadlineScale) console.error("MANIFEST_CONCLUSION_AVOIDS_HEADLINE_SCALE=NO");
   if (!conclusionAvoidsHeadlineWeight) console.error("MANIFEST_CONCLUSION_AVOIDS_HEADLINE_WEIGHT=NO");
+  if (!conclusionMatchesBodyOpacity) console.error("MANIFEST_CONCLUSION_MATCHES_BODY_OPACITY=NO");
   process.exit(1);
 }
 
@@ -120,10 +133,32 @@ console.log("MANIFEST_CONCLUSION_BODY_SCALE=YES");
 console.log("MANIFEST_CONCLUSION_WEIGHT_EMPHASIS=YES");
 console.log("MANIFEST_CONCLUSION_AVOIDS_HEADLINE_SCALE=YES");
 console.log("MANIFEST_CONCLUSION_AVOIDS_HEADLINE_WEIGHT=YES");
+console.log("MANIFEST_CONCLUSION_MATCHES_BODY_OPACITY=YES");
 console.log("MISSION_VISION_CENTERED=YES");
 console.log("VALUES_STRUCTURE_PRESERVED=YES");
 
 function getFontWeight(rule) {
   const match = rule.match(/font-weight:\s*(\d+)/);
   return match ? Number(match[1]) : 0;
+}
+
+function getTypography(rule) {
+  return {
+    fontSize: normalizeCssValue(rule.match(/font-size:\s*([^;]+)/)?.[1] ?? ""),
+    fontWeight: getFontWeight(rule) || 400,
+    lineHeight: normalizeCssValue(rule.match(/line-height:\s*([^;]+)/)?.[1] ?? ""),
+    opacity: normalizeCssValue(rule.match(/opacity:\s*([^;]+)/)?.[1] ?? "0.82"),
+  };
+}
+
+function normalizeCssValue(value) {
+  return value.replace(/\s*!important/g, "").trim();
+}
+
+function typographyMatchesBody(candidate, body) {
+  return (
+    candidate.fontSize === body.fontSize &&
+    candidate.fontWeight === body.fontWeight &&
+    candidate.lineHeight === body.lineHeight
+  );
 }
