@@ -368,6 +368,56 @@ ABOUT_PAGE_RESPONSIVE_QA=PASS
 ABOUT_PAGE_NAVIGATION_REGRESSION=PASS
 ABOUT_PAGE_FINAL_VISUAL_QA=PENDING
 
+## LANDING PREMIUM VISUAL ALIGNMENT
+
+Continuation after approved About page visual QA:
+
+- USER_REQUEST=LANDING_PREMIUM_VISUAL_ALIGNMENT
+- ABOUT_PAGE_USED_AS_APPROVED_VISUAL_REFERENCE=YES
+- LANDING_VISUAL_DIRECTION=premium / editorial / product-led SaaS
+- LANDING_COMMERCIAL_CONTENT_PRESERVED=YES
+- LANDING_PREMIUM_ALIGNMENT_IMPLEMENTED=YES
+- FINAL_LANDING_MANUAL_VISUAL_QA=PENDING
+
+Applied principles:
+
+- the landing keeps the current commercial copy, CTAs, navigation, product modules, student area, plans and FAQ;
+- the real dashboard screenshot remains the hero product visual;
+- the hero now uses a subtler brand-led composition with low-opacity abstract Aruka symbol treatment;
+- operation, benefits, how it works, plans and FAQ were softened with editorial numbering, line separators and reduced card weight;
+- functionality previews remain visible and product-led, but their composition is less grid-card dependent;
+- the student area and final CTA use the same dark navy/cyan language as the approved About manifesto;
+- the brand story section was aligned with the About origin/identity treatment while preserving the `/sobre` route;
+- no Auth, database, Supabase, PWA implementation, pricing model or Cycle 09 work was performed.
+
+Files modified:
+
+- `src/pages/LandingPage.jsx`
+- `src/pages/LandingPage.css`
+- `docs/product-roadmap-v4/15-cycle-08-3-landing-page-refresh.md`
+
+QA evidence:
+
+- DESKTOP_1280=PASS
+- DESKTOP_1366=PASS
+- DESKTOP_1440=PASS
+- DESKTOP_1920=PASS
+- MOBILE_360=PASS
+- MOBILE_390=PASS
+- MOBILE_412=PASS
+- LANDING_HORIZONTAL_OVERFLOW=NO
+- ABOUT_DIRECT_LOAD=PASS
+- ABOUT_SPA_NAVIGATION=PASS
+- BRAND_CTA_TO_ABOUT=PASS
+- ABOUT_BACK_HOME=PASS
+- PWA_REGRESSION=PASS
+
+LANDING_PREMIUM_ALIGNMENT_IMPLEMENTED=YES
+LANDING_RESPONSIVE_QA=PASS
+LANDING_ABOUT_REGRESSION_QA=PASS
+LANDING_PWA_REGRESSION_QA=PASS
+FINAL_LANDING_MANUAL_VISUAL_QA=PENDING
+
 ## FLAGS
 
 Implementation started: YES
@@ -406,3 +456,7 @@ About page functional QA: PASS
 About page visual redesign requested: YES
 About page redesign implemented: YES
 About page final visual QA: PENDING
+Landing premium visual alignment requested: YES
+About visual language inherited by landing: YES
+Landing premium alignment implemented: YES
+Landing final manual visual QA: PENDING

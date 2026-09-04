@@ -270,6 +270,9 @@ function LandingBrand({ tone = "dark" }) {
 function Hero() {
   return (
     <section className="landing-hero">
+      <div className="landing-hero-symbol" aria-hidden="true">
+        <BrandLogo variant="icon" size="lg" />
+      </div>
       <div className="landing-hero-copy">
         <span className="landing-eyebrow">Sistema para consultoria fitness online</span>
         <h1>Sua consultoria fitness, organizada para crescer.</h1>
@@ -321,8 +324,9 @@ function ProblemSolution() {
         </p>
       </div>
       <div className="landing-solution-grid">
-        {solutionBenefits.map((benefit) => (
+        {solutionBenefits.map((benefit, index) => (
           <article className="landing-solution-card" key={benefit.title}>
+            <span className="landing-card-number">{String(index + 1).padStart(2, "0")}</span>
             <span className="landing-card-icon">{benefit.icon}</span>
             <h3>{benefit.title}</h3>
             <p>{benefit.text}</p>
@@ -435,8 +439,9 @@ function Benefits() {
         </p>
       </div>
       <div className="landing-benefits-grid">
-        {benefits.map((benefit) => (
+        {benefits.map((benefit, index) => (
           <article className="landing-card landing-benefit-card" key={benefit.title}>
+            <span className="landing-card-number">{String(index + 1).padStart(2, "0")}</span>
             <span className="landing-card-icon">{benefit.icon}</span>
             <h3>{benefit.title}</h3>
             <p>{benefit.text}</p>
@@ -492,10 +497,11 @@ function Pricing() {
           </p>
         </div>
         <div className="landing-plan-list" aria-label="Períodos de acesso disponíveis">
-          {commercialPlans.map((plan) => (
+          {commercialPlans.map((plan, index) => (
             <div className="landing-plan-option" key={plan.id}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
               <strong>{plan.nome}</strong>
-              <span>{planDescriptions[plan.id] || "Período de acesso ao Aruka."}</span>
+              <p>{planDescriptions[plan.id] || "Período de acesso ao Aruka."}</p>
             </div>
           ))}
         </div>
@@ -535,13 +541,18 @@ function FAQ() {
 function FinalCTA() {
   return (
     <section className="landing-final-cta">
-      <span className="landing-eyebrow">Próximo passo</span>
-      <h2>Sua consultoria merece uma operação mais profissional.</h2>
-      <p>Comece a organizar alunos, treinos, financeiro e acompanhamento em um só lugar.</p>
-      <Link className="landing-button landing-button-primary" to="/login">
-        Começar agora
-        <ArrowRight size={18} />
-      </Link>
+      <div className="landing-final-symbol" aria-hidden="true">
+        <BrandLogo variant="icon" size="lg" />
+      </div>
+      <div className="landing-final-inner">
+        <span className="landing-eyebrow">Próximo passo</span>
+        <h2>Sua consultoria merece uma operação mais profissional.</h2>
+        <p>Comece a organizar alunos, treinos, financeiro e acompanhamento em um só lugar.</p>
+        <Link className="landing-button landing-button-primary" to="/login">
+          Começar agora
+          <ArrowRight size={18} />
+        </Link>
+      </div>
     </section>
   );
 }
