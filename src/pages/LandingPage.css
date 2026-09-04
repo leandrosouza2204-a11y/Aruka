@@ -1702,11 +1702,11 @@
   }
 
   .about-hero {
-    gap: 26px;
+    gap: 20px;
     justify-items: center;
     min-height: auto;
-    padding-bottom: 72px;
-    padding-top: 34px;
+    padding-bottom: 52px;
+    padding-top: 28px;
     text-align: center;
   }
 
@@ -1735,6 +1735,7 @@
   }
 
   .about-hero-copy {
+    gap: 14px;
     justify-items: center;
     max-width: 620px;
     text-align: center;
@@ -1747,7 +1748,7 @@
 
   .about-hero p {
     font-size: 16px;
-    line-height: 1.7;
+    line-height: 1.62;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -1758,17 +1759,18 @@
   .about-purpose-grid,
   .about-values-section,
   .about-signature {
-    padding-bottom: 64px;
-    padding-top: 64px;
+    padding-bottom: 52px;
+    padding-top: 52px;
   }
 
   .about-origin-mark {
-    min-height: 210px;
-    padding: 28px 22px;
+    gap: 14px;
+    min-height: 178px;
+    padding: 24px 20px;
   }
 
   .about-origin-mark img {
-    width: clamp(136px, 42vw, 184px) !important;
+    width: clamp(118px, 36vw, 162px) !important;
   }
 
   .about-origin-copy,
@@ -1777,22 +1779,27 @@
   }
 
   .about-origin-copy {
+    gap: 12px;
     justify-items: center;
     text-align: center;
+  }
+
+  .about-prose {
+    gap: 14px;
   }
 
   .about-prose p,
   .about-purpose-grid p,
   .about-signature p {
     font-size: 15.5px;
-    line-height: 1.72;
+    line-height: 1.62;
   }
 
   .about-origin-note {
     background: rgba(232, 247, 253, 0.5);
     border-left: 0;
     border-top: 2px solid var(--landing-cyan);
-    padding: 16px 0 0;
+    padding: 14px 0 0;
     text-align: center !important;
   }
 
@@ -1817,6 +1824,7 @@
   }
 
   .about-manifest-inner {
+    gap: 14px;
     justify-items: center;
     margin-left: auto;
     margin-right: auto;
@@ -1826,6 +1834,7 @@
 
   .about-manifest-emphasis {
     font-size: clamp(21px, 5.6vw, 25px) !important;
+    padding-top: 4px;
   }
 
   .about-manifest-line {
@@ -1839,7 +1848,8 @@
   .about-purpose-grid article {
     background: transparent;
     border-top-color: rgba(148, 163, 184, 0.32);
-    padding: 28px 0;
+    gap: 12px;
+    padding: 24px 0;
   }
 
   .about-values-section {
@@ -1854,6 +1864,8 @@
 
   .about-value-item {
     grid-template-columns: 42px 1fr;
+    min-height: 64px;
+    padding: 14px 0;
     text-align: left;
   }
 
@@ -1861,8 +1873,19 @@
     background:
       radial-gradient(circle at 50% 0%, rgba(8, 145, 178, 0.15), transparent 34%),
       linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
-    padding-bottom: 76px;
-    padding-top: 76px;
+    gap: 10px;
+    padding-bottom: 58px;
+    padding-top: 58px;
+  }
+
+  .about-signature img {
+    width: clamp(104px, 28vw, 150px) !important;
+  }
+
+  .about-page .landing-footer-inner {
+    gap: 18px;
+    padding-bottom: 34px;
+    padding-top: 32px;
   }
 }
 
