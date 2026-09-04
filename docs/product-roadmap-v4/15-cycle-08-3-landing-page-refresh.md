@@ -484,3 +484,66 @@ ABOUT_PREMIUM_VISUAL_QA=PASS
 CYCLE_STATUS=PASS
 DEPLOYMENT_STATUS=PASS
 READY_TO_MERGE=YES
+
+## POST_MERGE_RESPONSIVE_CORRECTION
+
+Patch de consistencia responsiva pos-Cycle criado apos o merge do PR #57 para alinhar a linguagem premium/editorial mobile da landing e da pagina `/sobre` ao desktop aprovado.
+
+Diagnostico:
+
+- Desktop premium redesign: PASS
+- Mobile premium parity previously incomplete: YES
+- Header mobile CTA inheritance risk: FOUND
+- About mobile justified prose: FOUND
+- Mobile decorative scale needed refinement: FOUND
+- Dashboard real screenshot preserved: YES
+- Landing/About copy preserved: YES
+- Auth/database/Supabase/PWA behavior changes: NO
+
+Implementado:
+
+- CTA principal do header permanece restrito ao desktop, evitando corte horizontal no mobile.
+- Hero, secoes editoriais, area do aluno, historia da marca, manifesto e CTA final receberam ritmo mobile mais coerente com a linguagem desktop.
+- Textos editoriais do `/sobre` deixaram de usar justificacao no mobile.
+- Simbolos decorativos foram reduzidos/recentralizados no mobile para nao invadir conteudo.
+- Botões e frames receberam largura responsiva segura em telas estreitas.
+
+POST_MERGE_RESPONSIVE_CORRECTION=YES
+POST_MERGE_MOBILE_ALIGNMENT_IMPLEMENTED=YES
+LANDING_MOBILE_PREMIUM_PARITY=PASS_PENDING_USER_REVIEW
+ABOUT_MOBILE_PREMIUM_PARITY=PASS_PENDING_USER_REVIEW
+PWA_REGRESSION=PENDING
+FINAL_MANUAL_MOBILE_QA=PENDING
+
+## ABOUT_MOBILE_VISUAL_POLISH
+
+Follow-up visual polish focused exclusively on the public `/sobre` mobile experience, without content, functional, Supabase, Auth, database, PWA behavior or desktop conceptual changes.
+
+Diagnosis:
+
+- Approved mobile direction preserved: YES
+- Page height excessive from spacing/line-height/gaps: YES
+- Mission/Vision empty vertical rhythm issue: ADDRESSED
+- Excess clear space before CTA: ADDRESSED
+- CTA final polish required: ADDRESSED
+- Footer mobile spacing review: ADDRESSED_FOR_ABOUT_ONLY
+
+Files:
+
+- `src/pages/LandingPage.css`
+- `scripts/validate-about-mobile-visual-polish.mjs`
+- `package.json`
+- `docs/product-roadmap-v4/15-cycle-08-3-landing-page-refresh.md`
+
+Validation:
+
+- Static content/responsive guard: `qa:about-mobile-visual-polish`
+- Mobile viewports considered: 320, 360, 375, 390, 412, 430
+- Desktop viewports considered: 768, 1024, 1280, 1440
+- Runtime visual limitation: browser screenshot capture in this environment may be unstable; final user mobile visual QA remains required.
+
+ABOUT_MOBILE_VISUAL_POLISH=YES
+ABOUT_CONTENT_PRESERVED=YES
+ABOUT_MOBILE_HEIGHT_REDUCED=YES
+ABOUT_MOBILE_SPACING_REFINED=YES
+FINAL_MANUAL_MOBILE_QA=PENDING

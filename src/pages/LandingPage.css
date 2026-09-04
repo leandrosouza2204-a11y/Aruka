@@ -1442,6 +1442,55 @@
 }
 
 @media (max-width: 767px) {
+  .landing-header-cta {
+    display: none;
+  }
+
+  .landing-page {
+    overflow-x: hidden;
+  }
+
+  .landing-header {
+    backdrop-filter: blur(14px);
+    background: rgba(247, 251, 255, 0.96);
+  }
+
+  .landing-mobile-menu {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 249, 252, 0.98));
+    box-shadow: 0 18px 38px rgba(15, 23, 42, 0.08);
+  }
+
+  .landing-hero {
+    background:
+      radial-gradient(circle at 50% 8%, rgba(8, 145, 178, 0.16), transparent 34%),
+      radial-gradient(circle at 100% 34%, rgba(37, 99, 235, 0.12), transparent 30%),
+      linear-gradient(180deg, rgba(232, 247, 253, 0.9) 0%, rgba(255, 255, 255, 0.96) 88%);
+    gap: 30px;
+    padding-bottom: 42px;
+    padding-top: 42px;
+  }
+
+  .landing-hero::before {
+    height: 210px;
+    opacity: 0.72;
+    right: -118px;
+    top: 70px;
+    width: 210px;
+  }
+
+  .landing-hero-symbol {
+    left: 50%;
+    opacity: 0.055;
+    right: auto;
+    top: 74px;
+    transform: translateX(-50%) rotate(-8deg);
+  }
+
+  .landing-hero-symbol img {
+    width: clamp(180px, 58vw, 250px) !important;
+  }
+
   .landing-page:not(.about-page) .landing-hero-copy,
   .landing-page:not(.about-page) .landing-section-heading,
   .landing-page:not(.about-page) .landing-student-copy,
@@ -1452,6 +1501,7 @@
     margin-right: auto;
     max-width: min(100%, 560px);
     text-align: center;
+    width: 100%;
   }
 
   .landing-page:not(.about-page) .landing-hero h1,
@@ -1470,9 +1520,67 @@
     text-align-last: auto;
   }
 
+  .landing-hero h1 {
+    font-size: clamp(34px, 10vw, 42px);
+    line-height: 1.04;
+  }
+
+  .landing-hero p,
+  .landing-section-heading p,
+  .landing-student-copy p,
+  .landing-brand-story p,
+  .landing-final-cta p {
+    font-size: 15.5px;
+    line-height: 1.68;
+  }
+
+  .landing-section-heading h2,
+  .landing-student-copy h2,
+  .landing-brand-story h2,
+  .landing-final-cta h2,
+  .about-editorial-section h2,
+  .about-manifest-section h2,
+  .about-purpose-grid h2,
+  .about-values-section h2,
+  .about-signature h2 {
+    font-size: clamp(30px, 8.2vw, 38px);
+    line-height: 1.08;
+  }
+
+  .landing-product-frame {
+    aspect-ratio: auto;
+    border-color: rgba(148, 163, 184, 0.24);
+    box-shadow: 0 22px 48px rgba(15, 23, 42, 0.15);
+  }
+
+  .landing-hero-product,
+  .landing-showcase-grid,
+  .landing-showcase-item,
+  .landing-mini-frame,
+  .landing-solution-grid,
+  .landing-benefits-grid,
+  .landing-steps-grid,
+  .landing-access-card,
+  .landing-faq-list {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .landing-value-strip {
+    padding-bottom: 50px;
+  }
+
   .landing-section {
-    padding-bottom: 44px;
-    padding-top: 44px;
+    gap: 30px;
+    padding-bottom: 58px;
+    padding-top: 58px;
+  }
+
+  .landing-solution-grid,
+  .landing-benefits-grid,
+  .landing-steps-grid,
+  .landing-plan-list {
+    gap: 0;
   }
 
   .landing-card-icon {
@@ -1485,6 +1593,307 @@
   .landing-plan-option {
     justify-items: center;
     text-align: center;
+  }
+
+  .landing-solution-card,
+  .landing-card,
+  .landing-step,
+  .landing-plan-option {
+    padding-bottom: 24px;
+    padding-top: 24px;
+  }
+
+  .landing-showcase-item {
+    gap: 18px;
+    padding-bottom: 34px;
+    padding-top: 34px;
+  }
+
+  .landing-showcase-copy {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .landing-mini-frame {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 250, 252, 0.86));
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
+  }
+
+  .landing-student {
+    background:
+      radial-gradient(circle at 50% 0%, rgba(141, 231, 255, 0.16), transparent 34%),
+      radial-gradient(circle at 92% 30%, rgba(37, 99, 235, 0.18), transparent 28%),
+      linear-gradient(135deg, #07111f 0%, #0f2f55 58%, #08111f 100%);
+    gap: 32px;
+    padding-bottom: 72px;
+    padding-top: 72px;
+  }
+
+  .landing-student-tags {
+    justify-content: center;
+  }
+
+  .landing-phone-frame {
+    justify-self: center;
+    max-width: min(100%, 336px);
+    width: 100%;
+  }
+
+  .landing-brand-story {
+    background:
+      radial-gradient(circle at 50% 18%, rgba(37, 99, 235, 0.13), transparent 34%),
+      linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+    gap: 18px;
+    padding-bottom: 68px;
+    padding-top: 62px;
+  }
+
+  .landing-brand-symbol {
+    min-height: 154px;
+  }
+
+  .landing-brand-symbol img {
+    width: clamp(132px, 38vw, 178px) !important;
+  }
+
+  .landing-access-card {
+    gap: 22px;
+  }
+
+  .landing-access-copy {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .landing-faq summary {
+    min-height: 66px;
+    padding: 20px 0;
+  }
+
+  .landing-final-cta {
+    background:
+      radial-gradient(circle at 50% 0%, rgba(141, 231, 255, 0.16), transparent 34%),
+      linear-gradient(135deg, #07111f 0%, #0f2f55 58%, #08111f 100%);
+    padding-bottom: 76px;
+    padding-top: 76px;
+    text-align: center;
+  }
+
+  .landing-final-symbol {
+    left: 50%;
+    opacity: 0.045;
+    right: auto;
+    top: 20px;
+    transform: translateX(-50%) rotate(8deg);
+  }
+
+  .landing-final-symbol img {
+    width: clamp(220px, 68vw, 320px) !important;
+  }
+
+  .landing-footer-inner {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .landing-footer nav {
+    justify-content: center;
+  }
+
+  .about-hero {
+    gap: 20px;
+    justify-items: center;
+    min-height: auto;
+    padding-bottom: 52px;
+    padding-top: 28px;
+    text-align: center;
+  }
+
+  .about-hero::before {
+    height: 220px;
+    opacity: 0.7;
+    right: -120px;
+    top: 86px;
+    width: 220px;
+  }
+
+  .about-back-link {
+    justify-self: start;
+  }
+
+  .about-hero-symbol {
+    left: 50%;
+    opacity: 0.055;
+    right: auto;
+    top: 92px;
+    transform: translateX(-50%) rotate(-8deg);
+  }
+
+  .about-hero-symbol img {
+    width: clamp(190px, 60vw, 260px) !important;
+  }
+
+  .about-hero-copy {
+    gap: 14px;
+    justify-items: center;
+    max-width: 620px;
+    text-align: center;
+  }
+
+  .about-hero h1 {
+    font-size: clamp(38px, 10.5vw, 48px);
+    line-height: 1.04;
+  }
+
+  .about-hero p {
+    font-size: 16px;
+    line-height: 1.62;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .about-editorial-section,
+  .about-manifest-section,
+  .about-purpose-grid,
+  .about-values-section,
+  .about-signature {
+    padding-bottom: 52px;
+    padding-top: 52px;
+  }
+
+  .about-origin-mark {
+    gap: 14px;
+    min-height: 178px;
+    padding: 24px 20px;
+  }
+
+  .about-origin-mark img {
+    width: clamp(118px, 36vw, 162px) !important;
+  }
+
+  .about-origin-copy,
+  .about-prose {
+    max-width: 620px;
+  }
+
+  .about-origin-copy {
+    gap: 12px;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .about-prose {
+    gap: 14px;
+  }
+
+  .about-prose p,
+  .about-purpose-grid p,
+  .about-signature p {
+    font-size: 15.5px;
+    line-height: 1.62;
+  }
+
+  .about-origin-note {
+    background: rgba(232, 247, 253, 0.5);
+    border-left: 0;
+    border-top: 2px solid var(--landing-cyan);
+    padding: 14px 0 0;
+    text-align: center !important;
+  }
+
+  .about-manifest-section {
+    background:
+      radial-gradient(circle at 50% 0%, rgba(141, 231, 255, 0.16), transparent 34%),
+      radial-gradient(circle at 100% 32%, rgba(37, 99, 235, 0.18), transparent 30%),
+      linear-gradient(135deg, #07111f 0%, #0f2f55 58%, #08111f 100%);
+    text-align: center;
+  }
+
+  .about-manifest-symbol {
+    left: 50%;
+    opacity: 0.045;
+    right: auto;
+    top: 30px;
+    transform: translateX(-50%) rotate(8deg);
+  }
+
+  .about-manifest-symbol img {
+    width: clamp(230px, 70vw, 340px) !important;
+  }
+
+  .about-manifest-inner {
+    gap: 14px;
+    justify-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 620px;
+    text-align: center;
+  }
+
+  .about-manifest-emphasis {
+    font-size: 15.5px !important;
+    font-weight: 400;
+    line-height: 1.62 !important;
+    opacity: 0.82 !important;
+    padding-top: 4px;
+  }
+
+  .about-manifest-line {
+    font-size: 15.5px !important;
+    font-weight: 400;
+    line-height: 1.62 !important;
+    opacity: 0.82 !important;
+  }
+
+  .about-purpose-grid {
+    gap: 0;
+  }
+
+  .about-purpose-grid article {
+    background: transparent;
+    border-top-color: rgba(148, 163, 184, 0.32);
+    gap: 12px;
+    justify-items: center;
+    padding: 24px 0;
+    text-align: center;
+  }
+
+  .about-values-section {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .about-values-list {
+    max-width: 660px;
+    width: 100%;
+  }
+
+  .about-value-item {
+    grid-template-columns: 42px 1fr;
+    min-height: 64px;
+    padding: 14px 0;
+    text-align: left;
+  }
+
+  .about-signature {
+    background:
+      radial-gradient(circle at 50% 0%, rgba(8, 145, 178, 0.15), transparent 34%),
+      linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+    gap: 10px;
+    padding-bottom: 58px;
+    padding-top: 58px;
+  }
+
+  .about-signature img {
+    width: clamp(104px, 28vw, 150px) !important;
+  }
+
+  .about-page .landing-footer-inner {
+    gap: 18px;
+    padding-bottom: 34px;
+    padding-top: 32px;
   }
 }
 
@@ -1516,6 +1925,10 @@
     font-size: 30px;
   }
 
+  .about-hero h1 {
+    font-size: 34px;
+  }
+
 }
 
 @media (max-width: 420px) {
@@ -1540,6 +1953,7 @@
   }
 
   .landing-login-link {
+    display: none;
     font-size: 13px;
   }
 
@@ -1550,12 +1964,42 @@
 
   .landing-hero-actions {
     grid-template-columns: 1fr;
+    width: 100%;
   }
 
-  .about-hero p,
+  .landing-value-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-hero-copy,
+  .landing-section-heading,
+  .landing-student-copy,
+  .landing-brand-story-copy,
+  .landing-final-inner,
+  .about-hero-copy,
+  .about-origin-copy,
+  .about-manifest-inner {
+    max-width: calc(100vw - 32px);
+  }
+
+  .landing-hero-actions .landing-button,
+  .landing-final-inner .landing-button,
+  .about-signature .landing-button {
+    width: 100%;
+  }
+
+  .landing-product-frame {
+    justify-self: stretch;
+    width: 100%;
+  }
+
+  .landing-product-screenshot {
+    max-width: 100%;
+    width: 100%;
+  }
+
   .about-prose p,
   .about-purpose-grid p {
-    text-align: justify;
-    text-justify: inter-word;
+    text-align: center;
   }
 }
