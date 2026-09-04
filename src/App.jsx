@@ -1,5 +1,5 @@
-import { lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { lazy, Suspense, useEffect } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import SubscriptionRoute from "./auth/SubscriptionRoute";
 import AdminRoute from "./auth/AdminRoute";
@@ -20,6 +20,7 @@ const AdminUsuarios = lazy(() => import("./pages/AdminUsuarios"));
 const AdminLogs = lazy(() => import("./pages/AdminLogs"));
 const AlterarSenha = lazy(() => import("./pages/AlterarSenha"));
 const LandingPage = lazy(() => import("./pages/LandingPage"));
+const Sobre = lazy(() => import("./pages/Sobre"));
 const Login = lazy(() => import("./auth/Login"));
 const AssinaturaPendente = lazy(() => import("./pages/AssinaturaPendente"));
 const CriarSenha = lazy(() => import("./pages/CriarSenha"));
@@ -33,6 +34,7 @@ const MinhaArea = lazy(() => import("./pages/MinhaArea"));
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Suspense fallback={<LoadingFallback texto="Carregando página..." variant="route" />}>
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -93,6 +95,7 @@ function App() {
             }
           />
           <Route path="/" element={<LandingPage />} />
+          <Route path="/sobre" element={<Sobre />} />
           <Route
             path="/minha-area"
             element={
@@ -222,6 +225,16 @@ function App() {
       </Suspense>
     </BrowserRouter>
   );
+}
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
 }
 
 function AppMobileNav({ children }) {

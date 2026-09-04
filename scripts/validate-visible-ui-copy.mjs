@@ -27,6 +27,44 @@ const visibleCopyRegressions = [
   { name: "unaccented not informed", pattern: /\bNao informado\b/i },
 ];
 
+const landingRequiredCopy = [
+  "Benefícios",
+  "Financeiro visível",
+  "Gestão de alunos",
+  "Avaliações",
+  "Área do aluno",
+  "Dúvidas comuns",
+  "Começar agora",
+  "Por trás do nome",
+  "Conheça nossa história",
+];
+
+const landingForbiddenCopy = [
+  { name: "landing unaccented CTA", pattern: /\bComecar agora\b/ },
+  { name: "landing unaccented benefits nav", pattern: /\bBeneficios\b/ },
+  { name: "landing technical PWA label", pattern: /\bPWA no celular\b/i },
+  { name: "landing technical PWA jargon", pattern: /\bPWA\b/ },
+  { name: "landing internal self-reference", pattern: /esta landing|a landing/i },
+  { name: "landing internal QA word", pattern: /\bQA\b/ },
+  { name: "landing internal version word", pattern: /\bvers[aã]o\b/i },
+  { name: "landing internal validation word", pattern: /valida[cç][aã]o/i },
+  { name: "landing internal presentation copy", pattern: /apresenta[cç][aã]o visual foi renovada/i },
+  { name: "landing internal product real copy", pattern: /produto real/i },
+  { name: "landing future automation disclaimer", pattern: /sem prometer automa[cç][oõ]es/i },
+  { name: "landing fake starter tier", pattern: /\bStarter\b/ },
+  { name: "landing fake premium tier", pattern: /\bPremium\b/ },
+];
+
+const aboutRequiredCopy = [
+  "Nossa história",
+  "Tecnologia para quem transforma vidas",
+  "Origem da marca",
+  "O nome não corresponde a uma palavra existente em tupi-guarani.",
+  "Nossa missão",
+  "Nossa visão",
+  "Nossos valores",
+];
+
 const allowUnaccentedCopy = new Set([
   "src/features/alunos/utils/alunosCadastroValidacoes.test.js",
   "src/features/alunos/utils/alunosContextNavigation.test.js",
@@ -48,6 +86,24 @@ for (const file of trackedFiles) {
     for (const { name, pattern } of visibleCopyRegressions) {
       collectMatches({ failures, file, name, pattern, source });
     }
+  }
+}
+
+const landingSource = readFileSync("src/pages/LandingPage.jsx", "utf8");
+for (const required of landingRequiredCopy) {
+  if (!landingSource.includes(required)) {
+    failures.push(`src/pages/LandingPage.jsx missing required accented landing copy: ${required}`);
+  }
+}
+
+for (const { name, pattern } of landingForbiddenCopy) {
+  collectMatches({ failures, file: "src/pages/LandingPage.jsx", name, pattern, source: landingSource });
+}
+
+const aboutSource = readFileSync("src/pages/Sobre.jsx", "utf8");
+for (const required of aboutRequiredCopy) {
+  if (!aboutSource.includes(required)) {
+    failures.push(`src/pages/Sobre.jsx missing required institutional copy: ${required}`);
   }
 }
 
