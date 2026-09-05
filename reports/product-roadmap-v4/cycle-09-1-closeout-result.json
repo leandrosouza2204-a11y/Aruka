@@ -1,0 +1,22 @@
+{
+  "cycle": "Product Roadmap v4 - Cycle 09",
+  "stage": "09.1 - Data model and security",
+  "status": "COMPLETE",
+  "completedAt": "2026-09-05",
+  "implementationPr": 61,
+  "mergeCommit": "ea8d027e249714b6a9365a07f0aec5f9785e51c1",
+  "productionProject": "aruka / vrize...vdik",
+  "migration": "20260905120000_exercise_library_media_v1.sql",
+  "productionActionRequired": "NO",
+  "postMergeMainValidation": {
+    "exerciseLibraryDataModel": "PASS",
+    "exerciseLibrarySecurity": "PASS",
+    "exerciseLibraryMediaSecurity": "PASS",
+    "exerciseLibraryLocalDrift": "PASS",
+    "exerciseLibraryRlsRuntime": "PASS",
+    "lint": "PASS",
+    "build": "PASS"
+  },
+  "knownPreexistingFailure": "src/features/treinos/utils/workoutLifecyclePresentation.test.js active action mismatch already present on origin/main",
+  "nextStage": "09.2 - Exercise library read experience"
+}

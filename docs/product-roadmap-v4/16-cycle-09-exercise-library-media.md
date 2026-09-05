@@ -4,7 +4,7 @@
 
 Create the Aruka exercise library and media foundation for workout assembly, with system exercises, professional custom exercises, favorites, YouTube support, uploaded professional videos and authorized student viewing inside delivered workouts.
 
-Implementation must not start in this planning cycle. No migration, remote bucket, functional code, real data mutation or landing/About/Auth change is part of this mission.
+Planning is complete and implementation has started incrementally. Stage 09.1 is complete; stages 09.2 through 09.9 remain pending.
 
 ## Motivation
 
@@ -189,8 +189,8 @@ Required validation:
 
 ## Phases
 
-09.1 - Data model and security.
-09.2 - Exercise library read experience.
+09.1 - Data model and security. COMPLETE via PR #61, merged on 2026-09-05.
+09.2 - Exercise library read experience. NEXT.
 09.3 - Custom exercise creation and editing.
 09.4 - YouTube media validation and preview.
 09.5 - Video upload/storage.
@@ -234,5 +234,7 @@ P2: shared libraries, templates, recommendations, AI, automation and usage metri
 - No remote production mutation occurs without explicit supervised migration/deployment authorization.
 
 PLANNING_STATUS=PLANNED_READY_FOR_IMPLEMENTATION
-IMPLEMENTATION_STARTED=NO
-MIGRATION_CREATED=NO
+IMPLEMENTATION_STARTED=YES
+MIGRATION_CREATED=YES
+STAGE_09_1_STATUS=COMPLETE
+NEXT_STAGE=09.2_EXERCISE_LIBRARY_READ_EXPERIENCE

@@ -8,9 +8,9 @@
 
 ## Estado
 
-READY_FOR_PLANNING
+IN_PROGRESS
 
-Implementation has not started in this closeout.
+Stage 09.1 is complete. Stages 09.2 through 09.9 remain pending.
 
 ## Objetivo
 
@@ -98,9 +98,9 @@ Coach Automation remains valuable, but is postponed because the current priority
 
 ## Primeira etapa recomendada
 
-Start with 09.1 - Data model and security.
+Continue with 09.2 - Exercise library read experience.
 
-The first implementation step should be a short audit/decision pass limited to schema shape, RLS/storage boundaries and legacy compatibility, followed quickly by the smallest useful model implementation.
+The completed first implementation step delivered schema shape, RLS/storage boundaries and legacy compatibility. The next implementation step should add the smallest useful read experience over the secured model.
 
 ## Guardrail arquitetural
 
