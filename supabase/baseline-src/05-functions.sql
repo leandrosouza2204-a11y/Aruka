@@ -1206,3 +1206,34 @@ begin
   return new;
 end;
 $$;
+
+create or replace function public.set_exercise_library_updated_at()
+returns trigger
+language plpgsql
+set search_path = public
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+
+create or replace function public.exercise_is_prescribed_to_current_student(p_exercise_id uuid)
+returns boolean
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select exists (
+    select 1
+    from public.treino_exercicios te
+    join public.treino_dias td on td.id = te.treino_dia_id
+    join public.treinos t on t.id = td.treino_id
+    join public.alunos a on a.id = t.aluno_id
+    where te.exercise_id = p_exercise_id
+      and t.lifecycle_status in ('active', 'completed')
+      and a.student_user_id = auth.uid()
+      and a.student_access_status = 'active'
+  );
+$$;

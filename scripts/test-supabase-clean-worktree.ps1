@@ -18,7 +18,8 @@ $ReportDir = Join-Path $Root "reports/supabase-local-bootstrap"
 $ResultPath = Join-Path $ReportDir "clean-worktree-result.json"
 $SummaryPath = Join-Path $ReportDir "clean-worktree-summary.md"
 $DebugPath = Join-Path $ReportDir "tmp-clean-worktree-debug.log"
-$ExpectedRef = ("xrmqdkpx" + "nfvusmenadnf")
+$ExpectedRef = ("vrizeuhuh" + "vtvbrmtvdik")
+$LegacyHmlRef = ("xrmqdkpx" + "nfvusmenadnf")
 $ExpectedSha = "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B"
 $NpmCmdCommand = Get-Command npm.cmd -ErrorAction SilentlyContinue
 if (-not $NpmCmdCommand) { $NpmCmdCommand = Get-Command npm -ErrorAction Stop }
@@ -358,7 +359,7 @@ $childJson
 - validate seconds: $($Result.timings_seconds.validate)
 - stop seconds: $($Result.timings_seconds.stop)
 - Migrations applied: $($Result.migrations -join ", ")
-- Inventory: 19 public tables, 14 public functions, 1 trigger, 56 explicit indexes, 54 public policies, 4 storage policies, 19 RLS tables, private bucket avaliacoes-fotos
+- Inventory: 26 public tables, 37 public functions, 6 triggers, 87 explicit indexes, 71 public policies, 8 storage policies, 26 RLS tables, private bucket avaliacoes-fotos and exercise-media
 - Report sanitization passed: $($Result.security.report_sanitization_passed)
 - Credential scan passed: $($Result.security.credential_scan_passed)
 - Baseline SHA preserved: $($Result.security.baseline_sha_preserved)
@@ -408,10 +409,10 @@ try {
   if ($IsIsolatedCi) {
     if ([string]::IsNullOrWhiteSpace($CiProjectId)) { throw "SUPABASE_PROJECT_ID is required in isolated CI clean worktree validation." }
     if ($CiProjectId -notmatch '^aruka_ci_[A-Za-z0-9_-]+$') { throw "SUPABASE_PROJECT_ID must be ephemeral in isolated CI clean worktree validation." }
-    if ($CiProjectId -eq $ExpectedRef) { throw "Protected HML project ref is forbidden in isolated CI clean worktree validation." }
-    if ($ref -eq $ExpectedRef) { throw "Protected HML project ref must not be preserved in isolated CI clean worktree validation." }
+    if ($CiProjectId -eq $ExpectedRef -or $CiProjectId -eq $LegacyHmlRef) { throw "Protected project ref is forbidden in isolated CI clean worktree validation." }
+    if ($ref -eq $ExpectedRef -or $ref -eq $LegacyHmlRef) { throw "Protected project ref must not be preserved in isolated CI clean worktree validation." }
   } else {
-    if (-not [string]::IsNullOrWhiteSpace($ref) -and $ref -ne $ExpectedRef) { throw "Main project HML ref mismatch." }
+    if (-not [string]::IsNullOrWhiteSpace($ref) -and $ref -ne $ExpectedRef) { throw "Main project production ref mismatch." }
   }
   Invoke-Checked "GIT_STATUS" "git" @("-C", $Root, "status", "--porcelain=v1", "-uno") $Root 60 "clean-worktree-git-status.log" | Out-Null
   Invoke-Checked "DOCKER_VERSION" "docker" @("version", "--format", "{{.Client.Version}} {{.Server.Version}}") $Root 60 "clean-worktree-docker-version.log" | Out-Null
@@ -451,6 +452,7 @@ try {
     "supabase/migrations/20260829173000_student_pending_invite_claim_permissions.sql",
     "supabase/migrations/20260830203000_pending_student_claim_allows_default_profile.sql",
     "supabase/migrations/20260831090000_fix_pending_student_claim_return.sql",
+    "supabase/migrations/20260905120000_exercise_library_media_v1.sql",
     "supabase/migrations/cutover-manifest.json", "supabase/migrations/README.md", "supabase/README.md"
   )
   foreach ($item in $overlay) { Copy-Overlay $item }
@@ -509,7 +511,7 @@ try {
   Copy-Item -LiteralPath $inventoryPath -Destination (Join-Path $ReportDir "clean-worktree-schema-inventory.json") -Force
   $historyPath = Join-Path $innerReportDir "migration-history.txt"
   $result.migrations = @((Get-Content $historyPath) | Where-Object { $_ })
-  $expectedHistory = @("20260716090000", "20260728030000", "20260730090000", "20260731190000", "20260801143335", "20260801173000", "20260801180000", "20260811090000", "20260815120000", "20260816120000", "20260819090000", "20260821120000", "20260822120000", "20260824120000", "20260829120000", "20260829173000", "20260830203000", "20260831090000")
+  $expectedHistory = @("20260716090000", "20260728030000", "20260730090000", "20260731190000", "20260801143335", "20260801173000", "20260801180000", "20260811090000", "20260815120000", "20260816120000", "20260819090000", "20260821120000", "20260822120000", "20260824120000", "20260829120000", "20260829173000", "20260830203000", "20260831090000", "20260905120000")
   if (($result.migrations -join "`n") -ne ($expectedHistory -join "`n")) {
     $missingVersions = @($expectedHistory | Where-Object { $_ -notin $result.migrations })
     $extraVersions = @($result.migrations | Where-Object { $_ -notin $expectedHistory })
@@ -560,7 +562,7 @@ $result.process_timeouts = 0
 $finalHash = Get-CanonicalTextSha256 (Join-Path $Root "supabase/reference-baselines/20260716090000_baseline_aruka_v1.sql")
 $finalRef = if (Test-Path (Join-Path $Root "supabase/.temp/project-ref")) { (Get-Content -Raw (Join-Path $Root "supabase/.temp/project-ref")).Trim() } else { "" }
 $result.security.baseline_sha_preserved = ($finalHash -eq $ExpectedSha)
-$result.security.hml_project_ref_preserved = if ($IsIsolatedCi) { $finalRef -eq $ExpectedRef } else { [string]::IsNullOrWhiteSpace($finalRef) -or $finalRef -eq $ExpectedRef }
+$result.security.hml_project_ref_preserved = if ($IsIsolatedCi) { $finalRef -eq $ExpectedRef -or $finalRef -eq $LegacyHmlRef } else { [string]::IsNullOrWhiteSpace($finalRef) -or $finalRef -eq $ExpectedRef }
 $result.expected_hml_preservation = $ExpectedHmlPreservation
 $result.actual_hml_preservation = $result.security.hml_project_ref_preserved
 $result.assertion_passed = ($result.actual_hml_preservation -eq $result.expected_hml_preservation)
@@ -568,7 +570,7 @@ $result.security.report_sanitization_passed = Test-ReportSecurity
 $result.security.credential_scan_passed = $result.security.report_sanitization_passed
 
 if (-not $result.assertion_passed -and [string]::IsNullOrWhiteSpace($result.primary_error)) {
-  $result.primary_error = if ($IsIsolatedCi) { "Expected HML preservation=false in isolated CI." } else { "Expected HML preservation=true in LOCAL mode." }
+  $result.primary_error = if ($IsIsolatedCi) { "Expected protected project ref preservation=false in isolated CI." } else { "Expected production project ref preservation=true in LOCAL mode." }
 }
 
 if ($primaryError -or $cleanupErrors.Count -gt 0 -or $result.result -ne "CLEAN_WORKTREE_VALIDATED" -or -not $result.cleanup.worktree_removed -or -not $result.cleanup.temp_dir_removed -or -not $result.cleanup.containers_removed -or -not $result.cleanup.volumes_removed -or -not $result.cleanup.child_processes_removed -or -not $result.security.baseline_sha_preserved -or -not $result.assertion_passed -or -not $result.security.credential_scan_passed) {

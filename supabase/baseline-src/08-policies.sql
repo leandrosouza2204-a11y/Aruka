@@ -77,6 +77,41 @@ create policy "Usuarios podem cadastrar exercicios dos seus treinos" on public.t
 create policy "Usuarios podem atualizar exercicios dos seus treinos" on public.treino_exercicios for update to authenticated using (exists (select 1 from public.treino_dias join public.treinos on treinos.id = treino_dias.treino_id where treino_dias.id = treino_exercicios.treino_dia_id and treinos.user_id = auth.uid())) with check (exists (select 1 from public.treino_dias join public.treinos on treinos.id = treino_dias.treino_id where treino_dias.id = treino_exercicios.treino_dia_id and treinos.user_id = auth.uid()));
 create policy "Usuarios podem excluir exercicios dos seus treinos" on public.treino_exercicios for delete to authenticated using (exists (select 1 from public.treino_dias join public.treinos on treinos.id = treino_dias.treino_id where treino_dias.id = treino_exercicios.treino_dia_id and treinos.user_id = auth.uid()));
 
+create policy "Profissionais leem biblioteca oficial e propria" on public.exercise_library for select to authenticated using (
+  (origin = 'official' and status = 'active')
+  or owner_id = auth.uid()
+  or public.exercise_is_prescribed_to_current_student(id)
+);
+create policy "Profissionais criam exercicios pessoais" on public.exercise_library for insert to authenticated with check (
+  origin = 'personal'
+  and owner_id = auth.uid()
+  and status = 'active'
+  and exists (select 1 from public.perfis p where p.user_id = auth.uid() and p.role = 'user' and p.status = 'ativo')
+);
+create policy "Profissionais atualizam exercicios pessoais" on public.exercise_library for update to authenticated using (
+  origin = 'personal'
+  and owner_id = auth.uid()
+  and exists (select 1 from public.perfis p where p.user_id = auth.uid() and p.role = 'user' and p.status = 'ativo')
+) with check (
+  origin = 'personal'
+  and owner_id = auth.uid()
+  and exists (select 1 from public.perfis p where p.user_id = auth.uid() and p.role = 'user' and p.status = 'ativo')
+);
+create policy "Profissionais arquivam exercicios pessoais" on public.exercise_library for delete to authenticated using (false);
+
+create policy "Profissionais leem seus favoritos" on public.exercise_favorites for select to authenticated using (professional_id = auth.uid());
+create policy "Profissionais favoritam exercicios visiveis" on public.exercise_favorites for insert to authenticated with check (
+  professional_id = auth.uid()
+  and exists (
+    select 1
+    from public.exercise_library e
+    where e.id = exercise_favorites.exercise_id
+      and e.status = 'active'
+      and (e.origin = 'official' or e.owner_id = auth.uid())
+  )
+);
+create policy "Profissionais removem seus favoritos" on public.exercise_favorites for delete to authenticated using (professional_id = auth.uid());
+
 alter table public.treino_eventos enable row level security;
 create policy "Usuarios podem listar eventos dos seus treinos" on public.treino_eventos for select to authenticated using (
   auth.uid() = user_id

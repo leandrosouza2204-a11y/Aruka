@@ -45,6 +45,14 @@ npm.cmd run qa:supabase-cycle-9-1:prepare
 
 Nenhum comando local deve usar `--linked`, `--project-ref`, `--db-url` remoto, `db push` ou `migration repair`.
 
+## Environment model
+
+- Development and validation: local Supabase running in Docker.
+- Remote promotion target after local gates: production project `aruka` with ref `vrize...vdik`.
+- Legacy HML: `Aruka_HML` with ref `xrmq...adnf`, currently retired/inactive and no longer part of the operational promotion flow.
+
+Remote promotion must still compare the linked project ref exactly before any `migration list`, `db push --dry-run`, or `db push`. A different linked ref is a blocking error.
+
 Relatorios principais:
 
 - `reports/supabase-local-bootstrap/clean-worktree-result.json`

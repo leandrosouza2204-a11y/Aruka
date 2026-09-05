@@ -7,7 +7,8 @@ $LogPath = Join-Path $ReportDir "preflight-summary.json"
 $ConfigText = Get-Content -Raw "supabase/config.toml"
 $ProjectId = ([regex]::Match($ConfigText, '(?m)^project_id\s*=\s*"([^"]+)"')).Groups[1].Value
 if ([string]::IsNullOrWhiteSpace($ProjectId)) { $ProjectId = "ConsultoriaFitness" }
-$ExpectedRef = ("xrmqdkpx" + "nfvusmenadnf")
+$ExpectedProductionRef = ("vrizeuhuh" + "vtvbrmtvdik")
+$LegacyHmlRef = ("xrmqdkpx" + "nfvusmenadnf")
 $ExpectedSha = "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B"
 $ReferenceBaselinePath = "supabase/reference-baselines/20260716090000_baseline_aruka_v1.sql"
 $ExecutableBaselinePath = "supabase/migrations/20260716090000_baseline_aruka_v1.sql"
@@ -28,7 +29,8 @@ $ExpectedActiveMigrations = @(
   "20260829120000_student_pending_invite_claim.sql",
   "20260829173000_student_pending_invite_claim_permissions.sql",
   "20260830203000_pending_student_claim_allows_default_profile.sql",
-  "20260831090000_fix_pending_student_claim_return.sql"
+  "20260831090000_fix_pending_student_claim_return.sql",
+  "20260905120000_exercise_library_media_v1.sql"
 )
 $IsCi = $env:CI -eq "true"
 $IsCiLocalOnly = $env:SUPABASE_CI_LOCAL_ONLY -eq "true"
@@ -73,10 +75,14 @@ if ($IsCi -and -not $IsCiLocalOnly) { Fail "CI preflight requires SUPABASE_CI_LO
 $refPath = "supabase/.temp/project-ref"
 $tempProjectRefPresent = Test-Path $refPath
 $ref = if ($tempProjectRefPresent) { (Get-Content -Raw $refPath).Trim() } else { "" }
-$protectedProjectRefDetected = $false
+$legacyHmlProjectRefDetected = $false
+$productionProjectRefDetected = $false
 foreach ($value in @($ExpectedCiProjectId, $ProjectId, $ref)) {
-  if (-not [string]::IsNullOrWhiteSpace($value) -and $value -match [regex]::Escape($ExpectedRef)) {
-    $protectedProjectRefDetected = $true
+  if (-not [string]::IsNullOrWhiteSpace($value) -and $value -eq $LegacyHmlRef) {
+    $legacyHmlProjectRefDetected = $true
+  }
+  if (-not [string]::IsNullOrWhiteSpace($value) -and $value -eq $ExpectedProductionRef) {
+    $productionProjectRefDetected = $true
   }
 }
 
@@ -85,14 +91,16 @@ if ($IsIsolatedCi) {
   if (-not [string]::IsNullOrWhiteSpace($ExpectedCiProjectId) -and $ExpectedCiProjectId -notmatch '^aruka_ci_[A-Za-z0-9_-]+$') {
     Fail "CI SUPABASE_PROJECT_ID must match ^aruka_ci_[A-Za-z0-9_-]+$."
   }
-  if ($ExpectedCiProjectId -eq $ExpectedRef) { Fail "Protected HML project ref is forbidden in isolated CI." }
+  if ($ExpectedCiProjectId -eq $ExpectedProductionRef) { Fail "Production project ref is forbidden in isolated CI." }
+  if ($ExpectedCiProjectId -eq $LegacyHmlRef) { Fail "Legacy HML project ref is forbidden in isolated CI." }
   if ($ProjectId -ne $ExpectedCiProjectId) { Fail "Config project_id does not match SUPABASE_PROJECT_ID." }
-  if ($protectedProjectRefDetected) { Fail "Protected HML project ref is forbidden in isolated CI." }
+  if ($productionProjectRefDetected) { Fail "Production project ref is forbidden in isolated CI." }
+  if ($legacyHmlProjectRefDetected) { Fail "Legacy HML project ref is forbidden in isolated CI." }
   if ($tempProjectRefPresent -and -not [string]::IsNullOrWhiteSpace($ref) -and $ref -ne $ExpectedCiProjectId -and $ref -notmatch '^aruka_ci_[A-Za-z0-9_-]+$') {
     Fail "CI temp project-ref is not compatible with the ephemeral project ID."
   }
 } else {
-  if ($tempProjectRefPresent -and $ref -ne $ExpectedRef) { Fail "Linked project-ref is not the expected HML ref." }
+  if ($tempProjectRefPresent -and $ref -ne $ExpectedProductionRef) { Fail "Linked project-ref is not the expected production ref." }
 }
 
 $hash = if (Test-Path $ReferenceBaselinePath) { Get-CanonicalTextSha256 $ReferenceBaselinePath } else { "" }
@@ -135,9 +143,12 @@ $summary = [ordered]@{
   project_id = $ProjectId
   expected_ci_project_id = if ($IsIsolatedCi) { $ExpectedCiProjectId } else { $null }
   project_id_matches_environment = if ($IsIsolatedCi) { $ProjectId -eq $ExpectedCiProjectId } else { $null }
-  protected_project_ref_detected = $protectedProjectRefDetected
+  production_project_ref_detected = $productionProjectRefDetected
+  legacy_hml_project_ref_detected = $legacyHmlProjectRefDetected
+  expected_production_project_ref_sanitized = "vrize...vdik"
+  legacy_hml_project_ref_sanitized = "xrmq...adnf"
   temp_project_ref_present = $tempProjectRefPresent
-  temp_project_ref_sanitized = if ([string]::IsNullOrWhiteSpace($ref)) { "" } elseif ($ref -eq $ExpectedRef) { "[PROTECTED_HML_PROJECT_REF]" } else { $ref }
+  temp_project_ref_sanitized = if ([string]::IsNullOrWhiteSpace($ref)) { "" } elseif ($ref -eq $ExpectedProductionRef) { "vrize...vdik" } elseif ($ref -eq $LegacyHmlRef) { "xrmq...adnf" } else { $ref }
   docker = $dockerVersion.output.Trim()
   docker_server = $dockerServer.output.Trim()
   docker_context = $dockerContextValue

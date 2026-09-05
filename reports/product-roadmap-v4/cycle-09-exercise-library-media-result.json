@@ -1,0 +1,68 @@
+{
+  "program": "Product Roadmap v4",
+  "cycle": "09",
+  "cycleName": "Exercise Library and Media",
+  "cycleStatus": "PLANNED_READY_FOR_IMPLEMENTATION",
+  "planningStatus": "PLANNING_COMPLETE",
+  "implementationStarted": false,
+  "migrationCreated": false,
+  "previousNextCycle": "COACH_AUTOMATION",
+  "coachAutomationPostponed": true,
+  "newCycle": "EXERCISE_LIBRARY_AND_MEDIA",
+  "cycle08_3": {
+    "pr": 57,
+    "merged": true,
+    "mergeCommit": "8eb322313dc0c75cb43a6fde75abb637b8da30aa",
+    "finalManualQa": "PASS"
+  },
+  "audit": {
+    "exerciseModel": "public.treino_exercicios scoped to workout day; no reusable catalog",
+    "workoutRelation": "public.treinos -> public.treino_dias -> public.treino_exercicios",
+    "studentExecutionRelation": "workout_execution_exercises snapshots prescribed exercise data from treino_exercicios",
+    "currentMedia": "YouTube URL only via treino_exercicios.video_url",
+    "currentCustomExercise": "Free-text inside workout/template only",
+    "currentGroupsCategories": "Day-level free-text group; no exercise category catalog",
+    "storage": "Private avaliacoes-fotos bucket exists; no exercise media bucket"
+  },
+  "requirements": {
+    "systemLibrary": true,
+    "professionalExercises": true,
+    "search": true,
+    "muscleGroups": true,
+    "categories": true,
+    "favoritesPerProfessional": true,
+    "youtube": true,
+    "videoUpload": true,
+    "workoutIntegration": true,
+    "studentMedia": true,
+    "mobilePwa": true
+  },
+  "proposedDataModel": {
+    "tablesOrChanges": [
+      "exercises",
+      "exercise_muscle_groups",
+      "exercise_categories",
+      "professional_exercise_favorites",
+      "exercise_media or media columns",
+      "treino_exercicios.exercise_id nullable",
+      "optional treino_exercicios.exercise_media_snapshot"
+    ],
+    "storageRecommendation": "private exercise-media bucket plus signed URL or RPC-mediated student access"
+  },
+  "phases": {
+    "09.1": "Data model and security",
+    "09.2": "Exercise library read experience",
+    "09.3": "Custom exercise creation and editing",
+    "09.4": "YouTube media validation and preview",
+    "09.5": "Video upload/storage",
+    "09.6": "Workout integration",
+    "09.7": "Student media experience",
+    "09.8": "Seed/catalog",
+    "09.9": "Mobile/PWA QA and stabilization"
+  },
+  "artifacts": {
+    "cycleDoc": "docs/product-roadmap-v4/16-cycle-09-exercise-library-media.md",
+    "planningReport": "reports/product-roadmap-v4/cycle-09-exercise-library-media-summary.md"
+  },
+  "nextAction": "START_CYCLE_09_1_EXERCISE_LIBRARY_DATA_MODEL_AND_SECURITY"
+}

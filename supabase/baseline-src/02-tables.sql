@@ -237,6 +237,7 @@ create table if not exists public.treino_dias (
 create table if not exists public.treino_exercicios (
   id uuid default gen_random_uuid() not null,
   treino_dia_id uuid not null,
+  exercise_id uuid,
   nome text not null,
   series text default ''::text not null,
   repeticoes text default ''::text not null,
@@ -245,6 +246,34 @@ create table if not exists public.treino_exercicios (
   observacoes text default ''::text not null,
   video_url text default ''::text not null,
   ordem integer default 1 not null,
+  created_at timestamptz default now() not null
+);
+
+create table if not exists public.exercise_library (
+  id uuid default gen_random_uuid() not null,
+  owner_id uuid,
+  origin text not null,
+  name text not null,
+  description text default ''::text not null,
+  muscle_group text default ''::text not null,
+  category text default ''::text not null,
+  instructions text default ''::text not null,
+  youtube_url text default ''::text not null,
+  media_type text,
+  media_path text,
+  thumbnail_path text,
+  media_mime_type text,
+  status text default 'active'::text not null,
+  metadata jsonb default '{}'::jsonb not null,
+  archived_at timestamptz,
+  created_at timestamptz default now() not null,
+  updated_at timestamptz default now() not null
+);
+
+create table if not exists public.exercise_favorites (
+  id uuid default gen_random_uuid() not null,
+  professional_id uuid not null,
+  exercise_id uuid not null,
   created_at timestamptz default now() not null
 );
 

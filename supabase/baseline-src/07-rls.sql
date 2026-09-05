@@ -10,6 +10,8 @@ alter table public.anamneses enable row level security;
 alter table public.treinos enable row level security;
 alter table public.treino_dias enable row level security;
 alter table public.treino_exercicios enable row level security;
+alter table public.exercise_library enable row level security;
+alter table public.exercise_favorites enable row level security;
 alter table public.acompanhamento_eventos enable row level security;
 alter table public.workout_templates enable row level security;
 alter table public.aoe_decisions enable row level security;
