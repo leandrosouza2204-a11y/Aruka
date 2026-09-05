@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 
-const css = readFileSync("src/pages/LandingPage.css", "utf8");
-const about = readFileSync("src/pages/Sobre.jsx", "utf8");
+const css = normalizeLineEndings(readFileSync("src/pages/LandingPage.css", "utf8"));
+const about = normalizeLineEndings(readFileSync("src/pages/Sobre.jsx", "utf8"));
 
 const mobileStart = css.indexOf("@media (max-width: 767px)");
 const nextMobileOverride = css.indexOf("@media (max-width: 359px)", mobileStart);
@@ -58,7 +58,7 @@ const emphasisRule = mobileCss.match(/\.about-manifest-emphasis \{[\s\S]*?\n  \}
 const lineRule = mobileCss.match(/\.about-manifest-line \{[\s\S]*?\n  \}/)?.[0] ?? "";
 const purposeRule = mobileCss.match(/\.about-purpose-grid article \{[\s\S]*?\n  \}/)?.[0] ?? "";
 const bodyRule =
-  mobileCss.match(/\.about-prose p,\n  \.about-purpose-grid p,\n  \.about-signature p \{[\s\S]*?\n  \}/)?.[0] ?? "";
+  findRuleContainingSelector(mobileCss, ".about-prose p");
 
 const bodyTypography = getTypography(bodyRule);
 const emphasisTypography = getTypography(emphasisRule);
@@ -136,6 +136,9 @@ console.log("MANIFEST_CONCLUSION_AVOIDS_HEADLINE_WEIGHT=YES");
 console.log("MANIFEST_CONCLUSION_MATCHES_BODY_OPACITY=YES");
 console.log("MISSION_VISION_CENTERED=YES");
 console.log("VALUES_STRUCTURE_PRESERVED=YES");
+console.log(`BODY_TYPOGRAPHY=${formatTypography(bodyTypography)}`);
+console.log(`EMPHASIS_TYPOGRAPHY=${formatTypography(emphasisTypography)}`);
+console.log(`LINE_TYPOGRAPHY=${formatTypography(lineTypography)}`);
 
 function getFontWeight(rule) {
   const match = rule.match(/font-weight:\s*(\d+)/);
@@ -161,4 +164,23 @@ function typographyMatchesBody(candidate, body) {
     candidate.fontWeight === body.fontWeight &&
     candidate.lineHeight === body.lineHeight
   );
+}
+
+function normalizeLineEndings(content) {
+  return content.replace(/\r\n/g, "\n");
+}
+
+function findRuleContainingSelector(source, selector) {
+  const escapedSelector = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const rulePattern = new RegExp(`(?:^|\\n)(?:[^{}]*,\\n\\s*)*[^{}]*${escapedSelector}[^{}]*\\{[\\s\\S]*?\\n\\s*\\}`, "m");
+  return source.match(rulePattern)?.[0] ?? "";
+}
+
+function formatTypography(typography) {
+  return [
+    `font-size:${typography.fontSize}`,
+    `font-weight:${typography.fontWeight}`,
+    `line-height:${typography.lineHeight}`,
+    `opacity:${typography.opacity}`,
+  ].join(";");
 }
