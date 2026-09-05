@@ -1,0 +1,47 @@
+{
+  "cycle": "09",
+  "stage": "09.2",
+  "name": "Exercise library read experience",
+  "status": "COMPLETE",
+  "supabaseChange": false,
+  "implemented": {
+    "route": "/exercicios",
+    "desktopNavigation": true,
+    "mobileNavigation": true,
+    "readService": true,
+    "searchAndFilters": [
+      "search",
+      "origin",
+      "muscle_group",
+      "media_presence"
+    ],
+    "states": [
+      "loading",
+      "empty",
+      "error_retry",
+      "populated"
+    ]
+  },
+  "outOfScopePreserved": [
+    "schema_changes",
+    "storage_changes",
+    "favorites_ui",
+    "custom_exercise_crud",
+    "uploads",
+    "workout_editor_insertion"
+  ],
+  "validation": {
+    "unit": "PASS",
+    "static": "PASS",
+    "dataModel": "PASS",
+    "security": "PASS",
+    "mediaSecurity": "PASS",
+    "localDrift": "PASS",
+    "rlsRuntime": "PASS",
+    "workoutTemplateRegression": "PASS",
+    "treinosFocusedTests": "KNOWN_PRE_EXISTING_FAIL_WORKOUT_LIFECYCLE_EDIT_ACTION",
+    "lint": "PASS",
+    "build": "PASS",
+    "diffCheck": "PASS"
+  }
+}

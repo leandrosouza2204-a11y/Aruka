@@ -13,6 +13,7 @@ import {
   Menu,
   Moon,
   FileText,
+  BookOpenCheck,
   ListChecks,
   Sun,
   Smartphone,
@@ -248,6 +249,12 @@ function Sidebar() {
           active={isActive("/treinos")}
           icon={<Dumbbell size={21} />}
           label="Treinos"
+        />
+        <MenuLink
+          to="/exercicios"
+          active={isActive("/exercicios")}
+          icon={<BookOpenCheck size={21} />}
+          label="Exercícios"
         />
         {usuarioAdmin && (
           <>

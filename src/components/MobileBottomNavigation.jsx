@@ -5,6 +5,7 @@ import {
   DollarSign,
   Dumbbell,
   FileText,
+  BookOpenCheck,
   Home,
   KeyRound,
   ListChecks,
@@ -137,6 +138,12 @@ function MobileBottomNavigation() {
             </div>
 
             <div className="mobile-more-list">
+              <MoreLink
+                to="/exercicios"
+                icon={<BookOpenCheck size={18} />}
+                label="Exercicios"
+                onNavigate={fecharMais}
+              />
               <MoreLink
                 to="/avaliacoes"
                 icon={<ClipboardCheck size={18} />}

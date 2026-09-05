@@ -6,6 +6,64 @@
   box-sizing: border-box;
 }
 
+.sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+@media (max-width: 900px) {
+  .exercise-library-page {
+    margin-left: 0 !important;
+    padding: 16px !important;
+    padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px)) !important;
+    width: 100% !important;
+  }
+
+  .exercise-library-hero,
+  .exercise-library-filters {
+    grid-template-columns: 1fr !important;
+  }
+
+  .exercise-library-hero [aria-label="Resumo da biblioteca"] {
+    width: 100%;
+  }
+
+  .exercise-library-section {
+    padding: 16px !important;
+  }
+
+  .exercise-library-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .exercise-library-page {
+    padding: 12px !important;
+    padding-bottom: calc(108px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .exercise-library-card {
+    grid-template-columns: 1fr !important;
+  }
+
+  .exercise-library-card > div:first-child {
+    max-height: 76px;
+    width: 100% !important;
+  }
+
+  .exercise-library-card [style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 .pwa-panel {
   align-items: flex-start;
   background: rgba(255, 255, 255, 0.98);

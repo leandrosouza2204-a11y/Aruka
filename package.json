@@ -130,6 +130,7 @@
     "qa:exercise-library-media-security": "node scripts/validate-exercise-library-media-security.mjs",
     "qa:exercise-library-local-drift": "node scripts/validate-exercise-library-local-drift.mjs",
     "qa:exercise-library-rls-runtime": "node scripts/validate-exercise-library-rls-runtime.mjs",
+    "qa:exercise-library-read-experience": "node scripts/validate-exercise-library-read-experience.mjs",
     "qa:workout-delivery-service-integration": "node scripts/validate-workout-delivery-service-integration.mjs",
     "qa:workout-delivery-idempotency": "node scripts/validate-workout-delivery-idempotency.mjs",
     "qa:workout-delivery-lifecycle": "node scripts/validate-workout-delivery-lifecycle.mjs",
