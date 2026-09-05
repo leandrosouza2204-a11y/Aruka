@@ -54,6 +54,29 @@ alter table only public.treino_dias add constraint treino_dias_treino_id_fkey fo
 
 alter table only public.treino_exercicios add constraint treino_exercicios_pkey primary key (id);
 alter table only public.treino_exercicios add constraint treino_exercicios_treino_dia_id_fkey foreign key (treino_dia_id) references public.treino_dias(id) on delete cascade;
+alter table only public.treino_exercicios add constraint treino_exercicios_exercise_id_fkey foreign key (exercise_id) references public.exercise_library(id) on delete set null;
+
+alter table only public.exercise_library add constraint exercise_library_pkey primary key (id);
+alter table only public.exercise_library add constraint exercise_library_owner_id_fkey foreign key (owner_id) references auth.users(id) on delete cascade;
+alter table only public.exercise_library add constraint exercise_library_origin_check check (origin in ('official', 'personal'));
+alter table only public.exercise_library add constraint exercise_library_owner_origin_check check (
+  (origin = 'official' and owner_id is null)
+  or (origin = 'personal' and owner_id is not null)
+);
+alter table only public.exercise_library add constraint exercise_library_name_required check (length(btrim(name)) > 0);
+alter table only public.exercise_library add constraint exercise_library_status_check check (status in ('active', 'archived'));
+alter table only public.exercise_library add constraint exercise_library_media_type_check check (media_type is null or media_type in ('youtube', 'uploaded_video'));
+alter table only public.exercise_library add constraint exercise_library_media_shape_check check (
+  (media_type is null and media_path is null and media_mime_type is null)
+  or (media_type = 'youtube' and length(btrim(youtube_url)) > 0 and media_path is null and media_mime_type is null)
+  or (media_type = 'uploaded_video' and youtube_url = '' and media_path is not null and media_mime_type in ('video/mp4', 'video/webm', 'video/quicktime'))
+);
+alter table only public.exercise_library add constraint exercise_library_metadata_object check (jsonb_typeof(metadata) = 'object');
+
+alter table only public.exercise_favorites add constraint exercise_favorites_pkey primary key (id);
+alter table only public.exercise_favorites add constraint exercise_favorites_professional_id_fkey foreign key (professional_id) references auth.users(id) on delete cascade;
+alter table only public.exercise_favorites add constraint exercise_favorites_exercise_id_fkey foreign key (exercise_id) references public.exercise_library(id) on delete cascade;
+alter table only public.exercise_favorites add constraint exercise_favorites_unique unique (professional_id, exercise_id);
 
 alter table only public.treino_eventos add constraint treino_eventos_pkey primary key (id);
 alter table only public.treino_eventos add constraint treino_eventos_treino_id_fkey foreign key (treino_id) references public.treinos(id) on delete cascade;

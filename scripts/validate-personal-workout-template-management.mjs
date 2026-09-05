@@ -14,10 +14,15 @@ const authorizedSupabaseDiff = new Set([
   "supabase/baseline-src/03-constraints.sql",
   "supabase/baseline-src/04-indexes.sql",
   "supabase/baseline-src/05-functions.sql",
+  "supabase/baseline-src/06-triggers.sql",
+  "supabase/baseline-src/07-rls.sql",
   "supabase/baseline-src/08-policies.sql",
   "supabase/baseline-src/09-grants.sql",
+  "supabase/baseline-src/10-storage.sql",
+  "supabase/README.md",
   "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql",
   "supabase/migrations/20260730090000_student_identity_contract.sql",
+  "supabase/migrations/20260905120000_exercise_library_media_v1.sql",
 ]);
 
 const utility = existsSync(utilityPath) ? read(utilityPath) : "";

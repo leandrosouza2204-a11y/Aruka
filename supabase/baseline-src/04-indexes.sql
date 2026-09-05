@@ -41,6 +41,11 @@ create index if not exists treinos_user_template_origin_idx on public.treinos us
 create unique index if not exists treinos_user_application_idempotency_uidx on public.treinos using btree (user_id, application_idempotency_key) where application_idempotency_key is not null;
 create index if not exists treino_dias_treino_id_idx on public.treino_dias using btree (treino_id);
 create index if not exists treino_exercicios_treino_dia_id_idx on public.treino_exercicios using btree (treino_dia_id);
+create index if not exists treino_exercicios_exercise_id_idx on public.treino_exercicios using btree (exercise_id) where exercise_id is not null;
+create index if not exists exercise_library_origin_status_name_idx on public.exercise_library using btree (origin, status, name);
+create index if not exists exercise_library_owner_status_name_idx on public.exercise_library using btree (owner_id, status, name) where owner_id is not null;
+create index if not exists exercise_library_muscle_category_idx on public.exercise_library using btree (muscle_group, category) where status = 'active';
+create index if not exists exercise_favorites_professional_idx on public.exercise_favorites using btree (professional_id, created_at desc);
 create index if not exists treino_eventos_user_treino_occurred_idx on public.treino_eventos using btree (user_id, treino_id, occurred_at desc);
 create index if not exists treino_eventos_user_aluno_occurred_idx on public.treino_eventos using btree (user_id, aluno_id, occurred_at desc);
 create index if not exists treino_eventos_treino_event_type_idx on public.treino_eventos using btree (treino_id, event_type);

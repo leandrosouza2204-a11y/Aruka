@@ -12,6 +12,8 @@ grant select, insert, update, delete on table public.anamneses to authenticated;
 grant select, insert, update, delete on table public.treinos to authenticated;
 grant select, insert, update, delete on table public.treino_dias to authenticated;
 grant select, insert, update, delete on table public.treino_exercicios to authenticated;
+grant select, insert, update, delete on table public.exercise_library to authenticated;
+grant select, insert, delete on table public.exercise_favorites to authenticated;
 grant select, insert, update, delete on table public.acompanhamento_eventos to authenticated;
 grant select, insert, update, delete on table public.workout_templates to authenticated;
 grant select, insert, update, delete on table public.aoe_decisions to authenticated;
@@ -40,6 +42,8 @@ revoke all on function public.vincular_aluno_usuario(uuid, uuid) from public;
 revoke all on function public.desvincular_aluno_usuario(uuid) from public;
 revoke all on function public.get_my_student_workouts() from public;
 revoke all on function public.set_workout_templates_updated_at() from public;
+revoke all on function public.set_exercise_library_updated_at() from public;
+revoke all on function public.exercise_is_prescribed_to_current_student(uuid) from public;
 
 grant execute on function public.admin_eh_admin() to authenticated, service_role;
 grant execute on function public.admin_validar_acesso() to authenticated, service_role;
@@ -59,3 +63,5 @@ grant execute on function public.vincular_aluno_usuario(uuid, uuid) to authentic
 grant execute on function public.desvincular_aluno_usuario(uuid) to authenticated;
 grant execute on function public.get_my_student_workouts() to authenticated;
 grant execute on function public.set_workout_templates_updated_at() to service_role;
+grant execute on function public.set_exercise_library_updated_at() to service_role;
+grant execute on function public.exercise_is_prescribed_to_current_student(uuid) to authenticated, service_role;

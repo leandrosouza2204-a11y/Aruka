@@ -29,6 +29,8 @@ const businessTables = [
   "treinos",
   "treino_dias",
   "treino_exercicios",
+  "exercise_library",
+  "exercise_favorites",
   "acompanhamento_eventos",
   "workout_templates",
   "aoe_decisions",
