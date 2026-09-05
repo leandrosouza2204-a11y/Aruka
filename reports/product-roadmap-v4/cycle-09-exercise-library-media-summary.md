@@ -1,6 +1,6 @@
 # Cycle 09 Exercise Library and Media Planning Summary
 
-Decision: PLANNING_COMPLETE.
+Decision: IN_PROGRESS.
 
 Cycle 08.3 dependency:
 
@@ -24,10 +24,10 @@ Current exercise audit:
 - Custom exercise: free-text inside workout/template only; no reusable owner-scoped entity.
 - Groups/categories: day-level free-text group only; no exercise category catalog.
 
-Recommended implementation path:
+Implementation path:
 
-- 09.1: data model and security.
-- 09.2: read library.
+- 09.1: data model and security. COMPLETE via PR #61.
+- 09.2: read library. NEXT.
 - 09.3: custom exercise creation.
 - 09.4: YouTube media.
 - 09.5: video upload/storage.
@@ -62,5 +62,7 @@ Planning artifacts:
 - `reports/product-roadmap-v4/cycle-09-exercise-library-media-summary.md`
 
 PLANNING_COMPLETE=YES
-IMPLEMENTATION_STARTED=NO
-MIGRATION_CREATED=NO
+IMPLEMENTATION_STARTED=YES
+MIGRATION_CREATED=YES
+STAGE_09_1_COMPLETE=YES
+NEXT_STAGE=09.2_EXERCISE_LIBRARY_READ_EXPERIENCE
