@@ -57,8 +57,8 @@ export function criarOpcoesBibliotecaExercicios(exercicios) {
 export function criarErroBibliotecaExercicios(error) {
   return new Error(
     error?.message
-      ? "Nao foi possivel carregar a biblioteca de exercicios."
-      : "Biblioteca de exercicios indisponivel."
+      ? "Não foi possível carregar a biblioteca de exercícios."
+      : "Biblioteca de exercícios indisponível."
   );
 }
 

@@ -1,0 +1,75 @@
+{
+  "cycle": "09",
+  "stage": "09.3",
+  "title": "Custom exercise creation and editing",
+  "decision": "READY_WITH_AUTHENTICATED_RUNTIME_LIMITATION",
+  "branch": "feat/product-roadmap-v4-cycle-09-3-custom-exercise-crud",
+  "baseSha": "b837cad98acbc1b54204711f87a0c2ab6b63e43b",
+  "scope": [
+    "create personal exercises",
+    "edit personal exercises",
+    "archive personal exercises",
+    "preserve official exercises as read-only",
+    "preserve 09.2 read experience"
+  ],
+  "files": {
+    "created": [
+      "src/services/exerciseLibraryForm.js",
+      "scripts/validate-exercise-library-custom-exercises.mjs",
+      "docs/product-roadmap-v4-cycle-09/09-custom-exercises-audit.md",
+      "docs/product-roadmap-v4-cycle-09/10-custom-exercises-implementation.md",
+      "docs/product-roadmap-v4-cycle-09/11-custom-exercises-validation.md",
+      "reports/product-roadmap-v4/cycle-09-3-result.json",
+      "reports/product-roadmap-v4/cycle-09-3-summary.md"
+    ],
+    "changed": [
+      "package.json",
+      "scripts/validate-exercise-library-read-experience.mjs",
+      "src/features/exerciseLibrary/components/ExerciseLibraryPage.jsx",
+      "src/features/exerciseLibrary/hooks/useExerciseLibraryPage.js",
+      "src/index.css",
+      "src/services/exerciseLibraryMapper.js",
+      "src/services/exerciseLibraryService.js",
+      "src/services/exerciseLibraryService.test.js"
+    ]
+  },
+  "qa": {
+    "exerciseLibraryCustomExercises": "PASS",
+    "exerciseLibraryReadExperience": "PASS",
+    "exerciseLibraryDataModel": "PASS",
+    "exerciseLibrarySecurity": "PASS",
+    "exerciseLibraryMediaSecurity": "PASS",
+    "exerciseLibraryLocalDrift": "PASS",
+    "exerciseLibraryRlsRuntime": "PASS",
+    "workoutTemplateSanitization": "PASS",
+    "workoutTemplatesData": "PASS",
+    "workoutTemplateDiscovery": "PASS",
+    "workoutTemplateGuidedApplication": "PASS",
+    "personalWorkoutTemplateManagement": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "diffCheck": "PASS"
+  },
+  "tests": {
+    "exerciseLibraryService": {
+      "pass": 8,
+      "fail": 0
+    },
+    "treinosFocused": {
+      "pass": 87,
+      "fail": 1,
+      "preexisting": 1
+    }
+  },
+  "runtime": "AUTHENTICATED_RUNTIME_LIMITATION",
+  "visual": "MANUAL_VISUAL_QA_REQUIRED",
+  "supabaseChanged": false,
+  "migration": null,
+  "dbPush": "NOT_REQUIRED",
+  "productionActionRequired": false,
+  "limitations": [
+    "Authenticated browser runtime was not executed locally.",
+    "Manual visual QA is required for the new personal exercise modal."
+  ],
+  "nextStage": "09.4 - YouTube media validation and preview"
+}

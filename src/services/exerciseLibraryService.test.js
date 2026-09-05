@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  criarPayloadExercicioPessoal,
+  podeGerenciarExercicioBiblioteca,
+  validarFormularioExercicioBiblioteca,
+} from "./exerciseLibraryForm.js";
+import {
   criarErroBibliotecaExercicios,
   criarOpcoesBibliotecaExercicios,
   filtrarExerciciosBiblioteca,
@@ -77,6 +82,45 @@ test("cria opcoes unicas de grupo muscular ordenadas", () => {
 test("mapeia erro para mensagem profissional sem expor detalhe tecnico", () => {
   const erro = criarErroBibliotecaExercicios({ message: "permission denied for table exercise_library" });
 
-  assert.equal(erro.message, "Nao foi possivel carregar a biblioteca de exercicios.");
+  assert.equal(erro.message, "Não foi possível carregar a biblioteca de exercícios.");
   assert.equal(erro.message.includes("permission denied"), false);
+});
+
+test("valida campos obrigatorios do exercicio pessoal", () => {
+  const resultado = validarFormularioExercicioBiblioteca({
+    nome: " ",
+    grupoMuscular: "",
+    categoria: "",
+  });
+
+  assert.equal(resultado.valido, false);
+  assert.equal(resultado.erros.nome, "Informe o nome do exercício.");
+  assert.equal(resultado.erros.grupoMuscular, "Informe o grupo muscular.");
+  assert.equal(resultado.erros.categoria, "Informe a categoria.");
+});
+
+test("cria payload pessoal sem permitir midia ou origem oficial", () => {
+  const resultado = criarPayloadExercicioPessoal(
+    {
+      nome: "  Remada   baixa ",
+      descricao: "Costas",
+      grupoMuscular: " Costas ",
+      categoria: " Musculação ",
+      instrucoes: "Controle a volta",
+    },
+    "user-1"
+  );
+
+  assert.equal(resultado.valido, true);
+  assert.equal(resultado.payload.owner_id, "user-1");
+  assert.equal(resultado.payload.origin, "personal");
+  assert.equal(resultado.payload.status, "active");
+  assert.equal(resultado.payload.name, "Remada baixa");
+  assert.equal(resultado.payload.media_type, null);
+  assert.equal(resultado.payload.media_path, null);
+});
+
+test("permite gerenciar somente exercicios pessoais", () => {
+  assert.equal(podeGerenciarExercicioBiblioteca({ origem: "personal" }), true);
+  assert.equal(podeGerenciarExercicioBiblioteca({ origem: "official" }), false);
 });
