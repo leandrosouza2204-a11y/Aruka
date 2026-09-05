@@ -9,6 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "qa:visible-ui-copy": "node scripts/validate-visible-ui-copy.mjs",
+    "qa:about-mobile-visual-polish": "node scripts/validate-about-mobile-visual-polish.mjs",
+    "qa:about-final-typography-alignment": "node scripts/validate-about-final-typography-alignment.mjs",
     "qa:pwa-installability": "node scripts/validate-pwa-installability.mjs",
     "qa:pwa-role-install-experience": "node scripts/validate-pwa-role-install-experience.mjs",
     "qa:pwa-ios-experience": "node scripts/validate-pwa-ios-experience.mjs",

@@ -1,0 +1,55 @@
+{
+  "roadmap": "Product Roadmap v4",
+  "cycle": "08.3",
+  "decision": "COMPLETE",
+  "functionalPr": 58,
+  "functionalBranch": "fix/product-roadmap-v4-cycle-08-3-mobile-premium-alignment",
+  "functionalMergeCommit": "8bd4a860b030a2427a2af0792d2313919be86502",
+  "functionalMergedAt": "2026-09-04T23:30:44Z",
+  "qaHotfixPr": 59,
+  "qaHotfixBranch": "fix/cycle-08-3-about-typography-qa",
+  "qaHotfixMergeCommit": "ce525de98a79d3ac2c6ba30aede94b18503eb7df",
+  "qaHotfixMergedAt": "2026-09-05T02:22:17Z",
+  "mainSha": "ce525de98a79d3ac2c6ba30aede94b18503eb7df",
+  "originMainSha": "ce525de98a79d3ac2c6ba30aede94b18503eb7df",
+  "manualVisualQa": "PASS",
+  "qa": {
+    "aboutMobileVisualPolish": "PASS",
+    "aboutFinalTypographyAlignment": "PASS",
+    "visibleUiCopy": "PASS",
+    "routeFallback": "PASS",
+    "lint": "PASS",
+    "build": "PASS"
+  },
+  "aboutPage": {
+    "hero": "PASS",
+    "brandCard": "PASS",
+    "origin": "PASS",
+    "manifest": "PASS",
+    "mission": "PASS",
+    "vision": "PASS",
+    "values": "PASS",
+    "cta": "PASS",
+    "header": "PASS",
+    "footer": "PASS"
+  },
+  "manifestTypography": {
+    "fontFamily": "\"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+    "fontSize": "15.5px",
+    "fontWeight": "400",
+    "lineHeight": "1.62",
+    "opacity": "0.82"
+  },
+  "supabaseChange": false,
+  "productionActionRequired": false,
+  "financialChange": false,
+  "progress": {
+    "before": "Cycle 08.3 merged functionally, blocked by QA hotfix closeout",
+    "after": "Cycle 08.3 COMPLETE"
+  },
+  "nextCycle": {
+    "number": "09",
+    "title": "Exercise Library and Media",
+    "source": "docs/product-roadmap-v4/16-cycle-09-exercise-library-media.md"
+  }
+}

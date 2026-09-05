@@ -1,0 +1,186 @@
+import { readFileSync } from "node:fs";
+
+const css = normalizeLineEndings(readFileSync("src/pages/LandingPage.css", "utf8"));
+const about = normalizeLineEndings(readFileSync("src/pages/Sobre.jsx", "utf8"));
+
+const mobileStart = css.indexOf("@media (max-width: 767px)");
+const nextMobileOverride = css.indexOf("@media (max-width: 359px)", mobileStart);
+
+const requiredStructure = [
+  "about-manifest-section",
+  "about-manifest-inner",
+  "about-manifest-emphasis",
+  "about-manifest-line",
+  "about-purpose-grid",
+  "about-purpose-number",
+  "about-values-list",
+  "about-value-item",
+  "Toda evolu",
+  "Mais do que um software",
+  "Porque evoluir",
+  "Significa percorrer",
+  "Nossa miss",
+  "Nossa vis",
+  "Nossos valores",
+];
+
+const requiredMobileIntent = [
+  ".about-manifest-inner",
+  ".about-manifest-emphasis",
+  ".about-manifest-line",
+  ".about-purpose-grid article",
+  "justify-items: center",
+  "text-align: center",
+];
+
+const valuesStructure = [
+  ".about-value-item",
+  "grid-template-columns: 48px 1fr",
+  ".about-values-list",
+];
+
+const forbiddenGlobalChanges = [
+  ".about-values-list {\n    justify-items: center",
+  ".about-value-item {\n    text-align: center",
+  ".about-value-item {\n    justify-items: center",
+];
+
+const mobileCss =
+  mobileStart >= 0 && nextMobileOverride > mobileStart
+    ? css.slice(mobileStart, nextMobileOverride)
+    : "";
+const missingStructure = requiredStructure.filter((item) => !about.includes(item) && !css.includes(item));
+const missingMobileIntent = requiredMobileIntent.filter((item) => !mobileCss.includes(item));
+const missingValuesStructure = valuesStructure.filter((item) => !css.includes(item));
+const forbidden = forbiddenGlobalChanges.filter((item) => css.includes(item));
+
+const emphasisRule = mobileCss.match(/\.about-manifest-emphasis \{[\s\S]*?\n  \}/)?.[0] ?? "";
+const lineRule = mobileCss.match(/\.about-manifest-line \{[\s\S]*?\n  \}/)?.[0] ?? "";
+const purposeRule = mobileCss.match(/\.about-purpose-grid article \{[\s\S]*?\n  \}/)?.[0] ?? "";
+const bodyRule =
+  findRuleContainingSelector(mobileCss, ".about-prose p");
+
+const bodyTypography = getTypography(bodyRule);
+const emphasisTypography = getTypography(emphasisRule);
+const lineTypography = getTypography(lineRule);
+
+const hierarchyFamilyAligned =
+  typographyMatchesBody(emphasisTypography, bodyTypography) &&
+  typographyMatchesBody(lineTypography, bodyTypography);
+
+const missionVisionCentered =
+  purposeRule.includes("justify-items: center") &&
+  purposeRule.includes("text-align: center");
+
+const conclusionUsesBodyScale =
+  emphasisTypography.fontSize === bodyTypography.fontSize &&
+  lineTypography.fontSize === bodyTypography.fontSize &&
+  emphasisTypography.lineHeight === bodyTypography.lineHeight &&
+  lineTypography.lineHeight === bodyTypography.lineHeight;
+
+const conclusionUsesWeightForEmphasis =
+  emphasisTypography.fontWeight === bodyTypography.fontWeight &&
+  lineTypography.fontWeight === bodyTypography.fontWeight;
+
+const conclusionAvoidsHeadlineScale =
+  !emphasisRule.includes("font-size: clamp(") &&
+  !lineRule.includes("font-size: clamp(");
+
+const conclusionAvoidsHeadlineWeight =
+  !emphasisRule.includes("font-weight: 700") &&
+  !lineRule.includes("font-weight: 700") &&
+  !emphasisRule.includes("font-weight: 600") &&
+  !lineRule.includes("font-weight: 600") &&
+  !emphasisRule.includes("font-weight: 500") &&
+  !lineRule.includes("font-weight: 500");
+
+const conclusionMatchesBodyOpacity =
+  emphasisTypography.opacity === bodyTypography.opacity &&
+  lineTypography.opacity === bodyTypography.opacity;
+
+if (
+  missingStructure.length ||
+  missingMobileIntent.length ||
+  missingValuesStructure.length ||
+  forbidden.length ||
+  !hierarchyFamilyAligned ||
+  !missionVisionCentered ||
+  !conclusionUsesBodyScale ||
+  !conclusionUsesWeightForEmphasis ||
+  !conclusionAvoidsHeadlineScale ||
+  !conclusionAvoidsHeadlineWeight ||
+  !conclusionMatchesBodyOpacity
+) {
+  console.error("ABOUT_FINAL_TYPOGRAPHY_ALIGNMENT_QA=FAIL");
+  if (missingStructure.length) console.error(`MISSING_STRUCTURE=${missingStructure.join(",")}`);
+  if (missingMobileIntent.length) console.error(`MISSING_MOBILE_INTENT=${missingMobileIntent.join(",")}`);
+  if (missingValuesStructure.length) console.error(`MISSING_VALUES_STRUCTURE=${missingValuesStructure.join(",")}`);
+  if (forbidden.length) console.error(`FORBIDDEN_VALUES_ALIGNMENT=${forbidden.join(",")}`);
+  if (!hierarchyFamilyAligned) console.error("MANIFEST_CONCLUSION_FAMILY_ALIGNED=NO");
+  if (!missionVisionCentered) console.error("MISSION_VISION_CENTERED=NO");
+  if (!conclusionUsesBodyScale) console.error("MANIFEST_CONCLUSION_BODY_SCALE=NO");
+  if (!conclusionUsesWeightForEmphasis) console.error("MANIFEST_CONCLUSION_WEIGHT_EMPHASIS=NO");
+  if (!conclusionAvoidsHeadlineScale) console.error("MANIFEST_CONCLUSION_AVOIDS_HEADLINE_SCALE=NO");
+  if (!conclusionAvoidsHeadlineWeight) console.error("MANIFEST_CONCLUSION_AVOIDS_HEADLINE_WEIGHT=NO");
+  if (!conclusionMatchesBodyOpacity) console.error("MANIFEST_CONCLUSION_MATCHES_BODY_OPACITY=NO");
+  process.exit(1);
+}
+
+console.log("ABOUT_FINAL_TYPOGRAPHY_ALIGNMENT_QA=PASS");
+console.log("QA_TYPE=STATIC_INTENT_AND_SCOPE_GUARD");
+console.log("MANIFEST_CONCLUSION_FAMILY_ALIGNED=YES");
+console.log("MANIFEST_CONCLUSION_BODY_SCALE=YES");
+console.log("MANIFEST_CONCLUSION_WEIGHT_EMPHASIS=YES");
+console.log("MANIFEST_CONCLUSION_AVOIDS_HEADLINE_SCALE=YES");
+console.log("MANIFEST_CONCLUSION_AVOIDS_HEADLINE_WEIGHT=YES");
+console.log("MANIFEST_CONCLUSION_MATCHES_BODY_OPACITY=YES");
+console.log("MISSION_VISION_CENTERED=YES");
+console.log("VALUES_STRUCTURE_PRESERVED=YES");
+console.log(`BODY_TYPOGRAPHY=${formatTypography(bodyTypography)}`);
+console.log(`EMPHASIS_TYPOGRAPHY=${formatTypography(emphasisTypography)}`);
+console.log(`LINE_TYPOGRAPHY=${formatTypography(lineTypography)}`);
+
+function getFontWeight(rule) {
+  const match = rule.match(/font-weight:\s*(\d+)/);
+  return match ? Number(match[1]) : 0;
+}
+
+function getTypography(rule) {
+  return {
+    fontSize: normalizeCssValue(rule.match(/font-size:\s*([^;]+)/)?.[1] ?? ""),
+    fontWeight: getFontWeight(rule) || 400,
+    lineHeight: normalizeCssValue(rule.match(/line-height:\s*([^;]+)/)?.[1] ?? ""),
+    opacity: normalizeCssValue(rule.match(/opacity:\s*([^;]+)/)?.[1] ?? "0.82"),
+  };
+}
+
+function normalizeCssValue(value) {
+  return value.replace(/\s*!important/g, "").trim();
+}
+
+function typographyMatchesBody(candidate, body) {
+  return (
+    candidate.fontSize === body.fontSize &&
+    candidate.fontWeight === body.fontWeight &&
+    candidate.lineHeight === body.lineHeight
+  );
+}
+
+function normalizeLineEndings(content) {
+  return content.replace(/\r\n/g, "\n");
+}
+
+function findRuleContainingSelector(source, selector) {
+  const escapedSelector = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const rulePattern = new RegExp(`(?:^|\\n)(?:[^{}]*,\\n\\s*)*[^{}]*${escapedSelector}[^{}]*\\{[\\s\\S]*?\\n\\s*\\}`, "m");
+  return source.match(rulePattern)?.[0] ?? "";
+}
+
+function formatTypography(typography) {
+  return [
+    `font-size:${typography.fontSize}`,
+    `font-weight:${typography.fontWeight}`,
+    `line-height:${typography.lineHeight}`,
+    `opacity:${typography.opacity}`,
+  ].join(";");
+}
