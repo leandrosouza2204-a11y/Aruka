@@ -14,6 +14,7 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Alunos = lazy(() => import("./pages/Alunos"));
 const Financeiro = lazy(() => import("./pages/Financeiro"));
 const Treinos = lazy(() => import("./pages/Treinos"));
+const Exercicios = lazy(() => import("./pages/Exercicios"));
 const Avaliacoes = lazy(() => import("./pages/Avaliacoes"));
 const Planos = lazy(() => import("./pages/Planos"));
 const AdminUsuarios = lazy(() => import("./pages/AdminUsuarios"));
@@ -182,6 +183,20 @@ function App() {
                   <LegalRoute>
                     <AppMobileNav>
                       <Treinos />
+                    </AppMobileNav>
+                  </LegalRoute>
+                </SubscriptionRoute>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/exercicios"
+            element={
+              <ProtectedRoute>
+                <SubscriptionRoute>
+                  <LegalRoute>
+                    <AppMobileNav>
+                      <Exercicios />
                     </AppMobileNav>
                   </LegalRoute>
                 </SubscriptionRoute>
