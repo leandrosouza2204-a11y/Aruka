@@ -10,7 +10,7 @@
 
 IN_PROGRESS
 
-Stage 09.1 is complete. Stages 09.2 through 09.9 remain pending.
+Stages 09.1 and 09.2 are complete. Stages 09.3 through 09.9 remain pending.
 
 ## Objetivo
 
@@ -98,9 +98,9 @@ Coach Automation remains valuable, but is postponed because the current priority
 
 ## Primeira etapa recomendada
 
-Continue with 09.2 - Exercise library read experience.
+Continue with 09.3 - Custom exercise creation and editing.
 
-The completed first implementation step delivered schema shape, RLS/storage boundaries and legacy compatibility. The next implementation step should add the smallest useful read experience over the secured model.
+The completed first two implementation steps delivered schema shape, RLS/storage boundaries, legacy compatibility and the first read-only professional library experience. The next implementation step should add professional-owned custom exercise creation and editing without weakening the 09.1 security model.
 
 ## Guardrail arquitetural
 

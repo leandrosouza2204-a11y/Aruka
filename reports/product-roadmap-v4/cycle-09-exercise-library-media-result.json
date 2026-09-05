@@ -57,8 +57,8 @@
   },
   "phases": {
     "09.1": "Data model and security",
-    "09.2": "Exercise library read experience",
-    "09.3": "Custom exercise creation and editing",
+    "09.2": "Exercise library read experience - COMPLETE via PR #63",
+    "09.3": "Custom exercise creation and editing - NEXT",
     "09.4": "YouTube media validation and preview",
     "09.5": "Video upload/storage",
     "09.6": "Workout integration",

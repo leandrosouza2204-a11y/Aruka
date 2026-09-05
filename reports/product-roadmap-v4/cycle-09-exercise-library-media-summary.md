@@ -27,8 +27,8 @@ Current exercise audit:
 Implementation path:
 
 - 09.1: data model and security. COMPLETE via PR #61.
-- 09.2: read library. NEXT.
-- 09.3: custom exercise creation.
+- 09.2: read library. COMPLETE via PR #63, merged on 2026-09-05.
+- 09.3: custom exercise creation. NEXT.
 - 09.4: YouTube media.
 - 09.5: video upload/storage.
 - 09.6: workout integration.
@@ -65,4 +65,5 @@ PLANNING_COMPLETE=YES
 IMPLEMENTATION_STARTED=YES
 MIGRATION_CREATED=YES
 STAGE_09_1_COMPLETE=YES
-NEXT_STAGE=09.2_EXERCISE_LIBRARY_READ_EXPERIENCE
+STAGE_09_2_STATUS=COMPLETE
+NEXT_STAGE=09.3_CUSTOM_EXERCISE_CREATION_EDITING
