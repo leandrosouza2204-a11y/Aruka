@@ -13,8 +13,9 @@ The platform is no longer primarily an infrastructure stabilization effort. Road
 1. Student progression and workout intelligence: current workout flows support lifecycle, templates and delivery, but do not yet turn execution history, load, repetitions and volume into a clear progression surface.
 2. Assessment evolution: avaliacoes already keep history and comparative signals, creating a strong base for clearer visual comparison and shared progress narratives.
 3. Student experience continuity: the student can access workouts, but the next valuable step is making progress, next actions and continuity easier to understand.
-4. Coach workflow automation: reduce repeated manual decisions around follow-up, stalled students, pending actions and renewal/commercial moments.
-5. Commercial readiness: onboarding, beta/trial operation, support readiness and release discipline should become productized rather than ad hoc.
+4. Exercise library and media: strengthen the core workout-building flow with a structured exercise library, professional custom exercises, favorites and student-visible demonstrations.
+5. Coach workflow automation: reduce repeated manual decisions around follow-up, stalled students, pending actions and renewal/commercial moments.
+6. Commercial readiness: onboarding, beta/trial operation, support readiness and release discipline should become productized rather than ad hoc.
 
 ## Prioritization criteria
 
@@ -61,6 +62,22 @@ Objective: prepare operation for beta/trial/commercial usage with onboarding, su
 Expected outcome: clearer account states, support observability, beta/trial policy documentation and release checklist.
 
 DATABASE_CHANGE_REQUIRED=NO
+
+### Cycle 09 - Exercise Library and Media
+
+Objective: evolve workout assembly with a structured exercise library, system exercises, professional custom exercises, favorites, YouTube media, uploaded professional videos and student-visible demonstrations.
+
+Expected outcome: professionals can search/filter exercises by muscle group, category, source and favorites, add exercises to workouts without duplicating library records unnecessarily, and students can view authorized exercise media inside delivered workouts.
+
+DATABASE_CHANGE_REQUIRED=YES
+
+### Future cycle - Coach Workflow Automation
+
+Objective: operational automation for follow-up, stalled students, pending actions and repeated coach decisions.
+
+Expected outcome: preserved as backlog/future cycle because the current product priority is strengthening workout creation and delivery.
+
+COACH_AUTOMATION_POSTPONED=YES
 
 ## Dependencies
 
