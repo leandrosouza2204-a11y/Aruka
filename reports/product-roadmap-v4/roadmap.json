@@ -9,6 +9,8 @@
   },
   "principle": "PRODUCT_VALUE_FIRST",
   "recommended_first_cycle": "STUDENT_PROGRESSION_SNAPSHOT",
+  "current_cycle": "CYCLE_09_EXERCISE_LIBRARY_AND_MEDIA",
+  "last_completed_cycle": "CYCLE_08_3_MOBILE_PREMIUM_ALIGNMENT",
   "cycles": [
     {
       "id": "STUDENT_PROGRESSION_SNAPSHOT",
@@ -44,8 +46,30 @@
       "priority": "P2",
       "database_change_required": "NO",
       "objective": "Prepare beta/trial operation, onboarding, support and release readiness."
+    },
+    {
+      "id": "EXERCISE_LIBRARY_AND_MEDIA",
+      "title": "Exercise Library and Media",
+      "priority": "P1",
+      "database_change_required": "YES",
+      "objective": "Evolve workout assembly with a structured exercise library, system exercises, professional custom exercises, favorites, YouTube media, uploaded professional videos and student-visible demonstrations."
+    },
+    {
+      "id": "COACH_WORKFLOW_AUTOMATION",
+      "title": "Coach Workflow Automation",
+      "priority": "FUTURE",
+      "database_change_required": "TO_BE_DEFINED_FROM_CANONICAL_SCOPE",
+      "objective": "Operational automation for follow-up, stalled students, pending actions and repeated coach decisions after the exercise library and media foundation."
     }
   ],
+  "cycle_08_3_closeout": {
+    "status": "COMPLETE",
+    "functional_pr": 58,
+    "functional_merge_commit": "8bd4a860b030a2427a2af0792d2313919be86502",
+    "qa_hotfix_pr": 59,
+    "qa_hotfix_merge_commit": "ce525de98a79d3ac2c6ba30aede94b18503eb7df",
+    "manual_visual_qa": "PASS"
+  },
   "database_change_policy": "Any YES/POSSIBLE database change follows local migration -> local full CI -> dry-run -> review -> authorization -> production db push.",
   "next_action": "COMMIT_ROADMAP_V4_AND_IMPLEMENT_FIRST_PRODUCT_VALUE_CYCLE"
 }
