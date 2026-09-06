@@ -33,6 +33,7 @@ const expectedExecutableMigrations = [
   "supabase/migrations/20260830203000_pending_student_claim_allows_default_profile.sql",
   "supabase/migrations/20260831090000_fix_pending_student_claim_return.sql",
   "supabase/migrations/20260905120000_exercise_library_media_v1.sql",
+  "supabase/migrations/20260906020000_exercise_video_upload_storage_v1.sql",
 ];
 const forbiddenProjectRef = "xrmqdkpx" + "nfvusmenadnf";
 const APPROVED_REDACTED_DB_URL =

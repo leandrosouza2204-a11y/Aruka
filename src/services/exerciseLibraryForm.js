@@ -2,6 +2,7 @@ import {
   getYouTubeMediaErrorMessage,
   parseYouTubeMediaInput,
 } from "../features/exerciseLibrary/utils/youtubeMedia.js";
+import { criarPayloadSemMidia } from "../features/exerciseLibrary/utils/uploadedVideoMedia.js";
 
 const LIMITS = {
   nome: 120,
@@ -17,7 +18,10 @@ export const EXERCISE_LIBRARY_FORM_INITIAL = {
   grupoMuscular: "",
   categoria: "",
   instrucoes: "",
+  mediaMode: "none",
   youtubeInput: "",
+  uploadedVideoPath: "",
+  uploadedVideoMimeType: "",
 };
 
 export function criarFormularioExercicioBiblioteca(exercicio = null) {
@@ -29,7 +33,10 @@ export function criarFormularioExercicioBiblioteca(exercicio = null) {
     grupoMuscular: exercicio.grupoMuscular || "",
     categoria: exercicio.categoria || "",
     instrucoes: exercicio.instrucoes || "",
+    mediaMode: exercicio.midia?.type === "uploaded_video" ? "upload" : exercicio.midia?.type === "youtube" ? "youtube" : "none",
     youtubeInput: exercicio.midia?.youtubeUrl || "",
+    uploadedVideoPath: exercicio.midia?.mediaPath || "",
+    uploadedVideoMimeType: exercicio.midia?.mimeType || "",
   };
 }
 
@@ -49,8 +56,11 @@ export function validarFormularioExercicioBiblioteca(formulario) {
   if (valores.instrucoes.length > LIMITS.instrucoes) erros.instrucoes = `Use até ${LIMITS.instrucoes} caracteres.`;
 
   const youtube = parseYouTubeMediaInput(valores.youtubeInput);
-  if (valores.youtubeInput && !youtube.ok) {
+  if (valores.mediaMode === "youtube" && !youtube.ok) {
     erros.youtubeInput = getYouTubeMediaErrorMessage(youtube.error);
+  }
+  if (valores.mediaMode === "upload" && !formulario?.uploadFile && (!valores.uploadedVideoPath || !valores.uploadedVideoMimeType)) {
+    erros.uploadFile = "Selecione um vídeo válido.";
   }
 
   return {
@@ -71,8 +81,7 @@ export function criarPayloadExercicioPessoal(formulario, ownerId) {
     };
   }
 
-  const youtube = parseYouTubeMediaInput(resultado.valores.youtubeInput);
-  const youtubeMedia = youtube.ok ? youtube.media : null;
+  const mediaPayload = criarPayloadMidiaFormulario(resultado.valores);
 
   return {
     valido: true,
@@ -86,11 +95,7 @@ export function criarPayloadExercicioPessoal(formulario, ownerId) {
       muscle_group: resultado.valores.grupoMuscular,
       category: resultado.valores.categoria,
       instructions: resultado.valores.instrucoes,
-      youtube_url: youtubeMedia?.canonicalUrl || "",
-      media_type: youtubeMedia ? "youtube" : null,
-      media_path: null,
-      thumbnail_path: null,
-      media_mime_type: null,
+      ...mediaPayload,
       archived_at: null,
     },
   };
@@ -107,8 +112,44 @@ export function sanitizarFormularioExercicioBiblioteca(formulario) {
     grupoMuscular: compact(formulario?.grupoMuscular),
     categoria: compact(formulario?.categoria),
     instrucoes: compact(formulario?.instrucoes),
+    mediaMode: normalizeMediaMode(formulario),
     youtubeInput: String(formulario?.youtubeInput || "").trim(),
+    uploadedVideoPath: String(formulario?.uploadedVideoPath || "").trim(),
+    uploadedVideoMimeType: String(formulario?.uploadedVideoMimeType || "").trim(),
   };
+}
+
+function criarPayloadMidiaFormulario(valores) {
+  if (valores.mediaMode === "youtube") {
+    const youtube = parseYouTubeMediaInput(valores.youtubeInput);
+    return {
+      youtube_url: youtube.media.canonicalUrl,
+      media_type: "youtube",
+      media_path: null,
+      thumbnail_path: null,
+      media_mime_type: null,
+    };
+  }
+
+  if (valores.mediaMode === "upload" && valores.uploadedVideoPath && valores.uploadedVideoMimeType) {
+    return {
+      youtube_url: "",
+      media_type: "uploaded_video",
+      media_path: valores.uploadedVideoPath,
+      thumbnail_path: null,
+      media_mime_type: valores.uploadedVideoMimeType,
+    };
+  }
+
+  return criarPayloadSemMidia();
+}
+
+function normalizeMediaMode(formulario) {
+  if (formulario?.mediaMode === "none") return "none";
+  if (formulario?.mediaMode === "youtube" || formulario?.mediaMode === "upload") return formulario.mediaMode;
+  if (String(formulario?.youtubeInput || "").trim()) return "youtube";
+  if (String(formulario?.uploadedVideoPath || "").trim()) return "upload";
+  return "none";
 }
 
 function compact(value) {

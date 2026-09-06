@@ -43,7 +43,8 @@
                               "20260829173000_student_pending_invite_claim_permissions.sql",
                               "20260830203000_pending_student_claim_allows_default_profile.sql",
                               "20260831090000_fix_pending_student_claim_return.sql",
-                              "20260905120000_exercise_library_media_v1.sql"
+                              "20260905120000_exercise_library_media_v1.sql",
+                              "20260906020000_exercise_video_upload_storage_v1.sql"
                           ],
     "expected_active_migrations":  [
                                        "20260728030000_workout_delivery_integration_v1.sql",
@@ -63,11 +64,12 @@
                                        "20260829173000_student_pending_invite_claim_permissions.sql",
                                        "20260830203000_pending_student_claim_allows_default_profile.sql",
                                        "20260831090000_fix_pending_student_claim_return.sql",
-                                       "20260905120000_exercise_library_media_v1.sql"
+                                       "20260905120000_exercise_library_media_v1.sql",
+                                       "20260906020000_exercise_video_upload_storage_v1.sql"
                                    ],
-    "executable_migration_count":  18,
+    "executable_migration_count":  19,
     "reference_only_baseline_count":  1,
-    "total_database_change_artifact_count":  19,
+    "total_database_change_artifact_count":  20,
     "active_migrations_unexpected":  [
 
                                      ],

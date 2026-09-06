@@ -10,6 +10,8 @@ import {
   Search,
   Sparkles,
   SlidersHorizontal,
+  Trash2,
+  UploadCloud,
   X,
 } from "lucide-react";
 import Sidebar from "../../../components/Sidebar";
@@ -297,6 +299,7 @@ function ExerciseLibraryFormModal({ page }) {
     page.errosFormulario.youtubeInput ||
     (youtubeInput && !page.youtubePreview.ok ? page.youtubePreview.message : "");
   const youtubeMedia = page.youtubePreview.ok ? page.youtubePreview.media : null;
+  const isUploadMode = page.formulario.mediaMode === "upload";
 
   useEffect(() => {
     function handleKeyDown(event) {
@@ -380,6 +383,14 @@ function ExerciseLibraryFormModal({ page }) {
             error={page.errosFormulario.instrucoes}
             onChange={(valor) => page.atualizarFormulario("instrucoes", valor)}
           />
+          <fieldset style={styles.mediaFieldset}>
+            <legend style={styles.formLabel}>Mídia</legend>
+            <div className="exercise-library-media-options" style={styles.mediaOptions}>
+              <MediaOption label="Sem mídia" value="none" page={page} />
+              <MediaOption label="YouTube" value="youtube" page={page} />
+              <MediaOption label="Upload" value="upload" page={page} />
+            </div>
+          </fieldset>
           <CampoTexto
             id="exercise-youtube"
             label="Vídeo do YouTube"
@@ -402,6 +413,8 @@ function ExerciseLibraryFormModal({ page }) {
               />
             </div>
           )}
+
+          {isUploadMode && <UploadVideoField page={page} />}
 
           <footer style={styles.modalFooter}>
             <button
@@ -426,6 +439,81 @@ function ExerciseLibraryFormModal({ page }) {
           </footer>
         </form>
       </section>
+    </div>
+  );
+}
+
+function MediaOption({ label, page, value }) {
+  const checked = page.formulario.mediaMode === value;
+
+  return (
+    <label style={checked ? styles.mediaOptionActive : styles.mediaOption}>
+      <input
+        type="radio"
+        name="exercise-media-mode"
+        value={value}
+        checked={checked}
+        onChange={(event) => page.atualizarFormulario("mediaMode", event.target.value)}
+      />
+      <span>{label}</span>
+    </label>
+  );
+}
+
+function UploadVideoField({ page }) {
+  const errorId = "exercise-upload-error";
+  const helperId = "exercise-upload-helper";
+  const statusId = "exercise-upload-status";
+  const describedBy = [helperId, page.errosFormulario.uploadFile ? errorId : "", statusId].filter(Boolean).join(" ");
+  const fileName = page.formulario.uploadFile?.name || (page.formulario.uploadedVideoPath ? "Vídeo enviado" : "");
+
+  return (
+    <div className="exercise-library-upload" style={styles.uploadBox}>
+      <label htmlFor="exercise-upload-video" style={styles.uploadButton}>
+        <UploadCloud size={17} />
+        <span>Selecionar vídeo</span>
+      </label>
+      <input
+        id="exercise-upload-video"
+        type="file"
+        accept="video/mp4,video/webm"
+        aria-describedby={describedBy}
+        aria-invalid={Boolean(page.errosFormulario.uploadFile)}
+        onChange={(event) => page.selecionarArquivoVideo(event.target.files?.[0] || null)}
+        style={styles.fileInput}
+      />
+      <span id={helperId} style={styles.fieldHelper}>
+        Use MP4 ou WEBM com até 100 MB.
+      </span>
+      {fileName && <strong style={styles.fileName}>{fileName}</strong>}
+      <span id={statusId} role="status" aria-live="polite" style={styles.uploadStatus}>
+        {page.uploadStatus === "uploading" ? "Enviando vídeo..." : page.uploadStatus === "selected" ? "Vídeo selecionado." : ""}
+      </span>
+      {page.errosFormulario.uploadFile && (
+        <span id={errorId} role="alert" style={styles.fieldError}>
+          {page.errosFormulario.uploadFile}
+        </span>
+      )}
+      {page.uploadPreviewUrl && (
+        <video
+          className="exercise-library-upload-preview"
+          src={page.uploadPreviewUrl}
+          controls
+          preload="metadata"
+          style={styles.uploadPreview}
+        />
+      )}
+      {(page.uploadPreviewUrl || page.formulario.uploadedVideoPath || page.formulario.uploadFile) && (
+        <button
+          type="button"
+          className="app-button app-button-secondary"
+          onClick={page.removerVideoUpload}
+          style={styles.removeMediaButton}
+        >
+          <Trash2 size={15} />
+          Remover vídeo
+        </button>
+      )}
     </div>
   );
 }
@@ -887,6 +975,43 @@ const styles = {
     fontSize: "13px",
     fontWeight: "850",
   },
+  mediaFieldset: {
+    border: "1px solid #d1d5db",
+    borderRadius: "8px",
+    display: "grid",
+    gap: "12px",
+    minWidth: 0,
+    padding: "12px",
+  },
+  mediaOptions: {
+    display: "grid",
+    gap: "8px",
+    gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+  },
+  mediaOption: {
+    alignItems: "center",
+    background: "#f8fafc",
+    border: "1px solid #d1d5db",
+    borderRadius: "8px",
+    color: "#111827",
+    display: "flex",
+    gap: "8px",
+    minHeight: "42px",
+    minWidth: 0,
+    padding: "9px 10px",
+  },
+  mediaOptionActive: {
+    alignItems: "center",
+    background: "#eff6ff",
+    border: "1px solid #93c5fd",
+    borderRadius: "8px",
+    color: "#1d4ed8",
+    display: "flex",
+    gap: "8px",
+    minHeight: "42px",
+    minWidth: 0,
+    padding: "9px 10px",
+  },
   textarea: {
     background: "white",
     border: "1px solid #d1d5db",
@@ -922,6 +1047,62 @@ const styles = {
     display: "block",
     height: "100%",
     width: "100%",
+  },
+  uploadBox: {
+    background: "#f8fafc",
+    border: "1px solid #e2e8f0",
+    borderRadius: "8px",
+    display: "grid",
+    gap: "9px",
+    minWidth: 0,
+    padding: "12px",
+  },
+  uploadButton: {
+    alignItems: "center",
+    background: "#e0f2fe",
+    border: "1px solid #7dd3fc",
+    borderRadius: "8px",
+    color: "#075985",
+    cursor: "pointer",
+    display: "inline-flex",
+    fontWeight: "850",
+    gap: "8px",
+    justifyContent: "center",
+    minHeight: "42px",
+    padding: "9px 12px",
+    width: "fit-content",
+  },
+  fileInput: {
+    maxWidth: "100%",
+  },
+  fileName: {
+    color: "#111827",
+    fontSize: "13px",
+    overflowWrap: "anywhere",
+  },
+  uploadStatus: {
+    color: "#2563eb",
+    fontSize: "12px",
+    fontWeight: "750",
+    minHeight: "16px",
+  },
+  uploadPreview: {
+    aspectRatio: "16 / 9",
+    background: "#0f172a",
+    border: "1px solid #cbd5e1",
+    borderRadius: "8px",
+    display: "block",
+    maxHeight: "320px",
+    objectFit: "contain",
+    width: "100%",
+  },
+  removeMediaButton: {
+    alignItems: "center",
+    display: "inline-flex",
+    gap: "7px",
+    justifyContent: "center",
+    minHeight: "40px",
+    width: "fit-content",
   },
   modalFooter: {
     display: "flex",
