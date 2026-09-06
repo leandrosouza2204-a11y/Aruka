@@ -2,7 +2,7 @@
   "cycle": "09",
   "stage": "09.3",
   "title": "Custom exercise creation and editing",
-  "decision": "READY_WITH_AUTHENTICATED_RUNTIME_LIMITATION",
+  "decision": "COMPLETE",
   "branch": "feat/product-roadmap-v4-cycle-09-3-custom-exercise-crud",
   "baseSha": "b837cad98acbc1b54204711f87a0c2ab6b63e43b",
   "scope": [
@@ -67,6 +67,19 @@
   "migration": null,
   "dbPush": "NOT_REQUIRED",
   "productionActionRequired": false,
+  "pullRequest": 65,
+  "mergeCommit": "7bb6308b5b28872048b41a2dab6544673a170d46",
+  "mergedAt": "2026-09-06T00:19:01Z",
+  "postMergeValidation": {
+    "exerciseLibraryCustomExercises": "PASS",
+    "exerciseLibraryReadExperience": "PASS",
+    "exerciseLibraryDataModel": "PASS",
+    "exerciseLibrarySecurity": "PASS",
+    "exerciseLibraryMediaSecurity": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "diffCheck": "PASS"
+  },
   "limitations": [
     "Authenticated browser runtime was not executed locally.",
     "Manual visual QA is required for the new personal exercise modal."

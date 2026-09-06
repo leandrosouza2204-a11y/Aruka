@@ -4,7 +4,7 @@
 
 Create the Aruka exercise library and media foundation for workout assembly, with system exercises, professional custom exercises, favorites, YouTube support, uploaded professional videos and authorized student viewing inside delivered workouts.
 
-Planning is complete and implementation has started incrementally. Stages 09.1 and 09.2 are complete; stages 09.3 through 09.9 remain pending.
+Planning is complete and implementation has started incrementally. Stages 09.1, 09.2 and 09.3 are complete; stages 09.4 through 09.9 remain pending.
 
 ## Motivation
 
@@ -191,8 +191,8 @@ Required validation:
 
 09.1 - Data model and security. COMPLETE via PR #61, merged on 2026-09-05.
 09.2 - Exercise library read experience. COMPLETE via PR #63, merged on 2026-09-05.
-09.3 - Custom exercise creation and editing. NEXT.
-09.4 - YouTube media validation and preview.
+09.3 - Custom exercise creation and editing. COMPLETE via PR #65, merged on 2026-09-06.
+09.4 - YouTube media validation and preview. NEXT.
 09.5 - Video upload/storage.
 09.6 - Workout integration.
 09.7 - Student media experience.
@@ -238,4 +238,5 @@ IMPLEMENTATION_STARTED=YES
 MIGRATION_CREATED=YES
 STAGE_09_1_STATUS=COMPLETE
 STAGE_09_2_STATUS=COMPLETE
-NEXT_STAGE=09.3_CUSTOM_EXERCISE_CREATION_EDITING
+STAGE_09_3_STATUS=COMPLETE
+NEXT_STAGE=09.4_YOUTUBE_MEDIA_VALIDATION_PREVIEW

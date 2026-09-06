@@ -2,6 +2,8 @@
 
 Cycle 09.3 adds custom exercise creation and editing to the exercise library.
 
+Status: COMPLETE via PR #65, merged on 2026-09-06.
+
 ## Delivered
 
 - Personal exercise create/edit modal on `/exercicios`.
@@ -22,3 +24,7 @@ No schema, RLS, storage or production database action is required for this stage
 ## Runtime
 
 Authenticated browser runtime was not executed locally. Manual visual QA remains required for the new modal on `/exercicios`.
+
+## Next
+
+09.4 - YouTube media validation and preview.

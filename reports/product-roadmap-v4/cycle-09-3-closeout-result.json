@@ -1,0 +1,27 @@
+{
+  "cycle": "Product Roadmap v4 - Cycle 09",
+  "stage": "09.3",
+  "title": "Custom exercise creation and editing",
+  "status": "COMPLETE",
+  "implementationPullRequest": 65,
+  "implementationMergeCommit": "7bb6308b5b28872048b41a2dab6544673a170d46",
+  "mergedAt": "2026-09-06T00:19:01Z",
+  "supabaseChange": false,
+  "productionActionRequired": false,
+  "postMergeValidation": {
+    "exerciseLibraryCustomExercises": "PASS",
+    "exerciseLibraryReadExperience": "PASS",
+    "exerciseLibraryDataModel": "PASS",
+    "exerciseLibrarySecurity": "PASS",
+    "exerciseLibraryMediaSecurity": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "diffCheck": "PASS"
+  },
+  "limitations": [
+    "Authenticated browser runtime was not executed locally.",
+    "Manual visual QA remains required for the new personal exercise modal."
+  ],
+  "nextStage": "09.4 - YouTube media validation and preview",
+  "recommendedBranch": "feat/product-roadmap-v4-cycle-09-4-youtube-media-validation-preview"
+}
