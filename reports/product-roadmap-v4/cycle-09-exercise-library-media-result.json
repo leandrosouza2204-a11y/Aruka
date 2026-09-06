@@ -12,6 +12,12 @@
     "mergeCommit": "ea8d027e249714b6a9365a07f0aec5f9785e51c1",
     "migration": "20260905120000_exercise_library_media_v1.sql"
   },
+  "stage09_4": {
+    "status": "COMPLETE",
+    "pr": 67,
+    "mergeCommit": "a742e4406e78c992e015a7b9b74671b2d6f0062b",
+    "supabaseChanged": false
+  },
   "previousNextCycle": "COACH_AUTOMATION",
   "coachAutomationPostponed": true,
   "newCycle": "EXERCISE_LIBRARY_AND_MEDIA",
@@ -59,8 +65,8 @@
     "09.1": "Data model and security",
     "09.2": "Exercise library read experience - COMPLETE via PR #63",
     "09.3": "Custom exercise creation and editing - COMPLETE via PR #65",
-    "09.4": "YouTube media validation and preview - NEXT",
-    "09.5": "Video upload/storage",
+    "09.4": "YouTube media validation and preview - COMPLETE via PR #67",
+    "09.5": "Video upload/storage - NEXT",
     "09.6": "Workout integration",
     "09.7": "Student media experience",
     "09.8": "Seed/catalog",
@@ -70,5 +76,5 @@
     "cycleDoc": "docs/product-roadmap-v4/16-cycle-09-exercise-library-media.md",
     "planningReport": "reports/product-roadmap-v4/cycle-09-exercise-library-media-summary.md"
   },
-  "nextAction": "START_CYCLE_09_2_EXERCISE_LIBRARY_READ_EXPERIENCE"
+  "nextAction": "START_CYCLE_09_5_VIDEO_UPLOAD_STORAGE"
 }

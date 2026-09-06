@@ -2,7 +2,7 @@
   "cycle": "09",
   "stage": "09.4",
   "title": "YouTube media validation and preview",
-  "decision": "VALIDATED_PENDING_PR",
+  "decision": "COMPLETE",
   "branch": "feat/product-roadmap-v4-cycle-09-4-youtube-media-validation-preview",
   "baseSha": "d74db1689a934a6acc1ac42d930c134b9f281313",
   "scope": [
@@ -62,11 +62,26 @@
       "fail": 0
     }
   },
-  "runtime": "LOCAL_SUPABASE_RUNTIME_BLOCKED_CONTAINER_NOT_RUNNING",
+  "runtime": "AUTHENTICATED_RUNTIME_LIMITATION",
   "visual": "MANUAL_VISUAL_QA_REQUIRED",
   "supabaseChanged": false,
   "migration": null,
   "dbPush": "NOT_REQUIRED",
   "productionActionRequired": false,
+  "pullRequest": 67,
+  "mergeCommit": "a742e4406e78c992e015a7b9b74671b2d6f0062b",
+  "mergedAt": "2026-09-06T01:29:13Z",
+  "postMergeValidation": {
+    "exerciseLibraryYoutubeMedia": "PASS",
+    "exerciseLibraryCustomExercises": "PASS",
+    "exerciseLibraryReadExperience": "PASS",
+    "lint": "PASS",
+    "build": "PASS"
+  },
+  "limitations": [
+    "Authenticated browser runtime was not executed locally.",
+    "Local Supabase runtime validations were blocked before merge because the local database container was not running.",
+    "GitHub Supabase Local Quality Gates passed on PR #67."
+  ],
   "nextStage": "09.5 - Video upload/storage"
 }
