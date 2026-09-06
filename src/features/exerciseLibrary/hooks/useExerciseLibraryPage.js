@@ -3,12 +3,17 @@ import {
   arquivarExercicioPessoalSupabase,
   atualizarExercicioPessoalSupabase,
   buscarBibliotecaExerciciosSupabase,
+  criarSignedExerciseMediaUrl,
   criarExercicioPessoalSupabase,
   criarFormularioExercicioBiblioteca,
   criarOpcoesBibliotecaExercicios,
   filtrarExerciciosBiblioteca,
   validarFormularioExercicioBiblioteca,
 } from "../../../services/exerciseLibraryService";
+import {
+  getExerciseVideoFileErrorMessage,
+  validateExerciseVideoFile,
+} from "../utils/uploadedVideoMedia";
 import { parseYouTubeMediaInput } from "../utils/youtubeMedia";
 
 const FILTROS_INICIAIS = {
@@ -31,6 +36,15 @@ export function useExerciseLibraryPage() {
   const [salvando, setSalvando] = useState(false);
   const [arquivandoId, setArquivandoId] = useState("");
   const [mensagem, setMensagem] = useState(null);
+  const [uploadPreviewUrl, setUploadPreviewUrl] = useState("");
+  const [uploadStatus, setUploadStatus] = useState("idle");
+
+  const limparUploadPreview = useCallback(function limparUploadPreview() {
+    setUploadPreviewUrl((atual) => {
+      if (atual?.startsWith("blob:")) URL.revokeObjectURL(atual);
+      return "";
+    });
+  }, []);
 
   const carregarExercicios = useCallback(async function carregarExercicios(options = {}) {
     if (!options.silencioso) setCarregando(true);
@@ -61,6 +75,8 @@ export function useExerciseLibraryPage() {
     return () => window.clearTimeout(timer);
   }, [carregarExercicios]);
 
+  useEffect(() => () => limparUploadPreview(), [limparUploadPreview]);
+
   const exerciciosFiltrados = useMemo(
     () => filtrarExerciciosBiblioteca(exercicios, filtros),
     [exercicios, filtros]
@@ -71,9 +87,22 @@ export function useExerciseLibraryPage() {
     [exercicios]
   );
   const youtubePreview = useMemo(
-    () => parseYouTubeMediaInput(formulario.youtubeInput),
-    [formulario.youtubeInput]
+    () => (formulario.mediaMode === "youtube" ? parseYouTubeMediaInput(formulario.youtubeInput) : parseYouTubeMediaInput("")),
+    [formulario.mediaMode, formulario.youtubeInput]
   );
+
+  useEffect(() => {
+    if (!modalAberto || formulario.mediaMode !== "upload" || formulario.uploadFile || !formulario.uploadedVideoPath) return undefined;
+
+    let ativo = true;
+    criarSignedExerciseMediaUrl(formulario.uploadedVideoPath).then((signedUrl) => {
+      if (ativo) setUploadPreviewUrl(signedUrl);
+    });
+
+    return () => {
+      ativo = false;
+    };
+  }, [formulario.mediaMode, formulario.uploadFile, formulario.uploadedVideoPath, modalAberto]);
 
   function atualizarFiltro(nome, valor) {
     setFiltros((atuais) => ({ ...atuais, [nome]: valor }));
@@ -88,6 +117,8 @@ export function useExerciseLibraryPage() {
     setFormulario(criarFormularioExercicioBiblioteca());
     setErrosFormulario({});
     setMensagem(null);
+    limparUploadPreview();
+    setUploadStatus("idle");
     setModalAberto(true);
   }
 
@@ -95,9 +126,14 @@ export function useExerciseLibraryPage() {
     if (exercicio?.origem !== "personal") return;
 
     setExercicioEditando(exercicio);
-    setFormulario(criarFormularioExercicioBiblioteca(exercicio));
+    setFormulario({
+      ...criarFormularioExercicioBiblioteca(exercicio),
+      previousMediaPath: exercicio.midia?.mediaPath || "",
+    });
     setErrosFormulario({});
     setMensagem(null);
+    limparUploadPreview();
+    setUploadStatus(exercicio.midia?.type === "uploaded_video" ? "success" : "idle");
     setModalAberto(true);
   }
 
@@ -111,14 +147,79 @@ export function useExerciseLibraryPage() {
     setExercicioEditando(null);
     setFormulario(criarFormularioExercicioBiblioteca());
     setErrosFormulario({});
+    limparUploadPreview();
+    setUploadStatus("idle");
   }
 
   function atualizarFormulario(nome, valor) {
+    if (nome === "mediaMode") {
+      limparUploadPreview();
+      setUploadStatus(valor === "upload" && formulario.uploadedVideoPath ? "success" : "idle");
+      setFormulario((atual) => ({
+        ...atual,
+        mediaMode: valor,
+        youtubeInput: valor === "youtube" ? atual.youtubeInput : "",
+        uploadFile: null,
+        uploadedVideoPath: valor === "upload" ? atual.uploadedVideoPath : "",
+        uploadedVideoMimeType: valor === "upload" ? atual.uploadedVideoMimeType : "",
+      }));
+      setErrosFormulario({});
+      return;
+    }
+
     setFormulario((atual) => ({ ...atual, [nome]: valor }));
     setErrosFormulario((atuais) => {
       if (!atuais[nome]) return atuais;
       const restante = { ...atuais };
       delete restante[nome];
+      return restante;
+    });
+  }
+
+  function selecionarArquivoVideo(file) {
+    limparUploadPreview();
+    const validation = validateExerciseVideoFile(file);
+    if (!validation.ok) {
+      setUploadStatus("error");
+      setErrosFormulario((atuais) => ({
+        ...atuais,
+        uploadFile: getExerciseVideoFileErrorMessage(validation.error),
+      }));
+      setFormulario((atual) => ({ ...atual, uploadFile: null, uploadedVideoPath: "", uploadedVideoMimeType: "" }));
+      return;
+    }
+
+    const localUrl = URL.createObjectURL(file);
+    setUploadPreviewUrl(localUrl);
+    setUploadStatus("selected");
+    setErrosFormulario((atuais) => {
+      const restante = { ...atuais };
+      delete restante.uploadFile;
+      return restante;
+    });
+    setFormulario((atual) => ({
+      ...atual,
+      mediaMode: "upload",
+      youtubeInput: "",
+      uploadFile: file,
+      uploadedVideoPath: "",
+      uploadedVideoMimeType: file.type,
+    }));
+  }
+
+  function removerVideoUpload() {
+    limparUploadPreview();
+    setUploadStatus("idle");
+    setFormulario((atual) => ({
+      ...atual,
+      mediaMode: "none",
+      uploadFile: null,
+      uploadedVideoPath: "",
+      uploadedVideoMimeType: "",
+    }));
+    setErrosFormulario((atuais) => {
+      const restante = { ...atuais };
+      delete restante.uploadFile;
       return restante;
     });
   }
@@ -135,6 +236,7 @@ export function useExerciseLibraryPage() {
 
     setSalvando(true);
     setMensagem(null);
+    if (formulario.mediaMode === "upload" && formulario.uploadFile) setUploadStatus("uploading");
 
     try {
       const salvo = exercicioEditando
@@ -155,6 +257,7 @@ export function useExerciseLibraryPage() {
       return true;
     } catch (error) {
       console.error(error);
+      if (formulario.mediaMode === "upload") setUploadStatus("error");
       if (error.validationErrors) setErrosFormulario(error.validationErrors);
       setMensagem({
         type: "error",
@@ -213,6 +316,8 @@ export function useExerciseLibraryPage() {
     mensagem,
     opcoesFiltro,
     youtubePreview,
+    uploadPreviewUrl,
+    uploadStatus,
     arquivandoId,
     retryEmAndamento,
     salvando,
@@ -221,6 +326,8 @@ export function useExerciseLibraryPage() {
     fecharModal,
     atualizarFormulario,
     atualizarFiltro,
+    selecionarArquivoVideo,
+    removerVideoUpload,
     arquivarExercicio,
     limparFiltros,
     salvarExercicio,

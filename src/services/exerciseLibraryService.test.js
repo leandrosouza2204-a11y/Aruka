@@ -143,6 +143,47 @@ test("cria payload pessoal com YouTube canonico sem persistir embed ou thumbnail
   assert.equal("thumbnailUrl" in resultado.payload, false);
 });
 
+test("cria payload pessoal com upload e limpa campos YouTube", () => {
+  const resultado = criarPayloadExercicioPessoal(
+    {
+      nome: "Supino reto",
+      grupoMuscular: "Peitoral",
+      categoria: "Musculacao",
+      mediaMode: "upload",
+      uploadedVideoPath:
+        "00000000-0000-4000-8000-000000009101/exercises/00000000-0000-4000-8000-000000009202/00000000-0000-4000-8000-000000009303.mp4",
+      uploadedVideoMimeType: "video/mp4",
+      youtubeInput: "https://youtu.be/dQw4w9WgXcQ",
+    },
+    "user-1"
+  );
+
+  assert.equal(resultado.valido, true);
+  assert.equal(resultado.payload.youtube_url, "");
+  assert.equal(resultado.payload.media_type, "uploaded_video");
+  assert.equal(resultado.payload.media_mime_type, "video/mp4");
+  assert.equal(resultado.payload.thumbnail_path, null);
+});
+
+test("remove upload quando modo volta para sem midia", () => {
+  const resultado = criarPayloadExercicioPessoal(
+    {
+      nome: "Supino reto",
+      grupoMuscular: "Peitoral",
+      categoria: "Musculacao",
+      mediaMode: "none",
+      uploadedVideoPath:
+        "00000000-0000-4000-8000-000000009101/exercises/00000000-0000-4000-8000-000000009202/00000000-0000-4000-8000-000000009303.mp4",
+      uploadedVideoMimeType: "video/mp4",
+    },
+    "user-1"
+  );
+
+  assert.equal(resultado.valido, true);
+  assert.equal(resultado.payload.media_type, null);
+  assert.equal(resultado.payload.media_path, null);
+});
+
 test("bloqueia YouTube inseguro no formulario pessoal", () => {
   const resultado = validarFormularioExercicioBiblioteca({
     nome: "Supino reto",
@@ -153,6 +194,18 @@ test("bloqueia YouTube inseguro no formulario pessoal", () => {
 
   assert.equal(resultado.valido, false);
   assert.equal(resultado.erros.youtubeInput, "Use um link do YouTube ou youtu.be.");
+});
+
+test("exige arquivo quando modo upload nao tem referencia existente", () => {
+  const resultado = validarFormularioExercicioBiblioteca({
+    nome: "Supino reto",
+    grupoMuscular: "Peitoral",
+    categoria: "Musculacao",
+    mediaMode: "upload",
+  });
+
+  assert.equal(resultado.valido, false);
+  assert.equal(resultado.erros.uploadFile, "Selecione um vídeo válido.");
 });
 
 test("permite gerenciar somente exercicios pessoais", () => {

@@ -28,7 +28,7 @@ check("arquivos da experiencia existem", ["page", "component", "hook", "service"
 check("rota autenticada /exercicios registrada", all(source.app, ["path=\"/exercicios\"", "<Exercicios />", "<ProtectedRoute>", "<SubscriptionRoute>", "<LegalRoute>"]));
 check("navegacao desktop e mobile exposta", all(source.sidebar + source.mobileNav, ["/exercicios", "BookOpenCheck", "Exercicios"]));
 check("servico usa tabela canonica com leitura ativa", all(source.service, [".from(\"exercise_library\")", ".eq(\"status\", \"active\")", ".select(EXERCISE_LIBRARY_SELECT)"]));
-check("servico nao seleciona campos privados", !/owner_id|media_path/.test(source.service.match(/EXERCISE_LIBRARY_SELECT[\s\S]*?\]\.join/s)?.[0] ?? ""));
+check("servico nao seleciona owner privado", !/owner_id/.test(source.service.match(/EXERCISE_LIBRARY_SELECT[\s\S]*?\]\.join/s)?.[0] ?? ""));
 check("servico nao usa role privilegiada", !/service_role|SUPABASE_SERVICE|createClient\(/.test(source.service));
 check("mapeamento cobre origem, grupo, categoria e midia", all(source.mapper, ["origemLabel", "grupoMuscular", "categoria", "youtube", "uploaded_video"]));
 check("filtros cobrem busca, origem, grupo muscular e midia", all(source.mapper + source.component, ["busca", "origem", "grupoMuscular", "midia", "exercise-library-search"]));
@@ -70,7 +70,15 @@ function supabaseChanged() {
     git(["diff", "--name-only", "--", "supabase/**"]),
     git(["diff", "--cached", "--name-only", "--", "supabase/**"]),
     git(["ls-files", "--others", "--exclude-standard", "--", "supabase"]),
-  ].flat();
+  ].flat().filter((path) => !isExpectedCycle95SupabaseChange(path));
+}
+
+function isExpectedCycle95SupabaseChange(path) {
+  return [
+    "supabase/baseline-src/03-constraints.sql",
+    "supabase/baseline-src/10-storage.sql",
+    "supabase/migrations/20260906020000_exercise_video_upload_storage_v1.sql",
+  ].includes(path.replaceAll("\\", "/"));
 }
 
 function git(args) {

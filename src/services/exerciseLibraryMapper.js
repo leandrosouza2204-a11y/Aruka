@@ -87,6 +87,8 @@ function buildExerciseMedia(row) {
       videoId: "",
       embedUrl: "",
       thumbnailUrl: "",
+      mediaPath: row.media_path || "",
+      mimeType: row.media_mime_type || "",
       thumbnailPath: row.thumbnail_path || "",
     };
   }
@@ -98,6 +100,8 @@ function buildExerciseMedia(row) {
     videoId: "",
     embedUrl: "",
     thumbnailUrl: "",
+    mediaPath: "",
+    mimeType: "",
     thumbnailPath: "",
   };
 }

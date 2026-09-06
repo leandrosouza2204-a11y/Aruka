@@ -11,7 +11,7 @@ function expect(pattern, message) {
   if (!pattern.test(sql)) errors.push(message);
 }
 
-expect(/'exercise-media'[\s\S]*false[\s\S]*104857600[\s\S]*video\/mp4[\s\S]*video\/webm[\s\S]*video\/quicktime/i, "exercise-media bucket must be private with size and video MIME restrictions");
+expect(/'exercise-media'[\s\S]*false[\s\S]*104857600[\s\S]*video\/mp4[\s\S]*video\/webm/i, "exercise-media bucket must be private with size and video MIME restrictions");
 expect(/create\s+policy\s+exercise_media_select_authorized[\s\S]*bucket_id\s+=\s+'exercise-media'[\s\S]*public\.exercise_is_prescribed_to_current_student\(e\.id\)/i, "Storage select must support authorized student reads only through the prescribed exercise helper");
 expect(/create\s+policy\s+exercise_media_insert_own_folder[\s\S]*with\s+check[\s\S]*storage\.foldername\(name\)\)\[1\]\s+=\s+auth\.uid\(\)::text/i, "Upload must be scoped to auth.uid() folder");
 expect(/create\s+policy\s+exercise_media_delete_own_folder[\s\S]*storage\.foldername\(name\)\)\[1\]\s+=\s+auth\.uid\(\)::text/i, "Delete must be scoped to auth.uid() folder");

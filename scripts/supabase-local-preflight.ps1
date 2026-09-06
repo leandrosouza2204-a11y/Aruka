@@ -30,7 +30,8 @@ $ExpectedActiveMigrations = @(
   "20260829173000_student_pending_invite_claim_permissions.sql",
   "20260830203000_pending_student_claim_allows_default_profile.sql",
   "20260831090000_fix_pending_student_claim_return.sql",
-  "20260905120000_exercise_library_media_v1.sql"
+  "20260905120000_exercise_library_media_v1.sql",
+  "20260906020000_exercise_video_upload_storage_v1.sql"
 )
 $IsCi = $env:CI -eq "true"
 $IsCiLocalOnly = $env:SUPABASE_CI_LOCAL_ONLY -eq "true"

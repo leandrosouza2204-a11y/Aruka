@@ -57,7 +57,7 @@ values (
   'exercise-media',
   false,
   104857600,
-  array['video/mp4', 'video/webm', 'video/quicktime', 'image/jpeg', 'image/png', 'image/webp']
+  array['video/mp4', 'video/webm']
 )
 on conflict (id) do update
 set public = false,

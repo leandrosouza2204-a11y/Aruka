@@ -47,8 +47,8 @@ check("formulario valida youtube opcional", all(source.form, [
   "youtubeInput",
   "parseYouTubeMediaInput",
   "getYouTubeMediaErrorMessage",
-  "youtube_url: youtubeMedia?.canonicalUrl || \"\"",
-  "media_type: youtubeMedia ? \"youtube\" : null",
+  "youtube_url: youtube.media.canonicalUrl",
+  "media_type: \"youtube\"",
 ]));
 check("payload não persiste embed/thumbnail remoto", !/embedUrl\s*:|thumbnailUrl\s*:/.test(source.form));
 check("servico permite atualizar/remover mídia pessoal", all(source.service, [
@@ -112,7 +112,15 @@ function supabaseChanged() {
     git(["diff", "--name-only", "--", "supabase/**"]),
     git(["diff", "--cached", "--name-only", "--", "supabase/**"]),
     git(["ls-files", "--others", "--exclude-standard", "--", "supabase"]),
-  ].flat();
+  ].flat().filter((path) => !isExpectedCycle95SupabaseChange(path));
+}
+
+function isExpectedCycle95SupabaseChange(path) {
+  return [
+    "supabase/baseline-src/03-constraints.sql",
+    "supabase/baseline-src/10-storage.sql",
+    "supabase/migrations/20260906020000_exercise_video_upload_storage_v1.sql",
+  ].includes(path.replaceAll("\\", "/"));
 }
 
 function git(args) {

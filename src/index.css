@@ -61,6 +61,16 @@
     aspect-ratio: 16 / 9 !important;
     width: 100% !important;
   }
+
+  .exercise-library-media-options {
+    grid-template-columns: 1fr !important;
+  }
+
+  .exercise-library-upload-preview {
+    aspect-ratio: 16 / 9 !important;
+    max-height: none !important;
+    width: 100% !important;
+  }
 }
 
 @media (max-width: 420px) {
