@@ -56,6 +56,11 @@
   .exercise-library-form-grid {
     grid-template-columns: 1fr !important;
   }
+
+  .exercise-library-youtube-preview {
+    aspect-ratio: 16 / 9 !important;
+    width: 100% !important;
+  }
 }
 
 @media (max-width: 420px) {

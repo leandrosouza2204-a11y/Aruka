@@ -1,3 +1,5 @@
+import { parseYouTubeMediaInput } from "../features/exerciseLibrary/utils/youtubeMedia.js";
+
 export function mapExerciseLibraryRows(rows) {
   return rows.map(rowParaExercicioBiblioteca);
 }
@@ -64,10 +66,15 @@ export function criarErroBibliotecaExercicios(error) {
 
 function buildExerciseMedia(row) {
   if (row.media_type === "youtube") {
+    const parsed = parseYouTubeMediaInput(row.youtube_url);
+
     return {
       type: "youtube",
       label: "YouTube",
       youtubeUrl: row.youtube_url || "",
+      videoId: parsed.ok ? parsed.media.videoId : "",
+      embedUrl: parsed.ok ? parsed.media.embedUrl : "",
+      thumbnailUrl: parsed.ok ? parsed.media.thumbnailUrl : "",
       thumbnailPath: "",
     };
   }
@@ -77,6 +84,9 @@ function buildExerciseMedia(row) {
       type: "uploaded_video",
       label: "Video",
       youtubeUrl: "",
+      videoId: "",
+      embedUrl: "",
+      thumbnailUrl: "",
       thumbnailPath: row.thumbnail_path || "",
     };
   }
@@ -85,6 +95,9 @@ function buildExerciseMedia(row) {
     type: "",
     label: "Sem midia",
     youtubeUrl: "",
+    videoId: "",
+    embedUrl: "",
+    thumbnailUrl: "",
     thumbnailPath: "",
   };
 }

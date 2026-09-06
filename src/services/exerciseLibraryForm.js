@@ -1,3 +1,8 @@
+import {
+  getYouTubeMediaErrorMessage,
+  parseYouTubeMediaInput,
+} from "../features/exerciseLibrary/utils/youtubeMedia.js";
+
 const LIMITS = {
   nome: 120,
   descricao: 240,
@@ -12,6 +17,7 @@ export const EXERCISE_LIBRARY_FORM_INITIAL = {
   grupoMuscular: "",
   categoria: "",
   instrucoes: "",
+  youtubeInput: "",
 };
 
 export function criarFormularioExercicioBiblioteca(exercicio = null) {
@@ -23,6 +29,7 @@ export function criarFormularioExercicioBiblioteca(exercicio = null) {
     grupoMuscular: exercicio.grupoMuscular || "",
     categoria: exercicio.categoria || "",
     instrucoes: exercicio.instrucoes || "",
+    youtubeInput: exercicio.midia?.youtubeUrl || "",
   };
 }
 
@@ -40,6 +47,11 @@ export function validarFormularioExercicioBiblioteca(formulario) {
   }
   if (valores.categoria.length > LIMITS.categoria) erros.categoria = `Use até ${LIMITS.categoria} caracteres.`;
   if (valores.instrucoes.length > LIMITS.instrucoes) erros.instrucoes = `Use até ${LIMITS.instrucoes} caracteres.`;
+
+  const youtube = parseYouTubeMediaInput(valores.youtubeInput);
+  if (valores.youtubeInput && !youtube.ok) {
+    erros.youtubeInput = getYouTubeMediaErrorMessage(youtube.error);
+  }
 
   return {
     valido: Object.keys(erros).length === 0,
@@ -59,6 +71,9 @@ export function criarPayloadExercicioPessoal(formulario, ownerId) {
     };
   }
 
+  const youtube = parseYouTubeMediaInput(resultado.valores.youtubeInput);
+  const youtubeMedia = youtube.ok ? youtube.media : null;
+
   return {
     valido: true,
     erros: {},
@@ -71,8 +86,8 @@ export function criarPayloadExercicioPessoal(formulario, ownerId) {
       muscle_group: resultado.valores.grupoMuscular,
       category: resultado.valores.categoria,
       instructions: resultado.valores.instrucoes,
-      youtube_url: "",
-      media_type: null,
+      youtube_url: youtubeMedia?.canonicalUrl || "",
+      media_type: youtubeMedia ? "youtube" : null,
       media_path: null,
       thumbnail_path: null,
       media_mime_type: null,
@@ -92,6 +107,7 @@ export function sanitizarFormularioExercicioBiblioteca(formulario) {
     grupoMuscular: compact(formulario?.grupoMuscular),
     categoria: compact(formulario?.categoria),
     instrucoes: compact(formulario?.instrucoes),
+    youtubeInput: String(formulario?.youtubeInput || "").trim(),
   };
 }
 

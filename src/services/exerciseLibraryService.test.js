@@ -23,7 +23,7 @@ test("normaliza exercicio oficial com midia do YouTube sem expor owner ou storag
     muscle_group: "Peitoral",
     category: "Musculacao",
     instructions: "Controle a descida",
-    youtube_url: "https://youtu.be/demo",
+    youtube_url: "https://youtu.be/dQw4w9WgXcQ",
     media_type: "youtube",
     media_path: "hidden/path.mp4",
     status: "active",
@@ -34,6 +34,9 @@ test("normaliza exercicio oficial com midia do YouTube sem expor owner ou storag
   assert.equal(exercicio.origemLabel, "Oficial");
   assert.equal(exercicio.possuiMidia, true);
   assert.equal(exercicio.midia.label, "YouTube");
+  assert.equal(exercicio.midia.videoId, "dQw4w9WgXcQ");
+  assert.equal(exercicio.midia.embedUrl, "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ");
+  assert.equal(exercicio.midia.thumbnailUrl, "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg");
   assert.equal("owner_id" in exercicio, false);
   assert.equal("media_path" in exercicio, false);
 });
@@ -118,6 +121,38 @@ test("cria payload pessoal sem permitir midia ou origem oficial", () => {
   assert.equal(resultado.payload.name, "Remada baixa");
   assert.equal(resultado.payload.media_type, null);
   assert.equal(resultado.payload.media_path, null);
+});
+
+test("cria payload pessoal com YouTube canonico sem persistir embed ou thumbnail remoto", () => {
+  const resultado = criarPayloadExercicioPessoal(
+    {
+      nome: "Supino reto",
+      grupoMuscular: "Peitoral",
+      categoria: "Musculacao",
+      youtubeInput: "https://youtu.be/dQw4w9WgXcQ?si=abc",
+    },
+    "user-1"
+  );
+
+  assert.equal(resultado.valido, true);
+  assert.equal(resultado.payload.youtube_url, "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+  assert.equal(resultado.payload.media_type, "youtube");
+  assert.equal(resultado.payload.media_path, null);
+  assert.equal(resultado.payload.thumbnail_path, null);
+  assert.equal("embedUrl" in resultado.payload, false);
+  assert.equal("thumbnailUrl" in resultado.payload, false);
+});
+
+test("bloqueia YouTube inseguro no formulario pessoal", () => {
+  const resultado = validarFormularioExercicioBiblioteca({
+    nome: "Supino reto",
+    grupoMuscular: "Peitoral",
+    categoria: "Musculacao",
+    youtubeInput: "https://youtube.com.evil.test/watch?v=dQw4w9WgXcQ",
+  });
+
+  assert.equal(resultado.valido, false);
+  assert.equal(resultado.erros.youtubeInput, "Use um link do YouTube ou youtu.be.");
 });
 
 test("permite gerenciar somente exercicios pessoais", () => {

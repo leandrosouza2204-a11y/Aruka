@@ -9,6 +9,7 @@ import {
   filtrarExerciciosBiblioteca,
   validarFormularioExercicioBiblioteca,
 } from "../../../services/exerciseLibraryService";
+import { parseYouTubeMediaInput } from "../utils/youtubeMedia";
 
 const FILTROS_INICIAIS = {
   busca: "",
@@ -68,6 +69,10 @@ export function useExerciseLibraryPage() {
   const opcoesFiltro = useMemo(
     () => criarOpcoesBibliotecaExercicios(exercicios),
     [exercicios]
+  );
+  const youtubePreview = useMemo(
+    () => parseYouTubeMediaInput(formulario.youtubeInput),
+    [formulario.youtubeInput]
   );
 
   function atualizarFiltro(nome, valor) {
@@ -207,6 +212,7 @@ export function useExerciseLibraryPage() {
     exercicioEditando,
     mensagem,
     opcoesFiltro,
+    youtubePreview,
     arquivandoId,
     retryEmAndamento,
     salvando,

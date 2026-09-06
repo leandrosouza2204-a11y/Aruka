@@ -23,7 +23,7 @@ const checks = [];
 check("arquivos 09.3 existem", ["component", "hook", "service", "form", "tests"].every((key) => source[key]));
 check("formulario pessoal valida campos obrigatorios", all(source.form, ["Informe o nome do exercício.", "Informe o grupo muscular.", "Informe a categoria."]));
 check("payload força personal active e owner_id", all(source.form, ["owner_id: ownerId", "origin: \"personal\"", "status: \"active\""]));
-check("payload não antecipa mídia", all(source.form, ["youtube_url: \"\"", "media_type: null", "media_path: null"]));
+check("payload preserva contrato de midia pessoal", all(source.form, ["youtube_url:", "media_type:", "media_path: null"]));
 check("servico cria exercicio pessoal via usuario autenticado", all(source.service, ["criarExercicioPessoalSupabase", "buscarUsuarioAtualId", ".insert(resultado.payload)"]));
 check("servico edita somente origem personal", all(source.service, ["atualizarExercicioPessoalSupabase", ".eq(\"origin\", \"personal\")", ".update(payload)"]));
 check("servico arquiva por status sem hard delete", all(source.service, ["arquivarExercicioPessoalSupabase", "status: \"archived\"", "archived_at"]) && !source.service.includes(".delete("));
