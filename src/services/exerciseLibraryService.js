@@ -77,11 +77,6 @@ export async function atualizarExercicioPessoalSupabase(exercicioId, formulario)
   const payload = { ...resultado.payload };
   delete payload.owner_id;
   delete payload.status;
-  delete payload.youtube_url;
-  delete payload.media_type;
-  delete payload.media_path;
-  delete payload.thumbnail_path;
-  delete payload.media_mime_type;
   delete payload.archived_at;
   const { data, error } = await supabase
     .from("exercise_library")

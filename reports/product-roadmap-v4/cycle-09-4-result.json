@@ -1,0 +1,72 @@
+{
+  "cycle": "09",
+  "stage": "09.4",
+  "title": "YouTube media validation and preview",
+  "decision": "VALIDATED_PENDING_PR",
+  "branch": "feat/product-roadmap-v4-cycle-09-4-youtube-media-validation-preview",
+  "baseSha": "d74db1689a934a6acc1ac42d930c134b9f281313",
+  "scope": [
+    "youtube parser and canonical normalization",
+    "safe no-cookie preview",
+    "personal exercise create/edit media integration",
+    "unsafe input rejection",
+    "09.1/09.2/09.3 regression preservation"
+  ],
+  "files": {
+    "created": [
+      "src/features/exerciseLibrary/utils/youtubeMedia.js",
+      "src/features/exerciseLibrary/utils/youtubeMedia.test.js",
+      "scripts/validate-exercise-library-youtube-media.mjs",
+      "docs/product-roadmap-v4-cycle-09/13-youtube-media-audit.md",
+      "docs/product-roadmap-v4-cycle-09/14-youtube-media-implementation.md",
+      "docs/product-roadmap-v4-cycle-09/15-youtube-media-validation.md",
+      "reports/product-roadmap-v4/cycle-09-4-result.json",
+      "reports/product-roadmap-v4/cycle-09-4-summary.md"
+    ],
+    "changed": [
+      "package.json",
+      "src/features/exerciseLibrary/components/ExerciseLibraryPage.jsx",
+      "src/features/exerciseLibrary/hooks/useExerciseLibraryPage.js",
+      "src/index.css",
+      "src/services/exerciseLibraryForm.js",
+      "src/services/exerciseLibraryMapper.js",
+      "src/services/exerciseLibraryService.js",
+      "src/services/exerciseLibraryService.test.js"
+    ]
+  },
+  "qa": {
+    "exerciseLibraryYoutubeMedia": "PASS",
+    "exerciseLibraryCustomExercises": "PASS",
+    "exerciseLibraryReadExperience": "PASS",
+    "exerciseLibraryDataModel": "PASS",
+    "exerciseLibrarySecurity": "PASS",
+    "exerciseLibraryMediaSecurity": "PASS",
+    "exerciseLibraryLocalDrift": "BLOCKED_LOCAL_SUPABASE_CONTAINER_NOT_RUNNING",
+    "exerciseLibraryRlsRuntime": "BLOCKED_LOCAL_SUPABASE_CONTAINER_NOT_RUNNING",
+    "exerciseVideoProvider": "PASS",
+    "workoutTemplateSanitization": "PASS",
+    "workoutTemplatesData": "PASS",
+    "workoutTemplateDiscovery": "PASS",
+    "workoutTemplateGuidedApplication": "PASS",
+    "personalWorkoutTemplateManagement": "PASS",
+    "lint": "PASS",
+    "build": "PASS"
+  },
+  "tests": {
+    "youtubeMedia": {
+      "pass": 3,
+      "fail": 0
+    },
+    "exerciseLibraryService": {
+      "pass": 10,
+      "fail": 0
+    }
+  },
+  "runtime": "LOCAL_SUPABASE_RUNTIME_BLOCKED_CONTAINER_NOT_RUNNING",
+  "visual": "MANUAL_VISUAL_QA_REQUIRED",
+  "supabaseChanged": false,
+  "migration": null,
+  "dbPush": "NOT_REQUIRED",
+  "productionActionRequired": false,
+  "nextStage": "09.5 - Video upload/storage"
+}

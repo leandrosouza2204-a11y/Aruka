@@ -226,11 +226,15 @@ function ExerciseLibraryFilters({ page }) {
 function ExerciseLibraryCard({ exercicio, page }) {
   const isPersonal = exercicio.origem === "personal";
   const isArchiving = page.arquivandoId === exercicio.id;
+  const thumbnailUrl = exercicio.midia.type === "youtube" ? exercicio.midia.thumbnailUrl : "";
 
   return (
     <article className="exercise-library-card" data-testid="exercise-library-card" style={styles.card}>
-      <div style={styles.thumb} aria-hidden="true">
-        {exercicio.possuiMidia ? <Film size={24} /> : <Dumbbell size={24} />}
+      <div style={thumbnailUrl ? styles.thumbWithImage : styles.thumb} aria-hidden="true">
+        {thumbnailUrl && <img src={thumbnailUrl} alt="" loading="lazy" style={styles.thumbImage} />}
+        <span style={thumbnailUrl ? styles.thumbIconOverlay : undefined}>
+          {exercicio.possuiMidia ? <Film size={24} /> : <Dumbbell size={24} />}
+        </span>
       </div>
 
       <div style={styles.cardBody}>
@@ -288,6 +292,11 @@ function ExerciseLibraryFormModal({ page }) {
   const titleId = "exercise-library-form-title";
   const descriptionId = "exercise-library-form-description";
   const editing = Boolean(page.exercicioEditando);
+  const youtubeInput = String(page.formulario.youtubeInput || "").trim();
+  const youtubeError =
+    page.errosFormulario.youtubeInput ||
+    (youtubeInput && !page.youtubePreview.ok ? page.youtubePreview.message : "");
+  const youtubeMedia = page.youtubePreview.ok ? page.youtubePreview.media : null;
 
   useEffect(() => {
     function handleKeyDown(event) {
@@ -371,6 +380,28 @@ function ExerciseLibraryFormModal({ page }) {
             error={page.errosFormulario.instrucoes}
             onChange={(valor) => page.atualizarFormulario("instrucoes", valor)}
           />
+          <CampoTexto
+            id="exercise-youtube"
+            label="Vídeo do YouTube"
+            value={page.formulario.youtubeInput}
+            error={youtubeError}
+            helper="Cole o link do vídeo ou informe o ID do YouTube."
+            onChange={(valor) => page.atualizarFormulario("youtubeInput", valor)}
+          />
+
+          {youtubeMedia && (
+            <div className="exercise-library-youtube-preview" style={styles.youtubePreview}>
+              <iframe
+                title={`Prévia do vídeo: ${page.formulario.nome || "Exercício"}`}
+                src={youtubeMedia.embedUrl}
+                loading="lazy"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                style={styles.youtubeFrame}
+              />
+            </div>
+          )}
 
           <footer style={styles.modalFooter}>
             <button
@@ -399,15 +430,17 @@ function ExerciseLibraryFormModal({ page }) {
   );
 }
 
-function CampoTexto({ error, id, label, multiline = false, onChange, required = false, value }) {
+function CampoTexto({ error, helper, id, label, multiline = false, onChange, required = false, value }) {
   const errorId = `${id}-error`;
+  const helperId = `${id}-helper`;
+  const describedBy = [helper ? helperId : "", error ? errorId : ""].filter(Boolean).join(" ") || undefined;
   const fieldProps = {
     id,
     className: "app-input",
     value,
     required,
     "aria-invalid": Boolean(error),
-    "aria-describedby": error ? errorId : undefined,
+    "aria-describedby": describedBy,
     onChange: (event) => onChange(event.target.value),
     style: multiline ? styles.textarea : styles.field,
   };
@@ -419,6 +452,11 @@ function CampoTexto({ error, id, label, multiline = false, onChange, required = 
         {required && <strong aria-hidden="true"> *</strong>}
       </span>
       {multiline ? <textarea {...fieldProps} rows={5} /> : <input {...fieldProps} />}
+      {helper && (
+        <span id={helperId} style={styles.fieldHelper}>
+          {helper}
+        </span>
+      )}
       {error && (
         <span id={errorId} role="alert" style={styles.fieldError}>
           {error}
@@ -681,6 +719,36 @@ const styles = {
     justifyContent: "center",
     width: "72px",
   },
+  thumbWithImage: {
+    alignSelf: "start",
+    aspectRatio: "1",
+    border: "1px solid #bfdbfe",
+    borderRadius: "8px",
+    color: "#2563eb",
+    overflow: "hidden",
+    position: "relative",
+    width: "72px",
+  },
+  thumbImage: {
+    display: "block",
+    height: "100%",
+    objectFit: "cover",
+    width: "100%",
+  },
+  thumbIconOverlay: {
+    alignItems: "center",
+    background: "rgba(15, 23, 42, 0.58)",
+    borderRadius: "999px",
+    color: "white",
+    display: "inline-flex",
+    height: "34px",
+    justifyContent: "center",
+    left: "50%",
+    position: "absolute",
+    top: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "34px",
+  },
   cardBody: {
     display: "grid",
     gap: "10px",
@@ -835,6 +903,25 @@ const styles = {
     color: "#b91c1c",
     fontSize: "12px",
     fontWeight: "750",
+  },
+  fieldHelper: {
+    color: "#64748b",
+    fontSize: "12px",
+    lineHeight: 1.35,
+  },
+  youtubePreview: {
+    aspectRatio: "16 / 9",
+    background: "#0f172a",
+    border: "1px solid #cbd5e1",
+    borderRadius: "8px",
+    overflow: "hidden",
+    width: "100%",
+  },
+  youtubeFrame: {
+    border: 0,
+    display: "block",
+    height: "100%",
+    width: "100%",
   },
   modalFooter: {
     display: "flex",
