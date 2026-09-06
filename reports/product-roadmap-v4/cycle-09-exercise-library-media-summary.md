@@ -28,8 +28,8 @@ Implementation path:
 
 - 09.1: data model and security. COMPLETE via PR #61.
 - 09.2: read library. COMPLETE via PR #63, merged on 2026-09-05.
-- 09.3: custom exercise creation. NEXT.
-- 09.4: YouTube media.
+- 09.3: custom exercise creation. COMPLETE via PR #65, merged on 2026-09-06.
+- 09.4: YouTube media. NEXT.
 - 09.5: video upload/storage.
 - 09.6: workout integration.
 - 09.7: student media experience.
@@ -66,4 +66,5 @@ IMPLEMENTATION_STARTED=YES
 MIGRATION_CREATED=YES
 STAGE_09_1_COMPLETE=YES
 STAGE_09_2_STATUS=COMPLETE
-NEXT_STAGE=09.3_CUSTOM_EXERCISE_CREATION_EDITING
+STAGE_09_3_STATUS=COMPLETE
+NEXT_STAGE=09.4_YOUTUBE_MEDIA_VALIDATION_PREVIEW

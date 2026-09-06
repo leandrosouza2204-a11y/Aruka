@@ -10,7 +10,7 @@
 
 IN_PROGRESS
 
-Stages 09.1 and 09.2 are complete. Stages 09.3 through 09.9 remain pending.
+Stages 09.1, 09.2 and 09.3 are complete. Stages 09.4 through 09.9 remain pending.
 
 ## Objetivo
 
@@ -98,9 +98,9 @@ Coach Automation remains valuable, but is postponed because the current priority
 
 ## Primeira etapa recomendada
 
-Continue with 09.3 - Custom exercise creation and editing.
+Continue with 09.4 - YouTube media validation and preview.
 
-The completed first two implementation steps delivered schema shape, RLS/storage boundaries, legacy compatibility and the first read-only professional library experience. The next implementation step should add professional-owned custom exercise creation and editing without weakening the 09.1 security model.
+The completed first three implementation steps delivered schema shape, RLS/storage boundaries, legacy compatibility, the first read-only professional library experience and owner-scoped personal exercise creation/editing. The next implementation step should add YouTube media validation and preview without introducing uploads or workout insertion early.
 
 ## Guardrail arquitetural
 
