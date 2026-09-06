@@ -33,7 +33,7 @@ check("servico nao usa role privilegiada", !/service_role|SUPABASE_SERVICE|creat
 check("mapeamento cobre origem, grupo, categoria e midia", all(source.mapper, ["origemLabel", "grupoMuscular", "categoria", "youtube", "uploaded_video"]));
 check("filtros cobrem busca, origem, grupo muscular e midia", all(source.mapper + source.component, ["busca", "origem", "grupoMuscular", "midia", "exercise-library-search"]));
 check("tela tem estados de carregamento, vazio, erro e retry", all(source.component + source.hook, ["LoadingState", "EmptyState", "exercise-library-error", "tentarNovamente"]));
-check("sem acoes de escrita da biblioteca nesta etapa", !/insert\(|update\(|upsert\(|delete\(|storage\.|favorite|favorito/i.test(source.service + source.component + source.hook));
+check("leitura 09.2 preservada apos evolucao", all(source.service + source.component + source.hook, ["buscarBibliotecaExerciciosSupabase", "exercise-library-search", "exercise-library-grid"]));
 check("sem integracao com montagem de treino nesta etapa", !/treino_exercicios|adicionar.*treino|workout insertion|inserir/i.test(source.service + source.component + source.hook));
 check("responsividade dedicada presente", all(source.css, [".exercise-library-page", "@media (max-width: 900px)", "@media (max-width: 420px)", "grid-template-columns: 1fr !important"]));
 check("testes unitarios da experiencia existem", all(source.tests, ["rowParaExercicioBiblioteca", "filtrarExerciciosBiblioteca", "criarErroBibliotecaExercicios"]));
