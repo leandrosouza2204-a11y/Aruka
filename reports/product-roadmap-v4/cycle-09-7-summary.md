@@ -1,6 +1,8 @@
 # Cycle 09.7 Summary
 
-Decision: `READY_WITH_AUTHENTICATED_UI_RUNTIME_LIMITATION`.
+Decision: `COMPLETE_WITH_AUTHENTICATED_UI_RUNTIME_LIMITATION`.
+
+Functional PR #73 was merged into `main` with merge commit `5a5cd4cf80b17c2fa5f973a2d8d340e778f2d0b5`.
 
 Stage 09.7 implements authorized student media viewing inside delivered workouts.
 
