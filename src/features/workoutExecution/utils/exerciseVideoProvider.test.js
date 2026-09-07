@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { parseExerciseVideoUrl } from "./exerciseVideoProvider.js";
+import { parseExerciseVideoUrl, parseStudentExerciseMedia } from "./exerciseVideoProvider.js";
 
 const id = "dQw4w9WgXcQ";
 
@@ -35,4 +35,32 @@ test("blocks unsupported and unsafe URLs", () => {
   ]) {
     assert.equal(parseExerciseVideoUrl(url), null);
   }
+});
+
+test("maps student YouTube media from validated snapshot id", () => {
+  const parsed = parseStudentExerciseMedia({ type: "youtube", videoId: id });
+
+  assert.equal(parsed.type, "youtube");
+  assert.equal(parsed.embedUrl, `https://www.youtube-nocookie.com/embed/${id}`);
+});
+
+test("maps uploaded media marker without signed url persistence", () => {
+  const mediaPath = "00000000-0000-4000-8000-000000009101/exercises/00000000-0000-4000-8000-000000009202/00000000-0000-4000-8000-000000009303.mp4";
+  const parsed = parseStudentExerciseMedia({ type: "uploaded_video", mediaPath, mimeType: "video/mp4" });
+
+  assert.equal(parsed.type, "uploaded_video");
+  assert.equal(parsed.mediaPath, mediaPath);
+  assert.equal(JSON.stringify(parsed).includes("signedUrl"), false);
+});
+
+test("maps uploaded media marker without exposing storage path in workout payload", () => {
+  const parsed = parseStudentExerciseMedia({ type: "uploaded_video", mimeType: "video/mp4" });
+
+  assert.equal(parsed.type, "uploaded_video");
+  assert.equal(parsed.mediaPath, "");
+});
+
+test("blocks invalid uploaded media and supports no-media fallback", () => {
+  assert.equal(parseStudentExerciseMedia({ type: "uploaded_video", mediaPath: "../private.mp4" }), null);
+  assert.equal(parseStudentExerciseMedia({ type: "" }), null);
 });
