@@ -9,23 +9,24 @@
   },
   "principle": "PRODUCT_VALUE_FIRST",
   "recommended_first_cycle": "STUDENT_PROGRESSION_SNAPSHOT",
-  "current_cycle": "CYCLE_09_EXERCISE_LIBRARY_AND_MEDIA",
-  "current_cycle_status": "IN_PROGRESS",
+  "current_cycle": "COACH_WORKFLOW_AUTOMATION",
+  "current_cycle_status": "READY_FOR_START",
   "cycle_09": {
-    "status": "IN_PROGRESS",
-    "completed_stages": ["09.1", "09.2", "09.3", "09.4", "09.5", "09.6", "09.7", "09.8"],
-    "next_stage": {
-      "number": "09.9",
-      "title": "Mobile/PWA QA and stabilization",
-      "status": "READY_FOR_START",
-      "objective": "Run the mobile/PWA stabilization sweep for upload, preview and student viewing across the exercise library and media experience.",
-      "dependencies": ["09.1", "09.2", "09.3", "09.4", "09.5", "09.6", "09.7", "09.8"],
-      "in_scope": "Mobile/PWA QA for exercise upload, preview, professional library usage and authorized student media viewing.",
-      "out_of_scope": "Coach automation, AI recommendations, catalog expansion beyond controlled official content and broad workout editor rewrites.",
-      "acceptance_criteria": "Exercise library and media flows behave correctly on mobile/PWA surfaces with focused QA evidence and no authorization regression."
-    }
+    "status": "COMPLETE",
+    "completed_stages": ["09.1", "09.2", "09.3", "09.4", "09.5", "09.6", "09.7", "09.8", "09.9"],
+    "functional_prs": [61, 63, 65, 67, 69, 71, 73, 75, 77],
+    "production_state": "ALIGNED",
+    "production_action_required": false
   },
-  "last_completed_cycle": "CYCLE_08_3_MOBILE_PREMIUM_ALIGNMENT",
+  "last_completed_cycle": "CYCLE_09_EXERCISE_LIBRARY_AND_MEDIA",
+  "next_cycle": {
+    "id": "COACH_WORKFLOW_AUTOMATION",
+    "title": "Coach Workflow Automation",
+    "status": "READY_FOR_START",
+    "objective": "Operational automation for follow-up, stalled students, pending actions and repeated coach decisions after the exercise library and media foundation.",
+    "dependencies": ["CYCLE_09_EXERCISE_LIBRARY_AND_MEDIA"],
+    "recommended_branch": "feat/product-roadmap-v4-coach-workflow-automation"
+  },
   "cycles": [
     {
       "id": "STUDENT_PROGRESSION_SNAPSHOT",
@@ -86,5 +87,5 @@
     "manual_visual_qa": "PASS"
   },
   "database_change_policy": "Any YES/POSSIBLE database change follows local migration -> local full CI -> dry-run -> review -> authorization -> production db push.",
-  "next_action": "COMMIT_ROADMAP_V4_AND_IMPLEMENT_FIRST_PRODUCT_VALUE_CYCLE"
+  "next_action": "START_COACH_WORKFLOW_AUTOMATION"
 }

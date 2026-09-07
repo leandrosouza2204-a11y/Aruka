@@ -5,6 +5,9 @@
   "decision": "COMPLETE",
   "branch": "feat/product-roadmap-v4-cycle-09-9-mobile-pwa-qa",
   "baseSha": "a8ca71dd63548f218676e10d211b974ce4f932f4",
+  "functionalPr": 77,
+  "functionalMergeCommit": "0d243e89049436466f1beacbd659042eafb3ecb2",
+  "mergedAt": "2026-09-07T23:02:41Z",
   "supabaseChanged": false,
   "viewportMatrix": [
     "320x568",
@@ -82,9 +85,16 @@
     "Known workout lifecycle unit mismatch remains preexisting and outside this stage."
   ],
   "nextStage": {
-    "number": "CYCLE_09_CLOSEOUT",
-    "title": "Cycle 09 closeout",
-    "objective": "Consolidate Exercise Library + Media cycle closeout because 09.9 is the final stage.",
-    "recommendedBranch": "chore/product-roadmap-v4-cycle-09-9-closeout"
+    "number": "NONE",
+    "title": "Cycle 09 complete",
+    "objective": "No further Cycle 09 stage remains.",
+    "recommendedBranch": ""
+  },
+  "nextCycle": {
+    "id": "COACH_WORKFLOW_AUTOMATION",
+    "title": "Coach Workflow Automation",
+    "objective": "Operational automation for follow-up, stalled students, pending actions and repeated coach decisions after the exercise library and media foundation.",
+    "dependencies": ["CYCLE_09_EXERCISE_LIBRARY_AND_MEDIA"],
+    "recommendedBranch": "feat/product-roadmap-v4-coach-workflow-automation"
   }
 }

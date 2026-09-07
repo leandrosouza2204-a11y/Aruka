@@ -8,9 +8,9 @@
 
 ## Estado
 
-IN_PROGRESS
+COMPLETE
 
-Stages 09.1, 09.2, 09.3, 09.4, 09.5, 09.6, 09.7 and 09.8 are complete. Stage 09.9 remains pending.
+Stages 09.1, 09.2, 09.3, 09.4, 09.5, 09.6, 09.7, 09.8 and 09.9 are complete. Cycle 09 is complete.
 
 ## Objetivo
 
@@ -96,11 +96,15 @@ Coach Automation remains valuable, but is postponed because the current priority
 
 `feat/product-roadmap-v4-cycle-09-exercise-library-media`
 
-## Primeira etapa recomendada
+## Closeout
 
-Continue with 09.9 - Mobile/PWA QA and stabilization.
+Cycle 09 is complete after 09.9 - Mobile/PWA QA and stabilization.
 
-The completed first eight implementation steps delivered schema shape, RLS/storage boundaries, legacy compatibility, the first read-only professional library experience, owner-scoped personal exercise creation/editing, YouTube validation/preview, private uploaded-video storage, workout editor integration, authorized student media viewing and the initial deterministic official catalog. The next implementation step should run the mobile/PWA stabilization sweep without starting coach automation.
+The completed implementation delivered schema shape, RLS/storage boundaries, legacy compatibility, the first read-only professional library experience, owner-scoped personal exercise creation/editing, YouTube validation/preview, private uploaded-video storage, workout editor integration, authorized student media viewing, the initial deterministic official catalog and mobile/PWA stabilization evidence.
+
+## Proximo ciclo recomendado
+
+Continue with the canonical future cycle: Coach Workflow Automation.
 
 ## Guardrail arquitetural
 

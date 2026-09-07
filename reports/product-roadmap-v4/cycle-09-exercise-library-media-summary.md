@@ -1,6 +1,6 @@
 # Cycle 09 Exercise Library and Media Planning Summary
 
-Decision: IN_PROGRESS.
+Decision: COMPLETE.
 
 Cycle 08.3 dependency:
 
@@ -33,8 +33,8 @@ Implementation path:
 - 09.5: Video upload/storage. COMPLETE via PR #69, merged on 2026-09-06.
 - 09.6: workout integration. COMPLETE via PR #71.
 - 09.7: student media experience. COMPLETE via PR #73, merged on 2026-09-07.
-- 09.8: seed/catalog.
-- 09.9: mobile/PWA QA and stabilization.
+- 09.8: seed/catalog. COMPLETE via PR #75, merged on 2026-09-07.
+- 09.9: mobile/PWA QA and stabilization. COMPLETE via PR #77, merged on 2026-09-07.
 
 Recommended data model:
 
@@ -71,4 +71,7 @@ STAGE_09_4_STATUS=COMPLETE
 STAGE_09_5_STATUS=COMPLETE
 STAGE_09_6_STATUS=COMPLETE
 STAGE_09_7_STATUS=COMPLETE
-NEXT_STAGE=09.8_SEED_CATALOG
+STAGE_09_8_STATUS=COMPLETE
+STAGE_09_9_STATUS=COMPLETE
+CYCLE_09_STATUS=COMPLETE
+NEXT_CYCLE=COACH_WORKFLOW_AUTOMATION
