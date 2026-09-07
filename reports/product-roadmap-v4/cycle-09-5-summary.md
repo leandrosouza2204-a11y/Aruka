@@ -2,7 +2,13 @@
 
 Cycle 09.5 adds private uploaded-video support to personal exercises in the exercise library.
 
-Status: IMPLEMENTED_VALIDATED_REMOTE_APPLIED
+Status: COMPLETE
+
+Functional PR: #69
+
+Feature commit: `2897c5c`
+
+Merge commit: `487389cd0d3e343b359f0d223ea6575faadfcda7`
 
 ## Delivered
 
@@ -22,6 +28,14 @@ Target project: `aruka / vrizeuhuhvtvbrmtvdik`
 
 Remote result: applied. Post-push dry-run returned up to date.
 
+Production action required: NO
+
+## CI
+
+Migration count hardening: PASS.
+
+The executable migration gate was updated from 18 to 19 migrations after adding the 09.5 migration. The gate remains strict and passed in CI.
+
 ## Validation
 
 - Unit and service tests: PASS.
@@ -34,4 +48,8 @@ Known unrelated residual: `src/features/treinos/utils/workoutLifecyclePresentati
 
 ## Next
 
-09.6 - Workout integration.
+Cycle 09 remains IN_PROGRESS.
+
+Next stage: 09.6 - Workout integration.
+
+Next stage status: READY_FOR_START.

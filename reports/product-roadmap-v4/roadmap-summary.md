@@ -9,6 +9,8 @@
 - Recommended first cycle: STUDENT_PROGRESSION_SNAPSHOT
 - Last completed cycle: CYCLE_08_3_MOBILE_PREMIUM_ALIGNMENT
 - Current cycle: CYCLE_09_EXERCISE_LIBRARY_AND_MEDIA
+- Current cycle status: IN_PROGRESS
+- Cycle 09 completed stages: 09.1, 09.2, 09.3, 09.4, 09.5
 
 ## Recommended cycles
 
@@ -36,3 +38,10 @@ Roadmap v4 should increase value for trainer and student through progress visibi
 Cycle 09 - Exercise Library and Media.
 
 The next cycle strengthens workout assembly and student exercise demonstration through a structured exercise library, professional custom exercises, favorites, YouTube media, uploaded professional videos and authorized student viewing.
+
+## Cycle 09 next stage
+
+- Stage: 09.6 - Workout integration
+- Status: READY_FOR_START
+- Objective: allow the workout editor to add exercises from the structured library while preserving legacy rows and execution history.
+- Dependencies: 09.1 data model/security, 09.2 read experience, 09.3 personal CRUD, 09.4 YouTube media, 09.5 uploaded video/storage.
