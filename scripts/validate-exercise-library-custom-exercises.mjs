@@ -65,14 +65,17 @@ function supabaseChanged() {
     git(["diff", "--name-only", "--", "supabase/**"]),
     git(["diff", "--cached", "--name-only", "--", "supabase/**"]),
     git(["ls-files", "--others", "--exclude-standard", "--", "supabase"]),
-  ].flat().filter((path) => !isExpectedCycle95SupabaseChange(path));
+  ].flat().filter((path) => !isExpectedLaterCycleSupabaseChange(path));
 }
 
-function isExpectedCycle95SupabaseChange(path) {
+function isExpectedLaterCycleSupabaseChange(path) {
   return [
     "supabase/baseline-src/03-constraints.sql",
+    "supabase/baseline-src/02-tables.sql",
+    "supabase/baseline-src/05-functions.sql",
     "supabase/baseline-src/10-storage.sql",
     "supabase/migrations/20260906020000_exercise_video_upload_storage_v1.sql",
+    "supabase/migrations/20260907090000_workout_exercise_library_integration_v1.sql",
   ].includes(path.replaceAll("\\", "/"));
 }
 

@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUp, ExternalLink, Pencil, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, ExternalLink, Film, Pencil, Trash2 } from "lucide-react";
 
 function ExercicioCard({
   exercicio,
@@ -9,7 +9,14 @@ function ExercicioCard({
   onMoveDown,
   onMoveUp,
 }) {
+  const snapshot = exercicio.exerciseMediaSnapshot || exercicio.exercise_media_snapshot || {};
   const videoSeguro = obterUrlVideoSegura(exercicio.video);
+  const mediaSnapshot = snapshot.media || {};
+  const mediaLabel = mediaSnapshot.type === "youtube"
+    ? "YouTube"
+    : mediaSnapshot.type === "uploaded_video"
+      ? "Vídeo armazenado"
+      : "";
   const ordem = index + 1;
 
   return (
@@ -30,6 +37,17 @@ function ExercicioCard({
           <p style={meta}>
             {exercicio.series || "-"} series &bull; {exercicio.repeticoes || "-"} reps
           </p>
+          {(exercicio.exerciseId || snapshot.name || mediaLabel) && (
+            <div style={snapshotBadges} data-testid="exercise-library-snapshot">
+              <span style={snapshotBadge}>{snapshot.source === "personal" ? "Pessoal" : "Biblioteca"}</span>
+              {mediaLabel && (
+                <span style={snapshotBadge}>
+                  <Film size={12} aria-hidden="true" />
+                  {mediaLabel}
+                </span>
+              )}
+            </div>
+          )}
         </div>
 
         {(onEdit || onDelete || onMoveUp || onMoveDown) && (
@@ -103,6 +121,9 @@ function ExercicioCard({
           Ver video
         </a>
       )}
+      {!videoSeguro && mediaSnapshot.type === "uploaded_video" && mediaSnapshot.mediaPath && (
+        <p style={mediaSnapshotText}>Mídia salva no exercício da biblioteca.</p>
+      )}
     </div>
   );
 }
@@ -173,6 +194,26 @@ const meta = {
   marginTop: "4px",
 };
 
+const snapshotBadges = {
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "6px",
+  marginTop: "8px",
+};
+
+const snapshotBadge = {
+  alignItems: "center",
+  background: "#f8fafc",
+  border: "1px solid #e2e8f0",
+  borderRadius: "999px",
+  color: "#475569",
+  display: "inline-flex",
+  fontSize: "12px",
+  fontWeight: "750",
+  gap: "4px",
+  padding: "4px 7px",
+};
+
 const acoes = {
   display: "flex",
   flexWrap: "wrap",
@@ -221,6 +262,13 @@ const linkVideo = {
   gap: "6px",
   marginTop: "12px",
   textDecoration: "none",
+};
+
+const mediaSnapshotText = {
+  color: "#475569",
+  fontSize: "13px",
+  fontWeight: "750",
+  margin: "12px 0 0",
 };
 
 const botaoSecundario = {

@@ -683,6 +683,23 @@ begin
       if btrim(coalesce(v_exercise->>'nome', '')) = '' then
         raise exception using errcode = '22023', message = 'WORKOUT_EXERCISE_NAME_REQUIRED';
       end if;
+
+      if nullif(btrim(coalesce(v_exercise->>'exerciseId', v_exercise->>'exercise_id')), '') is not null
+        and not exists (
+          select 1
+          from public.exercise_library exercise
+          where exercise.id = nullif(btrim(coalesce(v_exercise->>'exerciseId', v_exercise->>'exercise_id')), '')::uuid
+            and (
+              (exercise.origin = 'official' and exercise.status = 'active')
+              or (exercise.origin = 'personal' and exercise.owner_id = v_user_id)
+            )
+        ) then
+        raise exception using errcode = '42501', message = 'WORKOUT_EXERCISE_LIBRARY_FORBIDDEN';
+      end if;
+
+      if jsonb_typeof(coalesce(v_exercise->'exerciseMediaSnapshot', v_exercise->'exercise_media_snapshot', '{}'::jsonb)) <> 'object' then
+        raise exception using errcode = '22023', message = 'WORKOUT_EXERCISE_MEDIA_SNAPSHOT_INVALID';
+      end if;
     end loop;
   end loop;
 
@@ -790,6 +807,7 @@ begin
     loop
       insert into public.treino_exercicios (
         treino_dia_id,
+        exercise_id,
         nome,
         series,
         repeticoes,
@@ -797,10 +815,12 @@ begin
         descanso,
         observacoes,
         video_url,
+        exercise_media_snapshot,
         ordem
       )
       values (
         v_day_id,
+        nullif(btrim(coalesce(v_exercise->>'exerciseId', v_exercise->>'exercise_id')), '')::uuid,
         btrim(coalesce(v_exercise->>'nome', '')),
         coalesce(v_exercise->>'series', ''),
         coalesce(v_exercise->>'repeticoes', ''),
@@ -808,6 +828,7 @@ begin
         coalesce(v_exercise->>'descanso', ''),
         coalesce(v_exercise->>'observacoes', ''),
         coalesce(v_exercise->>'video', ''),
+        coalesce(v_exercise->'exerciseMediaSnapshot', v_exercise->'exercise_media_snapshot', '{}'::jsonb),
         v_exercise_index
       );
     end loop;

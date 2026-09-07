@@ -6,6 +6,38 @@
   box-sizing: border-box;
 }
 
+@media (max-width: 900px) {
+  .workout-library-picker-overlay {
+    align-items: stretch !important;
+    padding: 12px !important;
+  }
+
+  .workout-library-picker {
+    max-height: calc(100dvh - 24px) !important;
+    width: 100% !important;
+  }
+
+  .workout-library-picker-filters,
+  .workout-library-picker-list {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .workout-library-picker {
+    padding: 16px !important;
+  }
+
+  .workout-library-picker-card {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .workout-library-picker-card button {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
 .sr-only {
   border: 0;
   clip: rect(0, 0, 0, 0);

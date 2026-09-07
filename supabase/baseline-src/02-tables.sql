@@ -245,6 +245,7 @@ create table if not exists public.treino_exercicios (
   descanso text default ''::text not null,
   observacoes text default ''::text not null,
   video_url text default ''::text not null,
+  exercise_media_snapshot jsonb default '{}'::jsonb not null,
   ordem integer default 1 not null,
   created_at timestamptz default now() not null
 );
