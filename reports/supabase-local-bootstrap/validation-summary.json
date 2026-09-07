@@ -1,7 +1,7 @@
 ﻿{
     "inventory":  {
                       "public_tables":  26,
-                      "public_functions":  37,
+                      "public_functions":  38,
                       "public_triggers":  6,
                       "public_explicit_indexes":  87,
                       "total_policies":  79,
@@ -32,7 +32,8 @@
                                                            "20260831090000",
                                                            "20260905120000",
                                                            "20260906020000",
-                                                           "20260907090000"
+                                                           "20260907090000",
+                                                           "20260907120000"
                                                        ]
                   },
     "result":  "LOCAL_RUNTIME_VALIDATED"

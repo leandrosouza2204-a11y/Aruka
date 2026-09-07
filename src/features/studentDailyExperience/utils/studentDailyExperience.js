@@ -169,7 +169,9 @@ function toActiveWorkoutView(workout) {
       notes: day.descricao || "",
       exercises: day.exercicios.map((exercise) => ({
         id: exercise.id || "",
+        treinoExercicioId: exercise.treinoExercicioId || exercise.treino_exercicio_id || exercise.id || "",
         videoUrl: exercise.video || "",
+        media: normalizeExerciseMedia(exercise.media || exercise.exerciseMediaSnapshot?.media || exercise.exercise_media_snapshot?.media),
         name: exercise.nome || "Exercício",
         prescription: compactJoin([
           exercise.series ? `${exercise.series} séries` : "",
@@ -223,8 +225,29 @@ function normalizeDays(days = []) {
       carga: exercise.carga || exercise.prescribedLoad || "",
       descanso: exercise.descanso || exercise.rest || "",
       video: exercise.video || exercise.videoUrl || "",
+      treinoExercicioId: exercise.treinoExercicioId || exercise.treino_exercicio_id || exercise.id || "",
+      media: normalizeExerciseMedia(exercise.media || exercise.exerciseMediaSnapshot?.media || exercise.exercise_media_snapshot?.media),
     })),
   }));
+}
+
+function normalizeExerciseMedia(media = {}) {
+  if (!media || typeof media !== "object" || Array.isArray(media)) return { type: "" };
+  if (media.type === "youtube") {
+    return {
+      type: "youtube",
+      videoId: media.videoId || media.video_id || "",
+      youtubeUrl: media.youtubeUrl || media.youtube_url || "",
+    };
+  }
+  if (media.type === "uploaded_video") {
+    return {
+      type: "uploaded_video",
+      mediaPath: media.mediaPath || media.media_path || "",
+      mimeType: media.mimeType || media.mime_type || "",
+    };
+  }
+  return { type: "" };
 }
 
 function orderForStudentDaily(workouts = []) {

@@ -81,6 +81,7 @@ function isExpectedLaterCycleSupabaseChange(path) {
     "supabase/baseline-src/10-storage.sql",
     "supabase/migrations/20260906020000_exercise_video_upload_storage_v1.sql",
     "supabase/migrations/20260907090000_workout_exercise_library_integration_v1.sql",
+    "supabase/migrations/20260907120000_student_exercise_media_experience_v1.sql",
   ].includes(path.replaceAll("\\", "/"));
 }
 

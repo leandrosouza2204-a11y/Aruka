@@ -131,7 +131,11 @@ function MinhaArea() {
   const selectedDay = activeDays.find((day) => day.id === selectedDayId) || activeDays[0] || null;
   const videoByExerciseId = useMemo(() => {
     const entries = activeDays.flatMap((day) =>
-      (day.exercises || []).map((exercise) => [exercise.id, exercise.videoUrl || ""])
+      (day.exercises || []).map((exercise) => [exercise.id, {
+        media: exercise.media || null,
+        treinoExercicioId: exercise.treinoExercicioId || exercise.id,
+        videoUrl: exercise.videoUrl || "",
+      }])
     );
     return new Map(entries);
   }, [activeDays]);
@@ -583,7 +587,12 @@ function MinhaArea() {
                     <div style={styles.exerciseItem} key={exercise.id || `${exercise.name}-${exerciseIndex}`}>
                       <strong>{exercise.name}</strong>
                       <span>{exercise.prescription}</span>
-                      <ExerciseVideoPlayer title={exercise.name} videoUrl={exercise.videoUrl} />
+                      <ExerciseVideoPlayer
+                        media={exercise.media}
+                        title={exercise.name}
+                        treinoExercicioId={exercise.treinoExercicioId}
+                        videoUrl={exercise.videoUrl}
+                      />
                     </div>
                   ))}
                 </div>
@@ -712,7 +721,12 @@ function ExecutionSessionPanel({
                     .filter(Boolean)
                     .join(" - ") || "Prescrição não informada"}
                 </p>
-                <ExerciseVideoPlayer title={exercise.name} videoUrl={videoByExerciseId.get(exercise.treinoExercicioId)} />
+                <ExerciseVideoPlayer
+                  media={videoByExerciseId.get(exercise.treinoExercicioId)?.media}
+                  title={exercise.name}
+                  treinoExercicioId={videoByExerciseId.get(exercise.treinoExercicioId)?.treinoExercicioId}
+                  videoUrl={videoByExerciseId.get(exercise.treinoExercicioId)?.videoUrl}
+                />
               </div>
               <button
                 style={styles.secondaryButton}

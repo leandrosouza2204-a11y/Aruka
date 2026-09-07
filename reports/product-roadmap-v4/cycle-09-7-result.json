@@ -1,0 +1,92 @@
+{
+  "cycle": "09",
+  "stage": "09.7",
+  "title": "Student media experience",
+  "decision": "READY_WITH_AUTHENTICATED_UI_RUNTIME_LIMITATION",
+  "branch": "feat/product-roadmap-v4-cycle-09-7-student-media-experience",
+  "baseSha": "3faa0532895874263424b8ff2507613aebf33193",
+  "studentIdentity": "auth.uid() -> alunos.student_user_id",
+  "deliveredWorkoutGate": "active/completed only",
+  "allowedLifecycleStates": ["active", "completed"],
+  "deniedLifecycleStates": ["draft", "archived"],
+  "youtube": {
+    "supported": true,
+    "provider": "youtube-nocookie",
+    "source": "validated snapshot video id"
+  },
+  "uploadedMedia": {
+    "supported": true,
+    "bucket": "exercise-media",
+    "private": true,
+    "workoutPayloadExposesPath": false
+  },
+  "signedUrl": {
+    "strategy": "on-demand from authorized treino_exercicio_id",
+    "ttlSeconds": 600,
+    "persisted": false,
+    "publicUrl": false
+  },
+  "storageAuthorization": "private bucket with prescribed exercise RLS and on-demand RPC",
+  "crossStudent": "PASS",
+  "crossProfessional": "PASS",
+  "anonymous": "PASS",
+  "snapshot": "preferred for display and media metadata",
+  "exerciseId": "nullable; required for private uploaded-media authorization",
+  "fkNull": "text renders; private media access not generated",
+  "archivedExercise": "delivered workout keeps snapshot rendering",
+  "noMedia": "no empty player",
+  "loading": "per-exercise uploaded-video loading",
+  "error": "sanitized per-exercise error",
+  "retry": "available for uploaded-video load",
+  "performance": "uploaded signed URL generated only when demonstration opens",
+  "responsive": "PASS static validator",
+  "pwa": "MANUAL_VISUAL_QA_REQUIRED",
+  "accessibility": "PASS static validator",
+  "tests": {
+    "unit": "PASS - 6 exerciseVideoProvider tests",
+    "preexistingLifecycleFailure": "CONFIRMED"
+  },
+  "qa": {
+    "studentMediaExperience": "PASS",
+    "studentMediaAuthorization": "PASS",
+    "studentMediaResponsive": "PASS",
+    "studentMediaAccessibility": "PASS",
+    "studentMediaRuntime": "PASS - 18 pgtap checks",
+    "regression09_6": "PASS",
+    "regression09_5": "PASS",
+    "regression09_4": "PASS",
+    "regression09_3": "PASS",
+    "regression09_2": "PASS",
+    "regression09_1": "PASS",
+    "workoutDeliveryRegression": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "diffCheck": "PASS"
+  },
+  "supabaseChanged": true,
+  "migration": "20260907120000_student_exercise_media_experience_v1.sql",
+  "localReset": "PASS",
+  "bootstrap": "PASS",
+  "validate": "PASS",
+  "localDrift": "PASS",
+  "runtimeRls": "PASS",
+  "remoteProject": "aruka / vrizeuhuhvtvbrmtvdik",
+  "migrationListBefore": "only 20260907120000 pending",
+  "dryRunBefore": "only 20260907120000_student_exercise_media_experience_v1.sql",
+  "dbPush": "PASS",
+  "postPush": {
+    "migrationList": "ALIGNED",
+    "dryRun": "REMOTE_DATABASE_UP_TO_DATE"
+  },
+  "productionActionRequired": false,
+  "testAccountsOnly": true,
+  "limitations": [
+    "AUTHENTICATED_UI_RUNTIME_NOT_EXECUTED",
+    "MANUAL_VISUAL_QA_REQUIRED for real mobile/PWA devices"
+  ],
+  "nextStage": {
+    "number": "09.8",
+    "title": "Seed/catalog",
+    "status": "READY_FOR_START"
+  }
+}
