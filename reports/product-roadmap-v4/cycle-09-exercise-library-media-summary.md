@@ -31,7 +31,7 @@ Implementation path:
 - 09.3: custom exercise creation. COMPLETE via PR #65, merged on 2026-09-06.
 - 09.4: YouTube media. COMPLETE via PR #67.
 - 09.5: Video upload/storage. COMPLETE via PR #69, merged on 2026-09-06.
-- 09.6: workout integration. NEXT.
+- 09.6: workout integration. COMPLETE via PR #71.
 - 09.7: student media experience.
 - 09.8: seed/catalog.
 - 09.9: mobile/PWA QA and stabilization.
@@ -69,4 +69,4 @@ STAGE_09_2_STATUS=COMPLETE
 STAGE_09_3_STATUS=COMPLETE
 STAGE_09_4_STATUS=COMPLETE
 STAGE_09_5_STATUS=COMPLETE
-NEXT_STAGE=09.6_WORKOUT_INTEGRATION
+NEXT_STAGE=09.7_STUDENT_MEDIA_EXPERIENCE
