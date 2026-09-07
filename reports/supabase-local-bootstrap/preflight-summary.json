@@ -46,7 +46,8 @@
                               "20260905120000_exercise_library_media_v1.sql",
                               "20260906020000_exercise_video_upload_storage_v1.sql",
                               "20260907090000_workout_exercise_library_integration_v1.sql",
-                              "20260907120000_student_exercise_media_experience_v1.sql"
+                              "20260907120000_student_exercise_media_experience_v1.sql",
+                              "20260907150000_exercise_official_catalog_v1.sql"
                           ],
     "expected_active_migrations":  [
                                        "20260728030000_workout_delivery_integration_v1.sql",
@@ -69,11 +70,12 @@
                                        "20260905120000_exercise_library_media_v1.sql",
                                        "20260906020000_exercise_video_upload_storage_v1.sql",
                                        "20260907090000_workout_exercise_library_integration_v1.sql",
-                                       "20260907120000_student_exercise_media_experience_v1.sql"
+                                       "20260907120000_student_exercise_media_experience_v1.sql",
+                                       "20260907150000_exercise_official_catalog_v1.sql"
                                    ],
-    "executable_migration_count":  21,
+    "executable_migration_count":  22,
     "reference_only_baseline_count":  1,
-    "total_database_change_artifact_count":  22,
+    "total_database_change_artifact_count":  23,
     "active_migrations_unexpected":  [
 
                                      ],
