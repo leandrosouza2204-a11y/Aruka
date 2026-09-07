@@ -8,9 +8,10 @@
 - Principle: PRODUCT_VALUE_FIRST
 - Recommended first cycle: STUDENT_PROGRESSION_SNAPSHOT
 - Last completed cycle: CYCLE_08_3_MOBILE_PREMIUM_ALIGNMENT
-- Current cycle: CYCLE_09_EXERCISE_LIBRARY_AND_MEDIA
-- Current cycle status: IN_PROGRESS
-- Cycle 09 completed stages: 09.1, 09.2, 09.3, 09.4, 09.5, 09.6, 09.7, 09.8
+- Last completed cycle: CYCLE_09_EXERCISE_LIBRARY_AND_MEDIA
+- Current cycle: COACH_WORKFLOW_AUTOMATION
+- Current cycle status: READY_FOR_START
+- Cycle 09 completed stages: 09.1, 09.2, 09.3, 09.4, 09.5, 09.6, 09.7, 09.8, 09.9
 
 ## Recommended cycles
 
@@ -33,15 +34,17 @@ Roadmap v4 should increase value for trainer and student through progress visibi
 - QA hotfix merge: `ce525de98a79d3ac2c6ba30aede94b18503eb7df`
 - Manual visual QA: PASS
 
+## Cycle 09 closeout
+
+- Decision: COMPLETE.
+- Functional PRs: #61, #63, #65, #67, #69, #71, #73, #75, #77.
+- Production state: ALIGNED.
+- Production action required: NO.
+
 ## Next cycle
 
-Cycle 09 - Exercise Library and Media.
+Coach Workflow Automation.
 
-The next cycle strengthens workout assembly and student exercise demonstration through a structured exercise library, professional custom exercises, favorites, YouTube media, uploaded professional videos and authorized student viewing.
+Objective: operational automation for follow-up, stalled students, pending actions and repeated coach decisions after the exercise library and media foundation.
 
-## Cycle 09 next stage
-
-- Stage: 09.9 - Mobile/PWA QA and stabilization
-- Status: READY_FOR_START
-- Objective: run the mobile/PWA stabilization sweep for upload, preview and student viewing across the exercise library and media experience.
-- Dependencies: 09.1 data model/security, 09.2 read experience, 09.3 personal CRUD, 09.4 YouTube media, 09.5 uploaded video/storage, 09.6 workout integration, 09.7 student media experience, 09.8 seed/catalog.
+Recommended branch: `feat/product-roadmap-v4-coach-workflow-automation`.

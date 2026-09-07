@@ -1,6 +1,6 @@
 # Cycle 09.9 Summary
 
-Stage 09.9 stabilized the exercise library mobile/PWA surface without Supabase changes.
+Stage 09.9 stabilized the exercise library mobile/PWA surface without Supabase changes and was merged through PR #77.
 
 ## Outcome
 
@@ -23,4 +23,4 @@ Stage 09.9 stabilized the exercise library mobile/PWA surface without Supabase c
 
 ## Next
 
-Because 09.9 is the last Cycle 09 stage, the next step is Cycle 09 closeout.
+Because 09.9 is the last Cycle 09 stage, Cycle 09 is ready for closeout. The canonical next cycle is Coach Workflow Automation.
