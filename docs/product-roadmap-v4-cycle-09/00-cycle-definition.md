@@ -10,7 +10,7 @@
 
 IN_PROGRESS
 
-Stages 09.1, 09.2, 09.3, 09.4 and 09.5 are complete. Stages 09.6 through 09.9 remain pending.
+Stages 09.1, 09.2, 09.3, 09.4, 09.5 and 09.6 are complete. Stages 09.7 through 09.9 remain pending.
 
 ## Objetivo
 
@@ -98,9 +98,9 @@ Coach Automation remains valuable, but is postponed because the current priority
 
 ## Primeira etapa recomendada
 
-Continue with 09.6 - Workout integration.
+Continue with 09.7 - Student media experience.
 
-The completed first five implementation steps delivered schema shape, RLS/storage boundaries, legacy compatibility, the first read-only professional library experience, owner-scoped personal exercise creation/editing, YouTube validation/preview and private uploaded-video storage. The next implementation step should connect the library to workout editing without starting student media experience, seed/catalog expansion or a large editor rewrite.
+The completed first six implementation steps delivered schema shape, RLS/storage boundaries, legacy compatibility, the first read-only professional library experience, owner-scoped personal exercise creation/editing, YouTube validation/preview, private uploaded-video storage and workout editor integration. The next implementation step should expose authorized demonstration media to students in delivered workouts without starting seed/catalog expansion or the mobile/PWA stabilization sweep.
 
 ## Guardrail arquitetural
 

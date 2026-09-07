@@ -2,70 +2,95 @@
   "cycle": "Product Roadmap v4 - Cycle 09",
   "stage": "09.6",
   "title": "Workout integration",
-  "status": "READY_FOR_PR",
+  "status": "COMPLETE",
   "decision": "SUPABASE CHANGE: YES",
-  "branch": "feat/product-roadmap-v4-cycle-09-6-workout-integration",
-  "baseSha": "3f301ade7efb112e0e4081889078233c8098abca",
+  "functionalCommit": "7ae4c4a",
+  "functionalPr": {
+    "number": 71,
+    "url": "https://github.com/leandrosouza2204-a11y/Aruka/pull/71",
+    "state": "MERGED",
+    "mergedAt": "2026-09-07T02:10:04Z"
+  },
+  "functionalMergeCommit": "eab76ff720071311d3f4c1b77aee3f5d5a74fb0d",
+  "mainPostFeature": "eab76ff720071311d3f4c1b77aee3f5d5a74fb0d",
   "picker": {
+    "implemented": true,
     "entryPoint": "workout day exercise form",
-    "filters": ["search", "origin", "muscle_group", "category", "media"],
+    "search": true,
+    "filters": ["origin", "muscle_group", "category", "media"],
+    "officialExercises": true,
+    "personalExercises": true,
+    "selection": true,
     "states": ["loading", "empty", "error", "retry", "select", "cancel"]
   },
+  "exerciseId": true,
+  "nullableExerciseId": true,
   "snapshot": {
+    "independent": true,
     "immutable": true,
-    "fields": ["exerciseId", "source", "name", "description", "instructions", "muscleGroup", "category", "media"],
-    "signedUrlPersisted": false
+    "fields": ["exerciseId", "source", "name", "description", "instructions", "muscleGroup", "category", "media"]
   },
-  "exerciseId": {
-    "nullable": true,
-    "persistedByRpc": true,
-    "foreignKeyOnDelete": "set null"
+  "mediaSnapshot": {
+    "youtube": true,
+    "uploadedMediaPath": true,
+    "signedUrlPersisted": false
   },
   "manualFallback": true,
-  "media": {
-    "youtubeSnapshot": true,
-    "uploadedPathSnapshot": true,
-    "signedUrlPersisted": false
-  },
-  "templates": {
-    "canonicalPayloadPreservesReference": true,
-    "duplicatePreservesReference": true
-  },
+  "workoutParametersIndependent": true,
   "atomicSave": true,
-  "idempotency": "existing workout save idempotency preserved",
-  "responsive": true,
-  "accessibility": true,
+  "crossOwnerProtection": true,
+  "archivedBehavior": "Archived library rows are excluded from the picker by active read queries; existing workouts render from stored workout data and snapshots.",
+  "fkNullBehavior": "Foreign key uses ON DELETE SET NULL and legacy/manual rows remain readable with null exercise_id.",
+  "fakeExistingData": true,
+  "backfillRequired": false,
   "supabaseChanged": true,
   "migration": "20260907090000_workout_exercise_library_integration_v1.sql",
-  "dbPush": "PASS",
-  "runtime": "PASS",
-  "visual": "BUILD_AND_RESPONSIVE_STATIC_PASS",
-  "tests": [
-    "node --test src/features/treinos/utils/workoutExerciseLibraryIntegration.test.js src/features/treinos/utils/workoutDataContract.test.js"
-  ],
-  "qa": [
-    "qa:exercise-library-workout-integration",
-    "qa:exercise-library-workout-snapshot",
-    "qa:exercise-library-workout-integration-responsive",
-    "qa:exercise-library-workout-integration-accessibility",
-    "qa:supabase-baseline-src",
-    "qa:supabase-ci-static",
-    "qa:exercise-library-workout-integration-runtime",
-    "lint",
-    "build",
-    "git diff --check"
-  ],
-  "supabaseRemote": {
-    "prePushPendingOnly": "20260907090000_workout_exercise_library_integration_v1.sql",
-    "dryRunBeforePush": "PASS",
-    "push": "PASS",
-    "postPushMigrationList": "ALIGNED",
-    "postPushDryRun": "REMOTE_DATABASE_UP_TO_DATE"
+  "remoteProject": {
+    "name": "aruka",
+    "ref": "vrizeuhuhvtvbrmtvdik",
+    "linked": true,
+    "status": "ACTIVE_HEALTHY"
   },
-  "knownPreexistingIssue": "node --test src/features/treinos/utils/*.test.js still has workoutLifecyclePresentation ACTIVE edit expectation mismatch documented before 09.6.",
+  "dbPush": "PASS",
+  "postPushMigrationList": "ALIGNED",
+  "postPushDryRun": "REMOTE_DATABASE_UP_TO_DATE",
+  "postResumeDryRun": "REMOTE_DATABASE_UP_TO_DATE",
+  "dbPushRequiredAfterResume": false,
+  "productionActionRequired": false,
+  "qa": {
+    "integration": "PASS",
+    "snapshot": "PASS",
+    "responsive": "PASS",
+    "accessibility": "PASS",
+    "regressions": "PASS",
+    "runtime": "PASS"
+  },
+  "tests": {
+    "focused": "PASS",
+    "fullTreinosUtils": "PREEXISTING_TEST_FAILURE_CONFIRMED"
+  },
+  "lint": "PASS",
+  "build": "PASS",
+  "diffCheck": "PASS",
+  "runtime": {
+    "supabaseResetSafe": "PASS",
+    "supabaseBootstrap": "PASS",
+    "supabaseValidate": "PASS",
+    "localDrift": "PASS",
+    "exerciseLibraryRls": "PASS",
+    "workoutIntegration": "PASS"
+  },
+  "visualQa": "AUTHENTICATED_VISUAL_QA_NOT_EXECUTED",
   "limitations": [
     "Student media rendering remains out of scope for 09.6.",
-    "Picker supports single-add only."
+    "Picker supports single-add only.",
+    "Seed/catalog expansion remains out of scope for 09.6."
   ],
-  "nextStage": "09.7"
+  "nextStage": {
+    "number": "09.7",
+    "title": "Student media experience",
+    "objective": "allow students to view authorized demonstration media for prescribed exercises inside delivered workouts without exposing another professional's private uploads",
+    "recommendedBranch": "feat/product-roadmap-v4-cycle-09-7-student-media-experience",
+    "status": "READY_FOR_START"
+  }
 }
