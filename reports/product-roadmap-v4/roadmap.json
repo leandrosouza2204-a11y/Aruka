@@ -10,6 +10,21 @@
   "principle": "PRODUCT_VALUE_FIRST",
   "recommended_first_cycle": "STUDENT_PROGRESSION_SNAPSHOT",
   "current_cycle": "CYCLE_09_EXERCISE_LIBRARY_AND_MEDIA",
+  "current_cycle_status": "IN_PROGRESS",
+  "cycle_09": {
+    "status": "IN_PROGRESS",
+    "completed_stages": ["09.1", "09.2", "09.3", "09.4", "09.5"],
+    "next_stage": {
+      "number": "09.6",
+      "title": "Workout integration",
+      "status": "READY_FOR_START",
+      "objective": "Allow the workout editor to add exercises from the structured library while preserving legacy rows and execution history.",
+      "dependencies": ["09.1", "09.2", "09.3", "09.4", "09.5"],
+      "in_scope": "Library entry point from workout editing, search/filter selection, append-to-day flow, ordering preservation, nullable legacy compatibility and focused QA.",
+      "out_of_scope": "Student media experience, seed/catalog expansion, mobile/PWA stabilization sweep, AI recommendations, multiselect and large editor rewrite.",
+      "acceptance_criteria": "Professionals can add system or own custom library exercises to workout days; legacy exercises still render; media references remain authorized; lint/build/focused QA pass."
+    }
+  },
   "last_completed_cycle": "CYCLE_08_3_MOBILE_PREMIUM_ALIGNMENT",
   "cycles": [
     {

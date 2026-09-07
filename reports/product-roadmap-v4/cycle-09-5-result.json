@@ -2,8 +2,12 @@
   "cycle": "09",
   "stage": "09.5",
   "title": "Video upload/storage",
-  "decision": "IMPLEMENTED_VALIDATED_REMOTE_APPLIED",
+  "decision": "COMPLETE",
   "branch": "feat/product-roadmap-v4-cycle-09-5-video-upload-storage",
+  "functionalPr": 69,
+  "githubValidation": "PASS",
+  "featureCommit": "2897c5c",
+  "mergeCommit": "487389cd0d3e343b359f0d223ea6575faadfcda7",
   "baseSha": "33900910bfafb44f552f20afca95c9175875428e",
   "supabaseChanged": true,
   "migration": "supabase/migrations/20260906020000_exercise_video_upload_storage_v1.sql",
@@ -52,6 +56,12 @@
     "build": "PASS"
   },
   "dbPush": "APPLIED",
+  "postMergeQa": "PASS",
+  "ciMigrationCountHardening": {
+    "before": 18,
+    "after": 19,
+    "status": "PASS"
+  },
   "remoteDryRunBeforePush": ["20260906020000_exercise_video_upload_storage_v1.sql"],
   "remoteMigrationsAfterPush": ["20260906020000"],
   "postPushAlignment": "UP_TO_DATE",
@@ -59,5 +69,11 @@
   "limitations": [
     "Unrelated pre-existing treinos utility test mismatch remains outside the 09.5 scope: ACTIVE actions include edit while the legacy test expectation omits it."
   ],
-  "nextStage": "09.6 - Workout integration"
+  "cycleStatus": "IN_PROGRESS",
+  "nextStage": {
+    "number": "09.6",
+    "title": "Workout integration",
+    "status": "READY_FOR_START",
+    "objective": "Allow the workout editor to add exercises from the structured library while preserving legacy rows and execution history."
+  }
 }

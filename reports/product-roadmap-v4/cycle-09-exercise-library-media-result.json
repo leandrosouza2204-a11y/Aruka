@@ -18,6 +18,16 @@
     "mergeCommit": "a742e4406e78c992e015a7b9b74671b2d6f0062b",
     "supabaseChanged": false
   },
+  "stage09_5": {
+    "status": "COMPLETE",
+    "pr": 69,
+    "mergeCommit": "487389cd0d3e343b359f0d223ea6575faadfcda7",
+    "migration": "20260906020000_exercise_video_upload_storage_v1.sql",
+    "supabaseChanged": true,
+    "dbPush": "PASS",
+    "postPushDryRun": "REMOTE_DATABASE_UP_TO_DATE",
+    "ciMigrationCountHardening": "PASS"
+  },
   "previousNextCycle": "COACH_AUTOMATION",
   "coachAutomationPostponed": true,
   "newCycle": "EXERCISE_LIBRARY_AND_MEDIA",
@@ -66,8 +76,8 @@
     "09.2": "Exercise library read experience - COMPLETE via PR #63",
     "09.3": "Custom exercise creation and editing - COMPLETE via PR #65",
     "09.4": "YouTube media validation and preview - COMPLETE via PR #67",
-    "09.5": "Video upload/storage - NEXT",
-    "09.6": "Workout integration",
+    "09.5": "Video upload/storage - COMPLETE via PR #69",
+    "09.6": "Workout integration - NEXT",
     "09.7": "Student media experience",
     "09.8": "Seed/catalog",
     "09.9": "Mobile/PWA QA and stabilization"
@@ -76,5 +86,5 @@
     "cycleDoc": "docs/product-roadmap-v4/16-cycle-09-exercise-library-media.md",
     "planningReport": "reports/product-roadmap-v4/cycle-09-exercise-library-media-summary.md"
   },
-  "nextAction": "START_CYCLE_09_5_VIDEO_UPLOAD_STORAGE"
+  "nextAction": "START_CYCLE_09_6_WORKOUT_INTEGRATION"
 }
