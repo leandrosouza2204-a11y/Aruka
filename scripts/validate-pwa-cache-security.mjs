@@ -10,7 +10,7 @@ assert.match(viteConfig, /runtimeCaching:\s*\[\]/);
 assert.doesNotMatch(viteConfig, /supabase|youtube|youtube-nocookie|googlevideo|\/rest\/v1|\/auth\/v1/i);
 assert.match(serviceSource, /createClient/);
 assert.match(serviceSource, /\.rpc\(|\.from\(/);
-assert.equal(migrations.length, 17);
+assert.ok(migrations.length >= 17, "PWA cache QA must tolerate additive database migrations");
 
 console.log("PWA_CACHE_SECURITY_QA=PASS");
 console.log("SUPABASE_API_CACHE=NETWORK_ONLY");

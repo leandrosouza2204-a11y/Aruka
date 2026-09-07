@@ -497,6 +497,7 @@ function UploadVideoField({ page }) {
       {page.uploadPreviewUrl && (
         <video
           className="exercise-library-upload-preview"
+          aria-label={`Prévia do vídeo selecionado: ${page.formulario.nome || "Exercício"}`}
           src={page.uploadPreviewUrl}
           controls
           preload="metadata"
