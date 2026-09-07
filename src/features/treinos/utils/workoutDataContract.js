@@ -1,3 +1,5 @@
+import { normalizeWorkoutExerciseReference } from "./workoutExerciseLibraryIntegration.js";
+
 export const WORKOUT_TEMPLATE_SCHEMA_VERSION = 1;
 
 export const WORKOUT_STATUS = {
@@ -164,6 +166,8 @@ export function normalizeCanonicalTemplateData(input = {}) {
             technique: text(exercise.technique || exercise.tecnica),
             notes: text(exercise.notes || exercise.observacoes),
             video: text(exercise.video || exercise.video_url),
+            exerciseId: text(exercise.exerciseId || exercise.exercise_id),
+            exerciseMediaSnapshot: normalizeWorkoutExerciseReference(exercise).exerciseMediaSnapshot,
             order: positiveInteger(exercise.order, exerciseIndex + 1),
           }))
           .filter((exercise) => exercise.name),
@@ -189,6 +193,8 @@ export function workoutToCanonicalTemplateData(workout) {
         technique: exercise.tecnica || exercise.technique,
         notes: exercise.observacoes,
         video: exercise.video,
+        exerciseId: exercise.exerciseId,
+        exerciseMediaSnapshot: exercise.exerciseMediaSnapshot,
         order: exerciseIndex + 1,
       })),
     })),
@@ -210,6 +216,8 @@ export function canonicalTemplateToWorkout(template, options = {}) {
       descanso: exercise.rest,
       observacoes: [exercise.notes, exercise.technique].filter(Boolean).join(" | "),
       video: exercise.video,
+      exerciseId: exercise.exerciseId,
+      exerciseMediaSnapshot: exercise.exerciseMediaSnapshot,
     })),
   }));
 
@@ -244,6 +252,8 @@ export function canonicalTemplateToPreviewDays(templateData) {
       descanso: exercise.rest,
       observacoes: [exercise.notes, exercise.technique].filter(Boolean).join(" | "),
       video: exercise.video,
+      exerciseId: exercise.exerciseId,
+      exerciseMediaSnapshot: exercise.exerciseMediaSnapshot,
     })),
   }));
 }
@@ -311,16 +321,21 @@ export function workoutToPersistencePayload(workout) {
     nome: text(day.nome),
     descricao: text(day.descricao),
     ordem: dayIndex + 1,
-    exercicios: (day.exercicios || []).map((exercise, exerciseIndex) => ({
-      nome: text(exercise.nome),
-      series: text(exercise.series),
-      repeticoes: text(exercise.repeticoes),
-      carga: text(exercise.carga),
-      descanso: text(exercise.descanso),
-      observacoes: text(exercise.observacoes),
-      video: text(exercise.video),
-      ordem: exerciseIndex + 1,
-    })),
+    exercicios: (day.exercicios || []).map((exercise, exerciseIndex) => {
+      const reference = normalizeWorkoutExerciseReference(exercise);
+      return {
+        nome: text(exercise.nome),
+        series: text(exercise.series),
+        repeticoes: text(exercise.repeticoes),
+        carga: text(exercise.carga),
+        descanso: text(exercise.descanso),
+        observacoes: text(exercise.observacoes),
+        video: text(exercise.video),
+        exerciseId: reference.exerciseId,
+        exerciseMediaSnapshot: reference.exerciseMediaSnapshot,
+        ordem: exerciseIndex + 1,
+      };
+    }),
   }));
 
   const payload = {

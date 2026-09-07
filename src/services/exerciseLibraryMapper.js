@@ -28,6 +28,7 @@ export function filtrarExerciciosBiblioteca(exercicios, filtros = {}) {
   const termo = normalizeSearch(filtros.busca);
   const origem = filtros.origem || "todos";
   const grupoMuscular = filtros.grupoMuscular || "todos";
+  const categoria = filtros.categoria || "todos";
   const midia = filtros.midia || "todos";
 
   return exercicios.filter((exercicio) => {
@@ -41,18 +42,20 @@ export function filtrarExerciciosBiblioteca(exercicios, filtros = {}) {
     const combinaBusca = !termo || textoBusca.includes(termo);
     const combinaOrigem = origem === "todos" || exercicio.origem === origem;
     const combinaGrupo = grupoMuscular === "todos" || exercicio.grupoMuscular === grupoMuscular;
+    const combinaCategoria = categoria === "todos" || exercicio.categoria === categoria;
     const combinaMidia =
       midia === "todos" ||
       (midia === "com_midia" && exercicio.possuiMidia) ||
       (midia === "sem_midia" && !exercicio.possuiMidia);
 
-    return combinaBusca && combinaOrigem && combinaGrupo && combinaMidia;
+    return combinaBusca && combinaOrigem && combinaGrupo && combinaCategoria && combinaMidia;
   });
 }
 
 export function criarOpcoesBibliotecaExercicios(exercicios) {
   return {
     gruposMusculares: uniqueSorted(exercicios.map((exercicio) => exercicio.grupoMuscular)),
+    categorias: uniqueSorted(exercicios.map((exercicio) => exercicio.categoria)),
   };
 }
 

@@ -168,6 +168,35 @@ test("gera payload persistido sem ids temporarios e com status canonico", () => 
   assert.equal("id" in payload.dias[0], false);
 });
 
+test("gera payload preservando referencia e snapshot da biblioteca", () => {
+  const payload = workoutToPersistencePayload({
+    alunoId: "student-id",
+    rotina: "Biblioteca",
+    dias: [
+      {
+        nome: "Treino A",
+        exercicios: [
+          {
+            nome: "Agachamento",
+            exerciseId: "11111111-1111-4111-8111-111111111111",
+            exerciseMediaSnapshot: {
+              schemaVersion: 1,
+              exerciseId: "11111111-1111-4111-8111-111111111111",
+              source: "official",
+              name: "Agachamento",
+              media: { type: "youtube", youtubeUrl: "https://youtu.be/dQw4w9WgXcQ" },
+            },
+          },
+        ],
+      },
+    ],
+  });
+
+  assert.equal(payload.dias[0].exercicios[0].exerciseId, "11111111-1111-4111-8111-111111111111");
+  assert.equal(payload.dias[0].exercicios[0].exerciseMediaSnapshot.name, "Agachamento");
+  assert.equal(payload.dias[0].exercicios[0].exerciseMediaSnapshot.media.type, "youtube");
+});
+
 test("gera payload manual sem origem e com idempotency key opcional vazia", () => {
   const payload = workoutToPersistencePayload({
     alunoId: "student-id",
@@ -217,6 +246,30 @@ test("duplica treino removendo ids originais e usando status canonico", () => {
   assert.equal(duplicated.status, WORKOUT_STATUS.IN_REVIEW);
   assert.equal(duplicated.dias[0].id, undefined);
   assert.equal(duplicated.dias[0].exercicios[0].id, undefined);
+});
+
+test("duplica treino preservando exercise_id e snapshot", () => {
+  const duplicated = duplicateWorkoutDraft({
+    id: "original",
+    alunoId: "student",
+    rotina: "Treino",
+    dias: [
+      {
+        id: "day",
+        exercicios: [
+          {
+            id: "exercise",
+            nome: "Agachamento",
+            exerciseId: "11111111-1111-4111-8111-111111111111",
+            exerciseMediaSnapshot: { name: "Agachamento", media: { type: "" } },
+          },
+        ],
+      },
+    ],
+  });
+
+  assert.equal(duplicated.dias[0].exercicios[0].exerciseId, "11111111-1111-4111-8111-111111111111");
+  assert.equal(duplicated.dias[0].exercicios[0].exerciseMediaSnapshot.name, "Agachamento");
 });
 
 test("rejeita template vazio, dia invalido e exercicio invalido", () => {

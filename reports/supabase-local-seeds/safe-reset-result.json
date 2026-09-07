@@ -2,9 +2,9 @@
   "cycle": "8",
   "result": "SAFE_RESET_VALIDATED",
   "decision": "LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED",
-  "started_at": "2026-09-06T14:06:57.736Z",
-  "finished_at": "2026-09-06T14:11:05.547Z",
-  "duration_seconds": 247.809,
+  "started_at": "2026-09-07T01:41:17.271Z",
+  "finished_at": "2026-09-07T01:44:51.227Z",
+  "duration_seconds": 213.954,
   "reset_runs": 2,
   "baseline_sha_preserved": true,
   "baseline_sha": "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B",
@@ -39,7 +39,8 @@
       "20260830203000",
       "20260831090000",
       "20260905120000",
-      "20260906020000"
+      "20260906020000",
+      "20260907090000"
     ],
     "structure": {
       "public_tables": 26,

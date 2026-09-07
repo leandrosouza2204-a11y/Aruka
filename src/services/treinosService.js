@@ -163,6 +163,8 @@ function rowParaTreino(row) {
         descanso: exercicio.descanso || "",
         observacoes: exercicio.observacoes || "",
         video: exercicio.video_url || "",
+        exerciseId: exercicio.exercise_id || "",
+        exerciseMediaSnapshot: exercicio.exercise_media_snapshot || {},
       })
     ),
   }));

@@ -1,14 +1,24 @@
 ﻿import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ExercicioCard from "./ExercicioCard";
+import { BookOpenCheck, Search, X } from "lucide-react";
 import TreinoSalvarModeloModal from "../features/treinos/components/TreinoSalvarModeloModal";
 import { useConfirm } from "../hooks/useConfirm";
 import { useToast } from "../hooks/useToast";
 import { trapModalFocus } from "../utils/modalAccessibility";
+import { buscarBibliotecaExerciciosSupabase } from "../services/exerciseLibraryService";
+import {
+  criarOpcoesBibliotecaExercicios,
+  filtrarExerciciosBiblioteca,
+} from "../services/exerciseLibraryMapper";
 import {
   areTreinoEditorStatesEqual,
   normalizeTreinoEditorState,
   validateTreinoEditorState,
 } from "../features/treinos/utils/treinoEditorState";
+import {
+  libraryExerciseToWorkoutExercise,
+  manualWorkoutExercise,
+} from "../features/treinos/utils/workoutExerciseLibraryIntegration";
 
 const treinoVazio = {
   alunoId: "",
@@ -62,6 +72,17 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
   const [salvandoModelo, setSalvandoModelo] = useState(false);
   const [salvandoTreino, setSalvandoTreino] = useState(false);
   const [errosValidacao, setErrosValidacao] = useState({});
+  const [pickerDiaId, setPickerDiaId] = useState("");
+  const [pickerExercicios, setPickerExercicios] = useState([]);
+  const [pickerFiltros, setPickerFiltros] = useState({
+    busca: "",
+    origem: "todos",
+    grupoMuscular: "todos",
+    categoria: "todos",
+    midia: "todos",
+  });
+  const [pickerCarregando, setPickerCarregando] = useState(false);
+  const [pickerErro, setPickerErro] = useState("");
   const modalRef = useRef(null);
   const previouslyFocusedRef = useRef(null);
   const alunoRef = useRef(null);
@@ -85,6 +106,15 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
   const isDirty = useMemo(
     () => !areTreinoEditorStatesEqual(initialSnapshot, estadoAtual),
     [estadoAtual, initialSnapshot]
+  );
+  const pickerAberto = Boolean(pickerDiaId);
+  const pickerOpcoes = useMemo(
+    () => criarOpcoesBibliotecaExercicios(pickerExercicios),
+    [pickerExercicios]
+  );
+  const pickerFiltrados = useMemo(
+    () => filtrarExerciciosBiblioteca(pickerExercicios, pickerFiltros),
+    [pickerExercicios, pickerFiltros]
   );
   const requestCloseEditor = useCallback(async (reason) => {
     if (!isDirty) {
@@ -201,7 +231,7 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
   }
 
   function salvarExercicio(diaId) {
-    const exercicio = exercicioPorDia[diaId] || exercicioVazio;
+    const exercicio = manualWorkoutExercise(exercicioPorDia[diaId] || exercicioVazio);
 
     if (!exercicio.nome.trim()) {
       toast.aviso("Nome obrigatório", "Informe o nome do exercício.");
@@ -244,6 +274,55 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
   function cancelarEdicaoExercicio(diaId) {
     setExercicioPorDia({ ...exercicioPorDia, [diaId]: exercicioVazio });
     setEdicaoExercicio(null);
+  }
+
+  async function carregarPickerBiblioteca() {
+    setPickerCarregando(true);
+    setPickerErro("");
+
+    try {
+      const exercicios = await buscarBibliotecaExerciciosSupabase();
+      setPickerExercicios(exercicios);
+    } catch (error) {
+      setPickerErro(error.message || "Não foi possível carregar a biblioteca de exercícios.");
+    } finally {
+      setPickerCarregando(false);
+    }
+  }
+
+  async function abrirPickerBiblioteca(diaId) {
+    setPickerDiaId(diaId);
+    setPickerErro("");
+
+    if (!pickerExercicios.length) {
+      await carregarPickerBiblioteca();
+    }
+  }
+
+  function fecharPickerBiblioteca() {
+    setPickerDiaId("");
+    setPickerErro("");
+  }
+
+  function atualizarFiltroPicker(campo, valor) {
+    setPickerFiltros((atuais) => ({ ...atuais, [campo]: valor }));
+  }
+
+  function adicionarExercicioDaBiblioteca(exercicioBiblioteca) {
+    if (!pickerDiaId || !exercicioBiblioteca?.id) return;
+
+    const exercicio = libraryExerciseToWorkoutExercise(exercicioBiblioteca);
+    setForm({
+      ...form,
+      dias: form.dias.map((dia) =>
+        dia.id === pickerDiaId
+          ? { ...dia, exercicios: [...dia.exercicios, exercicio] }
+          : dia
+      ),
+    });
+    setErrosValidacao((atuais) => ({ ...atuais, exercises: undefined }));
+    setPickerDiaId("");
+    toast.sucesso("Exercício adicionado", `${exercicio.nome} entrou no treino.`);
   }
 
   function moverExercicio(diaId, exercicioId, direcao) {
@@ -701,6 +780,15 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
                     >
                       {editando}
                     </button>
+                    <button
+                      type="button"
+                      onClick={() => abrirPickerBiblioteca(dia.id)}
+                      style={botaoBiblioteca}
+                      data-testid="exercise-library-picker-open"
+                    >
+                      <BookOpenCheck size={15} aria-hidden="true" />
+                      Biblioteca
+                    </button>
                     {edicaoExercicio?.diaId === dia.id && (
                       <button
                         type="button"
@@ -775,6 +863,180 @@ function TreinoModal({ alunos, treino, onClose, onSave, onSaveTemplate }) {
           onSubmit={salvarComoModelo}
         />
       )}
+      {pickerAberto && (
+        <ExerciseLibraryPicker
+          carregando={pickerCarregando}
+          erro={pickerErro}
+          exercicios={pickerFiltrados}
+          filtros={pickerFiltros}
+          opcoes={pickerOpcoes}
+          onChangeFiltro={atualizarFiltroPicker}
+          onClose={fecharPickerBiblioteca}
+          onRetry={carregarPickerBiblioteca}
+          onSelect={adicionarExercicioDaBiblioteca}
+        />
+      )}
+    </div>
+  );
+}
+
+function ExerciseLibraryPicker({
+  carregando,
+  erro,
+  exercicios,
+  filtros,
+  opcoes,
+  onChangeFiltro,
+  onClose,
+  onRetry,
+  onSelect,
+}) {
+  return (
+    <div className="workout-library-picker-overlay" style={pickerOverlay}>
+      <div
+        className="workout-library-picker"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="workout-library-picker-title"
+        style={pickerModal}
+        data-testid="workout-library-picker"
+      >
+        <div style={pickerHeader}>
+          <div>
+            <h3 id="workout-library-picker-title" style={pickerTitle}>Biblioteca de exercícios</h3>
+            <p style={subtitulo}>Selecione um exercício oficial ou pessoal para adicionar ao treino.</p>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            style={pickerIconButton}
+            aria-label="Fechar biblioteca"
+            data-testid="workout-library-picker-close"
+          >
+            <X size={18} aria-hidden="true" />
+          </button>
+        </div>
+
+        <div className="workout-library-picker-filters" style={pickerFilters}>
+          <label style={{ ...campoGrupo, ...pickerSearchLabel }}>
+            <span style={labelCampo}>Buscar</span>
+            <span style={pickerSearchBox}>
+              <Search size={16} aria-hidden="true" />
+              <input
+                value={filtros.busca}
+                onChange={(event) => onChangeFiltro("busca", event.target.value)}
+                placeholder="Nome, grupo ou instrução"
+                style={pickerSearchInput}
+                data-testid="workout-library-picker-search"
+              />
+            </span>
+          </label>
+          <label style={campoGrupo}>
+            <span style={labelCampo}>Origem</span>
+            <select
+              value={filtros.origem}
+              onChange={(event) => onChangeFiltro("origem", event.target.value)}
+              style={campo}
+              data-testid="workout-library-picker-origin"
+            >
+              <option value="todos">Todas</option>
+              <option value="official">Oficial</option>
+              <option value="personal">Pessoal</option>
+            </select>
+          </label>
+          <label style={campoGrupo}>
+            <span style={labelCampo}>Grupo</span>
+            <select
+              value={filtros.grupoMuscular}
+              onChange={(event) => onChangeFiltro("grupoMuscular", event.target.value)}
+              style={campo}
+              data-testid="workout-library-picker-muscle"
+            >
+              <option value="todos">Todos</option>
+              {opcoes.gruposMusculares.map((grupo) => (
+                <option key={grupo} value={grupo}>{grupo}</option>
+              ))}
+            </select>
+          </label>
+          <label style={campoGrupo}>
+            <span style={labelCampo}>Categoria</span>
+            <select
+              value={filtros.categoria}
+              onChange={(event) => onChangeFiltro("categoria", event.target.value)}
+              style={campo}
+              data-testid="workout-library-picker-category"
+            >
+              <option value="todos">Todas</option>
+              {opcoes.categorias.map((categoria) => (
+                <option key={categoria} value={categoria}>{categoria}</option>
+              ))}
+            </select>
+          </label>
+          <label style={campoGrupo}>
+            <span style={labelCampo}>Mídia</span>
+            <select
+              value={filtros.midia}
+              onChange={(event) => onChangeFiltro("midia", event.target.value)}
+              style={campo}
+              data-testid="workout-library-picker-media"
+            >
+              <option value="todos">Todas</option>
+              <option value="com_midia">Com mídia</option>
+              <option value="sem_midia">Sem mídia</option>
+            </select>
+          </label>
+        </div>
+
+        {erro && (
+          <div className="app-error" style={pickerError}>
+            <span>{erro}</span>
+            <button type="button" onClick={onRetry} style={botaoSecundario} data-testid="workout-library-picker-retry">
+              Tentar novamente
+            </button>
+          </div>
+        )}
+
+        {carregando && <p style={vazio}>Carregando biblioteca...</p>}
+
+        {!carregando && !erro && exercicios.length === 0 && (
+          <p style={vazio}>Nenhum exercício encontrado.</p>
+        )}
+
+        {!carregando && !erro && exercicios.length > 0 && (
+          <div className="workout-library-picker-list" style={pickerList}>
+            {exercicios.map((exercicio) => (
+              <article
+                key={exercicio.id}
+                className="workout-library-picker-card"
+                style={pickerCard}
+                data-testid="workout-library-picker-card"
+              >
+                <div style={pickerCardBody}>
+                  <div style={pickerBadges}>
+                    <span style={exercicio.origem === "personal" ? pickerBadgePersonal : pickerBadgeOfficial}>
+                      {exercicio.origemLabel}
+                    </span>
+                    <span style={pickerMediaBadge}>{exercicio.midia.label}</span>
+                  </div>
+                  <h4 style={pickerCardTitle}>{exercicio.nome}</h4>
+                  <p style={pickerCardText}>{exercicio.descricao || exercicio.instrucoes || "Sem descrição cadastrada."}</p>
+                  <p style={pickerCardMeta}>
+                    {[exercicio.grupoMuscular, exercicio.categoria].filter(Boolean).join(" · ") || "Sem classificação"}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => onSelect(exercicio)}
+                  style={botaoPrimario}
+                  data-testid="workout-library-picker-select"
+                >
+                  Adicionar
+                </button>
+              </article>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -1016,6 +1278,14 @@ const botaoSecundario = {
   cursor: "pointer",
 };
 
+const botaoBiblioteca = {
+  ...botaoSecundario,
+  alignItems: "center",
+  display: "inline-flex",
+  gap: "7px",
+  justifyContent: "center",
+};
+
 const botaoExcluir = {
   background: "#dc2626",
   color: "white",
@@ -1023,6 +1293,156 @@ const botaoExcluir = {
   padding: "9px 12px",
   borderRadius: "8px",
   cursor: "pointer",
+};
+
+const pickerOverlay = {
+  ...overlay,
+  zIndex: 45,
+};
+
+const pickerModal = {
+  background: "white",
+  borderRadius: "8px",
+  boxShadow: "0 24px 70px rgba(15, 23, 42, 0.28)",
+  maxHeight: "calc(100vh - 48px)",
+  overflowY: "auto",
+  padding: "22px",
+  width: "min(920px, 100%)",
+};
+
+const pickerHeader = {
+  alignItems: "flex-start",
+  display: "flex",
+  gap: "16px",
+  justifyContent: "space-between",
+};
+
+const pickerTitle = {
+  fontSize: "20px",
+  margin: 0,
+};
+
+const pickerIconButton = {
+  alignItems: "center",
+  background: "#f3f4f6",
+  border: "1px solid #e5e7eb",
+  borderRadius: "8px",
+  color: "#111827",
+  cursor: "pointer",
+  display: "inline-flex",
+  height: "38px",
+  justifyContent: "center",
+  width: "38px",
+};
+
+const pickerFilters = {
+  display: "grid",
+  gap: "10px",
+  gridTemplateColumns: "minmax(220px, 1.4fr) repeat(4, minmax(130px, 1fr))",
+  marginTop: "18px",
+};
+
+const pickerSearchLabel = {
+  minWidth: 0,
+};
+
+const pickerSearchBox = {
+  alignItems: "center",
+  border: "1px solid #d1d5db",
+  borderRadius: "8px",
+  display: "flex",
+  gap: "8px",
+  minHeight: "42px",
+  padding: "0 11px",
+};
+
+const pickerSearchInput = {
+  border: "none",
+  color: "#111827",
+  flex: 1,
+  minWidth: 0,
+  outline: "none",
+};
+
+const pickerError = {
+  alignItems: "center",
+  display: "flex",
+  gap: "10px",
+  justifyContent: "space-between",
+  marginTop: "14px",
+};
+
+const pickerList = {
+  display: "grid",
+  gap: "10px",
+  gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+  marginTop: "16px",
+};
+
+const pickerCard = {
+  alignItems: "stretch",
+  border: "1px solid #e5e7eb",
+  borderRadius: "8px",
+  display: "grid",
+  gap: "12px",
+  gridTemplateColumns: "minmax(0, 1fr) auto",
+  padding: "14px",
+};
+
+const pickerCardBody = {
+  minWidth: 0,
+};
+
+const pickerBadges = {
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "6px",
+};
+
+const pickerBadgeOfficial = {
+  background: "#ecfdf5",
+  border: "1px solid #bbf7d0",
+  borderRadius: "999px",
+  color: "#166534",
+  fontSize: "12px",
+  fontWeight: "750",
+  padding: "4px 8px",
+};
+
+const pickerBadgePersonal = {
+  ...pickerBadgeOfficial,
+  background: "#eff6ff",
+  border: "1px solid #bfdbfe",
+  color: "#1d4ed8",
+};
+
+const pickerMediaBadge = {
+  background: "#f8fafc",
+  border: "1px solid #e2e8f0",
+  borderRadius: "999px",
+  color: "#475569",
+  fontSize: "12px",
+  fontWeight: "750",
+  padding: "4px 8px",
+};
+
+const pickerCardTitle = {
+  fontSize: "15px",
+  margin: "10px 0 0",
+};
+
+const pickerCardText = {
+  color: "#4b5563",
+  fontSize: "13px",
+  lineHeight: 1.4,
+  margin: "6px 0 0",
+};
+
+const pickerCardMeta = {
+  color: "#6b7280",
+  fontSize: "12px",
+  fontWeight: "700",
+  margin: "8px 0 0",
 };
 
 export default TreinoModal;

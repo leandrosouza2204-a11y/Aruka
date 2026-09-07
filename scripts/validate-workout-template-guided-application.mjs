@@ -22,6 +22,7 @@ const authorizedSupabaseDiff = new Set([
   "supabase/migrations/20260728030000_workout_delivery_integration_v1.sql",
   "supabase/migrations/20260730090000_student_identity_contract.sql",
   "supabase/migrations/20260905120000_exercise_library_media_v1.sql",
+  "supabase/migrations/20260907090000_workout_exercise_library_integration_v1.sql",
 ]);
 
 const checks = [];

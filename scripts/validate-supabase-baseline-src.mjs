@@ -124,7 +124,7 @@ const workoutRpcBlock = baselineSql.match(
   /create\s+or\s+replace\s+function\s+public\.salvar_treino_composto\(p_treino\s+jsonb\)[\s\S]*?\n\$\$;/i
 )?.[0];
 if (workoutRpcBlock) {
-  const expectedWorkoutExerciseValues = /values\s*\(\s*v_day_id,\s*btrim\(coalesce\(v_exercise->>'nome', ''\)\),\s*coalesce\(v_exercise->>'series', ''\),\s*coalesce\(v_exercise->>'repeticoes', ''\),\s*coalesce\(v_exercise->>'carga', ''\),\s*coalesce\(v_exercise->>'descanso', ''\),\s*coalesce\(v_exercise->>'observacoes', ''\),\s*coalesce\(v_exercise->>'video', ''\),\s*v_exercise_index\s*\)/i;
+  const expectedWorkoutExerciseValues = /values\s*\([\s\S]*?v_day_id,[\s\S]*?btrim\(coalesce\(v_exercise->>'nome', ''\)\),[\s\S]*?coalesce\(v_exercise->>'series', ''\),[\s\S]*?coalesce\(v_exercise->>'repeticoes', ''\),[\s\S]*?coalesce\(v_exercise->>'carga', ''\),[\s\S]*?coalesce\(v_exercise->>'descanso', ''\),[\s\S]*?coalesce\(v_exercise->>'observacoes', ''\),[\s\S]*?coalesce\(v_exercise->>'video', ''\),[\s\S]*?v_exercise_index[\s\S]*?\)/i;
   if (!expectedWorkoutExerciseValues.test(workoutRpcBlock)) {
     fail("salvar_treino_composto treino_exercicios VALUES must preserve carga, descanso, observacoes, video and ordem in order");
   }

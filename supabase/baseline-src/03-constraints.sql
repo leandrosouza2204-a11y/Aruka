@@ -55,6 +55,7 @@ alter table only public.treino_dias add constraint treino_dias_treino_id_fkey fo
 alter table only public.treino_exercicios add constraint treino_exercicios_pkey primary key (id);
 alter table only public.treino_exercicios add constraint treino_exercicios_treino_dia_id_fkey foreign key (treino_dia_id) references public.treino_dias(id) on delete cascade;
 alter table only public.treino_exercicios add constraint treino_exercicios_exercise_id_fkey foreign key (exercise_id) references public.exercise_library(id) on delete set null;
+alter table only public.treino_exercicios add constraint treino_exercicios_media_snapshot_object check (jsonb_typeof(exercise_media_snapshot) = 'object');
 
 alter table only public.exercise_library add constraint exercise_library_pkey primary key (id);
 alter table only public.exercise_library add constraint exercise_library_owner_id_fkey foreign key (owner_id) references auth.users(id) on delete cascade;

@@ -454,6 +454,7 @@ try {
     "supabase/migrations/20260831090000_fix_pending_student_claim_return.sql",
     "supabase/migrations/20260905120000_exercise_library_media_v1.sql",
     "supabase/migrations/20260906020000_exercise_video_upload_storage_v1.sql",
+    "supabase/migrations/20260907090000_workout_exercise_library_integration_v1.sql",
     "supabase/migrations/cutover-manifest.json", "supabase/migrations/README.md", "supabase/README.md"
   )
   foreach ($item in $overlay) { Copy-Overlay $item }
@@ -512,7 +513,7 @@ try {
   Copy-Item -LiteralPath $inventoryPath -Destination (Join-Path $ReportDir "clean-worktree-schema-inventory.json") -Force
   $historyPath = Join-Path $innerReportDir "migration-history.txt"
   $result.migrations = @((Get-Content $historyPath) | Where-Object { $_ })
-  $expectedHistory = @("20260716090000", "20260728030000", "20260730090000", "20260731190000", "20260801143335", "20260801173000", "20260801180000", "20260811090000", "20260815120000", "20260816120000", "20260819090000", "20260821120000", "20260822120000", "20260824120000", "20260829120000", "20260829173000", "20260830203000", "20260831090000", "20260905120000", "20260906020000")
+  $expectedHistory = @("20260716090000", "20260728030000", "20260730090000", "20260731190000", "20260801143335", "20260801173000", "20260801180000", "20260811090000", "20260815120000", "20260816120000", "20260819090000", "20260821120000", "20260822120000", "20260824120000", "20260829120000", "20260829173000", "20260830203000", "20260831090000", "20260905120000", "20260906020000", "20260907090000")
   if (($result.migrations -join "`n") -ne ($expectedHistory -join "`n")) {
     $missingVersions = @($expectedHistory | Where-Object { $_ -notin $result.migrations })
     $extraVersions = @($result.migrations | Where-Object { $_ -notin $expectedHistory })

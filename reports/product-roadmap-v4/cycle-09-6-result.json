@@ -1,0 +1,71 @@
+{
+  "cycle": "Product Roadmap v4 - Cycle 09",
+  "stage": "09.6",
+  "title": "Workout integration",
+  "status": "READY_FOR_PR",
+  "decision": "SUPABASE CHANGE: YES",
+  "branch": "feat/product-roadmap-v4-cycle-09-6-workout-integration",
+  "baseSha": "3f301ade7efb112e0e4081889078233c8098abca",
+  "picker": {
+    "entryPoint": "workout day exercise form",
+    "filters": ["search", "origin", "muscle_group", "category", "media"],
+    "states": ["loading", "empty", "error", "retry", "select", "cancel"]
+  },
+  "snapshot": {
+    "immutable": true,
+    "fields": ["exerciseId", "source", "name", "description", "instructions", "muscleGroup", "category", "media"],
+    "signedUrlPersisted": false
+  },
+  "exerciseId": {
+    "nullable": true,
+    "persistedByRpc": true,
+    "foreignKeyOnDelete": "set null"
+  },
+  "manualFallback": true,
+  "media": {
+    "youtubeSnapshot": true,
+    "uploadedPathSnapshot": true,
+    "signedUrlPersisted": false
+  },
+  "templates": {
+    "canonicalPayloadPreservesReference": true,
+    "duplicatePreservesReference": true
+  },
+  "atomicSave": true,
+  "idempotency": "existing workout save idempotency preserved",
+  "responsive": true,
+  "accessibility": true,
+  "supabaseChanged": true,
+  "migration": "20260907090000_workout_exercise_library_integration_v1.sql",
+  "dbPush": "PASS",
+  "runtime": "PASS",
+  "visual": "BUILD_AND_RESPONSIVE_STATIC_PASS",
+  "tests": [
+    "node --test src/features/treinos/utils/workoutExerciseLibraryIntegration.test.js src/features/treinos/utils/workoutDataContract.test.js"
+  ],
+  "qa": [
+    "qa:exercise-library-workout-integration",
+    "qa:exercise-library-workout-snapshot",
+    "qa:exercise-library-workout-integration-responsive",
+    "qa:exercise-library-workout-integration-accessibility",
+    "qa:supabase-baseline-src",
+    "qa:supabase-ci-static",
+    "qa:exercise-library-workout-integration-runtime",
+    "lint",
+    "build",
+    "git diff --check"
+  ],
+  "supabaseRemote": {
+    "prePushPendingOnly": "20260907090000_workout_exercise_library_integration_v1.sql",
+    "dryRunBeforePush": "PASS",
+    "push": "PASS",
+    "postPushMigrationList": "ALIGNED",
+    "postPushDryRun": "REMOTE_DATABASE_UP_TO_DATE"
+  },
+  "knownPreexistingIssue": "node --test src/features/treinos/utils/*.test.js still has workoutLifecyclePresentation ACTIVE edit expectation mismatch documented before 09.6.",
+  "limitations": [
+    "Student media rendering remains out of scope for 09.6.",
+    "Picker supports single-add only."
+  ],
+  "nextStage": "09.7"
+}
