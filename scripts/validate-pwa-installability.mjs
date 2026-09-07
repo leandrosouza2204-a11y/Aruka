@@ -37,7 +37,7 @@ for (const icon of icons) {
   assert.match(viteConfig + index, new RegExp(icon.replace("public/", "").replaceAll("/", "\\/")));
 }
 
-assert.equal(migrations.length, 17);
+assert.ok(migrations.length >= 17, "PWA QA must tolerate additive database migrations");
 
 console.log("PWA_INSTALLABILITY_QA=PASS");
 console.log("MANIFEST=CONFIGURED");

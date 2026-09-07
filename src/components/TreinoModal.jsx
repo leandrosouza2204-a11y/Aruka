@@ -923,6 +923,7 @@ function ExerciseLibraryPicker({
             <span style={pickerSearchBox}>
               <Search size={16} aria-hidden="true" />
               <input
+                aria-label="Buscar exercícios na biblioteca"
                 value={filtros.busca}
                 onChange={(event) => onChangeFiltro("busca", event.target.value)}
                 placeholder="Nome, grupo ou instrução"
@@ -934,6 +935,7 @@ function ExerciseLibraryPicker({
           <label style={campoGrupo}>
             <span style={labelCampo}>Origem</span>
             <select
+              aria-label="Filtrar biblioteca por origem"
               value={filtros.origem}
               onChange={(event) => onChangeFiltro("origem", event.target.value)}
               style={campo}
@@ -947,6 +949,7 @@ function ExerciseLibraryPicker({
           <label style={campoGrupo}>
             <span style={labelCampo}>Grupo</span>
             <select
+              aria-label="Filtrar biblioteca por grupo muscular"
               value={filtros.grupoMuscular}
               onChange={(event) => onChangeFiltro("grupoMuscular", event.target.value)}
               style={campo}
@@ -961,6 +964,7 @@ function ExerciseLibraryPicker({
           <label style={campoGrupo}>
             <span style={labelCampo}>Categoria</span>
             <select
+              aria-label="Filtrar biblioteca por categoria"
               value={filtros.categoria}
               onChange={(event) => onChangeFiltro("categoria", event.target.value)}
               style={campo}
@@ -975,6 +979,7 @@ function ExerciseLibraryPicker({
           <label style={campoGrupo}>
             <span style={labelCampo}>Mídia</span>
             <select
+              aria-label="Filtrar biblioteca por mídia"
               value={filtros.midia}
               onChange={(event) => onChangeFiltro("midia", event.target.value)}
               style={campo}

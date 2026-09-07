@@ -1,0 +1,43 @@
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+
+const page = readFileSync("src/features/exerciseLibrary/components/ExerciseLibraryPage.jsx", "utf8");
+const player = readFileSync("src/features/workoutExecution/components/ExerciseVideoPlayer.jsx", "utf8");
+const picker = readFileSync("src/components/TreinoModal.jsx", "utf8");
+
+assert.match(page, /role="dialog"/);
+assert.match(page, /aria-modal="true"/);
+assert.match(page, /aria-labelledby=\{titleId\}/);
+assert.match(page, /aria-describedby=\{descriptionId\}/);
+assert.match(page, /document\.addEventListener\("keydown", handleKeyDown\)/);
+assert.match(page, /aria-label="Buscar exerc/);
+assert.match(page, /aria-label="Filtrar por origem"/);
+assert.match(page, /aria-label="Filtrar por grupo muscular"/);
+assert.match(page, /aria-label="Filtrar por m/);
+assert.match(page, /role="alert"/);
+assert.match(page, /aria-live="assertive"/);
+assert.match(page, /role="status"/);
+assert.match(page, /aria-live="polite"/);
+assert.match(page, /aria-busy=\{page\.carregando \|\| page\.retryEmAndamento\}/);
+assert.match(page, /aria-invalid/);
+assert.match(page, /aria-describedby=\{describedBy\}/);
+assert.match(page, /<iframe[\s\S]*title=\{`/);
+assert.match(page, /<video[\s\S]*aria-label=\{`/);
+assert.match(page, /<video[\s\S]*controls/);
+assert.match(player, /aria-expanded=\{open\}/);
+assert.match(player, /exercise-media-retry/);
+assert.match(picker, /role="dialog"/);
+assert.match(picker, /aria-modal="true"/);
+assert.match(picker, /aria-label="Buscar exerc/);
+assert.match(picker, /aria-label="Filtrar biblioteca por origem"/);
+assert.match(picker, /aria-label="Filtrar biblioteca por grupo muscular"/);
+assert.match(picker, /aria-label="Filtrar biblioteca por categoria"/);
+assert.match(picker, /aria-label="Filtrar biblioteca por m/);
+
+console.log("EXERCISE_LIBRARY_MOBILE_PWA_ACCESSIBILITY_QA=PASS");
+console.log("MODALS=LABELLED_AND_MODAL");
+console.log("FORM_ERRORS=ANNOUNCED");
+console.log("LOADING_EMPTY_ERROR_RETRY=ANNOUNCED");
+console.log("YOUTUBE_IFRAME=LABELLED");
+console.log("UPLOAD_VIDEO=LABELLED_CONTROLS");
+console.log("WORKOUT_PICKER=A11Y_CONTRACT_PASS");
