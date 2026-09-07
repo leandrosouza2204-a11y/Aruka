@@ -2,7 +2,7 @@
   "cycle": "09",
   "stage": "09.8",
   "title": "Seed/catalog",
-  "decision": "REMOTE_PROMOTION_COMPLETE",
+  "decision": "COMPLETE",
   "branch": "feat/product-roadmap-v4-cycle-09-8-seed-catalog",
   "baseSha": "0a0c0ecc5a13d222fa9573352da441a19a9d750d",
   "strategy": "migration-based official catalog seed",
@@ -26,9 +26,13 @@
   "remoteProject": "aruka / vrizeuhuhvtvbrmtvdik",
   "dryRun": "PASS_ONLY_20260907150000_PENDING",
   "dbPush": "PASS",
+  "postPushMigrationList": "ALIGNED",
+  "postPushDryRun": "REMOTE_DATABASE_UP_TO_DATE",
   "postPush": "ALIGNED_REMOTE_DATABASE_UP_TO_DATE",
   "remoteCatalogVerification": "PARTIALLY_VERIFIED",
-  "productionActionRequired": "NO",
+  "productionActionRequired": false,
+  "functionalPr": 75,
+  "functionalMergeCommit": "30ae3bd3f535f0801c19207ac5d4fc5dc4b3c8c9",
   "qa": {
     "officialCatalog": "PASS",
     "seedReproducibility": "PASS",
@@ -54,7 +58,7 @@
   },
   "limitations": [
     "Direct remote catalog row query was not executed because no narrow read-only remote query runner exists in current tooling without broad production data dump.",
-    "Functional PR/merge and closeout are pending."
+    "Closeout PR/merge are pending."
   ],
   "nextStage": {
     "number": "09.9",

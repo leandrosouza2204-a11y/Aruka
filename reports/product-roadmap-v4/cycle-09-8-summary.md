@@ -1,6 +1,6 @@
 # Cycle 09.8 Summary
 
-Stage 09.8 adds a deterministic official exercise catalog for `public.exercise_library`.
+Stage 09.8 is COMPLETE and adds a deterministic official exercise catalog for `public.exercise_library`.
 
 - Strategy: migration-based official catalog seed.
 - Source: `supabase/migrations/20260907150000_exercise_official_catalog_v1.sql`.
@@ -14,5 +14,7 @@ Stage 09.8 adds a deterministic official exercise catalog for `public.exercise_l
 - Remote db push passed for `20260907150000_exercise_official_catalog_v1.sql`.
 - Post-push migration list is aligned and post-push dry-run reports the remote database is up to date.
 - Production action required: NO.
+- Functional PR: #75.
+- Functional merge commit: `30ae3bd3f535f0801c19207ac5d4fc5dc4b3c8c9`.
 
 NEXT_STAGE=09.9_MOBILE_PWA_QA_AND_STABILIZATION

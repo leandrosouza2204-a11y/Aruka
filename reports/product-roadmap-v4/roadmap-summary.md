@@ -10,7 +10,7 @@
 - Last completed cycle: CYCLE_08_3_MOBILE_PREMIUM_ALIGNMENT
 - Current cycle: CYCLE_09_EXERCISE_LIBRARY_AND_MEDIA
 - Current cycle status: IN_PROGRESS
-- Cycle 09 completed stages: 09.1, 09.2, 09.3, 09.4, 09.5, 09.6, 09.7
+- Cycle 09 completed stages: 09.1, 09.2, 09.3, 09.4, 09.5, 09.6, 09.7, 09.8
 
 ## Recommended cycles
 
@@ -41,7 +41,7 @@ The next cycle strengthens workout assembly and student exercise demonstration t
 
 ## Cycle 09 next stage
 
-- Stage: 09.8 - Seed/catalog
+- Stage: 09.9 - Mobile/PWA QA and stabilization
 - Status: READY_FOR_START
-- Objective: expand the official controlled exercise catalog with licensed or owned seed content after schema, workout integration and student media authorization are stable.
-- Dependencies: 09.1 data model/security, 09.2 read experience, 09.3 personal CRUD, 09.4 YouTube media, 09.5 uploaded video/storage, 09.6 workout integration, 09.7 student media experience.
+- Objective: run the mobile/PWA stabilization sweep for upload, preview and student viewing across the exercise library and media experience.
+- Dependencies: 09.1 data model/security, 09.2 read experience, 09.3 personal CRUD, 09.4 YouTube media, 09.5 uploaded video/storage, 09.6 workout integration, 09.7 student media experience, 09.8 seed/catalog.
