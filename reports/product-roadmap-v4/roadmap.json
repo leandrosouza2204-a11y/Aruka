@@ -10,7 +10,7 @@
   "principle": "PRODUCT_VALUE_FIRST",
   "recommended_first_cycle": "STUDENT_PROGRESSION_SNAPSHOT",
   "current_cycle": "COACH_WORKFLOW_AUTOMATION",
-  "current_cycle_status": "READY_FOR_START",
+  "current_cycle_status": "IN_PROGRESS",
   "cycle_09": {
     "status": "COMPLETE",
     "completed_stages": ["09.1", "09.2", "09.3", "09.4", "09.5", "09.6", "09.7", "09.8", "09.9"],
@@ -22,10 +22,17 @@
   "next_cycle": {
     "id": "COACH_WORKFLOW_AUTOMATION",
     "title": "Coach Workflow Automation",
-    "status": "READY_FOR_START",
+    "status": "IN_PROGRESS",
     "objective": "Operational automation for follow-up, stalled students, pending actions and repeated coach decisions after the exercise library and media foundation.",
     "dependencies": ["CYCLE_09_EXERCISE_LIBRARY_AND_MEDIA"],
-    "recommended_branch": "feat/product-roadmap-v4-coach-workflow-automation"
+    "recommended_branch": "feat/product-roadmap-v4-coach-workflow-automation",
+    "completed_stages": ["10.1"],
+    "next_stage": {
+      "id": "10.2",
+      "title": "Coach Attention Queue",
+      "status": "READY_FOR_START",
+      "objective": "Surface calculated coach workflow signals as a compact professional attention queue without automatic action."
+    }
   },
   "cycles": [
     {
