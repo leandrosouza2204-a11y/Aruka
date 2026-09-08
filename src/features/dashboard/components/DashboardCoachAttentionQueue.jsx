@@ -20,6 +20,7 @@ const PRIORITY_TONE = {
 function DashboardCoachAttentionQueue({
   carregando,
   erro,
+  onRetry,
   onToggleAcknowledgement,
   queue = [],
   stats = { total: 0 },
@@ -42,14 +43,16 @@ function DashboardCoachAttentionQueue({
       {erro ? (
         <div className="app-error" role="alert" style={styles.erroBox}>
           <span>{erro}</span>
-          <Link
+          <button
             className="app-button app-button-secondary"
             style={styles.queueRetryAction}
-            to="/dashboard"
+            type="button"
+            onClick={onRetry}
+            data-testid="coach-attention-queue-retry"
             aria-label="Tentar carregar novamente a fila de atencao"
           >
             Tentar novamente
-          </Link>
+          </button>
         </div>
       ) : carregando ? (
         <div className="app-loading" role="status" aria-live="polite" style={styles.queueLoading}>

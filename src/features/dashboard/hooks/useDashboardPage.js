@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   formatarMoeda,
   normalizarAluno,
@@ -35,8 +35,7 @@ export function useDashboardPage() {
   const [avisoSinais, setAvisoSinais] = useState("");
   const [acknowledgedCoachAttentionItemIds, setAcknowledgedCoachAttentionItemIds] = useState(new Set());
 
-  useEffect(() => {
-    async function carregarDashboard() {
+  const carregarDashboard = useCallback(async () => {
       setCarregando(true);
       setErro("");
       setAvisoSinais("");
@@ -89,10 +88,15 @@ export function useDashboardPage() {
       }
 
       setCarregando(false);
+  }, []);
+
+  useEffect(() => {
+    async function carregarDashboardInicial() {
+      await carregarDashboard();
     }
 
-    carregarDashboard();
-  }, []);
+    carregarDashboardInicial();
+  }, [carregarDashboard]);
 
   const totalAlunos = alunos.length;
 
@@ -378,6 +382,7 @@ export function useDashboardPage() {
     modalCheckinAberto,
     onboardingStatus,
     receitaMensal,
+    recarregarDashboard: carregarDashboard,
     resumoReceitaMensal,
     sinaisFitness,
     toggleCoachAttentionAcknowledgement,
