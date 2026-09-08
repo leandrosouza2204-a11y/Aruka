@@ -141,7 +141,7 @@ function MobileBottomNavigation() {
               <MoreLink
                 to="/exercicios"
                 icon={<BookOpenCheck size={18} />}
-                label="Exercicios"
+                label="Exercícios"
                 onNavigate={fecharMais}
               />
               <MoreLink

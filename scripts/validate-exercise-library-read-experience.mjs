@@ -26,7 +26,7 @@ const checks = [];
 
 check("arquivos da experiencia existem", ["page", "component", "hook", "service", "mapper", "tests"].every((key) => source[key]));
 check("rota autenticada /exercicios registrada", all(source.app, ["path=\"/exercicios\"", "<Exercicios />", "<ProtectedRoute>", "<SubscriptionRoute>", "<LegalRoute>"]));
-check("navegacao desktop e mobile exposta", all(source.sidebar + source.mobileNav, ["/exercicios", "BookOpenCheck", "Exercicios"]));
+check("navegacao desktop e mobile exposta", all(source.sidebar + source.mobileNav, ["/exercicios", "BookOpenCheck", "Exercícios"]));
 check("servico usa tabela canonica com leitura ativa", all(source.service, [".from(\"exercise_library\")", ".eq(\"status\", \"active\")", ".select(EXERCISE_LIBRARY_SELECT)"]));
 check("servico nao seleciona owner privado", !/owner_id/.test(source.service.match(/EXERCISE_LIBRARY_SELECT[\s\S]*?\]\.join/s)?.[0] ?? ""));
 check("servico nao usa role privilegiada", !/service_role|SUPABASE_SERVICE|createClient\(/.test(source.service));
