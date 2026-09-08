@@ -58,6 +58,7 @@ function DashboardPage() {
           queue={dashboard.coachAttentionQueue}
           stats={dashboard.coachAttentionQueueStats}
           onToggleAcknowledgement={dashboard.toggleCoachAttentionAcknowledgement}
+          onRetry={dashboard.recarregarDashboard}
           styles={styles}
         />
 
