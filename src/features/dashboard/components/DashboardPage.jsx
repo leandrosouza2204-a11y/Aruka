@@ -57,6 +57,7 @@ function DashboardPage() {
           erro={dashboard.erro}
           queue={dashboard.coachAttentionQueue}
           stats={dashboard.coachAttentionQueueStats}
+          onToggleAcknowledgement={dashboard.toggleCoachAttentionAcknowledgement}
           styles={styles}
         />
 
@@ -456,7 +457,7 @@ const queueItem = {
   borderRadius: "8px",
   display: "grid",
   gap: "12px",
-  gridTemplateColumns: "auto minmax(0, 1fr) auto auto",
+  gridTemplateColumns: "auto minmax(0, 1fr) auto auto auto",
   padding: "14px",
 };
 
@@ -541,6 +542,10 @@ const queueRetryAction = {
 };
 
 const queueSecondaryAction = {
+  ...queueAction,
+};
+
+const queueAcknowledgementAction = {
   ...queueAction,
 };
 
@@ -706,6 +711,7 @@ const styles = {
   nomeCheckin,
   numero,
   queueAction,
+  queueAcknowledgementAction,
   queueContent,
   queueDescription,
   queueEmpty,

@@ -18,6 +18,11 @@ export const COACH_WORKFLOW_ACTION_TYPE = Object.freeze({
   OPEN_ACCESS: "OPEN_ACCESS",
 });
 
+export const COACH_WORKFLOW_ITEM_STATE = Object.freeze({
+  ATTENTION: "ATTENTION",
+  ACKNOWLEDGED: "ACKNOWLEDGED",
+});
+
 export const COACH_ATTENTION_QUEUE_SIGNAL_MAP = Object.freeze({
   [COACH_SIGNAL_TYPE.NO_ACTIVE_WORKOUT]: {
     priority: COACH_ATTENTION_QUEUE_PRIORITY.ACTION_REQUIRED,
@@ -85,6 +90,7 @@ export function buildCoachAttentionQueue({
   students = [],
   workouts = [],
   precomputedSignalsByStudent = new Map(),
+  acknowledgedItemIds = new Set(),
   limit = COACH_ATTENTION_QUEUE_LIMIT,
 } = {}) {
   const activeWorkoutStudentIds = buildActiveWorkoutStudentIds(workouts);
@@ -93,6 +99,7 @@ export function buildCoachAttentionQueue({
       student,
       activeWorkoutStudentIds,
       precomputedSignalsByStudent,
+      acknowledgedItemIds,
     }))
     .filter(Boolean)
     .sort(compareQueueItems);
@@ -104,6 +111,7 @@ export function buildQueueItemForStudent({
   student = {},
   activeWorkoutStudentIds = new Set(),
   precomputedSignalsByStudent = new Map(),
+  acknowledgedItemIds = new Set(),
 } = {}) {
   const studentId = String(student.id || "");
   if (!studentId) return null;
@@ -122,8 +130,9 @@ export function buildQueueItemForStudent({
   const primarySignal = groupedSignals[0];
   const primaryAction = resolveCoachWorkflowAction(primarySignal.primaryAction, { studentId });
   const secondaryAction = resolveCoachWorkflowAction(primarySignal.secondaryAction, { studentId });
+  const id = `${studentId}:${groupedSignals.map((signal) => signal.code).join("+")}`;
   return {
-    id: `${studentId}:${groupedSignals.map((signal) => signal.code).join("+")}`,
+    id,
     studentId,
     studentName: student.nome || student.name || "Aluno sem nome",
     priority: primarySignal.priority,
@@ -135,6 +144,9 @@ export function buildQueueItemForStudent({
     secondaryAction,
     signals: groupedSignals,
     occurredAt: primarySignal.occurredAt || "",
+    workflowState: hasAcknowledgedItem(acknowledgedItemIds, id)
+      ? COACH_WORKFLOW_ITEM_STATE.ACKNOWLEDGED
+      : COACH_WORKFLOW_ITEM_STATE.ATTENTION,
   };
 }
 
@@ -158,6 +170,8 @@ export function resolveCoachWorkflowAction(action, { studentId } = {}) {
 export function getCoachAttentionQueueStats(queue = []) {
   return {
     total: queue.length,
+    acknowledged: queue.filter((item) => item.workflowState === COACH_WORKFLOW_ITEM_STATE.ACKNOWLEDGED).length,
+    attention: queue.filter((item) => item.workflowState !== COACH_WORKFLOW_ITEM_STATE.ACKNOWLEDGED).length,
     actionRequired: queue.filter((item) => item.priority === COACH_ATTENTION_QUEUE_PRIORITY.ACTION_REQUIRED).length,
     review: queue.filter((item) => item.priority === COACH_ATTENTION_QUEUE_PRIORITY.REVIEW).length,
     followUp: queue.filter((item) => item.priority === COACH_ATTENTION_QUEUE_PRIORITY.FOLLOW_UP).length,
@@ -236,6 +250,8 @@ function compareQueueSignals(a, b) {
 }
 
 function compareQueueItems(a, b) {
+  const workflowState = getWorkflowStateRank(a.workflowState) - getWorkflowStateRank(b.workflowState);
+  if (workflowState !== 0) return workflowState;
   const priority = (QUEUE_PRIORITY_RANK[a.priority] ?? 9) - (QUEUE_PRIORITY_RANK[b.priority] ?? 9);
   if (priority !== 0) return priority;
   const date = getDateValue(b.occurredAt) - getDateValue(a.occurredAt);
@@ -243,6 +259,15 @@ function compareQueueItems(a, b) {
   const name = String(a.studentName).localeCompare(String(b.studentName), "pt-BR");
   if (name !== 0) return name;
   return String(a.studentId).localeCompare(String(b.studentId), "pt-BR");
+}
+
+function hasAcknowledgedItem(acknowledgedItemIds, itemId) {
+  if (acknowledgedItemIds instanceof Set) return acknowledgedItemIds.has(itemId);
+  return Array.isArray(acknowledgedItemIds) && acknowledgedItemIds.includes(itemId);
+}
+
+function getWorkflowStateRank(workflowState) {
+  return workflowState === COACH_WORKFLOW_ITEM_STATE.ACKNOWLEDGED ? 1 : 0;
 }
 
 function buildGroupedDescription(signals) {

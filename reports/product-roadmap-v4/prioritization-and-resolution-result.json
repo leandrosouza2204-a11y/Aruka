@@ -1,0 +1,60 @@
+{
+  "cycle": "COACH_WORKFLOW_AUTOMATION",
+  "stage": "10.4",
+  "stageTitle": "Prioritization and Resolution",
+  "decision": "COMPLETE",
+  "baseSha": "a508a7f6168245a4b7b8e53b0119a2a8a6486c96",
+  "priority": {
+    "model": "CALCULATED_SIGNAL_PRIORITY",
+    "manualPriority": "NOT_IMPLEMENTED",
+    "order": ["ATTENTION", "ACKNOWLEDGED", "PRIORITY", "OCCURRED_AT_DESC", "STUDENT_NAME", "STUDENT_ID"]
+  },
+  "acknowledge": {
+    "implemented": true,
+    "persistence": "LOCAL_REACT_SESSION_ONLY",
+    "semantics": "Coach saw the current grouped factual signals without resolving or hiding them.",
+    "reappearRule": "Refresh or a changed deterministic grouped-signal identity returns the item to attention."
+  },
+  "dismiss": "NOT_IMPLEMENTED_NO_RELIABLE_PERSISTED_OCCURRENCE_KEY",
+  "resolve": "AUTO_DERIVED_FROM_FACTUAL_SOURCE_MANUAL_RESOLVE_NOT_IMPLEMENTED",
+  "occurrenceModel": "TRANSIENT_QUEUE_ITEM_ID_ONLY_NOT_A_PERSISTED_FACTUAL_OCCURRENCE",
+  "persistence": {
+    "implemented": false,
+    "decision": "NO"
+  },
+  "supabaseChange": false,
+  "migration": null,
+  "autoAction": false,
+  "cronRequired": false,
+  "edgeFunctionRequired": false,
+  "externalNotifications": false,
+  "financeImpact": {
+    "functionalChange": false,
+    "handling": "Existing finance attention remains a read-only input and navigation target."
+  },
+  "security": {
+    "professionalOnly": true,
+    "ownershipPreserved": true,
+    "backendStateCreated": false
+  },
+  "qa": {
+    "qa:coach-workflow-prioritization-resolution": "PASS",
+    "qa:student-workflow-actions": "PASS",
+    "qa:coach-attention-queue": "PASS",
+    "qa:coach-workflow-automation-discovery": "PASS",
+    "qa:coach-workflow-signals": "PASS",
+    "test:alunos": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "gitDiffCheck": "PASS",
+    "workoutLifecyclePresentation.test.js": "PREEXISTING_TEST_FAILURE_CONFIRMED",
+    "authenticatedVisual": "NOT_EXECUTED_LOCAL_AUTHENTICATED_RUNTIME_LIMITATION"
+  },
+  "nextStage": {
+    "id": "10.5",
+    "title": "Mobile/PWA Stabilization",
+    "status": "READY_FOR_START",
+    "objective": "Validate mobile, PWA, accessibility, loading, empty, error and retry behavior for the coach workflow surfaces.",
+    "recommendedBranch": "feat/product-roadmap-v4-mobile-pwa-stabilization"
+  }
+}

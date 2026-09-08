@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   COACH_ATTENTION_QUEUE_PRIORITY,
+  COACH_WORKFLOW_ITEM_STATE,
   COACH_WORKFLOW_ACTION_TYPE,
   buildCoachAttentionQueue,
   buildQueueItemForStudent,
@@ -59,6 +60,35 @@ test("multiple students are ordered by priority and then name", () => {
   });
 
   assert.deepEqual(queue.map((item) => item.studentName), ["Ana", "Bruna"]);
+});
+
+test("acknowledged items move after items requiring attention before the queue limit", () => {
+  const queue = buildCoachAttentionQueue({
+    students: [
+      student({ id: "a", nome: "Ana", studentAccessStatus: "active" }),
+      student({ id: "b", nome: "Bruna", studentAccessStatus: "active" }),
+      student({ id: "c", nome: "Caio", studentAccessStatus: "active" }),
+    ],
+    workouts: [],
+    acknowledgedItemIds: new Set(["a:NO_ACTIVE_WORKOUT"]),
+    limit: 2,
+  });
+
+  assert.deepEqual(queue.map((item) => item.studentId), ["b", "c"]);
+});
+
+test("acknowledgement applies only to the current deterministic item identity", () => {
+  const item = buildQueueItemForStudent({
+    student: student({ studentAccessStatus: "active" }),
+    acknowledgedItemIds: new Set(["student-1:NO_ACTIVE_WORKOUT"]),
+  });
+  const changedItem = buildQueueItemForStudent({
+    student: student({ studentAccessStatus: "suspended" }),
+    acknowledgedItemIds: new Set(["student-1:NO_ACTIVE_WORKOUT"]),
+  });
+
+  assert.equal(item.workflowState, COACH_WORKFLOW_ITEM_STATE.ACKNOWLEDGED);
+  assert.equal(changedItem.workflowState, COACH_WORKFLOW_ITEM_STATE.ATTENTION);
 });
 
 test("precomputed timestamps order items inside same priority", () => {
@@ -137,7 +167,7 @@ test("resolver rejects invalid action descriptors and missing student id", () =>
   assert.equal(resolveCoachWorkflowAction({ type: "UNKNOWN", destination: "missing", label: "Ir" }, { studentId: "student-1" }), null);
 });
 
-test("queue items do not expose read-state, dismiss or resolve persistence", () => {
+test("queue items do not expose dismiss or resolve state", () => {
   const queue = buildCoachAttentionQueue({
     students: [student({ studentAccessStatus: "active" })],
     workouts: [],
@@ -145,7 +175,7 @@ test("queue items do not expose read-state, dismiss or resolve persistence", () 
 
   assert.equal("dismissed" in queue[0], false);
   assert.equal("resolved" in queue[0], false);
-  assert.equal("acknowledgedAt" in queue[0], false);
+  assert.equal(queue[0].workflowState, COACH_WORKFLOW_ITEM_STATE.ATTENTION);
 });
 
 test("stats expose compact queue totals", () => {
@@ -159,6 +189,8 @@ test("stats expose compact queue totals", () => {
 
   assert.deepEqual(getCoachAttentionQueueStats(queue), {
     total: 2,
+    acknowledged: 0,
+    attention: 2,
     actionRequired: 1,
     review: 1,
     followUp: 0,

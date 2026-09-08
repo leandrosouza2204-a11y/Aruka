@@ -5464,6 +5464,14 @@ body[data-theme="dark"] .treinos-page [style*="color: #374151"] {
   }
 }
 
+.coach-attention-queue-item-acknowledged {
+  background: #f8fafc;
+}
+
+body[data-theme="dark"] .coach-attention-queue-item-acknowledged {
+  background: #172033;
+}
+
 @media (max-width: 420px) {
   .dashboard-page .page-hero,
   .alunos-page .page-hero,
