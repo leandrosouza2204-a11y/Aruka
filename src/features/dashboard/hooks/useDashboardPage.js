@@ -33,6 +33,7 @@ export function useDashboardPage() {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
   const [avisoSinais, setAvisoSinais] = useState("");
+  const [acknowledgedCoachAttentionItemIds, setAcknowledgedCoachAttentionItemIds] = useState(new Set());
 
   useEffect(() => {
     async function carregarDashboard() {
@@ -227,8 +228,9 @@ export function useDashboardPage() {
       buildCoachAttentionQueue({
         students: alunosComAtencaoCobranca,
         workouts: treinos,
+        acknowledgedItemIds: acknowledgedCoachAttentionItemIds,
       }),
-    [alunosComAtencaoCobranca, treinos]
+    [acknowledgedCoachAttentionItemIds, alunosComAtencaoCobranca, treinos]
   );
 
   const coachAttentionQueueStats = useMemo(
@@ -355,6 +357,15 @@ export function useDashboardPage() {
     setModalCheckinAberto(false);
   }
 
+  function toggleCoachAttentionAcknowledgement(itemId) {
+    setAcknowledgedCoachAttentionItemIds((current) => {
+      const next = new Set(current);
+      if (next.has(itemId)) next.delete(itemId);
+      else next.add(itemId);
+      return next;
+    });
+  }
+
   return {
     alertasConsultoria,
     alunosAtivosCheckin,
@@ -369,6 +380,7 @@ export function useDashboardPage() {
     receitaMensal,
     resumoReceitaMensal,
     sinaisFitness,
+    toggleCoachAttentionAcknowledgement,
     avisoSinais,
     abrirModalCheckin,
     fecharModalCheckin,

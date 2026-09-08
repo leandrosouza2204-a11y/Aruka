@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
-import { ListChecks } from "lucide-react";
-import { COACH_ATTENTION_QUEUE_PRIORITY } from "../../alunos/utils/coachAttentionQueue.js";
+import { Check, ListChecks } from "lucide-react";
+import {
+  COACH_ATTENTION_QUEUE_PRIORITY,
+  COACH_WORKFLOW_ITEM_STATE,
+} from "../../alunos/utils/coachAttentionQueue.js";
 
 const PRIORITY_LABEL = {
   [COACH_ATTENTION_QUEUE_PRIORITY.ACTION_REQUIRED]: "Requer atencao",
@@ -14,7 +17,14 @@ const PRIORITY_TONE = {
   [COACH_ATTENTION_QUEUE_PRIORITY.FOLLOW_UP]: "muted",
 };
 
-function DashboardCoachAttentionQueue({ carregando, erro, queue = [], stats = { total: 0 }, styles }) {
+function DashboardCoachAttentionQueue({
+  carregando,
+  erro,
+  onToggleAcknowledgement,
+  queue = [],
+  stats = { total: 0 },
+  styles,
+}) {
   return (
     <section
       className="dashboard-panel coach-attention-queue"
@@ -24,9 +34,7 @@ function DashboardCoachAttentionQueue({ carregando, erro, queue = [], stats = { 
       <div style={styles.secaoTopo}>
         <div>
           <h2 id="coach-attention-queue-title" style={styles.secaoTitulo}>Fila de atencao</h2>
-          <p style={styles.secaoLegenda}>
-            Sinais calculados para decidir a proxima revisao operacional.
-          </p>
+          <p style={styles.secaoLegenda}>Sinais calculados para decidir a proxima revisao operacional.</p>
         </div>
         <span style={styles.historicoTag}>{stats.total} item(ns)</span>
       </div>
@@ -53,8 +61,14 @@ function DashboardCoachAttentionQueue({ carregando, erro, queue = [], stats = { 
         </p>
       ) : (
         <div style={styles.queueList}>
-          {queue.map((item) => (
-            <article key={item.id} className="coach-attention-queue-item" style={styles.queueItem}>
+          {queue.map((item) => {
+            const acknowledged = item.workflowState === COACH_WORKFLOW_ITEM_STATE.ACKNOWLEDGED;
+            return (
+            <article
+              key={item.id}
+              className={`coach-attention-queue-item${acknowledged ? " coach-attention-queue-item-acknowledged" : ""}`}
+              style={styles.queueItem}
+            >
               <div style={styles.queueIcon} aria-hidden="true">
                 <ListChecks size={18} />
               </div>
@@ -64,6 +78,7 @@ function DashboardCoachAttentionQueue({ carregando, erro, queue = [], stats = { 
                   <span className={`status-badge status-badge-${PRIORITY_TONE[item.priority] || "muted"}`}>
                     {PRIORITY_LABEL[item.priority] || "Revisar"}
                   </span>
+                  {acknowledged && <span className="status-badge status-badge-muted">Visto</span>}
                 </div>
                 <p style={styles.queueTitle}>{item.title}</p>
                 <p style={styles.queueDescription}>{item.description}</p>
@@ -91,8 +106,20 @@ function DashboardCoachAttentionQueue({ carregando, erro, queue = [], stats = { 
                   {item.secondaryAction.label}
                 </Link>
               )}
+              <button
+                className="app-button app-button-neutral"
+                style={styles.queueAcknowledgementAction}
+                type="button"
+                aria-pressed={acknowledged}
+                aria-label={`${acknowledged ? "Desfazer visto" : "Marcar como visto"} para ${item.studentName}`}
+                onClick={() => onToggleAcknowledgement?.(item.id)}
+              >
+                {acknowledged ? <Check size={15} aria-hidden="true" /> : null}
+                {acknowledged ? "Visto" : "Marcar como visto"}
+              </button>
             </article>
-          ))}
+            );
+          })}
         </div>
       )}
     </section>
