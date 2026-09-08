@@ -1,0 +1,51 @@
+{
+  "cycle": "COACH_WORKFLOW_AUTOMATION",
+  "stage": "10.4",
+  "stageTitle": "Prioritization and Resolution",
+  "decision": "COMPLETE",
+  "functional": {
+    "branch": "feat/product-roadmap-v4-prioritization-resolution",
+    "commit": "213f53a61c49b38491f2a834bf791780de389be4",
+    "pr": 85,
+    "mergeCommit": "3c6065a601db0f9a5d6188064a4f56164aa37892",
+    "checks": "PASS",
+    "vercel": "PASS"
+  },
+  "semantics": {
+    "calculatedPriority": "AUTHORITATIVE",
+    "manualPriority": "NOT_IMPLEMENTED",
+    "acknowledge": "IMPLEMENTED_LOCAL_REACT_SESSION_ONLY",
+    "dismiss": "NOT_IMPLEMENTED_NO_RELIABLE_PERSISTED_OCCURRENCE_KEY",
+    "manualResolve": "NOT_IMPLEMENTED_AUTO_DERIVED_FROM_FACTUAL_SOURCE",
+    "occurrenceModel": "TRANSIENT_DETERMINISTIC_QUEUE_ITEM_ID_ONLY",
+    "reappearRule": "REFRESH_OR_CHANGED_GROUPED_SIGNAL_IDENTITY"
+  },
+  "persistence": false,
+  "supabaseChange": false,
+  "migration": null,
+  "security": "EXISTING_PROFESSIONAL_OWNERSHIP_BOUNDARIES_PRESERVED",
+  "autoAction": false,
+  "cron": false,
+  "edgeFunction": false,
+  "externalNotifications": false,
+  "financeFunctionalChange": false,
+  "postMergeQa": {
+    "qa:coach-workflow-prioritization-resolution": "PASS",
+    "qa:student-workflow-actions": "PASS",
+    "qa:coach-attention-queue": "PASS",
+    "qa:coach-workflow-automation-discovery": "PASS",
+    "qa:coach-workflow-signals": "PASS",
+    "test:alunos": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "authenticatedVisual": "NOT_EXECUTED_LOCAL_AUTHENTICATED_RUNTIME_LIMITATION",
+    "workoutLifecyclePresentation.test.js": "PREEXISTING_TEST_FAILURE_CONFIRMED"
+  },
+  "nextStage": {
+    "id": "10.5",
+    "title": "Mobile/PWA Stabilization",
+    "status": "READY_FOR_START",
+    "objective": "Validate mobile, PWA, accessibility, loading, empty, error and retry behavior for the coach workflow surfaces.",
+    "recommendedBranch": "feat/product-roadmap-v4-mobile-pwa-stabilization"
+  }
+}

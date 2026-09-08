@@ -26,12 +26,12 @@
     "objective": "Operational automation for follow-up, stalled students, pending actions and repeated coach decisions after the exercise library and media foundation.",
     "dependencies": ["CYCLE_09_EXERCISE_LIBRARY_AND_MEDIA"],
     "recommended_branch": "feat/product-roadmap-v4-coach-workflow-automation",
-    "completed_stages": ["10.1", "10.2", "10.3"],
+    "completed_stages": ["10.1", "10.2", "10.3", "10.4"],
     "next_stage": {
-      "id": "10.4",
-      "title": "Prioritization and Resolution",
+      "id": "10.5",
+      "title": "Mobile/PWA Stabilization",
       "status": "READY_FOR_START",
-      "objective": "Add deterministic priority/resolution semantics only for signals proven useful in 10.2 and 10.3."
+      "objective": "Validate mobile, PWA, accessibility, loading, empty, error and retry behavior for the coach workflow surfaces."
     }
   },
   "cycles": [
@@ -94,5 +94,5 @@
     "manual_visual_qa": "PASS"
   },
   "database_change_policy": "Any YES/POSSIBLE database change follows local migration -> local full CI -> dry-run -> review -> authorization -> production db push.",
-  "next_action": "START_COACH_WORKFLOW_AUTOMATION"
+  "next_action": "START_COACH_WORKFLOW_AUTOMATION_STAGE_10_5"
 }
