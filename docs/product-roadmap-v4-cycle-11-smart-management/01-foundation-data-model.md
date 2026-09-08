@@ -1,6 +1,6 @@
 # Stage 11.1 - Foundation & Data Model
 
-Status: IN_PROGRESS
+Status: COMPLETE
 
 ## Discovery Summary
 
@@ -119,6 +119,14 @@ netHourlyRevenue = netRevenue / sessionDurationHours
 ```
 
 Stage 11.1 does not implement this engine.
+
+## Closeout
+
+Decision: COMPLETE
+
+Merged through PR #91 after remote validation passed. Production Supabase project `vrizeuhuhvtvbrmtvdik` is aligned with migration `20260908110000_smart_management_foundation.sql`, and the post-merge dry-run reports no pending migrations.
+
+Stage 11.2 is READY_FOR_START and should implement the operational UI for locations and transfer rules using this foundation.
 
 ## RLS Contract
 

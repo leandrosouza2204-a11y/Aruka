@@ -82,6 +82,8 @@ Expected outcome: professionals can progressively understand where their work ge
 
 DATABASE_CHANGE_REQUIRED=YES
 
+Stage 11.1 Foundation & Data Model: COMPLETE. Stage 11.2 Locais & Repasses: READY_FOR_START.
+
 ### Future cycle - Coach Workflow Automation
 
 Objective: operational automation for follow-up, stalled students, pending actions and repeated coach decisions.
