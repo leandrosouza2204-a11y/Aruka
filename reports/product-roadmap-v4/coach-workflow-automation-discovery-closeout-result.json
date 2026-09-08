@@ -1,0 +1,43 @@
+{
+  "cycle": "COACH_WORKFLOW_AUTOMATION",
+  "title": "Coach Workflow Automation",
+  "stage": "10.1",
+  "stageTitle": "Discovery and Signal Contract",
+  "status": "COMPLETE",
+  "decision": "COMPLETE",
+  "functionalPr": {
+    "number": 79,
+    "url": "https://github.com/leandrosouza2204-a11y/Aruka/pull/79",
+    "commit": "6fbdf29df1125c5996b9a30c4434fada515df5d9",
+    "mergeCommit": "60bf9fc161ff4fbfc5e77567cd64a5caea7eb487"
+  },
+  "supabase": {
+    "changed": false,
+    "productionActionRequired": false
+  },
+  "financeiro": {
+    "changed": false,
+    "handling": "Existing finance attention remains an input signal only; no financial workflow was changed."
+  },
+  "infrastructure": {
+    "cronRequired": false,
+    "edgeFunctionRequired": false,
+    "externalNotificationRequired": false
+  },
+  "qa": {
+    "discovery": "PASS",
+    "json": "PASS",
+    "diffCheck": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "prValidation": "PASS",
+    "vercel": "PASS"
+  },
+  "nextStage": {
+    "id": "10.2",
+    "title": "Coach Attention Queue",
+    "status": "READY_FOR_START",
+    "objective": "Surface calculated coach workflow signals as a compact professional attention queue without automatic action.",
+    "recommendedBranch": "feat/product-roadmap-v4-coach-attention-queue"
+  }
+}

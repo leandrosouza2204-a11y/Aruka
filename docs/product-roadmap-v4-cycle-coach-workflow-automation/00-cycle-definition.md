@@ -111,7 +111,7 @@ FIRST_STAGE: 10.1
 
 FIRST_STAGE_TITLE: Discovery and Signal Contract
 
-FIRST_STAGE_STATUS: READY_FOR_IMPLEMENTATION
+FIRST_STAGE_STATUS: COMPLETE
 
 FIRST_STAGE_BRANCH: `feat/product-roadmap-v4-coach-workflow-automation`
 
@@ -123,6 +123,18 @@ FIRST_STAGE_BRANCH: `feat/product-roadmap-v4-coach-workflow-automation`
 - Cron, Edge Function and external notification are ruled out for the first stage.
 - Supabase impact is explicitly reported.
 - Focused QA validates the discovery contract.
+
+## First Stage Closeout
+
+- Stage: 10.1 Discovery and Signal Contract.
+- Status: COMPLETE.
+- Decision: COMPLETE.
+- Functional PR: #79.
+- Merge commit: `60bf9fc161ff4fbfc5e77567cd64a5caea7eb487`.
+- Supabase change: NO.
+- Production action required: NO.
+- Next stage: 10.2 Coach Attention Queue.
+- Next stage status: READY_FOR_START.
 
 ## Known Risks
 
