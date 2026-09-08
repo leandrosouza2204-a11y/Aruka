@@ -89,4 +89,4 @@ The acknowledgement control follows the existing queue action layout and stacks 
 
 Objective: validate mobile, PWA, accessibility, loading, empty, error and retry behavior for coach workflow surfaces.
 
-Recommended branch: `feat/product-roadmap-v4-mobile-pwa-stabilization`.
+Recommended branch: `NOT_DEFINED_IN_CANONICAL_SOURCE`.

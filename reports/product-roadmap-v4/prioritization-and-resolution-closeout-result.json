@@ -46,6 +46,6 @@
     "title": "Mobile/PWA Stabilization",
     "status": "READY_FOR_START",
     "objective": "Validate mobile, PWA, accessibility, loading, empty, error and retry behavior for the coach workflow surfaces.",
-    "recommendedBranch": "feat/product-roadmap-v4-mobile-pwa-stabilization"
+    "recommendedBranch": "NOT_DEFINED_IN_CANONICAL_SOURCE"
   }
 }

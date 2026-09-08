@@ -64,4 +64,4 @@ Authenticated visual QA was not executed because the local authenticated runtime
 
 Objective: validate mobile, PWA, accessibility, loading, empty, error and retry behavior for the coach workflow surfaces.
 
-Recommended branch: `feat/product-roadmap-v4-mobile-pwa-stabilization`.
+Recommended branch: `NOT_DEFINED_IN_CANONICAL_SOURCE`.
