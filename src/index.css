@@ -7,6 +7,43 @@
 }
 
 @media (max-width: 900px) {
+  .smart-management-page {
+    margin-left: 0 !important;
+    padding: 16px !important;
+    padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px)) !important;
+    width: 100% !important;
+  }
+
+  .smart-management-hero,
+  .smart-management-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .smart-management-section {
+    padding: 16px !important;
+  }
+
+  .smart-management-page *,
+  .smart-management-card,
+  .smart-management-empty,
+  .smart-management-area-list {
+    max-width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .smart-management-page {
+    padding: 12px !important;
+    padding-bottom: calc(108px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .smart-management-empty {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+@media (max-width: 900px) {
   .workout-library-picker-overlay {
     align-items: stretch !important;
     padding: 12px !important;

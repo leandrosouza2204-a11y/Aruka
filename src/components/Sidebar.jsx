@@ -15,6 +15,7 @@ import {
   FileText,
   BookOpenCheck,
   ListChecks,
+  Scale,
   Sun,
   Smartphone,
 } from "lucide-react";
@@ -231,6 +232,12 @@ function Sidebar() {
           active={isActive("/financeiro")}
           icon={<DollarSign size={21} />}
           label="Financeiro"
+        />
+        <MenuLink
+          to="/gestao-inteligente"
+          active={isActive("/gestao-inteligente")}
+          icon={<Scale size={21} />}
+          label="Gestão Inteligente"
         />
         <MenuLink
           to="/planos"

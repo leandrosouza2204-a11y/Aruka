@@ -37,6 +37,7 @@ const expectedExecutableMigrations = [
   "supabase/migrations/20260907090000_workout_exercise_library_integration_v1.sql",
   "supabase/migrations/20260907120000_student_exercise_media_experience_v1.sql",
   "supabase/migrations/20260907150000_exercise_official_catalog_v1.sql",
+  "supabase/migrations/20260908110000_smart_management_foundation.sql",
 ];
 const forbiddenProjectRef = "xrmqdkpx" + "nfvusmenadnf";
 const APPROVED_REDACTED_DB_URL =

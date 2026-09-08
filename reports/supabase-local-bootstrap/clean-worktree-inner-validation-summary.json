@@ -1,13 +1,13 @@
 ﻿{
     "inventory":  {
-                      "public_tables":  26,
-                      "public_functions":  37,
-                      "public_triggers":  6,
-                      "public_explicit_indexes":  87,
-                      "total_policies":  79,
-                      "public_policies":  71,
+                      "public_tables":  29,
+                      "public_functions":  42,
+                      "public_triggers":  11,
+                      "public_explicit_indexes":  92,
+                      "total_policies":  82,
+                      "public_policies":  74,
                       "storage_policies":  8,
-                      "public_rls_enabled_tables":  26,
+                      "public_rls_enabled_tables":  29,
                       "storage_bucket_avaliacoes_fotos":  1,
                       "security_definer_without_search_path":  0,
                       "archived_migrations_in_history":  0,
@@ -30,7 +30,12 @@
                                                            "20260829173000",
                                                            "20260830203000",
                                                            "20260831090000",
-                                                           "20260905120000"
+                                                           "20260905120000",
+                                                           "20260906020000",
+                                                           "20260907090000",
+                                                           "20260907120000",
+                                                           "20260907150000",
+                                                           "20260908110000"
                                                        ]
                   },
     "result":  "LOCAL_RUNTIME_VALIDATED"

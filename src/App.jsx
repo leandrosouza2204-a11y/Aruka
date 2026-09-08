@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import SubscriptionRoute from "./auth/SubscriptionRoute";
+import ProfessionalRoute from "./auth/ProfessionalRoute";
 import AdminRoute from "./auth/AdminRoute";
 import LegalRoute from "./auth/LegalRoute";
 import InviteAccessRoute from "./auth/InviteAccessRoute";
@@ -13,6 +14,7 @@ import PwaExperienceManager from "./features/pwa/PwaExperienceManager";
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Alunos = lazy(() => import("./pages/Alunos"));
 const Financeiro = lazy(() => import("./pages/Financeiro"));
+const GestaoInteligente = lazy(() => import("./pages/GestaoInteligente"));
 const Treinos = lazy(() => import("./pages/Treinos"));
 const Exercicios = lazy(() => import("./pages/Exercicios"));
 const Avaliacoes = lazy(() => import("./pages/Avaliacoes"));
@@ -156,6 +158,22 @@ function App() {
                     <AppMobileNav>
                       <Planos />
                     </AppMobileNav>
+                  </LegalRoute>
+                </SubscriptionRoute>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/gestao-inteligente"
+            element={
+              <ProtectedRoute>
+                <SubscriptionRoute>
+                  <LegalRoute>
+                    <ProfessionalRoute>
+                      <AppMobileNav>
+                        <GestaoInteligente />
+                      </AppMobileNav>
+                    </ProfessionalRoute>
                   </LegalRoute>
                 </SubscriptionRoute>
               </ProtectedRoute>
