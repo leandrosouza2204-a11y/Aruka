@@ -1,0 +1,59 @@
+{
+  "cycle": "COACH_WORKFLOW_AUTOMATION",
+  "stage": "10.3",
+  "stageTitle": "Student-Level Workflow Actions",
+  "decision": "COMPLETE",
+  "baseSha": "fb1269a1daec2227e0c228b517a8cd0c07261aee",
+  "functionalBranch": "feat/product-roadmap-v4-student-workflow-actions",
+  "functionalPr": 83,
+  "functionalCommit": "8fabc202e1ab4aca471dcd135b65c080b21cfbf9",
+  "functionalMergeCommit": "77ab605cd551e60dec99b221d45250c75ccc7480",
+  "implementedActions": {
+    "NO_ACTIVE_WORKOUT": {
+      "primary": "OPEN_WORKOUTS",
+      "secondary": "OPEN_STUDENT"
+    },
+    "STUDENT_ACCESS_ATTENTION": {
+      "primary": "OPEN_ACCESS",
+      "secondary": "OPEN_STUDENT"
+    },
+    "FINANCE_ATTENTION": {
+      "primary": "OPEN_FINANCE",
+      "secondary": "OPEN_STUDENT"
+    }
+  },
+  "excludedSignals": [
+    "NO_ASSESSMENT",
+    "WORKOUT_REVIEW_DUE",
+    "RECENT_ABANDONED_SESSION",
+    "EXECUTION_INACTIVITY",
+    "RECENT_EXECUTION_ACTIVITY"
+  ],
+  "readState": "NOT_IMPLEMENTED",
+  "persistenceDecision": "NO",
+  "autoAction": false,
+  "supabaseChange": false,
+  "financeFunctionalChange": false,
+  "cronRequired": false,
+  "edgeFunctionRequired": false,
+  "externalNotifications": false,
+  "qa": {
+    "qa:student-workflow-actions": "PASS",
+    "qa:coach-attention-queue": "PASS",
+    "qa:coach-workflow-automation-discovery": "PASS",
+    "qa:coach-workflow-signals": "PASS",
+    "test:alunos": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "gitDiffCheck": "PASS",
+    "authenticatedVisual": "NOT_EXECUTED_LOCAL_RUNTIME_LIMITATION",
+    "workoutLifecyclePresentation.test.js": "PREEXISTING_TEST_FAILURE_CONFIRMED"
+  },
+  "nextStage": {
+    "id": "10.4",
+    "title": "Prioritization and Resolution",
+    "status": "READY_FOR_START",
+    "objective": "Add deterministic priority/resolution semantics only for signals proven useful in 10.2 and 10.3.",
+    "recommendedBranch": "feat/product-roadmap-v4-prioritization-resolution"
+  }
+}

@@ -1,12 +1,18 @@
 # Student Workflow Actions Summary
 
-Decision: IN_PROGRESS
+Decision: COMPLETE
 
 Cycle: COACH_WORKFLOW_AUTOMATION
 
 Stage: 10.3 Student-Level Workflow Actions
 
 The functional implementation adds stable action descriptors to the calculated Coach Attention Queue and renders explicit primary and secondary student-level actions on the dashboard queue.
+
+Functional PR: #83.
+
+Functional commit: `8fabc202e1ab4aca471dcd135b65c080b21cfbf9`.
+
+Functional merge commit: `77ab605cd551e60dec99b221d45250c75ccc7480`.
 
 Actions implemented:
 
@@ -47,4 +53,4 @@ QA results:
 - `qa:alunos-authenticated`: NOT_EXECUTED due `fetch failed`.
 - `workoutLifecyclePresentation.test.js`: PREEXISTING_TEST_FAILURE_CONFIRMED.
 
-Next stage after closeout: 10.4 Prioritization and Resolution.
+Next stage: 10.4 Prioritization and Resolution.

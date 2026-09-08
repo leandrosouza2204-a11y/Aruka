@@ -26,12 +26,12 @@
     "objective": "Operational automation for follow-up, stalled students, pending actions and repeated coach decisions after the exercise library and media foundation.",
     "dependencies": ["CYCLE_09_EXERCISE_LIBRARY_AND_MEDIA"],
     "recommended_branch": "feat/product-roadmap-v4-coach-workflow-automation",
-    "completed_stages": ["10.1", "10.2"],
+    "completed_stages": ["10.1", "10.2", "10.3"],
     "next_stage": {
-      "id": "10.3",
-      "title": "Student-Level Workflow Actions",
+      "id": "10.4",
+      "title": "Prioritization and Resolution",
       "status": "READY_FOR_START",
-      "objective": "Improve per-student action support with explicit navigation, dismissible read-state if justified, and no automatic mutations."
+      "objective": "Add deterministic priority/resolution semantics only for signals proven useful in 10.2 and 10.3."
     }
   },
   "cycles": [

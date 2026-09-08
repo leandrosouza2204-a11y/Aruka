@@ -51,6 +51,6 @@ Recommended branch: `feat/product-roadmap-v4-coach-workflow-automation`.
 ## Coach Workflow Automation
 
 - Status: IN_PROGRESS.
-- Completed stages: 10.1 Discovery and Signal Contract; 10.2 Coach Attention Queue.
-- Next stage: 10.3 Student-Level Workflow Actions.
-- Next objective: improve per-student action support with explicit navigation, dismissible read-state if justified, and no automatic mutations.
+- Completed stages: 10.1 Discovery and Signal Contract; 10.2 Coach Attention Queue; 10.3 Student-Level Workflow Actions.
+- Next stage: 10.4 Prioritization and Resolution.
+- Next objective: add deterministic priority/resolution semantics only for signals proven useful in 10.2 and 10.3.
