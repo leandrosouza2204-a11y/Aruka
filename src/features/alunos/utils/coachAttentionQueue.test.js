@@ -2,9 +2,11 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   COACH_ATTENTION_QUEUE_PRIORITY,
+  COACH_WORKFLOW_ACTION_TYPE,
   buildCoachAttentionQueue,
   buildQueueItemForStudent,
   getCoachAttentionQueueStats,
+  resolveCoachWorkflowAction,
 } from "./coachAttentionQueue.js";
 import { COACH_SIGNAL_PRIORITY, COACH_SIGNAL_TYPE } from "./coachWorkflowSignals.js";
 
@@ -27,6 +29,11 @@ test("single actionable signal creates queue item", () => {
   assert.equal(queue[0].studentId, "student-1");
   assert.equal(queue[0].signals[0].code, COACH_SIGNAL_TYPE.NO_ACTIVE_WORKOUT);
   assert.equal(queue[0].priority, COACH_ATTENTION_QUEUE_PRIORITY.ACTION_REQUIRED);
+  assert.equal(queue[0].primaryAction.type, COACH_WORKFLOW_ACTION_TYPE.OPEN_WORKOUTS);
+  assert.equal(queue[0].primaryAction.label, "Gerenciar treino");
+  assert.match(queue[0].primaryAction.target, /^\/treinos\?/);
+  assert.equal(new URL(`http://local.test${queue[0].primaryAction.target}`).searchParams.get("alunoId"), "student-1");
+  assert.equal(queue[0].secondaryAction.type, COACH_WORKFLOW_ACTION_TYPE.OPEN_STUDENT);
 });
 
 test("multiple signals for the same student are grouped", () => {
@@ -39,6 +46,7 @@ test("multiple signals for the same student are grouped", () => {
   assert.equal(queue[0].signals.length, 3);
   assert.match(queue[0].id, /NO_ACTIVE_WORKOUT/);
   assert.match(queue[0].description, /Sem treino ativo/);
+  assert.equal(queue[0].primaryAction.type, COACH_WORKFLOW_ACTION_TYPE.OPEN_WORKOUTS);
 });
 
 test("multiple students are ordered by priority and then name", () => {
@@ -106,7 +114,38 @@ test("finance attention is consumed without mutating finance data", () => {
   });
 
   assert.equal(queue[0].signals[0].code, COACH_SIGNAL_TYPE.FINANCE_ATTENTION);
+  assert.equal(queue[0].primaryAction.type, COACH_WORKFLOW_ACTION_TYPE.OPEN_FINANCE);
+  assert.equal(new URL(`http://local.test${queue[0].primaryAction.target}`).searchParams.get("alunoId"), "student-1");
   assert.equal(atencaoCobranca.highestPriority.vencido, false);
+});
+
+test("access attention resolves to student access panel", () => {
+  const queue = buildCoachAttentionQueue({
+    students: [student({ status: "Inativo", studentAccessStatus: "suspended" })],
+    workouts: [],
+  });
+
+  assert.equal(queue[0].primaryAction.type, COACH_WORKFLOW_ACTION_TYPE.OPEN_ACCESS);
+  assert.match(queue[0].primaryAction.target, /^\/alunos\?/);
+  assert.match(queue[0].primaryAction.target, /#student-access-panel$/);
+  assert.equal(new URL(`http://local.test${queue[0].primaryAction.target}`).searchParams.get("alunoId"), "student-1");
+});
+
+test("resolver rejects invalid action descriptors and missing student id", () => {
+  assert.equal(resolveCoachWorkflowAction(null, { studentId: "student-1" }), null);
+  assert.equal(resolveCoachWorkflowAction({ type: COACH_WORKFLOW_ACTION_TYPE.OPEN_STUDENT, destination: "alunos", label: "Ver aluno" }, {}), null);
+  assert.equal(resolveCoachWorkflowAction({ type: "UNKNOWN", destination: "missing", label: "Ir" }, { studentId: "student-1" }), null);
+});
+
+test("queue items do not expose read-state, dismiss or resolve persistence", () => {
+  const queue = buildCoachAttentionQueue({
+    students: [student({ studentAccessStatus: "active" })],
+    workouts: [],
+  });
+
+  assert.equal("dismissed" in queue[0], false);
+  assert.equal("resolved" in queue[0], false);
+  assert.equal("acknowledgedAt" in queue[0], false);
 });
 
 test("stats expose compact queue totals", () => {

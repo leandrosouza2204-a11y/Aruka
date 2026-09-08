@@ -25,7 +25,7 @@ assert.match(queue, /buildCoachAttentionQueue/);
 assert.match(queue, /COACH_ATTENTION_QUEUE_SIGNAL_MAP/);
 assert.match(queue, /ACTION_REQUIRED/);
 assert.match(queue, /REVIEW/);
-assert.match(queue, /buildActionTarget/);
+assert.match(queue, /resolveCoachWorkflowAction/);
 assert.doesNotMatch(queue, /from\(|insert|update|delete|upsert|localStorage|sessionStorage/i);
 assert.doesNotMatch(dashboard, /\b(dispensar|resolver|concluir|snooze|notification|notifications|bell)\b/i);
 assert.match(dashboard, /role="status"/);

@@ -76,11 +76,21 @@ function DashboardCoachAttentionQueue({ carregando, erro, queue = [], stats = { 
               <Link
                 className="app-button app-button-secondary"
                 style={styles.queueAction}
-                to={item.actionTarget}
-                aria-label={`${item.actionLabel} de ${item.studentName}`}
+                to={item.primaryAction?.target || item.actionTarget}
+                aria-label={`${item.primaryAction?.label || item.actionLabel} de ${item.studentName}`}
               >
-                {item.actionLabel}
+                {item.primaryAction?.label || item.actionLabel}
               </Link>
+              {item.secondaryAction && (
+                <Link
+                  className="app-button app-button-neutral"
+                  style={styles.queueSecondaryAction}
+                  to={item.secondaryAction.target}
+                  aria-label={`${item.secondaryAction.label} de ${item.studentName}`}
+                >
+                  {item.secondaryAction.label}
+                </Link>
+              )}
             </article>
           ))}
         </div>

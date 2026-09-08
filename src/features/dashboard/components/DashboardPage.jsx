@@ -456,7 +456,7 @@ const queueItem = {
   borderRadius: "8px",
   display: "grid",
   gap: "12px",
-  gridTemplateColumns: "auto minmax(0, 1fr) auto",
+  gridTemplateColumns: "auto minmax(0, 1fr) auto auto",
   padding: "14px",
 };
 
@@ -538,6 +538,10 @@ const queueRetryAction = {
   marginTop: "10px",
   minHeight: "36px",
   textDecoration: "none",
+};
+
+const queueSecondaryAction = {
+  ...queueAction,
 };
 
 const erroBox = {
@@ -711,6 +715,7 @@ const styles = {
   queueList,
   queueLoading,
   queueRetryAction,
+  queueSecondaryAction,
   queueSignals,
   queueSignalTag,
   queueStudent,
