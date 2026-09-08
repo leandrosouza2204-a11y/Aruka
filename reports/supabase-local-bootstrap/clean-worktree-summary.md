@@ -3,9 +3,9 @@
 - Result: CLEAN_WORKTREE_VALIDATED
 - Decision: LOCAL_REPRODUCIBILITY_VALIDATED
 - Cycle: 7.2.1
-- Started at: 2026-09-05T17:26:38.7343713+00:00
-- Finished at: 2026-09-05T17:34:35.3771729+00:00
-- Duration seconds: 477
+- Started at: 2026-09-08T17:54:46.5309103+00:00
+- Finished at: 2026-09-08T18:02:21.7501846+00:00
+- Duration seconds: 455
 - Mode: LOCAL
 - Project ID: aruka_ci_clean_worktree_validation
 - Expected HML preservation: True
@@ -15,13 +15,13 @@
 - Wrapper timed out: false
 - Last checkpoint: FINAL_ASSERTIONS_END
 - Remote access: none
-- npm ci seconds: 82
-- preflight seconds: 17
-- bootstrap seconds: 278
-- validate seconds: 21
-- stop seconds: 25
-- Migrations applied: 20260716090000, 20260728030000, 20260730090000, 20260731190000, 20260801143335, 20260801173000, 20260801180000, 20260811090000, 20260815120000, 20260816120000, 20260819090000, 20260821120000, 20260822120000, 20260824120000, 20260829120000, 20260829173000, 20260830203000, 20260831090000, 20260905120000
-- Inventory: 26 public tables, 37 public functions, 6 triggers, 87 explicit indexes, 71 public policies, 8 storage policies, 26 RLS tables, private bucket avaliacoes-fotos and exercise-media
+- npm ci seconds: 87
+- preflight seconds: 25
+- bootstrap seconds: 243
+- validate seconds: 27
+- stop seconds: 28
+- Migrations applied: 20260716090000, 20260728030000, 20260730090000, 20260731190000, 20260801143335, 20260801173000, 20260801180000, 20260811090000, 20260815120000, 20260816120000, 20260819090000, 20260821120000, 20260822120000, 20260824120000, 20260829120000, 20260829173000, 20260830203000, 20260831090000, 20260905120000, 20260906020000, 20260907090000, 20260907120000, 20260907150000, 20260908110000
+- Inventory: 26 public tables, 38 public functions, 6 triggers, 87 explicit indexes, 71 public policies, 8 storage policies, 26 RLS tables, private bucket avaliacoes-fotos and exercise-media
 - Report sanitization passed: True
 - Credential scan passed: True
 - Baseline SHA preserved: True

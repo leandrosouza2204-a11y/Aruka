@@ -16,6 +16,7 @@ The platform is no longer primarily an infrastructure stabilization effort. Road
 4. Exercise library and media: strengthen the core workout-building flow with a structured exercise library, professional custom exercises, favorites and student-visible demonstrations.
 5. Coach workflow automation: reduce repeated manual decisions around follow-up, stalled students, pending actions and renewal/commercial moments.
 6. Commercial readiness: onboarding, beta/trial operation, support readiness and release discipline should become productized rather than ad hoc.
+7. Smart management: create a decision-support layer for service locations, transfer rules, pricing, profitability and scenario comparison, separate from the operational finance module.
 
 ## Prioritization criteria
 
@@ -68,6 +69,16 @@ DATABASE_CHANGE_REQUIRED=NO
 Objective: evolve workout assembly with a structured exercise library, system exercises, professional custom exercises, favorites, YouTube media, uploaded professional videos and student-visible demonstrations.
 
 Expected outcome: professionals can search/filter exercises by muscle group, category, source and favorites, add exercises to workouts without duplicating library records unnecessarily, and students can view authorized exercise media inside delivered workouts.
+
+DATABASE_CHANGE_REQUIRED=YES
+
+### Cycle 11 - Gestao Inteligente
+
+Status: IN_PROGRESS
+
+Objective: create an independent module for commercial and operational decision support, allowing professionals to register service locations, transfer rules, services and pricing, then calculate profitability and compare work scenarios in later stages.
+
+Expected outcome: professionals can progressively understand where their work generates better return without mixing decision-support modeling into the operational Financeiro module.
 
 DATABASE_CHANGE_REQUIRED=YES
 

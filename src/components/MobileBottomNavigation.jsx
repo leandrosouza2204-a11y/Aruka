@@ -11,6 +11,7 @@ import {
   ListChecks,
   LogOut,
   MoreHorizontal,
+  Scale,
   Smartphone,
   ShieldCheck,
   Tags,
@@ -142,6 +143,12 @@ function MobileBottomNavigation() {
                 to="/exercicios"
                 icon={<BookOpenCheck size={18} />}
                 label="Exercícios"
+                onNavigate={fecharMais}
+              />
+              <MoreLink
+                to="/gestao-inteligente"
+                icon={<Scale size={18} />}
+                label="Gestão Inteligente"
                 onNavigate={fecharMais}
               />
               <MoreLink
