@@ -1,0 +1,97 @@
+{
+  "cycle": "COACH_WORKFLOW_AUTOMATION",
+  "stage": "10.2",
+  "stageTitle": "Coach Attention Queue",
+  "decision": "COMPLETE",
+  "functionalPr": {
+    "number": 81,
+    "url": "https://github.com/leandrosouza2204-a11y/Aruka/pull/81",
+    "commit": "2ef75425cae9c426e98e6659b8cf8ec49c2e1ac7",
+    "mergeCommit": "84c6b6d203ffc400a591e5cc7211e8cc17e06fb2"
+  },
+  "implementation": {
+    "queueDataSource": "Already loaded protected dashboard students, workouts and billing attention summaries.",
+    "queueItemContract": [
+      "id",
+      "studentId",
+      "studentName",
+      "priority",
+      "title",
+      "description",
+      "actionLabel",
+      "actionTarget",
+      "signals",
+      "occurredAt"
+    ],
+    "grouping": "GROUP_BY_STUDENT",
+    "priorityModel": [
+      "ACTION_REQUIRED",
+      "REVIEW",
+      "FOLLOW_UP"
+    ],
+    "ordering": "priority -> occurredAt desc when available -> studentName -> studentId",
+    "surface": {
+      "primary": "dashboard",
+      "secondary": "/alunos"
+    }
+  },
+  "signals": {
+    "used": [
+      "NO_ACTIVE_WORKOUT",
+      "STUDENT_ACCESS_ATTENTION",
+      "FINANCE_ATTENTION"
+    ],
+    "excluded": [
+      "RECENT_ABANDONED_SESSION",
+      "EXECUTION_INACTIVITY",
+      "RECENT_EXECUTION_ACTIVITY",
+      "WORKOUT_REVIEW_DUE",
+      "NO_ASSESSMENT"
+    ],
+    "stalledStudentHandling": "No broad stalled-student rule was created. EXECUTION_INACTIVITY remains limited to canonical loaded execution history and is excluded from dashboard queue in 10.2."
+  },
+  "qa": {
+    "functional": {
+      "qa:coach-attention-queue": "PASS",
+      "qa:coach-workflow-signals": "PASS",
+      "test:alunos": "PASS",
+      "lint": "PASS",
+      "build": "PASS",
+      "gitDiffCheck": "PASS"
+    },
+    "pr": {
+      "validation": "PASS",
+      "vercel": "PASS"
+    },
+    "postMerge": {
+      "qa:coach-attention-queue": "PASS",
+      "test:alunos": "PASS",
+      "lint": "PASS",
+      "build": "PASS"
+    },
+    "limitations": [
+      "Authenticated visual QA not executed successfully due local authenticated runtime/CDP limitations.",
+      "qa:product-roadmap-v4-cycle-07 runtime blocked by unavailable CDP at 127.0.0.1:9222.",
+      "workoutLifecyclePresentation.test.js preexisting failure confirmed."
+    ]
+  },
+  "guardrails": {
+    "supabaseChange": false,
+    "financeFunctionalChange": false,
+    "packageLockChanged": false,
+    "githubChanged": false,
+    "calculatedOnly": true,
+    "autoAction": false,
+    "cron": false,
+    "edgeFunction": false,
+    "externalNotifications": false,
+    "productionActionRequired": false
+  },
+  "nextStage": {
+    "id": "10.3",
+    "title": "Student-Level Workflow Actions",
+    "status": "READY_FOR_START",
+    "objective": "Improve per-student action support with explicit navigation, dismissible read-state if justified, and no automatic mutations.",
+    "recommendedBranch": "feat/product-roadmap-v4-student-workflow-actions"
+  }
+}

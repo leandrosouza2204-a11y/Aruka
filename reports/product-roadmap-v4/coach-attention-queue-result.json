@@ -2,7 +2,7 @@
   "cycle": "COACH_WORKFLOW_AUTOMATION",
   "stage": "10.2",
   "stageTitle": "Coach Attention Queue",
-  "decision": "IN_PROGRESS",
+  "decision": "COMPLETE",
   "objective": "Surface calculated coach workflow signals as a compact professional attention queue without automatic action.",
   "baseSha": "5a97947ad5e847ffd575e68c1669d75706479fd6",
   "signalsAudited": [
@@ -85,8 +85,14 @@
   "nextStage": {
     "id": "10.3",
     "title": "Student-Level Workflow Actions",
-    "status": "READY_FOR_START_AFTER_10_2_CLOSEOUT",
+    "status": "READY_FOR_START",
     "objective": "Improve per-student action support with explicit navigation, dismissible read-state if justified, and no automatic mutations.",
     "recommendedBranch": "feat/product-roadmap-v4-student-workflow-actions"
+  },
+  "functionalPr": {
+    "number": 81,
+    "url": "https://github.com/leandrosouza2204-a11y/Aruka/pull/81",
+    "commit": "2ef75425cae9c426e98e6659b8cf8ec49c2e1ac7",
+    "mergeCommit": "84c6b6d203ffc400a591e5cc7211e8cc17e06fb2"
   }
 }

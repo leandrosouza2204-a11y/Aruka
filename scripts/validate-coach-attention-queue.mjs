@@ -36,7 +36,7 @@ assert.match(docs, /CALCULATED_ONLY/);
 assert.match(docs, /QUEUE_GROUPING_STRATEGY: GROUP_BY_STUDENT/);
 assert.equal(result.cycle, "COACH_WORKFLOW_AUTOMATION");
 assert.equal(result.stage, "10.2");
-assert.equal(result.decision, "IN_PROGRESS");
+assert.equal(result.decision, "COMPLETE");
 assert.equal(result.supabaseChange, false);
 assert.equal(result.financeImpact.functionalChange, false);
 assert.equal(result.autoAction, false);

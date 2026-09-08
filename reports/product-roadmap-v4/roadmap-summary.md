@@ -51,6 +51,6 @@ Recommended branch: `feat/product-roadmap-v4-coach-workflow-automation`.
 ## Coach Workflow Automation
 
 - Status: IN_PROGRESS.
-- Completed stage: 10.1 Discovery and Signal Contract.
-- Next stage: 10.2 Coach Attention Queue.
-- Next objective: surface calculated coach workflow signals as a compact professional attention queue without automatic action.
+- Completed stages: 10.1 Discovery and Signal Contract; 10.2 Coach Attention Queue.
+- Next stage: 10.3 Student-Level Workflow Actions.
+- Next objective: improve per-student action support with explicit navigation, dismissible read-state if justified, and no automatic mutations.
