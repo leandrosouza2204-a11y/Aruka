@@ -1,0 +1,92 @@
+{
+  "cycle": "COACH_WORKFLOW_AUTOMATION",
+  "stage": "10.2",
+  "stageTitle": "Coach Attention Queue",
+  "decision": "IN_PROGRESS",
+  "objective": "Surface calculated coach workflow signals as a compact professional attention queue without automatic action.",
+  "baseSha": "5a97947ad5e847ffd575e68c1669d75706479fd6",
+  "signalsAudited": [
+    "NO_ACTIVE_WORKOUT",
+    "STUDENT_ACCESS_ATTENTION",
+    "RECENT_ABANDONED_SESSION",
+    "EXECUTION_INACTIVITY",
+    "RECENT_EXECUTION_ACTIVITY",
+    "FINANCE_ATTENTION",
+    "WORKOUT_REVIEW_DUE",
+    "NO_ASSESSMENT"
+  ],
+  "signalsUsed": [
+    "NO_ACTIVE_WORKOUT",
+    "STUDENT_ACCESS_ATTENTION",
+    "FINANCE_ATTENTION"
+  ],
+  "signalsExcluded": {
+    "RECENT_ABANDONED_SESSION": "Dashboard does not load per-student execution history.",
+    "EXECUTION_INACTIVITY": "Execution inactivity is only valid with the canonical loaded execution history window.",
+    "RECENT_EXECUTION_ACTIVITY": "Informational execution review signal, not an attention item on this dashboard queue.",
+    "WORKOUT_REVIEW_DUE": "Currently aggregate dashboard signal, not canonical per-student queue item in 10.2.",
+    "NO_ASSESSMENT": "Assessment cadence is not reliable enough for stale/due action semantics."
+  },
+  "queueStrategy": "Calculated frontend composer over already loaded protected dashboard data.",
+  "priorityModel": [
+    "ACTION_REQUIRED",
+    "REVIEW",
+    "FOLLOW_UP"
+  ],
+  "grouping": "GROUP_BY_STUDENT",
+  "ordering": [
+    "priority",
+    "occurredAt desc when available",
+    "studentName",
+    "studentId"
+  ],
+  "surface": {
+    "primary": "dashboard",
+    "secondary": "/alunos detail context"
+  },
+  "supabaseChange": false,
+  "calculatedOnly": true,
+  "autoAction": false,
+  "cronRequired": false,
+  "edgeFunctionRequired": false,
+  "externalNotifications": false,
+  "financeImpact": {
+    "functionalChange": false,
+    "handling": "Consumes existing billing attention summary only."
+  },
+  "security": {
+    "professionalOnly": true,
+    "ownershipPreserved": true,
+    "studentUiSignals": false
+  },
+  "qa": {
+    "created": "qa:coach-attention-queue",
+    "status": "FUNCTIONAL_VALIDATION_PASS_WITH_RUNTIME_ENV_LIMITATION",
+    "results": {
+      "qa:coach-attention-queue": "PASS",
+      "qa:coach-workflow-signals": "PASS",
+      "test:alunos": "PASS",
+      "lint": "PASS",
+      "build": "PASS",
+      "gitDiffCheck": "PASS",
+      "qa:product-roadmap-v4-cycle-07": "PARTIAL_STATIC_UNIT_PASS_RUNTIME_BLOCKED_CDP_127_0_0_1_9222",
+      "qa:dashboard-authenticated": "NOT_EXECUTED_SCRIPT_UNSETTLED_TOP_LEVEL_AWAIT",
+      "qa:alunos-authenticated": "NOT_EXECUTED_FETCH_FAILED",
+      "workoutLifecyclePresentation.test.js": "PREEXISTING_TEST_FAILURE_CONFIRMED"
+    }
+  },
+  "limitations": [
+    "Dashboard queue excludes execution-history signals until a safe per-student execution source is loaded for the surface.",
+    "No persistent dismiss/resolve/snooze state in 10.2."
+  ],
+  "canonicalDivergences": [
+    "Roadmap overview still calls Coach Workflow Automation a future cycle; newer roadmap report and cycle docs mark it IN_PROGRESS."
+  ],
+  "nextStage": {
+    "id": "10.3",
+    "title": "Student-Level Workflow Actions",
+    "status": "READY_FOR_START_AFTER_10_2_CLOSEOUT",
+    "objective": "Improve per-student action support with explicit navigation, dismissible read-state if justified, and no automatic mutations.",
+    "recommendedBranch": "feat/product-roadmap-v4-student-workflow-actions"
+  }
+}
