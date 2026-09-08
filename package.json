@@ -73,6 +73,7 @@
     "qa:coach-workflow-signals-authorization": "node scripts/validate-coach-workflow-signals-authorization.mjs",
     "qa:coach-workflow-automation-discovery": "node scripts/validate-coach-workflow-automation-discovery.mjs",
     "qa:coach-attention-queue": "node scripts/validate-coach-attention-queue.mjs && node --test src/features/alunos/utils/coachAttentionQueue.test.js",
+    "qa:student-workflow-actions": "node scripts/validate-student-workflow-actions.mjs && node --test src/features/alunos/utils/coachAttentionQueue.test.js",
     "qa:execution-progression": "node scripts/validate-execution-progression.mjs && node --test src/features/workoutExecution/utils/*.test.js",
     "qa:execution-progression-student-runtime": "npm run qa:workout-execution-student-runtime",
     "qa:execution-progression-professional-runtime": "npm run qa:workout-execution-professional-runtime",

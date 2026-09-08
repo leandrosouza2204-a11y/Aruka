@@ -48,6 +48,7 @@ import {
 import { validarCadastroAluno } from "../utils/alunosCadastroValidacoes";
 import {
   montarUrlContextualAluno,
+  normalizarAlunoIdDaUrl,
 } from "../utils/alunosContextNavigation";
 import {
   filtrarPagamentosContratoAtual,
@@ -188,6 +189,17 @@ export function useAlunosPage() {
         .find((aluno) => aluno.id === alunoSelecionadoId),
     [alunos, alunoSelecionadoId]
   );
+
+  useEffect(() => {
+    const alunoIdUrl = normalizarAlunoIdDaUrl(searchParams);
+    if (!alunoIdUrl || alunoIdUrl === alunoSelecionadoId) return;
+    if (!alunos.some((aluno) => aluno.id === alunoIdUrl)) return;
+    const selecionarAlunoUrl = window.setTimeout(() => {
+      setAlunoSelecionadoId(alunoIdUrl);
+    }, 0);
+
+    return () => window.clearTimeout(selecionarAlunoUrl);
+  }, [alunos, alunoSelecionadoId, searchParams]);
 
   const alunoContextUrls = useMemo(() => {
     if (!alunoSelecionado?.id) return { treinos: "", avaliacoes: "", financeiro: "" };

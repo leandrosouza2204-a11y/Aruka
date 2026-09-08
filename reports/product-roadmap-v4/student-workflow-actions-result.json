@@ -1,0 +1,93 @@
+{
+  "cycle": "COACH_WORKFLOW_AUTOMATION",
+  "stage": "10.3",
+  "stageTitle": "Student-Level Workflow Actions",
+  "decision": "IN_PROGRESS",
+  "objective": "Improve per-student action support with explicit navigation, dismissible read-state if justified, and no automatic mutations.",
+  "baseSha": "fb1269a1daec2227e0c228b517a8cd0c07261aee",
+  "signals": {
+    "used": [
+      "NO_ACTIVE_WORKOUT",
+      "STUDENT_ACCESS_ATTENTION",
+      "FINANCE_ATTENTION"
+    ],
+    "excluded": [
+      "NO_ASSESSMENT",
+      "WORKOUT_REVIEW_DUE",
+      "RECENT_ABANDONED_SESSION",
+      "EXECUTION_INACTIVITY",
+      "RECENT_EXECUTION_ACTIVITY"
+    ]
+  },
+  "actions": [
+    "OPEN_WORKOUTS",
+    "OPEN_ACCESS",
+    "OPEN_FINANCE",
+    "OPEN_STUDENT"
+  ],
+  "primaryActions": {
+    "NO_ACTIVE_WORKOUT": "OPEN_WORKOUTS",
+    "STUDENT_ACCESS_ATTENTION": "OPEN_ACCESS",
+    "FINANCE_ATTENTION": "OPEN_FINANCE"
+  },
+  "secondaryActions": {
+    "NO_ACTIVE_WORKOUT": "OPEN_STUDENT",
+    "STUDENT_ACCESS_ATTENTION": "OPEN_STUDENT",
+    "FINANCE_ATTENTION": "OPEN_STUDENT"
+  },
+  "navigationTargets": {
+    "OPEN_WORKOUTS": "/treinos?alunoId=<studentId>&returnTo=<alunos>",
+    "OPEN_ACCESS": "/alunos?alunoId=<studentId>&origem=coach-attention#student-access-panel",
+    "OPEN_FINANCE": "/financeiro?alunoId=<studentId>&returnTo=<alunos>",
+    "OPEN_STUDENT": "/alunos?alunoId=<studentId>&origem=coach-attention"
+  },
+  "readState": {
+    "implemented": false,
+    "decision": "NOT_IMPLEMENTED",
+    "justification": "Signals remain factual until source data changes; no safe occurrence model is required for 10.3."
+  },
+  "persistence": {
+    "implemented": false,
+    "decision": "NO",
+    "workflowStateCreated": false
+  },
+  "supabaseChange": false,
+  "financeImpact": {
+    "functionalChange": false,
+    "handling": "Navigation to existing finance surface only."
+  },
+  "mobile": "Primary and secondary actions stack on mobile through existing dashboard queue responsive CSS.",
+  "accessibility": "Actions are semantic links with accessible labels and visible text.",
+  "autoAction": false,
+  "cronRequired": false,
+  "edgeFunctionRequired": false,
+  "externalNotifications": false,
+  "qa": {
+    "created": "qa:student-workflow-actions",
+    "status": "READY_WITH_AUTHENTICATED_RUNTIME_LIMITATION",
+    "results": {
+      "qa:student-workflow-actions": "PASS",
+      "qa:coach-attention-queue": "PASS",
+      "qa:coach-workflow-automation-discovery": "PASS",
+      "qa:coach-workflow-signals": "PASS",
+      "test:alunos": "PASS",
+      "lint": "PASS",
+      "build": "PASS",
+      "gitDiffCheck": "PASS",
+      "qa:dashboard-authenticated": "NOT_EXECUTED_SCRIPT_UNSETTLED_TOP_LEVEL_AWAIT",
+      "qa:alunos-authenticated": "NOT_EXECUTED_FETCH_FAILED",
+      "workoutLifecyclePresentation.test.js": "PREEXISTING_TEST_FAILURE_CONFIRMED"
+    }
+  },
+  "limitations": [
+    "Authenticated visual QA depends on local authenticated runtime/CDP availability.",
+    "Read-state remains future work unless a safe occurrence model is defined."
+  ],
+  "nextStage": {
+    "id": "10.4",
+    "title": "Prioritization and Resolution",
+    "status": "READY_FOR_START_AFTER_10_3_CLOSEOUT",
+    "objective": "Add deterministic priority/resolution semantics only for signals proven useful in 10.2 and 10.3.",
+    "recommendedBranch": "feat/product-roadmap-v4-prioritization-resolution"
+  }
+}

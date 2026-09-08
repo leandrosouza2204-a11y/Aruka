@@ -3,6 +3,7 @@ import {
   COACH_SIGNAL_TYPE,
   buildStudentListSignals,
 } from "./coachWorkflowSignals.js";
+import { montarUrlContextualAluno } from "./alunosContextNavigation.js";
 
 export const COACH_ATTENTION_QUEUE_PRIORITY = Object.freeze({
   ACTION_REQUIRED: "ACTION_REQUIRED",
@@ -10,27 +11,59 @@ export const COACH_ATTENTION_QUEUE_PRIORITY = Object.freeze({
   FOLLOW_UP: "FOLLOW_UP",
 });
 
+export const COACH_WORKFLOW_ACTION_TYPE = Object.freeze({
+  OPEN_STUDENT: "OPEN_STUDENT",
+  OPEN_WORKOUTS: "OPEN_WORKOUTS",
+  OPEN_FINANCE: "OPEN_FINANCE",
+  OPEN_ACCESS: "OPEN_ACCESS",
+});
+
 export const COACH_ATTENTION_QUEUE_SIGNAL_MAP = Object.freeze({
   [COACH_SIGNAL_TYPE.NO_ACTIVE_WORKOUT]: {
     priority: COACH_ATTENTION_QUEUE_PRIORITY.ACTION_REQUIRED,
     title: "Sem treino ativo",
     description: "Aluno ativo sem treino ativo no resumo carregado.",
-    actionLabel: "Ver treinos",
-    actionTarget: "/treinos",
+    primaryAction: {
+      type: COACH_WORKFLOW_ACTION_TYPE.OPEN_WORKOUTS,
+      label: "Gerenciar treino",
+      destination: "treinos",
+    },
+    secondaryAction: {
+      type: COACH_WORKFLOW_ACTION_TYPE.OPEN_STUDENT,
+      label: "Ver aluno",
+      destination: "alunos",
+    },
   },
   [COACH_SIGNAL_TYPE.STUDENT_ACCESS_ATTENTION]: {
     priority: COACH_ATTENTION_QUEUE_PRIORITY.REVIEW,
     title: "Acesso do aluno",
     description: "Acesso do aluno precisa de conferência.",
-    actionLabel: "Ver aluno",
-    actionTarget: "/alunos",
+    primaryAction: {
+      type: COACH_WORKFLOW_ACTION_TYPE.OPEN_ACCESS,
+      label: "Revisar acesso",
+      destination: "alunos",
+      hash: "student-access-panel",
+    },
+    secondaryAction: {
+      type: COACH_WORKFLOW_ACTION_TYPE.OPEN_STUDENT,
+      label: "Ver aluno",
+      destination: "alunos",
+    },
   },
   [COACH_SIGNAL_TYPE.FINANCE_ATTENTION]: {
     priority: COACH_ATTENTION_QUEUE_PRIORITY.REVIEW,
     title: "Cobrança para revisar",
     description: "Resumo financeiro indica uma cobrança para acompanhar.",
-    actionLabel: "Ver financeiro",
-    actionTarget: "/financeiro",
+    primaryAction: {
+      type: COACH_WORKFLOW_ACTION_TYPE.OPEN_FINANCE,
+      label: "Ver financeiro",
+      destination: "financeiro",
+    },
+    secondaryAction: {
+      type: COACH_WORKFLOW_ACTION_TYPE.OPEN_STUDENT,
+      label: "Ver aluno",
+      destination: "alunos",
+    },
   },
 });
 
@@ -87,6 +120,8 @@ export function buildQueueItemForStudent({
   if (!groupedSignals.length) return null;
 
   const primarySignal = groupedSignals[0];
+  const primaryAction = resolveCoachWorkflowAction(primarySignal.primaryAction, { studentId });
+  const secondaryAction = resolveCoachWorkflowAction(primarySignal.secondaryAction, { studentId });
   return {
     id: `${studentId}:${groupedSignals.map((signal) => signal.code).join("+")}`,
     studentId,
@@ -94,10 +129,29 @@ export function buildQueueItemForStudent({
     priority: primarySignal.priority,
     title: primarySignal.title,
     description: buildGroupedDescription(groupedSignals),
-    actionLabel: primarySignal.actionLabel,
-    actionTarget: buildActionTarget(primarySignal.actionTarget, studentId),
+    actionLabel: primaryAction?.label || "",
+    actionTarget: primaryAction?.target || "",
+    primaryAction,
+    secondaryAction,
     signals: groupedSignals,
     occurredAt: primarySignal.occurredAt || "",
+  };
+}
+
+export function resolveCoachWorkflowAction(action, { studentId } = {}) {
+  if (!action?.type || !studentId) return null;
+
+  const baseTarget = resolveActionBaseTarget(action.destination, studentId);
+  if (!baseTarget) return null;
+
+  return {
+    type: action.type,
+    label: action.label,
+    target: action.hash ? `${baseTarget}#${action.hash}` : baseTarget,
+    context: {
+      studentId,
+      destination: action.destination,
+    },
   };
 }
 
@@ -135,8 +189,8 @@ function mapSignalToQueueSignal(signal) {
     signalPriority: signal.priority || COACH_SIGNAL_PRIORITY.INFO,
     title: signal.title || mapping.title,
     description: signal.description || mapping.description,
-    actionLabel: mapping.actionLabel,
-    actionTarget: mapping.actionTarget,
+    primaryAction: mapping.primaryAction,
+    secondaryAction: mapping.secondaryAction,
     occurredAt: signal.occurredAt || "",
   };
 }
@@ -196,10 +250,11 @@ function buildGroupedDescription(signals) {
   return signals.map((signal) => signal.title).join(" + ");
 }
 
-function buildActionTarget(baseTarget, studentId) {
-  if (baseTarget === "/treinos") return `/treinos?aluno=${encodeURIComponent(studentId)}&origem=coach-attention`;
-  if (baseTarget === "/financeiro") return `/financeiro?aluno=${encodeURIComponent(studentId)}&origem=coach-attention`;
-  return `/alunos?aluno=${encodeURIComponent(studentId)}&origem=coach-attention`;
+function resolveActionBaseTarget(destination, studentId) {
+  if (destination === "treinos") return montarUrlContextualAluno("treinos", studentId, "origem=coach-attention");
+  if (destination === "financeiro") return montarUrlContextualAluno("financeiro", studentId, "origem=coach-attention");
+  if (destination === "alunos") return `/alunos?alunoId=${encodeURIComponent(studentId)}&origem=coach-attention`;
+  return "";
 }
 
 function getDateValue(value) {
