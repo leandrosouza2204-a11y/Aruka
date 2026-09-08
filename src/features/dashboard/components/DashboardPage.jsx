@@ -4,6 +4,7 @@ import DashboardAlertas from "./DashboardAlertas";
 import DashboardAtalhos from "./DashboardAtalhos";
 import DashboardCards from "./DashboardCards";
 import DashboardCheckin from "./DashboardCheckin";
+import DashboardCoachAttentionQueue from "./DashboardCoachAttentionQueue";
 import DashboardHeader from "./DashboardHeader";
 import DashboardOnboardingChecklist from "./DashboardOnboardingChecklist";
 import DashboardSinaisFitness from "./DashboardSinaisFitness";
@@ -48,6 +49,14 @@ function DashboardPage() {
           aviso={dashboard.avisoSinais}
           carregando={dashboard.carregando}
           sinais={dashboard.sinaisFitness}
+          styles={styles}
+        />
+
+        <DashboardCoachAttentionQueue
+          carregando={dashboard.carregando}
+          erro={dashboard.erro}
+          queue={dashboard.coachAttentionQueue}
+          stats={dashboard.coachAttentionQueueStats}
           styles={styles}
         />
 
@@ -419,6 +428,118 @@ const sinalTexto = {
   margin: 0,
 };
 
+const queueLoading = {
+  color: "#6b7280",
+  marginTop: "18px",
+};
+
+const queueEmpty = {
+  background: "#f0fdf4",
+  border: "1px solid #bbf7d0",
+  borderRadius: "8px",
+  color: "#166534",
+  fontSize: "14px",
+  fontWeight: "800",
+  marginTop: "18px",
+  padding: "14px",
+};
+
+const queueList = {
+  display: "grid",
+  gap: "12px",
+  marginTop: "18px",
+};
+
+const queueItem = {
+  alignItems: "flex-start",
+  border: "1px solid #e5e7eb",
+  borderRadius: "8px",
+  display: "grid",
+  gap: "12px",
+  gridTemplateColumns: "auto minmax(0, 1fr) auto",
+  padding: "14px",
+};
+
+const queueIcon = {
+  alignItems: "center",
+  background: "#eff6ff",
+  border: "1px solid #dbeafe",
+  borderRadius: "8px",
+  color: "#2563eb",
+  display: "inline-flex",
+  height: "34px",
+  justifyContent: "center",
+  width: "34px",
+};
+
+const queueContent = {
+  display: "grid",
+  gap: "6px",
+  minWidth: 0,
+};
+
+const queueHeader = {
+  alignItems: "center",
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "8px",
+};
+
+const queueStudent = {
+  color: "#111827",
+  fontSize: "15px",
+};
+
+const queueTitle = {
+  color: "#374151",
+  fontSize: "14px",
+  fontWeight: "800",
+  lineHeight: 1.35,
+  margin: 0,
+};
+
+const queueDescription = {
+  color: "#6b7280",
+  fontSize: "13px",
+  lineHeight: 1.45,
+  margin: 0,
+};
+
+const queueSignals = {
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "6px",
+  marginTop: "2px",
+};
+
+const queueSignalTag = {
+  background: "#f8fafc",
+  border: "1px solid #e5e7eb",
+  borderRadius: "999px",
+  color: "#4b5563",
+  fontSize: "12px",
+  fontWeight: "700",
+  padding: "5px 8px",
+};
+
+const queueAction = {
+  alignItems: "center",
+  display: "inline-flex",
+  fontSize: "12px",
+  justifyContent: "center",
+  minHeight: "36px",
+  padding: "7px 10px",
+  textDecoration: "none",
+  whiteSpace: "nowrap",
+};
+
+const queueRetryAction = {
+  display: "inline-flex",
+  marginTop: "10px",
+  minHeight: "36px",
+  textDecoration: "none",
+};
+
 const erroBox = {
   background: "#fef2f2",
   border: "1px solid #fecaca",
@@ -580,6 +701,20 @@ const styles = {
   modalTopo,
   nomeCheckin,
   numero,
+  queueAction,
+  queueContent,
+  queueDescription,
+  queueEmpty,
+  queueHeader,
+  queueIcon,
+  queueItem,
+  queueList,
+  queueLoading,
+  queueRetryAction,
+  queueSignals,
+  queueSignalTag,
+  queueStudent,
+  queueTitle,
   resumoCard,
   secaoLegenda,
   secaoTitulo,

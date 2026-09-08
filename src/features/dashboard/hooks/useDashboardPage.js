@@ -18,6 +18,10 @@ import {
   filtrarPagamentosContratoAtual,
   montarAtencaoCobranca,
 } from "../../financeiro/utils/billingAttention";
+import {
+  buildCoachAttentionQueue,
+  getCoachAttentionQueueStats,
+} from "../../alunos/utils/coachAttentionQueue";
 
 export function useDashboardPage() {
   const [alunos, setAlunos] = useState([]);
@@ -209,6 +213,29 @@ export function useDashboardPage() {
     [alunos, avaliacoes, statusPorAluno, treinos]
   );
 
+  const alunosComAtencaoCobranca = useMemo(
+    () =>
+      alunos.map((aluno) => ({
+        ...aluno,
+        atencaoCobranca: statusPorAluno.get(aluno.id),
+      })),
+    [alunos, statusPorAluno]
+  );
+
+  const coachAttentionQueue = useMemo(
+    () =>
+      buildCoachAttentionQueue({
+        students: alunosComAtencaoCobranca,
+        workouts: treinos,
+      }),
+    [alunosComAtencaoCobranca, treinos]
+  );
+
+  const coachAttentionQueueStats = useMemo(
+    () => getCoachAttentionQueueStats(coachAttentionQueue),
+    [coachAttentionQueue]
+  );
+
   const alertasConsultoria = useMemo(
     () =>
       montarAlertasConsultoria({
@@ -332,6 +359,8 @@ export function useDashboardPage() {
     alertasConsultoria,
     alunosAtivosCheckin,
     carregando,
+    coachAttentionQueue,
+    coachAttentionQueueStats,
     erro,
     maiorReceitaMensal,
     metricas,
