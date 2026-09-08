@@ -1,12 +1,18 @@
 # Coach Attention Queue Summary
 
-Decision: IN_PROGRESS
+Decision: COMPLETE
 
 Cycle: COACH_WORKFLOW_AUTOMATION
 
 Stage: 10.2 Coach Attention Queue
 
 The functional implementation adds a calculated dashboard attention queue for professional-owned students. It groups mapped signals by student, orders them deterministically and navigates to existing action surfaces without automatic mutation.
+
+Functional PR: #81.
+
+Functional commit: `2ef75425cae9c426e98e6659b8cf8ec49c2e1ac7`.
+
+Functional merge commit: `84c6b6d203ffc400a591e5cc7211e8cc17e06fb2`.
 
 Signals used:
 
