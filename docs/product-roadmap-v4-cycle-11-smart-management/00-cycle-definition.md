@@ -18,8 +18,8 @@ Gestao Inteligente must not be implemented inside `src/features/financeiro/**`. 
 
 ## Roadmap
 
-- 11.1 Foundation & Data Model: IN_PROGRESS.
-- 11.2 Locais & Repasses: PLANNED.
+- 11.1 Foundation & Data Model: COMPLETE.
+- 11.2 Locais & Repasses: READY_FOR_START.
 - 11.3 Servicos & Precificacao: PLANNED.
 - 11.4 Motor de Rentabilidade: PLANNED.
 - 11.5 Simulador Inteligente: PLANNED.
