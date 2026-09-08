@@ -1,0 +1,77 @@
+{
+  "cycle": "COACH_WORKFLOW_AUTOMATION",
+  "title": "Coach Workflow Automation",
+  "stage": "10.1",
+  "stageTitle": "Discovery and Signal Contract",
+  "decision": "COMPLETE",
+  "baseSha": "306db18f6a30f4fcb78225d3517da294692275fa",
+  "objective": "Operational automation for follow-up, stalled students, pending actions and repeated coach decisions after the exercise library and media foundation.",
+  "currentState": {
+    "cycle09": "COMPLETE",
+    "existingSignals": "Cycle 07 coach workflow signals exist in /alunos and are calculated, not persisted.",
+    "primarySurface": "/alunos",
+    "candidateSurface": "dashboard",
+    "studentSurface": "unchanged"
+  },
+  "signals": [
+    "NO_ACTIVE_WORKOUT",
+    "STUDENT_ACCESS_ATTENTION",
+    "RECENT_ABANDONED_SESSION",
+    "EXECUTION_INACTIVITY",
+    "RECENT_EXECUTION_ACTIVITY",
+    "FINANCE_ATTENTION",
+    "WORKOUT_REVIEW_DUE",
+    "NO_ASSESSMENT"
+  ],
+  "rejectedSignals": [
+    "ADHERENCE_PERCENTAGE",
+    "BROAD_LAST_ACTIVITY_STALLED_STUDENT",
+    "ASSESSMENT_OVERDUE_WITHOUT_CADENCE",
+    "AUTOMATIC_FOLLOW_UP_SEND",
+    "AUTOMATIC_WORKOUT_OR_FINANCE_MUTATION"
+  ],
+  "gaps": [
+    "No reliable cross-product last_activity_at.",
+    "No persisted dismiss/resolve/read state.",
+    "No schedule/adherence denominator.",
+    "No assessment cadence contract."
+  ],
+  "security": {
+    "professionalOnly": true,
+    "studentUiSignals": false,
+    "anonymousSignals": false,
+    "boundary": "Existing protected professional routes, services and RLS."
+  },
+  "supabaseImpact": {
+    "stage10_1Changed": false,
+    "migration": null,
+    "dbPush": "NOT_REQUIRED",
+    "productionActionRequired": false
+  },
+  "architecture": {
+    "calculatedVsPersisted": "CALCULATED_ONLY_FOR_10_1",
+    "cronRequired": false,
+    "edgeFunctionRequired": false,
+    "externalNotificationRequired": false
+  },
+  "proposedStages": [
+    "10.1 Discovery and Signal Contract",
+    "10.2 Coach Attention Queue",
+    "10.3 Student-Level Workflow Actions",
+    "10.4 Prioritization and Resolution",
+    "10.5 Mobile/PWA Stabilization"
+  ],
+  "firstStage": {
+    "id": "10.1",
+    "title": "Discovery and Signal Contract",
+    "status": "COMPLETE",
+    "scope": "Documentation, signal inventory, architecture decisions and static QA guardrails.",
+    "outOfScope": "Schema changes, cron, Edge Functions, external notifications and automatic mutations."
+  },
+  "nextStage": {
+    "id": "10.2",
+    "title": "Coach Attention Queue",
+    "status": "READY_FOR_START",
+    "objective": "Surface calculated coach workflow signals as a compact professional attention queue without automatic action."
+  }
+}

@@ -7,10 +7,9 @@
 - CI harness: CANONICALIZED
 - Principle: PRODUCT_VALUE_FIRST
 - Recommended first cycle: STUDENT_PROGRESSION_SNAPSHOT
-- Last completed cycle: CYCLE_08_3_MOBILE_PREMIUM_ALIGNMENT
 - Last completed cycle: CYCLE_09_EXERCISE_LIBRARY_AND_MEDIA
 - Current cycle: COACH_WORKFLOW_AUTOMATION
-- Current cycle status: READY_FOR_START
+- Current cycle status: IN_PROGRESS
 - Cycle 09 completed stages: 09.1, 09.2, 09.3, 09.4, 09.5, 09.6, 09.7, 09.8, 09.9
 
 ## Recommended cycles
@@ -48,3 +47,10 @@ Coach Workflow Automation.
 Objective: operational automation for follow-up, stalled students, pending actions and repeated coach decisions after the exercise library and media foundation.
 
 Recommended branch: `feat/product-roadmap-v4-coach-workflow-automation`.
+
+## Coach Workflow Automation
+
+- Status: IN_PROGRESS.
+- Completed stage: 10.1 Discovery and Signal Contract.
+- Next stage: 10.2 Coach Attention Queue.
+- Next objective: surface calculated coach workflow signals as a compact professional attention queue without automatic action.
