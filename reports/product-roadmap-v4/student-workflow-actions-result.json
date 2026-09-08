@@ -2,7 +2,7 @@
   "cycle": "COACH_WORKFLOW_AUTOMATION",
   "stage": "10.3",
   "stageTitle": "Student-Level Workflow Actions",
-  "decision": "IN_PROGRESS",
+  "decision": "COMPLETE",
   "objective": "Improve per-student action support with explicit navigation, dismissible read-state if justified, and no automatic mutations.",
   "baseSha": "fb1269a1daec2227e0c228b517a8cd0c07261aee",
   "signals": {
@@ -62,6 +62,12 @@
   "cronRequired": false,
   "edgeFunctionRequired": false,
   "externalNotifications": false,
+  "implementation": {
+    "functionalBranch": "feat/product-roadmap-v4-student-workflow-actions",
+    "functionalPr": 83,
+    "functionalCommit": "8fabc202e1ab4aca471dcd135b65c080b21cfbf9",
+    "functionalMergeCommit": "77ab605cd551e60dec99b221d45250c75ccc7480"
+  },
   "qa": {
     "created": "qa:student-workflow-actions",
     "status": "READY_WITH_AUTHENTICATED_RUNTIME_LIMITATION",
@@ -86,7 +92,7 @@
   "nextStage": {
     "id": "10.4",
     "title": "Prioritization and Resolution",
-    "status": "READY_FOR_START_AFTER_10_3_CLOSEOUT",
+    "status": "READY_FOR_START",
     "objective": "Add deterministic priority/resolution semantics only for signals proven useful in 10.2 and 10.3.",
     "recommendedBranch": "feat/product-roadmap-v4-prioritization-resolution"
   }

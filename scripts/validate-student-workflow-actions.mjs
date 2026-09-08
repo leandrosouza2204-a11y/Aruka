@@ -44,7 +44,7 @@ assert.match(docs, /READ_STATE: NOT_IMPLEMENTED/);
 assert.match(docs, /PERSISTENCE_DECISION: NO/);
 assert.equal(result.cycle, "COACH_WORKFLOW_AUTOMATION");
 assert.equal(result.stage, "10.3");
-assert.equal(result.decision, "IN_PROGRESS");
+assert.equal(result.decision, "COMPLETE");
 assert.equal(result.readState.implemented, false);
 assert.equal(result.persistence.implemented, false);
 assert.equal(result.supabaseChange, false);
