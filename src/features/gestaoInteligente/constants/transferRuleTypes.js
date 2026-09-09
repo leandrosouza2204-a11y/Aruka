@@ -12,9 +12,9 @@ export const SMART_MANAGEMENT_LOCATION_STATUSES = Object.freeze({
 });
 
 export const SMART_MANAGEMENT_FOUNDATION_AREAS = Object.freeze([
-  "Visao geral",
+  "Visão geral",
   "Locais",
-  "Servicos e precos",
+  "Serviços e preços",
   "Simulador",
-  "Comparacao",
+  "Comparação",
 ]);

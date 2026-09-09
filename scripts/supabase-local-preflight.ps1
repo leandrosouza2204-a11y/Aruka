@@ -36,7 +36,8 @@ $ExpectedActiveMigrations = @(
   "20260907120000_student_exercise_media_experience_v1.sql",
   "20260907150000_exercise_official_catalog_v1.sql",
   "20260908110000_smart_management_foundation.sql",
-  "20260908120000_smart_management_locations_transfers.sql"
+  "20260908120000_smart_management_locations_transfers.sql",
+  "20260909110000_smart_management_services_pricing_v1.sql"
 )
 $IsCi = $env:CI -eq "true"
 $IsCiLocalOnly = $env:SUPABASE_CI_LOCAL_ONLY -eq "true"
