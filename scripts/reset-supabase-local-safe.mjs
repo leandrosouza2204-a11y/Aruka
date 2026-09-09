@@ -47,6 +47,12 @@ function runSupabaseStartIfNeeded(resetResult) {
 }
 
 function runDbFocusedReset() {
+  try {
+    waitForLocalDatabaseSqlReadiness(root, { timeoutMs: 10000 });
+  } catch {
+    commandOutputOrThrow(runSupabaseStart(root), "Local Supabase start before DB-focused reset");
+    waitForLocalSupabaseHealth(root);
+  }
   stopSupabaseAuxiliaryServices(root);
   waitForLocalDatabaseSqlReadiness(root, { timeoutMs: 120000 });
   const reset = commandOutputOrThrow(runSupabaseDbReset(root), "Local Supabase DB-focused reset");
