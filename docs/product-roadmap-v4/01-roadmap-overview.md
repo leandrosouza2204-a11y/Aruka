@@ -82,7 +82,7 @@ Expected outcome: professionals can progressively understand where their work ge
 
 DATABASE_CHANGE_REQUIRED=YES
 
-Stage 11.1 Foundation & Data Model: COMPLETE. Stage 11.2 Locais & Repasses: IN_PROGRESS.
+Stage 11.1 Foundation & Data Model: COMPLETE. Stage 11.2 Locais & Repasses: COMPLETE. Stage 11.3 Servicos & Precificacao: READY_FOR_START.
 
 ### Future cycle - Coach Workflow Automation
 

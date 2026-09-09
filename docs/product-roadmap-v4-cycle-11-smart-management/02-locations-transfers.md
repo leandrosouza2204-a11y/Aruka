@@ -1,6 +1,6 @@
 # Stage 11.2 - Locais & Repasses
 
-Status: `IN_PROGRESS`
+Status: `COMPLETE`
 
 ## Objetivo
 
