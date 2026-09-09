@@ -146,6 +146,7 @@ export function waitForLocalSupabaseHealth(root = process.cwd(), options = {}) {
   const timeoutMs = options.timeoutMs ?? 120000;
   const pollMs = options.pollMs ?? 500;
   const projectId = getProjectId(root);
+  const curl = process.platform === "win32" ? "curl.exe" : "curl";
   const containers = {
     database: `supabase_db_${projectId}`,
     auth: `supabase_auth_${projectId}`,
@@ -172,7 +173,8 @@ export function waitForLocalSupabaseHealth(root = process.cwd(), options = {}) {
       && states.rest.startsWith("running|")
       && states.gateway === "running|healthy";
     const endpointsReady = containersReady && ["auth/v1/health", "storage/v1/version", "rest/v1/"].every((path) => {
-      const probe = spawnSync("curl.exe", ["--silent", "--output", "NUL", "--write-out", "%{http_code}", `http://127.0.0.1:54321/${path}`], {
+      const outputTarget = process.platform === "win32" ? "NUL" : "/dev/null";
+      const probe = spawnSync(curl, ["--silent", "--output", outputTarget, "--write-out", "%{http_code}", `http://127.0.0.1:54321/${path}`], {
         cwd: root,
         encoding: "utf8",
         shell: false,
@@ -245,6 +247,8 @@ export function waitForSustainedFullStackReadiness(root = process.cwd(), options
   const pollMs = options.pollMs ?? 2000;
   const requiredStableReads = options.requiredStableReads ?? 5;
   const projectId = getProjectId(root);
+  const curl = process.platform === "win32" ? "curl.exe" : "curl";
+  const outputTarget = process.platform === "win32" ? "NUL" : "/dev/null";
   const services = {
     database: `supabase_db_${projectId}`,
     auth: `supabase_auth_${projectId}`,
@@ -273,7 +277,7 @@ export function waitForSustainedFullStackReadiness(root = process.cwd(), options
     if (!initialRestartCounts && running && healthy) initialRestartCounts = restartCounts;
     const restartChanged = initialRestartCounts && Object.keys(restartCounts).some((service) => restartCounts[service] !== initialRestartCounts[service]);
     const endpointsReady = endpointPaths.every((path) => {
-      const probe = runCommand(root, "curl.exe", ["--silent", "--output", "NUL", "--write-out", "%{http_code}", `http://127.0.0.1:54321/${path}`], { timeoutMs: 10000 });
+      const probe = runCommand(root, curl, ["--silent", "--output", outputTarget, "--write-out", "%{http_code}", `http://127.0.0.1:54321/${path}`], { timeoutMs: 10000 });
       const acceptedStatus = path.startsWith("rest/") ? /^(200|401|404)$/ : /^(200|401)$/;
       return probe.status === 0 && acceptedStatus.test(probe.stdout.trim());
     });
