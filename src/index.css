@@ -3474,6 +3474,28 @@ body[data-theme="dark"] .session-timeout-secondary {
 .smart-management-location-copy p { color: #64748b; margin: 6px 0; overflow-wrap: anywhere; }
 .smart-management-location-copy strong { color: #0f766e; display: block; font-size: 14px; }
 .smart-management-service-meta { color: #475569; display: block; font-size: 13px; font-weight: 700; margin-top: 7px; overflow-wrap: anywhere; }
+.smart-management-profitability { display: grid; gap: 20px; }
+.smart-management-simulator-inputs { background: #fff; border: 1px solid #dbe3ee; border-radius: 8px; padding: 20px; }
+.smart-management-simulator-inputs h2, .smart-management-breakdown h2 { color: #111827; font-size: 20px; margin: 0 0 4px; }
+.smart-management-simulator-inputs p { color: #64748b; margin: 0 0 18px; }
+.smart-management-profitability-form { display: grid; gap: 14px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.smart-management-profitability-form label { color: #334155; display: grid; font-size: 14px; font-weight: 700; gap: 7px; }
+.smart-management-profitability-form input, .smart-management-profitability-form select { border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font: inherit; min-height: 44px; padding: 10px; width: 100%; }
+.smart-management-profitability-invalid { background: #fff7ed; border: 1px solid #fdba74; border-radius: 8px; color: #9a3412; display: grid; gap: 4px; padding: 18px; }
+.smart-management-profitability-result { display: grid; gap: 20px; }
+.smart-management-profitability-metrics { display: grid; gap: 12px; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.smart-management-profitability-metric { background: #fff; border: 1px solid #dbe3ee; border-radius: 8px; display: grid; gap: 8px; min-width: 0; padding: 16px; }
+.smart-management-profitability-metric span { color: #64748b; font-size: 13px; font-weight: 700; }
+.smart-management-profitability-metric strong { color: #111827; font-size: 20px; overflow-wrap: anywhere; }
+.smart-management-profitability-metric.is-negative { border-color: #fca5a5; }
+.smart-management-profitability-metric.is-negative strong { color: #b91c1c; }
+.smart-management-profitability-estimate, .smart-management-profitability-note { color: #475569; font-size: 13px; margin: 0; }
+.smart-management-breakdown { border-top: 1px solid #dbe3ee; padding-top: 20px; }
+.smart-management-breakdown ol { display: grid; gap: 0; list-style: none; margin: 14px 0 0; padding: 0; }
+.smart-management-breakdown li { align-items: center; border-bottom: 1px solid #e2e8f0; display: flex; gap: 16px; justify-content: space-between; padding: 14px 0; }
+.smart-management-breakdown li div { display: grid; gap: 4px; min-width: 0; }
+.smart-management-breakdown li span { color: #64748b; font-size: 13px; overflow-wrap: anywhere; }
+.smart-management-breakdown li b { color: #111827; white-space: nowrap; }
 .smart-management-status { border-radius: 999px; font-size: 12px; font-weight: 800; padding: 5px 8px; }
 .smart-management-status-active { background: #dcfce7; color: #166534; }
 .smart-management-status-archived { background: #e2e8f0; color: #475569; }
@@ -3500,8 +3522,9 @@ body[data-theme="dark"] .session-timeout-secondary {
 .smart-management-tier-row { align-items: end; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; display: grid; gap: 10px; grid-template-columns: 1fr 1fr 1fr 44px; padding: 10px; }
 .smart-management-icon-button { align-items: center; background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; color: #b91c1c; cursor: pointer; display: inline-flex; height: 44px; justify-content: center; width: 44px; }
 .smart-management-field-error { color: #b91c1c; font-size: 13px; margin: 0; }
-@media (max-width: 900px) { .smart-management-locations-page { margin-left: 0; padding: 16px; padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px)); width: 100%; } .smart-management-locations-header, .smart-management-location-card { align-items: stretch; flex-direction: column; } .smart-management-primary-action { justify-content: center; width: 100%; } .smart-management-panel-actions { justify-content: stretch; } }
-@media (max-width: 560px) { .smart-management-locations-page { padding: 12px; } .smart-management-locations-header h1 { font-size: 25px; } .smart-management-area-tabs { display: grid; width: 100%; } .smart-management-area-tabs button { width: 100%; } .smart-management-rule-options, .smart-management-tier-row, .smart-management-form-grid { grid-template-columns: minmax(0, 1fr); } .smart-management-tier-row { align-items: stretch; } .smart-management-icon-button { width: 100%; } .smart-management-card-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); } .smart-management-card-actions .btn { justify-content: center; } .smart-management-state { align-items: stretch; flex-direction: column; } }
+@media (max-width: 1100px) { .smart-management-profitability-metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 900px) { .smart-management-locations-page { margin-left: 0; padding: 16px; padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px)); width: 100%; } .smart-management-locations-header, .smart-management-location-card { align-items: stretch; flex-direction: column; } .smart-management-primary-action { justify-content: center; width: 100%; } .smart-management-panel-actions { justify-content: stretch; } .smart-management-profitability-form { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 560px) { .smart-management-locations-page { padding: 12px; } .smart-management-locations-header h1 { font-size: 25px; } .smart-management-area-tabs { display: grid; width: 100%; } .smart-management-area-tabs button { width: 100%; } .smart-management-rule-options, .smart-management-tier-row, .smart-management-form-grid, .smart-management-profitability-metrics { grid-template-columns: minmax(0, 1fr); } .smart-management-tier-row { align-items: stretch; } .smart-management-icon-button { width: 100%; } .smart-management-card-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); } .smart-management-card-actions .btn { justify-content: center; } .smart-management-state { align-items: stretch; flex-direction: column; } .smart-management-breakdown li { align-items: flex-start; flex-direction: column; } }
 
 @media (min-width: 769px) {
   .mobile-card-list {
