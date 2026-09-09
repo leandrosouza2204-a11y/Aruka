@@ -20,9 +20,9 @@ Gestao Inteligente must not be implemented inside `src/features/financeiro/**`. 
 
 - 11.1 Foundation & Data Model: COMPLETE.
 - 11.2 Locais & Repasses: COMPLETE.
-- 11.3 Servicos & Precificacao: COMPLETE.
-- 11.4 Motor de Rentabilidade: READY_FOR_START.
-- 11.5 Simulador Inteligente: PLANNED.
+- 11.3 Serviços & Precificação: COMPLETE.
+- 11.4 Motor de Rentabilidade: COMPLETE.
+- 11.5 Simulador Inteligente: READY_FOR_START.
 - 11.6 Comparador de Locais: PLANNED.
 - 11.7 Apresentacao Comercial: PLANNED.
 - 11.8 Dashboard Integration: PLANNED.
