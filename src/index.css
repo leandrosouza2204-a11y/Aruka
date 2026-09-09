@@ -3514,6 +3514,17 @@ body[data-theme="dark"] .session-timeout-secondary {
 .smart-management-comparison-row strong { color: #111827; font-size: 18px; overflow-wrap: anywhere; }
 .smart-management-comparison-row em { color: #0f766e; font-size: 12px; font-style: normal; font-weight: 800; }
 .smart-management-comparison-row.is-highlighted { border-color: #0f766e; }
+.smart-management-location-comparator { display: grid; gap: 20px; }
+.smart-management-location-comparator-controls { background: #fff; border: 1px solid #dbe3ee; border-radius: 8px; display: grid; gap: 18px; padding: 20px; }
+.smart-management-location-selector { border: 1px solid #dbe3ee; border-radius: 8px; display: grid; gap: 12px; margin: 0; padding: 16px; }
+.smart-management-location-selector legend { color: #111827; font-weight: 800; padding: 0 6px; }
+.smart-management-location-selector p { color: #64748b; font-size: 13px; margin: 0; }
+.smart-management-location-selector > div { display: grid; gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.smart-management-location-selector label { align-items: flex-start; border: 1px solid #dbe3ee; border-radius: 8px; color: #334155; cursor: pointer; display: grid; gap: 4px; grid-template-columns: 20px minmax(0, 1fr); min-height: 44px; padding: 12px; }
+.smart-management-location-selector label.is-selected { background: #f0fdfa; border-color: #0f766e; }
+.smart-management-location-selector input { margin-top: 3px; }
+.smart-management-location-selector span { font-weight: 800; overflow-wrap: anywhere; }
+.smart-management-location-selector small { color: #64748b; font-size: 13px; grid-column: 2; line-height: 1.35; }
 .smart-management-breakdown { border-top: 1px solid #dbe3ee; padding-top: 20px; }
 .smart-management-breakdown ol { display: grid; gap: 0; list-style: none; margin: 14px 0 0; padding: 0; }
 .smart-management-breakdown li { align-items: center; border-bottom: 1px solid #e2e8f0; display: flex; gap: 16px; justify-content: space-between; padding: 14px 0; }
@@ -3548,7 +3559,7 @@ body[data-theme="dark"] .session-timeout-secondary {
 .smart-management-field-error { color: #b91c1c; font-size: 13px; margin: 0; }
 @media (max-width: 1100px) { .smart-management-profitability-metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); } .smart-management-comparison-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 900px) { .smart-management-locations-page { margin-left: 0; padding: 16px; padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px)); width: 100%; } .smart-management-locations-header, .smart-management-location-card, .smart-management-simulator-toolbar { align-items: stretch; flex-direction: column; } .smart-management-primary-action { justify-content: center; width: 100%; } .smart-management-panel-actions { justify-content: stretch; } .smart-management-profitability-form, .smart-management-scenario-grid { grid-template-columns: minmax(0, 1fr); } .smart-management-simulator-actions { align-items: stretch; display: grid; grid-template-columns: minmax(0, 1fr); justify-content: stretch; } .smart-management-simulator-actions .btn { justify-content: center; width: 100%; } }
-@media (max-width: 560px) { .smart-management-locations-page { padding: 12px; } .smart-management-locations-header h1 { font-size: 25px; } .smart-management-area-tabs { display: grid; width: 100%; } .smart-management-area-tabs button { width: 100%; } .smart-management-rule-options, .smart-management-tier-row, .smart-management-form-grid, .smart-management-profitability-metrics, .smart-management-comparison-list { grid-template-columns: minmax(0, 1fr); } .smart-management-tier-row { align-items: stretch; } .smart-management-icon-button { width: 100%; } .smart-management-card-actions, .smart-management-scenario-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); } .smart-management-card-actions .btn, .smart-management-scenario-actions .btn { justify-content: center; } .smart-management-state { align-items: stretch; flex-direction: column; } .smart-management-breakdown li { align-items: flex-start; flex-direction: column; } }
+@media (max-width: 560px) { .smart-management-locations-page { padding: 12px; } .smart-management-locations-header h1 { font-size: 25px; } .smart-management-area-tabs { display: grid; width: 100%; } .smart-management-area-tabs button { width: 100%; } .smart-management-rule-options, .smart-management-tier-row, .smart-management-form-grid, .smart-management-profitability-metrics, .smart-management-comparison-list, .smart-management-location-selector > div { grid-template-columns: minmax(0, 1fr); } .smart-management-tier-row { align-items: stretch; } .smart-management-icon-button { width: 100%; } .smart-management-card-actions, .smart-management-scenario-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); } .smart-management-card-actions .btn, .smart-management-scenario-actions .btn { justify-content: center; } .smart-management-state { align-items: stretch; flex-direction: column; } .smart-management-breakdown li { align-items: flex-start; flex-direction: column; } }
 
 @media (min-width: 769px) {
   .mobile-card-list {
