@@ -29,7 +29,7 @@ export const RESERVED_UUIDS = {
   studentClosed: "00000000-0000-4000-8000-000000000822",
   studentPending: "00000000-0000-4000-8000-000000000823",
 };
-export const EXPECTED_LOCAL_PUBLIC_TABLES = 29;
+export const EXPECTED_LOCAL_PUBLIC_TABLES = 30;
 
 export function nowIso() {
   return new Date().toISOString();
@@ -193,35 +193,59 @@ export function waitForPostResetStability(root = process.cwd(), options = {}) {
   const timeoutMs = options.timeoutMs ?? 120000;
   const pollMs = options.pollMs ?? 1000;
   const expectedLatestMigration = EXPECTED_EPHEMERAL_MIGRATION_HISTORY.at(-1);
+  const startedAt = Date.now();
   const deadline = Date.now() + timeoutMs;
   let consecutiveStableReads = 0;
-  let lastState = "not probed";
+  let lastSqlError = "not probed";
+  let lastTableCount = "unavailable";
+  let lastLatestMigration = "unavailable";
+  let lastContainerState = "not probed";
 
   while (Date.now() < deadline) {
     try {
       const container = getDbContainer(root);
-      const probe = runCommand(root, "docker", [
-        "exec", container, "psql", "-U", "postgres", "-d", "postgres", "-Atc",
-        "select count(*) from information_schema.tables where table_schema = 'public' and table_type = 'BASE TABLE'; select coalesce(max(version), '') from supabase_migrations.schema_migrations; select 1;",
+      const containerProbe = runCommand(root, "docker", [
+        "inspect", "-f", "{{.State.Status}}|{{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}", container,
       ], { timeoutMs: 10000 });
-      const [tableCount, latestMigration, sqlReady] = probe.stdout.trim().split(/\r?\n/);
-      lastState = `sql=${probe.status}; tables=${tableCount ?? "unavailable"}; latest=${latestMigration ?? "unavailable"}; probe=${sqlReady ?? "unavailable"}`;
-      const stable = probe.status === 0
-        && Number(tableCount) === EXPECTED_LOCAL_PUBLIC_TABLES
-        && latestMigration === expectedLatestMigration
-        && sqlReady === "1";
+      lastContainerState = containerProbe.status === 0 ? containerProbe.stdout.trim() : containerProbe.stderr || containerProbe.stdout;
+
+      const sqlProbe = runCommand(root, "docker", [
+        "exec", container, "psql", "-U", "postgres", "-d", "postgres", "-Atc", "select 1",
+      ], { timeoutMs: 10000 });
+      if (sqlProbe.status !== 0 || sqlProbe.stdout.trim() !== "1") {
+        lastSqlError = sqlProbe.stderr || sqlProbe.stdout || `psql exit code ${sqlProbe.status}`;
+        consecutiveStableReads = 0;
+        Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, pollMs);
+        continue;
+      }
+      lastSqlError = "none";
+
+      const metadataProbe = runCommand(root, "docker", [
+        "exec", container, "psql", "-U", "postgres", "-d", "postgres", "-Atc",
+        "select count(*) from information_schema.tables where table_schema = 'public' and table_type = 'BASE TABLE'; select coalesce(max(version), '') from supabase_migrations.schema_migrations;",
+      ], { timeoutMs: 10000 });
+      const [tableCount, latestMigration] = metadataProbe.stdout.trim().split(/\r?\n/);
+      lastTableCount = tableCount ?? "unavailable";
+      lastLatestMigration = latestMigration ?? "unavailable";
+      const stable = metadataProbe.status === 0
+        && Number(lastTableCount) === EXPECTED_LOCAL_PUBLIC_TABLES
+        && lastLatestMigration === expectedLatestMigration;
       consecutiveStableReads = stable ? consecutiveStableReads + 1 : 0;
       if (consecutiveStableReads >= 2) {
-        return { stable: true, expectedLatestMigration, tableCount: Number(tableCount), consecutiveStableReads };
+        return { stable: true, expectedLatestMigration, tableCount: Number(lastTableCount), consecutiveStableReads };
       }
     } catch (error) {
-      lastState = `probe error: ${sanitizeText(error.message)}`;
+      lastSqlError = sanitizeText(error.message);
       consecutiveStableReads = 0;
     }
     Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, pollMs);
   }
 
-  throw new Error(`POST_RESET_STABILITY_TIMEOUT: ${lastState}`);
+  const elapsedMs = Date.now() - startedAt;
+  throw new Error(
+    `POST_RESET_STABILITY_TIMEOUT: SQL_READY=${lastSqlError === "none"}; LAST_SQL_ERROR=${sanitizeText(lastSqlError)}; `
+      + `CONTAINER_STATE=${sanitizeText(lastContainerState)}; TABLES=${lastTableCount}; LATEST=${lastLatestMigration}; ELAPSED_MS=${elapsedMs}`,
+  );
 }
 
 export function waitForLocalDatabaseSqlReadiness(root = process.cwd(), options = {}) {
