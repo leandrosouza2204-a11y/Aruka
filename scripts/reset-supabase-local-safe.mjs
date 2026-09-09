@@ -10,6 +10,12 @@ import {
   runCommand,
   runSupabaseDbReset,
   runSupabaseStart,
+  startSupabaseAuxiliaryServices,
+  stopSupabaseAuxiliaryServices,
+  waitForLocalDatabaseSqlReadiness,
+  waitForLocalSupabaseHealth,
+  waitForPostResetStability,
+  waitForSustainedFullStackReadiness,
   sha256CanonicalText,
   stableSnapshot,
   stringifyStable,
@@ -27,6 +33,8 @@ let firstSeed = null;
 let secondSeed = null;
 let firstSnapshot = null;
 let secondSnapshot = null;
+let firstStability = null;
+let secondStability = null;
 let payload;
 
 function runSupabaseStartIfNeeded(resetResult) {
@@ -34,7 +42,18 @@ function runSupabaseStartIfNeeded(resetResult) {
     return resetResult;
   }
   commandOutputOrThrow(runSupabaseStart(root), "Local Supabase start");
+  waitForLocalSupabaseHealth(root);
   return runSupabaseDbReset(root);
+}
+
+function runDbFocusedReset() {
+  stopSupabaseAuxiliaryServices(root);
+  waitForLocalDatabaseSqlReadiness(root, { timeoutMs: 120000 });
+  const reset = commandOutputOrThrow(runSupabaseDbReset(root), "Local Supabase DB-focused reset");
+  const stability = waitForPostResetStability(root);
+  startSupabaseAuxiliaryServices(root);
+  waitForSustainedFullStackReadiness(root, { timeoutMs: 90000, requiredStableReads: 5 });
+  return { reset, stability };
 }
 
 function safeInventory() {
@@ -58,10 +77,10 @@ try {
   if (!guard.ok) throw new Error(guard.errors.join("; "));
   if (sha256CanonicalText(root, BASELINE_PATH) !== EXPECTED_BASELINE_SHA) throw new Error("Official baseline SHA mismatch");
 
-  firstReset = commandOutputOrThrow(runSupabaseStartIfNeeded(runSupabaseDbReset(root)), "First local Supabase reset");
+  ({ reset: firstReset, stability: firstStability } = runDbFocusedReset());
   firstSeed = commandOutputOrThrow(runCommand(root, "node", ["scripts/seed-supabase-local.mjs"], { timeoutMs: 180000 }), "First local Cycle 8 seed");
   firstSnapshot = stableSnapshot(root);
-  secondReset = commandOutputOrThrow(runSupabaseStartIfNeeded(runSupabaseDbReset(root)), "Second local Supabase reset");
+  ({ reset: secondReset, stability: secondStability } = runDbFocusedReset());
   secondSeed = commandOutputOrThrow(runCommand(root, "node", ["scripts/seed-supabase-local.mjs"], { timeoutMs: 180000 }), "Second local Cycle 8 seed");
   secondSnapshot = stableSnapshot(root);
 
@@ -101,6 +120,7 @@ try {
       temporary_volumes_removed: true,
     },
     primary_error: null,
+    post_reset_stability: { first: firstStability, second: secondStability },
     residual_risks: [],
   };
 } catch (error) {
