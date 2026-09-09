@@ -24,12 +24,11 @@ export function parsePercentage(value) {
 
 export function validateTiers(tiers) {
   const errors = [];
-  const normalized = tiers.map((tier, index) => ({
+  const normalized = tiers.map((tier) => ({
     ...tier,
     minStudents: Number(tier.minStudents),
     maxStudents: tier.maxStudents === "" || tier.maxStudents === null ? null : Number(tier.maxStudents),
     amount: typeof tier.amount === "number" ? tier.amount : parseBrazilianNumber(tier.amount),
-    index,
   }));
   for (const tier of normalized) {
     if (!Number.isInteger(tier.minStudents) || tier.minStudents < 1) errors.push("Informe uma quantidade mínima de alunos válida.");
@@ -46,7 +45,7 @@ export function validateTiers(tiers) {
       if (overlap) errors.push("As faixas de alunos não podem se sobrepor.");
     }
   }
-  return { errors: [...new Set(errors)], tiers: normalized.map(({ index, ...tier }) => tier) };
+  return { errors: [...new Set(errors)], tiers: normalized };
 }
 
 export function ruleSummary(rule) {

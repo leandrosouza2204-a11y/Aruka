@@ -24,7 +24,9 @@ function SmartManagementFoundationPage() {
     catch { setError("Não foi possível carregar os locais de atendimento."); }
     finally { setLoading(false); }
   }, [status]);
-  useEffect(() => { loadLocations(); }, [loadLocations]);
+  useEffect(() => {
+    void Promise.resolve().then(loadLocations);
+  }, [loadLocations]);
 
   async function changeStatus(location) {
     const archiving = location.status === "active";
