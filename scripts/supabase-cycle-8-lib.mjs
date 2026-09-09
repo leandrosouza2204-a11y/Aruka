@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { execFileSync, spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join, relative } from "node:path";
 import {
   EXECUTABLE_BASELINE_PATH,
@@ -28,6 +29,7 @@ export const RESERVED_UUIDS = {
   studentClosed: "00000000-0000-4000-8000-000000000822",
   studentPending: "00000000-0000-4000-8000-000000000823",
 };
+export const EXPECTED_LOCAL_PUBLIC_TABLES = 29;
 
 export function nowIso() {
   return new Date().toISOString();
@@ -107,17 +109,211 @@ export function getDbContainer(root = process.cwd()) {
   throw new Error(`Local Supabase database container is not running for project_id ${projectId}`);
 }
 
+export function getSupabaseAuxiliaryContainers(root = process.cwd()) {
+  const projectId = getProjectId(root);
+  return ["auth", "storage", "rest", "kong", "inbucket"].map((service) => `supabase_${service}_${projectId}`);
+}
+
+export function stopSupabaseAuxiliaryServices(root = process.cwd()) {
+  const stopped = [];
+  for (const container of getSupabaseAuxiliaryContainers(root)) {
+    const state = runCommand(root, "docker", ["inspect", "-f", "{{.State.Running}}", container], { timeoutMs: 10000 });
+    if (state.status === 0 && state.stdout.trim() === "true") {
+      const result = runCommand(root, "docker", ["stop", container], { timeoutMs: 60000 });
+      if (result.status !== 0) throw new Error(`Unable to stop auxiliary service ${container}: ${result.stderr || result.stdout}`);
+      stopped.push(container);
+    }
+  }
+  return stopped;
+}
+
+export function startSupabaseAuxiliaryServices(root = process.cwd()) {
+  const started = [];
+  for (const container of getSupabaseAuxiliaryContainers(root)) {
+    const exists = runCommand(root, "docker", ["inspect", container], { timeoutMs: 10000 });
+    if (exists.status !== 0) continue;
+    const state = runCommand(root, "docker", ["inspect", "-f", "{{.State.Running}}", container], { timeoutMs: 10000 });
+    if (state.stdout.trim() !== "true") {
+      const result = runCommand(root, "docker", ["start", container], { timeoutMs: 60000 });
+      if (result.status !== 0) throw new Error(`Unable to start auxiliary service ${container}: ${result.stderr || result.stdout}`);
+      started.push(container);
+    }
+  }
+  return started;
+}
+
+export function waitForLocalSupabaseHealth(root = process.cwd(), options = {}) {
+  const timeoutMs = options.timeoutMs ?? 120000;
+  const pollMs = options.pollMs ?? 500;
+  const projectId = getProjectId(root);
+  const curl = process.platform === "win32" ? "curl.exe" : "curl";
+  const containers = {
+    database: `supabase_db_${projectId}`,
+    auth: `supabase_auth_${projectId}`,
+    storage: `supabase_storage_${projectId}`,
+    rest: `supabase_rest_${projectId}`,
+    gateway: `supabase_kong_${projectId}`,
+  };
+  const deadline = Date.now() + timeoutMs;
+  let lastState = "not created";
+
+  while (Date.now() < deadline) {
+    const states = Object.fromEntries(Object.entries(containers).map(([service, container]) => {
+      const result = spawnSync("docker", ["inspect", "-f", "{{.State.Status}}|{{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}", container], {
+        cwd: root,
+        encoding: "utf8",
+        shell: false,
+      });
+      return [service, result.status === 0 ? result.stdout.trim() : "not created"];
+    }));
+    lastState = JSON.stringify(states);
+    const containersReady = states.database === "running|healthy"
+      && states.auth === "running|healthy"
+      && states.storage === "running|healthy"
+      && states.rest.startsWith("running|")
+      && states.gateway === "running|healthy";
+    const endpointsReady = containersReady && ["auth/v1/health", "storage/v1/version", "rest/v1/"].every((path) => {
+      const outputTarget = process.platform === "win32" ? "NUL" : "/dev/null";
+      const probe = spawnSync(curl, ["--silent", "--output", outputTarget, "--write-out", "%{http_code}", `http://127.0.0.1:54321/${path}`], {
+        cwd: root,
+        encoding: "utf8",
+        shell: false,
+      });
+      const acceptedStatus = path.startsWith("rest/") ? /^(200|401|404)$/ : /^(200|401)$/;
+      return probe.status === 0 && acceptedStatus.test(probe.stdout.trim());
+    });
+    if (endpointsReady) return { containers, state: lastState };
+    Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, pollMs);
+  }
+
+  throw new Error(`Supabase local service readiness timeout; last state: ${lastState}`);
+}
+
+export function waitForPostResetStability(root = process.cwd(), options = {}) {
+  const timeoutMs = options.timeoutMs ?? 120000;
+  const pollMs = options.pollMs ?? 1000;
+  const expectedLatestMigration = EXPECTED_EPHEMERAL_MIGRATION_HISTORY.at(-1);
+  const deadline = Date.now() + timeoutMs;
+  let consecutiveStableReads = 0;
+  let lastState = "not probed";
+
+  while (Date.now() < deadline) {
+    try {
+      const container = getDbContainer(root);
+      const probe = runCommand(root, "docker", [
+        "exec", container, "psql", "-U", "postgres", "-d", "postgres", "-Atc",
+        "select count(*) from information_schema.tables where table_schema = 'public' and table_type = 'BASE TABLE'; select coalesce(max(version), '') from supabase_migrations.schema_migrations; select 1;",
+      ], { timeoutMs: 10000 });
+      const [tableCount, latestMigration, sqlReady] = probe.stdout.trim().split(/\r?\n/);
+      lastState = `sql=${probe.status}; tables=${tableCount ?? "unavailable"}; latest=${latestMigration ?? "unavailable"}; probe=${sqlReady ?? "unavailable"}`;
+      const stable = probe.status === 0
+        && Number(tableCount) === EXPECTED_LOCAL_PUBLIC_TABLES
+        && latestMigration === expectedLatestMigration
+        && sqlReady === "1";
+      consecutiveStableReads = stable ? consecutiveStableReads + 1 : 0;
+      if (consecutiveStableReads >= 2) {
+        return { stable: true, expectedLatestMigration, tableCount: Number(tableCount), consecutiveStableReads };
+      }
+    } catch (error) {
+      lastState = `probe error: ${sanitizeText(error.message)}`;
+      consecutiveStableReads = 0;
+    }
+    Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, pollMs);
+  }
+
+  throw new Error(`POST_RESET_STABILITY_TIMEOUT: ${lastState}`);
+}
+
+export function waitForLocalDatabaseSqlReadiness(root = process.cwd(), options = {}) {
+  const timeoutMs = options.timeoutMs ?? 120000;
+  const deadline = Date.now() + timeoutMs;
+  let lastError = "not probed";
+  while (Date.now() < deadline) {
+    try {
+      const container = getDbContainer(root);
+      const probe = runCommand(root, "docker", ["exec", container, "psql", "-U", "postgres", "-d", "postgres", "-Atc", "select 1"], { timeoutMs: 10000 });
+      if (probe.status === 0 && probe.stdout.trim() === "1") return { container, sqlReady: true };
+      lastError = probe.stderr || probe.stdout;
+    } catch (error) {
+      lastError = error.message;
+    }
+    Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 1000);
+  }
+  throw new Error(`LOCAL_DATABASE_SQL_READINESS_TIMEOUT: ${sanitizeText(lastError)}`);
+}
+
+export function waitForSustainedFullStackReadiness(root = process.cwd(), options = {}) {
+  const timeoutMs = options.timeoutMs ?? 90000;
+  const pollMs = options.pollMs ?? 2000;
+  const requiredStableReads = options.requiredStableReads ?? 5;
+  const projectId = getProjectId(root);
+  const curl = process.platform === "win32" ? "curl.exe" : "curl";
+  const outputTarget = process.platform === "win32" ? "NUL" : "/dev/null";
+  const services = {
+    database: `supabase_db_${projectId}`,
+    auth: `supabase_auth_${projectId}`,
+    storage: `supabase_storage_${projectId}`,
+    rest: `supabase_rest_${projectId}`,
+    gateway: `supabase_kong_${projectId}`,
+  };
+  const endpointPaths = ["auth/v1/health", "storage/v1/version", "rest/v1/"];
+  const deadline = Date.now() + timeoutMs;
+  let stableReads = 0;
+  let initialRestartCounts = null;
+  let lastState = "not probed";
+
+  while (Date.now() < deadline) {
+    const states = {};
+    for (const [service, container] of Object.entries(services)) {
+      const result = runCommand(root, "docker", ["inspect", "-f", "{{.State.Status}}|{{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}|{{.RestartCount}}", container], { timeoutMs: 10000 });
+      states[service] = result.status === 0 ? result.stdout.trim() : "not created";
+    }
+    const running = Object.values(states).every((state) => state.startsWith("running|"));
+    const healthy = states.database.startsWith("running|healthy")
+      && states.auth.startsWith("running|healthy")
+      && states.storage.startsWith("running|healthy")
+      && states.gateway.startsWith("running|healthy");
+    const restartCounts = Object.fromEntries(Object.entries(states).map(([service, state]) => [service, state.split("|").at(-1)]));
+    if (!initialRestartCounts && running && healthy) initialRestartCounts = restartCounts;
+    const restartChanged = initialRestartCounts && Object.keys(restartCounts).some((service) => restartCounts[service] !== initialRestartCounts[service]);
+    const endpointsReady = endpointPaths.every((path) => {
+      const probe = runCommand(root, curl, ["--silent", "--output", outputTarget, "--write-out", "%{http_code}", `http://127.0.0.1:54321/${path}`], { timeoutMs: 10000 });
+      const acceptedStatus = path.startsWith("rest/") ? /^(200|401|404)$/ : /^(200|401)$/;
+      return probe.status === 0 && acceptedStatus.test(probe.stdout.trim());
+    });
+    const sql = runCommand(root, "docker", ["exec", services.database, "psql", "-U", "postgres", "-d", "postgres", "-Atc", "select 1"], { timeoutMs: 10000 });
+    const stable = running && healthy && !restartChanged && endpointsReady && sql.status === 0 && sql.stdout.trim() === "1";
+    lastState = JSON.stringify({ states, endpointsReady, sqlReady: sql.status === 0, restartChanged });
+    stableReads = stable ? stableReads + 1 : 0;
+    if (stableReads >= requiredStableReads) return { stable: true, stableReads, restartCounts };
+    Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, pollMs);
+  }
+  throw new Error(`FULL_STACK_SUSTAINED_READINESS_FAILED: ${lastState}`);
+}
+
+export function createIsolatedSupabaseCliEnvironment() {
+  const root = mkdtempSync(join(tmpdir(), "supabase-local-home-"));
+  const home = join(root, "home");
+  mkdirSync(home);
+  return {
+    env: { ...process.env, HOME: home, USERPROFILE: home, SUPABASE_ACCESS_TOKEN: "" },
+    cleanup: () => rmSync(root, { recursive: true, force: true }),
+  };
+}
+
 export function runCommand(root, command, args, options = {}) {
   const started = Date.now();
   const isWindowsCmd = process.platform === "win32" && /\.cmd$/i.test(command);
   const executable = isWindowsCmd ? "cmd.exe" : command;
-  const finalArgs = isWindowsCmd ? ["/d", "/s", "/c", command, ...args] : args;
+  // `call` keeps cmd.exe attached to nested .cmd launchers such as npx.cmd.
+  const finalArgs = isWindowsCmd ? ["/d", "/s", "/c", "call", command, ...args] : args;
   const result = spawnSync(executable, finalArgs, {
     cwd: root,
     encoding: "utf8",
     shell: false,
     timeout: options.timeoutMs ?? 120000,
     input: options.input,
+    env: options.env,
     maxBuffer: 1024 * 1024 * 20,
   });
   return {
@@ -238,6 +434,7 @@ export function sanitizeText(text) {
     .replace(/postgres(?:ql)?:\/\/[^:\s]+:[^@\s]+@[^\s"',)]+/gi, "postgresql://[REDACTED_USER]:[REDACTED_PASSWORD]@[LOCAL_HOST]:[LOCAL_PORT]/[LOCAL_DATABASE]")
     .replace(/eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{10,}/g, "[REDACTED_JWT]")
     .replace(/sb_secret_[A-Za-z0-9_-]+/gi, "[REDACTED_SECRET]")
+    .replace(/("(?:ANON_KEY|JWT_SECRET|PUBLISHABLE_KEY|S3_PROTOCOL_ACCESS_KEY_ID|S3_PROTOCOL_ACCESS_KEY_SECRET|SECRET_KEY|SERVICE_ROLE_KEY)"\s*:\s*")[^"]+/gi, "$1[REDACTED]")
     .replaceAll(process.cwd().replaceAll("\\", "/"), "[WORKSPACE]")
     .replaceAll(process.cwd(), "[WORKSPACE]");
 }
@@ -302,6 +499,7 @@ export function stableSnapshot(root = process.cwd()) {
 
 export function runSupabaseDbReset(root = process.cwd()) {
   const workdir = createEphemeralSupabaseWorkdir(root, "safe-reset");
+  const localEnvironment = createIsolatedSupabaseCliEnvironment();
   try {
     return runCommand(root, process.platform === "win32" ? "npx.cmd" : "npx", [
       "-y",
@@ -311,14 +509,16 @@ export function runSupabaseDbReset(root = process.cwd()) {
       "db",
       "reset",
       "--no-seed",
-    ], { timeoutMs: 240000 });
+    ], { timeoutMs: 240000, env: localEnvironment.env });
   } finally {
     workdir.cleanup();
+    localEnvironment.cleanup();
   }
 }
 
 export function runSupabaseStart(root = process.cwd()) {
   const workdir = createEphemeralSupabaseWorkdir(root, "safe-start");
+  const localEnvironment = createIsolatedSupabaseCliEnvironment();
   try {
     return runCommand(root, process.platform === "win32" ? "npx.cmd" : "npx", [
       "-y",
@@ -326,9 +526,10 @@ export function runSupabaseStart(root = process.cwd()) {
       "--workdir",
       workdir.root,
       "start",
-    ], { timeoutMs: 240000 });
+    ], { timeoutMs: 240000, env: localEnvironment.env });
   } finally {
     workdir.cleanup();
+    localEnvironment.cleanup();
   }
 }
 

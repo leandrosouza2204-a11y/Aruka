@@ -9,15 +9,15 @@ import {
   validateNoEphemeralResidue,
   validateSupabaseLocalContract,
 } from "./lib/supabase-local-environment.mjs";
-import { sanitizeText } from "./supabase-cycle-8-lib.mjs";
+import { createIsolatedSupabaseCliEnvironment, sanitizeText, waitForLocalSupabaseHealth, waitForPostResetStability } from "./supabase-cycle-8-lib.mjs";
 import { runCommand } from "./supabase-cycle-8-lib.mjs";
 
 const root = process.cwd();
 const reportDir = join(root, "reports/supabase-local-bootstrap");
 mkdirSync(reportDir, { recursive: true });
 
-function run(command, args, timeoutMs = 240000) {
-  return runCommand(root, command, args, { timeoutMs });
+function run(command, args, timeoutMs = 240000, env) {
+  return runCommand(root, command, args, { timeoutMs, env });
 }
 
 function writeReports(payload, output = "") {
@@ -42,6 +42,7 @@ function writeReports(payload, output = "") {
 const npx = process.platform === "win32" ? "npx.cmd" : "npx";
 const powershell = process.platform === "win32" ? "powershell.exe" : "pwsh";
 let workdir;
+let localEnvironment;
 let payload;
 
 try {
@@ -52,13 +53,16 @@ try {
   if (preflight.status !== 0) throw new Error(`PREFLIGHT_FAILED: ${preflight.stderr || preflight.stdout}`);
 
   workdir = createEphemeralSupabaseWorkdir(root, "bootstrap");
-  const start = run(npx, ["-y", `supabase@${SUPABASE_CLI_VERSION}`, "--workdir", workdir.root, "start"], 600000);
+  localEnvironment = createIsolatedSupabaseCliEnvironment();
+  const start = run(npx, ["-y", `supabase@${SUPABASE_CLI_VERSION}`, "--workdir", workdir.root, "start"], 600000, localEnvironment.env);
+  const health = start.status === 0 ? waitForLocalSupabaseHealth(root) : null;
   const reset = start.status === 0
-    ? run(npx, ["-y", `supabase@${SUPABASE_CLI_VERSION}`, "--workdir", workdir.root, "db", "reset", "--no-seed"], 600000)
+    ? run(npx, ["-y", `supabase@${SUPABASE_CLI_VERSION}`, "--workdir", workdir.root, "db", "reset", "--no-seed"], 600000, localEnvironment.env)
     : null;
   const output = [
     `SUPABASE_START_COMMAND=npx -y supabase@${SUPABASE_CLI_VERSION} --workdir [EPHEMERAL_WORKDIR] start`,
     `SUPABASE_START_EXIT_CODE=${start.status}`,
+    `SUPABASE_HEALTH_GATE=${health?.state ?? "NOT_REACHED"}`,
     `SUPABASE_RESET_COMMAND=npx -y supabase@${SUPABASE_CLI_VERSION} --workdir [EPHEMERAL_WORKDIR] db reset --no-seed`,
     `SUPABASE_RESET_EXIT_CODE=${reset?.status ?? "NOT_RUN"}`,
     "REFERENCE_BASELINE_VALIDATED=YES",
@@ -83,6 +87,7 @@ try {
   ].join("\n");
   if (start.status !== 0) throw new Error(`SUPABASE_START_FAILED: ${start.stderr || start.stdout}`);
   if (reset.status !== 0) throw new Error(`SUPABASE_RESET_FAILED: ${reset.stderr || reset.stdout}`);
+  waitForPostResetStability(root);
 
   const validate = run(powershell, ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "scripts/supabase-local-validate.ps1"], 300000);
   if (validate.status !== 0) throw new Error(`LOCAL_VALIDATE_FAILED: ${validate.stderr || validate.stdout}`);
@@ -128,4 +133,5 @@ try {
   process.exit(1);
 } finally {
   if (workdir) workdir.cleanup();
+  if (localEnvironment) localEnvironment.cleanup();
 }
