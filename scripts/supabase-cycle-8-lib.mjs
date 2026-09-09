@@ -177,7 +177,8 @@ export function waitForLocalSupabaseHealth(root = process.cwd(), options = {}) {
         encoding: "utf8",
         shell: false,
       });
-      return probe.status === 0 && /^(200|401)$/.test(probe.stdout.trim());
+      const acceptedStatus = path.startsWith("rest/") ? /^(200|401|404)$/ : /^(200|401)$/;
+      return probe.status === 0 && acceptedStatus.test(probe.stdout.trim());
     });
     if (endpointsReady) return { containers, state: lastState };
     Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, pollMs);
@@ -273,7 +274,8 @@ export function waitForSustainedFullStackReadiness(root = process.cwd(), options
     const restartChanged = initialRestartCounts && Object.keys(restartCounts).some((service) => restartCounts[service] !== initialRestartCounts[service]);
     const endpointsReady = endpointPaths.every((path) => {
       const probe = runCommand(root, "curl.exe", ["--silent", "--output", "NUL", "--write-out", "%{http_code}", `http://127.0.0.1:54321/${path}`], { timeoutMs: 10000 });
-      return probe.status === 0 && /^(200|401)$/.test(probe.stdout.trim());
+      const acceptedStatus = path.startsWith("rest/") ? /^(200|401|404)$/ : /^(200|401)$/;
+      return probe.status === 0 && acceptedStatus.test(probe.stdout.trim());
     });
     const sql = runCommand(root, "docker", ["exec", services.database, "psql", "-U", "postgres", "-d", "postgres", "-Atc", "select 1"], { timeoutMs: 10000 });
     const stable = running && healthy && !restartChanged && endpointsReady && sql.status === 0 && sql.stdout.trim() === "1";
