@@ -9,6 +9,11 @@ function expect(ok, message) {
 
 const migration = one("select exists (select 1 from supabase_migrations.schema_migrations where version = '20260908110000') as ok");
 expect(migration.ok === true, "Migration 20260908110000 is not applied locally");
+const locationsTransfersMigration = one("select exists (select 1 from supabase_migrations.schema_migrations where version = '20260908120000') as ok");
+expect(locationsTransfersMigration.ok === true, "Migration 20260908120000 is not applied locally");
+
+const saveFunction = one("select exists (select 1 from pg_proc where proname = 'save_smart_management_location' and pronamespace = 'public'::regnamespace) as ok");
+expect(saveFunction.ok === true, "Atomic smart management save RPC is missing locally");
 
 const columns = queryJson(
   process.cwd(),

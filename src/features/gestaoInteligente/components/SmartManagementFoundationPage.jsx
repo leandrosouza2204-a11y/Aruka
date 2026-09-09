@@ -1,270 +1,61 @@
-import { Building2, CircleDollarSign, MapPinned, Route, Scale } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Archive, Building2, Pencil, Plus, RefreshCw, RotateCcw, Trash2 } from "lucide-react";
 import Sidebar from "../../../components/Sidebar";
-import { SMART_MANAGEMENT_FOUNDATION_AREAS } from "../constants/transferRuleTypes";
+import AccessibleModal from "../../../components/AccessibleModal";
+import { useConfirm } from "../../../hooks/useConfirm";
+import { useToast } from "../../../hooks/useToast";
+import { listSmartManagementLocations, saveSmartManagementLocation, updateSmartManagementLocationStatus } from "../../../services/smartManagementService";
+import { RULE_LABELS, parseBrazilianNumber, parsePercentage, ruleSummary, validateTiers } from "../utils/transferRules";
+
+const emptyForm = () => ({ id: "", name: "", description: "", ruleType: "none", amountInput: "", tiers: [] });
 
 function SmartManagementFoundationPage() {
-  return (
-    <div className="app-shell" style={{ display: "flex" }}>
-      <Sidebar />
+  const [status, setStatus] = useState("active");
+  const [locations, setLocations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [form, setForm] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const { confirmar } = useConfirm();
+  const toast = useToast();
+  const loadLocations = useCallback(async () => {
+    setLoading(true); setError("");
+    try { setLocations(await listSmartManagementLocations(status)); }
+    catch { setError("Não foi possível carregar os locais de atendimento."); }
+    finally { setLoading(false); }
+  }, [status]);
+  useEffect(() => { loadLocations(); }, [loadLocations]);
 
-      <main
-        className="app-main page-container smart-management-page"
-        data-testid="smart-management-page"
-        style={styles.content}
-      >
-        <header className="smart-management-hero" style={styles.hero}>
-          <div style={styles.heroIcon} aria-hidden="true">
-            <Scale size={28} />
-          </div>
-          <div style={styles.heroCopy}>
-            <span style={styles.eyebrow}>Cycle 11</span>
-            <h1 style={styles.title}>Gestao Inteligente</h1>
-            <p style={styles.subtitle}>
-              Entenda melhor a rentabilidade do seu trabalho, organize seus locais de
-              atendimento e tome decisoes mais inteligentes sobre seus servicos e precos.
-            </p>
-          </div>
-        </header>
-
-        <section
-          aria-labelledby="smart-management-foundation-title"
-          className="smart-management-section"
-          style={styles.section}
-        >
-          <div style={styles.sectionHeader}>
-            <div>
-              <h2 id="smart-management-foundation-title" style={styles.sectionTitle}>
-                Fundacao do modulo
-              </h2>
-              <p style={styles.sectionDescription}>
-                Cadastre seus locais de atendimento para comecar a entender onde seu
-                trabalho gera mais retorno.
-              </p>
-            </div>
-            <span style={styles.foundationBadge}>Uso profissional</span>
-          </div>
-
-          <div className="smart-management-grid" style={styles.grid}>
-            <FoundationCard
-              icon={<MapPinned size={22} />}
-              title="Locais de atendimento"
-              text="Academias, estudios, atendimento domiciliar ou qualquer lugar onde voce presta servico."
-            />
-            <FoundationCard
-              icon={<CircleDollarSign size={22} />}
-              title="Regras de repasse"
-              text="Base estruturada para repasse fixo, por aluno, percentual, por faixas ou sem repasse."
-            />
-            <FoundationCard
-              icon={<Route size={22} />}
-              title="Rentabilidade futura"
-              text="Contrato preparado para calcular bruto, repasse, liquido, retorno por hora e comparacao entre locais."
-            />
-          </div>
-
-          <div className="smart-management-empty" role="status" style={styles.emptyState}>
-            <Building2 size={22} aria-hidden="true" />
-            <div>
-              <strong>Nenhum fluxo operacional foi antecipado.</strong>
-              <p>
-                A experiencia completa de cadastro, edicao, arquivamento e configuracao
-                de repasses entra na Stage 11.2.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section
-          aria-labelledby="smart-management-areas-title"
-          className="smart-management-section"
-          style={styles.section}
-        >
-          <h2 id="smart-management-areas-title" style={styles.sectionTitle}>
-            Areas planejadas
-          </h2>
-          <div className="smart-management-area-list" style={styles.areaList}>
-            {SMART_MANAGEMENT_FOUNDATION_AREAS.map((area) => (
-              <span key={area} style={styles.areaPill}>
-                {area}
-              </span>
-            ))}
-          </div>
-        </section>
-      </main>
-    </div>
-  );
+  async function changeStatus(location) {
+    const archiving = location.status === "active";
+    const confirmed = await confirmar({ titulo: archiving ? "Arquivar local" : "Reativar local", descricao: archiving ? "Este local deixará de aparecer entre os locais ativos." : "Este local voltará a aparecer entre os locais ativos.", textoConfirmar: archiving ? "Arquivar" : "Reativar", variante: archiving ? "perigo" : "primario", testIdPrefix: "smart-management-location" });
+    if (!confirmed) return;
+    try { await updateSmartManagementLocationStatus(location.id, archiving ? "archived" : "active"); toast.sucesso(archiving ? "Local arquivado" : "Local reativado", archiving ? "O histórico e a regra de repasse foram preservados." : "O local voltou para a lista de ativos."); loadLocations(); }
+    catch { toast.erro("Não foi possível atualizar o local", "Tente novamente em alguns instantes."); }
+  }
+  function editLocation(location) { setForm({ id: location.id, name: location.name, description: location.description, ruleType: location.rule?.type || "none", amountInput: location.rule?.amount === null ? "" : String(location.rule?.amount ?? ""), tiers: location.rule?.tiers || [] }); }
+  async function submit(event) {
+    event.preventDefault(); const name = form.name.trim(); const amount = form.ruleType === "percentage" ? parsePercentage(form.amountInput) : parseBrazilianNumber(form.amountInput); const tierResult = validateTiers(form.tiers);
+    if (!name) { toast.aviso("Nome obrigatório", "Informe o nome do local de atendimento."); return; }
+    if (["fixed", "per_student", "percentage"].includes(form.ruleType) && amount === null) { toast.aviso("Valor inválido", form.ruleType === "percentage" ? "Informe um percentual entre 0% e 100%." : "Informe um valor de repasse válido."); return; }
+    if (form.ruleType === "tiered" && (form.tiers.length === 0 || tierResult.errors.length)) { toast.aviso("Faixas inválidas", tierResult.errors[0] || "Adicione ao menos uma faixa de alunos."); return; }
+    setSaving(true);
+    try { await saveSmartManagementLocation({ id: form.id, name, description: form.description, ruleType: form.ruleType, amount: ["fixed", "per_student", "percentage"].includes(form.ruleType) ? amount : null, tiers: form.ruleType === "tiered" ? tierResult.tiers : [] }); toast.sucesso(form.id ? "Alterações salvas" : "Local adicionado com sucesso.", "A configuração de repasse foi salva."); setForm(null); loadLocations(); }
+    catch { toast.erro("Não foi possível salvar", "Seus dados continuam no formulário. Tente novamente."); }
+    finally { setSaving(false); }
+  }
+  return <div className="app-shell" style={{ display: "flex" }}><Sidebar /><main className="app-main page-container smart-management-page smart-management-locations-page" data-testid="smart-management-page"><header className="smart-management-locations-header"><div><span className="smart-management-eyebrow">Gestão Inteligente</span><h1>Locais de atendimento</h1><p>Cadastre onde você atende e configure como funciona o repasse em cada local.</p></div><button type="button" className="btn btn-primary smart-management-primary-action" onClick={() => setForm(emptyForm())}><Plus size={18} aria-hidden="true" />Adicionar local</button></header><div className="smart-management-status-tabs" role="tablist" aria-label="Situação dos locais"><button type="button" role="tab" aria-selected={status === "active"} className={status === "active" ? "is-active" : ""} onClick={() => setStatus("active")}>Ativos</button><button type="button" role="tab" aria-selected={status === "archived"} className={status === "archived" ? "is-active" : ""} onClick={() => setStatus("archived")}>Arquivados</button></div>{loading && <div className="smart-management-state" role="status">Carregando locais de atendimento...</div>}{!loading && error && <div className="smart-management-state smart-management-error" role="alert"><span>{error}</span><button type="button" className="btn btn-secondary" onClick={loadLocations}><RefreshCw size={16} aria-hidden="true" />Tentar novamente</button></div>}{!loading && !error && locations.length === 0 && <section className="smart-management-empty-state"><Building2 size={30} aria-hidden="true" /><h2>{status === "active" ? "Você ainda não cadastrou nenhum local de atendimento." : "Nenhum local arquivado."}</h2><p>{status === "active" ? "Adicione academias, estúdios ou outros locais onde você atende para começar a organizar seus repasses." : "Os locais arquivados aparecerão aqui para que você possa reativá-los."}</p>{status === "active" && <button type="button" className="btn btn-primary" onClick={() => setForm(emptyForm())}><Plus size={18} aria-hidden="true" />Adicionar local</button>}</section>}{!loading && !error && locations.length > 0 && <section className="smart-management-location-list" aria-label="Locais cadastrados">{locations.map((location) => <LocationCard key={location.id} location={location} onEdit={() => editLocation(location)} onStatus={() => changeStatus(location)} />)}</section>}</main>{form && <LocationForm form={form} setForm={setForm} saving={saving} onClose={() => !saving && setForm(null)} onSubmit={submit} />}</div>;
 }
 
-function FoundationCard({ icon, text, title }) {
-  return (
-    <article className="smart-management-card" style={styles.card}>
-      <div style={styles.cardIcon} aria-hidden="true">
-        {icon}
-      </div>
-      <h3 style={styles.cardTitle}>{title}</h3>
-      <p style={styles.cardText}>{text}</p>
-    </article>
-  );
+function LocationCard({ location, onEdit, onStatus }) { return <article className="smart-management-location-card"><div className="smart-management-location-copy"><div className="smart-management-card-heading"><h2>{location.name}</h2><span className={`smart-management-status smart-management-status-${location.status}`}>{location.status === "active" ? "Ativo" : "Arquivado"}</span></div>{location.description && <p>{location.description}</p>}<strong>{ruleSummary(location.rule)}</strong></div><div className="smart-management-card-actions"><button type="button" className="btn btn-secondary" onClick={onEdit}><Pencil size={16} aria-hidden="true" />Editar</button><button type="button" className="btn btn-secondary" onClick={onStatus}>{location.status === "active" ? <Archive size={16} aria-hidden="true" /> : <RotateCcw size={16} aria-hidden="true" />}{location.status === "active" ? "Arquivar" : "Reativar"}</button></div></article>; }
+
+function LocationForm({ form, setForm, saving, onClose, onSubmit }) {
+  const nameRef = useRef(null); const tierResult = form.ruleType === "tiered" ? validateTiers(form.tiers) : { errors: [] };
+  function update(next) { setForm((current) => ({ ...current, ...next })); }
+  function updateTier(index, key, value) { update({ tiers: form.tiers.map((tier, current) => current === index ? { ...tier, [key]: value } : tier) }); }
+  return <AccessibleModal isOpen onClose={onClose} title={form.id ? "Editar local" : "Adicionar local"} description="Configure os dados do local e a regra de repasse." size="lg" initialFocusRef={nameRef} closeOnOverlayClick={!saving} footer={<><button type="button" className="btn btn-secondary" onClick={onClose} disabled={saving}>Cancelar</button><button type="submit" form="smart-management-location-form" className="btn btn-primary" disabled={saving}>{saving ? "Salvando..." : form.id ? "Salvar alterações" : "Adicionar local"}</button></>}><form id="smart-management-location-form" className="smart-management-form" onSubmit={onSubmit}><label>Nome do local<input ref={nameRef} required maxLength="255" value={form.name} onChange={(event) => update({ name: event.target.value })} /></label><label>Observações<textarea maxLength="2000" value={form.description} onChange={(event) => update({ description: event.target.value })} /></label><fieldset><legend>Configuração de repasse</legend><div className="smart-management-rule-options">{Object.entries(RULE_LABELS).map(([value, label]) => <label key={value} className={form.ruleType === value ? "is-selected" : ""}><input type="radio" name="ruleType" checked={form.ruleType === value} onChange={() => update({ ruleType: value, amountInput: "", tiers: value === "tiered" ? form.tiers : [] })} />{label}</label>)}</div>{form.ruleType === "none" && <p className="smart-management-hint">Este local não tem custo de repasse.</p>}{["fixed", "per_student", "percentage"].includes(form.ruleType) && <label>{form.ruleType === "fixed" ? "Valor do repasse" : form.ruleType === "per_student" ? "Valor por aluno" : "Percentual do repasse"}<div className="smart-management-amount-input"><span>{form.ruleType === "percentage" ? "%" : "R$"}</span><input inputMode="decimal" value={form.amountInput} onChange={(event) => update({ amountInput: event.target.value })} placeholder={form.ruleType === "percentage" ? "20" : "75,00"} /></div><small>{form.ruleType === "fixed" ? "Valor cobrado por atendimento, independente da quantidade de alunos." : form.ruleType === "per_student" ? "Valor de repasse para cada aluno no atendimento." : "Parcela percentual destinada ao repasse."}</small></label>}{form.ruleType === "tiered" && <TierEditor tiers={form.tiers} errors={tierResult.errors} onAdd={() => update({ tiers: [...form.tiers, { minStudents: "", maxStudents: "", amount: "" }] })} onChange={updateTier} onRemove={(index) => update({ tiers: form.tiers.filter((_, current) => current !== index) })} />}</fieldset></form></AccessibleModal>;
 }
 
-const styles = {
-  content: {
-    background:
-      "radial-gradient(circle at top right, rgba(20, 184, 166, 0.13), transparent 320px), linear-gradient(180deg, rgba(240, 253, 250, 0.78), rgba(248, 250, 252, 1) 320px)",
-    marginLeft: "260px",
-    minHeight: "100vh",
-    padding: "24px",
-    width: "calc(100% - 260px)",
-  },
-  hero: {
-    alignItems: "center",
-    background: "linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(15, 118, 110, 0.94))",
-    borderRadius: "8px",
-    color: "#ffffff",
-    display: "grid",
-    gap: "18px",
-    gridTemplateColumns: "56px minmax(0, 1fr)",
-    padding: "24px",
-  },
-  heroIcon: {
-    alignItems: "center",
-    background: "rgba(255, 255, 255, 0.12)",
-    border: "1px solid rgba(255, 255, 255, 0.16)",
-    borderRadius: "8px",
-    display: "inline-flex",
-    height: "56px",
-    justifyContent: "center",
-    width: "56px",
-  },
-  heroCopy: {
-    minWidth: 0,
-  },
-  eyebrow: {
-    color: "#99f6e4",
-    display: "block",
-    fontSize: "12px",
-    fontWeight: "850",
-    marginBottom: "6px",
-    textTransform: "uppercase",
-  },
-  title: {
-    fontSize: "30px",
-    lineHeight: 1.12,
-    margin: 0,
-    overflowWrap: "anywhere",
-  },
-  subtitle: {
-    color: "rgba(255, 255, 255, 0.78)",
-    fontSize: "15px",
-    lineHeight: 1.45,
-    marginTop: "8px",
-    maxWidth: "860px",
-  },
-  section: {
-    background: "rgba(255, 255, 255, 0.92)",
-    border: "1px solid rgba(226, 232, 240, 0.84)",
-    borderRadius: "8px",
-    boxShadow: "0 24px 58px rgba(15, 23, 42, 0.08)",
-    marginTop: "18px",
-    padding: "20px",
-  },
-  sectionHeader: {
-    alignItems: "flex-start",
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "14px",
-    justifyContent: "space-between",
-    marginBottom: "16px",
-  },
-  sectionTitle: {
-    color: "#111827",
-    fontSize: "24px",
-    lineHeight: 1.15,
-    margin: 0,
-  },
-  sectionDescription: {
-    color: "#64748b",
-    fontSize: "14px",
-    lineHeight: 1.45,
-    marginTop: "6px",
-  },
-  foundationBadge: {
-    alignItems: "center",
-    background: "#ccfbf1",
-    borderRadius: "999px",
-    color: "#0f766e",
-    display: "inline-flex",
-    fontSize: "12px",
-    fontWeight: "850",
-    minHeight: "34px",
-    padding: "8px 11px",
-  },
-  grid: {
-    display: "grid",
-    gap: "14px",
-    gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-  },
-  card: {
-    background: "linear-gradient(180deg, rgba(255,255,255,0.99), rgba(248,250,252,0.95))",
-    border: "1px solid rgba(203, 213, 225, 0.72)",
-    borderRadius: "8px",
-    display: "grid",
-    gap: "10px",
-    minWidth: 0,
-    padding: "16px",
-  },
-  cardIcon: {
-    alignItems: "center",
-    background: "#f0fdfa",
-    border: "1px solid #99f6e4",
-    borderRadius: "8px",
-    color: "#0f766e",
-    display: "inline-flex",
-    height: "42px",
-    justifyContent: "center",
-    width: "42px",
-  },
-  cardTitle: {
-    color: "#111827",
-    fontSize: "17px",
-    lineHeight: 1.25,
-    margin: 0,
-  },
-  cardText: {
-    color: "#64748b",
-    fontSize: "13px",
-    lineHeight: 1.45,
-    margin: 0,
-  },
-  emptyState: {
-    alignItems: "flex-start",
-    background: "#f8fafc",
-    border: "1px dashed #cbd5e1",
-    borderRadius: "8px",
-    color: "#475569",
-    display: "grid",
-    gap: "10px",
-    gridTemplateColumns: "28px minmax(0, 1fr)",
-    lineHeight: 1.45,
-    marginTop: "16px",
-    padding: "14px",
-  },
-  areaList: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "10px",
-    marginTop: "14px",
-  },
-  areaPill: {
-    background: "#eef2ff",
-    border: "1px solid #c7d2fe",
-    borderRadius: "999px",
-    color: "#3730a3",
-    fontSize: "13px",
-    fontWeight: "850",
-    minHeight: "34px",
-    padding: "8px 11px",
-  },
-};
+function TierEditor({ tiers, errors, onAdd, onChange, onRemove }) { return <div className="smart-management-tier-editor"><div className="smart-management-tier-header"><div><h3>Faixas de repasse</h3><p>Defina a quantidade de alunos e o valor para cada faixa.</p></div><button type="button" className="btn btn-secondary" onClick={onAdd}><Plus size={16} aria-hidden="true" />Adicionar faixa</button></div>{tiers.map((tier, index) => <div className="smart-management-tier-row" key={index}><label>A partir de<input type="number" min="1" value={tier.minStudents} onChange={(event) => onChange(index, "minStudents", event.target.value)} /></label><label>Até<input type="number" min="1" value={tier.maxStudents ?? ""} onChange={(event) => onChange(index, "maxStudents", event.target.value)} placeholder="ou mais" /></label><label>Repasse<input inputMode="decimal" value={tier.amount} onChange={(event) => onChange(index, "amount", event.target.value)} placeholder="R$ 0,00" /></label><button type="button" className="smart-management-icon-button" onClick={() => onRemove(index)} aria-label="Remover faixa"><Trash2 size={18} aria-hidden="true" /></button></div>)}{errors.length > 0 && <p className="smart-management-field-error" role="alert">{errors[0]}</p>}{tiers.length === 0 && <p className="smart-management-hint">Adicione faixas como 1 aluno, 2 alunos e 3 ou mais.</p>}</div>; }
 
 export default SmartManagementFoundationPage;

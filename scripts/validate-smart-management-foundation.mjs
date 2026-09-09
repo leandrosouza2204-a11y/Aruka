@@ -15,8 +15,8 @@ assertIncludes(app, "<ProfessionalRoute>", "Route tree uses ProfessionalRoute.")
 assertIncludes(professionalRoute, 'perfil?.role === "user"', "ProfessionalRoute requires professional profile role.");
 assertIncludes(professionalRoute, 'to="/minha-area"', "ProfessionalRoute redirects non-professional users away from professional module.");
 assertIncludes(page, "data-testid=\"smart-management-page\"", "Foundation page has a stable test id.");
-assertIncludes(page, "Gestao Inteligente", "Foundation page names the module.");
-assertIncludes(page, "Stage 11.2", "Foundation page does not pretend Stage 11.2 is implemented.");
+assertIncludes(page, "Gestão Inteligente", "Foundation page names the module with pt-BR copy.");
+assertIncludes(page, "Locais de atendimento", "Foundation page exposes the locations workflow.");
 assertIncludes(sidebar, 'to="/gestao-inteligente"', "Desktop navigation links the module.");
 assertIncludes(mobileNav, 'to="/gestao-inteligente"', "Mobile More menu links the module.");
 assertIncludes(constants, "SMART_MANAGEMENT_TRANSFER_RULE_TYPES", "Transfer rule types are centralized.");

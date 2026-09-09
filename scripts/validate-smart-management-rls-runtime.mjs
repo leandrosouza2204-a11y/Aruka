@@ -5,7 +5,7 @@ begin;
 
 create extension if not exists pgtap with schema extensions;
 
-select plan(21);
+select plan(25);
 
 insert into auth.users (id, email)
 values
@@ -60,6 +60,11 @@ values ('00000000-0000-4000-8000-000000011205', '00000000-0000-4000-8000-0000000
 insert into public.smart_management_transfer_rules (id, location_id, professional_id, rule_type, percentage_rate)
 values ('00000000-0000-4000-8000-000000011305', '00000000-0000-4000-8000-000000011205', '00000000-0000-4000-8000-000000011101', 'percentage', 12.5);
 select is((select percentage_rate from public.smart_management_transfer_rules where id = '00000000-0000-4000-8000-000000011305'), 12.50, 'percentage rule is representable');
+
+select is((select count(*)::int from public.save_smart_management_location(null, 'Academia RPC', 'Atomic fixture', 'tiered', null, '[{"minStudents":1,"maxStudents":"1","amount":50},{"minStudents":2,"maxStudents":"","amount":100}]'::jsonb)), 1, 'professional can save a complete location through the atomic RPC');
+select is((select count(*)::int from public.smart_management_locations where name = 'Academia RPC'), 1, 'atomic RPC persists its location');
+select is((select count(*)::int from public.smart_management_transfer_tiers t join public.smart_management_transfer_rules r on r.id = t.transfer_rule_id join public.smart_management_locations l on l.id = r.location_id where l.name = 'Academia RPC'), 2, 'atomic RPC persists its tiers');
+select throws_ok($$select public.save_smart_management_location(null, 'Overlapping RPC', '', 'tiered', null, '[{"minStudents":1,"maxStudents":"3","amount":50},{"minStudents":2,"maxStudents":"","amount":100}]'::jsonb)$$, '23514', null, 'atomic RPC rejects overlapping tiers');
 
 select throws_ok($$insert into public.smart_management_transfer_rules (location_id, professional_id, rule_type, fixed_amount) values ('00000000-0000-4000-8000-000000011205', '00000000-0000-4000-8000-000000011101', 'none', 1)$$, '23514', null, 'none rejects amount');
 select throws_ok($$insert into public.smart_management_transfer_rules (location_id, professional_id, rule_type, percentage_rate) values ('00000000-0000-4000-8000-000000011205', '00000000-0000-4000-8000-000000011101', 'percentage', 150)$$, '23514', null, 'percentage rejects over 100');
