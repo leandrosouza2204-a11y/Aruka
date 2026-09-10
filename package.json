@@ -44,6 +44,7 @@
     "qa:smart-management-dashboard-accessibility": "node scripts/validate-smart-management-dashboard-accessibility.mjs",
     "qa:smart-management-dashboard-navigation": "node scripts/validate-smart-management-dashboard-navigation.mjs",
     "qa:smart-management-mobile-pwa-stabilization": "node scripts/validate-smart-management-mobile-pwa-stabilization.mjs",
+    "qa:smart-management-access": "node scripts/validate-smart-management-access.mjs && node --test src/auth/professionalAccess.test.js src/auth/loginRouting.test.js",
     "qa:smart-management-responsive": "node scripts/validate-smart-management-responsive.mjs",
     "qa:smart-management-fallback-runtime": "node scripts/validate-smart-management-fallback-runtime.mjs",
     "qa:supabase-local-health-gate": "node scripts/validate-supabase-local-health-gate.mjs",

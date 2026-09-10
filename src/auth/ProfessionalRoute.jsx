@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { buscarPerfilUsuario } from "../services/perfisService";
+import { isProfessionalProfile } from "./professionalAccess";
 
 function ProfessionalRoute({ children }) {
   const [carregando, setCarregando] = useState(true);
@@ -12,12 +13,7 @@ function ProfessionalRoute({ children }) {
     async function verificarPerfil() {
       try {
         const perfil = await buscarPerfilUsuario();
-        const isProfessional =
-          perfil?.status === "ativo" &&
-          perfil?.role === "user" &&
-          ["beta", "assinante", "admin"].includes(perfil?.tipoAcesso);
-
-        if (ativo) setProfissional(Boolean(isProfessional));
+        if (ativo) setProfissional(isProfessionalProfile(perfil));
       } catch {
         if (ativo) setProfissional(false);
       } finally {
