@@ -15,7 +15,7 @@
     "qa:smart-management-local-drift": "node scripts/validate-smart-management-local-drift.mjs",
     "qa:smart-management-rls-runtime": "node scripts/validate-smart-management-rls-runtime.mjs",
     "qa:smart-management-visible-copy": "node scripts/validate-smart-management-visible-copy.mjs",
-    "qa:smart-management-locations-transfers": "node scripts/validate-smart-management-locations-transfers.mjs && node --test src/features/gestaoInteligente/utils/*.test.js",
+    "qa:smart-management-locations-transfers": "node scripts/validate-smart-management-locations-transfers.mjs && node --test src/features/gestaoInteligente/utils/*.test.js src/services/smartManagementService.test.js",
     "qa:smart-management-services-pricing": "node scripts/validate-smart-management-services-pricing.mjs && node --test src/features/gestaoInteligente/utils/*.test.js",
     "qa:smart-management-services-pricing-data-model": "node scripts/validate-smart-management-services-pricing-data-model.mjs",
     "qa:smart-management-services-pricing-security": "node scripts/validate-smart-management-services-pricing-security.mjs",
