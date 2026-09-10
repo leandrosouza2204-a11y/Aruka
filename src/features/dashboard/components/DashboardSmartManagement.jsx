@@ -23,8 +23,23 @@ function DashboardSmartManagement() {
   }, []);
 
   useEffect(() => {
-    loadSummary();
-  }, [loadSummary]);
+    let isCurrent = true;
+
+    getSmartManagementDashboardSummary()
+      .then((result) => {
+        if (isCurrent) setSummary(buildSmartManagementDashboardSummary(result));
+      })
+      .catch(() => {
+        if (isCurrent) setError("Não foi possível carregar o resumo da Gestão Inteligente.");
+      })
+      .finally(() => {
+        if (isCurrent) setLoading(false);
+      });
+
+    return () => {
+      isCurrent = false;
+    };
+  }, []);
 
   return (
     <section className="dashboard-panel dashboard-smart-management" aria-labelledby="dashboard-smart-management-title">
