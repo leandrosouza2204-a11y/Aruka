@@ -55,6 +55,9 @@ import {
   montarAtencaoCobranca,
   statusCombinaAtencaoCobranca,
 } from "../../financeiro/utils/billingAttention";
+import {
+  acompanhamentoEstaEncerrado,
+} from "../../financeiro/utils/acompanhamento";
 
 export const formInicial = {
   id: "",
@@ -173,11 +176,18 @@ export function useAlunosPage() {
         }))
         .filter((aluno) => {
           const combinaNome = aluno.nome.toLowerCase().includes(termoBusca);
-          const combinaStatus = statusCombinaAtencaoCobranca(filtroStatus, aluno.atencaoCobranca);
+          const alunoEncerrado = acompanhamentoEstaEncerrado(aluno);
+          const combinaStatus =
+            filtroStatus === "Encerrado"
+              ? alunoEncerrado
+              : statusCombinaAtencaoCobranca(filtroStatus, aluno.atencaoCobranca);
           const combinaPlano =
             filtroPlano === "todos" || aluno.plano === filtroPlano;
 
-          return combinaNome && combinaStatus && combinaPlano;
+          const combinaVisaoPadrao =
+            filtroStatus === "Encerrado" || !alunoEncerrado;
+
+          return combinaNome && combinaStatus && combinaPlano && combinaVisaoPadrao;
         })
     );
   }, [alunos, busca, filtroPlano, filtroStatus, pagamentosPorAluno, planosPorId]);

@@ -33,6 +33,7 @@ function AlunosFilters({
         <option value="Vencendo parcela">Vencendo parcela</option>
         <option value="Vencido">Vencido</option>
         <option value="Parcela vencida">Parcela vencida</option>
+        <option value="Encerrado">Encerrado</option>
       </select>
 
       <select

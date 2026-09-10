@@ -503,12 +503,12 @@ async function validateViewport(client, viewport) {
       forcaAccentedVisible: text.includes("For\u00e7a"),
       dayParentheticalVisible: /dia\\(s\\)/i.test(text),
       concatenatedCardCopy: new RegExp("ObjetivoForca|ObjetivoFor\\u00e7a|prescrita3|Per\\u00edodoDesde|StatusAtivo").test(text),
-      profileNotFound: /Perfil de aluno n[aÃ£]o encontrado/i.test(text),
+      profileNotFound: /Perfil de aluno n[aã]o encontrado/i.test(text),
       ownActive: /Ficha atual QA Student/i.test(text),
       ownHistory: /Ficha anterior QA Student/i.test(text),
       otherStudentHistory: /Student QA Isolation Control/i.test(text),
       technicalMetadata: /auth\\.uid|student_user_id|aluno_id|rpc|uuid|sqlstate|constraint|service_role/i.test(text),
-      executionClaim: /voc[eÃª] realizou|voc[eÃª] treinou|desempenho melhorou|performance real|ader[eÃª]ncia/i.test(text),
+      executionClaim: /voc[eê] realizou|voc[eê] treinou|desempenho melhorou|performance real|ader[eê]ncia/i.test(text),
       overflow: document.documentElement.scrollWidth > window.innerWidth + 2,
     };
   })()`);

@@ -101,7 +101,7 @@
 ## AVA-P3-001 - Corrigir textos com encoding inconsistente
 
 - Descricao: alguns textos aparecem com mojibake nos arquivos inspecionados.
-- Evidencia: labels como `AvaliaÃ§Ã£o`.
+- Evidencia: labels como `Avaliação`.
 - Impacto: percepcao de qualidade e clareza.
 - Severidade: low
 - Prioridade: P3

@@ -10,6 +10,7 @@ export const ALUNOS_STATUS_VALIDOS = new Set([
   "Vencendo parcela",
   "Vencido",
   "Parcela vencida",
+  "Encerrado",
 ]);
 
 export const FILTROS_ALUNOS_PADRAO = {
