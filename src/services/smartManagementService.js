@@ -46,6 +46,30 @@ export async function listSmartManagementServices(status = "active") {
   return (data || []).map(toService);
 }
 
+export async function getSmartManagementDashboardSummary() {
+  const user = await buscarUsuarioLogado();
+  const [locationsResult, servicesResult] = await Promise.all([
+    supabase
+      .from("smart_management_locations")
+      .select("id", { count: "exact", head: true })
+      .eq("professional_id", user.id)
+      .eq("status", "active"),
+    supabase
+      .from("smart_management_services")
+      .select("id", { count: "exact", head: true })
+      .eq("professional_id", user.id)
+      .eq("status", "active"),
+  ]);
+
+  if (locationsResult.error) throw locationsResult.error;
+  if (servicesResult.error) throw servicesResult.error;
+
+  return {
+    activeLocationsCount: locationsResult.count || 0,
+    activeServicesCount: servicesResult.count || 0,
+  };
+}
+
 export async function saveSmartManagementService(form) {
   const { data, error } = await supabase.rpc("save_smart_management_service", {
     p_service_id: form.id || null,

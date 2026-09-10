@@ -8,6 +8,7 @@ import DashboardCoachAttentionQueue from "./DashboardCoachAttentionQueue";
 import DashboardHeader from "./DashboardHeader";
 import DashboardOnboardingChecklist from "./DashboardOnboardingChecklist";
 import DashboardSinaisFitness from "./DashboardSinaisFitness";
+import DashboardSmartManagement from "./DashboardSmartManagement";
 
 function DashboardPage() {
   const dashboard = useDashboardPage();
@@ -24,6 +25,8 @@ function DashboardPage() {
         <div className="dashboard-onboarding-section">
           <DashboardOnboardingChecklist status={dashboard.onboardingStatus} />
         </div>
+
+        <DashboardSmartManagement />
 
         <div className="dashboard-alerts-section">
           <DashboardAlertas
