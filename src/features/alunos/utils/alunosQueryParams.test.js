@@ -44,6 +44,13 @@ test("mantem compatibilidade com links do Dashboard", () => {
   );
 });
 
+test("aceita a consulta historica de alunos encerrados", () => {
+  assert.equal(
+    normalizarFiltrosAlunosDaUrl("status=Encerrado", planos).status,
+    "Encerrado"
+  );
+});
+
 test("ignora status e plano invalidos", () => {
   assert.deepEqual(
     normalizarFiltrosAlunosDaUrl("status=Invalido&plano=desconhecido", planos),

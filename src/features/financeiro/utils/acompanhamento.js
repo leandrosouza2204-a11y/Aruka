@@ -8,10 +8,20 @@ export const STATUS_ACOMPANHAMENTO = {
 
 const STATUS_MANUAIS_ENCERRADOS = new Set(["nao_renovado", "cancelado", "encerrado"]);
 
+export function acompanhamentoEstaEncerrado(aluno = {}) {
+  return STATUS_MANUAIS_ENCERRADOS.has(
+    String(aluno.acompanhamentoStatus || "").trim()
+  );
+}
+
+export function acompanhamentoEstaOperacional(aluno = {}) {
+  return !acompanhamentoEstaEncerrado(aluno);
+}
+
 export function calcularSituacaoAcompanhamento(aluno = {}, hoje = new Date()) {
   const statusManual = String(aluno.acompanhamentoStatus || "").trim();
 
-  if (STATUS_MANUAIS_ENCERRADOS.has(statusManual)) {
+  if (acompanhamentoEstaEncerrado(aluno)) {
     return {
       status: statusManual === "nao_renovado"
         ? STATUS_ACOMPANHAMENTO.NAO_RENOVADO

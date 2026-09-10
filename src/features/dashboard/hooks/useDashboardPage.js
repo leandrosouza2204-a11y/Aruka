@@ -18,6 +18,7 @@ import {
   filtrarPagamentosContratoAtual,
   montarAtencaoCobranca,
 } from "../../financeiro/utils/billingAttention";
+import { acompanhamentoEstaOperacional } from "../../financeiro/utils/acompanhamento";
 import {
   buildCoachAttentionQueue,
   getCoachAttentionQueueStats,
@@ -163,9 +164,16 @@ export function useDashboardPage() {
     [alunos, pagamentosPorAluno, planosPorId]
   );
 
+  const alunosOperacionais = useMemo(
+    () => alunos.filter(acompanhamentoEstaOperacional),
+    [alunos]
+  );
+
   const contratosVencendo = useMemo(
-    () => alunos.filter((aluno) => statusPorAluno.get(aluno.id)?.contrato?.vencendo).length,
-    [alunos, statusPorAluno]
+    () =>
+      alunosOperacionais.filter((aluno) => statusPorAluno.get(aluno.id)?.contrato?.vencendo)
+        .length,
+    [alunosOperacionais, statusPorAluno]
   );
 
   const parcelasVencendo = useMemo(
@@ -179,22 +187,22 @@ export function useDashboardPage() {
 
   const alunosVencidos = useMemo(
     () =>
-      alunos.filter((aluno) =>
+      alunosOperacionais.filter((aluno) =>
         statusPorAluno.get(aluno.id)?.contrato?.vencido ||
           statusEstaVencido(statusPorAluno.get(aluno.id)?.contrato?.status)
       ).length,
-    [alunos, statusPorAluno]
+    [alunosOperacionais, statusPorAluno]
   );
 
   const alunosAtivosCheckin = useMemo(
     () =>
-      alunos
+      alunosOperacionais
         .map(normalizarAluno)
         .filter(
           (aluno) =>
             !statusPorAluno.get(aluno.id)?.contrato?.vencido
         ),
-    [alunos, statusPorAluno]
+    [alunosOperacionais, statusPorAluno]
   );
 
   const receitaMensal = useMemo(() => gerarReceitaMensal(pagamentos), [pagamentos]);
@@ -210,12 +218,12 @@ export function useDashboardPage() {
   const sinaisFitness = useMemo(
     () =>
       montarSinaisFitness({
-        alunos,
+        alunos: alunosOperacionais,
         avaliacoes,
         statusPorAluno,
         treinos,
       }),
-    [alunos, avaliacoes, statusPorAluno, treinos]
+    [alunosOperacionais, avaliacoes, statusPorAluno, treinos]
   );
 
   const alunosComAtencaoCobranca = useMemo(
