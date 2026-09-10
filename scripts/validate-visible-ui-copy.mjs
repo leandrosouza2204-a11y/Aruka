@@ -2,21 +2,42 @@ import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 
-const trackedFiles = execFileSync("git", ["ls-files", "src", "public", "package.json"], {
+const trackedFiles = execFileSync("git", ["ls-files"], {
   encoding: "utf8",
 })
   .trim()
   .split(/\r?\n/)
-  .filter(Boolean);
+  .filter(Boolean)
+  .filter((file) => /\.(?:[cm]?js|jsx|ts|tsx|json|md|html|css|sql|ya?ml)$/i.test(file));
 
 const excluded = [
   /^src\/aoe\//,
+  /^dist\//,
+  /^build\//,
   /\.(png|jpe?g|gif|webp|ico|svg|woff2?|ttf|eot)$/i,
 ];
+
+const intentionalMojibakeFixtures = new Map([
+  ["scripts/validate-finance-whatsapp-encoding.mjs", "validator detection fixtures"],
+  ["scripts/validate-partnership-renewal-runtime.mjs", "validator detection fixtures"],
+  ["scripts/validate-smart-management-visible-copy.mjs", "validator detection fixtures"],
+  ["scripts/validate-visible-ui-copy.mjs", "validator self-tests"],
+  ["src/features/gestaoInteligente/utils/commercialPresentation.test.js", "invalid-input fixture"],
+]);
+
+const visibleCopyFiles = new Set(
+  trackedFiles.filter(
+    (file) => file.startsWith("src/") || file.startsWith("public/") || file === "package.json"
+  )
+);
 
 const mojibakePatterns = [
   { name: "double-encoded UTF-8", pattern: /Ãƒ|Ã‚|Ã¢â‚¬|Ã¢â€|ï¿½/ },
   { name: "common Portuguese mojibake", pattern: /(?:Ã[§£©ª­³µº¼¡¢]|Â[ºª]|â€™|â€œ|â€)/ },
+];
+
+const broadMojibakePatterns = [
+  { name: "single-encoded UTF-8 mojibake", pattern: /(?:Ã[\u00a1-\u00bf]|Â[\u00a0-\u00bf]|â[\u0080-\u00bf]{2}|�)/u },
 ];
 
 const visibleCopyRegressions = [
@@ -78,11 +99,13 @@ for (const file of trackedFiles) {
 
   const source = readFileSync(file, "utf8");
 
-  for (const { name, pattern } of mojibakePatterns) {
-    collectMatches({ failures, file, name, pattern, source });
+  if (!intentionalMojibakeFixtures.has(file)) {
+    for (const { name, pattern } of [...mojibakePatterns, ...broadMojibakePatterns]) {
+      collectMatches({ failures, file, name, pattern, source });
+    }
   }
 
-  if (!allowUnaccentedCopy.has(file)) {
+  if (visibleCopyFiles.has(file) && !allowUnaccentedCopy.has(file)) {
     for (const { name, pattern } of visibleCopyRegressions) {
       collectMatches({ failures, file, name, pattern, source });
     }
