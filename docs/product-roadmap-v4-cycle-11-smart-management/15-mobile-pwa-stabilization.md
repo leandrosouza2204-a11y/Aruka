@@ -19,6 +19,8 @@ Two responsive validators exposed a real mobile layout gap:
 
 The existing Cycle 11 responsive block now makes scenario cards and comparison summaries explicitly one column through `900px`. Location selection is likewise explicitly one column on narrow mobile. Existing safe-area spacing and 44px action targets are preserved.
 
+After the functional merge, access verification found that the professional workspace was not consistently prioritized over a linked student identity. The correction centralizes the active professional-profile rule, hides Gestao Inteligente from student desktop and mobile navigation, keeps the module and dashboard inside the professional route guard, and prioritizes the professional profile after login. Student access remains directed to the existing student experience and does not require a professional context.
+
 ## PWA Review
 
 The existing Vite PWA manifest remains `standalone` with valid normal, maskable and Apple touch icons. Service-worker updates remain user initiated, and `runtimeCaching: []` preserves network-only dynamic authenticated data. Install-state logic retains Android native prompt handling, iOS/iPadOS/Safari guidance, standalone detection and no prompt once installed.
@@ -28,6 +30,8 @@ No offline mutations, global authenticated cache, service-worker strategy, insta
 ## Validation
 
 Automated PWA installability, Android/iOS install flow, update safety and cache-security QA passed. Cycle 11 responsive, accessibility, dashboard and regression QA passed after the correction.
+
+The functional implementation merged through PR #107 and the access correction through PR #108. Both remote validation, Vercel and preview checks passed.
 
 Authenticated visual runtime was not available: the local base URL and CDP browser endpoint were unreachable. Physical Android, iOS/iPadOS and installed-standalone checks remain manual QA.
 
