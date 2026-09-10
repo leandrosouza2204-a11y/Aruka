@@ -82,7 +82,7 @@ Expected outcome: professionals can progressively understand where their work ge
 
 DATABASE_CHANGE_REQUIRED=YES
 
-Stage 11.1 Foundation & Data Model: COMPLETE. Stage 11.2 Locais & Repasses: COMPLETE. Stage 11.3 Serviços & Precificação: COMPLETE. Stage 11.4 Motor de Rentabilidade: COMPLETE. Stage 11.5 Simulador Inteligente: COMPLETE. Stage 11.6 Comparador de Locais: COMPLETE. Stage 11.7 Apresentação Comercial: COMPLETE.
+Stage 11.1 Foundation & Data Model: COMPLETE. Stage 11.2 Locais & Repasses: COMPLETE. Stage 11.3 Serviços & Precificação: COMPLETE. Stage 11.4 Motor de Rentabilidade: COMPLETE. Stage 11.5 Simulador Inteligente: COMPLETE. Stage 11.6 Comparador de Locais: COMPLETE. Stage 11.7 Apresentação Comercial: COMPLETE. Stage 11.8 Dashboard Integration: COMPLETE.
 
 ### Future cycle - Coach Workflow Automation
 
