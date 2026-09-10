@@ -21,11 +21,13 @@ import {
 import { usePwaInstall } from "../features/pwa/PwaInstallContext";
 import { markSessionLoggedOut } from "../hooks/useAutoLogout";
 import { buscarPerfilUsuario } from "../services/perfisService";
+import { isProfessionalProfile } from "../auth/professionalAccess";
 import { supabase } from "../services/supabase";
 
 function MobileBottomNavigation() {
   const [maisAberto, setMaisAberto] = useState(false);
   const [usuarioAdmin, setUsuarioAdmin] = useState(false);
+  const [usuarioProfissional, setUsuarioProfissional] = useState(false);
   const { requestInstall, showInstallOption } = usePwaInstall();
   const painelRef = useRef(null);
   const maisButtonRef = useRef(null);
@@ -51,9 +53,13 @@ function MobileBottomNavigation() {
 
         if (ativo) {
           setUsuarioAdmin(perfil?.role === "admin" || perfil?.tipoAcesso === "admin");
+          setUsuarioProfissional(isProfessionalProfile(perfil));
         }
       } catch {
-        if (ativo) setUsuarioAdmin(false);
+        if (ativo) {
+          setUsuarioAdmin(false);
+          setUsuarioProfissional(false);
+        }
       }
     }
 
@@ -145,12 +151,14 @@ function MobileBottomNavigation() {
                 label="Exercícios"
                 onNavigate={fecharMais}
               />
-              <MoreLink
-                to="/gestao-inteligente"
-                icon={<Scale size={18} />}
-                label="Gestão Inteligente"
-                onNavigate={fecharMais}
-              />
+              {usuarioProfissional && (
+                <MoreLink
+                  to="/gestao-inteligente"
+                  icon={<Scale size={18} />}
+                  label="Gestão Inteligente"
+                  onNavigate={fecharMais}
+                />
+              )}
               <MoreLink
                 to="/avaliacoes"
                 icon={<ClipboardCheck size={18} />}

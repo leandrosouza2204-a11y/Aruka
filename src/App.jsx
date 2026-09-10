@@ -113,9 +113,11 @@ function App() {
               <ProtectedRoute>
                 <SubscriptionRoute>
                   <LegalRoute>
-                    <AppMobileNav>
-                      <Dashboard />
-                    </AppMobileNav>
+                    <ProfessionalRoute>
+                      <AppMobileNav>
+                        <Dashboard />
+                      </AppMobileNav>
+                    </ProfessionalRoute>
                   </LegalRoute>
                 </SubscriptionRoute>
               </ProtectedRoute>

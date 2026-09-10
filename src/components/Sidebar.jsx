@@ -24,6 +24,7 @@ import { usePwaInstall } from "../features/pwa/PwaInstallContext";
 import { markSessionLoggedOut } from "../hooks/useAutoLogout";
 import { supabase } from "../services/supabase";
 import { buscarPerfilUsuario } from "../services/perfisService";
+import { isProfessionalProfile } from "../auth/professionalAccess";
 import { useTheme } from "../theme/useTheme";
 
 // Sidebar visual aprovada no rebranding Aruka. Evitar alterações visuais sem nova validação.
@@ -42,6 +43,7 @@ function Sidebar() {
     usuario?.user_metadata?.nome || usuario?.user_metadata?.name || "";
   const emailUsuario = usuario?.email || "";
   const usuarioAdmin = perfil?.role === "admin" || perfil?.tipoAcesso === "admin";
+  const usuarioProfissional = isProfessionalProfile(perfil);
 
   useEffect(() => {
     let ativo = true;
@@ -233,12 +235,14 @@ function Sidebar() {
           icon={<DollarSign size={21} />}
           label="Financeiro"
         />
-        <MenuLink
-          to="/gestao-inteligente"
-          active={isActive("/gestao-inteligente")}
-          icon={<Scale size={21} />}
-          label="Gestão Inteligente"
-        />
+        {usuarioProfissional && (
+          <MenuLink
+            to="/gestao-inteligente"
+            active={isActive("/gestao-inteligente")}
+            icon={<Scale size={21} />}
+            label="Gestão Inteligente"
+          />
+        )}
         <MenuLink
           to="/planos"
           active={isActive("/planos")}

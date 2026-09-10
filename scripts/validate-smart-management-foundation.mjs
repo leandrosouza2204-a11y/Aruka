@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 
 const app = read("src/App.jsx");
 const professionalRoute = read("src/auth/ProfessionalRoute.jsx");
+const professionalAccess = read("src/auth/professionalAccess.js");
 const page = read("src/features/gestaoInteligente/components/SmartManagementFoundationPage.jsx");
 const sidebar = read("src/components/Sidebar.jsx");
 const mobileNav = read("src/components/MobileBottomNavigation.jsx");
@@ -12,7 +13,8 @@ assertIncludes(app, "<ProtectedRoute>", "Route tree uses ProtectedRoute.");
 assertIncludes(app, "<SubscriptionRoute>", "Route tree uses SubscriptionRoute.");
 assertIncludes(app, "<LegalRoute>", "Route tree uses LegalRoute.");
 assertIncludes(app, "<ProfessionalRoute>", "Route tree uses ProfessionalRoute.");
-assertIncludes(professionalRoute, 'perfil?.role === "user"', "ProfessionalRoute requires professional profile role.");
+assertIncludes(professionalRoute, "isProfessionalProfile(perfil)", "ProfessionalRoute uses the shared professional access rule.");
+assertIncludes(professionalAccess, 'profile.role === "user"', "Professional access rule requires professional profile role.");
 assertIncludes(professionalRoute, 'to="/minha-area"', "ProfessionalRoute redirects non-professional users away from professional module.");
 assertIncludes(page, "data-testid=\"smart-management-page\"", "Foundation page has a stable test id.");
 assertIncludes(page, "Gestão Inteligente", "Foundation page names the module with pt-BR copy.");
