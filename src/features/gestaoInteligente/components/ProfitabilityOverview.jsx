@@ -10,7 +10,7 @@ export default function ProfitabilityOverview({ onNavigate }) {
   const [serviceId, setServiceId] = useState(""); const [locationId, setLocationId] = useState(""); const [studentCount, setStudentCount] = useState("");
   const [loading, setLoading] = useState(true); const [error, setError] = useState("");
   const load = useCallback(async () => { setLoading(true); setError(""); try { const [nextServices, nextLocations] = await Promise.all([listSmartManagementServices("active"), listSmartManagementLocations("active")]); setServices(nextServices); setLocations(nextLocations); } catch { setError("Não foi possível carregar os cadastros para a estimativa."); } finally { setLoading(false); } }, []);
-  useEffect(() => { void load(); }, [load]);
+  useEffect(() => { void Promise.resolve().then(load); }, [load]);
   const service = services.find((item) => item.id === serviceId) || null;
   const location = locations.find((item) => item.id === locationId) || null;
   const result = useMemo(() => service && location && studentCount !== "" ? calculateProfitability({ service, location, studentCount: Number(studentCount) }) : null, [service, location, studentCount]);
