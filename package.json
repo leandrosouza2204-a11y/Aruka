@@ -143,6 +143,7 @@
     "cleanup:local-smart-management-qa": "node --env-file=.env.local --env-file=.env.qa.local scripts/setup-local-smart-management-qa.mjs --cleanup",
     "validate:local-smart-management-qa": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-local-smart-management-qa.mjs",
     "qa:local-smart-management-qa-runtime": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-local-smart-management-qa-runtime.mjs",
+    "qa:local-auth-runtime-stability": "node scripts/validate-local-auth-runtime-stability.mjs",
     "test:local-smart-management-qa": "node --test scripts/__tests__/local-smart-management-qa-fixtures.test.mjs",
     "qa:local:data": "node --env-file=.env.local --env-file=.env.qa.local scripts/setup-local-qa-data.mjs",
     "qa:local:canonical": "node --env-file=.env.local --env-file=.env.qa.local scripts/provision-canonical-local-qa-fixtures.mjs",
