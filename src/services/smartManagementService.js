@@ -1,5 +1,9 @@
 import { buscarUsuarioLogado } from "./authSessionService";
 import { supabase } from "./supabase";
+import {
+  normalizeSmartManagementLocation,
+  requireSavedSmartManagementLocationId,
+} from "../features/gestaoInteligente/utils/smartManagementLocationPersistence";
 
 export async function listSmartManagementLocations(status = "active") {
   const user = await buscarUsuarioLogado();
@@ -10,7 +14,7 @@ export async function listSmartManagementLocations(status = "active") {
     .eq("status", status)
     .order("name");
   if (error) throw error;
-  return (data || []).map(toLocation);
+  return (data || []).map(normalizeSmartManagementLocation);
 }
 
 export async function saveSmartManagementLocation(form) {
@@ -23,7 +27,8 @@ export async function saveSmartManagementLocation(form) {
     p_tiers: form.tiers.map((tier) => ({ minStudents: tier.minStudents, maxStudents: tier.maxStudents ?? "", amount: tier.amount })),
   });
   if (error) throw error;
-  return data?.[0]?.location_id;
+
+  return requireSavedSmartManagementLocationId(data);
 }
 
 export async function updateSmartManagementLocationStatus(id, status) {
@@ -95,15 +100,6 @@ export async function updateSmartManagementServiceStatus(id, status) {
     .update({ status, archived_at: status === "archived" ? new Date().toISOString() : null })
     .eq("id", id);
   if (error) throw error;
-}
-
-function toLocation(row) {
-  const ruleRow = row.smart_management_transfer_rules?.[0];
-  const amount = ruleRow?.fixed_amount ?? ruleRow?.per_student_amount ?? ruleRow?.percentage_rate ?? null;
-  return {
-    id: row.id, name: row.name, description: row.description || "", status: row.status, archivedAt: row.archived_at,
-    rule: ruleRow ? { id: ruleRow.id, type: ruleRow.rule_type, amount: amount === null ? null : Number(amount), tiers: (ruleRow.smart_management_transfer_tiers || []).map((tier) => ({ id: tier.id, minStudents: tier.min_students, maxStudents: tier.max_students, amount: Number(tier.amount) })).sort((a, b) => a.minStudents - b.minStudents) } : null,
-  };
 }
 
 function toService(row) {
