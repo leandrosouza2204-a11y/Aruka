@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
   normalizeSmartManagementLocation,
+  requireDeletedSmartManagementRecordId,
   requireSavedSmartManagementLocationId,
 } from "../features/gestaoInteligente/utils/smartManagementLocationPersistence.js";
 
@@ -86,4 +87,9 @@ test("exige identificador confirmado antes de comunicar sucesso", () => {
   assert.equal(requireSavedSmartManagementLocationId([{ location_id: "location-id" }]), "location-id");
   assert.equal(requireSavedSmartManagementLocationId({ location_id: "location-id" }), "location-id");
   assert.throws(() => requireSavedSmartManagementLocationId([]), /did not return a location id/);
+});
+
+test("exige linha removida antes de comunicar exclusao", () => {
+  assert.equal(requireDeletedSmartManagementRecordId({ id: "location-id" }, "location"), "location-id");
+  assert.throws(() => requireDeletedSmartManagementRecordId(null, "service"), /delete did not remove a record/);
 });

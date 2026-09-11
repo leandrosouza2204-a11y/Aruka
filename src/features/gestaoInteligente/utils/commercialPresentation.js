@@ -16,6 +16,11 @@ export function buildCommercialPresentation({ services = [] } = {}) {
   ].join("\n");
 }
 
+export function formatActiveServicesSummary(count) {
+  const total = Number(count) || 0;
+  return total === 1 ? "1 serviço ativo disponível" : `${total} serviços ativos disponíveis`;
+}
+
 export function formatCommercialServicePrice(service) {
   const price = formatMoney(service.price);
   if (service.pricingModel === "PER_SESSION") return `${price} por sessão`;

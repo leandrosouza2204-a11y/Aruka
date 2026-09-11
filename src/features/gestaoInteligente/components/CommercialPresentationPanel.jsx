@@ -4,7 +4,7 @@ import AccessibleModal from "../../../components/AccessibleModal";
 import { useToast } from "../../../hooks/useToast";
 import { listSmartManagementServices } from "../../../services/smartManagementService";
 import { copyTextToClipboard } from "../../../utils/clipboard";
-import { buildCommercialPresentation } from "../utils/commercialPresentation";
+import { buildCommercialPresentation, formatActiveServicesSummary } from "../utils/commercialPresentation";
 import { buildServiceSummary, formatServicePrice } from "../utils/servicesPricing";
 
 function CommercialPresentationPanel({ onNavigate }) {
@@ -54,7 +54,7 @@ function CommercialPresentationPanel({ onNavigate }) {
       )}
       {!loading && !error && services.length > 0 && (
         <div className="smart-management-commercial-summary" aria-label="Resumo da apresentação comercial">
-          <strong>{services.length} serviço{services.length === 1 ? "" : "s"} ativo{services.length === 1 ? "" : "s"} disponível{services.length === 1 ? "" : "is"}</strong>
+          <strong>{formatActiveServicesSummary(services.length)}</strong>
           <span>Arquivados ficam fora da mensagem por padrão.</span>
         </div>
       )}

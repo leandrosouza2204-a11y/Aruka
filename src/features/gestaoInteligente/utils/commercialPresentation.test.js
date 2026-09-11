@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildCommercialPresentation, formatCommercialServicePrice } from "./commercialPresentation.js";
+import { buildCommercialPresentation, formatActiveServicesSummary, formatCommercialServicePrice } from "./commercialPresentation.js";
 
 const baseService = {
   id: "svc-1",
@@ -109,4 +109,10 @@ test("mantém texto plain text amigável para WhatsApp", () => {
   assert.match(message, /\*Personal Individual\*/);
   assert.match(message, /• R\$\s800,00\/mês/);
   assert.doesNotMatch(message, /<[^>]+>|\{|\}|\[|\]|```/);
+});
+
+test("pluraliza a disponibilidade de serviços ativos", () => {
+  assert.equal(formatActiveServicesSummary(0), "0 serviços ativos disponíveis");
+  assert.equal(formatActiveServicesSummary(1), "1 serviço ativo disponível");
+  assert.equal(formatActiveServicesSummary(2), "2 serviços ativos disponíveis");
 });

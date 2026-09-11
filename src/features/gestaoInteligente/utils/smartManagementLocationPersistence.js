@@ -34,3 +34,10 @@ export function requireSavedSmartManagementLocationId(data) {
   }
   return locationId;
 }
+
+export function requireDeletedSmartManagementRecordId(data, recordType) {
+  if (!data?.id) {
+    throw new Error(`Smart management ${recordType} delete did not remove a record.`);
+  }
+  return data.id;
+}
