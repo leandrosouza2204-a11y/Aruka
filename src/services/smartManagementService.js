@@ -2,6 +2,7 @@ import { buscarUsuarioLogado } from "./authSessionService";
 import { supabase } from "./supabase";
 import {
   normalizeSmartManagementLocation,
+  requireDeletedSmartManagementRecordId,
   requireSavedSmartManagementLocationId,
 } from "../features/gestaoInteligente/utils/smartManagementLocationPersistence";
 
@@ -37,6 +38,13 @@ export async function updateSmartManagementLocationStatus(id, status) {
     .update({ status, archived_at: status === "archived" ? new Date().toISOString() : null })
     .eq("id", id);
   if (error) throw error;
+}
+
+export async function deleteSmartManagementLocation(id) {
+  const user = await buscarUsuarioLogado();
+  const { data, error } = await supabase.from("smart_management_locations").delete().eq("id", id).eq("professional_id", user.id).select("id").maybeSingle();
+  if (error) throw error;
+  return requireDeletedSmartManagementRecordId(data, "location");
 }
 
 export async function listSmartManagementServices(status = "active") {
@@ -100,6 +108,13 @@ export async function updateSmartManagementServiceStatus(id, status) {
     .update({ status, archived_at: status === "archived" ? new Date().toISOString() : null })
     .eq("id", id);
   if (error) throw error;
+}
+
+export async function deleteSmartManagementService(id) {
+  const user = await buscarUsuarioLogado();
+  const { data, error } = await supabase.from("smart_management_services").delete().eq("id", id).eq("professional_id", user.id).select("id").maybeSingle();
+  if (error) throw error;
+  return requireDeletedSmartManagementRecordId(data, "service");
 }
 
 function toService(row) {
