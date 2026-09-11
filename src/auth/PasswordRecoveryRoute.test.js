@@ -14,5 +14,8 @@ test("password recovery route is separate from student invite route", () => {
 test("password recovery route accepts existing or code-exchanged sessions", () => {
   assert.match(routeSource, /supabase\.auth\.getSession\(\)/);
   assert.match(routeSource, /exchangeCodeForSession\(code\)/);
+  assert.match(routeSource, /catch \{\s*return null;/);
   assert.match(routeSource, /Link invalido ou expirado/);
+  assert.match(routeSource, /<Link to="\/login"/);
+  assert.match(routeSource, /Solicitar novo link/);
 });
