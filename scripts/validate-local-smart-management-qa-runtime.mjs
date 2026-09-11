@@ -8,8 +8,9 @@ const password = process.env.QA_USER_PASSWORD;
 if (!password) throw new Error("QA_USER_PASSWORD_REQUIRED");
 
 const client = createClient(runtime.apiUrl, runtime.anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
-const { error: loginError } = await client.auth.signInWithPassword({ email: QA_SMART_MANAGEMENT_EMAIL, password });
+const { data: loginData, error: loginError } = await client.auth.signInWithPassword({ email: QA_SMART_MANAGEMENT_EMAIL, password });
 if (loginError) throw loginError;
+await waitForFreshJwt(loginData.session?.access_token);
 
 const [servicesResult, locationsResult] = await Promise.all([
   client.from("smart_management_services").select("id,name,description,service_type,pricing_model,price,sessions_per_week,sessions_per_month,sessions_in_package,session_duration_minutes,min_students,max_students,status,archived_at").eq("status", "active"),
@@ -37,3 +38,19 @@ if (!result.valid || result.grossRevenue !== 10000 || result.netAfterTransfer !=
 console.log("AUTHENTICATED_SMART_MANAGEMENT_SOURCE=PASS");
 console.log("PROFITABILITY_READY_SANITY=PASS");
 console.log(`SERVICES_AVAILABLE=${servicesResult.data.length} LOCATIONS_AVAILABLE=${locationsResult.data.length}`);
+
+async function waitForFreshJwt(accessToken) {
+  const payload = decodeJwtPayload(accessToken);
+  const issuedAt = Number(payload?.iat);
+  if (!Number.isFinite(issuedAt)) throw new Error("LOCAL_QA_JWT_IAT_REQUIRED");
+
+  // PostgREST can be up to the next clock tick behind GoTrue in a local Docker stack.
+  const delayMs = Math.max(0, issuedAt * 1000 - Date.now() + 1100);
+  if (delayMs) await new Promise((resolve) => setTimeout(resolve, delayMs));
+}
+
+function decodeJwtPayload(accessToken) {
+  const payload = String(accessToken || "").split(".")[1];
+  if (!payload) return null;
+  return JSON.parse(Buffer.from(payload, "base64url").toString("utf8"));
+}
