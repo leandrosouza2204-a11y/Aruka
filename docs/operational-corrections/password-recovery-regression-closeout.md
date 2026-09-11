@@ -42,3 +42,31 @@ The exact redirect must be allow-listed for Supabase to honor `redirectTo`; the 
 After deploying this branch and applying the approved dashboard configuration, request a new recovery email for a QA account. Verify its `redirect_to` ends in `/redefinir-senha`, complete a password reset, then log in with the new password. Also open `/redefinir-senha` without a valid recovery context and confirm the clear invalid-link message and login link.
 
 No tokens, passwords, database changes, RLS changes, or remote production mutations were made.
+
+## Remote verification (2026-09-11)
+
+### Public deployment evidence
+
+- `https://consultoria-fitness-gamma.vercel.app` returned HTTP `308` and redirects to `https://www.aruka.com.br/`. Therefore it is not the canonical application origin and a root-only redirect sent to that legacy hostname inevitably ends at the public landing page.
+- `https://consultoria-fitness-gamma.vercel.app/redefinir-senha` returned HTTP `308` to `https://www.aruka.com.br/redefinir-senha`; the legacy-host redirect preserves this path. Thus the historical root-only email URL proves the recovery redirect lacked `/redefinir-senha` before the browser reached Vercel.
+- `https://www.aruka.com.br/` returned HTTP `200` from Vercel.
+- `https://www.aruka.com.br/redefinir-senha` returned the application shell (`200`), confirming that the canonical production host supports the password-reset deep link rather than redirecting it to `/`.
+- Vercel CLI authentication is invalid in the available environment, so the production deployment SHA, branch, deployment timestamp, environment metadata, and comparison with `1406f19`/`ac447d0` could not be verified through Vercel's API.
+
+### Remote Auth evidence not available
+
+- Supabase **Site URL**: not verified; no authorized authenticated Dashboard/management access is available.
+- Supabase **Redirect URLs**: not verified; specifically, the presence of `https://www.aruka.com.br/redefinir-senha` and the legacy hostname route must be checked in the Dashboard.
+- Password-recovery template: not verified; its use of `{{ .ConfirmationURL }}`, `{{ .RedirectTo }}`, or a hard-coded `{{ .SiteURL }}` could not be inspected.
+- Diagnostic recovery request and email inspection: not run; no QA-account/email access was provided. No token was requested, read, or recorded.
+
+### Current classification
+
+The historical email evidence is consistent with a stale/legacy hostname redirect and the then-active frontend or Auth configuration using the root as its destination. The production frontend/deployment SHA and the remote Auth settings remain unverified, so a definitive distinction between **stale production deployment**, **missing Redirect URL**, and **template override** is not yet possible.
+
+### Required operational unblock
+
+1. Provide read-only Vercel access (or a valid CLI token) to identify the deployment SHA and branch associated with `www.aruka.com.br` and the legacy hostname.
+2. Provide read-only Supabase Auth access to inspect Site URL, Redirect URLs, and the recovery-email template.
+3. Provide an authorized QA inbox/account or have an authorized operator run the diagnostic request and share only the sanitized `redirect_to` host/path and final route.
+4. If the exact canonical recovery URL is absent, explicitly authorize adding `https://www.aruka.com.br/redefinir-senha` to Supabase Redirect URLs. Do not change the Site URL or email template without evidence and separate approval.
