@@ -76,11 +76,34 @@ The canonical host and expected recovery route are established by public HTTP ve
 
 ### Current classification
 
-The historical email evidence is consistent with a stale/legacy hostname redirect and the then-active frontend or Auth configuration using the root as its destination. The production frontend/deployment SHA and the remote Auth settings remain unverified, so a definitive distinction between **stale production deployment**, **missing Redirect URL**, and **template override** is not yet possible.
+**Root cause: `LEGACY_SITE_URL_AND_REJECTED_REDIRECT`.** The remote Supabase Dashboard evidence supplied on 2026-09-12 established that the Site URL is the legacy hostname and the canonical recovery URL is absent from Redirect URLs. A new, sanitized recovery email then showed `type=recovery` with the legacy root as `redirect_to`. This rules out the current frontend, which derives the canonical origin plus `/redefinir-senha`, and there is no evidence of a custom recovery-template override.
+
+The resulting broken path is: canonical frontend request expected -> canonical recovery URL rejected by Supabase -> legacy Site URL fallback -> HTTP 308 from the legacy host -> canonical landing-page root.
+
+### Supabase Auth state supplied by the operator (before correction)
+
+- **Site URL:** `https://consultoria-fitness-gamma.vercel.app` (`LEGACY`).
+- **Redirect URLs preserved in the project:**
+  - `https://consultoria-fitness-gamma.vercel.app`
+  - `http://localhost:5173/`
+  - `https://consultoria-fitness-gamma.vercel.app/criar-senha`
+- **Canonical recovery redirect:** `https://www.aruka.com.br/redefinir-senha` — `MISSING`.
+- **Recovery template:** `DEFAULT`; the Dashboard indicates custom SMTP is required to edit templates, and there is no custom-template override evidence.
+
+### Approved remote correction, not performed from this environment
+
+1. Change Supabase Auth **Site URL** from `https://consultoria-fitness-gamma.vercel.app` to `https://www.aruka.com.br`.
+2. Add the exact Redirect URL `https://www.aruka.com.br/redefinir-senha`.
+
+Do not remove any existing Redirect URL, do not alter the template, and do not configure SMTP. The Supabase CLI and an authenticated Supabase Dashboard integration are unavailable in this environment, so these approved remote mutations were not executed here.
+
+### Post-change QA required
+
+Request a **new** recovery email from `https://www.aruka.com.br/login` using an authorized QA account. Record only `type=recovery` and the sanitized host/path; it must be `https://www.aruka.com.br/redefinir-senha`. Then verify the reset form, password update, login with the new password, and consumed-link invalid state.
 
 ### Required operational unblock
 
-1. Provide read-only Vercel access (or a valid CLI token) to identify the deployment SHA and branch associated with `www.aruka.com.br` and the legacy hostname.
-2. Provide read-only Supabase Auth access to inspect Site URL, Redirect URLs, and the recovery-email template.
-3. Provide an authorized QA inbox/account or have an authorized operator run the diagnostic request and share only the sanitized `redirect_to` host/path and final route.
-4. If the exact canonical recovery URL is absent, explicitly authorize adding `https://www.aruka.com.br/redefinir-senha` to Supabase Redirect URLs. Do not change the Site URL or email template without evidence and separate approval.
+1. An operator with Supabase Dashboard access must perform the two approved URL Configuration changes above.
+2. An authorized QA operator must perform the post-change recovery, password-update, login, and consumed-link checks without sharing a token or password.
+3. Push and PR remain separate actions that require explicit authorization.
+4. Audit `/criar-senha` separately before migrating or removing its legacy redirect.
