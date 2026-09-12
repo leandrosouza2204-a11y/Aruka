@@ -30,8 +30,8 @@ The route supports Supabase's implicit session restoration through `getSession()
 
 In **Authentication -> URL Configuration** for the production Supabase project:
 
-1. Confirm the production **Site URL** is `https://consultoria-fitness-gamma.vercel.app`.
-2. Add the exact production redirect URL `https://consultoria-fitness-gamma.vercel.app/redefinir-senha` to **Redirect URLs**.
+1. Inspect the current production **Site URL**; do not change it based on this report alone.
+2. Verify the exact canonical redirect URL `https://www.aruka.com.br/redefinir-senha` is in **Redirect URLs**. Preserve valid legacy URLs until their impact is reviewed.
 3. If preview QA is supported, add a scoped Vercel pattern such as `https://*-<vercel-team-or-account>.vercel.app/**`; otherwise validate only production.
 4. Inspect the **Reset Password** email template. It must preserve Supabase's generated confirmation URL and must not replace the supplied redirect with a hard-coded `{{ .SiteURL }}`. When a custom template assembles URLs, use `{{ .RedirectTo }}` as documented by Supabase.
 
@@ -44,6 +44,14 @@ After deploying this branch and applying the approved dashboard configuration, r
 No tokens, passwords, database changes, RLS changes, or remote production mutations were made.
 
 ## Remote verification (2026-09-11)
+
+### Canonical-domain record
+
+- `CANONICAL_HOST=https://www.aruka.com.br`
+- `LEGACY_HOST=https://consultoria-fitness-gamma.vercel.app`
+- `CANONICAL_RECOVERY_URL=https://www.aruka.com.br/redefinir-senha`
+
+The canonical host and expected recovery route are established by public HTTP verification. They are not, by themselves, evidence that the remote Supabase **Site URL** has the same value; that setting remains unverified.
 
 ### Public deployment evidence
 
@@ -59,6 +67,12 @@ No tokens, passwords, database changes, RLS changes, or remote production mutati
 - Supabase **Redirect URLs**: not verified; specifically, the presence of `https://www.aruka.com.br/redefinir-senha` and the legacy hostname route must be checked in the Dashboard.
 - Password-recovery template: not verified; its use of `{{ .ConfirmationURL }}`, `{{ .RedirectTo }}`, or a hard-coded `{{ .SiteURL }}` could not be inspected.
 - Diagnostic recovery request and email inspection: not run; no QA-account/email access was provided. No token was requested, read, or recorded.
+
+### Frontend environment audit
+
+- The application reads only `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` for its browser Supabase client. Their values were not read or printed.
+- No versioned source reference to `SITE_URL`, `APP_URL`, `VERCEL_URL`, or a configured Auth redirect base was found. The recovery redirect is derived solely from `window.location.origin` and `/redefinir-senha`.
+- Consequently, when the current frontend runs at `https://www.aruka.com.br`, its tested expected redirect is `https://www.aruka.com.br/redefinir-senha`.
 
 ### Current classification
 
