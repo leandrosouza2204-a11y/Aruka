@@ -18,4 +18,5 @@ test("password recovery route accepts existing or code-exchanged sessions", () =
   assert.match(routeSource, /Link invalido ou expirado/);
   assert.match(routeSource, /<Link to="\/login"/);
   assert.match(routeSource, /Solicitar novo link/);
+  assert.match(routeSource, /clearAuthErrorHash\(\)/);
 });

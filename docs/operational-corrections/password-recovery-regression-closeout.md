@@ -101,6 +101,27 @@ Do not remove any existing Redirect URL, do not alter the template, and do not c
 
 Request a **new** recovery email from `https://www.aruka.com.br/login` using an authorized QA account. Record only `type=recovery` and the sanitized host/path; it must be `https://www.aruka.com.br/redefinir-senha`. Then verify the reset form, password update, login with the new password, and consumed-link invalid state.
 
+## Post-redirect-fix OTP investigation
+
+### Confirmed state
+
+- Supabase Auth URL configuration was subsequently corrected by an authorized operator: Site URL is canonical and the canonical recovery redirect is present.
+- A newly issued recovery link uses the canonical host, but its first reported human click ended at a sanitized Auth fragment with `error=access_denied` and `error_code=otp_expired`.
+- This is classified as `OTP_ALREADY_INVALID_AT_VERIFY`, not a redirect failure.
+- Root cause 1 remains `LEGACY_SITE_URL_AND_REJECTED_REDIRECT` (**resolved**). Root cause 2 is currently `UNKNOWN_OTP_INVALIDATION` pending Auth-log evidence.
+
+### UX hardening implemented
+
+The application now detects exactly the expired-recovery Auth fragment (`access_denied` plus `otp_expired`) when Supabase returns it at `/`. It renders the existing invalid/expired recovery state rather than the landing page, provides a link to request another recovery email, and clears the complete fragment with `history.replaceState`. It neither logs nor retains token-bearing URL parameters, retries verification, or recreates a session.
+
+### Operational evidence still required
+
+1. In Supabase Auth logs, compare the first `/auth/v1/verify` timestamp/result with the human click. A successful verify before the human click followed by `otp_expired` is evidence for `EMAIL_PREFETCH_CONSUMED_RECOVERY_TOKEN`.
+2. Record the configured Email OTP expiration value and the number/timing of recovery requests for the QA account.
+3. Run one controlled Gmail recovery and one controlled Yahoo recovery: one request, no preview/prefetch interaction, one click only. Record only PASS/FAIL and sanitized host/path.
+
+Do not change the email template, SMTP, OTP expiry, or implement a custom OTP/intermediate-page flow until this evidence distinguishes prefetch, request replacement, or abnormal expiration.
+
 ### Required operational unblock
 
 1. An operator with Supabase Dashboard access must perform the two approved URL Configuration changes above.

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../services/supabase";
+import { clearAuthErrorHash, isExpiredRecoveryUrlError } from "./recoveryUrlError";
 
 function PasswordRecoveryRoute({ children }) {
   const [status, setStatus] = useState("loading");
@@ -32,6 +33,17 @@ function PasswordRecoveryRoute({ children }) {
   }
 
   if (status === "invalid") {
+    return <InvalidRecoveryLink />;
+  }
+
+  return children;
+}
+
+export function InvalidRecoveryLink() {
+  useEffect(() => {
+    if (isExpiredRecoveryUrlError(window.location.hash)) clearAuthErrorHash();
+  }, []);
+
     return (
       <main style={stateScreen}>
         <section style={messageBox}>
@@ -45,9 +57,6 @@ function PasswordRecoveryRoute({ children }) {
         </section>
       </main>
     );
-  }
-
-  return children;
 }
 
 async function loadCurrentSession() {
