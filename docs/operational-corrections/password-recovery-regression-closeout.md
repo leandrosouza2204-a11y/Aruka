@@ -122,6 +122,28 @@ The application now detects exactly the expired-recovery Auth fragment (`access_
 
 Do not change the email template, SMTP, OTP expiry, or implement a custom OTP/intermediate-page flow until this evidence distinguishes prefetch, request replacement, or abnormal expiration.
 
+## Duplicate verify / client navigation investigation
+
+### Auth-log evidence
+
+- `FIRST_VERIFY=PASS`: `2026-09-12T15:44:45Z`, `GET /verify`, HTTP `303`, Auth event `login`; the subsequent `GET /user` returned `200`.
+- `SECOND_VERIFY=FAIL`: `2026-09-12T15:45:42Z`, `GET /verify`, HTTP `403`, `One-time token not found`.
+- The elapsed interval is approximately 57 seconds and both requests have the same recorded remote address. The first request therefore consumed a valid single-use token; the second reused it.
+- `EMAIL_PREFETCH=UNSUPPORTED_BY_CURRENT_EVIDENCE`. Same-address evidence does not establish that a Yahoo scanner was the source.
+- `RECOVERY_RATE_LIMIT_OBSERVED=YES`; it resulted from repeated diagnostic requests and is not the cause of the initially valid token being consumed.
+
+### Client audit
+
+- `/redefinir-senha` is a public route; it is not wrapped by `ProtectedRoute` or another redirecting guard.
+- The recovery route contains no `location.href`, `location.assign`, `location.replace`, browser-history back navigation, React `navigate`, `verifyOtp`, or `/auth/v1/verify` reference.
+- The Supabase browser client uses `detectSessionInUrl: true` and does not set `flowType`; the active browser flow is implicit session restoration. The route only attempts `exchangeCodeForSession(code)` if `getSession()` did not yield a session and a PKCE `code` exists, so the implicit and code paths are mutually exclusive for one initialization.
+- React StrictMode is enabled in `main.jsx`, which can replay effects in development only; it is not an explanation for a production second browser navigation. Even a development PKCE replay would target token exchange, not `/auth/v1/verify`.
+- A regression test now prevents the recovery route from introducing a direct verify URL, verifyOtp, history/navigation call, or a second code-exchange call.
+
+### Current classification
+
+`ROOT_CAUSE_2=HUMAN_OR_CLIENT_FIRST_VERIFY_THEN_TOKEN_REUSED` remains provisional. There is no source-level evidence that this application initiated the second `/verify`. To attribute it, preserve Chrome Network logs on the next controlled run: if the second request appears, record its sanitized initiator chain; if it appears only in Supabase Auth logs, classify it as `EXTERNAL_SECOND_VERIFY`.
+
 ### Required operational unblock
 
 1. An operator with Supabase Dashboard access must perform the two approved URL Configuration changes above.

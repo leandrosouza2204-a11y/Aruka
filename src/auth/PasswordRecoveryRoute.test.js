@@ -20,3 +20,9 @@ test("password recovery route accepts existing or code-exchanged sessions", () =
   assert.match(routeSource, /Solicitar novo link/);
   assert.match(routeSource, /clearAuthErrorHash\(\)/);
 });
+
+test("recovery callback never reopens the one-time Supabase verify URL", () => {
+  assert.equal(Array.from(routeSource.matchAll(/exchangeCodeForSession/g)).length, 1);
+  assert.doesNotMatch(routeSource, /auth\/v1\/verify|verifyOtp/);
+  assert.doesNotMatch(routeSource, /location\.(href|assign|replace)|history\.(back|go)|navigate\(/);
+});
