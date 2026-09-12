@@ -142,7 +142,38 @@ Do not change the email template, SMTP, OTP expiry, or implement a custom OTP/in
 
 ### Current classification
 
-`ROOT_CAUSE_2=HUMAN_OR_CLIENT_FIRST_VERIFY_THEN_TOKEN_REUSED` remains provisional. There is no source-level evidence that this application initiated the second `/verify`. To attribute it, preserve Chrome Network logs on the next controlled run: if the second request appears, record its sanitized initiator chain; if it appears only in Supabase Auth logs, classify it as `EXTERNAL_SECOND_VERIFY`.
+The source audit found no application navigation to `/verify`. Combined with the QA operator's likely double-click report and a successful controlled retest, the final classification is `USER_REUSED_SINGLE_USE_RECOVERY_LINK` with high confidence. Further DevTools attribution is not required to close the incident; it would only be needed if the behavior recurs.
+
+## Final QA and closeout
+
+### Incident 1 — canonical redirect
+
+- **Root cause:** `LEGACY_SITE_URL_AND_REJECTED_REDIRECT`.
+- **Resolution:** Supabase Site URL was updated to `https://www.aruka.com.br` and `https://www.aruka.com.br/redefinir-senha` was added to Redirect URLs. Existing legacy URLs were preserved.
+- **Status:** `RESOLVED`.
+
+### Incident 2 — expired link during testing
+
+- **Symptom:** `access_denied / otp_expired` after a recovery email click.
+- **Evidence:** first `/verify` at `2026-09-12T15:44:45Z` returned `303` successfully, `/user` returned `200`, and a second `/verify` approximately 57 seconds later returned `403 One-time token not found` from the same source address.
+- **Root cause:** `USER_REUSED_SINGLE_USE_RECOVERY_LINK` (`HIGH` confidence). The QA operator reported a likely double click, and a later controlled test did not reproduce the issue.
+- **Status:** `RESOLVED / NOT REPRODUCED`. `EMAIL_PREFETCH` is **not confirmed**.
+
+### Final validation evidence
+
+- Canonical recovery redirect: `PASS`.
+- Recovery email: `PASS`.
+- Recovery route and “Redefina sua senha” form: `PASS`.
+- Password reset: `PASS`.
+- Login with the new password: `PASS`.
+- Expired-link UX: `PASS`; the app clears the Auth fragment and offers a safe request-new-link path.
+- Duplicate callback regression: `PASS`; source-level callback/navigation guard test passes.
+- Recovery rate limit: `OBSERVED DURING REPEATED QA`; it is not a root cause.
+- Local final validation: Auth tests `29/29 PASS`, lint `PASS`, production build `PASS`.
+
+### Follow-up
+
+Audit `/criar-senha` and its legacy redirect separately before any canonical-domain migration of that distinct invite flow. No further Supabase, template, OTP, rate-limit, database, schema, or RLS change is required for password recovery.
 
 ### Required operational unblock
 
