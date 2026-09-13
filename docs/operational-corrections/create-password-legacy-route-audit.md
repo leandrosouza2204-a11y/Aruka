@@ -117,6 +117,27 @@ The available Supabase CLI authentication can list Function/secrets metadata but
 
 **Next required production action:** a project administrator with read-only Supabase Auth Dashboard/Management API access must record the exact public value of `STUDENT_INVITE_REDIRECT_TO`, the Site URL, and the three scoped Redirect URL presences. No configuration should change during that verification. If the effective URL is canonical and the canonical create-password URL is allowlisted, the next stage is a separately authorized controlled QA invite. The legacy Redirect URL must remain during that E2E.
 
+## Controlled Production QA E2E (2026-09-12)
+
+The stated remote Auth configuration was accepted as manual evidence for this stage: Site URL is `https://www.aruka.com.br`; canonical `/criar-senha`, legacy `/criar-senha`, and canonical `/redefinir-senha` Redirect URLs are retained/allowlisted. Non-authenticated production smoke checks returned HTTP 200 for `/`, `/login`, and `/criar-senha`.
+
+**E2E result: NOT EXECUTED / BLOCKED BEFORE MUTATION.** The repository's only available QA profile is explicitly `local_qa`: its base URLs target localhost and its mailbox is a `.test` address. It is not evidence of a production professional/aluno QA context and cannot receive or inspect the production invitation email.
+
+No explicitly designated production QA aluno/email/mailbox was provided or discoverable without inspecting real-user data. Sending the single permitted invitation without those controls would risk affecting an unintended account and would not permit the required one-time email-link observation. Therefore no invite request, Auth operation, email delivery, verification, password update, claim, logout, or subsequent login was attempted.
+
+| E2E evidence | Result |
+| --- | --- |
+| QA user initial state | NOT DETERMINED — no approved production QA identity |
+| Invite request / Auth operation | NOT EXECUTED |
+| Email and `redirect_to` observation | NOT OBSERVED |
+| Effective invite redirect | UNKNOWN |
+| Verify / session / form / password / claim / student area / login | NOT EXECUTED |
+| Auth and Function log sequences | NOT VERIFIED |
+| Rate limit | NOT OBSERVED |
+| Duplicate verify | NOT APPLICABLE |
+
+**Required next input before any mutation:** provide an explicitly approved production QA professional context, an approved unlinked QA aluno/email, and controlled access to that inbox. The next mission may then send exactly one first invitation, inspect only its sanitized host/path and `redirect_to` host/path, open it once, and complete the prescribed flow. No configuration change is required by this blocked stage, and the legacy Redirect URL remains retained.
+
 ## Guardrail record
 
 Database changes: NO  
