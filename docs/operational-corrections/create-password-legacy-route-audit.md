@@ -138,6 +138,25 @@ No explicitly designated production QA aluno/email/mailbox was provided or disco
 
 **Required next input before any mutation:** provide an explicitly approved production QA professional context, an approved unlinked QA aluno/email, and controlled access to that inbox. The next mission may then send exactly one first invitation, inspect only its sanitized host/path and `redirect_to` host/path, open it once, and complete the prescribed flow. No configuration change is required by this blocked stage, and the legacy Redirect URL remains retained.
 
+## Production Invite Callback Failure (2026-09-12)
+
+Subsequent controlled-QA evidence supplied for diagnosis establishes that one invitation was sent and received, its Supabase link was `type=invite`, its observed `redirect_to` **host** was `www.aruka.com.br`, and the link was clicked once. The final browser URL was `https://www.aruka.com.br/#`, rendering the landing page; the expected callback was `https://www.aruka.com.br/criar-senha`. The inspected evidence did not expose the `redirect_to` path, so it must not be assumed to have contained `/criar-senha`.
+
+### Findings
+
+- `student-access-invite` gives `STUDENT_INVITE_REDIRECT_TO` precedence over the canonical-origin fallback. It passes that one calculated value to both first-invite `inviteUserByEmail` and resend `resetPasswordForEmail`.
+- The deployed variable remains **SET**, but the read-only endpoint exposes only an unreadable hash. No historical repository/deployment record proves an exact current production value; historical records reference preview `/criar-senha` configurations and recommendations, not a current canonical-root or canonical-create-password deployment value.
+- `GET https://www.aruka.com.br/criar-senha` returned **HTTP 200** with no `Location` header. This rules out an observable infrastructure redirect from the direct canonical path to `/`.
+- `App.jsx` maps `/criar-senha` directly to `InviteAccessRoute > CriarSenha`; that wrapper has no navigation/`replaceState` path to `/`. The root route alone renders the landing page (except a recovery-error hash). Relevant static route tests passed **6/6**.
+- The observed root path means `InviteAccessRoute` had no opportunity to execute for this callback. No application router behavior found can turn a loaded `/criar-senha` callback into `/#`.
+- No accessible sanitized Auth verify log supplied status/Location, no Function log emits the computed `redirectTo`, and the invite email template could not be read remotely. Thus verify result, verify Location, Function redirect URL, and template type are **NOT VERIFIED**.
+
+### Diagnosis
+
+**Root cause: `UNKNOWN_CALLBACK_REDIRECT_FAILURE`.** The path was lost upstream of React routing, most plausibly because the deployed environment override is the canonical root or because Supabase fell back to Site URL. The available evidence cannot distinguish those two hypotheses, so `ENV_OVERRIDE_CANONICAL_ROOT` is not asserted as fact.
+
+**Exact next diagnostic/fix path:** first obtain a sanitized Auth verify log `Location` (host/path only) and the public value of `STUDENT_INVITE_REDIRECT_TO`. If the override is canonical root, change it in a separately authorized configuration mission to `https://www.aruka.com.br/criar-senha`; if the override is already that exact URL, diagnose Supabase Auth redirect handling/template configuration before any further invite. Do not resend the consumed invitation or remove the legacy allowlist entry.
+
 ## Guardrail record
 
 Database changes: NO  
