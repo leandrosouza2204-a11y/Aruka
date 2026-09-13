@@ -96,6 +96,27 @@ The current source history contains no hard-coded `consultoria-fitness-gamma.ver
 4. Run one approved controlled QA invite using a non-production or explicitly authorized test account; verify email link, session bootstrap, password update, pending-invite claim, and `/minha-area` arrival.
 5. Inspect sanitized Auth/Function logs and observe production before assessing legacy removal in a separate, authorized cycle.
 
+## Remote Configuration Verification (2026-09-12)
+
+This read-only follow-up revalidated the deployed `student-access-invite` Function as **ACTIVE**. Current source still gives `STUDENT_INVITE_REDIRECT_TO` precedence over the canonical-origin fallback, and passes the resulting `redirectTo` identically to both `auth.admin.inviteUserByEmail` (first invitation) and `auth.resetPasswordForEmail` (resend). There is no legacy host in the runtime redirect implementation.
+
+The Supabase secrets read-only endpoint confirms `STUDENT_INVITE_REDIRECT_TO` is **SET**. It returns a non-reversible stored hash rather than the secret value, so its public URL value is **NOT READABLE**. It must not be inferred from the hash or historical operational records.
+
+The available Supabase CLI authentication can list Function/secrets metadata but could not authenticate the direct read-only Management API query for Auth configuration. Consequently, the following remote Auth configuration remains **NOT VERIFIED**:
+
+| Remote item | Result |
+| --- | --- |
+| Site URL | NOT VERIFIED |
+| `https://www.aruka.com.br/criar-senha` | NOT VERIFIED |
+| `https://www.aruka.com.br/redefinir-senha` | NOT VERIFIED |
+| `https://consultoria-fitness-gamma.vercel.app/criar-senha` | NOT VERIFIED |
+
+**Effective invite redirect:** NOT PROVABLE. The deployed environment override is present and has precedence, but its value is unreadable. Therefore the redirect source is **UNKNOWN** and the classification remains **F — UNKNOWN**. First-invite and resend expected redirects, and their Auth allowlist matches, are also **UNKNOWN** without performing prohibited email/Auth mutations.
+
+`STUDENT_INVITE_REDIRECT_TO` is **OPTIONAL** from a code-path perspective: browser calls from the canonical origin would safely fall back to `https://www.aruka.com.br/criar-senha`. It remains operationally useful as an explicit, deployment-controlled override, so this audit does not recommend removing it.
+
+**Next required production action:** a project administrator with read-only Supabase Auth Dashboard/Management API access must record the exact public value of `STUDENT_INVITE_REDIRECT_TO`, the Site URL, and the three scoped Redirect URL presences. No configuration should change during that verification. If the effective URL is canonical and the canonical create-password URL is allowlisted, the next stage is a separately authorized controlled QA invite. The legacy Redirect URL must remain during that E2E.
+
 ## Guardrail record
 
 Database changes: NO  
