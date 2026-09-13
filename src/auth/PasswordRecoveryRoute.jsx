@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { supabase } from "../services/supabase";
+import { clearAuthErrorHash, isExpiredRecoveryUrlError } from "./recoveryUrlError";
 
 function PasswordRecoveryRoute({ children }) {
   const [status, setStatus] = useState("loading");
@@ -31,6 +33,17 @@ function PasswordRecoveryRoute({ children }) {
   }
 
   if (status === "invalid") {
+    return <InvalidRecoveryLink />;
+  }
+
+  return children;
+}
+
+export function InvalidRecoveryLink() {
+  useEffect(() => {
+    if (isExpiredRecoveryUrlError(window.location.hash)) clearAuthErrorHash();
+  }, []);
+
     return (
       <main style={stateScreen}>
         <section style={messageBox}>
@@ -38,27 +51,31 @@ function PasswordRecoveryRoute({ children }) {
           <p style={messageText}>
             Solicite uma nova recuperação pela tela de login para redefinir sua senha.
           </p>
+          <Link to="/login" style={requestLink}>
+            Solicitar novo link
+          </Link>
         </section>
       </main>
     );
-  }
-
-  return children;
 }
 
 async function loadCurrentSession() {
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  try {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
 
-  if (session?.user) return session;
+    if (session?.user) return session;
 
-  const code = new URLSearchParams(window.location.search).get("code");
-  if (!code) return null;
+    const code = new URLSearchParams(window.location.search).get("code");
+    if (!code) return null;
 
-  const { data, error } = await supabase.auth.exchangeCodeForSession(code);
-  if (error) return null;
-  return data.session || null;
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+    if (error) return null;
+    return data.session || null;
+  } catch {
+    return null;
+  }
 }
 
 const stateScreen = {
@@ -87,6 +104,11 @@ const messageText = {
   color: "#4b5563",
   lineHeight: 1.5,
   margin: 0,
+};
+
+const requestLink = {
+  color: "#2563eb",
+  fontWeight: "700",
 };
 
 export default PasswordRecoveryRoute;

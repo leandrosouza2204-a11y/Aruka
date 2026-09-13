@@ -6,7 +6,8 @@ import ProfessionalRoute from "./auth/ProfessionalRoute";
 import AdminRoute from "./auth/AdminRoute";
 import LegalRoute from "./auth/LegalRoute";
 import InviteAccessRoute from "./auth/InviteAccessRoute";
-import PasswordRecoveryRoute from "./auth/PasswordRecoveryRoute";
+import PasswordRecoveryRoute, { InvalidRecoveryLink } from "./auth/PasswordRecoveryRoute";
+import { isExpiredRecoveryUrlError } from "./auth/recoveryUrlError";
 import LoadingFallback from "./components/LoadingFallback";
 import MobileBottomNavigation from "./components/MobileBottomNavigation";
 import PwaExperienceManager from "./features/pwa/PwaExperienceManager";
@@ -97,7 +98,7 @@ function App() {
               </PasswordRecoveryRoute>
             }
           />
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<LandingPageOrRecoveryError />} />
           <Route path="/sobre" element={<Sobre />} />
           <Route
             path="/minha-area"
@@ -270,6 +271,10 @@ function ScrollToTop() {
   }, [pathname]);
 
   return null;
+}
+
+function LandingPageOrRecoveryError() {
+  return isExpiredRecoveryUrlError(window.location.hash) ? <InvalidRecoveryLink /> : <LandingPage />;
 }
 
 function AppMobileNav({ children }) {
