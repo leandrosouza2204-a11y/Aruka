@@ -165,6 +165,14 @@ Access states remain schema-compatible: **NO_ACCESS_EMAIL** is `not_invited` (wi
 
 The implementation uses the existing authenticated Edge Function and service-role ownership checks; it requires no database, schema, migration, or RLS change. Canonical redirect selection is untouched. Static contract tests cover lifecycle actions, missing-Auth resend recreation, edit/remove eligibility, duplicate protection, ownership guard presence, and canonical redirect provenance. Deployment and production QA validation are intentionally separate from this local implementation stage.
 
+## Production Student Access Management Validation
+
+Functional PR #120 was merged in `7bda685578a4ac62100d7cdf6bd8056c326f6504`; `student-access-invite` is ACTIVE and production smokes passed. Controlled human QA confirmed: resend without an Auth user PASS; canonical `redirect_to` host `www.aruka.com.br` and path `/criar-senha`; one-click browser landing at `/criar-senha` with Auth fragment; first-access UI, password update, pending-invite claim, and `/minha-area` PASS.
+
+Pending email edit, cancel, removal with confirmation, re-add, and active-access protection all passed. No network capture was retained for verify HTTP status or Location, so those values are explicitly **NOT_CAPTURED**; functional browser landing is PASS and no invitation was repeated for evidence collection.
+
+Final root causes resolved: `PENDING_INVITE_WITHOUT_AUTH_USER_UNRECOVERABLE` (resend now recreates an Auth invite) and `ENV_OVERRIDE_CANONICAL_ROOT` (effective redirect is now canonical `/criar-senha`). No database, schema, migration, RLS, SMTP, rate-limit, Auth URL, or legacy-redirect change occurred in this closeout.
+
 ## Guardrail record
 
 Database changes: NO
