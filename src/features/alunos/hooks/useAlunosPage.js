@@ -28,10 +28,12 @@ import {
 import {
   activateStudentAccess,
   inviteStudentAccess,
+  removePendingStudentAccessEmail,
   reactivateStudentAccess,
   revokeStudentAccess,
   resendStudentAccessInvite,
   suspendStudentAccess,
+  updatePendingStudentAccessEmail,
 } from "../../../services/studentAccessService";
 import {
   calcularDatas,
@@ -554,6 +556,25 @@ export function useAlunosPage() {
     }
   }
 
+  async function atualizarEmailAcessoAluno(aluno, email) {
+    if (studentAccessRequestAlunoId) return;
+    setStudentAccessRequestAlunoId(aluno.id);
+    try {
+      atualizarAcessoAluno(aluno.id, await updatePendingStudentAccessEmail(aluno.id, email));
+      toast.sucesso("E-mail atualizado.", "Envie um novo convite para o e-mail corrigido.");
+    } catch (error) { toast.erro("Não foi possível atualizar o e-mail.", error.message); }
+    finally { setStudentAccessRequestAlunoId(""); }
+  }
+
+  async function removerEmailAcessoAluno(aluno) {
+    const confirmado = await confirmar({ titulo: "Remover o e-mail de acesso deste aluno?", descricao: "O convite pendente deixará de ser válido para este cadastro.", textoConfirmar: "Remover e-mail" });
+    if (!confirmado) return;
+    setStudentAccessRequestAlunoId(aluno.id);
+    try { atualizarAcessoAluno(aluno.id, await removePendingStudentAccessEmail(aluno.id)); toast.sucesso("E-mail removido.", "Você pode cadastrar um novo e-mail de acesso."); }
+    catch (error) { toast.erro("Não foi possível remover o e-mail.", error.message); }
+    finally { setStudentAccessRequestAlunoId(""); }
+  }
+
   async function suspenderAcessoAluno(aluno) {
     const confirmado = await confirmar({
       titulo: "Suspender acesso deste aluno?",
@@ -625,6 +646,8 @@ export function useAlunosPage() {
     planos,
     planosAtivos,
     reenviarConviteAluno,
+    atualizarEmailAcessoAluno,
+    removerEmailAcessoAluno,
     recarregarResumoOperacional: carregarResumoOperacional,
     resumoOperacional,
     contratos,

@@ -14,7 +14,7 @@ test("normalizes unknown status as not invited", () => {
 
 test("returns professional actions by lifecycle status", () => {
   assert.deepEqual(getStudentAccessActions({ status: "not_invited" }), ["invite"]);
-  assert.deepEqual(getStudentAccessActions({ status: "invited" }), ["resend_invite"]);
+  assert.deepEqual(getStudentAccessActions({ status: "invited" }), ["edit_email", "resend_invite", "remove_email"]);
   assert.deepEqual(getStudentAccessActions({ status: "active" }), ["suspend"]);
   assert.deepEqual(getStudentAccessActions({ status: "suspended" }), ["reactivate", "revoke"]);
   assert.deepEqual(getStudentAccessActions({ status: "revoked" }), ["invite"]);
@@ -34,7 +34,7 @@ test("keeps pending invite separate from active linked access", () => {
   });
 
   assert.equal(pending.label, "Convite enviado");
-  assert.deepEqual(getStudentAccessActions(pending), ["resend_invite"]);
+  assert.deepEqual(getStudentAccessActions(pending), ["edit_email", "resend_invite", "remove_email"]);
   assert.deepEqual(getStudentAccessActions(active), ["suspend"]);
 });
 

@@ -72,6 +72,9 @@ Deno.serve(async (req) => {
 
     const persistedInviteEmail = normalizarEmail(aluno.student_access_email || "");
     const requestedEmail = normalizarEmail(body.email || "");
+    if (action === "update_email" || action === "remove_email") {
+      return managePendingEmail(adminClient, aluno, user.id, alunoId, action, requestedEmail, corsHeaders);
+    }
     const email = action === "resend"
       ? persistedInviteEmail
       : requestedEmail;
@@ -101,16 +104,18 @@ Deno.serve(async (req) => {
       }, 409, corsHeaders);
     }
 
-    if (action === "resend" && !existingUserId) {
-      return jsonResponse({ error: "Convite pendente nao encontrado para este e-mail." }, 409, corsHeaders);
-    }
-
     const redirectTo = buildRedirectTo(req, env.redirectTo);
     if (!redirectTo) {
       return jsonResponse({ error: "Redirect de convite nao configurado." }, 500, corsHeaders);
     }
 
     if (action === "resend") {
+      if (!existingUserId) {
+        const { error: inviteError } = await adminClient.auth.admin.inviteUserByEmail(email, { redirectTo });
+        if (inviteError) return jsonResponse(mapInviteError(inviteError), statusForInviteError(inviteError), corsHeaders);
+        const accessState = await persistResend(adminClient, alunoId, user.id, email);
+        return jsonResponse({ ok: true, action, redirectTo, access: accessState }, 200, corsHeaders);
+      }
       const { error: recoveryError } = await authEmailClient.auth.resetPasswordForEmail(email, {
         redirectTo,
       });
@@ -295,8 +300,26 @@ async function safeJson(req: Request): Promise<Payload | { error: string }> {
 
 function normalizeAction(action?: string) {
   const normalized = String(action || "send").trim().toLowerCase();
-  if (["send", "resend"].includes(normalized)) return normalized;
+  if (["send", "resend", "update_email", "remove_email"].includes(normalized)) return normalized;
   return "";
+}
+
+async function managePendingEmail(adminClient: ReturnType<typeof createClient>, aluno: AlunoRow, professionalUserId: string, alunoId: string, action: string, email: string, corsHeaders: Record<string, string>) {
+  if (aluno.student_access_status !== "invited" || aluno.student_user_id) return jsonResponse({ error: "Acesso ativo nao pode ser alterado por este fluxo.", code: "ACCESS_ACTIVE" }, 409, corsHeaders);
+  if (action === "remove_email") {
+    const { error } = await adminClient.from("alunos").update({ student_access_status: "not_invited", student_access_email: null, student_access_invited_at: null, student_access_reason: "" }).eq("id", alunoId).eq("user_id", professionalUserId).eq("student_access_status", "invited").is("student_user_id", null);
+    if (error) throw error;
+    return jsonResponse({ ok: true, action, access: { alunoId, status: "not_invited", email: "", hasStudentUser: false, invitedAt: "", activatedAt: null, suspendedAt: null, revokedAt: null, reason: "" } }, 200, corsHeaders);
+  }
+  if (!emailValido(email)) return jsonResponse({ error: "Informe um e-mail valido.", code: "INVALID_EMAIL" }, 400, corsHeaders);
+  const existingUserId = await findAuthUserIdByEmail(adminClient, email);
+  if (existingUserId) return jsonResponse({ error: "Este e-mail ja possui uma conta.", code: "ALREADY_REGISTERED_UNLINKED" }, 409, corsHeaders);
+  const { data: duplicate, error: duplicateError } = await adminClient.from("alunos").select("id").ilike("student_access_email", email).neq("id", alunoId).in("student_access_status", ["invited", "active", "suspended"]).limit(1);
+  if (duplicateError) throw duplicateError;
+  if (duplicate?.length) return jsonResponse({ error: "Este e-mail ja esta vinculado a outro acesso.", code: "DUPLICATE_ACCESS_EMAIL" }, 409, corsHeaders);
+  const { error } = await adminClient.from("alunos").update({ student_access_status: "not_invited", student_access_email: email, student_access_invited_at: null, student_access_reason: "" }).eq("id", alunoId).eq("user_id", professionalUserId).eq("student_access_status", "invited").is("student_user_id", null);
+  if (error) throw error;
+  return jsonResponse({ ok: true, action, access: { alunoId, status: "not_invited", email, hasStudentUser: false, invitedAt: "", activatedAt: null, suspendedAt: null, revokedAt: null, reason: "" } }, 200, corsHeaders);
 }
 
 function buildRedirectTo(req: Request, configuredRedirect: string) {
