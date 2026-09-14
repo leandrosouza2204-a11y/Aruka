@@ -34,6 +34,9 @@ const PoliticaPrivacidade = lazy(() => import("./pages/PoliticaPrivacidade"));
 const TermosUso = lazy(() => import("./pages/TermosUso"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const MinhaArea = lazy(() => import("./pages/MinhaArea"));
+const StudentShell = lazy(() => import("./features/studentExperienceV2/layout/StudentShell"));
+const StudentExperienceV2Placeholder = lazy(() => import("./features/studentExperienceV2/routes/StudentExperienceV2Placeholder"));
+const StudentExperienceV2Route = lazy(() => import("./features/studentExperienceV2/guards/StudentExperienceV2Route"));
 
 function App() {
   return (
@@ -107,6 +110,19 @@ function App() {
                 <MinhaArea />
               </ProtectedRoute>
             }
+          />
+          <Route
+            path="/minha-area"
+            element={<ProtectedRoute><StudentExperienceV2Route><StudentShell /></StudentExperienceV2Route></ProtectedRoute>}
+          >
+            <Route path="inicio" element={<StudentExperienceV2Placeholder />} />
+            <Route path="treinos" element={<StudentExperienceV2Placeholder />} />
+            <Route path="evolucao" element={<StudentExperienceV2Placeholder />} />
+            <Route path="perfil" element={<StudentExperienceV2Placeholder />} />
+          </Route>
+          <Route
+            path="/workout/:sessionId"
+            element={<ProtectedRoute><StudentExperienceV2Route><StudentExperienceV2Placeholder /></StudentExperienceV2Route></ProtectedRoute>}
           />
           <Route
             path="/dashboard"

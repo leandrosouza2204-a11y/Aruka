@@ -10,3 +10,11 @@ test("expired recovery hashes render recovery UX instead of the landing page", (
   assert.match(source, /<InvalidRecoveryLink \/>/);
   assert.match(source, /path="\/" element=\{<LandingPageOrRecoveryError \/>\}/);
 });
+
+test("student V2 routes are isolated behind the dedicated guard while legacy remains registered", () => {
+  assert.match(source, /path="\/minha-area"/);
+  assert.match(source, /<MinhaArea \/>/);
+  assert.match(source, /StudentExperienceV2Route/);
+  assert.match(source, /path="inicio"/);
+  assert.match(source, /path="\/workout\/:sessionId"/);
+});
