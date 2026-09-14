@@ -1,6 +1,6 @@
 # Legacy Supabase Auth redirects audit
 
-Date: 2026-09-13  
+Date: 2026-09-13
 Scope: read-only audit. No Supabase, Vercel, application, database, email, or deployment mutation was made.
 
 ## Decision
