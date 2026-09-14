@@ -50,12 +50,24 @@ test("student invite uses recovery flow for an already-created pending invited a
   assert.match(source, /aluno\.student_access_status !== "invited"/);
   assert.match(source, /requestedEmail && requestedEmail !== persistedInviteEmail/);
   assert.match(source, /INVITE_EMAIL_MISMATCH/);
-  assert.match(source, /action === "resend" && !existingUserId/);
+  assert.match(source, /action === "resend"\) \{\s*if \(!existingUserId\)/);
   assert.match(source, /authEmailClient\.auth\.resetPasswordForEmail\(email, \{\s*redirectTo,\s*\}\)/);
   const recoveryCall = source.indexOf("authEmailClient.auth.resetPasswordForEmail");
-  const firstInviteCall = source.indexOf("adminClient.auth.admin.inviteUserByEmail");
+  const firstInviteCall = source.indexOf("const { data: inviteData, error: inviteError }");
   assert.ok(recoveryCall > -1, "resend recovery call missing");
   assert.ok(firstInviteCall > recoveryCall, "first invite call should stay outside resend block");
+});
+
+test("student invite recovers a pending invite whose auth user was removed", () => {
+  assert.match(source, /adminClient\.auth\.admin\.inviteUserByEmail\(email, \{ redirectTo \}\)/);
+  assert.match(source, /const accessState = await persistResend/);
+});
+
+test("student invite only edits or removes pending unlinked access email", () => {
+  assert.match(source, /"update_email", "remove_email"/);
+  assert.match(source, /aluno\.student_access_status !== "invited" \|\| aluno\.student_user_id/);
+  assert.match(source, /student_access_status: "not_invited"/);
+  assert.match(source, /DUPLICATE_ACCESS_EMAIL/);
 });
 
 test("student invite keeps arbitrary existing auth user blocked on first invite", () => {

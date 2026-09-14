@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import { History as HistoryIcon } from "lucide-react";
@@ -116,6 +116,8 @@ function AlunosList() {
               onFechar={() => page.setAlunoSelecionadoId("")}
               onLiberarAcesso={page.liberarAcessoAluno}
               onReenviarConvite={page.reenviarConviteAluno}
+              onAtualizarEmailAcesso={page.atualizarEmailAcessoAluno}
+              onRemoverEmailAcesso={page.removerEmailAcessoAluno}
               onReativarAcesso={page.reativarAcessoAluno}
               onRevogarAcesso={page.revogarAcessoAluno}
               onSuspenderAcesso={page.suspenderAcessoAluno}
@@ -181,6 +183,8 @@ function AlunosList() {
                     onFechar={() => page.setAlunoSelecionadoId("")}
                     onLiberarAcesso={page.liberarAcessoAluno}
                     onReenviarConvite={page.reenviarConviteAluno}
+                    onAtualizarEmailAcesso={page.atualizarEmailAcessoAluno}
+                    onRemoverEmailAcesso={page.removerEmailAcessoAluno}
                     onReativarAcesso={page.reativarAcessoAluno}
                     onRevogarAcesso={page.revogarAcessoAluno}
                     onSuspenderAcesso={page.suspenderAcessoAluno}
@@ -463,6 +467,8 @@ function AlunoDetalhesResponsivo({
   onFechar,
   onLiberarAcesso,
   onReenviarConvite,
+  onAtualizarEmailAcesso,
+  onRemoverEmailAcesso,
   onReativarAcesso,
   onRevogarAcesso,
   onSuspenderAcesso,
@@ -557,6 +563,8 @@ function AlunoDetalhesResponsivo({
           accessRequestAlunoId={accessRequestAlunoId}
           onLiberarAcesso={onLiberarAcesso}
           onReenviarConvite={onReenviarConvite}
+          onAtualizarEmailAcesso={onAtualizarEmailAcesso}
+          onRemoverEmailAcesso={onRemoverEmailAcesso}
           onReativarAcesso={onReativarAcesso}
           onRevogarAcesso={onRevogarAcesso}
           onSuspenderAcesso={onSuspenderAcesso}
@@ -733,6 +741,8 @@ function StudentAccessPanel({
   accessRequestAlunoId = "",
   onLiberarAcesso,
   onReenviarConvite,
+  onAtualizarEmailAcesso,
+  onRemoverEmailAcesso,
   onReativarAcesso,
   onRevogarAcesso,
   onSuspenderAcesso,
@@ -749,6 +759,7 @@ function StudentAccessPanel({
     reason: aluno.studentAccessReason,
   });
   const emailRef = useRef(null);
+  const [editingEmail, setEditingEmail] = useState(false);
   const actions = getStudentAccessActions(acesso);
   const accessBusy = accessRequestAlunoId === aluno.id;
 
@@ -774,7 +785,7 @@ function StudentAccessPanel({
         <input
           aria-label="E-mail de acesso ao Aruka"
           defaultValue={acesso.email}
-          disabled={!actions.includes("invite") && !actions.includes("activate")}
+          disabled={!actions.includes("invite") && !actions.includes("activate") && !editingEmail}
           key={`${aluno.id}-${acesso.email}-${acesso.status}`}
           placeholder="aluno@email.com"
           ref={emailRef}
@@ -813,6 +824,18 @@ function StudentAccessPanel({
           >
             {accessBusy ? "Reenviando..." : "Reenviar convite"}
           </button>
+        )}
+        {actions.includes("edit_email") && !editingEmail && (
+          <button className="table-button table-button-secondary" data-testid="student-access-edit-email" disabled={accessBusy} onClick={() => setEditingEmail(true)} type="button">Editar e-mail</button>
+        )}
+        {editingEmail && (
+          <>
+            <button className="table-button table-button-primary" data-testid="student-access-save-email" disabled={accessBusy} onClick={() => { onAtualizarEmailAcesso?.(aluno, emailRef.current?.value || ""); setEditingEmail(false); }} type="button">Salvar</button>
+            <button className="table-button table-button-secondary" data-testid="student-access-cancel-email" disabled={accessBusy} onClick={() => { if (emailRef.current) emailRef.current.value = acesso.email; setEditingEmail(false); }} type="button">Cancelar</button>
+          </>
+        )}
+        {actions.includes("remove_email") && (
+          <button className="table-button table-button-secondary" data-testid="student-access-remove-email" disabled={accessBusy} onClick={() => onRemoverEmailAcesso?.(aluno)} type="button">Remover e-mail</button>
         )}
         {actions.includes("activate") && (
           <button

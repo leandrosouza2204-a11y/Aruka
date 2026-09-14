@@ -18,6 +18,14 @@ export async function resendStudentAccessInvite(alunoId) {
   return requestStudentAccessInvite("resend", alunoId);
 }
 
+export async function updatePendingStudentAccessEmail(alunoId, email) {
+  return requestStudentAccessInvite("update_email", alunoId, { email });
+}
+
+export async function removePendingStudentAccessEmail(alunoId) {
+  return requestStudentAccessInvite("remove_email", alunoId);
+}
+
 export async function activateStudentAccess(alunoId, email) {
   return manageStudentAccess(alunoId, "activate", { email });
 }
