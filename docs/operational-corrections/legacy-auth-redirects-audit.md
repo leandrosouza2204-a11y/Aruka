@@ -5,7 +5,7 @@ Scope: read-only audit. No Supabase, Vercel, application, database, email, or de
 
 ## Decision
 
-**INCONCLUSIVE.** `LEGACY_ROOT` has no current runtime dependency and is a low-risk candidate for a future incremental removal. `LEGACY_CREATE_PASSWORD` cannot yet be classified `SAFE_TO_REMOVE`: a still-valid historical first-access/resend email could carry that exact `redirect_to`, and this audit has no production token-expiration/issued-link inventory with which to bound that risk. This is not evidence of a current dependency.
+**COMPLETE.** Neither legacy URL has a current runtime dependency. Production Email OTP/link expiration is manually verified as one hour, the canonical invite flow was proven in production on 2026-09-13, and no mechanism currently emits the legacy destination. The exact final historical legacy issuance timestamp remains unknown; that is documented residual historical uncertainty, not a current dependency.
 
 ## Scope and baseline
 
@@ -107,3 +107,30 @@ The documented Supabase default of 3600 seconds is deliberately not substituted 
 ### Follow-up classification
 
 `LEGACY_ROOT` remains **SAFE_TO_REMOVE** (LOW risk). `LEGACY_CREATE_PASSWORD` remains **INCONCLUSIVE** (MEDIUM risk), solely because neither the production validity interval nor a conservative last-possible legacy issuance time is evidenced. This is not a runtime, frontend, Edge Function, recovery, or current-invite dependency. No Redirect URL was removed.
+
+## Production expiry confirmation and final classification (2026-09-13)
+
+This section supersedes the preliminary expiry assessment above. An operator read the production Supabase Dashboard at **Authentication -> Sign In / Providers -> Email**. No setting was changed.
+
+| Item | Final result |
+| --- | --- |
+| `EMAIL_OTP_EXPIRATION_SECONDS` | **3600** |
+| `EMAIL_OTP_EXPIRATION_DURATION` / `TOKEN_VALIDITY_WINDOW` | **1 hour** |
+| Configuration source | `MANUAL_PRODUCTION_DASHBOARD` |
+| Production configuration changed | NO |
+| `HISTORICAL_LAST_LEGACY_TIMESTAMP` | **UNKNOWN** |
+| Canonical production evidence | **2026-09-13**: invite `redirect_to=https://www.aruka.com.br/criar-senha` -> `/criar-senha` -> password -> claim -> `/minha-area`: PASS |
+| Current legacy runtime / frontend / Edge Function / recovery / invite dependency | **NO** |
+| Safety margin | **2 hours** (2 x Email OTP expiration) |
+| Rollback | Re-add the exact Redirect URL; feasible YES, complexity LOW |
+
+The 2026-09-13 canonical production evidence is older than the one-hour token validity plus the two-hour conservative margin at this follow-up. It is not presented as the last legacy issuance: the historical last legacy timestamp remains unknown. The residual risk is therefore `DOCUMENTED_HISTORICAL_TIMESTAMP_UNKNOWN`, mitigated by the one-hour maximum observed production link validity, lack of any runtime mechanism that can now generate the legacy target, positive canonical production evidence, and absence of evidence of a later legacy emission.
+
+Final classifications:
+
+| Redirect | Risk | Recommendation |
+| --- | --- | --- |
+| `https://consultoria-fitness-gamma.vercel.app` | LOW | **SAFE_TO_REMOVE** |
+| `https://consultoria-fitness-gamma.vercel.app/criar-senha` | LOW | **SAFE_TO_REMOVE** |
+
+Recommended future removal order is incremental: first the legacy root; validate Auth smokes and retain immediate rollback; then remove the legacy create-password URL. This document does not authorize or perform either removal.
