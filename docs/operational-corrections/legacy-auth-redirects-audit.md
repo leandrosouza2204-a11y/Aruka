@@ -84,3 +84,26 @@ Before any create-password removal, obtain read-only evidence of the maximum pro
 * Auth emails sent: 0.
 * Push / PR / merge / force push: NO.
 
+## Legacy Invite Expiry Assessment (2026-09-13)
+
+This follow-up resolves the temporal question behind the prior `INCONCLUSIVE` result without changing any Auth setting or issuing an email.
+
+| Item | Result | Evidence / limitation |
+| --- | --- | --- |
+| `EMAIL_OTP_EXPIRATION_SECONDS` | **NOT_READABLE** | The Supabase CLI is not installed and this environment has no authenticated read-only Dashboard/Management API access. |
+| `EMAIL_OTP_EXPIRATION_DURATION` | **UNKNOWN** | Manual confirmation required. The repository's `supabase/config.toml` says `otp_expiry = 3600`, but it is explicitly local configuration and is not production evidence. |
+| Configuration source | `NOT_READABLE` | Do not infer production configuration from local TOML or Supabase's documented default. |
+| Last known legacy create-password invite | **UNKNOWN** | No sanitized email, Auth log, deployment log, or configuration-history record proves that the exact `https://consultoria-fitness-gamma.vercel.app/criar-senha` value was issued at a particular time. A root-only or canonical-root observation is not evidence for this path. |
+| Last known canonical invite | `2026-09-13T22:16:36-03:00` at the latest documentary evidence | Commit `de43d1d` records controlled human QA with `redirect_to` host `www.aruka.com.br` and path `/criar-senha`; this timestamp is the record time, not an asserted email-issue time. |
+| Canonical migration cutoff | **UNKNOWN** | Canonical E2E proves a canonical issuance by the above evidence point, but the available records do not establish the last possible legacy-path issuance. |
+| Current runtime/invite dependency | `NO` | As established above: no legacy host in frontend or Function redirect construction; active-path evidence is canonical. |
+
+### Required safe age
+
+The removal formula is `SAFE_AGE = production Email OTP Expiration + SAFE_REMOVAL_MARGIN`, where `SAFE_REMOVAL_MARGIN = max(1 hour, 2 × production Email OTP Expiration)`. It cannot be calculated until the current production **Email OTP Expiration** value is read. Consequently, `EARLIEST_SAFE_REMOVAL_TIME=UNKNOWN`.
+
+The documented Supabase default of 3600 seconds is deliberately not substituted here: the mission requires the effective project setting, which may differ. The next read-only action is for an authorized operator to open Supabase Dashboard **Authentication → Settings** and provide only the numeric Email OTP Expiration value (no screenshot or secret is needed). If it is available, the operator should also provide the last known time an invite using the legacy create-password redirect could have been issued; otherwise the safe waiting window must be anchored to a separately auditable configuration-migration timestamp.
+
+### Follow-up classification
+
+`LEGACY_ROOT` remains **SAFE_TO_REMOVE** (LOW risk). `LEGACY_CREATE_PASSWORD` remains **INCONCLUSIVE** (MEDIUM risk), solely because neither the production validity interval nor a conservative last-possible legacy issuance time is evidenced. This is not a runtime, frontend, Edge Function, recovery, or current-invite dependency. No Redirect URL was removed.
