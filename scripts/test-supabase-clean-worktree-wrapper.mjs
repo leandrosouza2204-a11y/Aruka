@@ -10,6 +10,11 @@ const wrapperReportPath = "reports/supabase-local-bootstrap/clean-worktree-wrapp
 const wrapperSummaryPath = "reports/supabase-local-bootstrap/clean-worktree-wrapper-summary.md";
 const approvedDbUrl = "postgresql://[REDACTED_USER]:[REDACTED_PASSWORD]@[LOCAL_HOST]:[LOCAL_PORT]/[LOCAL_DATABASE]";
 const startedAt = new Date();
+const preexistingTempDirectories = new Set(
+  readdirSync(tmpdir(), { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && entry.name.startsWith("aruka-clean-worktree-"))
+    .map((entry) => entry.name),
+);
 
 function fail(message) {
   console.error(message);
@@ -84,7 +89,9 @@ const worktrees = execFileSync("git", ["worktree", "list", "--porcelain"], { enc
 const tempContainers = execFileSync("docker", ["ps", "-a", "--filter", "name=aruka_clean_worktree_validation", "--format", "{{.Names}}"], { encoding: "utf8" }).trim();
 const volumes = execFileSync("docker", ["volume", "ls", "--format", "{{.Name}}"], { encoding: "utf8" });
 const tempDirectoryRemoved = !readdirSync(tmpdir(), { withFileTypes: true })
-  .some((entry) => entry.isDirectory() && entry.name.startsWith("aruka-clean-worktree-"));
+  .some((entry) => entry.isDirectory()
+    && entry.name.startsWith("aruka-clean-worktree-")
+    && !preexistingTempDirectories.has(entry.name));
 const cleanup = {
   worktree_removed: !/aruka_clean_worktree_validation/i.test(worktrees),
   temp_directory_removed: tempDirectoryRemoved,

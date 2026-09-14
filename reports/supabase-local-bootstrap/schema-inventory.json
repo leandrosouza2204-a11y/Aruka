@@ -1,12 +1,12 @@
 ﻿{
-    "public_tables":  26,
-    "public_functions":  38,
-    "public_triggers":  6,
-    "public_explicit_indexes":  87,
-    "total_policies":  79,
-    "public_policies":  71,
+    "public_tables":  30,
+    "public_functions":  52,
+    "public_triggers":  13,
+    "public_explicit_indexes":  97,
+    "total_policies":  78,
+    "public_policies":  70,
     "storage_policies":  8,
-    "public_rls_enabled_tables":  26,
+    "public_rls_enabled_tables":  30,
     "storage_bucket_avaliacoes_fotos":  1,
     "security_definer_without_search_path":  0,
     "archived_migrations_in_history":  0,
@@ -33,6 +33,13 @@
                                          "20260906020000",
                                          "20260907090000",
                                          "20260907120000",
-                                         "20260907150000"
+                                         "20260907150000",
+                                         "20260908110000",
+                                         "20260908120000",
+                                         "20260909110000",
+                                         "20260914130000",
+                                         "20260914131000",
+                                         "20260914132000",
+                                         "20260914185833"
                                      ]
 }

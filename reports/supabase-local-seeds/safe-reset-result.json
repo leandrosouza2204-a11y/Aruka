@@ -2,9 +2,9 @@
   "cycle": "8",
   "result": "SAFE_RESET_VALIDATED",
   "decision": "LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED",
-  "started_at": "2026-09-07T15:06:00.970Z",
-  "finished_at": "2026-09-07T15:08:27.704Z",
-  "duration_seconds": 146.732,
+  "started_at": "2026-09-14T23:24:16.230Z",
+  "finished_at": "2026-09-14T23:28:31.967Z",
+  "duration_seconds": 255.735,
   "reset_runs": 2,
   "baseline_sha_preserved": true,
   "baseline_sha": "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B",
@@ -42,15 +42,22 @@
       "20260906020000",
       "20260907090000",
       "20260907120000",
-      "20260907150000"
+      "20260907150000",
+      "20260908110000",
+      "20260908120000",
+      "20260909110000",
+      "20260914130000",
+      "20260914131000",
+      "20260914132000",
+      "20260914185833"
     ],
     "structure": {
-      "public_tables": 26,
-      "public_functions": 38,
-      "public_triggers": 6,
-      "public_indexes": 117,
-      "public_policies": 71,
-      "rls_enabled_tables": 26,
+      "public_tables": 30,
+      "public_functions": 52,
+      "public_triggers": 13,
+      "public_indexes": 133,
+      "public_policies": 70,
+      "rls_enabled_tables": 30,
       "private_assessment_bucket": true
     }
   },
@@ -85,5 +92,19 @@
     "temporary_volumes_removed": true
   },
   "primary_error": null,
+  "post_reset_stability": {
+    "first": {
+      "stable": true,
+      "expectedLatestMigration": "20260914185833",
+      "tableCount": 30,
+      "consecutiveStableReads": 2
+    },
+    "second": {
+      "stable": true,
+      "expectedLatestMigration": "20260914185833",
+      "tableCount": 30,
+      "consecutiveStableReads": 2
+    }
+  },
   "residual_risks": []
 }

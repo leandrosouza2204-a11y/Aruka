@@ -2,6 +2,7 @@ export const WORKOUT_EXECUTION_SESSION_STATUS = Object.freeze({
   IN_PROGRESS: "in_progress",
   COMPLETED: "completed",
   ABANDONED: "abandoned",
+  CANCELLED: "cancelled",
 });
 
 export const WORKOUT_EXECUTION_EXERCISE_STATUS = Object.freeze({
@@ -12,6 +13,14 @@ export const WORKOUT_EXECUTION_EXERCISE_STATUS = Object.freeze({
 });
 
 export const LOAD_UNITS = Object.freeze(["kg", "lb", "bodyweight", "machine_level", "unknown"]);
+export const DEFAULT_TRACKING_CONFIG = Object.freeze({
+  load: true,
+  reps: true,
+  rir: false,
+  rpe: false,
+  duration: false,
+  distance: false,
+});
 
 export function getLocalDateOnly(date = new Date()) {
   const value = date instanceof Date ? date : new Date(date);
@@ -35,9 +44,18 @@ export function normalizeExecutionSession(session = null) {
     startedAt: session.startedAt || session.started_at || "",
     completedAt: session.completedAt || session.completed_at || "",
     abandonedAt: session.abandonedAt || session.abandoned_at || "",
+    cancelledAt: session.cancelledAt || session.cancelled_at || "",
+    cancellationReason: session.cancellationReason || session.cancellation_reason || "",
+    shortDurationConfirmed: Boolean(session.shortDurationConfirmed ?? session.short_duration_confirmed),
+    lastActivityAt: session.lastActivityAt || session.last_activity_at || "",
+    durationSeconds: session.durationSeconds ?? session.duration_seconds ?? null,
     notes: session.notes || "",
     exercises: exercises.map(normalizeExecutionExercise),
   };
+}
+
+export function isInvalidMetricSession(session = {}) {
+  return normalizeSessionStatus(session.status) !== WORKOUT_EXECUTION_SESSION_STATUS.COMPLETED;
 }
 
 export function normalizeExecutionExercise(exercise = {}) {
@@ -57,10 +75,16 @@ export function normalizeExecutionExercise(exercise = {}) {
     exerciseOrder: Number(exercise.exerciseOrder || exercise.exercise_order_snapshot || 0),
     dayOrder: Number(exercise.dayOrder || exercise.day_order_snapshot || 0),
     workoutTitle: exercise.workoutTitle || exercise.workout_title_snapshot || "",
+    trackingConfig: normalizeTrackingConfig(exercise.trackingConfig || exercise.tracking_config_snapshot),
     status: normalizeExerciseStatus(exercise.status),
     notes: exercise.notes || "",
     sets: sets.map(normalizeExecutionSet),
   };
+}
+
+export function normalizeTrackingConfig(config = null) {
+  if (!config || typeof config !== "object" || Array.isArray(config)) return { ...DEFAULT_TRACKING_CONFIG };
+  return Object.fromEntries(Object.keys(DEFAULT_TRACKING_CONFIG).map((key) => [key, Boolean(config[key])]));
 }
 
 export function normalizeExecutionSet(set = {}) {

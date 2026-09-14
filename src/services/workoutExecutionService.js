@@ -61,6 +61,57 @@ export async function abandonarExecucaoTreino(sessionId) {
   return normalizeExecutionSession(data);
 }
 
+export async function completeWorkoutSet(sessionId, executionExerciseId, setNumber, values = {}) {
+  return callV2Command("complete_workout_execution_set", {
+    p_session_id: sessionId,
+    p_execution_exercise_id: executionExerciseId,
+    p_set_number: setNumber,
+    p_values: values,
+  });
+}
+
+export async function skipWorkoutExercise(sessionId, executionExerciseId) {
+  return callV2Command("skip_workout_execution_exercise", {
+    p_session_id: sessionId,
+    p_execution_exercise_id: executionExerciseId,
+  });
+}
+
+export async function cancelWorkoutSession(sessionId, reason = null) {
+  return callV2Command("cancel_workout_execution_session", { p_session_id: sessionId, p_reason: reason });
+}
+
+export async function completeWorkoutSession(sessionId, shortDurationConfirmed = false) {
+  return callV2Command("complete_workout_execution_session_v2", {
+    p_session_id: sessionId,
+    p_short_duration_confirmed: shortDurationConfirmed,
+  });
+}
+
+async function callV2Command(name, params) {
+  await buscarUsuarioLogado();
+  const { data, error } = await supabase.rpc(name, params);
+  if (error) throw sanitizeWorkoutExecutionError(error);
+  return normalizeExecutionSession(data);
+}
+
+export async function getValidWorkoutExecutionHistory(limit = 20) {
+  await buscarUsuarioLogado();
+  const { data, error } = await supabase.rpc("get_my_valid_workout_execution_history", { p_limit: limit });
+  if (error) throw sanitizeWorkoutExecutionError(error);
+  return (data || []).map(normalizeExecutionSession);
+}
+
+export async function getPreviousPerformance(treinoExercicioId, beforeSessionId = null) {
+  await buscarUsuarioLogado();
+  const { data, error } = await supabase.rpc("get_my_previous_workout_performance", {
+    p_treino_exercicio_id: treinoExercicioId,
+    p_before_session_id: beforeSessionId,
+  });
+  if (error) throw sanitizeWorkoutExecutionError(error);
+  return data?.previousExecution || data?.previous_execution || null;
+}
+
 export async function buscarHistoricoExecucaoAluno(alunoId, limit = 5) {
   await buscarUsuarioLogado();
   const { data, error } = await supabase.rpc("get_student_workout_execution_history", {

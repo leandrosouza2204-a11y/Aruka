@@ -40,6 +40,10 @@ const expectedExecutableMigrations = [
   "supabase/migrations/20260908110000_smart_management_foundation.sql",
   "supabase/migrations/20260908120000_smart_management_locations_transfers.sql",
   "supabase/migrations/20260909110000_smart_management_services_pricing_v1.sql",
+  "supabase/migrations/20260914130000_cycle12_execution_tracking_and_safety.sql",
+  "supabase/migrations/20260914131000_cycle12_execution_commands.sql",
+  "supabase/migrations/20260914132000_cycle12_completion_and_grants.sql",
+  "supabase/migrations/20260914185833_cycle12_canonical_execution_reads.sql",
 ];
 const forbiddenProjectRef = "xrmqdkpx" + "nfvusmenadnf";
 const APPROVED_REDACTED_DB_URL =

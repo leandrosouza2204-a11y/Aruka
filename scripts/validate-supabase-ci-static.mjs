@@ -71,10 +71,10 @@ try {
   const localRuntimeText = readFileSync(join(root, localRuntimeValidator), "utf8");
   for (const [name, value] of [
     ["ExpectedTables", "30"],
-    ["ExpectedFunctions", "44"],
-    ["ExpectedIndexes", "94"],
-    ["ExpectedPolicies", "83"],
-    ["ExpectedPublicPolicies", "75"],
+    ["ExpectedFunctions", "52"],
+    ["ExpectedIndexes", "97"],
+    ["ExpectedPolicies", "78"],
+    ["ExpectedPublicPolicies", "70"],
     ["ExpectedStoragePolicies", "8"],
     ["ExpectedPublicRlsEnabledTables", "30"],
   ]) {
@@ -82,7 +82,7 @@ try {
       errors.push(`${localRuntimeValidator} must validate current local runtime ${name}=${value}`);
     }
   }
-  for (const version of ["20260728030000", "20260730090000", "20260731190000", "20260801143335", "20260801173000", "20260801180000", "20260811090000", "20260815120000", "20260816120000", "20260819090000", "20260821120000", "20260822120000", "20260824120000", "20260829120000", "20260829173000", "20260830203000", "20260831090000", "20260905120000", "20260906020000", "20260907090000", "20260907120000", "20260907150000", "20260908110000", "20260908120000", "20260909110000"]) {
+  for (const version of ["20260728030000", "20260730090000", "20260731190000", "20260801143335", "20260801173000", "20260801180000", "20260811090000", "20260815120000", "20260816120000", "20260819090000", "20260821120000", "20260822120000", "20260824120000", "20260829120000", "20260829173000", "20260830203000", "20260831090000", "20260905120000", "20260906020000", "20260907090000", "20260907120000", "20260907150000", "20260908110000", "20260908120000", "20260909110000", "20260914130000", "20260914131000", "20260914132000", "20260914185833"]) {
     if (!localRuntimeText.includes(`"${version}"`)) {
       errors.push(`${localRuntimeValidator} must validate executable migration version ${version}`);
     }
