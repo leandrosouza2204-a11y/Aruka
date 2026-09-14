@@ -134,3 +134,60 @@ Final classifications:
 | `https://consultoria-fitness-gamma.vercel.app/criar-senha` | LOW | **SAFE_TO_REMOVE** |
 
 Recommended future removal order is incremental: first the legacy root; validate Auth smokes and retain immediate rollback; then remove the legacy create-password URL. This document does not authorize or perform either removal.
+
+## Legacy Redirect Removal - Production Validation
+
+**Decision: COMPLETE. Final status: RESOLVED.** This record is sanitized: it contains no email address, token, OTP, verification URL, user identifier, IP address, password, or screenshot.
+
+### Final Auth URL configuration
+
+Manual production Dashboard verification after the incremental removal recorded:
+
+| Item | Final value |
+| --- | --- |
+| Site URL | `https://www.aruka.com.br` |
+| Redirect URL count | 3 |
+| Redirect URLs | `http://localhost:5173/`; `https://www.aruka.com.br/redefinir-senha`; `https://www.aruka.com.br/criar-senha` |
+| Legacy root | REMOVED |
+| Legacy create-password URL | REMOVED |
+| Legacy redirects remaining | NO |
+| Canonical recovery / create-password / localhost preserved | YES / YES / YES |
+| Email OTP expiration | 3600 seconds (1 hour), `MANUAL_PRODUCTION_DASHBOARD` evidence |
+| Audit safety margin | 2 hours |
+
+No Site URL, canonical redirect, Email OTP expiration, SMTP, rate limit, secret, Edge Function, database, schema, migration, RLS, or application-code setting was changed as part of removal.
+
+### Incremental removal checks
+
+| Check | Stage 1: legacy root | Stage 2: legacy create-password |
+| --- | --- | --- |
+| Removal/configuration checkpoint | PASS | PASS |
+| Canonical `/`, `/login`, `/criar-senha`, `/redefinir-senha` | HTTP 200, PASS | HTTP 200, PASS |
+| Legacy root HTTP behavior | 308 to canonical root | 308 to canonical root |
+| Legacy `/criar-senha` HTTP behavior | 308 to canonical `/criar-senha` | 308 to canonical `/criar-senha` |
+| Legacy routing | PASS | PASS |
+| Focused Auth tests | 32/32 PASS | 32/32 PASS |
+| Decision | `PROCEED_STAGE_2` | `COMPLETE` |
+
+Removal from the Supabase Auth allowlist does not change the legacy Vercel hostname's HTTP-level permanent redirects; both legacy routes retain their equivalent canonical 308 destination.
+
+### Post-removal controlled Auth QA
+
+Operator-supplied production QA evidence confirms:
+
+| Flow | Sanitized result |
+| --- | --- |
+| Password recovery email | PASS; `redirect_to` host `www.aruka.com.br`, path `/redefinir-senha` |
+| Password recovery browser/UI | final host `www.aruka.com.br`, final path `/redefinir-senha`, fragment present/empty, **Redefina sua senha** UI PASS |
+| Student invite email | PASS; `redirect_to` host `www.aruka.com.br`, path `/criar-senha` |
+| Student invite browser/UI | final host `www.aruka.com.br`, final path `/criar-senha`, fragment present/empty, **Crie sua senha de acesso** UI PASS |
+| First access | PASS; create-password callback PASS; authenticated student area PASS; post-flow `MINHA_AREA_CONFIRMED` |
+| Password update / claim | `NOT_SEPARATELY_CAPTURED`; not inferred beyond the confirmed authenticated first-access outcome |
+
+### Rollback and conclusion
+
+No regression attributable to the removals was observed. `ROLLBACK_REQUIRED=NO`; `ROLLBACK_EXECUTED=NO`. Rollback remains feasible with LOW complexity by re-adding individually the exact Redirect URL that would regress.
+
+The runtime had no current dependency on either legacy redirect before removal; both were removed incrementally with a checkpoint between stages. Canonical routes remained available, recovery continued to `/redefinir-senha`, invitations continued to `/criar-senha`, first access reached the authenticated student area, and the legacy Vercel host continues its canonical HTTP redirects.
+
+`LEGACY_AUTH_REDIRECT_MIGRATION=RESOLVED`.
