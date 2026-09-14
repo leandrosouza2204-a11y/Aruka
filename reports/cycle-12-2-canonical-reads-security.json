@@ -1,0 +1,27 @@
+{
+  "decision": "PASS",
+  "scope": "CYCLE_12_2_SESSION_2_CANONICAL_READS_SECURITY_PERFORMANCE",
+  "database_target": "LOCAL",
+  "production_accessed": false,
+  "production_mutated": false,
+  "valid_history": "PASS",
+  "previous_performance": "PASS",
+  "invalid_sessions_excluded": "PASS",
+  "short_confirmed_included": "PASS",
+  "first_execution_empty": "PASS",
+  "changed_set_counts": "PASS",
+  "bounded_history": "PASS",
+  "cross_student": "DENIED",
+  "professional_command_access": "DENIED",
+  "anon": "DENIED",
+  "suspended": "DENIED",
+  "security_definer": "PASS",
+  "search_path": "PASS",
+  "grants": "PASS",
+  "direct_writes": "DENIED",
+  "query_plans": "PASS",
+  "indexes": [
+    "workout_execution_sessions_valid_history_idx",
+    "workout_execution_exercises_prescription_session_idx"
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "result": "MUTATIONS_REJECTED",
-  "total": 20,
-  "rejected": 20,
+  "total": 21,
+  "rejected": 21,
   "url_tests": {
     "result": "URL_CASES_VALIDATED",
     "total": 20,
@@ -135,7 +135,7 @@
       "name": "baseline_missing",
       "rejected": true,
       "status": 1,
-      "reason": "Missing official baseline"
+      "reason": "Missing official reference baseline"
     },
     {
       "name": "baseline_sha_changed",
@@ -144,16 +144,22 @@
       "reason": "Official baseline SHA mismatch"
     },
     {
+      "name": "baseline_executable",
+      "rejected": true,
+      "status": 1,
+      "reason": "Reference-only baseline must not be present in executable migrations"
+    },
+    {
       "name": "historical_migration_active",
       "rejected": true,
       "status": 1,
-      "reason": "Active migrations folder must contain only the official baseline SQL"
+      "reason": "Active migrations folder must contain exactly the 29 executable migrations"
     },
     {
       "name": "operational_migration_active",
       "rejected": true,
       "status": 1,
-      "reason": "Active migrations folder must contain only the official baseline SQL"
+      "reason": "Active migrations folder must contain exactly the 29 executable migrations"
     },
     {
       "name": "config_missing",
@@ -219,7 +225,7 @@
       "name": "inventory_divergent",
       "rejected": true,
       "status": 1,
-      "reason": "Active migrations folder must contain only the official baseline SQL"
+      "reason": "Active migrations folder must contain exactly the 29 executable migrations"
     },
     {
       "name": "broad_container_clean",
@@ -231,25 +237,25 @@
       "name": "duplicate_create_table",
       "rejected": true,
       "status": 1,
-      "reason": "Active migrations folder must contain only the official baseline SQL"
+      "reason": "Active migrations folder must contain exactly the 29 executable migrations"
     },
     {
       "name": "duplicate_create_policy",
       "rejected": true,
       "status": 1,
-      "reason": "Active migrations folder must contain only the official baseline SQL"
+      "reason": "Active migrations folder must contain exactly the 29 executable migrations"
     },
     {
       "name": "duplicate_create_function",
       "rejected": true,
       "status": 1,
-      "reason": "Active migrations folder must contain only the official baseline SQL"
+      "reason": "Active migrations folder must contain exactly the 29 executable migrations"
     },
     {
       "name": "invalid_timestamp",
       "rejected": true,
       "status": 1,
-      "reason": "Active migrations folder must contain only the official baseline SQL"
+      "reason": "Active migrations folder must contain exactly the 29 executable migrations"
     }
   ]
 }

@@ -1,16 +1,17 @@
 # Negative Mutation Tests
 
 - Result: MUTATIONS_REJECTED
-- Rejected: 20/20
+- Rejected: 21/21
 - URL tests: 20/20
 - Remote access: none
 
 | Mutation | Rejected | Reason |
 | --- | --- | --- |
-| baseline_missing | yes | Missing official baseline |
+| baseline_missing | yes | Missing official reference baseline |
 | baseline_sha_changed | yes | Official baseline SHA mismatch |
-| historical_migration_active | yes | Active migrations folder must contain only the official baseline SQL |
-| operational_migration_active | yes | Active migrations folder must contain only the official baseline SQL |
+| baseline_executable | yes | Reference-only baseline must not be present in executable migrations |
+| historical_migration_active | yes | Active migrations folder must contain exactly the 29 executable migrations |
+| operational_migration_active | yes | Active migrations folder must contain exactly the 29 executable migrations |
 | config_missing | yes | Missing supabase/config.toml |
 | project_id_empty | yes | Empty project_id in supabase/config.toml |
 | linked_argument | yes | scripts/supabase-local-cli.mjs contains forbidden pattern: linked flag |
@@ -21,12 +22,12 @@
 | remote_project_ref | yes | scripts/supabase-local-cli.mjs contains forbidden pattern: HML project ref |
 | secret_in_report | yes | scripts/supabase-local-cli.mjs contains forbidden pattern: secret-like token |
 | port_collision_marker | yes | Invalid local port in supabase/config.toml: 1 |
-| inventory_divergent | yes | Active migrations folder must contain only the official baseline SQL |
+| inventory_divergent | yes | Active migrations folder must contain exactly the 29 executable migrations |
 | broad_container_clean | yes | Clean script contains broad Docker removal |
-| duplicate_create_table | yes | Active migrations folder must contain only the official baseline SQL |
-| duplicate_create_policy | yes | Active migrations folder must contain only the official baseline SQL |
-| duplicate_create_function | yes | Active migrations folder must contain only the official baseline SQL |
-| invalid_timestamp | yes | Active migrations folder must contain only the official baseline SQL |
+| duplicate_create_table | yes | Active migrations folder must contain exactly the 29 executable migrations |
+| duplicate_create_policy | yes | Active migrations folder must contain exactly the 29 executable migrations |
+| duplicate_create_function | yes | Active migrations folder must contain exactly the 29 executable migrations |
+| invalid_timestamp | yes | Active migrations folder must contain exactly the 29 executable migrations |
 
 | URL Case | Passed | Expected Rejection | Actual Rejection |
 | --- | --- | --- | --- |

@@ -8,9 +8,39 @@ import {
   formatDateOnlyPtBr,
   getLocalDateOnly,
   hasExecutionSetPerformanceData,
+  isInvalidMetricSession,
+  normalizeExecutionSession,
   normalizeExecutionSet,
+  normalizeTrackingConfig,
   validateExecutionSet,
 } from "./workoutExecutionSession.js";
+
+test("normalizes Cycle 12.2 session metadata and tracking snapshots", () => {
+  const session = normalizeExecutionSession({
+    status: "cancelled",
+    cancelledAt: "2026-09-14T12:00:00Z",
+    cancellationReason: "student request",
+    shortDurationConfirmed: true,
+    lastActivityAt: "2026-09-14T11:59:00Z",
+    durationSeconds: 120,
+    exercises: [{ trackingConfig: { load: false, reps: true, rpe: true } }],
+  });
+
+  assert.equal(session.status, "cancelled");
+  assert.equal(session.cancellationReason, "student request");
+  assert.equal(session.durationSeconds, 120);
+  assert.deepEqual(session.exercises[0].trackingConfig, {
+    load: false,
+    reps: true,
+    rir: false,
+    rpe: true,
+    duration: false,
+    distance: false,
+  });
+  assert.equal(isInvalidMetricSession(session), true);
+  assert.equal(isInvalidMetricSession({ status: "completed" }), false);
+  assert.equal(normalizeTrackingConfig(null).load, true);
+});
 
 test("normalizes zero load and zero reps as valid performed data", () => {
   const set = normalizeExecutionSet({ setNumber: 1, reps: 0, loadValue: 0, completed: true });
