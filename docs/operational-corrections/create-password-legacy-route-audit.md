@@ -1,6 +1,6 @@
 # Legacy `/criar-senha` Flow Audit + Canonical Migration Assessment
 
-Date: 2026-09-12  
+Date: 2026-09-12
 Scope: audit only; no functional, Supabase, database, schema, RLS, or production changes were made.
 
 ## Decision
@@ -167,9 +167,9 @@ The implementation uses the existing authenticated Edge Function and service-rol
 
 ## Guardrail record
 
-Database changes: NO  
-Schema changes: NO  
-RLS changes: NO  
-Supabase changes: NONE  
-Production mutations: NONE  
+Database changes: NO
+Schema changes: NO
+RLS changes: NO
+Supabase changes: NONE
+Production mutations: NONE
 Legacy redirect removal: NOT AUTHORIZED IN THIS MISSION
