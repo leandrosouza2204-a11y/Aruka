@@ -157,6 +157,14 @@ Subsequent controlled-QA evidence supplied for diagnosis establishes that one in
 
 **Exact next diagnostic/fix path:** first obtain a sanitized Auth verify log `Location` (host/path only) and the public value of `STUDENT_INVITE_REDIRECT_TO`. If the override is canonical root, change it in a separately authorized configuration mission to `https://www.aruka.com.br/criar-senha`; if the override is already that exact URL, diagnose Supabase Auth redirect handling/template configuration before any further invite. Do not resend the consumed invitation or remove the legacy allowlist entry.
 
+## Student access email management and pending-invite recovery
+
+The resend failure was caused by `student-access-invite` treating an `invited` aluno with no corresponding `auth.users` record as irrecoverable. The repaired server contract retains ownership checks and now creates a new Auth invite when that pending Auth user is absent; when it exists, resend continues to use password recovery.
+
+Access states remain schema-compatible: **NO_ACCESS_EMAIL** is `not_invited` (with an optional saved, uninvited e-mail); **PENDING_INVITE** is `invited` with no `student_user_id`; **ACTIVE_ACCESS** is an active linked account. Only pending, unlinked access exposes edit, resend, and remove actions. Editing validates format, rejects existing Auth users and another active/pending access e-mail, then clears the pending state so the professional deliberately sends a fresh invite. Removal clears e-mail and pending metadata without deleting the aluno or any Auth user.
+
+The implementation uses the existing authenticated Edge Function and service-role ownership checks; it requires no database, schema, migration, or RLS change. Canonical redirect selection is untouched. Static contract tests cover lifecycle actions, missing-Auth resend recreation, edit/remove eligibility, duplicate protection, ownership guard presence, and canonical redirect provenance. Deployment and production QA validation are intentionally separate from this local implementation stage.
+
 ## Guardrail record
 
 Database changes: NO  
