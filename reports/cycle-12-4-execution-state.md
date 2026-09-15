@@ -1,10 +1,10 @@
 # Cycle 12.4 — Execution State
 
 MISSION: Cycle 12.4 — Training Library V2
-STATUS: IN_PROGRESS
+STATUS: WAITING_PUBLICATION_DECISION
 BASE_SHA: ea56dbbe9946018150bba4391f1921be300415c0
 BRANCH: feat/product-roadmap-v4-cycle-12-4-training-library-v2
-CURRENT_HEAD: 9b04501
+PRE_SECURITY_REMEDIATION_HEAD: 3ef967d
 
 GATE_01_PREFLIGHT: PASS — main synchronized with origin/main at ea56dbbe9946018150bba4391f1921be300415c0; clean worktree; functional branch created.
 GATE_02_DISCOVERY: PASS — canonical program, ordering, prescription, tracking, media, lifecycle, session mapping and legacy payload audited and documented.
@@ -29,8 +29,10 @@ GATE_20_RELEASE_READINESS: PASS — final lint, production build, focused tests,
 GATE_21_PR_CI_MERGE: PENDING
 GATE_22_POST_MERGE: PENDING
 
-NEXT_GATE: GATE_21_PR_CI_MERGE
-NEXT_ACTION: Create the functional checkpoint, prove clean-worktree and safe-reset reproducibility, push, open PR and follow all required checks through merge.
+PUBLICATION_AUTHORIZATION: REVOKED
+PUBLICATION_SECURITY_GATE: PASS
+NEXT_GATE: PUBLICATION_SECURITY_GATE
+NEXT_ACTION: Wait for a new user publication decision; do not push, create a PR or merge.
 
 PREEXISTING_UNRELATED_DIRTY_WORKTREE: PRESERVED — [exact local path intentionally omitted]
 PRODUCTION_DATA_MUTATED: NO
