@@ -1,0 +1,119 @@
+{
+  "decision": "PASS",
+  "scope": "CYCLE_12_4_TRAINING_LIBRARY_VISUAL",
+  "database_target": "LOCAL",
+  "production_accessed": false,
+  "production_mutated": false,
+  "screenshots": 13,
+  "viewports": [
+    "mobile-320",
+    "mobile-375",
+    "mobile-390",
+    "mobile-430",
+    "tablet-768",
+    "desktop-1280"
+  ],
+  "results": [
+    {
+      "state": "home-to-training-keyboard",
+      "ariaCurrent": true,
+      "status": "PASS"
+    },
+    {
+      "state": "normal",
+      "viewport": "mobile-320",
+      "noHorizontalOverflow": true,
+      "activeNavigation": 1,
+      "minimumPrimaryTarget": 46,
+      "mainHeadings": 1,
+      "status": "PASS"
+    },
+    {
+      "state": "normal",
+      "viewport": "mobile-375",
+      "noHorizontalOverflow": true,
+      "activeNavigation": 1,
+      "minimumPrimaryTarget": 46,
+      "mainHeadings": 1,
+      "status": "PASS"
+    },
+    {
+      "state": "normal",
+      "viewport": "mobile-390",
+      "noHorizontalOverflow": true,
+      "activeNavigation": 1,
+      "minimumPrimaryTarget": 46,
+      "mainHeadings": 1,
+      "status": "PASS"
+    },
+    {
+      "state": "normal",
+      "viewport": "mobile-430",
+      "noHorizontalOverflow": true,
+      "activeNavigation": 1,
+      "minimumPrimaryTarget": 46,
+      "mainHeadings": 1,
+      "status": "PASS"
+    },
+    {
+      "state": "normal",
+      "viewport": "tablet-768",
+      "noHorizontalOverflow": true,
+      "activeNavigation": 1,
+      "minimumPrimaryTarget": 46,
+      "mainHeadings": 1,
+      "status": "PASS"
+    },
+    {
+      "state": "normal",
+      "viewport": "desktop-1280",
+      "noHorizontalOverflow": true,
+      "activeNavigation": 1,
+      "minimumPrimaryTarget": 46,
+      "mainHeadings": 1,
+      "status": "PASS"
+    },
+    {
+      "state": "detail-missing-media",
+      "exerciseCount": 2,
+      "mediaFallback": true,
+      "noHorizontalOverflow": true,
+      "videoAutoplay": false,
+      "focus": "heading",
+      "status": "PASS"
+    },
+    {
+      "state": "long-program-name",
+      "status": "PASS"
+    },
+    {
+      "state": "loading",
+      "shellPreserved": true,
+      "status": "PASS"
+    },
+    {
+      "state": "error",
+      "shellPreserved": true,
+      "safeCopy": true,
+      "status": "PASS"
+    },
+    {
+      "state": "double-start-active-session",
+      "inProgressSessions": 1,
+      "status": "PASS"
+    },
+    {
+      "state": "no-program",
+      "status": "PASS"
+    },
+    {
+      "state": "empty-program",
+      "status": "PASS"
+    },
+    {
+      "state": "rollout-off",
+      "destination": "/minha-area",
+      "status": "PASS"
+    }
+  ]
+}
