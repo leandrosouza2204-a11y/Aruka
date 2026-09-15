@@ -14,7 +14,7 @@ const [app, shell, home, guard, service, domain, css, migration] = await Promise
 const checks = [
   ["legacy /minha-area remains registered", /path="\/minha-area"[\s\S]*?<MinhaArea/.test(app)],
   ["V2 Home route mounts StudentHomeV2", /path="inicio" element=\{<StudentHomeV2 \/>\}/.test(app)],
-  ["future route contracts remain explicit", ["treinos", "evolucao", "perfil"].every((route) => app.includes(`path="${route}" element={<StudentExperienceV2FutureRoute />}`))],
+  ["Training route advances to 12.4 while later route contracts remain explicit", /path="treinos" element=\{<StudentTrainingLibraryV2 \/>\}/.test(app) && ["evolucao", "perfil"].every((route) => app.includes(`path="${route}" element={<StudentExperienceV2FutureRoute />}`))],
   ["unknown Student V2 route recovers to inicio", /path="\*" element=\{<Navigate to="inicio" replace \/>\}/.test(app)],
   ["focused player does not mount StudentShell", /path="\/workout\/:sessionId"[\s\S]*?<StudentWorkoutFallback/.test(app)],
   ["single four-pillar navigation config", /STUDENT_V2_NAVIGATION/.test(shell) && (shell.match(/label: "/g) || []).length === 4],

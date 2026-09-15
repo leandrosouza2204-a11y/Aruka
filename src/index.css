@@ -100,6 +100,45 @@
 .student-v2-section-heading > svg { color: var(--student-v2-brand); }
 .student-v2-text-link { align-items: center; color: var(--student-v2-brand-dark); display: inline-flex; font-size: 13px; font-weight: 800; gap: 5px; margin-top: 16px; text-decoration: none; }
 .student-v2-inline-error { background: #fff1f0; border: 1px solid #f1c8c5; border-radius: 12px; color: #8d2d26; font-size: 14px; margin-bottom: 16px; padding: 12px 14px; }
+.student-training-library, .student-training-detail { margin: 0 auto; max-width: 1040px; }
+.student-training-heading, .student-training-detail-header { margin: 4px 0 24px; }
+.student-training-heading h1, .student-training-detail-header h1 { font-size: clamp(28px, 4vw, 42px); letter-spacing: -.035em; line-height: 1.1; margin: 7px 0 8px; overflow-wrap: anywhere; }
+.student-training-heading p, .student-training-detail-header p { color: var(--student-v2-muted); line-height: 1.5; margin: 0; }
+.student-program-context { align-items: center; display: flex; gap: 24px; justify-content: space-between; margin-bottom: 28px; }
+.student-program-context h2 { font-size: clamp(21px, 3vw, 28px); margin-bottom: 0; overflow-wrap: anywhere; }
+.student-program-facts { align-items: flex-end; display: flex; flex-direction: column; gap: 5px; text-align: right; }
+.student-program-facts span { color: var(--student-v2-muted); font-size: 13px; }
+.student-program-facts strong { margin: 0; }
+.student-training-active { align-items: center; background: linear-gradient(135deg, #e8f7f0 0%, #fff 78%); border-color: #bcdccb; display: grid; gap: 16px; grid-template-columns: 48px minmax(0, 1fr) auto; margin-bottom: 18px; }
+.student-training-active h2 { margin: 5px 0 0; }
+.student-training-active p { margin: 3px 0 0; }
+.student-training-section-title { align-items: end; display: flex; justify-content: space-between; margin: 0 2px 14px; }
+.student-training-section-title h2 { font-size: 21px; margin: 5px 0 0; }
+.student-training-section-title > span { color: var(--student-v2-muted); font-size: 13px; font-weight: 700; }
+.student-workout-grid { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); list-style: none; margin: 0; padding: 0; }
+.student-workout-card { display: flex; flex-direction: column; gap: 18px; }
+.student-workout-card.is-active { background: linear-gradient(145deg, #edf9f4, #fff); border-color: #9fd0bc; }
+.student-workout-card-top { align-items: start; display: flex; justify-content: space-between; min-height: 48px; }
+.student-workout-card h3, .student-exercise-card h3 { font-size: 19px; line-height: 1.25; margin: 0 0 6px; overflow-wrap: anywhere; }
+.student-workout-card p { margin: 0; }
+.student-workout-status { align-items: center; background: #eef3f1; border-radius: 999px; color: #52605a; display: inline-flex; font-size: 11px; font-weight: 800; gap: 5px; padding: 6px 9px; }
+.student-workout-status.is-active { background: #d7f0e5; color: var(--student-v2-brand-dark); }
+.student-workout-actions { display: grid; gap: 9px; grid-template-columns: 1fr 1fr; margin-top: auto; }
+.student-training-empty { justify-items: start; margin-top: 18px; min-height: 190px; }
+.student-training-empty > svg { color: var(--student-v2-brand); margin-bottom: 12px; }
+.student-training-empty h2 { font-size: 22px; }
+.student-training-back { margin: 2px 0 22px; }
+.student-exercise-list { display: grid; gap: 12px; list-style: none; margin: 0; padding: 0; }
+.student-exercise-card { display: grid; gap: 14px; grid-template-columns: 34px minmax(0, 1fr); padding: 18px; }
+.student-exercise-order { align-items: center; background: var(--student-v2-brand-soft); border-radius: 10px; color: var(--student-v2-brand-dark); display: flex; font-size: 13px; font-weight: 900; height: 34px; justify-content: center; width: 34px; }
+.student-exercise-prescription { color: var(--student-v2-ink) !important; font-weight: 700; margin: 0; }
+.student-exercise-notes { margin-top: 10px; }
+.student-exercise-notes summary { color: var(--student-v2-brand-dark); cursor: pointer; font-size: 13px; font-weight: 800; min-height: 44px; padding: 12px 0; }
+.student-exercise-notes p { margin: 0; overflow-wrap: anywhere; white-space: pre-wrap; }
+.student-exercise-media-fallback { align-items: center; color: var(--student-v2-muted); display: inline-flex; font-size: 12px; gap: 6px; margin-top: 12px; }
+.student-training-detail [data-testid="exercise-video-toggle"] { min-height: 44px !important; }
+.student-training-sticky-action { background: rgba(244,247,246,.96); bottom: 0; display: flex; justify-content: flex-end; margin-top: 18px; padding: 12px 0 max(12px, env(safe-area-inset-bottom, 0px)); position: sticky; z-index: 5; }
+.student-training-sticky-action .student-v2-button { min-width: 220px; }
 .student-v2-state { align-content: center; background: #fff; border: 1px solid var(--student-v2-border); border-radius: 16px; display: grid; justify-items: start; margin: 8vh auto 0; max-width: 620px; min-height: 300px; padding: clamp(24px, 5vw, 48px); }
 .student-v2-state > svg { color: var(--student-v2-brand); margin-bottom: 16px; }
 .student-v2-state h1 { font-size: clamp(24px, 4vw, 34px); margin: 6px 0 10px; }
@@ -130,6 +169,14 @@
   .student-v2-hero-card { align-items: start; grid-template-columns: 42px minmax(0, 1fr); }
   .student-v2-card-icon { border-radius: 12px; height: 42px; width: 42px; }
   .student-v2-hero-card .student-v2-button { grid-column: 1 / -1; width: 100%; }
+  .student-workout-grid { grid-template-columns: 1fr; }
+  .student-program-context { align-items: flex-start; flex-direction: column; gap: 13px; }
+  .student-program-facts { align-items: flex-start; text-align: left; }
+  .student-training-active { align-items: start; grid-template-columns: 42px minmax(0, 1fr); }
+  .student-training-active .student-v2-button { grid-column: 1 / -1; width: 100%; }
+  .student-workout-actions { grid-template-columns: 1fr; }
+  .student-training-sticky-action { bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
+  .student-training-sticky-action .student-v2-button { min-width: 0; width: 100%; }
   .student-home-grid { grid-template-columns: minmax(0, 1fr); }
 }
 

@@ -31,6 +31,27 @@ dist-ssr
 .env.qa.local
 .qa-local-credentials.txt
 tmp-responsive-screenshots/
+coverage/
+playwright-report/
+test-results/
+*.har
+*.trace
+*.trace.zip
+storage-state*.json
+*storageState*.json
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.backup
+*.pem
+*.key
+*.p12
+*.pfx
+.auth/
+.secrets/
+credentials.local.*
+secrets.local.*
 # Supabase CLI local state
 supabase/.temp/
 # Database runtime evidence

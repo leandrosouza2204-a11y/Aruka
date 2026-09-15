@@ -1,0 +1,23 @@
+{
+  "decision": "PASS",
+  "scope": "CYCLE_12_4_TRAINING_LIBRARY_V2",
+  "database_target": "LOCAL",
+  "production_accessed": false,
+  "production_mutated": false,
+  "summary_payload_bytes": 1639,
+  "summary_payload_budget_bytes": 15000,
+  "detail_payload_bytes": 1091,
+  "detail_payload_budget_bytes": 30000,
+  "request_strategy": "ONE_SUMMARY_RPC_PLUS_ONE_LAZY_DETAIL_RPC",
+  "no_n_plus_one": "PASS",
+  "no_full_history": "PASS",
+  "canonical_order": "PASS",
+  "active_session_mapping": "PASS",
+  "student_a_own": "PASS",
+  "student_b_cross_owner": "NOT_FOUND",
+  "suspended": "NO_STUDENT_DATA",
+  "anon": "DENIED",
+  "search_path": "SAFE",
+  "grants": "LEAST_PRIVILEGE",
+  "query_plans": "PASS_EXISTING_FOREIGN_KEY_INDEXES"
+}

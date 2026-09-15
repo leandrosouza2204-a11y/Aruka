@@ -92,7 +92,7 @@ try {
   await evaluate(client, `document.querySelector('a[href="/minha-area/treinos"]').focus()`);
   await client.send("Input.dispatchKeyEvent", { type: "keyDown", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13 });
   await client.send("Input.dispatchKeyEvent", { type: "keyUp", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13 });
-  await waitFor(client, "location.pathname === '/minha-area/treinos' && document.querySelector('[data-testid=\"student-v2-future-route\"]')");
+  await waitFor(client, "location.pathname === '/minha-area/treinos' && document.querySelector('[data-testid=\"student-training-library-v2\"]')");
   const keyboardNavigation = await evaluate(client, `document.querySelector('a[href="/minha-area/treinos"]').getAttribute('aria-current') === 'page'`);
   assert(keyboardNavigation, "Keyboard navigation did not activate Treinos.");
   results.push({ state: "keyboard-navigation", route: "/minha-area/treinos", ariaCurrent: true, status: "PASS" });
