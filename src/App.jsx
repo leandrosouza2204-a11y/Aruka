@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Navigate, Routes, Route, useLocation } from "react-router-dom";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import SubscriptionRoute from "./auth/SubscriptionRoute";
 import ProfessionalRoute from "./auth/ProfessionalRoute";
@@ -35,7 +35,9 @@ const TermosUso = lazy(() => import("./pages/TermosUso"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const MinhaArea = lazy(() => import("./pages/MinhaArea"));
 const StudentShell = lazy(() => import("./features/studentExperienceV2/layout/StudentShell"));
-const StudentExperienceV2Placeholder = lazy(() => import("./features/studentExperienceV2/routes/StudentExperienceV2Placeholder"));
+const StudentHomeV2 = lazy(() => import("./features/studentExperienceV2/home/StudentHomeV2"));
+const StudentExperienceV2FutureRoute = lazy(() => import("./features/studentExperienceV2/routes/StudentExperienceV2FutureRoute"));
+const StudentWorkoutFallback = lazy(() => import("./features/studentExperienceV2/routes/StudentWorkoutFallback"));
 const StudentExperienceV2Route = lazy(() => import("./features/studentExperienceV2/guards/StudentExperienceV2Route"));
 
 function App() {
@@ -115,14 +117,15 @@ function App() {
             path="/minha-area"
             element={<ProtectedRoute><StudentExperienceV2Route><StudentShell /></StudentExperienceV2Route></ProtectedRoute>}
           >
-            <Route path="inicio" element={<StudentExperienceV2Placeholder />} />
-            <Route path="treinos" element={<StudentExperienceV2Placeholder />} />
-            <Route path="evolucao" element={<StudentExperienceV2Placeholder />} />
-            <Route path="perfil" element={<StudentExperienceV2Placeholder />} />
+            <Route path="inicio" element={<StudentHomeV2 />} />
+            <Route path="treinos" element={<StudentExperienceV2FutureRoute />} />
+            <Route path="evolucao" element={<StudentExperienceV2FutureRoute />} />
+            <Route path="perfil" element={<StudentExperienceV2FutureRoute />} />
+            <Route path="*" element={<Navigate to="inicio" replace />} />
           </Route>
           <Route
             path="/workout/:sessionId"
-            element={<ProtectedRoute><StudentExperienceV2Route><StudentExperienceV2Placeholder /></StudentExperienceV2Route></ProtectedRoute>}
+            element={<ProtectedRoute><StudentExperienceV2Route><StudentWorkoutFallback /></StudentExperienceV2Route></ProtectedRoute>}
           />
           <Route
             path="/dashboard"
