@@ -54,7 +54,8 @@
                               "20260914130000_cycle12_execution_tracking_and_safety.sql",
                               "20260914131000_cycle12_execution_commands.sql",
                               "20260914132000_cycle12_completion_and_grants.sql",
-                              "20260914185833_cycle12_canonical_execution_reads.sql"
+                              "20260914185833_cycle12_canonical_execution_reads.sql",
+                              "20260915014848_cycle12_student_home_v2.sql"
                           ],
     "expected_active_migrations":  [
                                        "20260728030000_workout_delivery_integration_v1.sql",
@@ -85,11 +86,12 @@
                                        "20260914130000_cycle12_execution_tracking_and_safety.sql",
                                        "20260914131000_cycle12_execution_commands.sql",
                                        "20260914132000_cycle12_completion_and_grants.sql",
-                                       "20260914185833_cycle12_canonical_execution_reads.sql"
+                                       "20260914185833_cycle12_canonical_execution_reads.sql",
+                                       "20260915014848_cycle12_student_home_v2.sql"
                                    ],
-    "executable_migration_count":  29,
+    "executable_migration_count":  30,
     "reference_only_baseline_count":  1,
-    "total_database_change_artifact_count":  30,
+    "total_database_change_artifact_count":  31,
     "active_migrations_unexpected":  [
 
                                      ],
