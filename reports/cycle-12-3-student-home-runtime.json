@@ -1,0 +1,23 @@
+{
+  "decision": "PASS",
+  "scope": "CYCLE_12_3_STUDENT_HOME_V2",
+  "database_target": "LOCAL",
+  "production_accessed": false,
+  "production_mutated": false,
+  "payload_bounded": "PASS",
+  "request_strategy": "ONE_RPC",
+  "active_session": "PASS",
+  "today_workout": "PASS",
+  "weekly_metrics": "PASS",
+  "timezone_boundary": "PASS_AMERICA_SAO_PAULO_LOCAL_MIDNIGHT",
+  "review": "PASS",
+  "evolution_summary": "PASS",
+  "student_a_own": "PASS",
+  "student_b_cross_owner": "STRUCTURALLY_UNADDRESSABLE",
+  "professional_unrelated": "UNLINKED_PAYLOAD",
+  "suspended": "NO_STUDENT_DATA",
+  "anon": "DENIED",
+  "search_path": "SAFE",
+  "grants": "LEAST_PRIVILEGE",
+  "query_plans": "PASS"
+}

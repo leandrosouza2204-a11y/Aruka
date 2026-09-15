@@ -29,14 +29,21 @@
     "supabase/migrations/20260907090000_workout_exercise_library_integration_v1.sql",
     "supabase/migrations/20260907120000_student_exercise_media_experience_v1.sql",
     "supabase/migrations/20260907150000_exercise_official_catalog_v1.sql",
-    "supabase/migrations/20260908110000_smart_management_foundation.sql"
+    "supabase/migrations/20260908110000_smart_management_foundation.sql",
+    "supabase/migrations/20260908120000_smart_management_locations_transfers.sql",
+    "supabase/migrations/20260909110000_smart_management_services_pricing_v1.sql",
+    "supabase/migrations/20260914130000_cycle12_execution_tracking_and_safety.sql",
+    "supabase/migrations/20260914131000_cycle12_execution_commands.sql",
+    "supabase/migrations/20260914132000_cycle12_completion_and_grants.sql",
+    "supabase/migrations/20260914185833_cycle12_canonical_execution_reads.sql",
+    "supabase/migrations/20260915014848_cycle12_student_home_v2.sql"
   ],
   "reference_baselines": [
     "supabase/reference-baselines/20260716090000_baseline_aruka_v1.sql"
   ],
-  "local_executable_migration_count": 23,
+  "local_executable_migration_count": 30,
   "reference_only_baseline_count": 1,
-  "total_database_change_artifact_count": 24,
+  "total_database_change_artifact_count": 31,
   "forbidden_changes_found": false,
   "remote_access_performed": false,
   "edge_functions_deployed": false,

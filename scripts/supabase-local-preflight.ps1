@@ -41,7 +41,8 @@ $ExpectedActiveMigrations = @(
   "20260914130000_cycle12_execution_tracking_and_safety.sql",
   "20260914131000_cycle12_execution_commands.sql",
   "20260914132000_cycle12_completion_and_grants.sql",
-  "20260914185833_cycle12_canonical_execution_reads.sql"
+  "20260914185833_cycle12_canonical_execution_reads.sql",
+  "20260915014848_cycle12_student_home_v2.sql"
 )
 $IsCi = $env:CI -eq "true"
 $IsCiLocalOnly = $env:SUPABASE_CI_LOCAL_ONLY -eq "true"

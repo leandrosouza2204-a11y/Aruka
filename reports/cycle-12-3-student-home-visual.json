@@ -1,0 +1,156 @@
+{
+  "decision": "PASS",
+  "scope": "CYCLE_12_3_STUDENT_HOME_VISUAL",
+  "database_target": "LOCAL",
+  "production_accessed": false,
+  "production_mutated": false,
+  "screenshots": 12,
+  "states": [
+    "normal",
+    "keyboard-navigation",
+    "long-name",
+    "review-overdue",
+    "active-session",
+    "empty",
+    "loading",
+    "error",
+    "rollout-off-legacy"
+  ],
+  "results": [
+    {
+      "name": "mobile-narrow-320",
+      "width": 320,
+      "height": 800,
+      "mobile": true,
+      "state": "normal",
+      "noHorizontalOverflow": true,
+      "activeNavigation": 1,
+      "minimumNavigationTarget": 52,
+      "mainLandmarks": 1,
+      "navigationLandmarks": 1,
+      "pageHeadings": 1,
+      "logoutAccessibleName": true,
+      "status": "PASS"
+    },
+    {
+      "name": "mobile-standard-375",
+      "width": 375,
+      "height": 812,
+      "mobile": true,
+      "state": "normal",
+      "noHorizontalOverflow": true,
+      "activeNavigation": 1,
+      "minimumNavigationTarget": 52,
+      "mainLandmarks": 1,
+      "navigationLandmarks": 1,
+      "pageHeadings": 1,
+      "logoutAccessibleName": true,
+      "status": "PASS"
+    },
+    {
+      "name": "mobile-390",
+      "width": 390,
+      "height": 844,
+      "mobile": true,
+      "state": "normal",
+      "noHorizontalOverflow": true,
+      "activeNavigation": 1,
+      "minimumNavigationTarget": 52,
+      "mainLandmarks": 1,
+      "navigationLandmarks": 1,
+      "pageHeadings": 1,
+      "logoutAccessibleName": true,
+      "status": "PASS"
+    },
+    {
+      "name": "mobile-wide-430",
+      "width": 430,
+      "height": 932,
+      "mobile": true,
+      "state": "normal",
+      "noHorizontalOverflow": true,
+      "activeNavigation": 1,
+      "minimumNavigationTarget": 52,
+      "mainLandmarks": 1,
+      "navigationLandmarks": 1,
+      "pageHeadings": 1,
+      "logoutAccessibleName": true,
+      "status": "PASS"
+    },
+    {
+      "name": "tablet-768",
+      "width": 768,
+      "height": 1024,
+      "mobile": true,
+      "state": "normal",
+      "noHorizontalOverflow": true,
+      "activeNavigation": 1,
+      "minimumNavigationTarget": 48,
+      "mainLandmarks": 1,
+      "navigationLandmarks": 1,
+      "pageHeadings": 1,
+      "logoutAccessibleName": true,
+      "status": "PASS"
+    },
+    {
+      "name": "desktop-1280",
+      "width": 1280,
+      "height": 900,
+      "mobile": false,
+      "state": "normal",
+      "noHorizontalOverflow": true,
+      "activeNavigation": 1,
+      "minimumNavigationTarget": 48,
+      "mainLandmarks": 1,
+      "navigationLandmarks": 1,
+      "pageHeadings": 1,
+      "logoutAccessibleName": true,
+      "status": "PASS"
+    },
+    {
+      "state": "keyboard-navigation",
+      "route": "/minha-area/treinos",
+      "ariaCurrent": true,
+      "status": "PASS"
+    },
+    {
+      "state": "long-name",
+      "viewport": "320x800",
+      "noHorizontalOverflow": true,
+      "status": "PASS"
+    },
+    {
+      "state": "review-overdue",
+      "viewport": "320x800",
+      "noHorizontalOverflow": true,
+      "status": "PASS"
+    },
+    {
+      "state": "active-session",
+      "viewport": "390x844",
+      "status": "PASS"
+    },
+    {
+      "state": "empty",
+      "viewport": "390x844",
+      "status": "PASS"
+    },
+    {
+      "state": "loading",
+      "viewport": "390x844",
+      "status": "PASS"
+    },
+    {
+      "state": "error",
+      "viewport": "390x844",
+      "shellPreserved": true,
+      "safeCopy": true,
+      "status": "PASS"
+    },
+    {
+      "state": "rollout-off-legacy",
+      "route": "/minha-area",
+      "status": "PASS"
+    }
+  ]
+}
