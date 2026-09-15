@@ -36,6 +36,7 @@ Any active session has global priority. Continue always navigates with the real 
 ## Validation evidence
 
 - Clean local bootstrap: 31 executable migrations plus the reference baseline, 32 ordered bootstrap steps, final schema inventory valid.
+- Safe reset: two complete reset/seed runs produced identical migrations, schema and fixtures. Clean-worktree validation also passed with dependency install, bootstrap, validation, stop, credential/JWT scan and full temporary cleanup.
 - Runtime data/security: a six-day program, canonical ordering, numeric and textual series, active session on another day, own/cross-student/suspended/anon cases, fixed `search_path`, least-privilege grants and existing-index query plans.
 - Payload budgets: summary 1,639 bytes under a 15,000-byte budget; selected detail 1,091 bytes under a 30,000-byte budget.
 - Browser QA: 320, 375, 390, 430, 768 and 1280 px; Home-to-Treinos keyboard navigation; list/detail focus; missing media; long program name; loading; safe error and retry surface; double-start; active session; no program; empty program; rollout OFF.
