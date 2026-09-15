@@ -2,9 +2,9 @@
   "cycle": "8",
   "result": "DETERMINISTIC_FIXTURES_VALIDATED",
   "decision": "LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED",
-  "started_at": "2026-09-14T23:28:32.196Z",
-  "finished_at": "2026-09-14T23:28:41.669Z",
-  "duration_seconds": 9.463,
+  "started_at": "2026-09-15T07:39:45.477Z",
+  "finished_at": "2026-09-15T07:39:55.061Z",
+  "duration_seconds": 9.582,
   "fixtures_loaded": true,
   "idempotency_runs": 2,
   "idempotency_validated": true,
@@ -68,13 +68,14 @@
       "20260914130000",
       "20260914131000",
       "20260914132000",
-      "20260914185833"
+      "20260914185833",
+      "20260915014848"
     ],
     "structure": {
       "public_tables": 30,
-      "public_functions": 52,
+      "public_functions": 53,
       "public_triggers": 13,
-      "public_indexes": 133,
+      "public_indexes": 134,
       "public_policies": 70,
       "rls_enabled_tables": 30,
       "private_assessment_bucket": true
