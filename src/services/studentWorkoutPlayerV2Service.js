@@ -1,4 +1,8 @@
-import { normalizeWorkoutPlayerV2 } from "../features/studentExperienceV2/domain/studentWorkoutPlayerV2.js";
+import {
+  normalizePreviousPerformance,
+  normalizeWorkoutPlayerV2,
+} from "../features/studentExperienceV2/domain/studentWorkoutPlayerV2.js";
+import { completeWorkoutSet, getPreviousPerformance } from "./workoutExecutionService.js";
 import { buscarUsuarioLogado } from "./authSessionService.js";
 import { supabase } from "./supabase.js";
 
@@ -9,6 +13,15 @@ export async function buscarMeuWorkoutPlayerV2(sessionId) {
   const { data, error } = await supabase.rpc("get_my_workout_player_v2", { p_session_id: id });
   if (error) throw sanitizePlayerError(error);
   return normalizeWorkoutPlayerV2(data);
+}
+
+export async function concluirMinhaSerieNoWorkoutPlayerV2(sessionId, executionExerciseId, setNumber, values) {
+  return completeWorkoutSet(sessionId, executionExerciseId, setNumber, values);
+}
+
+export async function buscarMeuDesempenhoAnteriorNoWorkoutPlayerV2(treinoExercicioId, sessionId) {
+  if (!String(treinoExercicioId || "").trim()) return null;
+  return normalizePreviousPerformance(await getPreviousPerformance(treinoExercicioId, sessionId));
 }
 
 function sanitizePlayerError(error) {

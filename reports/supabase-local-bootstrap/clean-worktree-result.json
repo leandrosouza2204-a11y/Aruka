@@ -2,9 +2,9 @@
   "cycle": "7.2.1",
   "result": "CLEAN_WORKTREE_VALIDATED",
   "decision": "LOCAL_REPRODUCIBILITY_VALIDATED",
-  "started_at": "2026-09-19T16:33:58.9042279+00:00",
-  "finished_at": "2026-09-19T16:41:34.1416482+00:00",
-  "duration_seconds": 455,
+  "started_at": "2026-09-19T22:05:01.0076479+00:00",
+  "finished_at": "2026-09-19T22:14:50.1655217+00:00",
+  "duration_seconds": 589,
   "mode": "LOCAL",
   "project_id": "aruka_ci_clean_worktree_validation",
   "expected_hml_preservation": true,
@@ -24,11 +24,11 @@
   },
   "remote_access": "none",
   "timings_seconds": {
-    "npm_ci": 87,
-    "preflight": 18,
-    "bootstrap": 271,
-    "validate": 17,
-    "stop": 26
+    "npm_ci": 94,
+    "preflight": 20,
+    "bootstrap": 361,
+    "validate": 35,
+    "stop": 30
   },
   "schema_inventory": {
     "public_tables": 30,
@@ -53,8 +53,8 @@
     "archived_migrations_in_history": null,
     "baseline_in_history": 1
   },
-  "migration_history": ["20260716090000", "20260728030000", "20260730090000", "20260731190000", "20260801143335", "20260801173000", "20260801180000", "20260811090000", "20260815120000", "20260816120000", "20260819090000", "20260821120000", "20260822120000", "20260824120000", "20260829120000", "20260829173000", "20260830203000", "20260831090000", "20260905120000", "20260906020000", "20260907090000", "20260907120000", "20260907150000", "20260908110000", "20260908120000", "20260909110000", "20260914130000", "20260914131000", "20260914132000", "20260914185833", "20260915014848", "20260915140229", "20260915201101"],
-  "migrations": ["20260716090000", "20260728030000", "20260730090000", "20260731190000", "20260801143335", "20260801173000", "20260801180000", "20260811090000", "20260815120000", "20260816120000", "20260819090000", "20260821120000", "20260822120000", "20260824120000", "20260829120000", "20260829173000", "20260830203000", "20260831090000", "20260905120000", "20260906020000", "20260907090000", "20260907120000", "20260907150000", "20260908110000", "20260908120000", "20260909110000", "20260914130000", "20260914131000", "20260914132000", "20260914185833", "20260915014848", "20260915140229", "20260915201101"],
+  "migration_history": ["20260716090000", "20260728030000", "20260730090000", "20260731190000", "20260801143335", "20260801173000", "20260801180000", "20260811090000", "20260815120000", "20260816120000", "20260819090000", "20260821120000", "20260822120000", "20260824120000", "20260829120000", "20260829173000", "20260830203000", "20260831090000", "20260905120000", "20260906020000", "20260907090000", "20260907120000", "20260907150000", "20260908110000", "20260908120000", "20260909110000", "20260914130000", "20260914131000", "20260914132000", "20260914185833", "20260915014848", "20260915140229", "20260915201101", "20260919120000"],
+  "migrations": ["20260716090000", "20260728030000", "20260730090000", "20260731190000", "20260801143335", "20260801173000", "20260801180000", "20260811090000", "20260815120000", "20260816120000", "20260819090000", "20260821120000", "20260822120000", "20260824120000", "20260829120000", "20260829173000", "20260830203000", "20260831090000", "20260905120000", "20260906020000", "20260907090000", "20260907120000", "20260907150000", "20260908110000", "20260908120000", "20260909110000", "20260914130000", "20260914131000", "20260914132000", "20260914185833", "20260915014848", "20260915140229", "20260915201101", "20260919120000"],
   "security": {
     "report_sanitization_passed": true,
     "credential_scan_passed": true,
@@ -72,19 +72,19 @@
     "child_processes_removed": true
   },
   "child_processes": [
-    {"pid": 4616, "description": "GIT_STATUS", "started": "2026-09-19T13:33:59.4509992-03:00", "finished": "2026-09-19T13:34:00.2508218-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
-    {"pid": 3688, "description": "DOCKER_VERSION", "started": "2026-09-19T13:34:00.3169622-03:00", "finished": "2026-09-19T13:34:01.3815874-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
-    {"pid": 9828, "description": "WORKTREE_CREATE", "started": "2026-09-19T13:34:01.4244328-03:00", "finished": "2026-09-19T13:34:10.1076457-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
-    {"pid": 17212, "description": "NPM_CI", "started": "2026-09-19T13:34:11.0241699-03:00", "finished": "2026-09-19T13:35:38.1259365-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
-    {"pid": 16340, "description": "INNER_PREFLIGHT", "started": "2026-09-19T13:35:38.2218186-03:00", "finished": "2026-09-19T13:35:56.2157173-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
-    {"pid": 20072, "description": "INNER_BOOTSTRAP", "started": "2026-09-19T13:35:56.2392972-03:00", "finished": "2026-09-19T13:40:27.2147607-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
-    {"pid": 12020, "description": "INNER_VALIDATE", "started": "2026-09-19T13:40:27.2599235-03:00", "finished": "2026-09-19T13:40:44.3081130-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
-    {"pid": 3540, "description": "INNER_STOP", "started": "2026-09-19T13:40:44.3302858-03:00", "finished": "2026-09-19T13:41:10.0351214-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
-    {"pid": 15724, "description": "WORKTREE_REMOVE", "started": "2026-09-19T13:41:15.3674488-03:00", "finished": "2026-09-19T13:41:31.5481612-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
-    {"pid": 19768, "description": "WORKTREE_PRUNE", "started": "2026-09-19T13:41:31.5481612-03:00", "finished": "2026-09-19T13:41:31.7479875-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
-    {"pid": 10100, "description": "WORKTREE_LIST", "started": "2026-09-19T13:41:31.7814302-03:00", "finished": "2026-09-19T13:41:31.9482367-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
-    {"pid": 1648, "description": "CONTAINER_CHECK", "started": "2026-09-19T13:41:31.9648222-03:00", "finished": "2026-09-19T13:41:32.8344330-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
-    {"pid": 17576, "description": "VOLUME_CHECK", "started": "2026-09-19T13:41:32.8364907-03:00", "finished": "2026-09-19T13:41:33.7008376-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false}
+    {"pid": 20296, "description": "GIT_STATUS", "started": "2026-09-19T19:05:01.6688011-03:00", "finished": "2026-09-19T19:05:02.1759938-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 17764, "description": "DOCKER_VERSION", "started": "2026-09-19T19:05:02.2675740-03:00", "finished": "2026-09-19T19:05:03.4545812-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 7704, "description": "WORKTREE_CREATE", "started": "2026-09-19T19:05:03.5740760-03:00", "finished": "2026-09-19T19:05:13.4602891-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 19568, "description": "NPM_CI", "started": "2026-09-19T19:05:15.0216842-03:00", "finished": "2026-09-19T19:06:48.7920299-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 11260, "description": "INNER_PREFLIGHT", "started": "2026-09-19T19:06:48.8130439-03:00", "finished": "2026-09-19T19:07:08.6460926-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 3772, "description": "INNER_BOOTSTRAP", "started": "2026-09-19T19:07:08.6650920-03:00", "finished": "2026-09-19T19:13:09.8845375-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 20648, "description": "INNER_VALIDATE", "started": "2026-09-19T19:13:09.9325292-03:00", "finished": "2026-09-19T19:13:44.7887174-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 3472, "description": "INNER_STOP", "started": "2026-09-19T19:13:44.8049422-03:00", "finished": "2026-09-19T19:14:14.3340030-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 20680, "description": "WORKTREE_REMOVE", "started": "2026-09-19T19:14:24.5625491-03:00", "finished": "2026-09-19T19:14:44.1118882-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 15064, "description": "WORKTREE_PRUNE", "started": "2026-09-19T19:14:44.1148962-03:00", "finished": "2026-09-19T19:14:44.3927702-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 16908, "description": "WORKTREE_LIST", "started": "2026-09-19T19:14:44.5004225-03:00", "finished": "2026-09-19T19:14:44.7680746-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 17364, "description": "CONTAINER_CHECK", "started": "2026-09-19T19:14:44.7770820-03:00", "finished": "2026-09-19T19:14:46.9633362-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false},
+    {"pid": 15208, "description": "VOLUME_CHECK", "started": "2026-09-19T19:14:46.9763375-03:00", "finished": "2026-09-19T19:14:48.7392618-03:00", "exit_code": 0, "timed_out": false, "disposed": true, "still_running_after_cleanup": false}
   ],
   "process_timeouts": 0,
   "remote_access_performed": false,

@@ -45,6 +45,7 @@ $ExpectedActiveMigrations = @(
   "20260915014848_cycle12_student_home_v2.sql"
   "20260915140229_cycle12_student_training_library_v2.sql",
   "20260915201101_cycle12_workout_player_v2.sql"
+  "20260919120000_cycle12_set_tracking_player_payload.sql"
 )
 $IsCi = $env:CI -eq "true"
 $IsCiLocalOnly = $env:SUPABASE_CI_LOCAL_ONLY -eq "true"

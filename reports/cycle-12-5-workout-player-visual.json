@@ -32,6 +32,10 @@
           "height": 44
         },
         {
+          "label": "Concluir série",
+          "height": 46
+        },
+        {
           "label": "Escolher exercício",
           "height": 46
         },
@@ -63,6 +67,10 @@
         {
           "label": "Encerrar treino",
           "height": 44
+        },
+        {
+          "label": "Concluir série",
+          "height": 46
         },
         {
           "label": "Escolher exercício",
@@ -98,6 +106,10 @@
           "height": 44
         },
         {
+          "label": "Concluir série",
+          "height": 46
+        },
+        {
           "label": "Escolher exercício",
           "height": 46
         },
@@ -129,6 +141,10 @@
         {
           "label": "Encerrar treino",
           "height": 44
+        },
+        {
+          "label": "Concluir série",
+          "height": 46
         },
         {
           "label": "Escolher exercício",
