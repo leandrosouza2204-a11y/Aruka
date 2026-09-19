@@ -37,14 +37,15 @@
     "supabase/migrations/20260914132000_cycle12_completion_and_grants.sql",
     "supabase/migrations/20260914185833_cycle12_canonical_execution_reads.sql",
     "supabase/migrations/20260915014848_cycle12_student_home_v2.sql",
-    "supabase/migrations/20260915140229_cycle12_student_training_library_v2.sql"
+    "supabase/migrations/20260915140229_cycle12_student_training_library_v2.sql",
+    "supabase/migrations/20260915201101_cycle12_workout_player_v2.sql"
   ],
   "reference_baselines": [
     "supabase/reference-baselines/20260716090000_baseline_aruka_v1.sql"
   ],
-  "local_executable_migration_count": 31,
+  "local_executable_migration_count": 32,
   "reference_only_baseline_count": 1,
-  "total_database_change_artifact_count": 32,
+  "total_database_change_artifact_count": 33,
   "forbidden_changes_found": false,
   "remote_access_performed": false,
   "edge_functions_deployed": false,
