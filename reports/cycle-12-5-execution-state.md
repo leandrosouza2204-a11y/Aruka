@@ -2,65 +2,58 @@
 
 MISSION: Cycle 12.5 — Workout Player Foundation
 
-DECISION: RELEASE_IN_PROGRESS
+DECISION: COMPLETE
 
-STATUS: IN_PROGRESS
+STATUS: COMPLETE
 
 BASE_SHA: cac4368f396ef1ec48de4458c7affac615592270
 
-BRANCH: feat/product-roadmap-v4-cycle-12-5-workout-player-foundation
+INITIALLY_AUDITED_HEAD: 884375b76f9e5f9640118f17c22a16873ea53240
 
-AUDITED_FUNCTIONAL_HEAD: aa228a29ccb6c036ca41bebfc9a5f65af19f2f68
+FINAL_FEATURE_HEAD: 214e1c42c9dc63b1b7b386d78d5e5af31a484f27
 
-CURRENT_HEAD: INCREMENTAL_SECURITY_REPORT_CHECKPOINT — self-referential SHA intentionally omitted; resolve with `git rev-parse HEAD`.
+FEATURE_MERGE_COMMIT: 484fb7f6b2b917b4c0ae6f1a34073e9b2fc54752
 
-GATE_01_PREFLIGHT: PASS — base/branch/worktree verified; known unrelated detached dirty worktree preserved.
+PUBLICATION_AUTHORIZATION: GRANTED_FOR_AUDITED_STATE
 
-GATE_02_DISCOVERY: PASS — execution, ownership, snapshots, media, lifecycle, rollout and legacy contracts mapped.
+GATE_01_PREFLIGHT: PASS
+GATE_02_DISCOVERY: PASS
+GATE_03_PLAYER_CONTRACT: PASS
+GATE_04_PLAYER_DATA: PASS
+GATE_05_ROUTE_BOUNDARY: PASS
+GATE_06_PLAYER_SHELL: PASS
+GATE_07_SESSION_RESUME: PASS
+GATE_08_EXERCISE_NAVIGATION: PASS
+GATE_09_EXERCISE_PRESENTATION: PASS
+GATE_10_PRESCRIPTION: PASS
+GATE_11_SESSION_LIFECYCLE: PASS
+GATE_12_STATES: PASS
+GATE_13_RESPONSIVE: PASS
+GATE_14_ACCESSIBILITY: PASS
+GATE_15_SECURITY: PASS
+GATE_16_PERFORMANCE: PASS
+GATE_17_TESTS: PASS
+GATE_18_REGRESSION: PASS
+GATE_19_VISUAL_QA: PASS
+GATE_20_DOCUMENTATION: PASS
+GATE_21_RELEASE_READINESS: PASS
+GATE_22_PUBLICATION_SECURITY: PASS
+GATE_23_PR_CI_MERGE: PASS — PR #128 merged normally after Vercel and all Supabase Local Quality Gates passed.
+GATE_24_POST_MERGE: PASS — main synchronized; lint, production build, focused Player tests, route/fallback tests, local runtime validation and migration reproducibility passed.
 
-GATE_03_PLAYER_CONTRACT: PASS — one bounded ownership-derived Player RPC; no history or global library payload.
+PR_NUMBER: 128
 
-GATE_04_PLAYER_DATA: PASS — canonical ordered exercises, bounded set progress, prescription/tracking snapshots and safe media metadata.
+PR_URL: https://github.com/leandrosouza2204-a11y/Aruka/pull/128
 
-GATE_05_ROUTE_BOUNDARY: PASS — `/minha-area/treino/:sessionId` supports deep link/reload and preserves legacy fallback.
+PR_STATUS: MERGED
 
-GATE_06_PLAYER_SHELL: PASS — focused shell outside `StudentShell`, with explicit leave and separate destructive cancel.
+MERGE_METHOD: MERGE_COMMIT
 
-GATE_07_SESSION_RESUME: PASS — start/resume use the real session ID; leave/reload preserve the same session and create no duplicate.
+REQUIRED_CHECKS: PASS
 
-GATE_08_EXERCISE_NAVIGATION: PASS — canonical order, previous/next/selector and per-session reload selection; navigation causes no lifecycle write.
+VERCEL: PASS
 
-GATE_09_EXERCISE_PRESENTATION: PASS — lazy safe media, missing-media fallback, long-name wrapping and snapshot-backed content.
-
-GATE_10_PRESCRIPTION: PASS — series/reps/load/rest/notes and tracking configuration consume immutable execution snapshots.
-
-GATE_11_SESSION_LIFECYCLE: PASS — canonical skip/cancel integration; leave is not cancel; terminal sessions are read-only.
-
-GATE_12_STATES: PASS — loading, safe error, invalid/missing, empty exercises, last exercise and terminal states validated.
-
-GATE_13_RESPONSIVE: PASS — 320/390/768/1280 browser QA, no horizontal overflow, action/safe-area behavior valid.
-
-GATE_14_ACCESSIBILITY: PASS — visible targets >=44px, keyboard/dialog flow, Escape, focus return, names, progress semantics and reduced motion.
-
-GATE_15_SECURITY: PASS — own/cross/anon/professional/suspended/invalid/terminal matrix; fixed search path and minimal grants.
-
-GATE_16_PERFORMANCE: PASS — one request, representative 2,112-byte payload for three exercises, no N+1, existing indexes sufficient.
-
-GATE_17_TESTS: PASS — static, domain, component, route, runtime and visual suites passing.
-
-GATE_18_REGRESSION: PASS — Cycle 12.1, 12.2, 12.3, 12.4, route fallback and 42 legacy executor tests passing; stale Cycle 6 exact migration-count assertion documented.
-
-GATE_19_VISUAL_QA: PASS — 10 states inspected; 320px visible minimum target is 44px; temporary screenshots removed.
-
-GATE_20_DOCUMENTATION: PASS — architecture, contracts, evidence, limitations and Cycle 12.6 handoff documented.
-
-GATE_21_RELEASE_READINESS: PASS — lint, production build, focused tests, local schema validation, safe reset, clean-worktree reproduction and diff checks passed.
-
-GATE_22_PUBLICATION_SECURITY: PASS — complete `origin/main..HEAD` and prospective report-checkpoint audit; critical/high/unresolved sensitive findings zero.
-
-GATE_23_PR_CI_MERGE: IN_PROGRESS — PR #128 open; Vercel PASS; initial Supabase CI failure diagnosed as stale function/migration inventories; correction validated locally and incrementally audited.
-
-GATE_24_POST_MERGE: NOT_STARTED
+SUPABASE_LOCAL_QUALITY_GATES: PASS — repository safety, static validation, bootstrap, deterministic seeds, safe reset, negative security tests, regressions, evidence validation and cleanup.
 
 SUPABASE_BOOTSTRAP_RECOVERY: SAFE_RERUN_COMPLETED
 
@@ -68,17 +61,11 @@ EXECUTABLE_MIGRATIONS: 32
 
 PUBLIC_FUNCTIONS: 56
 
-SUPABASE_VALIDATION: PASS
+MIGRATION_REPRODUCIBILITY: PASS
 
-SAFE_RESET: PASS — two reset/seed runs produced equivalent inventories and fixtures.
+STATIC_FUNCTION_INVENTORY: PASS
 
-CLEAN_WORKTREE_REPRODUCIBILITY: PASS — install, bootstrap, validation, stop, security scans and cleanup passed.
-
-RUNTIME_PLAYER_QA: PASS
-
-PLAYER_REQUESTS: 1
-
-REPRESENTATIVE_PAYLOAD: 2112_BYTES_FOR_3_EXERCISES
+PLAYER_RUNTIME_QA: PASS — one bounded request; 2,112-byte representative payload for three exercises.
 
 OWN_SESSION / CROSS_STUDENT / ANON / PROFESSIONAL / SUSPENDED / TERMINAL: PASS
 
@@ -100,9 +87,11 @@ RESPONSIVE / ACCESSIBILITY / VISUAL_QA / 320PX_TOUCH_TARGETS: PASS
 
 CYCLE_12_1 / CYCLE_12_2 / CYCLE_12_3 / CYCLE_12_4 / LEGACY_REGRESSION: PASS
 
-LINT / BUILD: PASS
+POST_MERGE_LINT / BUILD / FOCUSED_PLAYER / ROUTES / ROLLOUT_OFF / LEGACY_FALLBACK: PASS
 
 PUBLICATION_SECURITY_GATE: PASS
+
+INCREMENTAL_SECURITY_AUDITS: 3 PASS — CI inventory correction, terminal closeout checkpoint and closeout PR metadata.
 
 CRITICAL_FINDINGS: 0
 
@@ -110,24 +99,34 @@ HIGH_FINDINGS: 0
 
 UNRESOLVED_SENSITIVE_FINDINGS: 0
 
+PUBLISHED_SECRET_FINDINGS: NONE
+
 CREDENTIALS_REQUIRING_ROTATION: NONE
-
-NEXT_GATE: GATE_23_PR_CI_MERGE
-
-NEXT_ACTION: Publish the audited CI-inventory correction, wait for all required checks, then merge through the normal protected workflow.
-
-PUBLICATION_AUTHORIZATION: GRANTED_FOR_AUDITED_STATE
-
-PUSH_PERFORMED: YES
-
-PR_CREATED: YES — #128
 
 PRODUCTION_ACCESSED_OR_MUTATED: NO
 
-REPOSITORY_SAFE_TO_RESUME: YES
-
 V2_DEFAULT_ENABLED: NO
 
-LEGACY_UI_CHANGED: NO
+LEGACY_UI_PRESERVED: YES
 
-PREEXISTING_UNRELATED_DIRTY_WORKTREE: PRESERVED — exact local path intentionally omitted.
+TEMPORARY_SCREENSHOTS: NONE
+
+PREEXISTING_UNRELATED_WORKTREE: NOT_REGISTERED_AT_FINAL_CHECK
+
+EXTERNAL_DIRECTORY_STATE: NOT_VERIFIED
+
+CURRENT_BRANCH: CLOSEOUT_BRANCH_PENDING_INTEGRATION
+
+MAIN_SYNC_AT_FEATURE_POST_MERGE: YES — `main == origin/main == 484fb7f6b2b917b4c0ae6f1a34073e9b2fc54752` before this terminal closeout branch.
+
+WORKING_TREE_AT_FEATURE_POST_MERGE: CLEAN
+
+CLOSEOUT_PR: 129 — https://github.com/leandrosouza2204-a11y/Aruka/pull/129 — OPEN
+
+NEXT_ACTION: Complete required checks and merge PR #129 through the normal workflow; then resynchronize main, remove Cycle 12.5 temporary branches and stop only identified Cycle 12.5 temporary resources.
+
+ENVIRONMENT_PREPARED_FOR_CYCLE_12_6: YES
+
+NEXT_MISSION: Cycle 12.6 — Set Tracking & Previous Performance
+
+CYCLE_12_6_STARTED: NO
