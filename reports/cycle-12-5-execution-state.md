@@ -91,7 +91,7 @@ POST_MERGE_LINT / BUILD / FOCUSED_PLAYER / ROUTES / ROLLOUT_OFF / LEGACY_FALLBAC
 
 PUBLICATION_SECURITY_GATE: PASS
 
-INCREMENTAL_SECURITY_AUDITS: 2 PASS — CI inventory correction and terminal closeout checkpoint.
+INCREMENTAL_SECURITY_AUDITS: 3 PASS — CI inventory correction, terminal closeout checkpoint and closeout PR metadata.
 
 CRITICAL_FINDINGS: 0
 
@@ -121,9 +121,9 @@ MAIN_SYNC_AT_FEATURE_POST_MERGE: YES — `main == origin/main == 484fb7f6b2b917b
 
 WORKING_TREE_AT_FEATURE_POST_MERGE: CLEAN
 
-CLOSEOUT_PR: PENDING
+CLOSEOUT_PR: 129 — https://github.com/leandrosouza2204-a11y/Aruka/pull/129 — OPEN
 
-NEXT_ACTION: Integrate this audited terminal closeout through the normal PR workflow, resynchronize main, remove Cycle 12.5 temporary branches and stop only identified Cycle 12.5 temporary resources.
+NEXT_ACTION: Complete required checks and merge PR #129 through the normal workflow; then resynchronize main, remove Cycle 12.5 temporary branches and stop only identified Cycle 12.5 temporary resources.
 
 ENVIRONMENT_PREPARED_FOR_CYCLE_12_6: YES
 
