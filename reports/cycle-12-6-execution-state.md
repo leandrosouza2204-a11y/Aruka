@@ -10,9 +10,11 @@ BASE_SHA: 7f279deaf45e131149153451f55159b8500b5127
 
 BRANCH: feat/product-roadmap-v4-cycle-12-6-set-tracking-previous-performance
 
-CURRENT_HEAD: PENDING_LOCAL_CHECKPOINT
+CURRENT_HEAD_AT_FUNCTIONAL_AUDIT: 68225779704948f226da4d0eb1824e997db99930
 
-AUDITED_FUNCTIONAL_HEAD: PENDING_LOCAL_CHECKPOINT
+AUDITED_FUNCTIONAL_HEAD: 68225779704948f226da4d0eb1824e997db99930
+
+REPORT_CHECKPOINT: audited prospectively; resolve its self-referential SHA from the local repository state.
 
 PUBLICATION_AUTHORIZATION: NOT_GRANTED
 
@@ -56,7 +58,7 @@ GATE_19_DOCUMENTATION: PASS — `06-set-tracking-previous-performance.md` record
 
 GATE_20_RELEASE_READINESS: PASS — lint, build, diff check, local reset/validate, fixtures, reproducibility, CI static and isolated clean-worktree passed.
 
-GATE_21_PUBLICATION_SECURITY: PENDING_FINAL_LOCAL_CHECKPOINT_AUDIT
+GATE_21_PUBLICATION_SECURITY: PASS — functional commit and prospective report checkpoint audited; zero critical/high/unresolved sensitive findings.
 
 GATE_22_PR_CI_MERGE: NOT_STARTED — publication authorization not granted.
 
@@ -116,4 +118,4 @@ PUSH_PERFORMED: NO
 
 PR_CREATED: NO
 
-NEXT_ACTION: create and audit the local checkpoint, then wait for explicit publication authorization.
+NEXT_ACTION: WAIT_FOR_USER_PUBLICATION_DECISION
