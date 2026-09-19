@@ -8,7 +8,7 @@ import {
   buscarMinhaBibliotecaTreinosV2,
 } from "../../../services/studentTrainingLibraryV2Service.js";
 import { buildPrescriptionFacts, isRecentlyCompleted } from "../domain/studentTrainingLibraryV2.js";
-import { STUDENT_EXPERIENCE_V2_ROUTES } from "../domain/studentExperienceV2Contracts.js";
+import { buildStudentWorkoutPlayerRoute, STUDENT_EXPERIENCE_V2_ROUTES } from "../domain/studentExperienceV2Contracts.js";
 
 function StudentTrainingLibraryV2() {
   const { workoutId = "" } = useParams();
@@ -63,7 +63,7 @@ function StudentTrainingLibraryV2() {
     if (actionLock.current) return;
     const active = libraryState.data?.activeSession;
     if (active?.id) {
-      navigate(`/workout/${active.id}`);
+      navigate(buildStudentWorkoutPlayerRoute(active.id));
       return;
     }
 
@@ -73,7 +73,7 @@ function StudentTrainingLibraryV2() {
       const freshLibrary = await buscarMinhaBibliotecaTreinosV2();
       setLibraryState({ status: "success", data: freshLibrary, error: "" });
       if (freshLibrary.activeSession?.id) {
-        navigate(`/workout/${freshLibrary.activeSession.id}`);
+        navigate(buildStudentWorkoutPlayerRoute(freshLibrary.activeSession.id));
         return;
       }
       const freshWorkout = freshLibrary.workouts.find((item) => item.id === workout.id);
@@ -83,7 +83,7 @@ function StudentTrainingLibraryV2() {
         treinoDiaId: freshWorkout.id,
       });
       if (!session?.id) throw new Error("Sessão indisponível.");
-      navigate(`/workout/${session.id}`);
+      navigate(buildStudentWorkoutPlayerRoute(session.id));
     } catch {
       setActionState({ status: "error", message: "Não foi possível iniciar o treino agora. Tente novamente." });
     } finally {

@@ -2,9 +2,9 @@
   "cycle": "8",
   "result": "SAFE_RESET_VALIDATED",
   "decision": "LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED",
-  "started_at": "2026-09-15T14:49:05.378Z",
-  "finished_at": "2026-09-15T14:54:21.642Z",
-  "duration_seconds": 316.262,
+  "started_at": "2026-09-19T16:19:42.373Z",
+  "finished_at": "2026-09-19T16:25:16.960Z",
+  "duration_seconds": 334.58,
   "reset_runs": 2,
   "baseline_sha_preserved": true,
   "baseline_sha": "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B",
@@ -51,11 +51,12 @@
       "20260914132000",
       "20260914185833",
       "20260915014848",
-      "20260915140229"
+      "20260915140229",
+      "20260915201101"
     ],
     "structure": {
       "public_tables": 30,
-      "public_functions": 55,
+      "public_functions": 56,
       "public_triggers": 13,
       "public_indexes": 134,
       "public_policies": 70,
@@ -97,13 +98,13 @@
   "post_reset_stability": {
     "first": {
       "stable": true,
-      "expectedLatestMigration": "20260915140229",
+      "expectedLatestMigration": "20260915201101",
       "tableCount": 30,
       "consecutiveStableReads": 2
     },
     "second": {
       "stable": true,
-      "expectedLatestMigration": "20260915140229",
+      "expectedLatestMigration": "20260915201101",
       "tableCount": 30,
       "consecutiveStableReads": 2
     }

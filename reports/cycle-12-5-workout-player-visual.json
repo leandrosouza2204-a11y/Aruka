@@ -1,0 +1,188 @@
+{
+  "decision": "PASS",
+  "scope": "CYCLE_12_5_WORKOUT_PLAYER_VISUAL",
+  "database_target": "LOCAL",
+  "production_accessed": false,
+  "production_mutated": false,
+  "screenshots": 10,
+  "viewports": [
+    "mobile-320",
+    "mobile-390",
+    "tablet-768",
+    "desktop-1280"
+  ],
+  "results": [
+    {
+      "state": "library-start",
+      "sessionIdPresent": true,
+      "status": "PASS"
+    },
+    {
+      "state": "current-media-prescription",
+      "viewport": "mobile-320",
+      "noHorizontalOverflow": true,
+      "minimumTarget": 44,
+      "targetSizes": [
+        {
+          "label": "Sair do player e continuar depois",
+          "height": 44
+        },
+        {
+          "label": "Encerrar treino",
+          "height": 44
+        },
+        {
+          "label": "Escolher exercício",
+          "height": 46
+        },
+        {
+          "label": "Próximo exercício",
+          "height": 46
+        },
+        {
+          "label": "Pular exercício",
+          "height": 44
+        }
+      ],
+      "mainHeadings": 1,
+      "progressbars": 1,
+      "studentShell": false,
+      "videoAutoplay": false,
+      "status": "PASS"
+    },
+    {
+      "state": "current-media-prescription",
+      "viewport": "mobile-390",
+      "noHorizontalOverflow": true,
+      "minimumTarget": 44,
+      "targetSizes": [
+        {
+          "label": "Sair do player e continuar depois",
+          "height": 44
+        },
+        {
+          "label": "Encerrar treino",
+          "height": 44
+        },
+        {
+          "label": "Escolher exercício",
+          "height": 46
+        },
+        {
+          "label": "Próximo exercício",
+          "height": 46
+        },
+        {
+          "label": "Pular exercício",
+          "height": 44
+        }
+      ],
+      "mainHeadings": 1,
+      "progressbars": 1,
+      "studentShell": false,
+      "videoAutoplay": false,
+      "status": "PASS"
+    },
+    {
+      "state": "current-media-prescription",
+      "viewport": "tablet-768",
+      "noHorizontalOverflow": true,
+      "minimumTarget": 44,
+      "targetSizes": [
+        {
+          "label": "Sair do player e continuar depois",
+          "height": 44
+        },
+        {
+          "label": "Encerrar treino",
+          "height": 44
+        },
+        {
+          "label": "Escolher exercício",
+          "height": 46
+        },
+        {
+          "label": "Próximo exercício",
+          "height": 46
+        },
+        {
+          "label": "Pular exercício",
+          "height": 44
+        }
+      ],
+      "mainHeadings": 1,
+      "progressbars": 1,
+      "studentShell": false,
+      "videoAutoplay": false,
+      "status": "PASS"
+    },
+    {
+      "state": "current-media-prescription",
+      "viewport": "desktop-1280",
+      "noHorizontalOverflow": true,
+      "minimumTarget": 44,
+      "targetSizes": [
+        {
+          "label": "Sair do player e continuar depois",
+          "height": 44
+        },
+        {
+          "label": "Encerrar treino",
+          "height": 44
+        },
+        {
+          "label": "Escolher exercício",
+          "height": 46
+        },
+        {
+          "label": "Próximo exercício",
+          "height": 46
+        },
+        {
+          "label": "Pular exercício",
+          "height": 44
+        }
+      ],
+      "mainHeadings": 1,
+      "progressbars": 1,
+      "studentShell": false,
+      "videoAutoplay": false,
+      "status": "PASS"
+    },
+    {
+      "state": "switch-dialog-keyboard",
+      "escape": "PASS",
+      "focusReturn": "PASS",
+      "status": "PASS"
+    },
+    {
+      "state": "reload-selected-exercise",
+      "sameSession": true,
+      "duplicateSessions": 0,
+      "status": "PASS"
+    },
+    {
+      "state": "last-exercise",
+      "status": "PASS"
+    },
+    {
+      "state": "leave-resume",
+      "sameSession": true,
+      "remainedInProgress": true,
+      "status": "PASS"
+    },
+    {
+      "state": "loading",
+      "status": "PASS"
+    },
+    {
+      "state": "safe-error",
+      "status": "PASS"
+    },
+    {
+      "state": "terminal",
+      "writesAvailable": false,
+      "status": "PASS"
+    }
+  ]
+}

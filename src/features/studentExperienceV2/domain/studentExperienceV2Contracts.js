@@ -3,9 +3,13 @@ export const STUDENT_EXPERIENCE_V2_ROUTES = Object.freeze({
   TRAINING: "/minha-area/treinos",
   EVOLUTION: "/minha-area/evolucao",
   PROFILE: "/minha-area/perfil",
-  WORKOUT: "/workout/:sessionId",
+  WORKOUT: "/minha-area/treino/:sessionId",
   LEGACY: "/minha-area",
 });
+
+export function buildStudentWorkoutPlayerRoute(sessionId) {
+  return `/minha-area/treino/${encodeURIComponent(String(sessionId || "").trim())}`;
+}
 
 export const SHORT_WORKOUT_THRESHOLD_SECONDS = 300;
 
