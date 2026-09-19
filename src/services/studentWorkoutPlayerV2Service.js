@@ -1,0 +1,19 @@
+import { normalizeWorkoutPlayerV2 } from "../features/studentExperienceV2/domain/studentWorkoutPlayerV2.js";
+import { buscarUsuarioLogado } from "./authSessionService.js";
+import { supabase } from "./supabase.js";
+
+export async function buscarMeuWorkoutPlayerV2(sessionId) {
+  const id = String(sessionId || "").trim();
+  if (!id) return null;
+  await buscarUsuarioLogado();
+  const { data, error } = await supabase.rpc("get_my_workout_player_v2", { p_session_id: id });
+  if (error) throw sanitizePlayerError(error);
+  return normalizeWorkoutPlayerV2(data);
+}
+
+function sanitizePlayerError(error) {
+  const safe = new Error("Não foi possível carregar este treino agora.");
+  safe.code = "STUDENT_WORKOUT_PLAYER_LOAD_FAILED";
+  safe.cause = error;
+  return safe;
+}

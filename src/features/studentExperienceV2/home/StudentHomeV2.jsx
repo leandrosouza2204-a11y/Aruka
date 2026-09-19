@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { iniciarExecucaoTreino } from "../../../services/workoutExecutionService.js";
 import { useStudentExperienceV2 } from "../context/studentExperienceV2Context.js";
 import { buildStudentHomeV2, formatShortDate } from "../domain/studentHomeV2.js";
-import { STUDENT_EXPERIENCE_V2_ROUTES } from "../domain/studentExperienceV2Contracts.js";
+import { buildStudentWorkoutPlayerRoute, STUDENT_EXPERIENCE_V2_ROUTES } from "../domain/studentExperienceV2Contracts.js";
 
 function StudentHomeV2() {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ function StudentHomeV2() {
 
   async function startWorkout() {
     if (view.activeSession?.id) {
-      navigate(`/workout/${view.activeSession.id}`);
+      navigate(buildStudentWorkoutPlayerRoute(view.activeSession.id));
       return;
     }
     if (!view.todayWorkout?.treinoId) return;
@@ -28,7 +28,7 @@ function StudentHomeV2() {
     try {
       const freshHome = buildStudentHomeV2(await reload());
       if (freshHome.activeSession?.id) {
-        navigate(`/workout/${freshHome.activeSession.id}`);
+        navigate(buildStudentWorkoutPlayerRoute(freshHome.activeSession.id));
         return;
       }
       const session = await iniciarExecucaoTreino({
@@ -36,7 +36,7 @@ function StudentHomeV2() {
         treinoDiaId: freshHome.todayWorkout?.treinoDiaId || view.todayWorkout.treinoDiaId,
       });
       if (!session?.id) throw new Error("Sessão indisponível.");
-      navigate(`/workout/${session.id}`);
+      navigate(buildStudentWorkoutPlayerRoute(session.id));
     } catch {
       setActionState({ status: "error", message: "Não foi possível iniciar o treino agora. Tente novamente." });
     }

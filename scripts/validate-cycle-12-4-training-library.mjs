@@ -17,7 +17,7 @@ const checks = [
   ["detail is fetched lazily by selected day", /if \(!workoutId\) return null/.test(page) && /get_my_student_workout_detail_v2/.test(service)],
   ["start revalidates global active session", /freshLibrary = await buscarMinhaBibliotecaTreinosV2/.test(page) && /freshLibrary\.activeSession/.test(page)],
   ["double interaction has a synchronous lock", /actionLock\.current/.test(page) && /disabled=\{disabled\}/.test(page)],
-  ["continue uses the real active session id", /navigate\(`\/workout\/\$\{active\.id\}`\)/.test(page)],
+  ["continue uses the real active session id", /buildStudentWorkoutPlayerRoute\(active\.id\)/.test(page)],
   ["detail is a deep link rather than execution UI", /treinos\/:workoutId/.test(app) && !/completeWorkoutSet|RestTimer|previousPerformance/.test(page)],
   ["missing media has a nonblocking fallback", /Sem demonstração em vídeo/.test(page)],
   ["videos are delegated to the lazy existing media contract", /ExerciseVideoPlayer/.test(page)],

@@ -37,6 +37,7 @@ const MinhaArea = lazy(() => import("./pages/MinhaArea"));
 const StudentShell = lazy(() => import("./features/studentExperienceV2/layout/StudentShell"));
 const StudentHomeV2 = lazy(() => import("./features/studentExperienceV2/home/StudentHomeV2"));
 const StudentTrainingLibraryV2 = lazy(() => import("./features/studentExperienceV2/training/StudentTrainingLibraryV2"));
+const StudentWorkoutPlayerV2 = lazy(() => import("./features/studentExperienceV2/player/StudentWorkoutPlayerV2"));
 const StudentExperienceV2FutureRoute = lazy(() => import("./features/studentExperienceV2/routes/StudentExperienceV2FutureRoute"));
 const StudentWorkoutFallback = lazy(() => import("./features/studentExperienceV2/routes/StudentWorkoutFallback"));
 const StudentExperienceV2Route = lazy(() => import("./features/studentExperienceV2/guards/StudentExperienceV2Route"));
@@ -125,6 +126,10 @@ function App() {
             <Route path="perfil" element={<StudentExperienceV2FutureRoute />} />
             <Route path="*" element={<Navigate to="inicio" replace />} />
           </Route>
+          <Route
+            path="/minha-area/treino/:sessionId"
+            element={<ProtectedRoute><StudentExperienceV2Route><StudentWorkoutPlayerV2 /></StudentExperienceV2Route></ProtectedRoute>}
+          />
           <Route
             path="/workout/:sessionId"
             element={<ProtectedRoute><StudentExperienceV2Route><StudentWorkoutFallback /></StudentExperienceV2Route></ProtectedRoute>}

@@ -7,7 +7,7 @@ $ConfigText = Get-Content -Raw "supabase/config.toml"
 $ManifestPath = Join-Path $Root "supabase/baseline-candidate/manifest.json"
 $Manifest = Get-Content -Raw $ManifestPath | ConvertFrom-Json
 $ExpectedTables = 30
-$ExpectedFunctions = 55
+$ExpectedFunctions = 56
 $ExpectedTriggers = 13
 $ExpectedIndexes = 98
 $ExpectedPolicies = 78
@@ -45,7 +45,8 @@ $ExpectedExecutableMigrationVersions = @(
   "20260914132000",
   "20260914185833",
   "20260915014848"
-  "20260915140229"
+  "20260915140229",
+  "20260915201101"
 )
 $BaselineSqlPath = Join-Path $Root (Join-Path "supabase/baseline-candidate" $Manifest.main_file)
 $BaselineSql = Get-Content -Raw $BaselineSqlPath
