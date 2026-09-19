@@ -2,9 +2,9 @@
   "cycle": "8",
   "result": "LOCAL_SEED_LOADED",
   "decision": "LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED",
-  "started_at": "2026-09-19T16:25:05.354Z",
-  "finished_at": "2026-09-19T16:25:12.536Z",
-  "duration_seconds": 7.168,
+  "started_at": "2026-09-19T21:39:02.320Z",
+  "finished_at": "2026-09-19T21:39:12.652Z",
+  "duration_seconds": 10.317,
   "baseline_sha_preserved": "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B",
   "project_id": "ConsultoriaFitness",
   "seed_exit_code": 0,
@@ -88,7 +88,8 @@
       "20260914185833",
       "20260915014848",
       "20260915140229",
-      "20260915201101"
+      "20260915201101",
+      "20260919120000"
     ],
     "structure": {
       "public_tables": 30,

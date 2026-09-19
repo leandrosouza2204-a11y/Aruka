@@ -57,7 +57,8 @@
                               "20260914185833_cycle12_canonical_execution_reads.sql",
                               "20260915014848_cycle12_student_home_v2.sql",
                               "20260915140229_cycle12_student_training_library_v2.sql",
-                              "20260915201101_cycle12_workout_player_v2.sql"
+                              "20260915201101_cycle12_workout_player_v2.sql",
+                              "20260919120000_cycle12_set_tracking_player_payload.sql"
                           ],
     "expected_active_migrations":  [
                                        "20260728030000_workout_delivery_integration_v1.sql",
@@ -91,11 +92,12 @@
                                        "20260914185833_cycle12_canonical_execution_reads.sql",
                                        "20260915014848_cycle12_student_home_v2.sql",
                                        "20260915140229_cycle12_student_training_library_v2.sql",
-                                       "20260915201101_cycle12_workout_player_v2.sql"
+                                       "20260915201101_cycle12_workout_player_v2.sql",
+                                       "20260919120000_cycle12_set_tracking_player_payload.sql"
                                    ],
-    "executable_migration_count":  32,
+    "executable_migration_count":  33,
     "reference_only_baseline_count":  1,
-    "total_database_change_artifact_count":  33,
+    "total_database_change_artifact_count":  34,
     "active_migrations_unexpected":  [
 
                                      ],

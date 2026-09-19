@@ -1,0 +1,99 @@
+{
+  "decision": "PASS",
+  "scope": "CYCLE_12_6_SET_TRACKING_VISUAL",
+  "database_target": "LOCAL",
+  "fixtures": "SYNTHETIC",
+  "production_accessed": false,
+  "production_mutated": false,
+  "screenshots": 11,
+  "viewports": [
+    "mobile-320",
+    "mobile-375",
+    "mobile-390",
+    "mobile-430",
+    "tablet-768",
+    "desktop-1280"
+  ],
+  "results": [
+    {
+      "state": "pending-previous-available",
+      "viewport": "mobile-320",
+      "noHorizontalOverflow": true,
+      "minimumTarget": 44,
+      "labels": 4,
+      "inputs": 4,
+      "progressbars": 1,
+      "status": "PASS"
+    },
+    {
+      "state": "pending-previous-available",
+      "viewport": "mobile-375",
+      "noHorizontalOverflow": true,
+      "minimumTarget": 44,
+      "labels": 4,
+      "inputs": 4,
+      "progressbars": 1,
+      "status": "PASS"
+    },
+    {
+      "state": "pending-previous-available",
+      "viewport": "mobile-390",
+      "noHorizontalOverflow": true,
+      "minimumTarget": 44,
+      "labels": 4,
+      "inputs": 4,
+      "progressbars": 1,
+      "status": "PASS"
+    },
+    {
+      "state": "pending-previous-available",
+      "viewport": "mobile-430",
+      "noHorizontalOverflow": true,
+      "minimumTarget": 44,
+      "labels": 4,
+      "inputs": 4,
+      "progressbars": 1,
+      "status": "PASS"
+    },
+    {
+      "state": "pending-previous-available",
+      "viewport": "tablet-768",
+      "noHorizontalOverflow": true,
+      "minimumTarget": 44,
+      "labels": 4,
+      "inputs": 4,
+      "progressbars": 1,
+      "status": "PASS"
+    },
+    {
+      "state": "pending-previous-available",
+      "viewport": "desktop-1280",
+      "noHorizontalOverflow": true,
+      "minimumTarget": 44,
+      "labels": 4,
+      "inputs": 4,
+      "progressbars": 1,
+      "status": "PASS"
+    },
+    {
+      "state": "submitting-and-recoverable-error",
+      "inputsPreserved": true,
+      "status": "PASS"
+    },
+    {
+      "state": "completed-readonly",
+      "canonicalPersisted": true,
+      "status": "PASS"
+    },
+    {
+      "state": "previous-absent",
+      "recordingAvailable": true,
+      "status": "PASS"
+    },
+    {
+      "state": "terminal",
+      "writesAvailable": false,
+      "status": "PASS"
+    }
+  ]
+}
