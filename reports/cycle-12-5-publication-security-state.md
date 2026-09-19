@@ -72,4 +72,18 @@ The clean-worktree wrapper independently passed credential, JWT and secret scans
 
 ## Publication boundary
 
-The audited repository state is safe to resume, but publication authorization has not been granted. Do not push, create a PR or merge until the user explicitly authorizes publication for this Cycle 12.5 state.
+Publication authorization was granted for the initially audited state. That state was published unchanged as `884375b76f9e5f9640118f17c22a16873ea53240` and opened as PR #128.
+
+## Incremental audit 1 — CI inventory correction
+
+INCREMENTAL_AUDIT_BASE: `884375b76f9e5f9640118f17c22a16873ea53240`
+
+INCREMENTAL_AUDITED_HEAD: `e74091ea55045dc2ddb1d694403ca8020d8dc415`
+
+INCREMENTAL_FINDINGS: 0 critical, 0 high, 0 unresolved sensitive findings.
+
+INCREMENTAL_PUBLICATION_SECURITY_GATE: PASS
+
+The correction updates only the CI static expectation from 55 to 56 public functions, registers the Cycle 12.5 migration in the strict reproducibility inventory, and regenerates four canonical static-scan reports. Exact CI static validation and local reproducibility validation passed. Six changed files were scanned before commit; no private key, JWT, secret, credentialed URL, absolute user path, browser-auth artifact, non-synthetic email, binary or unusual extension was found.
+
+The audit-report update itself was reviewed prospectively before its report-containing checkpoint. No functional, schema or fixture change is included. Publication remains restricted to audited deltas through the normal PR and required-check workflow.

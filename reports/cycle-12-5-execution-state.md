@@ -2,7 +2,7 @@
 
 MISSION: Cycle 12.5 — Workout Player Foundation
 
-DECISION: WAITING_PUBLICATION_DECISION
+DECISION: RELEASE_IN_PROGRESS
 
 STATUS: IN_PROGRESS
 
@@ -12,7 +12,7 @@ BRANCH: feat/product-roadmap-v4-cycle-12-5-workout-player-foundation
 
 AUDITED_FUNCTIONAL_HEAD: aa228a29ccb6c036ca41bebfc9a5f65af19f2f68
 
-CURRENT_HEAD: SECURITY_REPORT_CHECKPOINT — self-referential SHA intentionally omitted; resolve with `git rev-parse HEAD`.
+CURRENT_HEAD: INCREMENTAL_SECURITY_REPORT_CHECKPOINT — self-referential SHA intentionally omitted; resolve with `git rev-parse HEAD`.
 
 GATE_01_PREFLIGHT: PASS — base/branch/worktree verified; known unrelated detached dirty worktree preserved.
 
@@ -58,7 +58,7 @@ GATE_21_RELEASE_READINESS: PASS — lint, production build, focused tests, local
 
 GATE_22_PUBLICATION_SECURITY: PASS — complete `origin/main..HEAD` and prospective report-checkpoint audit; critical/high/unresolved sensitive findings zero.
 
-GATE_23_PR_CI_MERGE: WAITING_AUTHORIZATION
+GATE_23_PR_CI_MERGE: IN_PROGRESS — PR #128 open; Vercel PASS; initial Supabase CI failure diagnosed as stale function/migration inventories; correction validated locally and incrementally audited.
 
 GATE_24_POST_MERGE: NOT_STARTED
 
@@ -114,13 +114,13 @@ CREDENTIALS_REQUIRING_ROTATION: NONE
 
 NEXT_GATE: GATE_23_PR_CI_MERGE
 
-NEXT_ACTION: WAIT_FOR_USER_PUBLICATION_DECISION
+NEXT_ACTION: Publish the audited CI-inventory correction, wait for all required checks, then merge through the normal protected workflow.
 
-PUBLICATION_AUTHORIZATION: NOT_GRANTED
+PUBLICATION_AUTHORIZATION: GRANTED_FOR_AUDITED_STATE
 
-PUSH_PERFORMED: NO
+PUSH_PERFORMED: YES
 
-PR_CREATED: NO
+PR_CREATED: YES — #128
 
 PRODUCTION_ACCESSED_OR_MUTATED: NO
 
