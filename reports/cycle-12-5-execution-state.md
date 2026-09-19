@@ -91,7 +91,7 @@ POST_MERGE_LINT / BUILD / FOCUSED_PLAYER / ROUTES / ROLLOUT_OFF / LEGACY_FALLBAC
 
 PUBLICATION_SECURITY_GATE: PASS
 
-INCREMENTAL_SECURITY_AUDITS: 3 PASS — CI inventory correction, terminal closeout checkpoint and closeout PR metadata.
+INCREMENTAL_SECURITY_AUDITS: 4 PASS — CI inventory correction, terminal closeout checkpoint, closeout PR metadata and post-closeout final-state metadata.
 
 CRITICAL_FINDINGS: 0
 
@@ -115,15 +115,23 @@ PREEXISTING_UNRELATED_WORKTREE: NOT_REGISTERED_AT_FINAL_CHECK
 
 EXTERNAL_DIRECTORY_STATE: NOT_VERIFIED
 
-CURRENT_BRANCH: CLOSEOUT_BRANCH_PENDING_INTEGRATION
+FINAL_BRANCH: main
 
-MAIN_SYNC_AT_FEATURE_POST_MERGE: YES — `main == origin/main == 484fb7f6b2b917b4c0ae6f1a34073e9b2fc54752` before this terminal closeout branch.
+MAIN_SYNC_AFTER_CLOSEOUT: YES — closeout merge `e51b02eb5243297bc4c0c53e366a1fc2ff5b13a8`; the final-state metadata merge is self-referential and resolved by repository state.
 
-WORKING_TREE_AT_FEATURE_POST_MERGE: CLEAN
+WORKING_TREE: CLEAN
 
-CLOSEOUT_PR: 129 — https://github.com/leandrosouza2204-a11y/Aruka/pull/129 — OPEN
+CLOSEOUT_PR: 129 — https://github.com/leandrosouza2204-a11y/Aruka/pull/129 — MERGED
 
-NEXT_ACTION: Complete required checks and merge PR #129 through the normal workflow; then resynchronize main, remove Cycle 12.5 temporary branches and stop only identified Cycle 12.5 temporary resources.
+CLOSEOUT_MERGE_COMMIT: e51b02eb5243297bc4c0c53e366a1fc2ff5b13a8
+
+CYCLE_12_5_TEMPORARY_BRANCHES: NONE
+
+CYCLE_12_5_TEMPORARY_WORKTREES: NONE
+
+TEMPORARY_CONTAINERS_OR_VOLUMES: NONE
+
+NEXT_ACTION: NONE — Cycle 12.5 closed; wait for a separate Cycle 12.6 mission.
 
 ENVIRONMENT_PREPARED_FOR_CYCLE_12_6: YES
 
