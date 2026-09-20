@@ -144,6 +144,8 @@
     "qa:cycle-12-7-rest-timer": "node scripts/validate-cycle-12-7-rest-timer.mjs && node --test src/features/studentExperienceV2/domain/workoutRestTimerV2.test.js src/features/studentExperienceV2/domain/studentWorkoutPlayerV2.test.js",
     "qa:cycle-12-7-rest-timer-runtime": "node scripts/validate-cycle-12-7-rest-timer-runtime.mjs",
     "qa:cycle-12-7-rest-timer-visual": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-cycle-12-7-rest-timer-visual.mjs",
+    "qa:cycle-12-8-workout-completion-feedback": "node scripts/validate-cycle-12-8-workout-completion-feedback.mjs && node --test src/features/studentExperienceV2/domain/studentWorkoutPlayerV2.test.js src/features/studentExperienceV2/domain/workoutRestTimerV2.test.js",
+    "qa:cycle-12-8-workout-completion-feedback-runtime": "node scripts/validate-cycle-12-8-workout-completion-feedback-runtime.mjs",
     "qa:workout-execution-student-runtime": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-workout-execution-student-runtime.mjs",
     "qa:workout-execution-professional-runtime": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-workout-execution-professional-runtime.mjs",
     "qa:subscription-lifecycle-admin-runtime": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-subscription-lifecycle-admin-runtime.mjs",

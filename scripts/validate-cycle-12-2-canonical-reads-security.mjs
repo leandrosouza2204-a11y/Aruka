@@ -139,7 +139,7 @@ function main() {
         'complete_workout_execution_session_v2','get_my_valid_workout_execution_history','get_my_previous_workout_performance'
       );
     `));
-    assert.equal(functionAudit.length, 6);
+    assert.equal(functionAudit.length, 7);
     for (const fn of functionAudit) {
       assert.equal(fn.securityDefiner, true);
       assert.deepEqual(fn.searchPath, ["search_path=\"\""]);

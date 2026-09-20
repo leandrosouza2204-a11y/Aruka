@@ -20,6 +20,7 @@ import { cancelWorkoutSession, skipWorkoutExercise } from "../../../services/wor
 import {
   buscarMeuDesempenhoAnteriorNoWorkoutPlayerV2,
   buscarMeuWorkoutPlayerV2,
+  concluirMeuWorkoutPlayerV2,
   concluirMinhaSerieNoWorkoutPlayerV2,
 } from "../../../services/studentWorkoutPlayerV2Service.js";
 import {
@@ -28,12 +29,15 @@ import {
   buildPlayerPrescriptionFacts,
   deriveCanonicalSetProgress,
   derivePlayerProgress,
+  deriveWorkoutCompletionSummary,
   getPlayerTrackingFields,
   getPreviousSetReference,
   isPlayerSessionTerminal,
   resolveCurrentExerciseIndex,
   resolveCurrentSetNumber,
   validatePlayerSetInput,
+  validateWorkoutFeedback,
+  WORKOUT_FEEDBACK_MAX_LENGTH,
 } from "../domain/studentWorkoutPlayerV2.js";
 import { STUDENT_EXPERIENCE_V2_ROUTES } from "../domain/studentExperienceV2Contracts.js";
 import {
@@ -53,9 +57,11 @@ export function WorkoutPlayerV2() {
   const selectorRef = useRef(null);
   const selectorTriggerRef = useRef(null);
   const cancelRef = useRef(null);
+  const completionRef = useRef(null);
   const [state, setState] = useState({ status: "loading", data: null, message: "" });
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [action, setAction] = useState({ status: "idle", message: "" });
+  const [completion, setCompletion] = useState({ status: "idle", feedback: "", message: "", error: "" });
 
   const load = useCallback(async () => {
     setState((current) => ({ ...current, status: "loading", message: "" }));
@@ -129,6 +135,57 @@ export function WorkoutPlayerV2() {
     return refreshed;
   }, [sessionId]);
 
+  async function completeSession(shortDurationConfirmed = false) {
+    if (completion.status === "submitting" || completion.status === "reconciling") return;
+    const validation = validateWorkoutFeedback(completion.feedback);
+    if (!validation.valid) {
+      setCompletion((current) => ({ ...current, error: validation.error, message: "" }));
+      return;
+    }
+    setCompletion((current) => ({ ...current, status: "submitting", feedback: validation.feedback, error: "", message: "Finalizando treino..." }));
+    try {
+      const result = await concluirMeuWorkoutPlayerV2(sessionId, shortDurationConfirmed, validation.feedback);
+      if (result?.status !== "completed") throw new Error("COMPLETION_CONFIRMATION_MISSING");
+      completionRef.current?.close();
+      setState((current) => ({
+        status: "success",
+        message: "",
+        data: {
+          ...current.data,
+          status: result.status,
+          completedAt: result.completedAt,
+          lastActivityAt: result.lastActivityAt,
+          shortDurationConfirmed: result.shortDurationConfirmed,
+          feedback: result.feedback,
+        },
+      }));
+      setCompletion({ status: "idle", feedback: result.feedback, message: "", error: "" });
+    } catch (error) {
+      if (error?.code === "SHORT_WORKOUT_CONFIRMATION_REQUIRED") {
+        setCompletion((current) => ({ ...current, status: "short-confirmation", message: "Este treino durou 5 minutos ou menos. Confirme para concluir mesmo assim.", error: "" }));
+        return;
+      }
+      if (error?.code === "ZERO_COMPLETED_SETS") {
+        setCompletion((current) => ({ ...current, status: "idle", message: "", error: "Conclua pelo menos uma série antes de finalizar o treino." }));
+        return;
+      }
+
+      setCompletion((current) => ({ ...current, status: "reconciling", message: "Verificando se o treino foi concluído...", error: "" }));
+      try {
+        const refreshed = await buscarMeuWorkoutPlayerV2(sessionId);
+        if (refreshed?.status === "completed") {
+          completionRef.current?.close();
+          setState({ status: "success", data: refreshed, message: "" });
+          setCompletion({ status: "idle", feedback: refreshed.feedback, message: "", error: "" });
+        } else {
+          setCompletion((current) => ({ ...current, status: "idle", message: "", error: "Não foi possível finalizar. Seu feedback foi preservado; tente novamente." }));
+        }
+      } catch {
+        setCompletion((current) => ({ ...current, status: "uncertain", message: "", error: "Não foi possível confirmar a conclusão. Verifique sua conexão antes de tentar novamente." }));
+      }
+    }
+  }
+
   function applyConfirmedSet(exerciseId, setNumber, commandSession) {
     const confirmedExercise = commandSession?.exercises?.find((item) => item.id === exerciseId);
     const confirmedSet = confirmedExercise?.sets?.find((item) => item.setNumber === setNumber && item.completed);
@@ -177,12 +234,13 @@ export function WorkoutPlayerV2() {
       <ExerciseStage exercise={exercise} titleRef={titleRef} />
       <SetStage exercise={exercise} key={exercise.id} onApplyConfirmed={applyConfirmedSet} onRefresh={refreshPlayer} sessionId={sessionId} />
       <PlayerActions
-        busy={action.status !== "idle"}
+        busy={action.status !== "idle" || completion.status === "submitting" || completion.status === "reconciling"}
         canGoNext={currentIndex < player.exercises.length - 1}
         canGoPrevious={currentIndex > 0}
         onNext={() => selectExercise(currentIndex + 1)}
         onOpenSelector={() => selectorRef.current?.showModal()}
         onPrevious={() => selectExercise(currentIndex - 1)}
+        onComplete={() => completionRef.current?.showModal()}
         onSkip={skipCurrent}
         selectorTriggerRef={selectorTriggerRef}
         skipDisabled={exercise.sets.some((set) => set.completed)}
@@ -190,6 +248,7 @@ export function WorkoutPlayerV2() {
 
       <ExerciseSelector currentIndex={currentIndex} dialogRef={selectorRef} exercises={player.exercises} onClose={() => selectorTriggerRef.current?.focus()} onSelect={selectExercise} />
       <CancelDialog busy={action.status === "cancelling"} dialogRef={cancelRef} onConfirm={cancelSession} />
+      <CompletionDialog completion={completion} dialogRef={completionRef} onConfirm={completeSession} onFeedbackChange={(feedback) => setCompletion((current) => ({ ...current, feedback, error: "", message: "" }))} />
     </main>
   );
 }
@@ -429,8 +488,8 @@ export function SetStage({ exercise, onApplyConfirmed, onRefresh, sessionId }) {
   </section>;
 }
 
-export function PlayerActions({ busy, canGoNext, canGoPrevious, onNext, onOpenSelector, onPrevious, onSkip, selectorTriggerRef, skipDisabled }) {
-  return <nav aria-label="Navegação entre exercícios" className="workout-player-actions"><button aria-label="Exercício anterior" className="workout-player-button" disabled={!canGoPrevious || busy} onClick={onPrevious} type="button"><ArrowLeft aria-hidden="true" size={19} /> Anterior</button><button aria-label="Escolher exercício" className="workout-player-button is-selector" disabled={busy} onClick={onOpenSelector} ref={selectorTriggerRef} type="button"><List aria-hidden="true" size={18} /> Exercícios <ChevronDown aria-hidden="true" size={16} /></button><button aria-label="Próximo exercício" className="workout-player-button is-primary" disabled={!canGoNext || busy} onClick={onNext} type="button">Próximo <ArrowRight aria-hidden="true" size={19} /></button><button className="workout-player-skip" disabled={busy || skipDisabled} onClick={onSkip} type="button"><SkipForward aria-hidden="true" size={17} /> {skipDisabled ? "Exercício iniciado" : busy ? "Aguarde..." : "Pular exercício"}</button></nav>;
+export function PlayerActions({ busy, canGoNext, canGoPrevious, onComplete, onNext, onOpenSelector, onPrevious, onSkip, selectorTriggerRef, skipDisabled }) {
+  return <nav aria-label="Navegação entre exercícios" className="workout-player-actions"><button aria-label="Exercício anterior" className="workout-player-button" disabled={!canGoPrevious || busy} onClick={onPrevious} type="button"><ArrowLeft aria-hidden="true" size={19} /> Anterior</button><button aria-label="Escolher exercício" className="workout-player-button is-selector" disabled={busy} onClick={onOpenSelector} ref={selectorTriggerRef} type="button"><List aria-hidden="true" size={18} /> Exercícios <ChevronDown aria-hidden="true" size={16} /></button><button aria-label="Próximo exercício" className="workout-player-button is-primary" disabled={!canGoNext || busy} onClick={onNext} type="button">Próximo <ArrowRight aria-hidden="true" size={19} /></button><button className="workout-player-skip" disabled={busy || skipDisabled} onClick={onSkip} type="button"><SkipForward aria-hidden="true" size={17} /> {skipDisabled ? "Exercício iniciado" : busy ? "Aguarde..." : "Pular exercício"}</button><button className="workout-player-button is-primary workout-player-complete-workout" disabled={busy} onClick={onComplete} type="button"><CheckCircle2 aria-hidden="true" size={18} /> Finalizar treino</button></nav>;
 }
 
 function TrackingFields({ errors, fields, onChange, values }) {
@@ -486,9 +545,37 @@ function CancelDialog({ busy, dialogRef, onConfirm }) {
   return <dialog aria-labelledby="cancel-workout-title" className="workout-player-dialog is-confirmation" ref={dialogRef}><span className="workout-player-eyebrow">Atenção</span><h2 id="cancel-workout-title">Encerrar este treino?</h2><p>Encerrar cancela a sessão. Se quiser continuar depois, apenas saia do player.</p><div className="workout-player-dialog-actions"><button className="workout-player-button" disabled={busy} onClick={() => dialogRef.current?.close()} type="button">Continuar treinando</button><button className="workout-player-button is-danger" disabled={busy} onClick={onConfirm} type="button">{busy ? "Encerrando..." : "Encerrar treino"}</button></div></dialog>;
 }
 
+function CompletionDialog({ completion, dialogRef, onConfirm, onFeedbackChange }) {
+  const busy = completion.status === "submitting" || completion.status === "reconciling";
+  const needsShortConfirmation = completion.status === "short-confirmation";
+  return <dialog aria-labelledby="complete-workout-title" className="workout-player-dialog is-confirmation" ref={dialogRef}>
+    <span className="workout-player-eyebrow">Conclusão explícita</span>
+    <h2 id="complete-workout-title">Finalizar este treino?</h2>
+    <p>As séries já confirmadas serão preservadas. Depois da conclusão, esta sessão ficará somente para leitura.</p>
+    <label className="workout-player-feedback-label" htmlFor="workout-player-feedback">Como foi seu treino? <span>(opcional)</span></label>
+    <textarea aria-describedby={completion.error ? "workout-player-feedback-error" : "workout-player-feedback-help"} aria-invalid={Boolean(completion.error)} disabled={busy} id="workout-player-feedback" maxLength={WORKOUT_FEEDBACK_MAX_LENGTH} onChange={(event) => onFeedbackChange(event.target.value)} rows="4" value={completion.feedback} />
+    <small id="workout-player-feedback-help">Até {WORKOUT_FEEDBACK_MAX_LENGTH} caracteres. O envio acontece junto com a conclusão.</small>
+    {completion.message && <p className={needsShortConfirmation ? "workout-player-completion-warning" : ""} role="status">{completion.message}</p>}
+    {completion.error && <p className="workout-player-completion-error" id="workout-player-feedback-error" role="alert">{completion.error}</p>}
+    <div className="workout-player-dialog-actions">
+      <button className="workout-player-button" disabled={busy} onClick={() => dialogRef.current?.close()} type="button">Continuar treinando</button>
+      <button className="workout-player-button is-primary" disabled={busy} onClick={() => onConfirm(needsShortConfirmation)} type="button">{busy ? <><LoaderCircle aria-hidden="true" className="is-spinning" size={18} /> Verificando...</> : needsShortConfirmation ? "Concluir mesmo assim" : "Finalizar treino"}</button>
+    </div>
+  </dialog>;
+}
+
 function TerminalPlayerState({ onLeave, player }) {
   const label = player.status === "completed" ? "Treino concluído" : "Treino encerrado";
-  return <PlayerState icon={CheckCircle2} title={label} copy="Esta sessão não aceita novas alterações." action={<button className="workout-player-button is-primary" onClick={onLeave} type="button">Voltar aos treinos</button>} />;
+  if (player.status !== "completed") return <PlayerState icon={CheckCircle2} title={label} copy="Esta sessão não aceita novas alterações." action={<button className="workout-player-button is-primary" onClick={onLeave} type="button">Voltar aos treinos</button>} />;
+  const summary = deriveWorkoutCompletionSummary(player);
+  return <main className="workout-player workout-player-state workout-player-completion-result" data-testid="workout-completion-result"><CheckCircle2 aria-hidden="true" size={34} /><span className="workout-player-eyebrow">Confirmado pelo servidor</span><h1>{label}</h1><p>Seu registro foi salvo e esta sessão está somente para leitura.</p><dl><div><dt>Séries registradas</dt><dd>{summary.completedSets}</dd></div><div><dt>Exercícios registrados</dt><dd>{summary.completedExercises}</dd></div><div><dt>Duração</dt><dd>{formatWorkoutDuration(summary.durationSeconds)}</dd></div></dl>{summary.shortDurationConfirmed && <p className="workout-player-completion-qualifier">Treino curto confirmado por você.</p>}{summary.feedback && <section aria-label="Seu feedback"><strong>Seu feedback</strong><p>{summary.feedback}</p></section>}<button className="workout-player-button is-primary" onClick={onLeave} type="button">Voltar aos treinos</button></main>;
+}
+
+function formatWorkoutDuration(seconds) {
+  if (!Number.isFinite(seconds)) return "Não disponível";
+  const minutes = Math.floor(seconds / 60);
+  const remainder = seconds % 60;
+  return `${minutes} min ${String(remainder).padStart(2, "0")} s`;
 }
 
 function PlayerState({ action, copy, icon: Icon, title }) {

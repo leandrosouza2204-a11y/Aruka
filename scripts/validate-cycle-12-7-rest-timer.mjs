@@ -17,7 +17,7 @@ const checks = [
   ["visibility focus and bfcache resume trigger bounded reconciliation", /visibilitychange/.test(player) && /pageshow/.test(player) && /window\.addEventListener\("focus"/.test(player)],
   ["terminal skipped invalid and final-workout guards exist", /TERMINAL_SESSION_STATUSES/.test(domain) && /exercise\.status === "skipped"/.test(domain) && /hasPendingWorkoutSet/.test(domain)],
   ["dismissal is visual session storage only", /sessionStorage\.setItem\(dismissedRestKey/.test(player) && /Dispensar aviso/.test(player)],
-  ["no workout completion or rest mutation command was introduced", !/completeWorkoutSession|pauseRest|restartRest|updateRest/i.test(player + service)],
+  ["rest timer still owns no workout completion or rest mutation command", !/RestTimerNotice[\s\S]*?(completeWorkoutSession|concluirMeuWorkoutPlayerV2|pauseRest|restartRest|updateRest)/i.test(player) && !/setInterval[\s\S]{0,500}(completeWorkoutSession|concluirMeuWorkoutPlayerV2)/i.test(player + service)],
   ["accessibility avoids per-second live announcements", /aria-live="polite" className="sr-only"/.test(player) && !/<strong[^>]*aria-live/.test(player) && /focus-visible/.test(css) && /prefers-reduced-motion/.test(css)],
   ["clock uncertainty is recorded from bounded request timing", /serverRoundTripMs/.test(service) && /uncertaintyMs/.test(domain)],
 ];

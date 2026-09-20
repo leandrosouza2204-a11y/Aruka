@@ -8,7 +8,7 @@
   "player_requests_initial": 1,
   "previous_performance_requests_per_exercise": 1,
   "write_requests_per_completion": 1,
-  "player_payload_bytes": 1449,
+  "player_payload_bytes": 1498,
   "player_payload_budget_bytes": 30000,
   "persisted_set_count": 2,
   "idempotent_retry": "PASS",

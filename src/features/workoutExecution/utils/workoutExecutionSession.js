@@ -49,6 +49,7 @@ export function normalizeExecutionSession(session = null) {
     shortDurationConfirmed: Boolean(session.shortDurationConfirmed ?? session.short_duration_confirmed),
     lastActivityAt: session.lastActivityAt || session.last_activity_at || "",
     durationSeconds: session.durationSeconds ?? session.duration_seconds ?? null,
+    feedback: String(session.feedback || "").trim(),
     notes: session.notes || "",
     exercises: exercises.map(normalizeExecutionExercise),
   };

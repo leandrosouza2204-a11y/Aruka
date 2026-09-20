@@ -81,10 +81,11 @@ export async function cancelWorkoutSession(sessionId, reason = null) {
   return callV2Command("cancel_workout_execution_session", { p_session_id: sessionId, p_reason: reason });
 }
 
-export async function completeWorkoutSession(sessionId, shortDurationConfirmed = false) {
+export async function completeWorkoutSession(sessionId, shortDurationConfirmed = false, feedback = "") {
   return callV2Command("complete_workout_execution_session_v2", {
     p_session_id: sessionId,
     p_short_duration_confirmed: shortDurationConfirmed,
+    p_feedback_text: feedback || null,
   });
 }
 
@@ -131,7 +132,15 @@ export function createExecutionIdempotencyKey(treinoId, treinoDiaId = "") {
 
 function sanitizeWorkoutExecutionError(error) {
   const safe = new Error("Não foi possível atualizar a execução do treino agora.");
-  safe.code = "WORKOUT_EXECUTION_FAILED";
+  const knownCode = [
+    "SHORT_WORKOUT_CONFIRMATION_REQUIRED",
+    "ZERO_COMPLETED_SETS",
+    "SESSION_NOT_OWNED",
+    "SESSION_NOT_IN_PROGRESS",
+    "FEEDBACK_TOO_LONG",
+    "FEEDBACK_CONFLICT",
+  ].find((code) => String(error?.message || "").includes(code));
+  safe.code = knownCode || "WORKOUT_EXECUTION_FAILED";
   safe.cause = error;
   return safe;
 }

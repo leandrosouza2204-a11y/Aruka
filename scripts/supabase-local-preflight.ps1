@@ -47,6 +47,7 @@ $ExpectedActiveMigrations = @(
   "20260915201101_cycle12_workout_player_v2.sql"
   "20260919120000_cycle12_set_tracking_player_payload.sql",
   "20260919231657_cycle12_rest_timer_server_clock.sql"
+  "20260920104727_cycle12_workout_completion_feedback.sql"
 )
 $IsCi = $env:CI -eq "true"
 $IsCiLocalOnly = $env:SUPABASE_CI_LOCAL_ONLY -eq "true"
