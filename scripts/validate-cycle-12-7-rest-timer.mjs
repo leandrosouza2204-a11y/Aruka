@@ -9,7 +9,7 @@ const migration = read("supabase/migrations/20260919231657_cycle12_rest_timer_se
 const css = read("src/index.css");
 
 const checks = [
-  ["existing bounded Player RPC gains a stable backend clock without a new RPC or table", /create or replace function public\.get_my_workout_player_v2/.test(migration) && /'serverNow', statement_timestamp\(\)/.test(migration) && /\nstable\n/.test(migration) && !/create table|create function public\.(?!get_my_workout_player_v2)/i.test(migration)],
+  ["existing bounded Player RPC gains a stable backend clock without a new RPC or table", /create or replace function public\.get_my_workout_player_v2/.test(migration) && /'serverNow', statement_timestamp\(\)/.test(migration) && /^[ \t]*stable[ \t]*\r?$/im.test(migration) && !/create table|create function public\.(?!get_my_workout_player_v2)/i.test(migration)],
   ["canonical inputs are persisted completion timestamp and immutable rest snapshot", /set\.completedAt/.test(domain) && /exercise\.prescribedRest/.test(domain) && /completedAt'.*ws\.updated_at/s.test(migration) && /prescribedRest'.*prescribed_rest_snapshot/s.test(migration)],
   ["identity isolates session exercise set completion and duration", /JSON\.stringify\(\[player\.id, latest\.exerciseId, latest\.setNumber, latest\.startedAt, latest\.durationSeconds\]\)/.test(domain)],
   ["remaining time derives from deadline and monotonic backend anchor", /rest\.endsAtMs - Number\(serverNowMs\)/.test(domain) && /performance\.now/.test(player) && !/Date\.now/.test(domain + player)],
