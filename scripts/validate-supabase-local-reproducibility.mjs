@@ -50,6 +50,7 @@ const expectedExecutableMigrations = [
   "supabase/migrations/20260919120000_cycle12_set_tracking_player_payload.sql",
   "supabase/migrations/20260919231657_cycle12_rest_timer_server_clock.sql",
   "supabase/migrations/20260920104727_cycle12_workout_completion_feedback.sql",
+  "supabase/migrations/20260920144904_cycle12_student_evolution_v2.sql",
 ];
 const forbiddenProjectRef = "xrmqdkpx" + "nfvusmenadnf";
 const APPROVED_REDACTED_DB_URL =

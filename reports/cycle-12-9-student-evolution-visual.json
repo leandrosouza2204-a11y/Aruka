@@ -1,0 +1,61 @@
+{
+  "decision": "PASS",
+  "scope": "CYCLE_12_9_STUDENT_EVOLUTION_VISUAL",
+  "database_target": "LOCAL",
+  "production_accessed": false,
+  "screenshots": 5,
+  "reduced_motion_foundation": "PASS",
+  "results": [
+    {
+      "viewport": "mobile-320",
+      "overflow": false,
+      "h1": 1,
+      "h2": 3,
+      "current": 1,
+      "minTarget": 52,
+      "retryVisible": false,
+      "status": "PASS"
+    },
+    {
+      "viewport": "mobile-375",
+      "overflow": false,
+      "h1": 1,
+      "h2": 3,
+      "current": 1,
+      "minTarget": 52,
+      "retryVisible": false,
+      "status": "PASS"
+    },
+    {
+      "viewport": "tablet-768",
+      "overflow": false,
+      "h1": 1,
+      "h2": 3,
+      "current": 1,
+      "minTarget": 48,
+      "retryVisible": false,
+      "status": "PASS"
+    },
+    {
+      "viewport": "desktop-1280",
+      "overflow": false,
+      "h1": 1,
+      "h2": 3,
+      "current": 1,
+      "minTarget": 48,
+      "retryVisible": false,
+      "status": "PASS"
+    },
+    {
+      "state": "partial-error-retry",
+      "independentContentPreserved": true,
+      "keyboardFocus": true,
+      "status": "PASS"
+    },
+    {
+      "state": "rollout-off-legacy",
+      "route": "/minha-area",
+      "status": "PASS"
+    }
+  ]
+}
