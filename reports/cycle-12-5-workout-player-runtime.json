@@ -5,7 +5,7 @@
   "production_accessed": false,
   "production_mutated": false,
   "player_request_count": 1,
-  "player_payload_bytes": 2112,
+  "player_payload_bytes": 2161,
   "player_payload_budget_bytes": 30000,
   "exercise_count": 3,
   "no_n_plus_one": "PASS",

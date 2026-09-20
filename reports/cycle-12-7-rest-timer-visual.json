@@ -1,0 +1,171 @@
+{
+  "decision": "PASS",
+  "scope": "CYCLE_12_7_REST_TIMER_VISUAL",
+  "database_target": "LOCAL",
+  "fixtures": "SYNTHETIC",
+  "production_accessed": false,
+  "production_mutated": false,
+  "screenshots": 18,
+  "screenshot_directory": "tmp-responsive-screenshots/cycle-12-7-rest-timer",
+  "viewports": [
+    "mobile-320",
+    "mobile-375",
+    "mobile-390",
+    "mobile-430",
+    "tablet-768",
+    "desktop-1280"
+  ],
+  "states": [
+    "rest-absent",
+    "rest-started",
+    "rest-active",
+    "rest-reloaded",
+    "recoverable-read-error",
+    "rest-completed",
+    "rest-dismissed",
+    "terminal"
+  ],
+  "results": [
+    {
+      "state": "rest-absent",
+      "viewport": "mobile-320",
+      "noHorizontalOverflow": true,
+      "timerVisible": false,
+      "status": "PASS"
+    },
+    {
+      "state": "rest-absent",
+      "viewport": "mobile-375",
+      "noHorizontalOverflow": true,
+      "timerVisible": false,
+      "status": "PASS"
+    },
+    {
+      "state": "rest-absent",
+      "viewport": "mobile-390",
+      "noHorizontalOverflow": true,
+      "timerVisible": false,
+      "status": "PASS"
+    },
+    {
+      "state": "rest-absent",
+      "viewport": "mobile-430",
+      "noHorizontalOverflow": true,
+      "timerVisible": false,
+      "status": "PASS"
+    },
+    {
+      "state": "rest-absent",
+      "viewport": "tablet-768",
+      "noHorizontalOverflow": true,
+      "timerVisible": false,
+      "status": "PASS"
+    },
+    {
+      "state": "rest-absent",
+      "viewport": "desktop-1280",
+      "noHorizontalOverflow": true,
+      "timerVisible": false,
+      "status": "PASS"
+    },
+    {
+      "state": "rest-started",
+      "identity": "[\"00000000-0000-4000-8000-000000007861\",\"00000000-0000-4000-8000-000000007871\",1,\"2026-09-20T02:26:51.454628+00:00\",300]",
+      "remainingSeconds": 300,
+      "status": "PASS"
+    },
+    {
+      "state": "rest-active",
+      "viewport": "mobile-320",
+      "noHorizontalOverflow": true,
+      "minimumTarget": 44,
+      "counterFontSize": 28,
+      "liveRegions": 1,
+      "keyboardFocused": true,
+      "focusOutlineStyle": "solid",
+      "status": "PASS"
+    },
+    {
+      "state": "rest-active",
+      "viewport": "mobile-375",
+      "noHorizontalOverflow": true,
+      "minimumTarget": 44,
+      "counterFontSize": 28,
+      "liveRegions": 1,
+      "keyboardFocused": true,
+      "focusOutlineStyle": "solid",
+      "status": "PASS"
+    },
+    {
+      "state": "rest-active",
+      "viewport": "mobile-390",
+      "noHorizontalOverflow": true,
+      "minimumTarget": 44,
+      "counterFontSize": 28,
+      "liveRegions": 1,
+      "keyboardFocused": true,
+      "focusOutlineStyle": "solid",
+      "status": "PASS"
+    },
+    {
+      "state": "rest-active",
+      "viewport": "mobile-430",
+      "noHorizontalOverflow": true,
+      "minimumTarget": 44,
+      "counterFontSize": 30.1,
+      "liveRegions": 1,
+      "keyboardFocused": true,
+      "focusOutlineStyle": "solid",
+      "status": "PASS"
+    },
+    {
+      "state": "rest-active",
+      "viewport": "tablet-768",
+      "noHorizontalOverflow": true,
+      "minimumTarget": 44,
+      "counterFontSize": 38,
+      "liveRegions": 1,
+      "keyboardFocused": true,
+      "focusOutlineStyle": "solid",
+      "status": "PASS"
+    },
+    {
+      "state": "rest-active",
+      "viewport": "desktop-1280",
+      "noHorizontalOverflow": true,
+      "minimumTarget": 44,
+      "counterFontSize": 38,
+      "liveRegions": 1,
+      "keyboardFocused": true,
+      "focusOutlineStyle": "solid",
+      "status": "PASS"
+    },
+    {
+      "state": "rest-reloaded",
+      "sameIdentity": true,
+      "didNotRestart": true,
+      "status": "PASS"
+    },
+    {
+      "state": "recoverable-read-error",
+      "timerPreserved": true,
+      "retryAvailable": true,
+      "status": "PASS"
+    },
+    {
+      "state": "rest-completed",
+      "negativeCountdown": false,
+      "status": "PASS"
+    },
+    {
+      "state": "rest-dismissed",
+      "canonicalSetStillCompleted": true,
+      "status": "PASS"
+    },
+    {
+      "state": "terminal",
+      "timerVisible": false,
+      "status": "PASS"
+    }
+  ]
+}

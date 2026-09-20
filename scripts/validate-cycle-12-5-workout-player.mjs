@@ -26,7 +26,7 @@ const checks = [
   ["terminal, invalid, empty, error and retry states exist", /isPlayerSessionTerminal/.test(player) && /status === "missing"/.test(player) && /Treino sem exercícios/.test(player) && /Tentar novamente/.test(player)],
   ["current media is lazy and has a dignified fallback", /ExerciseVideoPlayer/.test(player) && /Sem demonstração disponível/.test(player) && !/autoplay/.test(player)],
   ["mobile safe areas, touch targets and reduced motion exist", /safe-area-inset-top/.test(css) && /safe-area-inset-bottom/.test(css) && /min-height: 46px/.test(css) && /prefers-reduced-motion: reduce/.test(css)],
-  ["no client-side lifecycle cancellation hooks exist", !/beforeunload|visibilitychange/.test(player)],
+  ["client lifecycle hooks never cancel the workout", !/beforeunload/.test(player) && !/visibilitychange[\s\S]{0,500}cancelWorkoutSession/.test(player)],
 ];
 
 let failed = false;

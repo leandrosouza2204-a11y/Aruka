@@ -12,8 +12,8 @@
     "legacy_hml_project_ref_sanitized":  "xrmq...adnf",
     "temp_project_ref_present":  true,
     "temp_project_ref_sanitized":  "vrize...vdik",
-    "docker":  "Docker version 29.7.2, build a7dcaa6",
-    "docker_server":  "29.7.2 29.7.2",
+    "docker":  "Docker version 29.8.0, build 88096ef",
+    "docker_server":  "29.8.0 29.8.0",
     "docker_context":  "desktop-linux",
     "allowed_docker_contexts":  [
                                     "desktop-linux"
@@ -57,7 +57,9 @@
                               "20260914185833_cycle12_canonical_execution_reads.sql",
                               "20260915014848_cycle12_student_home_v2.sql",
                               "20260915140229_cycle12_student_training_library_v2.sql",
-                              "20260915201101_cycle12_workout_player_v2.sql"
+                              "20260915201101_cycle12_workout_player_v2.sql",
+                              "20260919120000_cycle12_set_tracking_player_payload.sql",
+                              "20260919231657_cycle12_rest_timer_server_clock.sql"
                           ],
     "expected_active_migrations":  [
                                        "20260728030000_workout_delivery_integration_v1.sql",
@@ -91,11 +93,13 @@
                                        "20260914185833_cycle12_canonical_execution_reads.sql",
                                        "20260915014848_cycle12_student_home_v2.sql",
                                        "20260915140229_cycle12_student_training_library_v2.sql",
-                                       "20260915201101_cycle12_workout_player_v2.sql"
+                                       "20260915201101_cycle12_workout_player_v2.sql",
+                                       "20260919120000_cycle12_set_tracking_player_payload.sql",
+                                       "20260919231657_cycle12_rest_timer_server_clock.sql"
                                    ],
-    "executable_migration_count":  32,
+    "executable_migration_count":  34,
     "reference_only_baseline_count":  1,
-    "total_database_change_artifact_count":  33,
+    "total_database_change_artifact_count":  35,
     "active_migrations_unexpected":  [
 
                                      ],

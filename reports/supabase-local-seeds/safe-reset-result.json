@@ -2,9 +2,9 @@
   "cycle": "8",
   "result": "SAFE_RESET_VALIDATED",
   "decision": "LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED",
-  "started_at": "2026-09-19T21:32:47.912Z",
-  "finished_at": "2026-09-19T21:39:18.788Z",
-  "duration_seconds": 390.87,
+  "started_at": "2026-09-19T23:30:48.173Z",
+  "finished_at": "2026-09-19T23:37:52.738Z",
+  "duration_seconds": 424.562,
   "reset_runs": 2,
   "baseline_sha_preserved": true,
   "baseline_sha": "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B",
@@ -53,7 +53,8 @@
       "20260915014848",
       "20260915140229",
       "20260915201101",
-      "20260919120000"
+      "20260919120000",
+      "20260919231657"
     ],
     "structure": {
       "public_tables": 30,
@@ -99,13 +100,13 @@
   "post_reset_stability": {
     "first": {
       "stable": true,
-      "expectedLatestMigration": "20260919120000",
+      "expectedLatestMigration": "20260919231657",
       "tableCount": 30,
       "consecutiveStableReads": 2
     },
     "second": {
       "stable": true,
-      "expectedLatestMigration": "20260919120000",
+      "expectedLatestMigration": "20260919231657",
       "tableCount": 30,
       "consecutiveStableReads": 2
     }
