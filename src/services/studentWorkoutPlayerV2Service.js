@@ -2,7 +2,7 @@ import {
   normalizePreviousPerformance,
   normalizeWorkoutPlayerV2,
 } from "../features/studentExperienceV2/domain/studentWorkoutPlayerV2.js";
-import { completeWorkoutSet, getPreviousPerformance } from "./workoutExecutionService.js";
+import { completeWorkoutSession, completeWorkoutSet, getPreviousPerformance } from "./workoutExecutionService.js";
 import { buscarUsuarioLogado } from "./authSessionService.js";
 import { supabase } from "./supabase.js";
 
@@ -29,6 +29,10 @@ function monotonicNow() {
 
 export async function concluirMinhaSerieNoWorkoutPlayerV2(sessionId, executionExerciseId, setNumber, values) {
   return completeWorkoutSet(sessionId, executionExerciseId, setNumber, values);
+}
+
+export async function concluirMeuWorkoutPlayerV2(sessionId, shortDurationConfirmed, feedback) {
+  return completeWorkoutSession(sessionId, shortDurationConfirmed, feedback);
 }
 
 export async function buscarMeuDesempenhoAnteriorNoWorkoutPlayerV2(treinoExercicioId, sessionId) {

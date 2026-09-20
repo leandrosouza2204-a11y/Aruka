@@ -5,6 +5,7 @@ import {
   buildPlayerSetRows,
   buildPlayerPrescriptionFacts,
   deriveCanonicalSetProgress,
+  deriveWorkoutCompletionSummary,
   derivePlayerProgress,
   getPlayerTrackingFields,
   getPreviousSetReference,
@@ -14,6 +15,7 @@ import {
   resolveCurrentSetNumber,
   resolveCurrentExerciseIndex,
   validatePlayerSetInput,
+  validateWorkoutFeedback,
 } from "./studentWorkoutPlayerV2.js";
 
 test("normalizes and orders player exercises by canonical snapshot order", () => {
@@ -79,6 +81,32 @@ test("derives workout progress only from backend-confirmed sets", () => {
     { prescribedSeries: "2", sets: [{ setNumber: 1, completed: false }] },
   ];
   assert.deepEqual(deriveCanonicalSetProgress(exercises), { completed: 1, total: 4, percent: 25 });
+});
+
+test("validates optional feedback without inventing a rating contract", () => {
+  assert.deepEqual(validateWorkoutFeedback("  treino bom  "), { feedback: "treino bom", valid: true, error: "" });
+  assert.equal(validateWorkoutFeedback("").valid, true);
+  assert.equal(validateWorkoutFeedback("x".repeat(1001)).valid, false);
+});
+
+test("derives the completion result only from the confirmed player payload", () => {
+  const summary = deriveWorkoutCompletionSummary({
+    startedAt: "2026-09-20T10:00:00Z",
+    completedAt: "2026-09-20T10:06:01Z",
+    shortDurationConfirmed: false,
+    feedback: "Concluído sem dor.",
+    exercises: [
+      { prescribedSeries: "2", sets: [{ setNumber: 1, completed: true }] },
+      { prescribedSeries: "1", sets: [] },
+    ],
+  });
+  assert.deepEqual(summary, {
+    completedExercises: 1,
+    completedSets: 1,
+    durationSeconds: 361,
+    feedback: "Concluído sem dor.",
+    shortDurationConfirmed: false,
+  });
 });
 
 test("renders and serializes only canonically supported snapshot fields", () => {

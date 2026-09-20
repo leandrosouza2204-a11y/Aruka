@@ -7,6 +7,7 @@ import {
 import { buildExecutionSetNumbers } from "../../workoutExecution/utils/restTimer.js";
 
 export const PLAYER_TRACKING_FIELDS = Object.freeze(["reps", "load", "rir", "rpe"]);
+export const WORKOUT_FEEDBACK_MAX_LENGTH = 1000;
 
 export const PLAYER_TERMINAL_STATUSES = Object.freeze([
   WORKOUT_EXECUTION_SESSION_STATUS.COMPLETED,
@@ -25,7 +26,10 @@ export function normalizeWorkoutPlayerV2(payload) {
     treinoDiaId: clean(payload.treinoDiaId ?? payload.treino_dia_id),
     status: clean(payload.status) || WORKOUT_EXECUTION_SESSION_STATUS.IN_PROGRESS,
     startedAt: clean(payload.startedAt ?? payload.started_at),
+    completedAt: clean(payload.completedAt ?? payload.completed_at),
     lastActivityAt: clean(payload.lastActivityAt ?? payload.last_activity_at),
+    shortDurationConfirmed: payload.shortDurationConfirmed === true || payload.short_duration_confirmed === true,
+    feedback: clean(payload.feedback),
     serverNow: clean(payload.serverNow ?? payload.server_now),
     serverRoundTripMs: optionalNumber(payload.serverRoundTripMs ?? payload.server_round_trip_ms),
     serverReceivedMonotonicMs: optionalNumber(payload.serverReceivedMonotonicMs ?? payload.server_received_monotonic_ms),
@@ -93,6 +97,35 @@ export function deriveCanonicalSetProgress(exercises = []) {
   const rows = exercises.flatMap(buildPlayerSetRows);
   const completed = rows.filter((set) => set.completed).length;
   return { completed, total: rows.length, percent: rows.length ? Math.round((completed / rows.length) * 100) : 0 };
+}
+
+export function validateWorkoutFeedback(value = "") {
+  const feedback = String(value || "").trim();
+  return {
+    feedback,
+    valid: feedback.length <= WORKOUT_FEEDBACK_MAX_LENGTH,
+    error: feedback.length <= WORKOUT_FEEDBACK_MAX_LENGTH
+      ? ""
+      : `O feedback deve ter no máximo ${WORKOUT_FEEDBACK_MAX_LENGTH} caracteres.`,
+  };
+}
+
+export function deriveWorkoutCompletionSummary(player = {}) {
+  const exercises = Array.isArray(player.exercises) ? player.exercises : [];
+  const setProgress = deriveCanonicalSetProgress(exercises);
+  const completedExercises = exercises.filter((exercise) => buildPlayerSetRows(exercise).some((set) => set.completed)).length;
+  const startedAtMs = Date.parse(player.startedAt || "");
+  const completedAtMs = Date.parse(player.completedAt || "");
+  const durationSeconds = Number.isFinite(startedAtMs) && Number.isFinite(completedAtMs)
+    ? Math.max(0, Math.floor((completedAtMs - startedAtMs) / 1000))
+    : null;
+  return {
+    completedExercises,
+    completedSets: setProgress.completed,
+    durationSeconds,
+    feedback: clean(player.feedback),
+    shortDurationConfirmed: player.shortDurationConfirmed === true,
+  };
 }
 
 export function validatePlayerSetInput(values = {}, trackingConfig = {}) {
