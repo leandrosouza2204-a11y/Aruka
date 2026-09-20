@@ -10,9 +10,21 @@ export async function buscarMeuWorkoutPlayerV2(sessionId) {
   const id = String(sessionId || "").trim();
   if (!id) return null;
   await buscarUsuarioLogado();
+  const requestStartedAt = monotonicNow();
   const { data, error } = await supabase.rpc("get_my_workout_player_v2", { p_session_id: id });
+  const responseReceivedAt = monotonicNow();
   if (error) throw sanitizePlayerError(error);
-  return normalizeWorkoutPlayerV2(data);
+  return normalizeWorkoutPlayerV2(data ? {
+    ...data,
+    serverRoundTripMs: Math.max(0, responseReceivedAt - requestStartedAt),
+    serverReceivedMonotonicMs: responseReceivedAt,
+  } : data);
+}
+
+function monotonicNow() {
+  return typeof performance !== "undefined" && typeof performance.now === "function"
+    ? performance.now()
+    : 0;
 }
 
 export async function concluirMinhaSerieNoWorkoutPlayerV2(sessionId, executionExerciseId, setNumber, values) {

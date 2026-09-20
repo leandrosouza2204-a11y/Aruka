@@ -10,9 +10,10 @@ import {
   LoaderCircle,
   RefreshCcw,
   SkipForward,
+  Timer,
   X,
 } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ExerciseVideoPlayer from "../../workoutExecution/components/ExerciseVideoPlayer.jsx";
 import { cancelWorkoutSession, skipWorkoutExercise } from "../../../services/workoutExecutionService.js";
@@ -35,8 +36,15 @@ import {
   validatePlayerSetInput,
 } from "../domain/studentWorkoutPlayerV2.js";
 import { STUDENT_EXPERIENCE_V2_ROUTES } from "../domain/studentExperienceV2Contracts.js";
+import {
+  createServerClockAnchor,
+  deriveCanonicalRest,
+  deriveRestTimerPresentation,
+  estimateServerNow,
+} from "../domain/workoutRestTimerV2.js";
 
 const selectionKey = (sessionId) => `aruka:student-player-v2:${sessionId}:exercise`;
+const dismissedRestKey = (sessionId) => `aruka:student-player-v2:${sessionId}:dismissed-rest`;
 
 export function WorkoutPlayerV2() {
   const { sessionId = "" } = useParams();
@@ -135,7 +143,9 @@ export function WorkoutPlayerV2() {
           status: confirmedExercise.status,
           sets: [...item.sets.filter((set) => set.setNumber !== setNumber), {
             ...confirmedSet,
-            completedAt: commandSession.lastActivityAt,
+            // The command payload does not expose the set row timestamp. The
+            // bounded refresh below is the only source accepted by the timer.
+            completedAt: confirmedSet.completedAt || "",
           }].sort((left, right) => left.setNumber - right.setNumber),
         } : item),
       },
@@ -163,6 +173,7 @@ export function WorkoutPlayerV2() {
 
       <PlayerProgress progress={progress} />
       {action.message && <div className="workout-player-notice" role="status">{action.message}</div>}
+      <RestTimerNotice onRefresh={refreshPlayer} player={player} />
       <ExerciseStage exercise={exercise} titleRef={titleRef} />
       <SetStage exercise={exercise} key={exercise.id} onApplyConfirmed={applyConfirmedSet} onRefresh={refreshPlayer} sessionId={sessionId} />
       <PlayerActions
@@ -185,6 +196,124 @@ export function WorkoutPlayerV2() {
 
 export function PlayerProgress({ progress }) {
   return <section aria-label="Progresso do treino" className="workout-player-progress"><div><span>{progress.sets.completed} de {progress.sets.total} séries concluídas</span><strong>Exercício {progress.position} de {progress.total}</strong></div><div aria-label={`${progress.sets.completed} de ${progress.sets.total} séries concluídas`} aria-valuemax={progress.sets.total} aria-valuemin="0" aria-valuenow={progress.sets.completed} className="workout-player-progressbar" role="progressbar"><span style={{ width: `${progress.sets.percent}%` }} /></div></section>;
+}
+
+export function RestTimerNotice({ onRefresh, player }) {
+  const rest = useMemo(() => deriveCanonicalRest(player), [player]);
+  const anchor = useMemo(() => createServerClockAnchor(
+    player.serverNow,
+    player.serverReceivedMonotonicMs === "" ? monotonicNow() : player.serverReceivedMonotonicMs,
+    player.serverRoundTripMs,
+  ), [player.serverNow, player.serverReceivedMonotonicMs, player.serverRoundTripMs]);
+  const [monotonicTick, setMonotonicTick] = useState(monotonicNow);
+  const serverNowMs = estimateServerNow(anchor, monotonicTick);
+  const [dismissedIdentity, setDismissedIdentity] = useState(() => readDismissedRest(player.id));
+  const [syncError, setSyncError] = useState(false);
+  const [announcement, setAnnouncement] = useState("");
+  const statusRef = useRef({ identity: "", status: "" });
+  const mountedRef = useRef(true);
+  const syncInFlightRef = useRef(false);
+  const lastSyncAtRef = useRef(-Infinity);
+  const presentation = useMemo(() => deriveRestTimerPresentation(rest, serverNowMs), [rest, serverNowMs]);
+  const dismissed = Boolean(rest?.identity && dismissedIdentity === rest.identity);
+  const presentationIdentity = presentation?.identity || "";
+  const presentationSetNumber = presentation?.setNumber || 0;
+  const presentationStatus = presentation?.status || "";
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => { mountedRef.current = false; };
+  }, []);
+
+  useEffect(() => {
+    if (!presentationIdentity || presentationStatus !== "active" || dismissed) return undefined;
+    const intervalId = window.setInterval(() => {
+      setMonotonicTick(monotonicNow());
+    }, 1000);
+    return () => window.clearInterval(intervalId);
+  }, [dismissed, presentationIdentity, presentationStatus]);
+
+  useEffect(() => {
+    if (!presentationIdentity || dismissed) return;
+    const previous = statusRef.current;
+    if (previous.identity !== presentationIdentity) {
+      setAnnouncement(presentationStatus === "active"
+        ? `Descanso em andamento após a série ${presentationSetNumber}.`
+        : "Descanso concluído.");
+    } else if (previous.status === "active" && presentationStatus === "completed") {
+      setAnnouncement("Descanso concluído.");
+    }
+    statusRef.current = { identity: presentationIdentity, status: presentationStatus };
+  }, [dismissed, presentationIdentity, presentationSetNumber, presentationStatus]);
+
+  useEffect(() => {
+    async function synchronize(force = false) {
+      const current = monotonicNow();
+      if (syncInFlightRef.current || (!force && current - lastSyncAtRef.current < 5000)) return;
+      syncInFlightRef.current = true;
+      lastSyncAtRef.current = current;
+      try {
+        await onRefresh();
+        if (mountedRef.current) setSyncError(false);
+      } catch {
+        if (mountedRef.current) setSyncError(true);
+      } finally {
+        syncInFlightRef.current = false;
+      }
+    }
+    const onVisibility = () => { if (document.visibilityState === "visible") synchronize(); };
+    const onPageShow = (event) => { if (event.persisted) synchronize(true); };
+    const onFocus = () => synchronize();
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("pageshow", onPageShow);
+    window.addEventListener("focus", onFocus);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("pageshow", onPageShow);
+      window.removeEventListener("focus", onFocus);
+    };
+  }, [onRefresh]);
+
+  function dismiss() {
+    if (!rest) return;
+    try { window.sessionStorage.setItem(dismissedRestKey(player.id), rest.identity); } catch { /* visual preference only */ }
+    setDismissedIdentity(rest.identity);
+    setAnnouncement("Aviso de descanso dispensado.");
+  }
+
+  async function retrySync() {
+    try {
+      await onRefresh();
+      if (mountedRef.current) setSyncError(false);
+    } catch {
+      if (mountedRef.current) setSyncError(true);
+    }
+  }
+
+  if (!presentation || dismissed) return <span aria-live="polite" className="sr-only">{announcement}</span>;
+  const active = presentation.status === "active";
+  return <section aria-label="Temporizador de descanso" className={`workout-player-rest ${active ? "is-active" : "is-complete"}`} data-rest-duration={presentation.durationSeconds} data-rest-ends-at={new Date(presentation.endsAtMs).toISOString()} data-rest-identity={presentation.identity} data-rest-started-at={presentation.startedAt} data-rest-status={presentation.status}>
+    <div className="workout-player-rest-icon"><Timer aria-hidden="true" size={23} /></div>
+    <div className="workout-player-rest-copy">
+      <span>{active ? "Descanso em andamento" : "Descanso concluído"}</span>
+      <strong aria-label={active ? `${presentation.remainingSeconds} segundos restantes` : "Descanso concluído"}>{presentation.remainingLabel}</strong>
+      <small>Prescrito: {presentation.durationLabel} · após {presentation.exerciseName}, série {presentation.setNumber}</small>
+      {syncError && <p>Não foi possível sincronizar agora. A última âncora confirmada continua em uso.</p>}
+    </div>
+    <div className="workout-player-rest-actions">
+      {syncError && <button onClick={retrySync} type="button">Sincronizar</button>}
+      <button onClick={dismiss} type="button">Dispensar aviso</button>
+    </div>
+    <span aria-live="polite" className="sr-only">{announcement}</span>
+  </section>;
+}
+
+function monotonicNow() {
+  return typeof performance !== "undefined" && typeof performance.now === "function" ? performance.now() : 0;
+}
+
+function readDismissedRest(sessionId) {
+  try { return window.sessionStorage.getItem(dismissedRestKey(sessionId)) || ""; } catch { return ""; }
 }
 
 export function ExerciseStage({ exercise, titleRef }) {

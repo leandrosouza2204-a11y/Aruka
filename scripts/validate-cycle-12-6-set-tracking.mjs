@@ -27,7 +27,7 @@ const checks = [
   ["previous performance is one request per exercise, never per set", /buscarMeuDesempenhoAnteriorNoWorkoutPlayerV2\(exercise\.treinoExercicioId, sessionId\)/.test(player) && !/rows\.map[\s\S]{0,400}buscarMeuDesempenho/.test(player)],
   ["rest timer handoff uses confirmed server timestamp and snapshot rest", /data-rest-started-at=\{selected\.completedAt/.test(player) && /data-rest-duration=\{exercise\.prescribedRest\}/.test(player)],
   ["mobile and accessible controls remain explicit", /aria-invalid/.test(player) && /role="progressbar"/.test(player) && /min-height: 48px/.test(css) && /max-width: 430px/.test(css)],
-  ["no workout completion or client countdown was introduced", !/completeWorkoutSession|setInterval|countdown/i.test(player)],
+  ["no workout completion or timer-driven write was introduced", !/completeWorkoutSession/i.test(player) && /setInterval/.test(player) && !/setInterval[\s\S]{0,500}(concluirMinhaSerie|completeWorkout|cancelWorkout|onRefresh)/i.test(player)],
 ];
 
 let failed = false;
