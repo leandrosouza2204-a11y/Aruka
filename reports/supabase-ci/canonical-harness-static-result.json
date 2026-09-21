@@ -34,6 +34,14 @@
     "supabase/migrations/20260914130000_cycle12_execution_tracking_and_safety.sql",
     "supabase/migrations/20260914131000_cycle12_execution_commands.sql",
     "supabase/migrations/20260914132000_cycle12_completion_and_grants.sql",
-    "supabase/migrations/20260914185833_cycle12_canonical_execution_reads.sql"
+    "supabase/migrations/20260914185833_cycle12_canonical_execution_reads.sql",
+    "supabase/migrations/20260915014848_cycle12_student_home_v2.sql",
+    "supabase/migrations/20260915140229_cycle12_student_training_library_v2.sql",
+    "supabase/migrations/20260915201101_cycle12_workout_player_v2.sql",
+    "supabase/migrations/20260919120000_cycle12_set_tracking_player_payload.sql",
+    "supabase/migrations/20260919231657_cycle12_rest_timer_server_clock.sql",
+    "supabase/migrations/20260920104727_cycle12_workout_completion_feedback.sql",
+    "supabase/migrations/20260920144904_cycle12_student_evolution_v2.sql",
+    "supabase/migrations/20260921010053_cycle12_profile_secondary_flows.sql"
   ]
 }

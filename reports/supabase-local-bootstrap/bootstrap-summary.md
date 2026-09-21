@@ -3,8 +3,8 @@
 - Result: LOCAL_BOOTSTRAP_OK
 - Active migrations source: canonical ephemeral workdir
 - Reference baseline validated: yes
-- Executable migration count: 36
-- Ephemeral bootstrap migration count: 37
+- Executable migration count: 37
+- Ephemeral bootstrap migration count: 38
 - Ephemeral bootstrap order: PASS
 - Base schema objects present: yes
 - Workout delivery migration on fresh DB: PASS
