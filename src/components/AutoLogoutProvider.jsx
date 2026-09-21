@@ -5,7 +5,7 @@ import SessionTimeoutModal from "./SessionTimeoutModal";
 function AutoLogoutProvider({ children, user }) {
   const location = useLocation();
   const enabled = Boolean(user) && location.pathname !== "/login";
-  const { showWarning, remainingSeconds, continueSession, logoutNow } =
+  const { showWarning, remainingSeconds, logoutError, continueSession, logoutNow } =
     useAutoLogout({ user, enabled });
 
   return (
@@ -14,6 +14,7 @@ function AutoLogoutProvider({ children, user }) {
       {showWarning && enabled && (
         <SessionTimeoutModal
           remainingSeconds={remainingSeconds}
+          errorMessage={logoutError}
           onContinue={continueSession}
           onLogout={() => logoutNow()}
         />

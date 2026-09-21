@@ -38,8 +38,9 @@ const StudentShell = lazy(() => import("./features/studentExperienceV2/layout/St
 const StudentHomeV2 = lazy(() => import("./features/studentExperienceV2/home/StudentHomeV2"));
 const StudentTrainingLibraryV2 = lazy(() => import("./features/studentExperienceV2/training/StudentTrainingLibraryV2"));
 const StudentEvolutionV2 = lazy(() => import("./features/studentExperienceV2/evolution/StudentEvolutionV2"));
+const StudentProfileV2 = lazy(() => import("./features/studentExperienceV2/profile/StudentProfileV2"));
+const ProfessionalContactSettings = lazy(() => import("./features/contactSettings/ProfessionalContactSettings"));
 const StudentWorkoutPlayerV2 = lazy(() => import("./features/studentExperienceV2/player/StudentWorkoutPlayerV2"));
-const StudentExperienceV2FutureRoute = lazy(() => import("./features/studentExperienceV2/routes/StudentExperienceV2FutureRoute"));
 const StudentWorkoutFallback = lazy(() => import("./features/studentExperienceV2/routes/StudentWorkoutFallback"));
 const StudentExperienceV2Route = lazy(() => import("./features/studentExperienceV2/guards/StudentExperienceV2Route"));
 
@@ -124,7 +125,7 @@ function App() {
             <Route path="treinos" element={<StudentTrainingLibraryV2 />} />
             <Route path="treinos/:workoutId" element={<StudentTrainingLibraryV2 />} />
             <Route path="evolucao" element={<StudentEvolutionV2 />} />
-            <Route path="perfil" element={<StudentExperienceV2FutureRoute />} />
+            <Route path="perfil" element={<StudentProfileV2 />} />
             <Route path="*" element={<Navigate to="inicio" replace />} />
           </Route>
           <Route
@@ -134,6 +135,22 @@ function App() {
           <Route
             path="/workout/:sessionId"
             element={<ProtectedRoute><StudentExperienceV2Route><StudentWorkoutFallback /></StudentExperienceV2Route></ProtectedRoute>}
+          />
+          <Route
+            path="/contato-alunos"
+            element={
+              <ProtectedRoute>
+                <SubscriptionRoute>
+                  <LegalRoute>
+                    <ProfessionalRoute>
+                      <AppMobileNav>
+                        <ProfessionalContactSettings />
+                      </AppMobileNav>
+                    </ProfessionalRoute>
+                  </LegalRoute>
+                </SubscriptionRoute>
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/dashboard"

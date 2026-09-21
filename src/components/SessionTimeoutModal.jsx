@@ -1,6 +1,6 @@
 import AccessibleModal from "./AccessibleModal";
 
-function SessionTimeoutModal({ remainingSeconds, onContinue, onLogout }) {
+function SessionTimeoutModal({ errorMessage, remainingSeconds, onContinue, onLogout }) {
   return (
     <AccessibleModal
       isOpen
@@ -30,6 +30,7 @@ function SessionTimeoutModal({ remainingSeconds, onContinue, onLogout }) {
         </div>
       }
     >
+      {errorMessage && <p className="session-timeout-error" role="alert">{errorMessage}</p>}
       <span className="session-timeout-eyebrow">Segurança</span>
       <strong className="session-timeout-counter">
         Sua sessão será encerrada em {remainingSeconds} segundos.

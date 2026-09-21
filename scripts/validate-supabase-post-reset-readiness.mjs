@@ -7,7 +7,7 @@ const bootstrap = readFileSync("scripts/supabase-local-bootstrap-canonical.mjs",
 const checks = [
   [library, "waitForPostResetStability", "post-reset stability gate"],
   [library, "EXPECTED_LOCAL_PUBLIC_TABLES", "canonical table-count contract"],
-  [library, "EXPECTED_LOCAL_PUBLIC_TABLES = 30", "Stage 11.3 canonical table count"],
+  [library, "EXPECTED_LOCAL_PUBLIC_TABLES = 32", "Cycle 12.10 canonical table count"],
   [library, "EXPECTED_EPHEMERAL_MIGRATION_HISTORY.at(-1)", "latest migration probe"],
   [library, '"select 1"', "canonical SQL readiness probe"],
   [library, "if (sqlProbe.status !== 0 || sqlProbe.stdout.trim() !== \"1\")", "transient SQL errors remain retryable"],

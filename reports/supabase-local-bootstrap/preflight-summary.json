@@ -61,7 +61,8 @@
                               "20260919120000_cycle12_set_tracking_player_payload.sql",
                               "20260919231657_cycle12_rest_timer_server_clock.sql",
                               "20260920104727_cycle12_workout_completion_feedback.sql",
-                              "20260920144904_cycle12_student_evolution_v2.sql"
+                              "20260920144904_cycle12_student_evolution_v2.sql",
+                              "20260921010053_cycle12_profile_secondary_flows.sql"
                           ],
     "expected_active_migrations":  [
                                        "20260728030000_workout_delivery_integration_v1.sql",
@@ -99,11 +100,12 @@
                                        "20260919120000_cycle12_set_tracking_player_payload.sql",
                                        "20260919231657_cycle12_rest_timer_server_clock.sql",
                                        "20260920104727_cycle12_workout_completion_feedback.sql",
-                                       "20260920144904_cycle12_student_evolution_v2.sql"
+                                       "20260920144904_cycle12_student_evolution_v2.sql",
+                                       "20260921010053_cycle12_profile_secondary_flows.sql"
                                    ],
-    "executable_migration_count":  36,
+    "executable_migration_count":  37,
     "reference_only_baseline_count":  1,
-    "total_database_change_artifact_count":  37,
+    "total_database_change_artifact_count":  38,
     "active_migrations_unexpected":  [
 
                                      ],

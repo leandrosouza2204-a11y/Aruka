@@ -1,8 +1,8 @@
 import { Activity, Dumbbell, Home, LogOut, UserRound } from "lucide-react";
+import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import PwaExperienceManager from "../../pwa/PwaExperienceManager.jsx";
-import { markSessionLoggedOut } from "../../../hooks/useAutoLogout.js";
-import { supabase } from "../../../services/supabase.js";
+import { encerrarSessao } from "../../../services/logoutService.js";
 import { useStudentExperienceV2 } from "../context/studentExperienceV2Context.js";
 import { buildStudentHomeV2 } from "../domain/studentHomeV2.js";
 import { STUDENT_EXPERIENCE_V2_ROUTES } from "../domain/studentExperienceV2Contracts.js";
@@ -16,13 +16,22 @@ const STUDENT_V2_NAVIGATION = Object.freeze([
 
 function StudentShell() {
   const navigate = useNavigate();
+  const [logoutError, setLogoutError] = useState("");
+  const [loggingOut, setLoggingOut] = useState(false);
   const { home } = useStudentExperienceV2();
   const view = buildStudentHomeV2(home || {});
 
   async function logout() {
-    markSessionLoggedOut();
-    await supabase.auth.signOut();
-    navigate("/login", { replace: true });
+    if (loggingOut) return;
+    setLoggingOut(true);
+    setLogoutError("");
+    try {
+      await encerrarSessao();
+      navigate("/login", { replace: true });
+    } catch {
+      setLogoutError("Não foi possível sair. Sua sessão continua ativa.");
+      setLoggingOut(false);
+    }
   }
 
   return (
@@ -34,8 +43,9 @@ function StudentShell() {
             <strong>{view.student ? `Olá, ${view.student.firstName}` : "Área do aluno"}</strong>
           </div>
           <div className="student-v2-header-actions">
+            {logoutError && <span className="student-v2-logout-error" role="alert">{logoutError}</span>}
             <span aria-hidden="true" className="student-v2-avatar">{view.student?.initials || "A"}</span>
-            <button aria-label="Sair da área do aluno" className="student-v2-icon-button" onClick={logout} title="Sair" type="button">
+            <button aria-label="Sair da área do aluno" className="student-v2-icon-button" disabled={loggingOut} onClick={logout} title="Sair" type="button">
               <LogOut aria-hidden="true" size={19} />
             </button>
           </div>
