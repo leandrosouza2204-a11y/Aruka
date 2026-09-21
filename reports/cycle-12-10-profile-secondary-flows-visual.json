@@ -1,0 +1,109 @@
+{
+  "decision": "PASS",
+  "scope": "CYCLE_12_10_PROFILE_SECONDARY_FLOWS_VISUAL",
+  "database_target": "LOCAL",
+  "production_accessed": false,
+  "screenshots": 9,
+  "results": [
+    {
+      "screen": "student-profile",
+      "viewport": "desktop-1280",
+      "innerWidth": 1280,
+      "overflow": false,
+      "h1": 1,
+      "h2": 3,
+      "channels": 2,
+      "current": 1,
+      "minTarget": 46,
+      "status": "PASS"
+    },
+    {
+      "screen": "student-profile",
+      "viewport": "tablet-768",
+      "innerWidth": 768,
+      "overflow": false,
+      "h1": 1,
+      "h2": 3,
+      "channels": 2,
+      "current": 1,
+      "minTarget": 46,
+      "status": "PASS"
+    },
+    {
+      "screen": "student-profile",
+      "viewport": "mobile-320",
+      "innerWidth": 320,
+      "overflow": false,
+      "h1": 1,
+      "h2": 3,
+      "channels": 2,
+      "current": 1,
+      "minTarget": 46,
+      "status": "PASS"
+    },
+    {
+      "screen": "student-profile",
+      "viewport": "mobile-375",
+      "innerWidth": 375,
+      "overflow": false,
+      "h1": 1,
+      "h2": 3,
+      "channels": 2,
+      "current": 1,
+      "minTarget": 46,
+      "status": "PASS"
+    },
+    {
+      "screen": "professional-contact",
+      "viewport": "desktop-1280",
+      "innerWidth": 1280,
+      "sidebarWidth": 260,
+      "overflow": false,
+      "h1": 1,
+      "inputs": 4,
+      "saveHeight": 46,
+      "menuVisible": true,
+      "status": "PASS"
+    },
+    {
+      "screen": "professional-contact",
+      "viewport": "tablet-768",
+      "innerWidth": 768,
+      "sidebarWidth": 768,
+      "overflow": false,
+      "h1": 1,
+      "inputs": 4,
+      "saveHeight": 46,
+      "menuVisible": true,
+      "status": "PASS"
+    },
+    {
+      "screen": "professional-contact",
+      "viewport": "mobile-320",
+      "innerWidth": 320,
+      "sidebarWidth": 320,
+      "overflow": false,
+      "h1": 1,
+      "inputs": 4,
+      "saveHeight": 46,
+      "menuVisible": true,
+      "status": "PASS"
+    },
+    {
+      "screen": "professional-contact",
+      "viewport": "mobile-375",
+      "innerWidth": 375,
+      "sidebarWidth": 375,
+      "overflow": false,
+      "h1": 1,
+      "inputs": 4,
+      "saveHeight": 46,
+      "menuVisible": true,
+      "status": "PASS"
+    },
+    {
+      "state": "rollout-off-legacy",
+      "status": "PASS"
+    }
+  ]
+}

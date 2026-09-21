@@ -10,7 +10,7 @@ const service = read("src/services/studentEvolutionV2Service.js");
 const flags = read("src/features/studentExperienceV2/config/studentExperienceV2Config.js");
 
 const checks = [
-  ["evolution route replaces only its V2 placeholder", /path="evolucao" element={<StudentEvolutionV2\s*\/>}/.test(app) && /path="perfil" element={<StudentExperienceV2FutureRoute/.test(app)],
+  ["evolution route remains registered alongside the Profile V2", /path="evolucao" element={<StudentEvolutionV2\s*\/>}/.test(app) && /path="perfil" element={<StudentProfileV2/.test(app)],
   ["rollout gate remains off by default", /VITE_STUDENT_EXPERIENCE_V2_ENABLED/.test(flags) && /String\(configuredValue \|\| ""\)[\s\S]*=== "true"/.test(flags)],
   ["recent history reuses the bounded canonical read", /getValidWorkoutExecutionHistory\(limit\)/.test(service) && /buscarMeuHistoricoValidoV2\(20\)/.test(screen)],
   ["frequency is independent of the bounded history", /get_my_student_workout_frequency_v2/.test(service + migration) && /session_date between v_today - 27 and v_today/.test(migration) && /status = 'completed'/.test(migration)],

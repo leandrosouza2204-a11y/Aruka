@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SESSION_CONFIG } from "../config/sessionConfig";
+import { completeLogout } from "../services/logoutContract.js";
 import { supabase } from "../services/supabase";
 
 const ACTIVITY_EVENTS = [
@@ -46,6 +47,7 @@ export function useAutoLogout({ user, enabled = true } = {}) {
   const [remainingSeconds, setRemainingSeconds] = useState(
     Math.ceil(SESSION_CONFIG.WARNING_BEFORE_LOGOUT / 1000)
   );
+  const [logoutError, setLogoutError] = useState("");
   const warningTimerRef = useRef(null);
   const logoutTimerRef = useRef(null);
   const countdownTimerRef = useRef(null);
@@ -68,16 +70,21 @@ export function useAutoLogout({ user, enabled = true } = {}) {
       loggingOutRef.current = true;
       clearTimers();
       setShowWarning(false);
+      setLogoutError("");
       showWarningRef.current = false;
 
-      if (broadcast) {
-        markSessionLoggedOut();
-      }
-
       try {
-        await supabase.auth.signOut();
-      } finally {
+        await completeLogout({
+          signOut: () => supabase.auth.signOut(),
+          markLoggedOut: broadcast ? markSessionLoggedOut : () => {},
+        });
         navigate("/login", { replace: true });
+      } catch {
+        loggingOutRef.current = false;
+        setRemainingSeconds(0);
+        setLogoutError("Não foi possível encerrar sua sessão. Tente novamente.");
+        setShowWarning(true);
+        showWarningRef.current = true;
       }
     },
     [clearTimers, navigate]
@@ -146,6 +153,7 @@ export function useAutoLogout({ user, enabled = true } = {}) {
   const continueSession = useCallback(() => {
     loggingOutRef.current = false;
     setShowWarning(false);
+    setLogoutError("");
     showWarningRef.current = false;
     setRemainingSeconds(Math.ceil(SESSION_CONFIG.WARNING_BEFORE_LOGOUT / 1000));
     writeLastActivity();
@@ -186,6 +194,7 @@ export function useAutoLogout({ user, enabled = true } = {}) {
     if (!activeRef.current) {
       clearTimers();
       setShowWarning(false);
+      setLogoutError("");
       showWarningRef.current = false;
       return undefined;
     }
@@ -254,6 +263,7 @@ export function useAutoLogout({ user, enabled = true } = {}) {
   return {
     showWarning,
     remainingSeconds,
+    logoutError,
     continueSession,
     logoutNow,
   };

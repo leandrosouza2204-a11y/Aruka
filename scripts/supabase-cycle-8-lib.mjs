@@ -29,7 +29,7 @@ export const RESERVED_UUIDS = {
   studentClosed: "00000000-0000-4000-8000-000000000822",
   studentPending: "00000000-0000-4000-8000-000000000823",
 };
-export const EXPECTED_LOCAL_PUBLIC_TABLES = 31;
+export const EXPECTED_LOCAL_PUBLIC_TABLES = 32;
 
 export function nowIso() {
   return new Date().toISOString();

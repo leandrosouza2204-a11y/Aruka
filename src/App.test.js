@@ -21,4 +21,7 @@ test("student V2 routes are isolated behind the dedicated guard while legacy rem
   assert.match(source, /path="\/workout\/:sessionId"/);
   assert.match(source, /path="\/minha-area\/treino\/:sessionId"/);
   assert.match(source, /<StudentWorkoutPlayerV2 \/>/);
+  assert.match(source, /path="perfil" element={<StudentProfileV2 \/>}/);
+  assert.match(source, /path="\/contato-alunos"/);
+  assert.match(source, /<ProfessionalRoute>[\s\S]*<ProfessionalContactSettings \/>/);
 });

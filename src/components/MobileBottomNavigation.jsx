@@ -17,17 +17,19 @@ import {
   Tags,
   Users,
   X,
+  MessageCircle,
 } from "lucide-react";
 import { usePwaInstall } from "../features/pwa/PwaInstallContext";
-import { markSessionLoggedOut } from "../hooks/useAutoLogout";
+import { encerrarSessao } from "../services/logoutService";
 import { buscarPerfilUsuario } from "../services/perfisService";
 import { isProfessionalProfile } from "../auth/professionalAccess";
-import { supabase } from "../services/supabase";
 
 function MobileBottomNavigation() {
   const [maisAberto, setMaisAberto] = useState(false);
   const [usuarioAdmin, setUsuarioAdmin] = useState(false);
   const [usuarioProfissional, setUsuarioProfissional] = useState(false);
+  const [logoutError, setLogoutError] = useState("");
+  const [loggingOut, setLoggingOut] = useState(false);
   const { requestInstall, showInstallOption } = usePwaInstall();
   const painelRef = useRef(null);
   const maisButtonRef = useRef(null);
@@ -97,10 +99,17 @@ function MobileBottomNavigation() {
   }, [maisAberto]);
 
   async function sair() {
-    markSessionLoggedOut();
-    await supabase.auth.signOut();
-    setMaisAberto(false);
-    navigate("/login", { replace: true });
+    if (loggingOut) return;
+    setLoggingOut(true);
+    setLogoutError("");
+    try {
+      await encerrarSessao();
+      setMaisAberto(false);
+      navigate("/login", { replace: true });
+    } catch {
+      setLogoutError("Não foi possível sair. Sua sessão continua ativa.");
+      setLoggingOut(false);
+    }
   }
 
   function fecharMais() {
@@ -152,12 +161,20 @@ function MobileBottomNavigation() {
                 onNavigate={fecharMais}
               />
               {usuarioProfissional && (
-                <MoreLink
-                  to="/gestao-inteligente"
-                  icon={<Scale size={18} />}
-                  label="Gestão Inteligente"
-                  onNavigate={fecharMais}
-                />
+                <>
+                  <MoreLink
+                    to="/contato-alunos"
+                    icon={<MessageCircle size={18} />}
+                    label="Contato com alunos"
+                    onNavigate={fecharMais}
+                  />
+                  <MoreLink
+                    to="/gestao-inteligente"
+                    icon={<Scale size={18} />}
+                    label="Gestão Inteligente"
+                    onNavigate={fecharMais}
+                  />
+                </>
               )}
               <MoreLink
                 to="/avaliacoes"
@@ -206,10 +223,11 @@ function MobileBottomNavigation() {
                 label="Política de Privacidade"
                 onNavigate={fecharMais}
               />
-              <button className="mobile-more-item mobile-more-danger" onClick={sair} type="button">
+              <button className="mobile-more-item mobile-more-danger" disabled={loggingOut} onClick={sair} type="button">
                 <LogOut size={18} />
-                <span>Sair</span>
+                <span>{loggingOut ? "Saindo..." : "Sair"}</span>
               </button>
+              {logoutError && <p className="mobile-more-logout-error" role="alert">{logoutError}</p>}
             </div>
           </section>
         </div>

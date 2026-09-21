@@ -18,10 +18,11 @@ import {
   Scale,
   Sun,
   Smartphone,
+  MessageCircle,
 } from "lucide-react";
 import BrandLogo from "./BrandLogo";
 import { usePwaInstall } from "../features/pwa/PwaInstallContext";
-import { markSessionLoggedOut } from "../hooks/useAutoLogout";
+import { encerrarSessao } from "../services/logoutService";
 import { supabase } from "../services/supabase";
 import { buscarPerfilUsuario } from "../services/perfisService";
 import { isProfessionalProfile } from "../auth/professionalAccess";
@@ -32,6 +33,8 @@ function Sidebar() {
   const [menuAberto, setMenuAberto] = useState(false);
   const [usuario, setUsuario] = useState(null);
   const [perfil, setPerfil] = useState(null);
+  const [logoutError, setLogoutError] = useState("");
+  const [loggingOut, setLoggingOut] = useState(false);
   const menuRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
@@ -98,10 +101,17 @@ function Sidebar() {
   }, [menuAberto]);
 
   async function sair() {
-    markSessionLoggedOut();
-    await supabase.auth.signOut();
-    setMenuAberto(false);
-    navigate("/login", { replace: true });
+    if (loggingOut) return;
+    setLoggingOut(true);
+    setLogoutError("");
+    try {
+      await encerrarSessao();
+      setMenuAberto(false);
+      navigate("/login", { replace: true });
+    } catch {
+      setLogoutError("Não foi possível sair. Sua sessão continua ativa.");
+      setLoggingOut(false);
+    }
   }
 
   function irParaAlterarSenha() {
@@ -199,12 +209,14 @@ function Sidebar() {
               <button
                 type="button"
                 className="app-sidebar-menu-item"
+                disabled={loggingOut}
                 onClick={sair}
                 style={styles.menuItem}
               >
                 <LogOut size={16} />
-                Sair
+                {loggingOut ? "Saindo..." : "Sair"}
               </button>
+              {logoutError && <span role="alert" style={styles.logoutError}>{logoutError}</span>}
             </div>
           )}
         </div>
@@ -229,6 +241,14 @@ function Sidebar() {
           icon={<Users size={21} />}
           label="Alunos"
         />
+        {usuarioProfissional && (
+          <MenuLink
+            to="/contato-alunos"
+            active={isActive("/contato-alunos")}
+            icon={<MessageCircle size={21} />}
+            label="Contato com alunos"
+          />
+        )}
         <MenuLink
           to="/financeiro"
           active={isActive("/financeiro")}
@@ -441,6 +461,13 @@ const styles = {
     textAlign: "left",
     textDecoration: "none",
     width: "100%",
+  },
+
+  logoutError: {
+    color: "#fecaca",
+    fontSize: "12px",
+    lineHeight: 1.4,
+    padding: "2px 4px",
   },
 
   brand: {

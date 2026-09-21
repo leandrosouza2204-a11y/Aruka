@@ -187,6 +187,7 @@
 .student-v2-header-copy span { color: var(--student-v2-muted); font-size: 12px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
 .student-v2-header-copy strong { font-size: 17px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .student-v2-header-actions { align-items: center; display: flex; gap: 8px; }
+.student-v2-logout-error { color: #a13232; font-size: 12px; font-weight: 700; max-width: 260px; text-align: right; }
 .student-v2-avatar { align-items: center; background: var(--student-v2-brand-soft); border-radius: 50%; color: var(--student-v2-brand-dark); display: inline-flex; font-size: 12px; font-weight: 800; height: 38px; justify-content: center; width: 38px; }
 .student-v2-icon-button { align-items: center; background: transparent; border: 0; border-radius: 10px; color: var(--student-v2-muted); cursor: pointer; display: inline-flex; height: 44px; justify-content: center; width: 44px; }
 .student-v2-icon-button:hover { background: #e9efec; color: var(--student-v2-ink); }
@@ -243,6 +244,50 @@
 .student-v2-section-heading > svg { color: var(--student-v2-brand); }
 .student-v2-text-link { align-items: center; color: var(--student-v2-brand-dark); display: inline-flex; font-size: 13px; font-weight: 800; gap: 5px; margin-top: 16px; text-decoration: none; }
 .student-v2-inline-error { background: #fff1f0; border: 1px solid #f1c8c5; border-radius: 12px; color: #8d2d26; font-size: 14px; margin-bottom: 16px; padding: 12px 14px; }
+
+/* Cycle 12.10 — profile and professional contact channels */
+.student-profile-v2 { display: grid; gap: 18px; margin: 0 auto; max-width: 880px; }
+.student-profile-v2 .student-home-intro { margin-bottom: 4px; }
+.student-profile-card { display: grid; gap: 15px; }
+.student-profile-details { display: grid; gap: 12px; }
+.student-profile-details > div { background: #f5f8f7; border-radius: 12px; display: grid; gap: 3px; padding: 14px 16px; }
+.student-profile-details dt { color: var(--student-v2-muted); font-size: 12px; font-weight: 750; }
+.student-profile-details dd { font-size: 15px; font-weight: 750; margin: 0; overflow-wrap: anywhere; }
+.student-profile-professional-name { font-size: 17px !important; margin: 0 !important; }
+.student-profile-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.student-profile-empty { background: #f5f8f7; border-radius: 12px; margin: 0; padding: 14px; }
+.student-profile-logout { background: #fff1f0; border: 1px solid #f1c8c5; color: #8d2d26; justify-self: start; }
+.student-profile-logout:hover:not(:disabled) { background: #fde5e2; }
+
+.contact-settings-shell { display: flex; min-height: 100dvh; }
+.contact-settings-page { margin-left: 260px; padding: 28px; width: calc(100% - 260px); }
+.contact-settings-heading { margin-bottom: 22px; max-width: 760px; }
+.contact-settings-heading > span { color: #157a57; font-size: 12px; font-weight: 850; letter-spacing: .1em; }
+.contact-settings-heading h1 { color: #111827; font-size: clamp(28px, 4vw, 38px); margin: 5px 0 8px; }
+.contact-settings-heading p { color: #667085; line-height: 1.6; }
+.contact-settings-form { display: grid; gap: 16px; max-width: 760px; }
+.contact-channel-card { background: #fff; border: 1px solid #e3e8e6; border-radius: 16px; box-shadow: 0 8px 28px rgba(18,48,37,.045); display: grid; gap: 12px; padding: 22px; }
+.contact-channel-header { align-items: start; display: flex; gap: 18px; justify-content: space-between; }
+.contact-channel-title { align-items: start; display: flex; gap: 11px; }
+.contact-channel-title > svg { color: #157a57; flex: 0 0 auto; margin-top: 2px; }
+.contact-channel-title strong { color: #17211d; display: block; font-size: 17px; }
+.contact-channel-title p { color: #667085; font-size: 13px; line-height: 1.5; margin-top: 3px; }
+.contact-channel-toggle { align-items: center; color: #344054; cursor: pointer; display: flex; flex: 0 0 auto; font-size: 13px; font-weight: 750; gap: 8px; min-height: 44px; }
+.contact-channel-toggle input { accent-color: #157a57; height: 20px; width: 20px; }
+.contact-field-label { color: #344054; font-size: 13px; font-weight: 750; }
+.contact-channel-card > input { border: 1px solid #cfd8d4; border-radius: 10px; color: #17211d; font: inherit; min-height: 46px; padding: 10px 12px; width: 100%; }
+.contact-channel-card > input:focus { border-color: #157a57; outline: 3px solid #cbeadd; outline-offset: 1px; }
+.contact-channel-card > input[aria-invalid="true"] { border-color: #b83f36; }
+.contact-channel-card small { color: #667085; font-size: 12px; }
+.contact-channel-card .contact-field-error { color: #9c312a; }
+.contact-settings-feedback { align-items: center; color: #0e5d42; display: flex; font-size: 14px; gap: 8px; min-height: 24px; }
+.contact-settings-feedback.is-error { color: #9c312a; }
+.contact-settings-save, .contact-settings-state button { align-items: center; background: #157a57; border: 0; border-radius: 10px; color: #fff; cursor: pointer; display: inline-flex; font-weight: 800; gap: 8px; justify-content: center; min-height: 46px; padding: 0 18px; }
+.contact-settings-save { justify-self: start; min-width: 170px; }
+.contact-settings-save:disabled { cursor: wait; opacity: .65; }
+.contact-settings-save:focus-visible, .contact-settings-state button:focus-visible, .contact-channel-toggle:focus-within { outline: 3px solid #68d8ae; outline-offset: 3px; }
+.contact-settings-state { align-items: center; background: #fff; border: 1px solid #e3e8e6; border-radius: 14px; color: #667085; display: flex; flex-wrap: wrap; gap: 12px; max-width: 760px; min-height: 100px; padding: 22px; }
+.contact-settings-state.is-error { color: #9c312a; }
 .student-evolution-v2 { display: grid; gap: 18px; margin: 0 auto; max-width: 1040px; }
 .student-evolution-v2 .student-home-intro { margin-bottom: 2px; }
 .student-evolution-section { overflow: hidden; }
@@ -355,6 +400,15 @@
   .student-home-grid { grid-template-columns: minmax(0, 1fr); }
   .student-evolution-frequency-grid, .student-evolution-measure-grid { grid-template-columns: minmax(0, 1fr); }
   .student-evolution-section-message .student-v2-button { margin-left: 0; width: 100%; }
+  .student-profile-actions { display: grid; }
+  .student-profile-actions .student-v2-button, .student-profile-logout { width: 100%; }
+}
+
+@media (max-width: 900px) {
+  .contact-settings-page { margin-left: 0; padding: 20px 16px calc(100px + env(safe-area-inset-bottom, 0px)); width: 100%; }
+  .contact-channel-header { align-items: stretch; flex-direction: column; gap: 10px; }
+  .contact-channel-toggle { justify-content: flex-start; }
+  .contact-settings-save { width: 100%; }
 }
 
 @media (max-width: 350px) {
@@ -3339,6 +3393,14 @@ body[data-theme="dark"] .treino-day > summary::after {
   margin-top: 8px;
 }
 
+.session-timeout-modal .session-timeout-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  color: #991b1b;
+  padding: 10px 12px;
+}
+
 .session-timeout-counter {
   background: #eff6ff;
   border: 1px solid #bfdbfe;
@@ -6264,6 +6326,14 @@ body[data-theme="dark"] .coach-attention-queue-item-acknowledged {
 
   .mobile-more-danger svg {
     color: #dc2626;
+  }
+
+  .mobile-more-logout-error {
+    color: #b91c1c;
+    font-size: 12px;
+    line-height: 1.4;
+    margin: 0;
+    padding: 0 4px;
   }
 
   body[data-theme="dark"] .mobile-bottom-nav,
