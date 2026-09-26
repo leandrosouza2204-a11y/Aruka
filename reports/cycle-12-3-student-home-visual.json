@@ -1,8 +1,77 @@
 {
+  "evidence_contract_version": 1,
+  "run_id": "cycle-12-3-student-home-visual-1790439095805-992d0e6f",
+  "gate": "CYCLE_12_3_STUDENT_HOME_VISUAL",
   "decision": "PASS",
+  "current_run": true,
+  "started_at": "2026-09-26T16:11:35.805Z",
+  "finished_at": "2026-09-26T16:13:06.269Z",
+  "head": "c9ef3f8d185c2f67ea4727242719513a4d4b4a72",
+  "branch": "main",
+  "environment": "LOCAL",
+  "production_accessed": false,
+  "required_scenarios": [
+    "data",
+    "empty",
+    "loading",
+    "recoverable-error",
+    "home-to-library",
+    "home-to-player",
+    "direct-refresh",
+    "viewport-matrix"
+  ],
+  "scenarios": [
+    {
+      "name": "viewport-matrix",
+      "status": "PASS",
+      "widths": [
+        320,
+        375,
+        390,
+        768,
+        1280
+      ]
+    },
+    {
+      "name": "data",
+      "status": "PASS"
+    },
+    {
+      "name": "direct-refresh",
+      "status": "PASS"
+    },
+    {
+      "name": "home-to-library",
+      "status": "PASS",
+      "route": "/minha-area/treinos"
+    },
+    {
+      "name": "home-to-player",
+      "status": "PASS",
+      "route": "/minha-area/treino/89389763-1905-48aa-9fd1-f038fab2cb7b",
+      "session_id": "89389763-1905-48aa-9fd1-f038fab2cb7b"
+    },
+    {
+      "name": "empty",
+      "status": "PASS"
+    },
+    {
+      "name": "loading",
+      "status": "PASS"
+    },
+    {
+      "name": "recoverable-error",
+      "status": "PASS"
+    }
+  ],
+  "failures": [],
+  "cleanup": {
+    "attempted": true,
+    "status": "PASS",
+    "failures": []
+  },
   "scope": "CYCLE_12_3_STUDENT_HOME_VISUAL",
   "database_target": "LOCAL",
-  "production_accessed": false,
   "production_mutated": false,
   "screenshots": 12,
   "states": [
@@ -128,6 +197,12 @@
     {
       "state": "active-session",
       "viewport": "390x844",
+      "status": "PASS"
+    },
+    {
+      "state": "home-to-player",
+      "route": "/minha-area/treino/89389763-1905-48aa-9fd1-f038fab2cb7b",
+      "sessionId": "89389763-1905-48aa-9fd1-f038fab2cb7b",
       "status": "PASS"
     },
     {

@@ -7,6 +7,8 @@ import { createClient } from "@supabase/supabase-js";
 import { loadQaEnvFile, validateQaEnvironment } from "./lib/qa-environment-guard.mjs";
 import { readLocalSupabaseRuntime } from "./lib/local-supabase-runtime.mjs";
 import { runPsql } from "./supabase-cycle-8-lib.mjs";
+import { beginVisualQaEvidence } from "./lib/visual-qa-evidence.mjs";
+import { stopOwnedProcessTree } from "./lib/qa-process-cleanup.mjs";
 
 loadQaEnvFile(".env.local"); loadQaEnvFile(".env.qa.local");
 process.env.QA_BASE_URL = process.env.ARUKA_QA_BASE_URL || process.env.QA_BASE_URL;
@@ -17,9 +19,10 @@ let cdpPort = 9990 + Math.floor(Math.random() * 30);
 const profileDir = join(tmpdir(), `aruka-cycle-12-10-chrome-${process.pid}`);
 const screenshotDir = join("tmp-responsive-screenshots", "cycle-12-10-profile-secondary-flows");
 const studentId = "00000000-0000-4000-8000-000000121099";
-const viewports = [{ name: "desktop-1280", width: 1280, height: 900, mobile: false }, { name: "tablet-768", width: 768, height: 1024, mobile: true }, { name: "mobile-320", width: 320, height: 800, mobile: true }, { name: "mobile-375", width: 375, height: 812, mobile: true }];
+const viewports = [{ name: "desktop-1280", width: 1280, height: 900, mobile: false }, { name: "tablet-768", width: 768, height: 1024, mobile: true }, { name: "mobile-320", width: 320, height: 800, mobile: true }, { name: "mobile-375", width: 375, height: 812, mobile: true }, { name: "mobile-390", width: 390, height: 844, mobile: true }];
 let server; let chrome; let client; let admin; let professionalUser; let studentUser;
 const results = [];
+const evidence = beginVisualQaEvidence({ gate: "CYCLE_12_10_PROFILE_SECONDARY_FLOWS_VISUAL", reportPath: "reports/cycle-12-10-profile-secondary-flows-visual.json", requiredScenarios: ["viewport-matrix", "validation-error", "rollout-off"] });
 
 try {
   assert(process.env.QA_USER_PASSWORD, "QA_USER_PASSWORD ausente.");
@@ -45,8 +48,9 @@ try {
     assert.equal(audit.innerWidth, viewport.width); assert.equal(audit.overflow, false); assert.equal(audit.h1, 1); assert.equal(audit.h2, 3); assert.equal(audit.channels, 2); assert.equal(audit.current, 1); assert(audit.minTarget >= 44);
     await screenshot(`student-profile-${viewport.name}.png`, viewport); results.push({ screen: "student-profile", viewport: viewport.name, ...audit, status: "PASS" });
   }
+  evidence.scenario("viewport-matrix", "PASS", { widths: [320, 375, 390, 768, 1280] });
 
-  client.close(); chrome.kill(); await sleep(700); cdpPort += 31; try { rmSync(profileDir, { recursive: true, force: true, maxRetries: 4, retryDelay: 250 }); } catch { /* temporary lock */ }
+  client.close(); stopOwnedProcessTree(chrome); await sleep(700); cdpPort += 31; try { rmSync(profileDir, { recursive: true, force: true, maxRetries: 4, retryDelay: 250 }); } catch { /* temporary lock */ }
   chrome = await startChrome(); client = createCdpClient(await getWebSocketUrl()); await client.ready; await client.send("Page.enable"); await client.send("Runtime.enable");
   await setBrowserSession(professionalSession); await navigate("/contato-alunos", "document.querySelector('.contact-settings-form') && document.querySelector('.app-sidebar-link[href=\"/contato-alunos\"]')");
   for (const viewport of viewports) {
@@ -59,18 +63,24 @@ try {
   await waitFor("document.querySelector('#contact-whatsapp-error')");
   assert.equal(await evaluate("document.querySelector('#contact-whatsapp').getAttribute('aria-invalid')"), "true");
   await screenshot("professional-contact-validation-error.png");
+  evidence.scenario("validation-error", "PASS");
 
   server.kill(); await waitForFrontendStop(); await startFrontend("false");
   await setBrowserSession(studentSession); await navigate("/minha-area/perfil", "location.pathname === '/minha-area'");
   results.push({ state: "rollout-off-legacy", status: "PASS" });
-  writeFileSync("reports/cycle-12-10-profile-secondary-flows-visual.json", `${JSON.stringify({ decision: "PASS", scope: "CYCLE_12_10_PROFILE_SECONDARY_FLOWS_VISUAL", database_target: "LOCAL", production_accessed: false, screenshots: 9, results }, null, 2)}\n`);
-  console.log("decision=PASS screenshots=9 viewports=320,375,768,1280");
+  evidence.scenario("rollout-off", "PASS");
+  evidence.executionSucceeded({ decision: "PASS", scope: "CYCLE_12_10_PROFILE_SECONDARY_FLOWS_VISUAL", database_target: "LOCAL", production_accessed: false, screenshots: viewports.length * 2 + 1, results });
+  console.log("decision=PASS screenshots=11 viewports=320,375,390,768,1280");
+} catch (error) {
+  evidence.executionFailed(error, admin ? "execution" : "setup");
+  throw error;
 } finally {
-  try { cleanupRows(); } catch { /* local cleanup only */ }
-  if (admin && studentUser) try { await admin.auth.admin.deleteUser(studentUser.id); } catch { /* local cleanup only */ }
-  if (admin && professionalUser) try { await admin.auth.admin.deleteUser(professionalUser.id); } catch { /* local cleanup only */ }
-  client?.close(); chrome?.kill(); server?.kill(); await sleep(400);
-  try { rmSync(profileDir, { recursive: true, force: true, maxRetries: 4, retryDelay: 250 }); } catch { /* temporary lock */ }
+  try { cleanupRows(); } catch (error) { evidence.cleanupFailed(error); }
+  if (admin && studentUser) try { const deleted = await admin.auth.admin.deleteUser(studentUser.id); if (deleted.error) throw deleted.error; } catch (error) { evidence.cleanupFailed(error); }
+  if (admin && professionalUser) try { const deleted = await admin.auth.admin.deleteUser(professionalUser.id); if (deleted.error) throw deleted.error; } catch (error) { evidence.cleanupFailed(error); }
+  client?.close(); stopOwnedProcessTree(chrome); server?.kill(); await sleep(400);
+  try { rmSync(profileDir, { recursive: true, force: true, maxRetries: 4, retryDelay: 250 }); } catch (error) { evidence.cleanupFailed(error); }
+  evidence.finalize();
 }
 
 async function createLocalUser(email) { const listed=await admin.auth.admin.listUsers({page:1,perPage:1000}); const old=listed.data?.users?.find((user)=>user.email===email); if(old) await admin.auth.admin.deleteUser(old.id); const created=await admin.auth.admin.createUser({email,password:process.env.QA_USER_PASSWORD,email_confirm:true}); if(created.error)throw created.error; return created.data.user; }

@@ -7,6 +7,8 @@ import { createClient } from "@supabase/supabase-js";
 import { loadQaEnvFile, validateQaEnvironment } from "./lib/qa-environment-guard.mjs";
 import { readLocalSupabaseRuntime } from "./lib/local-supabase-runtime.mjs";
 import { runPsql } from "./supabase-cycle-8-lib.mjs";
+import { beginVisualQaEvidence } from "./lib/visual-qa-evidence.mjs";
+import { stopOwnedProcessTree } from "./lib/qa-process-cleanup.mjs";
 
 loadQaEnvFile(".env.local");
 loadQaEnvFile(".env.qa.local");
@@ -21,6 +23,7 @@ const assessmentIds = ["00000000-0000-4000-8000-000000009941", "00000000-0000-40
 const viewports = [
   { name: "mobile-320", width: 320, height: 800, mobile: true },
   { name: "mobile-375", width: 375, height: 812, mobile: true },
+  { name: "mobile-390", width: 390, height: 844, mobile: true },
   { name: "tablet-768", width: 768, height: 1024, mobile: true },
   { name: "desktop-1280", width: 1280, height: 900, mobile: false },
 ];
@@ -32,6 +35,7 @@ let visualAuthCreated = false;
 const studentId = "00000000-0000-4000-8000-000000009943";
 const professionalId = "00000000-0000-4000-8000-000000000802";
 const results = [];
+const evidence = beginVisualQaEvidence({ gate: "CYCLE_12_9_STUDENT_EVOLUTION_VISUAL", reportPath: "reports/cycle-12-9-student-evolution-visual.json", requiredScenarios: ["viewport-matrix", "recoverable-error", "rollout-off"] });
 
 try {
   assert(process.env.QA_USER_PASSWORD, "QA_USER_PASSWORD ausente.");
@@ -84,6 +88,7 @@ try {
     await screenshot(`${viewport.name}-normal.png`);
     results.push({ viewport: viewport.name, ...audit, status: "PASS" });
   }
+  evidence.scenario("viewport-matrix", "PASS", { widths: [320, 375, 390, 768, 1280] });
 
   await client.send("Network.setBlockedURLs", { urls: ["*get_my_student_workout_frequency_v2*"] });
   await client.send("Page.reload", { ignoreCache: true });
@@ -92,22 +97,28 @@ try {
   assert.equal(await evaluate("document.activeElement === document.querySelector('.student-evolution-section-message.is-error button')"), true);
   await screenshot("mobile-partial-error-retry.png");
   results.push({ state: "partial-error-retry", independentContentPreserved: true, keyboardFocus: true, status: "PASS" });
+  evidence.scenario("recoverable-error", "PASS");
   await client.send("Network.setBlockedURLs", { urls: [] });
 
   server.kill(); await waitForFrontendStop(); await startFrontend("false");
   await client.send("Page.navigate", { url: `${appBaseUrl}/minha-area/evolucao` });
   await waitFor("location.pathname === '/minha-area' && document.querySelector('[data-testid=\"student-daily-page\"]')", 30000);
   results.push({ state: "rollout-off-legacy", route: "/minha-area", status: "PASS" });
+  evidence.scenario("rollout-off", "PASS");
 
-  const report = { decision: "PASS", scope: "CYCLE_12_9_STUDENT_EVOLUTION_VISUAL", database_target: "LOCAL", production_accessed: false, screenshots: 5, reduced_motion_foundation: "PASS", results };
-  writeFileSync("reports/cycle-12-9-student-evolution-visual.json", `${JSON.stringify(report, null, 2)}\n`);
+  const report = { decision: "PASS", scope: "CYCLE_12_9_STUDENT_EVOLUTION_VISUAL", database_target: "LOCAL", production_accessed: false, screenshots: viewports.length + 1, reduced_motion_foundation: "PASS", results };
+  evidence.executionSucceeded(report);
   console.log(`decision=PASS screenshots=${report.screenshots} viewports=${viewports.map((item) => item.name).join(",")}`);
+} catch (error) {
+  evidence.executionFailed(error, admin ? "execution" : "setup");
+  throw error;
 } finally {
-  try { cleanupFixtures(); } catch { /* preserve original failure */ }
-  if (visualAuthCreated && admin) { try { const listed = await admin.auth.admin.listUsers({ page: 1, perPage: 1000 }); const user = listed.data?.users?.find((item) => item.email === "student.qa.local@aruka.test"); if (user) await admin.auth.admin.deleteUser(user.id); } catch { /* local cleanup only */ } }
-  client?.close(); chrome?.kill(); server?.kill();
+  try { cleanupFixtures(); } catch (error) { evidence.cleanupFailed(error); }
+  if (visualAuthCreated && admin) { try { const listed = await admin.auth.admin.listUsers({ page: 1, perPage: 1000 }); const user = listed.data?.users?.find((item) => item.email === "student.qa.local@aruka.test"); if (user) { const deleted = await admin.auth.admin.deleteUser(user.id); if (deleted.error) throw deleted.error; } } catch (error) { evidence.cleanupFailed(error); } }
+  client?.close(); stopOwnedProcessTree(chrome); server?.kill();
   await sleep(500);
-  try { rmSync(profileDir, { recursive: true, force: true, maxRetries: 4, retryDelay: 300 }); } catch { /* temporary OS lock */ }
+  try { rmSync(profileDir, { recursive: true, force: true, maxRetries: 4, retryDelay: 300 }); } catch (error) { evidence.cleanupFailed(error); }
+  evidence.finalize();
 }
 
 function cleanupFixtures() { runPsql(process.cwd(), `delete from public.avaliacoes where id in ('${assessmentIds[0]}','${assessmentIds[1]}'); delete from public.workout_execution_sessions where aluno_id='${studentId}'; delete from public.alunos where id='${studentId}';`, { throwOnError: false }); }

@@ -1,8 +1,76 @@
 {
+  "evidence_contract_version": 1,
+  "run_id": "cycle-12-4-training-library-visual-1790439246491-12863483",
+  "gate": "CYCLE_12_4_TRAINING_LIBRARY_VISUAL",
   "decision": "PASS",
+  "current_run": true,
+  "started_at": "2026-09-26T16:14:06.491Z",
+  "finished_at": "2026-09-26T16:15:25.020Z",
+  "head": "c9ef3f8d185c2f67ea4727242719513a4d4b4a72",
+  "branch": "main",
+  "environment": "LOCAL",
+  "production_accessed": false,
+  "required_scenarios": [
+    "viewport-matrix",
+    "home-to-library",
+    "canonical-player-route",
+    "double-start",
+    "loading",
+    "recoverable-error",
+    "empty",
+    "direct-refresh"
+  ],
+  "scenarios": [
+    {
+      "name": "home-to-library",
+      "status": "PASS"
+    },
+    {
+      "name": "viewport-matrix",
+      "status": "PASS",
+      "widths": [
+        320,
+        375,
+        390,
+        768,
+        1280
+      ]
+    },
+    {
+      "name": "direct-refresh",
+      "status": "PASS"
+    },
+    {
+      "name": "loading",
+      "status": "PASS"
+    },
+    {
+      "name": "recoverable-error",
+      "status": "PASS"
+    },
+    {
+      "name": "canonical-player-route",
+      "status": "PASS",
+      "session_id": "61113408-d852-40ac-bb7d-5953aff61b62"
+    },
+    {
+      "name": "double-start",
+      "status": "PASS",
+      "in_progress_sessions": 1
+    },
+    {
+      "name": "empty",
+      "status": "PASS"
+    }
+  ],
+  "failures": [],
+  "cleanup": {
+    "attempted": true,
+    "status": "PASS",
+    "failures": []
+  },
   "scope": "CYCLE_12_4_TRAINING_LIBRARY_VISUAL",
   "database_target": "LOCAL",
-  "production_accessed": false,
   "production_mutated": false,
   "screenshots": 13,
   "viewports": [
@@ -95,6 +163,13 @@
       "state": "error",
       "shellPreserved": true,
       "safeCopy": true,
+      "status": "PASS"
+    },
+    {
+      "state": "canonical-player-route",
+      "route": "/minha-area/treino/61113408-d852-40ac-bb7d-5953aff61b62",
+      "sessionId": "61113408-d852-40ac-bb7d-5953aff61b62",
+      "playerRendered": true,
       "status": "PASS"
     },
     {

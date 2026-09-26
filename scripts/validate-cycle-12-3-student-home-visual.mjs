@@ -6,6 +6,8 @@ import { createClient } from "@supabase/supabase-js";
 import { loadQaEnvFile, validateQaEnvironment } from "./lib/qa-environment-guard.mjs";
 import { readLocalSupabaseRuntime } from "./lib/local-supabase-runtime.mjs";
 import { runPsql } from "./supabase-cycle-8-lib.mjs";
+import { beginVisualQaEvidence } from "./lib/visual-qa-evidence.mjs";
+import { stopOwnedProcessTree } from "./lib/qa-process-cleanup.mjs";
 
 loadQaEnvFile(".env.local");
 loadQaEnvFile(".env.qa.local");
@@ -13,8 +15,13 @@ process.env.QA_BASE_URL = process.env.ARUKA_QA_BASE_URL || process.env.QA_BASE_U
 const runtime = readLocalSupabaseRuntime();
 validateQaEnvironment(process.env, { detectedSupabaseUrl: runtime.apiUrl });
 const appBaseUrl = "http://127.0.0.1:5183";
-const studentEmail = "student.qa.local@aruka.test";
+const studentEmail = `cycle-12-3-visual-${Date.now()}@example.invalid`;
 const password = process.env.QA_USER_PASSWORD;
+const professionalId = "00000000-0000-4000-8000-000000003814";
+const fixtureStudentId = "00000000-0000-4000-8000-000000003821";
+const fixtureWorkoutId = "00000000-0000-4000-8000-000000003831";
+const fixtureDayId = "00000000-0000-4000-8000-000000003841";
+const fixtureExerciseId = "00000000-0000-4000-8000-000000003851";
 const cdpPort = 9800 + Math.floor(Math.random() * 150);
 const screenshotDir = join("tmp-responsive-screenshots", "cycle-12-3-student-home");
 const profileDir = join(tmpdir(), `aruka-cycle-12-3-chrome-${process.pid}`);
@@ -34,11 +41,23 @@ let workoutId;
 let studentId;
 let originalStudentName;
 let originalReviewDate;
+let admin;
+let studentUserId;
 const results = [];
 let screenshotCount = 0;
+const evidence = beginVisualQaEvidence({
+  gate: "CYCLE_12_3_STUDENT_HOME_VISUAL",
+  reportPath: "reports/cycle-12-3-student-home-visual.json",
+  requiredScenarios: ["data", "empty", "loading", "recoverable-error", "home-to-library", "home-to-player", "direct-refresh", "viewport-matrix"],
+});
 
 try {
   assert(password, "QA_USER_PASSWORD ausente.");
+  admin = createClient(runtime.apiUrl, runtime.serviceRoleKey, { auth: { persistSession: false, autoRefreshToken: false } });
+  const created = await admin.auth.admin.createUser({ email: studentEmail, password, email_confirm: true });
+  if (created.error) throw created.error;
+  studentUserId = created.data.user.id;
+  setupFixture(studentUserId);
   const student = createClient(runtime.apiUrl, runtime.anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
   const { data: login, error: loginError } = await student.auth.signInWithPassword({ email: studentEmail, password });
   if (loginError) throw loginError;
@@ -49,6 +68,7 @@ try {
   originalStudentName = initialHome.student?.name || "Student QA Daily Experience";
   originalReviewDate = initialHome.review?.date || null;
   assert(studentId && workoutId && initialHome.todayWorkout?.treinoDiaId, "Fixture visual do aluno incompleta.");
+  assert(studentId === fixtureStudentId && workoutId === fixtureWorkoutId, "Home visual resolveu dados fora da fixture reservada.");
   runPsql(process.cwd(), `delete from public.workout_execution_sessions where aluno_id='${studentId}'::uuid and status='in_progress';`);
 
   await ensureFrontend();
@@ -88,6 +108,9 @@ try {
     await screenshot(client, `${viewport.name}-normal.png`);
     results.push({ ...viewport, state: "normal", ...audit, status: "PASS" });
   }
+  evidence.scenario("viewport-matrix", "PASS", { widths: [320, 375, 390, 768, 1280] });
+  evidence.scenario("data", "PASS");
+  evidence.scenario("direct-refresh", "PASS");
 
   await evaluate(client, `document.querySelector('a[href="/minha-area/treinos"]').focus()`);
   await client.send("Input.dispatchKeyEvent", { type: "keyDown", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13 });
@@ -96,6 +119,7 @@ try {
   const keyboardNavigation = await evaluate(client, `document.querySelector('a[href="/minha-area/treinos"]').getAttribute('aria-current') === 'page'`);
   assert(keyboardNavigation, "Keyboard navigation did not activate Treinos.");
   results.push({ state: "keyboard-navigation", route: "/minha-area/treinos", ariaCurrent: true, status: "PASS" });
+  evidence.scenario("home-to-library", "PASS", { route: "/minha-area/treinos" });
   await client.send("Page.navigate", { url: `${appBaseUrl}/minha-area/inicio` });
   await waitFor(client, "document.querySelector('[data-testid=\"student-home-v2\"]')");
 
@@ -130,6 +154,14 @@ try {
   await screenshot(client, "mobile-390-active-session.png");
   results.push({ state: "active-session", viewport: "390x844", status: "PASS" });
 
+  const playerRoute = `/minha-area/treino/${started.id}`;
+  await evaluate(client, `document.querySelector('[data-testid="student-home-active-session"] button').click()`);
+  await waitFor(client, `location.pathname === '${playerRoute}' && document.querySelector('[data-testid="student-workout-player-v2"]')`, 30000);
+  results.push({ state: "home-to-player", route: playerRoute, sessionId: started.id, status: "PASS" });
+  evidence.scenario("home-to-player", "PASS", { route: playerRoute, session_id: started.id });
+  await client.send("Page.navigate", { url: `${appBaseUrl}/minha-area/inicio` });
+  await waitFor(client, "document.querySelector('[data-testid=\"student-home-v2\"]')", 30000);
+
   runPsql(process.cwd(), `delete from public.workout_execution_sessions where id='${started.id}'::uuid; update public.treinos set lifecycle_status='archived', archived_at=now() where id='${workoutId}'::uuid;`);
   const { data: emptyHome, error: emptyHomeError } = await student.rpc("get_my_student_home_v2");
   if (emptyHomeError) throw emptyHomeError;
@@ -138,6 +170,7 @@ try {
   await waitFor(client, "document.querySelector('[data-testid=\"student-home-no-workout\"]')", 30000);
   await screenshot(client, "mobile-390-empty.png");
   results.push({ state: "empty", viewport: "390x844", status: "PASS" });
+  evidence.scenario("empty", "PASS");
   runPsql(process.cwd(), `update public.treinos set lifecycle_status='active', archived_at=null where id='${workoutId}'::uuid;`);
 
   await client.send("Fetch.enable", { patterns: [{ urlPattern: "*get_my_student_home_v2*", requestStage: "Request" }] });
@@ -145,6 +178,7 @@ try {
   await waitFor(client, "document.querySelector('[data-testid=\"student-home-loading\"]')", 10000);
   await screenshot(client, "mobile-390-loading.png");
   results.push({ state: "loading", viewport: "390x844", status: "PASS" });
+  evidence.scenario("loading", "PASS");
   const pausedRequestId = await waitForPausedRequest(client, 10000);
   await client.send("Fetch.continueRequest", { requestId: pausedRequestId });
   await client.send("Fetch.disable");
@@ -160,11 +194,15 @@ try {
   })()`);
   assert(safeError, "Estado de erro expôs detalhe técnico ou removeu o shell.");
   results.push({ state: "error", viewport: "390x844", shellPreserved: true, safeCopy: true, status: "PASS" });
+  evidence.scenario("recoverable-error", "PASS");
   await client.send("Network.setBlockedURLs", { urls: [] });
 
   server.kill();
   await waitForFrontendStop();
   await ensureFrontend("false");
+  await client.send("Page.navigate", { url: `${appBaseUrl}/login` });
+  await waitFor(client, "document.readyState !== 'loading'");
+  assert(await evaluate(client, `(async () => { const { supabase } = await import('/src/services/supabase.js'); return !(await supabase.auth.setSession({ access_token: ${JSON.stringify(session.access_token)}, refresh_token: ${JSON.stringify(session.refresh_token)} })).error; })()`), "Sessão não foi restabelecida após reiniciar o frontend.");
   await client.send("Page.navigate", { url: `${appBaseUrl}/minha-area/inicio` });
   await waitFor(client, "location.pathname === '/minha-area' && document.querySelector('[data-testid=\"student-daily-page\"]')", 30000);
   results.push({ state: "rollout-off-legacy", route: "/minha-area", status: "PASS" });
@@ -179,28 +217,34 @@ try {
     states: ["normal", "keyboard-navigation", "long-name", "review-overdue", "active-session", "empty", "loading", "error", "rollout-off-legacy"],
     results,
   };
-  mkdirSync("reports", { recursive: true });
-  writeFileSync("reports/cycle-12-3-student-home-visual.json", `${JSON.stringify(report, null, 2)}\n`);
+  evidence.executionSucceeded(report);
   console.log(`decision=PASS screenshots=${report.screenshots} states=${report.states.join(",")}`);
+} catch (error) {
+  evidence.executionFailed(error, studentUserId ? "execution" : "setup");
+  throw error;
 } finally {
   if (studentId) {
     try {
       runPsql(process.cwd(), `delete from public.workout_execution_sessions where aluno_id='${studentId}'::uuid and status='in_progress';`);
       if (workoutId) runPsql(process.cwd(), `update public.treinos set lifecycle_status='active', archived_at=null where id='${workoutId}'::uuid;`);
       restoreProfileFixture();
-    } catch {
-      // A falha original deve permanecer visível quando o stack local encerra antes do cleanup.
-    }
+    } catch (error) { evidence.cleanupFailed(error); }
   }
   client?.close();
-  chrome?.kill();
+  stopOwnedProcessTree(chrome);
   server?.kill();
-  await sleep(1000);
+  await sleep(2500);
   try {
     rmSync(profileDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 500 });
-  } catch {
-    // Chrome pode manter handles por alguns instantes no Windows; o cleanup final da missão remove o perfil.
+  } catch (error) { evidence.cleanupFailed(error); }
+  try { cleanupFixture(); } catch (error) { evidence.cleanupFailed(error); }
+  if (admin && studentUserId) {
+    try {
+      const deleted = await admin.auth.admin.deleteUser(studentUserId);
+      if (deleted.error) throw deleted.error;
+    } catch (error) { evidence.cleanupFailed(error); }
   }
+  evidence.finalize();
 }
 
 async function ensureFrontend(enabled = "true") {
@@ -304,7 +348,7 @@ async function screenshot(cdp, name) {
 async function waitFor(cdp, expression, timeout = 20000) {
   const started = Date.now();
   while (Date.now() - started < timeout) {
-    if (await evaluate(cdp, `Boolean(${expression})`)) return;
+    try { if (await evaluate(cdp, `Boolean(${expression})`)) return; } catch { /* navigation can transiently replace the execution context */ }
     await sleep(250);
   }
   const diagnostic = await evaluate(cdp, `({ pathname: location.pathname, title: document.title, text: (document.body?.innerText || '').slice(0, 300) })`);
@@ -333,5 +377,25 @@ function restoreProfileFixture() {
   const name = originalStudentName.replaceAll("'", "''");
   const review = originalReviewDate ? `'${originalReviewDate.replaceAll("'", "''")}'::date` : "null";
   runPsql(process.cwd(), `update public.alunos set nome='${name}' where id='${studentId}'::uuid; update public.treinos set data_revisao=${review} where id='${workoutId}'::uuid;`);
+}
+function setupFixture(userId) {
+  cleanupFixture();
+  runPsql(process.cwd(), `
+    insert into auth.users(id,instance_id,aud,role,email,confirmation_token,recovery_token,email_change_token_new,email_change_token_current,email_change,phone_change,phone_change_token,reauthentication_token,email_confirmed_at,created_at,updated_at,raw_app_meta_data,raw_user_meta_data,is_super_admin)
+    values ('${professionalId}','00000000-0000-0000-0000-000000000000','authenticated','authenticated','cycle-12-3-visual-professional@example.invalid','','','','','','','','',now(),now(),now(),'{}','{}',false);
+    insert into public.perfis(id,user_id,nome,email,role,tipo_acesso,status)
+    values ('${professionalId}','${professionalId}','Home Visual Professional','cycle-12-3-visual-professional@example.invalid','user','assinante','ativo');
+    insert into public.alunos(id,user_id,nome,whatsapp,inicio,plano,valor,status,observacoes,student_user_id,student_access_status,student_access_activated_at)
+    values ('${fixtureStudentId}','${professionalId}','Ana Home Visual','+550000003811',current_date,'QA',0,'Ativo','cycle12 home visual','${userId}','active',now());
+    insert into public.treinos(id,user_id,aluno_id,nome_rotina,objetivo,nivel,dias_semana,observacoes,status,data_inicio,data_revisao,lifecycle_status,delivered_at)
+    values ('${fixtureWorkoutId}','${professionalId}','${fixtureStudentId}','Home Visual — Programa','Hipertrofia','Intermediário',1,'fixture própria','Ativo',current_date - 7,current_date + 10,'active',now());
+    insert into public.treino_dias(id,treino_id,nome,grupo_muscular,ordem)
+    values ('${fixtureDayId}','${fixtureWorkoutId}','Treino Home','Corpo inteiro',1);
+    insert into public.treino_exercicios(id,treino_dia_id,nome,series,repeticoes,carga,descanso,observacoes,ordem,tracking_config)
+    values ('${fixtureExerciseId}','${fixtureDayId}','Agachamento visual','1','10','10','60s','fixture própria',1,'{"load":true,"reps":true,"rir":false,"rpe":false,"duration":false,"distance":false}');
+  `);
+}
+function cleanupFixture() {
+  runPsql(process.cwd(), `delete from public.workout_execution_sessions where aluno_id='${fixtureStudentId}'; delete from public.treinos where id='${fixtureWorkoutId}'; delete from public.alunos where id='${fixtureStudentId}'; delete from public.perfis where id='${professionalId}'; delete from auth.users where id='${professionalId}';`, { throwOnError: false });
 }
 function sleep(ms) { return new Promise((resolve) => setTimeout(resolve, ms)); }

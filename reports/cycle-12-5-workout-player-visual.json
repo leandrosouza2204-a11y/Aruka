@@ -1,12 +1,64 @@
 {
+  "evidence_contract_version": 1,
+  "run_id": "cycle-12-5-workout-player-visual-1790439337480-de9d3e5f",
+  "gate": "CYCLE_12_5_WORKOUT_PLAYER_VISUAL",
   "decision": "PASS",
+  "current_run": true,
+  "started_at": "2026-09-26T16:15:37.481Z",
+  "finished_at": "2026-09-26T16:16:35.681Z",
+  "head": "c9ef3f8d185c2f67ea4727242719513a4d4b4a72",
+  "branch": "main",
+  "environment": "LOCAL",
+  "production_accessed": false,
+  "required_scenarios": [
+    "viewport-matrix",
+    "loading",
+    "recoverable-error",
+    "resume",
+    "terminal"
+  ],
+  "scenarios": [
+    {
+      "name": "viewport-matrix",
+      "status": "PASS",
+      "widths": [
+        320,
+        375,
+        390,
+        768,
+        1280
+      ]
+    },
+    {
+      "name": "resume",
+      "status": "PASS"
+    },
+    {
+      "name": "loading",
+      "status": "PASS"
+    },
+    {
+      "name": "recoverable-error",
+      "status": "PASS"
+    },
+    {
+      "name": "terminal",
+      "status": "PASS"
+    }
+  ],
+  "failures": [],
+  "cleanup": {
+    "attempted": true,
+    "status": "PASS",
+    "failures": []
+  },
   "scope": "CYCLE_12_5_WORKOUT_PLAYER_VISUAL",
   "database_target": "LOCAL",
-  "production_accessed": false,
   "production_mutated": false,
-  "screenshots": 10,
+  "screenshots": 11,
   "viewports": [
     "mobile-320",
+    "mobile-375",
     "mobile-390",
     "tablet-768",
     "desktop-1280"
@@ -45,7 +97,52 @@
         },
         {
           "label": "Pular exercício",
+          "height": 58
+        },
+        {
+          "label": "Finalizar treino",
+          "height": 58
+        }
+      ],
+      "mainHeadings": 1,
+      "progressbars": 1,
+      "studentShell": false,
+      "videoAutoplay": false,
+      "status": "PASS"
+    },
+    {
+      "state": "current-media-prescription",
+      "viewport": "mobile-375",
+      "noHorizontalOverflow": true,
+      "minimumTarget": 44,
+      "targetSizes": [
+        {
+          "label": "Sair do player e continuar depois",
           "height": 44
+        },
+        {
+          "label": "Encerrar treino",
+          "height": 44
+        },
+        {
+          "label": "Concluir série",
+          "height": 46
+        },
+        {
+          "label": "Escolher exercício",
+          "height": 46
+        },
+        {
+          "label": "Próximo exercício",
+          "height": 46
+        },
+        {
+          "label": "Pular exercício",
+          "height": 58
+        },
+        {
+          "label": "Finalizar treino",
+          "height": 58
         }
       ],
       "mainHeadings": 1,
@@ -82,7 +179,11 @@
         },
         {
           "label": "Pular exercício",
-          "height": 44
+          "height": 58
+        },
+        {
+          "label": "Finalizar treino",
+          "height": 58
         }
       ],
       "mainHeadings": 1,
@@ -119,7 +220,11 @@
         },
         {
           "label": "Pular exercício",
-          "height": 44
+          "height": 50
+        },
+        {
+          "label": "Finalizar treino",
+          "height": 50
         }
       ],
       "mainHeadings": 1,
@@ -156,7 +261,11 @@
         },
         {
           "label": "Pular exercício",
-          "height": 44
+          "height": 50
+        },
+        {
+          "label": "Finalizar treino",
+          "height": 50
         }
       ],
       "mainHeadings": 1,

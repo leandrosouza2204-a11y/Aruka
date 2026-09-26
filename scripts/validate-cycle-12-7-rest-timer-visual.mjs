@@ -7,6 +7,8 @@ import { createClient } from "@supabase/supabase-js";
 import { loadQaEnvFile, validateQaEnvironment } from "./lib/qa-environment-guard.mjs";
 import { readLocalSupabaseRuntime } from "./lib/local-supabase-runtime.mjs";
 import { runPsql } from "./supabase-cycle-8-lib.mjs";
+import { beginVisualQaEvidence } from "./lib/visual-qa-evidence.mjs";
+import { stopOwnedProcessTree } from "./lib/qa-process-cleanup.mjs";
 
 loadQaEnvFile(".env.local");
 loadQaEnvFile(".env.qa.local");
@@ -43,6 +45,7 @@ let cdp;
 let studentUserId;
 let screenshotCount = 0;
 const results = [];
+const evidence = beginVisualQaEvidence({ gate: "CYCLE_12_7_REST_TIMER_VISUAL", reportPath: "reports/cycle-12-7-rest-timer-visual.json" });
 
 try {
   assert(password, "QA_USER_PASSWORD ausente.");
@@ -160,21 +163,25 @@ try {
     states: [...new Set(results.map((result) => result.state))],
     results,
   };
-  mkdirSync("reports", { recursive: true });
-  writeFileSync("reports/cycle-12-7-rest-timer-visual.json", `${JSON.stringify(report, null, 2)}\n`);
+  evidence.executionSucceeded(report);
   console.log(`decision=PASS screenshots=${screenshotCount} states=${report.states.join(",")}`);
+} catch (error) {
+  evidence.executionFailed(error, studentUserId ? "execution" : "setup");
+  throw error;
 } finally {
   cdp?.close();
-  chrome?.kill();
+  stopOwnedProcessTree(chrome);
   server?.kill();
-  cleanupFixture();
+  try { cleanupFixture(); } catch (error) { evidence.cleanupFailed(error); }
   if (studentUserId) {
     try {
       const admin = createClient(runtime.apiUrl, runtime.serviceRoleKey, { auth: { persistSession: false, autoRefreshToken: false } });
-      await admin.auth.admin.deleteUser(studentUserId);
-    } catch { /* local SQL cleanup below is authoritative */ }
+      const deleted = await admin.auth.admin.deleteUser(studentUserId);
+      if (deleted.error) throw deleted.error;
+    } catch (error) { evidence.cleanupFailed(error); }
   }
-  try { rmSync(profileDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 300 }); } catch { /* temporary profile */ }
+  try { rmSync(profileDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 300 }); } catch (error) { evidence.cleanupFailed(error); }
+  evidence.finalize();
 }
 
 function setupFixture(userId) {

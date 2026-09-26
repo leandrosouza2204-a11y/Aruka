@@ -1,9 +1,26 @@
 {
+  "evidence_contract_version": 1,
+  "run_id": "cycle-12-6-set-tracking-visual-1790439396162-86e5ed83",
+  "gate": "CYCLE_12_6_SET_TRACKING_VISUAL",
   "decision": "PASS",
+  "current_run": true,
+  "started_at": "2026-09-26T16:16:36.163Z",
+  "finished_at": "2026-09-26T16:17:25.288Z",
+  "head": "c9ef3f8d185c2f67ea4727242719513a4d4b4a72",
+  "branch": "main",
+  "environment": "LOCAL",
+  "production_accessed": false,
+  "required_scenarios": [],
+  "scenarios": [],
+  "failures": [],
+  "cleanup": {
+    "attempted": true,
+    "status": "PASS",
+    "failures": []
+  },
   "scope": "CYCLE_12_6_SET_TRACKING_VISUAL",
   "database_target": "LOCAL",
   "fixtures": "SYNTHETIC",
-  "production_accessed": false,
   "production_mutated": false,
   "screenshots": 11,
   "viewports": [
