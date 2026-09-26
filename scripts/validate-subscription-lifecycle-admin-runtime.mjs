@@ -25,7 +25,7 @@ await upsertSubscription(user.id, {
 });
 
 await assertState(user.id, "ativo", false);
-await upsertSubscription(user.id, { status: "vencido", grace_until: addDays(7), suspended_at: null });
+await upsertSubscription(user.id, { status: "vencido", grace_until: addDays(37), suspended_at: null });
 await assertState(user.id, "vencido", false);
 await upsertSubscription(user.id, { status: "vencido", grace_until: null, suspended_at: startDate });
 await assertState(user.id, "vencido", false);

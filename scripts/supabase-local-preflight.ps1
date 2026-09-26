@@ -50,6 +50,7 @@ $ExpectedActiveMigrations = @(
   "20260920104727_cycle12_workout_completion_feedback.sql"
   "20260920144904_cycle12_student_evolution_v2.sql"
   "20260921010053_cycle12_profile_secondary_flows.sql"
+  "20260926174027_cycle12_schema_rls_hardening.sql"
 )
 $IsCi = $env:CI -eq "true"
 $IsCiLocalOnly = $env:SUPABASE_CI_LOCAL_ONLY -eq "true"

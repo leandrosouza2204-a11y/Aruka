@@ -49,6 +49,8 @@ values
 set local role authenticated;
 select set_config('request.jwt.claim.sub', '10000000-0000-4000-8000-000000000001', true);
 select public.vincular_aluno_usuario('10000000-0000-4000-8000-000000000201', '10000000-0000-4000-8000-000000000011');
+select public.manage_student_access('10000000-0000-4000-8000-000000000201', 'invite', 'runtime-student-a@example.invalid', null);
+select public.manage_student_access('10000000-0000-4000-8000-000000000201', 'activate', 'runtime-student-a@example.invalid', null);
 
 do $$
 begin
