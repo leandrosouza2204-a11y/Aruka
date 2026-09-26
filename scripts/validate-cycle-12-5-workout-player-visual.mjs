@@ -7,6 +7,8 @@ import { createClient } from "@supabase/supabase-js";
 import { loadQaEnvFile, validateQaEnvironment } from "./lib/qa-environment-guard.mjs";
 import { readLocalSupabaseRuntime } from "./lib/local-supabase-runtime.mjs";
 import { runPsql } from "./supabase-cycle-8-lib.mjs";
+import { beginVisualQaEvidence } from "./lib/visual-qa-evidence.mjs";
+import { stopOwnedProcessTree } from "./lib/qa-process-cleanup.mjs";
 
 loadQaEnvFile(".env.local");
 loadQaEnvFile(".env.qa.local");
@@ -29,6 +31,7 @@ const profileDir = join(tmpdir(), `aruka-cycle-12-5-chrome-${process.pid}`);
 const cdpPort = 9990 + Math.floor(Math.random() * 30);
 const viewports = [
   { name: "mobile-320", width: 320, height: 800, mobile: true },
+  { name: "mobile-375", width: 375, height: 812, mobile: true },
   { name: "mobile-390", width: 390, height: 844, mobile: true },
   { name: "tablet-768", width: 768, height: 1024, mobile: true },
   { name: "desktop-1280", width: 1280, height: 900, mobile: false },
@@ -40,6 +43,7 @@ let studentUserId;
 let sessionId;
 let screenshotCount = 0;
 const results = [];
+const evidence = beginVisualQaEvidence({ gate: "CYCLE_12_5_WORKOUT_PLAYER_VISUAL", reportPath: "reports/cycle-12-5-workout-player-visual.json", requiredScenarios: ["viewport-matrix", "loading", "recoverable-error", "resume", "terminal"] });
 
 try {
   assert(password, "QA_USER_PASSWORD ausente.");
@@ -59,7 +63,7 @@ try {
   await cdp.send("Page.enable");
   await cdp.send("Runtime.enable");
   await cdp.send("Network.enable");
-  await setViewport(cdp, viewports[1]);
+  await setViewport(cdp, viewports[2]);
   await cdp.send("Page.navigate", { url: `${appBaseUrl}/login` });
   await waitFor(cdp, "document.readyState !== 'loading'");
   const authSession = login.data.session;
@@ -83,8 +87,9 @@ try {
     await screenshot(cdp, `${viewport.name}-current-media-prescription.png`);
     results.push({ state: "current-media-prescription", viewport: viewport.name, ...audit, status: "PASS" });
   }
+  evidence.scenario("viewport-matrix", "PASS", { widths: [320, 375, 390, 768, 1280] });
 
-  await setViewport(cdp, viewports[1]);
+  await setViewport(cdp, viewports[2]);
   await evaluate(cdp, `document.querySelector('[aria-label="Escolher exercício"]').click()`);
   await waitFor(cdp, "document.querySelector('.workout-player-dialog[open]')");
   await screenshot(cdp, "mobile-390-switch-exercise.png");
@@ -119,6 +124,7 @@ try {
   await evaluate(cdp, `document.querySelector('[data-testid="student-training-active-session"] button').click()`);
   await waitFor(cdp, `location.pathname.endsWith('${sessionId}')`);
   results.push({ state: "leave-resume", sameSession: true, remainedInProgress: true, status: "PASS" });
+  evidence.scenario("resume", "PASS");
 
   await cdp.send("Fetch.enable", { patterns: [{ urlPattern: "*get_my_workout_player_v2*", requestStage: "Request" }] });
   await cdp.send("Page.reload", { ignoreCache: false });
@@ -129,6 +135,7 @@ try {
   await cdp.send("Fetch.disable");
   await waitFor(cdp, "document.querySelector('[data-testid=\"student-workout-player-v2\"]')", 30000);
   results.push({ state: "loading", status: "PASS" });
+  evidence.scenario("loading", "PASS");
 
   await cdp.send("Network.setBlockedURLs", { urls: ["*get_my_workout_player_v2*"] });
   await cdp.send("Page.reload", { ignoreCache: true });
@@ -137,6 +144,7 @@ try {
   await screenshot(cdp, "mobile-390-safe-error.png");
   await cdp.send("Network.setBlockedURLs", { urls: [] });
   results.push({ state: "safe-error", status: "PASS" });
+  evidence.scenario("recoverable-error", "PASS");
 
   runPsql(process.cwd(), `update public.workout_execution_sessions set status='cancelled',cancelled_at=now(),cancellation_reason='visual local fixture' where id='${sessionId}';`);
   await cdp.send("Page.reload", { ignoreCache: true });
@@ -144,15 +152,20 @@ try {
   await screenshot(cdp, "mobile-390-terminal.png");
   assert.equal((await evaluate(cdp, "document.querySelectorAll('.workout-player-actions').length")), 0);
   results.push({ state: "terminal", writesAvailable: false, status: "PASS" });
+  evidence.scenario("terminal", "PASS");
 
   const report = { decision: "PASS", scope: "CYCLE_12_5_WORKOUT_PLAYER_VISUAL", database_target: "LOCAL", production_accessed: false, production_mutated: false, screenshots: screenshotCount, viewports: viewports.map(({ name }) => name), results };
-  mkdirSync("reports", { recursive: true });
-  writeFileSync("reports/cycle-12-5-workout-player-visual.json", `${JSON.stringify(report, null, 2)}\n`);
+  evidence.executionSucceeded(report);
   console.log(`decision=PASS screenshots=${screenshotCount} states=${[...new Set(results.map((result) => result.state))].join(",")}`);
+} catch (error) {
+  evidence.executionFailed(error, studentUserId ? "execution" : "setup");
+  throw error;
 } finally {
-  cdp?.close(); chrome?.kill(); server?.kill(); cleanupFixture();
-  if (studentUserId) { try { const admin = createClient(runtime.apiUrl, runtime.serviceRoleKey, { auth: { persistSession: false, autoRefreshToken: false } }); await admin.auth.admin.deleteUser(studentUserId); } catch { /* local cleanup below */ } }
-  try { rmSync(profileDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 300 }); } catch { /* temporary */ }
+  cdp?.close(); stopOwnedProcessTree(chrome); server?.kill();
+  try { cleanupFixture({ strict: true }); } catch (error) { evidence.cleanupFailed(error); }
+  if (studentUserId) { try { const admin = createClient(runtime.apiUrl, runtime.serviceRoleKey, { auth: { persistSession: false, autoRefreshToken: false } }); const deleted = await admin.auth.admin.deleteUser(studentUserId); if (deleted.error) throw deleted.error; } catch (error) { evidence.cleanupFailed(error); } }
+  try { rmSync(profileDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 300 }); } catch (error) { evidence.cleanupFailed(error); }
+  evidence.finalize();
 }
 
 function setupFixture(userId) {
@@ -170,7 +183,7 @@ function setupFixture(userId) {
       ('${exerciseLast}','${dayId}','Prancha frontal','3','30 s','','45 s','Respire normalmente.','',3,'{"load":false,"reps":false,"rir":false,"rpe":false,"duration":true,"distance":false}','{}');
   `);
 }
-function cleanupFixture() { runPsql(process.cwd(), `delete from public.workout_execution_sessions where aluno_id='${studentId}'; delete from public.treinos where aluno_id='${studentId}'; delete from public.alunos where id='${studentId}'; delete from public.perfis where id='${professionalId}'; delete from auth.users where id='${professionalId}';`, { throwOnError: false }); }
+function cleanupFixture({ strict = false } = {}) { const result = runPsql(process.cwd(), `delete from public.workout_execution_sessions where aluno_id='${studentId}'; delete from public.treinos where aluno_id='${studentId}'; delete from public.alunos where id='${studentId}'; delete from public.perfis where id='${professionalId}'; delete from auth.users where id='${professionalId}';`, { throwOnError: false }); if (strict && result.status !== 0) throw new Error(`Cleanup SQL do Player falhou: ${result.stderr || result.stdout}`); }
 function scalar(statement) { return runPsql(process.cwd(), `\\pset tuples_only on\n\\pset format unaligned\n${statement}`).stdout.trim().split(/\r?\n/).filter(Boolean).at(-1) || ""; }
 async function ensureFrontend() { server = spawn(process.execPath, [join("node_modules", "vite", "bin", "vite.js"), "--host", "127.0.0.1", "--port", "5185", "--strictPort"], { env: { ...process.env, VITE_STUDENT_EXPERIENCE_V2_ENABLED: "true" }, shell: false, stdio: "ignore" }); const started = Date.now(); while (Date.now()-started<45000) { if (await responds(appBaseUrl)) return; await sleep(300); } throw new Error("Frontend local não respondeu."); }
 async function responds(url) { try { return (await fetch(url,{redirect:"manual"})).status<500; } catch { return false; } }

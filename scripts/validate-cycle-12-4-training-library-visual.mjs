@@ -7,6 +7,8 @@ import { createClient } from "@supabase/supabase-js";
 import { loadQaEnvFile, validateQaEnvironment } from "./lib/qa-environment-guard.mjs";
 import { readLocalSupabaseRuntime } from "./lib/local-supabase-runtime.mjs";
 import { runPsql } from "./supabase-cycle-8-lib.mjs";
+import { beginVisualQaEvidence } from "./lib/visual-qa-evidence.mjs";
+import { stopOwnedProcessTree } from "./lib/qa-process-cleanup.mjs";
 
 loadQaEnvFile(".env.local");
 loadQaEnvFile(".env.qa.local");
@@ -44,6 +46,11 @@ let studentUserId;
 let startedSessionId;
 let screenshotCount = 0;
 const results = [];
+const evidence = beginVisualQaEvidence({
+  gate: "CYCLE_12_4_TRAINING_LIBRARY_VISUAL",
+  reportPath: "reports/cycle-12-4-training-library-visual.json",
+  requiredScenarios: ["viewport-matrix", "home-to-library", "canonical-player-route", "double-start", "loading", "recoverable-error", "empty", "direct-refresh"],
+});
 
 try {
   assert(password, "QA_USER_PASSWORD ausente.");
@@ -80,6 +87,7 @@ try {
   await cdp.send("Input.dispatchKeyEvent", { type: "keyUp", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13 });
   await waitFor(cdp, "location.pathname === '/minha-area/treinos' && document.querySelector('[data-testid=\"student-training-library-v2\"]')", 30000);
   results.push({ state: "home-to-training-keyboard", ariaCurrent: true, status: "PASS" });
+  evidence.scenario("home-to-library", "PASS");
 
   for (const viewport of viewports) {
     await setViewport(cdp, viewport);
@@ -91,6 +99,8 @@ try {
     await screenshot(cdp, `${viewport.name}-normal.png`);
     results.push({ state: "normal", viewport: viewport.name, ...audit, status: "PASS" });
   }
+  evidence.scenario("viewport-matrix", "PASS", { widths: [320, 375, 390, 768, 1280] });
+  evidence.scenario("direct-refresh", "PASS");
 
   await setViewport(cdp, viewports[2]);
   await evaluate(cdp, `document.querySelector('[data-workout-link="${dayA}"]').focus()`);
@@ -129,6 +139,7 @@ try {
   await cdp.send("Fetch.disable");
   await waitFor(cdp, "document.querySelector('[data-testid=\"student-training-library-v2\"]')");
   results.push({ state: "loading", shellPreserved: true, status: "PASS" });
+  evidence.scenario("loading", "PASS");
 
   await cdp.send("Network.setBlockedURLs", { urls: ["*get_my_student_training_library_v2*"] });
   await cdp.send("Page.reload", { ignoreCache: true });
@@ -138,17 +149,24 @@ try {
   await screenshot(cdp, "mobile-390-error.png");
   await cdp.send("Network.setBlockedURLs", { urls: [] });
   results.push({ state: "error", shellPreserved: true, safeCopy: true, status: "PASS" });
+  evidence.scenario("recoverable-error", "PASS");
 
   await cdp.send("Page.reload", { ignoreCache: true });
   await waitFor(cdp, "document.querySelector('[data-testid=\"student-training-library-v2\"]')");
   await evaluate(cdp, `(() => { const button=[...document.querySelectorAll('.student-workout-card button')][0]; button.click(); button.click(); })()`);
-  await waitFor(cdp, "location.pathname === '/minha-area'", 30000);
+  await waitFor(cdp, "location.pathname.startsWith('/minha-area/treino/') && document.querySelector('[data-testid=\"student-workout-player-v2\"]')", 30000);
+  const navigatedSessionId = await evaluate(cdp, "location.pathname.split('/').filter(Boolean).at(-1)");
+  assert.match(navigatedSessionId, /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i, "A rota canônica não contém uma identidade de sessão válida.");
   const sessionCount = Number(scalar(`select count(*) from public.workout_execution_sessions where aluno_id='${studentId}' and status='in_progress';`));
   assert.equal(sessionCount, 1);
   const active = await student.rpc("get_my_student_training_library_v2");
   if (active.error) throw active.error;
   startedSessionId = active.data.activeSession.id;
   assert(startedSessionId);
+  assert.equal(navigatedSessionId, startedSessionId, "A rota do Player não corresponde à sessão iniciada/retomada pelo backend.");
+  results.push({ state: "canonical-player-route", route: `/minha-area/treino/${navigatedSessionId}`, sessionId: navigatedSessionId, playerRendered: true, status: "PASS" });
+  evidence.scenario("canonical-player-route", "PASS", { session_id: navigatedSessionId });
+  evidence.scenario("double-start", "PASS", { in_progress_sessions: sessionCount });
   await navigateToLibrary();
   await waitFor(cdp, "document.querySelector('[data-testid=\"student-training-active-session\"]')");
   await screenshot(cdp, "mobile-390-active-session.png");
@@ -166,6 +184,7 @@ try {
   await waitFor(cdp, "document.querySelector('[data-testid=\"student-training-empty-program\"]')");
   await screenshot(cdp, "mobile-390-empty-program.png");
   results.push({ state: "empty-program", status: "PASS" });
+  evidence.scenario("empty", "PASS");
 
   server.kill();
   await waitForFrontendStop();
@@ -175,21 +194,25 @@ try {
   results.push({ state: "rollout-off", destination: "/minha-area", status: "PASS" });
 
   const report = { decision: "PASS", scope: "CYCLE_12_4_TRAINING_LIBRARY_VISUAL", database_target: "LOCAL", production_accessed: false, production_mutated: false, screenshots: screenshotCount, viewports: viewports.map(({ name }) => name), results };
-  mkdirSync("reports", { recursive: true });
-  writeFileSync("reports/cycle-12-4-training-library-visual.json", `${JSON.stringify(report, null, 2)}\n`);
+  evidence.executionSucceeded(report);
   console.log(`decision=PASS screenshots=${screenshotCount} states=${[...new Set(results.map((result) => result.state))].join(",")}`);
+} catch (error) {
+  evidence.executionFailed(error, studentUserId ? "execution" : "setup");
+  throw error;
 } finally {
   cdp?.close();
-  chrome?.kill();
+  stopOwnedProcessTree(chrome);
   server?.kill();
-  if (studentId) cleanupFixture();
+  try { cleanupFixture({ strict: true }); } catch (error) { evidence.cleanupFailed(error); }
   if (studentUserId) {
     try {
       const admin = createClient(runtime.apiUrl, runtime.serviceRoleKey, { auth: { persistSession: false, autoRefreshToken: false } });
-      await admin.auth.admin.deleteUser(studentUserId);
-    } catch { /* O cleanup SQL abaixo também remove a fixture local. */ }
+      const deleted = await admin.auth.admin.deleteUser(studentUserId);
+      if (deleted.error) throw deleted.error;
+    } catch (error) { evidence.cleanupFailed(error); }
   }
-  try { rmSync(profileDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 300 }); } catch { /* temporário */ }
+  try { rmSync(profileDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 300 }); } catch (error) { evidence.cleanupFailed(error); }
+  evidence.finalize();
 }
 
 function setupFixture(userId) {
@@ -210,8 +233,9 @@ function setupFixture(userId) {
   `);
 }
 
-function cleanupFixture() {
-  runPsql(process.cwd(), `delete from public.workout_execution_sessions where aluno_id='${studentId}'; delete from public.treinos where aluno_id='${studentId}'; delete from public.alunos where id='${studentId}'; delete from public.perfis where id='${professionalId}'; delete from auth.users where id='${professionalId}';`, { throwOnError: false });
+function cleanupFixture({ strict = false } = {}) {
+  const result = runPsql(process.cwd(), `delete from public.workout_execution_sessions where aluno_id='${studentId}'; delete from public.treinos where aluno_id='${studentId}'; delete from public.alunos where id='${studentId}'; delete from public.perfis where id='${professionalId}'; delete from auth.users where id='${professionalId}';`, { throwOnError: false });
+  if (strict && result.status !== 0) throw new Error(`Cleanup SQL da Biblioteca falhou: ${result.stderr || result.stdout}`);
 }
 
 function scalar(statement) {

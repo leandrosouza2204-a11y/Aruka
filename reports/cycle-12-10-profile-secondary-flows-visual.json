@@ -1,9 +1,50 @@
 {
+  "evidence_contract_version": 1,
+  "run_id": "cycle-12-10-profile-secondary-flows-visual-1790439575182-5d9beab7",
+  "gate": "CYCLE_12_10_PROFILE_SECONDARY_FLOWS_VISUAL",
   "decision": "PASS",
+  "current_run": true,
+  "started_at": "2026-09-26T16:19:35.183Z",
+  "finished_at": "2026-09-26T16:21:03.779Z",
+  "head": "c9ef3f8d185c2f67ea4727242719513a4d4b4a72",
+  "branch": "main",
+  "environment": "LOCAL",
+  "production_accessed": false,
+  "required_scenarios": [
+    "viewport-matrix",
+    "validation-error",
+    "rollout-off"
+  ],
+  "scenarios": [
+    {
+      "name": "viewport-matrix",
+      "status": "PASS",
+      "widths": [
+        320,
+        375,
+        390,
+        768,
+        1280
+      ]
+    },
+    {
+      "name": "validation-error",
+      "status": "PASS"
+    },
+    {
+      "name": "rollout-off",
+      "status": "PASS"
+    }
+  ],
+  "failures": [],
+  "cleanup": {
+    "attempted": true,
+    "status": "PASS",
+    "failures": []
+  },
   "scope": "CYCLE_12_10_PROFILE_SECONDARY_FLOWS_VISUAL",
   "database_target": "LOCAL",
-  "production_accessed": false,
-  "screenshots": 9,
+  "screenshots": 11,
   "results": [
     {
       "screen": "student-profile",
@@ -54,6 +95,18 @@
       "status": "PASS"
     },
     {
+      "screen": "student-profile",
+      "viewport": "mobile-390",
+      "innerWidth": 390,
+      "overflow": false,
+      "h1": 1,
+      "h2": 3,
+      "channels": 2,
+      "current": 1,
+      "minTarget": 46,
+      "status": "PASS"
+    },
+    {
       "screen": "professional-contact",
       "viewport": "desktop-1280",
       "innerWidth": 1280,
@@ -94,6 +147,18 @@
       "viewport": "mobile-375",
       "innerWidth": 375,
       "sidebarWidth": 375,
+      "overflow": false,
+      "h1": 1,
+      "inputs": 4,
+      "saveHeight": 46,
+      "menuVisible": true,
+      "status": "PASS"
+    },
+    {
+      "screen": "professional-contact",
+      "viewport": "mobile-390",
+      "innerWidth": 390,
+      "sidebarWidth": 390,
       "overflow": false,
       "h1": 1,
       "inputs": 4,

@@ -1,0 +1,150 @@
+{
+  "evidence_contract_version": 1,
+  "run_id": "cycle-12-8-workout-completion-feedback-visual-1790438975500-c084d504",
+  "gate": "CYCLE_12_8_WORKOUT_COMPLETION_FEEDBACK_VISUAL",
+  "decision": "PASS",
+  "current_run": true,
+  "started_at": "2026-09-26T16:09:35.501Z",
+  "finished_at": "2026-09-26T16:11:25.133Z",
+  "head": "c9ef3f8d185c2f67ea4727242719513a4d4b4a72",
+  "branch": "main",
+  "environment": "LOCAL",
+  "production_accessed": false,
+  "required_scenarios": [
+    "completed-sets",
+    "short-confirmation",
+    "optional-feedback",
+    "without-feedback",
+    "submitting",
+    "recoverable-error",
+    "duplicate-prevention",
+    "return-to-library",
+    "viewport-matrix",
+    "terminal-state"
+  ],
+  "scenarios": [
+    {
+      "name": "viewport-matrix",
+      "status": "PASS",
+      "widths": [
+        320,
+        375,
+        390,
+        768,
+        1280
+      ]
+    },
+    {
+      "name": "submitting",
+      "status": "PASS"
+    },
+    {
+      "name": "short-confirmation",
+      "status": "PASS"
+    },
+    {
+      "name": "recoverable-error",
+      "status": "PASS"
+    },
+    {
+      "name": "completed-sets",
+      "status": "PASS"
+    },
+    {
+      "name": "optional-feedback",
+      "status": "PASS"
+    },
+    {
+      "name": "duplicate-prevention",
+      "status": "PASS",
+      "feedback_rows": 1
+    },
+    {
+      "name": "terminal-state",
+      "status": "PASS"
+    },
+    {
+      "name": "without-feedback",
+      "status": "PASS"
+    },
+    {
+      "name": "return-to-library",
+      "status": "PASS"
+    }
+  ],
+  "failures": [],
+  "cleanup": {
+    "attempted": true,
+    "status": "PASS",
+    "failures": []
+  },
+  "scope": "CYCLE_12_8_WORKOUT_COMPLETION_FEEDBACK_VISUAL",
+  "database_target": "LOCAL",
+  "fixtures": "SYNTHETIC_SELF_CONTAINED",
+  "production_mutated": false,
+  "screenshots": 8,
+  "viewports": [
+    320,
+    375,
+    390,
+    768,
+    1280
+  ],
+  "results": [
+    {
+      "state": "completion-dialog",
+      "viewport": "mobile-320",
+      "overflow": false,
+      "minimumTarget": 46,
+      "focusableDialog": true,
+      "feedbackOptional": true,
+      "status": "PASS"
+    },
+    {
+      "state": "completion-dialog",
+      "viewport": "mobile-375",
+      "overflow": false,
+      "minimumTarget": 46,
+      "focusableDialog": true,
+      "feedbackOptional": true,
+      "status": "PASS"
+    },
+    {
+      "state": "completion-dialog",
+      "viewport": "mobile-390",
+      "overflow": false,
+      "minimumTarget": 46,
+      "focusableDialog": true,
+      "feedbackOptional": true,
+      "status": "PASS"
+    },
+    {
+      "state": "completion-dialog",
+      "viewport": "tablet-768",
+      "overflow": false,
+      "minimumTarget": 46,
+      "focusableDialog": true,
+      "feedbackOptional": true,
+      "status": "PASS"
+    },
+    {
+      "state": "completion-dialog",
+      "viewport": "desktop-1280",
+      "overflow": false,
+      "minimumTarget": 46,
+      "focusableDialog": true,
+      "feedbackOptional": true,
+      "status": "PASS"
+    },
+    {
+      "state": "completion-with-feedback",
+      "sessionId": "00000000-0000-4000-8000-000000008901",
+      "status": "PASS"
+    },
+    {
+      "state": "completion-without-feedback",
+      "sessionId": "00000000-0000-4000-8000-000000008902",
+      "status": "PASS"
+    }
+  ]
+}

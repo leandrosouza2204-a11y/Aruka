@@ -146,6 +146,7 @@
     "qa:cycle-12-7-rest-timer-visual": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-cycle-12-7-rest-timer-visual.mjs",
     "qa:cycle-12-8-workout-completion-feedback": "node scripts/validate-cycle-12-8-workout-completion-feedback.mjs && node --test src/features/studentExperienceV2/domain/studentWorkoutPlayerV2.test.js src/features/studentExperienceV2/domain/workoutRestTimerV2.test.js",
     "qa:cycle-12-8-workout-completion-feedback-runtime": "node scripts/validate-cycle-12-8-workout-completion-feedback-runtime.mjs",
+    "qa:cycle-12-8-workout-completion-feedback-visual": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-cycle-12-8-workout-completion-feedback-visual.mjs",
     "qa:cycle-12-9-student-evolution": "node scripts/validate-cycle-12-9-student-evolution.mjs && node --test src/features/studentExperienceV2/domain/studentEvolutionV2.test.js",
     "qa:cycle-12-9-student-evolution-runtime": "node scripts/validate-cycle-12-9-student-evolution-runtime.mjs",
     "qa:cycle-12-9-student-evolution-visual": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-cycle-12-9-student-evolution-visual.mjs",

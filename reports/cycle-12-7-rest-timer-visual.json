@@ -1,9 +1,26 @@
 {
+  "evidence_contract_version": 1,
+  "run_id": "cycle-12-7-rest-timer-visual-1790439445633-3f0421cd",
+  "gate": "CYCLE_12_7_REST_TIMER_VISUAL",
   "decision": "PASS",
+  "current_run": true,
+  "started_at": "2026-09-26T16:17:25.635Z",
+  "finished_at": "2026-09-26T16:18:17.747Z",
+  "head": "c9ef3f8d185c2f67ea4727242719513a4d4b4a72",
+  "branch": "main",
+  "environment": "LOCAL",
+  "production_accessed": false,
+  "required_scenarios": [],
+  "scenarios": [],
+  "failures": [],
+  "cleanup": {
+    "attempted": true,
+    "status": "PASS",
+    "failures": []
+  },
   "scope": "CYCLE_12_7_REST_TIMER_VISUAL",
   "database_target": "LOCAL",
   "fixtures": "SYNTHETIC",
-  "production_accessed": false,
   "production_mutated": false,
   "screenshots": 18,
   "screenshot_directory": "tmp-responsive-screenshots/cycle-12-7-rest-timer",
@@ -70,7 +87,7 @@
     },
     {
       "state": "rest-started",
-      "identity": "[\"00000000-0000-4000-8000-000000007861\",\"00000000-0000-4000-8000-000000007871\",1,\"2026-09-20T02:26:51.454628+00:00\",300]",
+      "identity": "[\"00000000-0000-4000-8000-000000007861\",\"00000000-0000-4000-8000-000000007871\",1,\"2026-09-26T16:18:01.266068+00:00\",300]",
       "remainingSeconds": 300,
       "status": "PASS"
     },
