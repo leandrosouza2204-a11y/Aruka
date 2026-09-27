@@ -9,6 +9,8 @@ import { readLocalSupabaseRuntime } from "./lib/local-supabase-runtime.mjs";
 import { beginVisualQaEvidence } from "./lib/visual-qa-evidence.mjs";
 import { stopOwnedProcessTree } from "./lib/qa-process-cleanup.mjs";
 import { runPsql } from "./supabase-cycle-8-lib.mjs";
+import { resolveCycle1214Viewports } from "./lib/cycle-12-14-viewport-matrix.mjs";
+import { getCdpWebSocketUrl, navigateWithReactReadiness, removeQaProfileDir, startChromeQa, startViteQaServer } from "./lib/browser-qa-runtime.mjs";
 
 loadQaEnvFile(".env.local");
 loadQaEnvFile(".env.qa.local");
@@ -26,20 +28,21 @@ const ids = {
   day: "00000000-0000-4000-8000-000000008841",
   prescription: "00000000-0000-4000-8000-000000008851",
 };
-const viewports = [
+const viewports = resolveCycle1214Viewports([
   { name: "mobile-320", width: 320, height: 800, mobile: true },
   { name: "mobile-375", width: 375, height: 812, mobile: true },
   { name: "mobile-390", width: 390, height: 844, mobile: true },
   { name: "tablet-768", width: 768, height: 1024, mobile: true },
   { name: "desktop-1280", width: 1280, height: 900, mobile: false },
-];
+]);
 const screenshotDir = join("tmp-responsive-screenshots", "cycle-12-8-workout-completion-feedback");
 const profileDir = join(tmpdir(), `aruka-cycle-12-8-chrome-${process.pid}`);
 const cdpPort = 9920 + Math.floor(Math.random() * 25);
+const isShortViewportProfile = ["landscape", "keyboard-resize"].includes(process.env.QA_CYCLE_12_14_VIEWPORT_PROFILE);
 const evidence = beginVisualQaEvidence({
   gate: "CYCLE_12_8_WORKOUT_COMPLETION_FEEDBACK_VISUAL",
   reportPath: "reports/cycle-12-8-workout-completion-feedback-visual.json",
-  requiredScenarios: ["completed-sets", "short-confirmation", "optional-feedback", "without-feedback", "submitting", "recoverable-error", "duplicate-prevention", "return-to-library", "viewport-matrix", "terminal-state"],
+  requiredScenarios: ["completed-sets", "short-confirmation", "optional-feedback", "without-feedback", "submitting", "recoverable-error", "duplicate-prevention", "return-to-library", "viewport-matrix", "completion-dialog-keyboard", "terminal-state"],
 });
 
 let admin;
@@ -49,6 +52,7 @@ let chrome;
 let cdp;
 let screenshotCount = 0;
 const results = [];
+const startupAttempts = [];
 
 try {
   assert(password, "QA_USER_PASSWORD ausente.");
@@ -62,13 +66,12 @@ try {
   const auth = createClient(runtime.apiUrl, runtime.anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
   const login = await auth.auth.signInWithPassword({ email, password });
   if (login.error) throw login.error;
-  await startFrontend();
-  chrome = await startChrome();
-  cdp = createCdpClient(await getWebSocketUrl());
+  const viteStartup = await startViteQaServer({ port: 5188, env: { VITE_STUDENT_EXPERIENCE_V2_ENABLED: "true" } }); server = viteStartup.child; startupAttempts.push({ component: "vite", attempts: viteStartup.attempts });
+  const chromeStartup = await startChromeQa({ cdpPort, profileDir }); chrome = chromeStartup.child; startupAttempts.push({ component: "chrome", attempts: chromeStartup.attempts });
+  cdp = createCdpClient(await getCdpWebSocketUrl(cdpPort));
   await cdp.ready;
   await cdp.send("Page.enable"); await cdp.send("Runtime.enable"); await cdp.send("Network.enable");
-  await cdp.send("Page.navigate", { url: `${appBaseUrl}/login` });
-  await waitFor("document.readyState !== 'loading'");
+  const loginStartup = await navigateWithReactReadiness(cdp, `${appBaseUrl}/login`, "document.querySelector('#root')?.childElementCount > 0"); startupAttempts.push({ component: "login-route", attempts: loginStartup.attempts });
   const session = login.data.session;
   assert(await evaluate(`(async()=>{const {supabase}=await import('/src/services/supabase.js');return !(await supabase.auth.setSession(${JSON.stringify({ access_token: session.access_token, refresh_token: session.refresh_token })})).error})()`));
   await navigateToSession(shortSessionId);
@@ -82,10 +85,17 @@ try {
     assert.equal(audit.overflow, false, `${viewport.name}: overflow horizontal`);
     assert(audit.minimumTarget >= 44, `${viewport.name}: alvo de toque menor que 44px`);
     assert.equal(audit.focusableDialog, true, `${viewport.name}: diálogo não está nomeado`);
+    const keyboardAudit = await auditDialogKeyboard();
+    assert.equal(keyboardAudit.reachedPrimary, true, `${viewport.name}: Tab não alcançou a ação primária`);
+    assert.equal(keyboardAudit.focusStayedInDialog, true, `${viewport.name}: foco escapou do diálogo`);
+    assert.equal(keyboardAudit.focusedControlVisible, true, `${viewport.name}: controle focado não entrou no viewport`);
+    assert.equal(keyboardAudit.focusVisible, true, `${viewport.name}: indicador :focus-visible ausente`);
+    if (isShortViewportProfile) assert.equal(audit.verticalOverflowManaged, true, `${viewport.name}: overflow vertical do diálogo não está gerenciado`);
     await screenshot(`${viewport.name}-completion-dialog.png`);
-    results.push({ state: "completion-dialog", viewport: viewport.name, ...audit, status: "PASS" });
+    results.push({ state: "completion-dialog", viewport: viewport.name, ...audit, keyboardAudit, status: "PASS" });
   }
   evidence.scenario("viewport-matrix", "PASS", { widths: viewports.map(({ width }) => width) });
+  evidence.scenario("completion-dialog-keyboard", "PASS", { focus_contained: true, primary_reachable: true, classification: "AUTOMATED_KEYBOARD_PASS" });
 
   await cdp.send("Fetch.enable", { patterns: [{ urlPattern: "*complete_workout_execution_session_v2*", requestStage: "Request" }] });
   await clickDialogPrimary();
@@ -132,7 +142,7 @@ try {
   evidence.scenario("return-to-library", "PASS");
   results.push({ state: "completion-with-feedback", sessionId: shortSessionId, status: "PASS" }, { state: "completion-without-feedback", sessionId: noFeedbackSessionId, status: "PASS" });
 
-  evidence.executionSucceeded({ decision: "PASS", scope: "CYCLE_12_8_WORKOUT_COMPLETION_FEEDBACK_VISUAL", database_target: "LOCAL", fixtures: "SYNTHETIC_SELF_CONTAINED", production_accessed: false, production_mutated: false, screenshots: screenshotCount, viewports: viewports.map(({ width }) => width), results });
+  evidence.executionSucceeded({ decision: "PASS", scope: "CYCLE_12_8_WORKOUT_COMPLETION_FEEDBACK_VISUAL", database_target: "LOCAL", fixtures: "SYNTHETIC_SELF_CONTAINED", production_accessed: false, production_mutated: false, screenshots: screenshotCount, viewports: viewports.map(({ width }) => width), startup_attempts: startupAttempts, results });
   console.log(`decision=PASS screenshots=${screenshotCount} sessions=2`);
 } catch (error) {
   evidence.executionFailed(error, studentUserId ? "execution" : "setup");
@@ -142,7 +152,7 @@ try {
   try { cleanupFixture(true); } catch (error) { evidence.cleanupFailed(error); }
   if (admin && studentUserId) { try { const deleted = await admin.auth.admin.deleteUser(studentUserId); if (deleted.error) throw deleted.error; } catch (error) { evidence.cleanupFailed(error); } }
   await sleep(800);
-  try { rmSync(profileDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 300 }); } catch (error) { evidence.cleanupFailed(error); }
+  try { await removeQaProfileDir(profileDir); } catch (error) { evidence.cleanupFailed(error); }
   evidence.finalize();
 }
 
@@ -171,11 +181,25 @@ async function startFrontend() { server = spawn(process.execPath, [join("node_mo
 async function startChrome() { const path = process.platform === "win32" ? "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" : "google-chrome"; assert(existsSync(path), "Chrome ausente."); const handle = spawn(path, ["--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage", "--no-first-run", `--user-data-dir=${profileDir}`, `--remote-debugging-port=${cdpPort}`, "about:blank"], { stdio: "ignore", shell: false }); for (let i = 0; i < 60; i += 1) { try { if ((await fetch(`http://127.0.0.1:${cdpPort}/json/version`)).ok) return handle; } catch { /* wait */ } await sleep(250); } throw new Error("Chrome CDP não iniciou."); }
 async function getWebSocketUrl() { const response = await fetch(`http://127.0.0.1:${cdpPort}/json/new?about:blank`, { method: "PUT" }); return (await response.json()).webSocketDebuggerUrl; }
 function createCdpClient(url) { const socket = new WebSocket(url); let nextId = 1; const pending = new Map(); const paused = []; socket.addEventListener("message", (event) => { const message = JSON.parse(event.data); if (message.method === "Fetch.requestPaused") paused.push(message.params.requestId); if (!message.id || !pending.has(message.id)) return; const item = pending.get(message.id); pending.delete(message.id); message.error ? item.reject(new Error(message.error.message)) : item.resolve(message.result); }); return { ready: new Promise((resolve, reject) => { socket.addEventListener("open", resolve, { once: true }); socket.addEventListener("error", reject, { once: true }); }), send(method, params = {}) { const id = nextId++; socket.send(JSON.stringify({ id, method, params })); return new Promise((resolve, reject) => pending.set(id, { resolve, reject })); }, takePaused() { return paused.shift(); }, close() { socket.close(); } }; }
-async function navigateToSession(sessionId) { await cdp.send("Page.navigate", { url: `${appBaseUrl}/minha-area/treino/${sessionId}` }); await waitFor("document.querySelector('[data-testid=\"student-workout-player-v2\"]')", 30000); }
+async function navigateToSession(sessionId) { const routeStartup = await navigateWithReactReadiness(cdp, `${appBaseUrl}/minha-area/treino/${sessionId}`, "document.querySelector('[data-testid=\"student-workout-player-v2\"]')", { timeoutMs: 30_000 }); startupAttempts.push({ component: "player-route", session_id: sessionId, attempts: routeStartup.attempts }); }
 async function setFeedback(value) { await evaluate(`(()=>{const input=document.querySelector('#workout-player-feedback');const setter=Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,'value').set;setter.call(input,${JSON.stringify(value)});input.dispatchEvent(new Event('input',{bubbles:true}))})()`); }
 async function clickDialogPrimary() { await evaluate("document.querySelector('.workout-player-dialog[open] button.is-primary').click()"); }
 async function setViewport(viewport) { await cdp.send("Emulation.setDeviceMetricsOverride", { width: viewport.width, height: viewport.height, deviceScaleFactor: 1, mobile: viewport.mobile }); await sleep(200); }
-async function auditDialog() { return evaluate(`(()=>{const dialog=document.querySelector('.workout-player-dialog[open]');const targets=[...dialog.querySelectorAll('button')];return {overflow:document.documentElement.scrollWidth>innerWidth+1,minimumTarget:Math.min(...targets.map(x=>x.getBoundingClientRect().height)),focusableDialog:Boolean(dialog.getAttribute('aria-labelledby')),feedbackOptional:document.body.innerText.includes('(opcional)')}})()`); }
+async function auditDialog() { return evaluate(`(()=>{const dialog=document.querySelector('.workout-player-dialog[open]');const targets=[...dialog.querySelectorAll('button')];const style=getComputedStyle(dialog);return {overflow:document.documentElement.scrollWidth>innerWidth+1,minimumTarget:Math.min(...targets.map(x=>x.getBoundingClientRect().height)),focusableDialog:Boolean(dialog.getAttribute('aria-labelledby')),feedbackOptional:document.body.innerText.includes('(opcional)'),clientHeight:dialog.clientHeight,scrollHeight:dialog.scrollHeight,overflowY:style.overflowY,verticalOverflowManaged:dialog.scrollHeight<=dialog.clientHeight||['auto','scroll'].includes(style.overflowY)}})()`); }
+async function auditDialogKeyboard() {
+  await evaluate("document.querySelector('#workout-player-feedback').focus()");
+  const sequence = [];
+  let stayed = true;
+  for (let index = 0; index < 8; index += 1) {
+    const state = await evaluate(`(()=>{const dialog=document.querySelector('.workout-player-dialog[open]');const el=document.activeElement;return{label:el?.textContent?.trim()||el?.id||el?.tagName,inDialog:Boolean(dialog?.contains(el)),primary:Boolean(el?.matches('button.is-primary'))}})()`);
+    sequence.push(state.label);
+    stayed &&= state.inDialog;
+    if (state.primary) break;
+    await cdp.send("Input.dispatchKeyEvent", { type: "keyDown", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9 });
+    await cdp.send("Input.dispatchKeyEvent", { type: "keyUp", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9 });
+  }
+  return evaluate(`(()=>{const dialog=document.querySelector('.workout-player-dialog[open]');const el=document.activeElement;const rect=el?.getBoundingClientRect();return{reachedPrimary:Boolean(el?.matches('button.is-primary')),focusStayedInDialog:${stayed},focusVisible:Boolean(el?.matches(':focus-visible')),focusedControlVisible:Boolean(rect&&rect.top>=0&&rect.bottom<=innerHeight+1),sequence:${JSON.stringify(sequence)},dialogScrollTop:dialog.scrollTop}})()`);
+}
 async function screenshot(name) { mkdirSync(screenshotDir, { recursive: true }); const shot = await cdp.send("Page.captureScreenshot", { format: "png", fromSurface: true }); writeFileSync(join(screenshotDir, name), Buffer.from(shot.data, "base64")); screenshotCount += 1; }
 async function evaluate(expression) { const result = await cdp.send("Runtime.evaluate", { expression, awaitPromise: true, returnByValue: true }); if (result.exceptionDetails) throw new Error(result.exceptionDetails.text); return result.result.value; }
 async function waitFor(expression, timeout = 20000) { const started = Date.now(); while (Date.now() - started < timeout) { if (await evaluate(`Boolean(${expression})`)) return; await sleep(200); } throw new Error(`Timeout aguardando ${expression}`); }

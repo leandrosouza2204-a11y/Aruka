@@ -1,0 +1,221 @@
+{
+  "evidence_contract_version": 1,
+  "run_id": "cycle-12-14-network-resilience-1790506013830-ae0f0506",
+  "gate": "CYCLE_12_14_NETWORK_RESILIENCE",
+  "decision": "PASS",
+  "current_run": true,
+  "started_at": "2026-09-27T10:46:53.832Z",
+  "finished_at": "2026-09-27T10:55:21.456Z",
+  "head": "407e48761224a8c7bd4979791ad09f337d160e68",
+  "branch": "main",
+  "environment": "LOCAL",
+  "production_accessed": false,
+  "required_scenarios": [
+    "home",
+    "library",
+    "player",
+    "tracking",
+    "completion-feedback",
+    "evolution",
+    "profile",
+    "offline-pwa",
+    "stale-response"
+  ],
+  "scenarios": [
+    {
+      "name": "home",
+      "status": "PASS",
+      "run_id": "cycle-12-3-student-home-visual-1790506014828-83c6c257",
+      "reads": "PROTECTED",
+      "writes": "NOT_APPLICABLE",
+      "elapsed_ms": 96279
+    },
+    {
+      "name": "library",
+      "status": "PASS",
+      "run_id": "cycle-12-4-training-library-visual-1790506110976-ff9f6c1f",
+      "reads": "PROTECTED",
+      "writes": "NOT_APPLICABLE",
+      "elapsed_ms": 83599
+    },
+    {
+      "name": "player",
+      "status": "PASS",
+      "run_id": "cycle-12-5-workout-player-visual-1790506194580-ffb0200d",
+      "reads": "PROTECTED",
+      "writes": "NOT_APPLICABLE",
+      "elapsed_ms": 55905
+    },
+    {
+      "name": "tracking",
+      "status": "PASS",
+      "run_id": "cycle-12-6-set-tracking-visual-1790506250546-f3e1e257",
+      "reads": "NOT_APPLICABLE",
+      "writes": "PROTECTED",
+      "elapsed_ms": 49967
+    },
+    {
+      "name": "completion-feedback",
+      "status": "PASS",
+      "run_id": "cycle-12-8-workout-completion-feedback-visual-1790506300512-01a156fb",
+      "reads": "NOT_APPLICABLE",
+      "writes": "PROTECTED",
+      "elapsed_ms": 59162
+    },
+    {
+      "name": "evolution",
+      "status": "PASS",
+      "run_id": "cycle-12-9-student-evolution-visual-1790506359696-5651b931",
+      "reads": "PROTECTED",
+      "writes": "NOT_APPLICABLE",
+      "elapsed_ms": 68541
+    },
+    {
+      "name": "profile",
+      "status": "PASS",
+      "run_id": "cycle-12-10-profile-secondary-flows-visual-1790506428182-3b632aa1",
+      "reads": "PROTECTED",
+      "writes": "NOT_APPLICABLE",
+      "elapsed_ms": 91683
+    },
+    {
+      "name": "offline-pwa",
+      "status": "PASS",
+      "first_offline_visit": "SAFE_FALLBACK_NO_PRIVATE_DATA",
+      "cached_shell": "PASS",
+      "cached_route": "PASS",
+      "supabase_unavailable": "SAFE_ERROR_AND_RETRY",
+      "sensitive_supabase_data_cached": false,
+      "runs": [
+        {
+          "name": "pwa-installability",
+          "elapsed_ms": 279
+        },
+        {
+          "name": "pwa-cache-security",
+          "elapsed_ms": 250
+        },
+        {
+          "name": "route-fallback",
+          "elapsed_ms": 313
+        },
+        {
+          "name": "continuity",
+          "elapsed_ms": 305
+        }
+      ]
+    },
+    {
+      "name": "stale-response",
+      "status": "PASS",
+      "request_a_slow": true,
+      "request_b_newer": true,
+      "b_wins": true,
+      "a_ignored": true,
+      "runs": [
+        "profile-stale-request",
+        "evolution-stale-request"
+      ]
+    }
+  ],
+  "failures": [],
+  "cleanup": {
+    "attempted": false,
+    "status": "NOT_REQUIRED",
+    "failures": []
+  },
+  "fault_scenarios": [
+    "offline-before-open",
+    "offline-after-shell",
+    "timeout",
+    "http-400",
+    "http-401",
+    "http-403",
+    "http-404",
+    "http-500",
+    "http-502",
+    "http-503",
+    "request-abort",
+    "disconnect-reconnect",
+    "retry",
+    "ambiguous-write",
+    "refresh-reentry",
+    "stale-response"
+  ],
+  "coverage": [
+    {
+      "surface": "home",
+      "status": "PASS",
+      "reads": "PROTECTED",
+      "writes": "NOT_APPLICABLE",
+      "evidence": [
+        "cycle-12-3-student-home-visual-1790506014828-83c6c257"
+      ],
+      "rationale": "Surface is read-only in this matrix."
+    },
+    {
+      "surface": "library",
+      "status": "PASS",
+      "reads": "PROTECTED",
+      "writes": "NOT_APPLICABLE",
+      "evidence": [
+        "cycle-12-4-training-library-visual-1790506110976-ff9f6c1f"
+      ],
+      "rationale": "Surface is read-only in this matrix."
+    },
+    {
+      "surface": "player",
+      "status": "PASS",
+      "reads": "PROTECTED",
+      "writes": "NOT_APPLICABLE",
+      "evidence": [
+        "cycle-12-5-workout-player-visual-1790506194580-ffb0200d"
+      ],
+      "rationale": "Surface is read-only in this matrix."
+    },
+    {
+      "surface": "tracking",
+      "status": "PASS",
+      "reads": "NOT_APPLICABLE",
+      "writes": "PROTECTED",
+      "evidence": [
+        "cycle-12-6-set-tracking-visual-1790506250546-f3e1e257"
+      ],
+      "rationale": null
+    },
+    {
+      "surface": "completion-feedback",
+      "status": "PASS",
+      "reads": "NOT_APPLICABLE",
+      "writes": "PROTECTED",
+      "evidence": [
+        "cycle-12-8-workout-completion-feedback-visual-1790506300512-01a156fb"
+      ],
+      "rationale": null
+    },
+    {
+      "surface": "evolution",
+      "status": "PASS",
+      "reads": "PROTECTED",
+      "writes": "NOT_APPLICABLE",
+      "evidence": [
+        "cycle-12-9-student-evolution-visual-1790506359696-5651b931"
+      ],
+      "rationale": "Surface is read-only in this matrix."
+    },
+    {
+      "surface": "profile",
+      "status": "PASS",
+      "reads": "PROTECTED",
+      "writes": "NOT_APPLICABLE",
+      "evidence": [
+        "cycle-12-10-profile-secondary-flows-visual-1790506428182-3b632aa1"
+      ],
+      "rationale": "Surface is read-only in this matrix."
+    }
+  ],
+  "reconnect_idempotency": "PROTECTED",
+  "back_forward_idempotency": "PARTIALLY_PROTECTED",
+  "backend_modified_for_faults": false,
+  "sensitive_data_cached": false
+}

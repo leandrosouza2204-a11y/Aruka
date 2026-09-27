@@ -1,6 +1,5 @@
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
-import { existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { createClient } from "@supabase/supabase-js";
@@ -9,6 +8,8 @@ import { readLocalSupabaseRuntime } from "./lib/local-supabase-runtime.mjs";
 import { runPsql } from "./supabase-cycle-8-lib.mjs";
 import { beginVisualQaEvidence } from "./lib/visual-qa-evidence.mjs";
 import { stopOwnedProcessTree } from "./lib/qa-process-cleanup.mjs";
+import { resolveCycle1214Viewports } from "./lib/cycle-12-14-viewport-matrix.mjs";
+import { getCdpWebSocketUrl, navigateWithReactReadiness, removeQaProfileDir, startChromeQa, startViteQaServer } from "./lib/browser-qa-runtime.mjs";
 
 loadQaEnvFile(".env.local");
 loadQaEnvFile(".env.qa.local");
@@ -31,20 +32,21 @@ const ids = {
 const screenshotDir = join("tmp-responsive-screenshots", "cycle-12-7-rest-timer");
 const profileDir = join(tmpdir(), `aruka-cycle-12-7-chrome-${process.pid}`);
 const cdpPort = 10120 + Math.floor(Math.random() * 30);
-const viewports = [
+const viewports = resolveCycle1214Viewports([
   { name: "mobile-320", width: 320, height: 800, mobile: true },
   { name: "mobile-375", width: 375, height: 812, mobile: true },
   { name: "mobile-390", width: 390, height: 844, mobile: true },
   { name: "mobile-430", width: 430, height: 932, mobile: true },
   { name: "tablet-768", width: 768, height: 1024, mobile: true },
   { name: "desktop-1280", width: 1280, height: 900, mobile: false },
-];
+]);
 let server;
 let chrome;
 let cdp;
 let studentUserId;
 let screenshotCount = 0;
 const results = [];
+const startupAttempts = [];
 const evidence = beginVisualQaEvidence({ gate: "CYCLE_12_7_REST_TIMER_VISUAL", reportPath: "reports/cycle-12-7-rest-timer-visual.json" });
 
 try {
@@ -59,20 +61,24 @@ try {
   const login = await student.auth.signInWithPassword({ email, password });
   if (login.error) throw login.error;
 
-  await ensureFrontend();
-  chrome = await startChrome();
-  cdp = createCdpClient(await getWebSocketUrl());
+  const viteStartup = await startViteQaServer({ port: 5187, env: { VITE_STUDENT_EXPERIENCE_V2_ENABLED: "true" } });
+  server = viteStartup.child;
+  startupAttempts.push({ component: "vite", attempts: viteStartup.attempts });
+  const chromeStartup = await startChromeQa({ cdpPort, profileDir });
+  chrome = chromeStartup.child;
+  startupAttempts.push({ component: "chrome", attempts: chromeStartup.attempts });
+  cdp = createCdpClient(await getCdpWebSocketUrl(cdpPort));
   await cdp.ready;
   await cdp.send("Page.enable");
   await cdp.send("Runtime.enable");
   await cdp.send("Network.enable");
   await setViewport(cdp, viewports[2]);
-  await cdp.send("Page.navigate", { url: `${appBaseUrl}/login` });
-  await waitFor(cdp, "document.readyState !== 'loading'");
+  const loginStartup = await navigateWithReactReadiness(cdp, `${appBaseUrl}/login`, "document.querySelector('#root')?.childElementCount > 0");
+  startupAttempts.push({ component: "login-route", attempts: loginStartup.attempts });
   const authSession = login.data.session;
   assert(await evaluate(cdp, `(async () => { const { supabase } = await import('/src/services/supabase.js'); return !(await supabase.auth.setSession({ access_token: ${JSON.stringify(authSession.access_token)}, refresh_token: ${JSON.stringify(authSession.refresh_token)} })).error; })()`));
-  await cdp.send("Page.navigate", { url: `${appBaseUrl}/minha-area/treino/${ids.session}` });
-  await waitFor(cdp, "document.querySelector('[data-testid=\"student-workout-player-v2\"]')", 30000);
+  const playerStartup = await navigateWithReactReadiness(cdp, `${appBaseUrl}/minha-area/treino/${ids.session}`, "document.querySelector('[data-testid=\"student-workout-player-v2\"]')", { timeoutMs: 30_000 });
+  startupAttempts.push({ component: "player-route", attempts: playerStartup.attempts });
 
   for (const viewport of viewports) {
     await setViewport(cdp, viewport);
@@ -161,6 +167,7 @@ try {
     screenshot_directory: screenshotDir.replaceAll("\\", "/"),
     viewports: viewports.map(({ name }) => name),
     states: [...new Set(results.map((result) => result.state))],
+    startup_attempts: startupAttempts,
     results,
   };
   evidence.executionSucceeded(report);
@@ -180,7 +187,7 @@ try {
       if (deleted.error) throw deleted.error;
     } catch (error) { evidence.cleanupFailed(error); }
   }
-  try { rmSync(profileDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 300 }); } catch (error) { evidence.cleanupFailed(error); }
+  try { await removeQaProfileDir(profileDir); } catch (error) { evidence.cleanupFailed(error); }
   evidence.finalize();
 }
 
@@ -199,10 +206,6 @@ function setupFixture(userId) {
   `);
 }
 function cleanupFixture() { runPsql(process.cwd(), `delete from public.workout_execution_sessions where aluno_id='${ids.student}'; delete from public.treinos where aluno_id='${ids.student}'; delete from public.alunos where id='${ids.student}'; delete from public.perfis where id='${ids.professional}'; delete from auth.users where id='${ids.professional}';`, { throwOnError: false }); }
-async function ensureFrontend() { server = spawn(process.execPath, [join("node_modules", "vite", "bin", "vite.js"), "--host", "127.0.0.1", "--port", "5187", "--strictPort"], { env: { ...process.env, VITE_STUDENT_EXPERIENCE_V2_ENABLED: "true" }, shell: false, stdio: "ignore" }); const started = Date.now(); while (Date.now() - started < 45000) { if (await responds(appBaseUrl)) return; await sleep(300); } throw new Error("Frontend local não respondeu."); }
-async function responds(url) { try { return (await fetch(url, { redirect: "manual" })).status < 500; } catch { return false; } }
-async function startChrome() { const path = process.platform === "win32" ? "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" : "google-chrome"; assert(existsSync(path), `Chrome não encontrado em ${path}`); const handle = spawn(path, ["--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage", "--no-first-run", `--user-data-dir=${profileDir}`, `--remote-debugging-port=${cdpPort}`, "about:blank"], { stdio: "ignore", shell: false }); const started = Date.now(); while (Date.now() - started < 15000) { try { if ((await fetch(`http://127.0.0.1:${cdpPort}/json/version`)).ok) return handle; } catch { await sleep(200); } } throw new Error("Chrome CDP não iniciou."); }
-async function getWebSocketUrl() { const response = await fetch(`http://127.0.0.1:${cdpPort}/json/new?${encodeURIComponent("about:blank")}`, { method: "PUT" }); if (response.ok) return (await response.json()).webSocketDebuggerUrl; return (await (await fetch(`http://127.0.0.1:${cdpPort}/json/version`)).json()).webSocketDebuggerUrl; }
 function createCdpClient(url) { const socket = new WebSocket(url); let nextId = 1; const pending = new Map(); const paused = []; socket.addEventListener("message", (event) => { const message = JSON.parse(event.data); if (message.method === "Fetch.requestPaused") paused.push(message.params.requestId); if (!message.id || !pending.has(message.id)) return; const item = pending.get(message.id); pending.delete(message.id); if (message.error) item.reject(new Error(`${item.method}: ${message.error.message}`)); else item.resolve(message.result); }); return { ready: new Promise((resolve, reject) => { socket.addEventListener("open", resolve, { once: true }); socket.addEventListener("error", reject, { once: true }); }), send(method, params = {}) { const id = nextId++; socket.send(JSON.stringify({ id, method, params })); return new Promise((resolve, reject) => pending.set(id, { method, resolve, reject })); }, takePaused() { return paused.shift(); }, close() { socket.close(); } }; }
 async function setViewport(client, viewport) { await client.send("Emulation.setDeviceMetricsOverride", { width: viewport.width, height: viewport.height, deviceScaleFactor: 1, mobile: viewport.mobile }); }
 async function fillFirstInput(client, value) { await evaluate(client, `(() => { const input=document.querySelector('.workout-player-set-form input'); const setter=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set; setter.call(input,${JSON.stringify(value)}); input.dispatchEvent(new Event('input',{bubbles:true})); })()`); }

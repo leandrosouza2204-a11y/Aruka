@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
-import { existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { randomUUID } from "node:crypto";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { createClient } from "@supabase/supabase-js";
@@ -9,6 +9,8 @@ import { readLocalSupabaseRuntime } from "./lib/local-supabase-runtime.mjs";
 import { runPsql } from "./supabase-cycle-8-lib.mjs";
 import { beginVisualQaEvidence } from "./lib/visual-qa-evidence.mjs";
 import { stopOwnedProcessTree } from "./lib/qa-process-cleanup.mjs";
+import { resolveCycle1214Viewports } from "./lib/cycle-12-14-viewport-matrix.mjs";
+import { createCdpClient, evaluateCdp, getCdpWebSocketUrl, navigateWithReactReadiness, removeQaProfileDir, sleep, startChromeQa, startViteQaServer, waitForViteStop } from "./lib/browser-qa-runtime.mjs";
 
 loadQaEnvFile(".env.local");
 loadQaEnvFile(".env.qa.local");
@@ -19,63 +21,59 @@ const appBaseUrl = "http://127.0.0.1:5189";
 const cdpPort = 9950 + Math.floor(Math.random() * 40);
 const screenshotDir = join("tmp-responsive-screenshots", "cycle-12-9-student-evolution");
 const profileDir = join(tmpdir(), `aruka-cycle-12-9-chrome-${process.pid}`);
-const assessmentIds = ["00000000-0000-4000-8000-000000009941", "00000000-0000-4000-8000-000000009942"];
-const viewports = [
+const runToken = `${Date.now()}-${randomUUID().slice(0, 8)}`;
+const professionalEmail = `cycle-12-9-professional-${runToken}@example.invalid`;
+const studentEmail = `cycle-12-9-student-${runToken}@example.invalid`;
+const assessmentIds = [randomUUID(), randomUUID()];
+const viewports = resolveCycle1214Viewports([
   { name: "mobile-320", width: 320, height: 800, mobile: true },
   { name: "mobile-375", width: 375, height: 812, mobile: true },
   { name: "mobile-390", width: 390, height: 844, mobile: true },
   { name: "tablet-768", width: 768, height: 1024, mobile: true },
   { name: "desktop-1280", width: 1280, height: 900, mobile: false },
-];
+]);
 let server;
 let chrome;
 let client;
 let admin;
-let visualAuthCreated = false;
-const studentId = "00000000-0000-4000-8000-000000009943";
-const professionalId = "00000000-0000-4000-8000-000000000802";
+let professionalUser;
+let studentUser;
+const studentId = randomUUID();
 const results = [];
-const evidence = beginVisualQaEvidence({ gate: "CYCLE_12_9_STUDENT_EVOLUTION_VISUAL", reportPath: "reports/cycle-12-9-student-evolution-visual.json", requiredScenarios: ["viewport-matrix", "recoverable-error", "rollout-off"] });
+const startupAttempts = [];
+const evidence = beginVisualQaEvidence({ gate: "CYCLE_12_9_STUDENT_EVOLUTION_VISUAL", reportPath: "reports/cycle-12-9-student-evolution-visual.json", requiredScenarios: ["self-contained-fixture", "browser-startup", "viewport-matrix", "recoverable-error", "rollout-off"] });
 
 try {
   assert(process.env.QA_USER_PASSWORD, "QA_USER_PASSWORD ausente.");
   admin = createClient(runtime.apiUrl, runtime.serviceRoleKey, { auth: { persistSession: false, autoRefreshToken: false } });
-  const listed = await admin.auth.admin.listUsers({ page: 1, perPage: 1000 });
-  if (listed.error) throw listed.error;
-  let visualUser = listed.data.users.find((item) => item.email === "student.qa.local@aruka.test");
-  if (visualUser) {
-    const updated = await admin.auth.admin.updateUserById(visualUser.id, { password: process.env.QA_USER_PASSWORD, email_confirm: true });
-    if (updated.error) throw updated.error;
-    visualUser = updated.data.user;
-  } else {
-    const created = await admin.auth.admin.createUser({ email: "student.qa.local@aruka.test", password: process.env.QA_USER_PASSWORD, email_confirm: true });
-    if (created.error) throw created.error;
-    visualUser = created.data.user;
-    visualAuthCreated = true;
-  }
+  professionalUser = await createLocalUser(professionalEmail);
+  studentUser = await createLocalUser(studentEmail);
   const student = createClient(runtime.apiUrl, runtime.anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
-  const { data: login, error } = await student.auth.signInWithPassword({ email: "student.qa.local@aruka.test", password: process.env.QA_USER_PASSWORD });
+  const { data: login, error } = await student.auth.signInWithPassword({ email: studentEmail, password: process.env.QA_USER_PASSWORD });
   if (error) throw error;
-  cleanupFixtures();
   runPsql(process.cwd(), `
+    insert into public.perfis(id,user_id,nome,email,role,tipo_acesso,status)
+    values ('${professionalUser.id}','${professionalUser.id}','Professional Visual Cycle 12.9','${professionalEmail}','user','assinante','ativo');
     insert into public.alunos(id,user_id,nome,whatsapp,inicio,plano,valor,status,observacoes,student_user_id,student_access_status,student_access_activated_at)
-    values ('${studentId}','${professionalId}','Aluno Visual Cycle 12.9','+550000009943',current_date,'QA',0,'Ativo','cycle-12-9-visual','${visualUser.id}','active',now());
+    values ('${studentId}','${professionalUser.id}','Aluno Visual Cycle 12.9','+550000009943',current_date,'QA',0,'Ativo','cycle-12-9-visual:${runToken}','${studentUser.id}','active',now());
     insert into public.workout_execution_sessions(aluno_id,status,session_date,started_at,completed_at,notes,short_duration_confirmed)
-    values ('${studentId}', 'completed', current_date, now()-interval '120 seconds', now(), 'cycle-12-9-visual', true);
+    values ('${studentId}', 'completed', current_date, now()-interval '120 seconds', now(), 'cycle-12-9-visual:${runToken}', true);
     insert into public.avaliacoes(id,user_id,aluno_id,data_avaliacao,peso,cintura) values
-      ('${assessmentIds[0]}','${professionalId}','${studentId}',current_date-30,71.4,82.0),
-      ('${assessmentIds[1]}','${professionalId}','${studentId}',current_date,70.8,null);
+      ('${assessmentIds[0]}','${professionalUser.id}','${studentId}',current_date-30,71.4,82.0),
+      ('${assessmentIds[1]}','${professionalUser.id}','${studentId}',current_date,70.8,null);
   `);
+  evidence.scenario("self-contained-fixture", "PASS", { run_token: runToken, auth_users: 2, fixed_ids: false });
   await startFrontend("true");
   chrome = await startChrome();
-  client = createCdpClient(await getWebSocketUrl());
+  client = createCdpClient(await getCdpWebSocketUrl(cdpPort));
   await client.ready;
   await client.send("Page.enable"); await client.send("Runtime.enable"); await client.send("Network.enable");
   await client.send("Page.navigate", { url: `${appBaseUrl}/login` });
   await waitFor("document.readyState !== 'loading'");
   assert(await evaluate(`(async()=>{const {supabase}=await import('/src/services/supabase.js');const {error}=await supabase.auth.setSession(${JSON.stringify({ access_token: login.session.access_token, refresh_token: login.session.refresh_token })});return !error})()`));
-  await client.send("Page.navigate", { url: `${appBaseUrl}/minha-area/evolucao` });
-  await waitFor("document.querySelector('[data-testid=\"student-evolution-v2\"]') && document.body.innerText.includes('Última avaliação')", 30000);
+  const navigation = await navigateWithReactReadiness(client, `${appBaseUrl}/minha-area/evolucao`, "document.querySelector('[data-testid=\"student-evolution-v2\"]') && document.body.innerText.includes('Última avaliação')");
+  startupAttempts.push(...navigation.attempts);
+  evidence.scenario("browser-startup", "PASS", { attempts: startupAttempts });
 
   for (const viewport of viewports) {
     await client.send("Emulation.setDeviceMetricsOverride", { width: viewport.width, height: viewport.height, deviceScaleFactor: 1, mobile: viewport.mobile });
@@ -88,7 +86,7 @@ try {
     await screenshot(`${viewport.name}-normal.png`);
     results.push({ viewport: viewport.name, ...audit, status: "PASS" });
   }
-  evidence.scenario("viewport-matrix", "PASS", { widths: [320, 375, 390, 768, 1280] });
+  evidence.scenario("viewport-matrix", "PASS", { viewports: viewports.map(({ width, height }) => `${width}x${height}`) });
 
   await client.send("Network.setBlockedURLs", { urls: ["*get_my_student_workout_frequency_v2*"] });
   await client.send("Page.reload", { ignoreCache: true });
@@ -100,7 +98,7 @@ try {
   evidence.scenario("recoverable-error", "PASS");
   await client.send("Network.setBlockedURLs", { urls: [] });
 
-  server.kill(); await waitForFrontendStop(); await startFrontend("false");
+  stopOwnedProcessTree(server); await waitForFrontendStop(); await startFrontend("false");
   await client.send("Page.navigate", { url: `${appBaseUrl}/minha-area/evolucao` });
   await waitFor("location.pathname === '/minha-area' && document.querySelector('[data-testid=\"student-daily-page\"]')", 30000);
   results.push({ state: "rollout-off-legacy", route: "/minha-area", status: "PASS" });
@@ -114,20 +112,18 @@ try {
   throw error;
 } finally {
   try { cleanupFixtures(); } catch (error) { evidence.cleanupFailed(error); }
-  if (visualAuthCreated && admin) { try { const listed = await admin.auth.admin.listUsers({ page: 1, perPage: 1000 }); const user = listed.data?.users?.find((item) => item.email === "student.qa.local@aruka.test"); if (user) { const deleted = await admin.auth.admin.deleteUser(user.id); if (deleted.error) throw deleted.error; } } catch (error) { evidence.cleanupFailed(error); } }
-  client?.close(); stopOwnedProcessTree(chrome); server?.kill();
+  for (const user of [studentUser, professionalUser]) { if (admin && user) { try { const deleted = await admin.auth.admin.deleteUser(user.id); if (deleted.error) throw deleted.error; } catch (error) { evidence.cleanupFailed(error); } } }
+  client?.close(); stopOwnedProcessTree(chrome); stopOwnedProcessTree(server);
   await sleep(500);
-  try { rmSync(profileDir, { recursive: true, force: true, maxRetries: 4, retryDelay: 300 }); } catch (error) { evidence.cleanupFailed(error); }
+  try { await removeQaProfileDir(profileDir); } catch (error) { evidence.cleanupFailed(error); }
   evidence.finalize();
 }
 
-function cleanupFixtures() { runPsql(process.cwd(), `delete from public.avaliacoes where id in ('${assessmentIds[0]}','${assessmentIds[1]}'); delete from public.workout_execution_sessions where aluno_id='${studentId}'; delete from public.alunos where id='${studentId}';`, { throwOnError: false }); }
-async function startFrontend(enabled) { server = spawn(process.execPath, [join("node_modules", "vite", "bin", "vite.js"), "--host", "127.0.0.1", "--port", "5189", "--strictPort"], { env: { ...process.env, VITE_STUDENT_EXPERIENCE_V2_ENABLED: enabled }, shell: false, stdio: "ignore" }); for (let i=0;i<100;i+=1) { try { if ((await fetch(appBaseUrl)).ok) return; } catch { /* wait */ } await sleep(300); } throw new Error("Frontend local não respondeu."); }
-async function waitForFrontendStop() { for (let i=0;i<60;i+=1) { try { await fetch(appBaseUrl); } catch { return; } await sleep(250); } throw new Error("Porta visual não foi liberada."); }
-async function startChrome() { const path=process.platform==="win32"?"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe":"google-chrome"; assert(existsSync(path),"Chrome ausente."); const handle=spawn(path,["--headless=new","--no-sandbox","--disable-gpu","--disable-dev-shm-usage","--no-first-run",`--user-data-dir=${profileDir}`,`--remote-debugging-port=${cdpPort}`,"about:blank"],{stdio:"ignore",shell:false}); for(let i=0;i<60;i+=1){try{if((await fetch(`http://127.0.0.1:${cdpPort}/json/version`)).ok)return handle}catch{/* wait */}await sleep(250)}throw new Error("Chrome CDP não iniciou."); }
-async function getWebSocketUrl(){const response=await fetch(`http://127.0.0.1:${cdpPort}/json/new?about:blank`,{method:"PUT"});return (await response.json()).webSocketDebuggerUrl}
-function createCdpClient(url){const socket=new WebSocket(url);let nextId=1;const pending=new Map();socket.addEventListener("message",event=>{const message=JSON.parse(event.data);if(!message.id||!pending.has(message.id))return;const item=pending.get(message.id);pending.delete(message.id);message.error?item.reject(new Error(message.error.message)):item.resolve(message.result)});return{ready:new Promise((resolve,reject)=>{socket.addEventListener("open",resolve,{once:true});socket.addEventListener("error",reject,{once:true})}),send(method,params={}){const id=nextId++;socket.send(JSON.stringify({id,method,params}));return new Promise((resolve,reject)=>pending.set(id,{resolve,reject}))},close(){socket.close()}}}
-async function evaluate(expression){const result=await client.send("Runtime.evaluate",{expression,awaitPromise:true,returnByValue:true});if(result.exceptionDetails)throw new Error(result.exceptionDetails.text);return result.result.value}
+function cleanupFixtures() { if (!professionalUser) return; const result = runPsql(process.cwd(), `delete from public.avaliacoes where id in ('${assessmentIds[0]}','${assessmentIds[1]}'); delete from public.workout_execution_sessions where aluno_id='${studentId}'; delete from public.alunos where id='${studentId}'; delete from public.perfis where user_id='${professionalUser.id}';`, { throwOnError: false }); if (result.status !== 0) throw new Error(`Cleanup Cycle 12.9 falhou: ${result.stderr || result.stdout}`); }
+async function createLocalUser(email) { const created = await admin.auth.admin.createUser({ email, password: process.env.QA_USER_PASSWORD, email_confirm: true }); if (created.error) throw created.error; return created.data.user; }
+async function startFrontend(enabled) { const started = await startViteQaServer({ port: 5189, env: { VITE_STUDENT_EXPERIENCE_V2_ENABLED: enabled } }); server = started.child; startupAttempts.push(...started.attempts); }
+async function waitForFrontendStop() { await waitForViteStop(appBaseUrl); }
+async function startChrome() { const started = await startChromeQa({ cdpPort, profileDir }); startupAttempts.push(...started.attempts); return started.child; }
+async function evaluate(expression){return evaluateCdp(client, expression)}
 async function waitFor(expression,timeout=20000){const started=Date.now();while(Date.now()-started<timeout){if(await evaluate(`Boolean(${expression})`))return;await sleep(200)}throw new Error(`Timeout aguardando ${expression}`)}
 async function screenshot(name){mkdirSync(screenshotDir,{recursive:true});const result=await client.send("Page.captureScreenshot",{format:"png",fromSurface:true});writeFileSync(join(screenshotDir,name),Buffer.from(result.data,"base64"))}
-function sleep(ms){return new Promise(resolve=>setTimeout(resolve,ms))}

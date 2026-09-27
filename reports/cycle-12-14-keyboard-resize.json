@@ -1,0 +1,63 @@
+{
+  "evidence_contract_version": 1,
+  "run_id": "cycle-12-14-keyboard-resize-1790487636613-e0e9de0f",
+  "gate": "CYCLE_12_14_KEYBOARD_RESIZE",
+  "decision": "PASS",
+  "current_run": true,
+  "started_at": "2026-09-27T05:40:36.614Z",
+  "finished_at": "2026-09-27T05:42:05.662Z",
+  "head": "407e48761224a8c7bd4979791ad09f337d160e68",
+  "branch": "main",
+  "environment": "LOCAL",
+  "production_accessed": false,
+  "required_scenarios": [
+    "tracking",
+    "completion-feedback"
+  ],
+  "scenarios": [
+    {
+      "name": "tracking",
+      "status": "PASS",
+      "run_id": "cycle-12-6-set-tracking-visual-1790487637428-f7f3948e",
+      "viewports": [
+        "keyboard-resize-390x360",
+        "keyboard-resize-640x320",
+        "keyboard-resize-844x390"
+      ],
+      "values_preserved_after_failure": true
+    },
+    {
+      "name": "completion-feedback",
+      "status": "PASS",
+      "run_id": "cycle-12-8-workout-completion-feedback-visual-1790487676165-4226c35e",
+      "viewports": [
+        "keyboard-resize-390x360",
+        "keyboard-resize-640x320",
+        "keyboard-resize-844x390"
+      ],
+      "post_submit_terminal": true,
+      "retry_consistent": true
+    }
+  ],
+  "failures": [],
+  "cleanup": {
+    "attempted": false,
+    "status": "NOT_REQUIRED",
+    "failures": []
+  },
+  "classification": "SIMULATED",
+  "real_virtual_keyboard": false,
+  "human_acceptance": false,
+  "results": [
+    {
+      "surface": "tracking",
+      "status": "PASS",
+      "run_id": "cycle-12-6-set-tracking-visual-1790487637428-f7f3948e"
+    },
+    {
+      "surface": "completion-feedback",
+      "status": "PASS",
+      "run_id": "cycle-12-8-workout-completion-feedback-visual-1790487676165-4226c35e"
+    }
+  ]
+}

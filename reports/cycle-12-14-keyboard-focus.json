@@ -1,0 +1,109 @@
+{
+  "evidence_contract_version": 1,
+  "run_id": "cycle-12-14-keyboard-focus-1790487725943-8c5db100",
+  "gate": "CYCLE_12_14_KEYBOARD_FOCUS",
+  "decision": "PASS",
+  "current_run": true,
+  "started_at": "2026-09-27T05:42:05.944Z",
+  "finished_at": "2026-09-27T05:48:39.125Z",
+  "head": "407e48761224a8c7bd4979791ad09f337d160e68",
+  "branch": "main",
+  "environment": "LOCAL",
+  "production_accessed": false,
+  "required_scenarios": [
+    "home-library-detail",
+    "player",
+    "tracking",
+    "completion-feedback",
+    "evolution",
+    "profile"
+  ],
+  "scenarios": [
+    {
+      "name": "home-library-detail",
+      "status": "PASS",
+      "run_id": "cycle-12-4-training-library-visual-1790487726872-b30d8cbb",
+      "elapsed_ms": 70050
+    },
+    {
+      "name": "player",
+      "status": "PASS",
+      "run_id": "cycle-12-5-workout-player-visual-1790487796843-3443cab1",
+      "elapsed_ms": 55749
+    },
+    {
+      "name": "tracking",
+      "status": "PASS",
+      "run_id": "cycle-12-6-set-tracking-visual-1790487854320-d209209a",
+      "elapsed_ms": 80722
+    },
+    {
+      "name": "completion-feedback",
+      "status": "PASS",
+      "run_id": "cycle-12-8-workout-completion-feedback-visual-1790487933251-0e1a0334",
+      "elapsed_ms": 50875
+    },
+    {
+      "name": "evolution",
+      "status": "PASS",
+      "run_id": "cycle-12-9-student-evolution-visual-1790487984141-736512dd",
+      "elapsed_ms": 56480
+    },
+    {
+      "name": "profile",
+      "status": "PASS",
+      "run_id": "cycle-12-10-profile-secondary-flows-visual-1790488040555-6a354bb7",
+      "elapsed_ms": 78927
+    }
+  ],
+  "failures": [],
+  "cleanup": {
+    "attempted": false,
+    "status": "NOT_REQUIRED",
+    "failures": []
+  },
+  "classification": "AUTOMATED_KEYBOARD_PASS",
+  "human_keyboard_acceptance": false,
+  "journey": [
+    "Home",
+    "Library",
+    "detail",
+    "Player",
+    "tracking",
+    "completion-feedback",
+    "Evolution",
+    "Profile"
+  ],
+  "results": [
+    {
+      "segment": "home-library-detail",
+      "status": "PASS",
+      "run_id": "cycle-12-4-training-library-visual-1790487726872-b30d8cbb"
+    },
+    {
+      "segment": "player",
+      "status": "PASS",
+      "run_id": "cycle-12-5-workout-player-visual-1790487796843-3443cab1"
+    },
+    {
+      "segment": "tracking",
+      "status": "PASS",
+      "run_id": "cycle-12-6-set-tracking-visual-1790487854320-d209209a"
+    },
+    {
+      "segment": "completion-feedback",
+      "status": "PASS",
+      "run_id": "cycle-12-8-workout-completion-feedback-visual-1790487933251-0e1a0334"
+    },
+    {
+      "segment": "evolution",
+      "status": "PASS",
+      "run_id": "cycle-12-9-student-evolution-visual-1790487984141-736512dd"
+    },
+    {
+      "segment": "profile",
+      "status": "PASS",
+      "run_id": "cycle-12-10-profile-secondary-flows-visual-1790488040555-6a354bb7"
+    }
+  ]
+}

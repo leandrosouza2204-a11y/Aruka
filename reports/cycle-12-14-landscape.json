@@ -1,0 +1,195 @@
+{
+  "evidence_contract_version": 1,
+  "run_id": "cycle-12-14-landscape-1790487170320-5fdf3dd0",
+  "gate": "CYCLE_12_14_LANDSCAPE",
+  "decision": "PASS",
+  "current_run": true,
+  "started_at": "2026-09-27T05:32:50.321Z",
+  "finished_at": "2026-09-27T05:40:36.238Z",
+  "head": "407e48761224a8c7bd4979791ad09f337d160e68",
+  "branch": "main",
+  "environment": "LOCAL",
+  "production_accessed": false,
+  "required_scenarios": [
+    "home",
+    "library",
+    "player",
+    "timer",
+    "completion-feedback",
+    "evolution",
+    "profile"
+  ],
+  "scenarios": [
+    {
+      "name": "home",
+      "status": "PASS",
+      "run_id": "cycle-12-3-student-home-visual-1790487171100-d1868d1f",
+      "viewports": [
+        "640x320",
+        "812x375",
+        "844x390",
+        "1024x768"
+      ],
+      "elapsed_ms": 100599
+    },
+    {
+      "name": "library",
+      "status": "PASS",
+      "run_id": "cycle-12-4-training-library-visual-1790487271609-e9f82977",
+      "viewports": [
+        "640x320",
+        "812x375",
+        "844x390",
+        "1024x768"
+      ],
+      "elapsed_ms": 78506
+    },
+    {
+      "name": "player",
+      "status": "PASS",
+      "run_id": "cycle-12-5-workout-player-visual-1790487350077-ff301be4",
+      "viewports": [
+        "640x320",
+        "812x375",
+        "844x390",
+        "1024x768"
+      ],
+      "elapsed_ms": 53036
+    },
+    {
+      "name": "timer",
+      "status": "PASS",
+      "run_id": "cycle-12-7-rest-timer-visual-1790487403182-9f141061",
+      "viewports": [
+        "640x320",
+        "812x375",
+        "844x390",
+        "1024x768"
+      ],
+      "elapsed_ms": 48994
+    },
+    {
+      "name": "completion-feedback",
+      "status": "PASS",
+      "run_id": "cycle-12-8-workout-completion-feedback-visual-1790487452223-9dffac34",
+      "viewports": [
+        "640x320",
+        "812x375",
+        "844x390",
+        "1024x768"
+      ],
+      "elapsed_ms": 50208
+    },
+    {
+      "name": "evolution",
+      "status": "PASS",
+      "run_id": "cycle-12-9-student-evolution-visual-1790487502349-38956505",
+      "viewports": [
+        "640x320",
+        "812x375",
+        "844x390",
+        "1024x768"
+      ],
+      "elapsed_ms": 57808
+    },
+    {
+      "name": "profile",
+      "status": "PASS",
+      "run_id": "cycle-12-10-profile-secondary-flows-visual-1790487560174-34e7266a",
+      "viewports": [
+        "640x320",
+        "812x375",
+        "844x390",
+        "1024x768"
+      ],
+      "elapsed_ms": 76456
+    }
+  ],
+  "failures": [],
+  "cleanup": {
+    "attempted": false,
+    "status": "NOT_REQUIRED",
+    "failures": []
+  },
+  "classification": "SIMULATED_BROWSER_LANDSCAPE",
+  "physical_device_acceptance": false,
+  "results": [
+    {
+      "surface": "home",
+      "status": "PASS",
+      "run_id": "cycle-12-3-student-home-visual-1790487171100-d1868d1f",
+      "viewports": [
+        "640x320",
+        "812x375",
+        "844x390",
+        "1024x768"
+      ]
+    },
+    {
+      "surface": "library",
+      "status": "PASS",
+      "run_id": "cycle-12-4-training-library-visual-1790487271609-e9f82977",
+      "viewports": [
+        "640x320",
+        "812x375",
+        "844x390",
+        "1024x768"
+      ]
+    },
+    {
+      "surface": "player",
+      "status": "PASS",
+      "run_id": "cycle-12-5-workout-player-visual-1790487350077-ff301be4",
+      "viewports": [
+        "640x320",
+        "812x375",
+        "844x390",
+        "1024x768"
+      ]
+    },
+    {
+      "surface": "timer",
+      "status": "PASS",
+      "run_id": "cycle-12-7-rest-timer-visual-1790487403182-9f141061",
+      "viewports": [
+        "640x320",
+        "812x375",
+        "844x390",
+        "1024x768"
+      ]
+    },
+    {
+      "surface": "completion-feedback",
+      "status": "PASS",
+      "run_id": "cycle-12-8-workout-completion-feedback-visual-1790487452223-9dffac34",
+      "viewports": [
+        "640x320",
+        "812x375",
+        "844x390",
+        "1024x768"
+      ]
+    },
+    {
+      "surface": "evolution",
+      "status": "PASS",
+      "run_id": "cycle-12-9-student-evolution-visual-1790487502349-38956505",
+      "viewports": [
+        "640x320",
+        "812x375",
+        "844x390",
+        "1024x768"
+      ]
+    },
+    {
+      "surface": "profile",
+      "status": "PASS",
+      "run_id": "cycle-12-10-profile-secondary-flows-visual-1790487560174-34e7266a",
+      "viewports": [
+        "640x320",
+        "812x375",
+        "844x390",
+        "1024x768"
+      ]
+    }
+  ]
+}

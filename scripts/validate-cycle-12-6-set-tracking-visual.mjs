@@ -9,6 +9,8 @@ import { readLocalSupabaseRuntime } from "./lib/local-supabase-runtime.mjs";
 import { runPsql } from "./supabase-cycle-8-lib.mjs";
 import { beginVisualQaEvidence } from "./lib/visual-qa-evidence.mjs";
 import { stopOwnedProcessTree } from "./lib/qa-process-cleanup.mjs";
+import { resolveCycle1214Viewports } from "./lib/cycle-12-14-viewport-matrix.mjs";
+import { getCdpWebSocketUrl, navigateWithReactReadiness, removeQaProfileDir, startChromeQa, startViteQaServer } from "./lib/browser-qa-runtime.mjs";
 
 loadQaEnvFile(".env.local");
 loadQaEnvFile(".env.qa.local");
@@ -35,21 +37,23 @@ const ids = {
 const screenshotDir = join("tmp-responsive-screenshots", "cycle-12-6-set-tracking");
 const profileDir = join(tmpdir(), `aruka-cycle-12-6-chrome-${process.pid}`);
 const cdpPort = 10020 + Math.floor(Math.random() * 30);
-const viewports = [
+const viewports = resolveCycle1214Viewports([
   { name: "mobile-320", width: 320, height: 800, mobile: true },
   { name: "mobile-375", width: 375, height: 812, mobile: true },
   { name: "mobile-390", width: 390, height: 844, mobile: true },
   { name: "mobile-430", width: 430, height: 932, mobile: true },
   { name: "tablet-768", width: 768, height: 1024, mobile: true },
   { name: "desktop-1280", width: 1280, height: 900, mobile: false },
-];
+]);
 let server;
 let chrome;
 let cdp;
 let studentUserId;
 let screenshotCount = 0;
 const results = [];
-const evidence = beginVisualQaEvidence({ gate: "CYCLE_12_6_SET_TRACKING_VISUAL", reportPath: "reports/cycle-12-6-set-tracking-visual.json" });
+const startupAttempts = [];
+const isKeyboardResize = process.env.QA_CYCLE_12_14_VIEWPORT_PROFILE === "keyboard-resize";
+const evidence = beginVisualQaEvidence({ gate: "CYCLE_12_6_SET_TRACKING_VISUAL", reportPath: "reports/cycle-12-6-set-tracking-visual.json", requiredScenarios: isKeyboardResize ? ["keyboard-resize"] : [] });
 
 try {
   assert(password, "QA_USER_PASSWORD ausente.");
@@ -63,20 +67,18 @@ try {
   const login = await student.auth.signInWithPassword({ email, password });
   if (login.error) throw login.error;
 
-  await ensureFrontend();
-  chrome = await startChrome();
-  cdp = createCdpClient(await getWebSocketUrl());
+  const viteStartup = await startViteQaServer({ port: 5186, env: { VITE_STUDENT_EXPERIENCE_V2_ENABLED: "true" } }); server = viteStartup.child; startupAttempts.push({ component: "vite", attempts: viteStartup.attempts });
+  const chromeStartup = await startChromeQa({ cdpPort, profileDir }); chrome = chromeStartup.child; startupAttempts.push({ component: "chrome", attempts: chromeStartup.attempts });
+  cdp = createCdpClient(await getCdpWebSocketUrl(cdpPort));
   await cdp.ready;
   await cdp.send("Page.enable");
   await cdp.send("Runtime.enable");
   await cdp.send("Network.enable");
   await setViewport(cdp, viewports[2]);
-  await cdp.send("Page.navigate", { url: `${appBaseUrl}/login` });
-  await waitFor(cdp, "document.readyState !== 'loading'");
+  const loginStartup = await navigateWithReactReadiness(cdp, `${appBaseUrl}/login`, "document.querySelector('#root')?.childElementCount > 0"); startupAttempts.push({ component: "login-route", attempts: loginStartup.attempts });
   const authSession = login.data.session;
   assert(await evaluate(cdp, `(async () => { const { supabase } = await import('/src/services/supabase.js'); return !(await supabase.auth.setSession({ access_token: ${JSON.stringify(authSession.access_token)}, refresh_token: ${JSON.stringify(authSession.refresh_token)} })).error; })()`));
-  await cdp.send("Page.navigate", { url: `${appBaseUrl}/minha-area/treino/${ids.session}` });
-  await waitFor(cdp, "document.querySelector('[data-testid=\"student-workout-player-v2\"]')", 30000);
+  const playerStartup = await navigateWithReactReadiness(cdp, `${appBaseUrl}/minha-area/treino/${ids.session}`, "document.querySelector('[data-testid=\"student-workout-player-v2\"]')", { timeoutMs: 30_000 }); startupAttempts.push({ component: "player-route", attempts: playerStartup.attempts });
   await waitFor(cdp, "document.querySelector('.workout-player-previous')?.innerText.includes('10 repetições')", 30000);
 
   for (const viewport of viewports) {
@@ -86,9 +88,15 @@ try {
     assert(audit.noHorizontalOverflow, `${viewport.name}: overflow horizontal`);
     assert(audit.minimumTarget >= 44, `${viewport.name}: target menor que 44px`);
     assert.equal(audit.labels, audit.inputs, `${viewport.name}: input sem label`);
+    const keyboardAudit = await auditResizeFocus(cdp);
+    assert.equal(keyboardAudit.reachedSubmit, true, `${viewport.name}: Tab não alcançou CTA`);
+    assert.equal(keyboardAudit.focusStayedInForm, true, `${viewport.name}: foco escapou do formulário`);
+    assert.equal(keyboardAudit.submitVisible, true, `${viewport.name}: CTA focado não entrou no viewport`);
+    assert.equal(keyboardAudit.focusVisible, true, `${viewport.name}: indicador :focus-visible ausente`);
     await screenshot(cdp, `${viewport.name}-pending-previous-available.png`);
-    results.push({ state: "pending-previous-available", viewport: viewport.name, ...audit, status: "PASS" });
+    results.push({ state: "pending-previous-available", viewport: viewport.name, ...audit, keyboardAudit, status: "PASS" });
   }
+  if (isKeyboardResize) evidence.scenario("keyboard-resize", "PASS", { classification: "SIMULATED", viewports: viewports.map(({ width, height }) => `${width}x${height}`) });
 
   await setViewport(cdp, viewports[2]);
   await fillCurrentSet(cdp, ["10", "20", "2"]);
@@ -128,7 +136,7 @@ try {
   await screenshot(cdp, "mobile-390-terminal.png");
   results.push({ state: "terminal", writesAvailable: false, status: "PASS" });
 
-  const report = { decision: "PASS", scope: "CYCLE_12_6_SET_TRACKING_VISUAL", database_target: "LOCAL", fixtures: "SYNTHETIC", production_accessed: false, production_mutated: false, screenshots: screenshotCount, viewports: viewports.map(({ name }) => name), results };
+  const report = { decision: "PASS", scope: "CYCLE_12_6_SET_TRACKING_VISUAL", database_target: "LOCAL", fixtures: "SYNTHETIC", production_accessed: false, production_mutated: false, screenshots: screenshotCount, viewports: viewports.map(({ name }) => name), startup_attempts: startupAttempts, results };
   evidence.executionSucceeded(report);
   console.log(`decision=PASS screenshots=${screenshotCount} states=${[...new Set(results.map((result) => result.state))].join(",")}`);
 } catch (error) {
@@ -146,7 +154,7 @@ try {
       if (deleted.error) throw deleted.error;
     } catch (error) { evidence.cleanupFailed(error); }
   }
-  try { rmSync(profileDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 300 }); } catch (error) { evidence.cleanupFailed(error); }
+  try { await removeQaProfileDir(profileDir); } catch (error) { evidence.cleanupFailed(error); }
   evidence.finalize();
 }
 
@@ -181,6 +189,20 @@ function createCdpClient(url) { const socket = new WebSocket(url); let nextId = 
 async function setViewport(client, viewport) { await client.send("Emulation.setDeviceMetricsOverride", { width: viewport.width, height: viewport.height, deviceScaleFactor: 1, mobile: viewport.mobile }); }
 async function fillCurrentSet(client, values) { const inputs = await evaluate(client, "document.querySelectorAll('.workout-player-set-form input').length"); assert.equal(inputs, values.length); for (let index = 0; index < values.length; index += 1) await evaluate(client, `(() => { const input=document.querySelectorAll('.workout-player-set-form input')[${index}]; const setter=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set; setter.call(input,${JSON.stringify(values[index])}); input.dispatchEvent(new Event('input',{bubbles:true})); })()`); }
 async function auditSetTracker(client) { return evaluate(client, `(() => { const targets=[...document.querySelectorAll('.workout-player-set-stage button,.workout-player-set-stage input,.workout-player-set-stage select')].filter((item)=>!item.disabled&&item.getClientRects().length); const labels=[...document.querySelectorAll('.workout-player-set-form label')]; const inputs=[...document.querySelectorAll('.workout-player-set-form input,.workout-player-set-form select')]; return { noHorizontalOverflow: document.documentElement.scrollWidth <= innerWidth + 1, minimumTarget: Math.min(...targets.map((item)=>item.getBoundingClientRect().height)), labels: labels.length, inputs: inputs.length, progressbars: document.querySelectorAll('[role="progressbar"]').length }; })()`); }
+async function auditResizeFocus(client) {
+  await evaluate(client, `document.querySelector('.workout-player-set-form input')?.focus()`);
+  const sequence = [];
+  let stayed = true;
+  for (let index = 0; index < 12; index += 1) {
+    const current = await evaluate(client, `(() => { const el=document.activeElement; return { label: el?.getAttribute('aria-label') || el?.name || el?.className || el?.tagName, inForm: Boolean(el?.closest('.workout-player-set-form')), submit: el?.matches('.workout-player-complete-set') }; })()`);
+    sequence.push(current.label);
+    stayed &&= current.inForm;
+    if (current.submit) break;
+    await client.send("Input.dispatchKeyEvent", { type: "keyDown", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9 });
+    await client.send("Input.dispatchKeyEvent", { type: "keyUp", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9 });
+  }
+  return evaluate(client, `(() => { const el=document.activeElement; const rect=el?.getBoundingClientRect(); return { reachedSubmit:Boolean(el?.matches('.workout-player-complete-set')), focusStayedInForm:${stayed}, focusVisible:Boolean(el?.matches(':focus-visible')), submitVisible:Boolean(rect && rect.top >= 0 && rect.bottom <= innerHeight + 1), sequence:${JSON.stringify(sequence)} }; })()`);
+}
 async function screenshot(client, name) { mkdirSync(screenshotDir, { recursive: true }); const result = await client.send("Page.captureScreenshot", { format: "png", fromSurface: true, captureBeyondViewport: false }); writeFileSync(join(screenshotDir, name), Buffer.from(result.data, "base64")); screenshotCount += 1; }
 async function evaluate(client, expression) { const response = await client.send("Runtime.evaluate", { expression, awaitPromise: true, returnByValue: true }); if (response.exceptionDetails) throw new Error(response.exceptionDetails.text); return response.result.value; }
 async function waitFor(client, expression, timeout = 20000) { const started = Date.now(); while (Date.now() - started < timeout) { if (await evaluate(client, `Boolean(${expression})`)) return; await sleep(200); } throw new Error(`Timeout aguardando ${expression}`); }
