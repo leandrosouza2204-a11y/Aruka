@@ -1,5 +1,4 @@
-import { spawn } from "node:child_process";
-import { existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { createClient } from "@supabase/supabase-js";
@@ -8,6 +7,8 @@ import { readLocalSupabaseRuntime } from "./lib/local-supabase-runtime.mjs";
 import { runPsql } from "./supabase-cycle-8-lib.mjs";
 import { beginVisualQaEvidence } from "./lib/visual-qa-evidence.mjs";
 import { stopOwnedProcessTree } from "./lib/qa-process-cleanup.mjs";
+import { resolveCycle1214Viewports } from "./lib/cycle-12-14-viewport-matrix.mjs";
+import { navigateWithReactReadiness, startChromeQa, startViteQaServer, waitForViteStop } from "./lib/browser-qa-runtime.mjs";
 
 loadQaEnvFile(".env.local");
 loadQaEnvFile(".env.qa.local");
@@ -25,14 +26,14 @@ const fixtureExerciseId = "00000000-0000-4000-8000-000000003851";
 const cdpPort = 9800 + Math.floor(Math.random() * 150);
 const screenshotDir = join("tmp-responsive-screenshots", "cycle-12-3-student-home");
 const profileDir = join(tmpdir(), `aruka-cycle-12-3-chrome-${process.pid}`);
-const viewports = [
+const viewports = resolveCycle1214Viewports([
   { name: "mobile-narrow-320", width: 320, height: 800, mobile: true },
   { name: "mobile-standard-375", width: 375, height: 812, mobile: true },
   { name: "mobile-390", width: 390, height: 844, mobile: true },
   { name: "mobile-wide-430", width: 430, height: 932, mobile: true },
   { name: "tablet-768", width: 768, height: 1024, mobile: true },
   { name: "desktop-1280", width: 1280, height: 900, mobile: false },
-];
+]);
 
 let server;
 let chrome;
@@ -45,10 +46,11 @@ let admin;
 let studentUserId;
 const results = [];
 let screenshotCount = 0;
+const startupAttempts = [];
 const evidence = beginVisualQaEvidence({
   gate: "CYCLE_12_3_STUDENT_HOME_VISUAL",
   reportPath: "reports/cycle-12-3-student-home-visual.json",
-  requiredScenarios: ["data", "empty", "loading", "recoverable-error", "home-to-library", "home-to-player", "direct-refresh", "viewport-matrix"],
+  requiredScenarios: ["browser-startup", "data", "empty", "loading", "recoverable-error", "network-fault-matrix", "home-to-library", "home-to-player", "direct-refresh", "viewport-matrix"],
 });
 
 try {
@@ -123,7 +125,7 @@ try {
   await client.send("Page.navigate", { url: `${appBaseUrl}/minha-area/inicio` });
   await waitFor(client, "document.querySelector('[data-testid=\"student-home-v2\"]')");
 
-  runPsql(process.cwd(), `update public.alunos set nome='AlexandredeOliveiraComNomeExtremamenteLongo' where id='${studentId}'::uuid; update public.treinos set data_revisao=(current_date - 1) where id='${workoutId}'::uuid;`);
+  runPsql(process.cwd(), `update public.alunos set nome='AlexandredeOliveiraComNomeExtremamenteLongo' where id='${studentId}'::uuid; update public.treinos set data_revisao=(current_date - 7) where id='${workoutId}'::uuid;`);
   await setViewport(client, viewports[0]);
   await client.send("Page.reload", { ignoreCache: true });
   await waitFor(client, "document.body.innerText.includes('AlexandredeOliveiraComNomeExtremamenteLongo') && document.body.innerText.includes('Revisão pendente')", 30000);
@@ -159,8 +161,9 @@ try {
   await waitFor(client, `location.pathname === '${playerRoute}' && document.querySelector('[data-testid="student-workout-player-v2"]')`, 30000);
   results.push({ state: "home-to-player", route: playerRoute, sessionId: started.id, status: "PASS" });
   evidence.scenario("home-to-player", "PASS", { route: playerRoute, session_id: started.id });
-  await client.send("Page.navigate", { url: `${appBaseUrl}/minha-area/inicio` });
-  await waitFor(client, "document.querySelector('[data-testid=\"student-home-v2\"]')", 30000);
+  const navigation = await navigateWithReactReadiness(client, `${appBaseUrl}/minha-area/inicio`, "document.querySelector('[data-testid=\"student-home-v2\"]')");
+  startupAttempts.push(...navigation.attempts);
+  evidence.scenario("browser-startup", "PASS", { attempts: startupAttempts });
 
   runPsql(process.cwd(), `delete from public.workout_execution_sessions where id='${started.id}'::uuid; update public.treinos set lifecycle_status='archived', archived_at=now() where id='${workoutId}'::uuid;`);
   const { data: emptyHome, error: emptyHomeError } = await student.rpc("get_my_student_home_v2");
@@ -196,6 +199,17 @@ try {
   results.push({ state: "error", viewport: "390x844", shellPreserved: true, safeCopy: true, status: "PASS" });
   evidence.scenario("recoverable-error", "PASS");
   await client.send("Network.setBlockedURLs", { urls: [] });
+
+  const networkFaults = [];
+  for (const responseCode of [400, 401, 403, 404, 500, 502, 503]) {
+    const outcome = await exerciseHomeFault(client, { name: `http-${responseCode}`, responseCode });
+    networkFaults.push(outcome); evidence.scenario(`network-http-${responseCode}`, "PASS", outcome);
+  }
+  for (const fault of [{ name: "request-abort", errorReason: "Aborted" }, { name: "timeout", errorReason: "TimedOut", delayMs: 750 }]) {
+    const outcome = await exerciseHomeFault(client, fault);
+    networkFaults.push(outcome); evidence.scenario(`network-${fault.name}`, "PASS", outcome);
+  }
+  evidence.scenario("network-fault-matrix", "PASS", { faults: networkFaults, retry_recovered: true, stale_private_data: false });
 
   server.kill();
   await waitForFrontendStop();
@@ -248,39 +262,19 @@ try {
 }
 
 async function ensureFrontend(enabled = "true") {
-  server = spawn(process.execPath, [join("node_modules", "vite", "bin", "vite.js"), "--host", "127.0.0.1", "--port", "5183", "--strictPort"], {
-    env: { ...process.env, VITE_STUDENT_EXPERIENCE_V2_ENABLED: enabled },
-    shell: false,
-    stdio: "ignore",
-  });
-  const started = Date.now();
-  while (Date.now() - started < 45000) {
-    if (await responds(appBaseUrl)) return;
-    await sleep(400);
-  }
-  throw new Error("Frontend local não respondeu.");
+  const started = await startViteQaServer({ port: 5183, env: { VITE_STUDENT_EXPERIENCE_V2_ENABLED: enabled } });
+  server = started.child;
+  startupAttempts.push(...started.attempts);
 }
 
-async function responds(url) { try { return (await fetch(url, { redirect: "manual" })).status < 500; } catch { return false; } }
-
 async function waitForFrontendStop() {
-  const started = Date.now();
-  while (Date.now() - started < 15000) {
-    if (!(await responds(appBaseUrl))) return;
-    await sleep(250);
-  }
-  throw new Error("Previous frontend process did not release the QA port.");
+  await waitForViteStop(appBaseUrl);
 }
 
 async function startChrome() {
-  const path = process.platform === "win32" ? "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" : "google-chrome";
-  assert(existsSync(path), `Chrome não encontrado em ${path}`);
-  const processHandle = spawn(path, ["--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage", "--no-first-run", `--user-data-dir=${profileDir}`, `--remote-debugging-port=${cdpPort}`, "about:blank"], { stdio: "ignore", shell: false });
-  const started = Date.now();
-  while (Date.now() - started < 15000) {
-    try { if ((await fetch(`http://127.0.0.1:${cdpPort}/json/version`)).ok) return processHandle; } catch { await sleep(250); }
-  }
-  throw new Error("Chrome CDP não iniciou.");
+  const started = await startChromeQa({ cdpPort, profileDir });
+  startupAttempts.push(...started.attempts);
+  return started.child;
 }
 
 async function getWebSocketUrl() {
@@ -297,7 +291,7 @@ function createCdpClient(url) {
   const pausedRequests = [];
   socket.addEventListener("message", (event) => {
     const message = JSON.parse(event.data);
-    if (message.method === "Fetch.requestPaused") pausedRequests.push(message.params.requestId);
+    if (message.method === "Fetch.requestPaused") pausedRequests.push(message.params);
     if (message.method === "Runtime.exceptionThrown") {
       events.push(message.params?.exceptionDetails?.exception?.description || message.params?.exceptionDetails?.text || "Runtime exception");
     }
@@ -314,7 +308,8 @@ function createCdpClient(url) {
     ready: new Promise((resolve, reject) => { socket.addEventListener("open", resolve, { once: true }); socket.addEventListener("error", reject, { once: true }); }),
     send(method, params = {}) { const id = nextId++; socket.send(JSON.stringify({ id, method, params })); return new Promise((resolve, reject) => pending.set(id, { method, resolve, reject })); },
     recentEvents() { return events.slice(-5); },
-    takePausedRequest() { return pausedRequests.shift(); },
+    takePausedRequest() { return pausedRequests.shift()?.requestId; },
+    takePausedRequestDetails() { return pausedRequests.shift(); },
     close() { socket.close(); },
   };
 }
@@ -377,6 +372,43 @@ function restoreProfileFixture() {
   const name = originalStudentName.replaceAll("'", "''");
   const review = originalReviewDate ? `'${originalReviewDate.replaceAll("'", "''")}'::date` : "null";
   runPsql(process.cwd(), `update public.alunos set nome='${name}' where id='${studentId}'::uuid; update public.treinos set data_revisao=${review} where id='${workoutId}'::uuid;`);
+}
+
+async function exerciseHomeFault(cdp, { name, responseCode, errorReason, delayMs = 0 }) {
+  while (cdp.takePausedRequest()) { /* discard IDs already invalidated by the previous Fetch.disable */ }
+  await cdp.send("Fetch.enable", { patterns: [{ urlPattern: "*get_my_student_home_v2*", requestStage: "Request" }] });
+  const controlledRequest = cdp.send("Runtime.evaluate", { expression: `(async()=>{const {supabase}=await import('/src/services/supabase.js');const {data:{session}}=await supabase.auth.getSession();try{const response=await fetch(${JSON.stringify(`${runtime.apiUrl}/rest/v1/rpc/get_my_student_home_v2?cycle_12_14_fault=${name}`)},{method:'POST',headers:{apikey:${JSON.stringify(runtime.anonKey)},authorization:'Bearer '+session.access_token,'content-type':'application/json'},body:'{}'});return{kind:'response',status:response.status,body:await response.text()}}catch(error){return{kind:'network-error',name:error.name,message:error.message}}})()`, awaitPromise: true, returnByValue: true });
+  const requestId = await waitForControlledFaultRequest(cdp, name, 10000);
+  if (delayMs) await sleep(delayMs);
+  if (responseCode) {
+    const body = Buffer.from(JSON.stringify({ message: `synthetic local QA HTTP ${responseCode}` })).toString("base64");
+    await cdp.send("Fetch.fulfillRequest", { requestId, responseCode, responseHeaders: [{ name: "content-type", value: "application/json" }, { name: "access-control-allow-origin", value: appBaseUrl }, { name: "access-control-allow-credentials", value: "true" }], body });
+  } else {
+    await cdp.send("Fetch.failRequest", { requestId, errorReason });
+  }
+  await cdp.send("Fetch.disable");
+  const controlledResult = (await controlledRequest).result.value;
+  if (responseCode) assert(controlledResult.status === responseCode, `${name}: status injetado não observado (${JSON.stringify(controlledResult)})`);
+  else assert(controlledResult.kind === "network-error", `${name}: falha de transporte não observada`);
+  const recoveredForOwnStudent = await browserHomeBelongsToFixture(cdp);
+  assert(recoveredForOwnStudent, `${name}: reconnect não recuperou a fixture do aluno atual`);
+  results.push({ state: "network-fault", fault: name, controlledResult, reconnectRecovered: true, crossUserData: false, status: "PASS" });
+  return { name, status: "PASS", mode: "CONTROLLED_BROWSER_TRANSPORT", observed: responseCode || errorReason };
+}
+
+async function waitForControlledFaultRequest(cdp, name, timeout) {
+  const started = Date.now();
+  while (Date.now() - started < timeout) {
+    const paused = cdp.takePausedRequestDetails();
+    if (!paused) { await sleep(50); continue; }
+    if (paused.request?.method === "POST" && paused.request?.url.includes(`cycle_12_14_fault=${name}`)) return paused.requestId;
+    await cdp.send("Fetch.continueRequest", { requestId: paused.requestId });
+  }
+  throw new Error(`${name}: POST controlado não foi interceptado.`);
+}
+
+async function browserHomeBelongsToFixture(cdp) {
+  return evaluate(cdp, `(async()=>{const {supabase}=await import('/src/services/supabase.js');const {data,error}=await supabase.rpc('get_my_student_home_v2');return !error&&data?.student?.id===${JSON.stringify(fixtureStudentId)}})()`);
 }
 function setupFixture(userId) {
   cleanupFixture();

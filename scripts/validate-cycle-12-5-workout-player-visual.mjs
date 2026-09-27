@@ -9,6 +9,8 @@ import { readLocalSupabaseRuntime } from "./lib/local-supabase-runtime.mjs";
 import { runPsql } from "./supabase-cycle-8-lib.mjs";
 import { beginVisualQaEvidence } from "./lib/visual-qa-evidence.mjs";
 import { stopOwnedProcessTree } from "./lib/qa-process-cleanup.mjs";
+import { resolveCycle1214Viewports } from "./lib/cycle-12-14-viewport-matrix.mjs";
+import { getCdpWebSocketUrl, navigateWithReactReadiness, removeQaProfileDir, startChromeQa, startViteQaServer } from "./lib/browser-qa-runtime.mjs";
 
 loadQaEnvFile(".env.local");
 loadQaEnvFile(".env.qa.local");
@@ -29,13 +31,13 @@ const exerciseLast = "00000000-0000-4000-8000-000000005853";
 const screenshotDir = join("tmp-responsive-screenshots", "cycle-12-5-workout-player");
 const profileDir = join(tmpdir(), `aruka-cycle-12-5-chrome-${process.pid}`);
 const cdpPort = 9990 + Math.floor(Math.random() * 30);
-const viewports = [
+const viewports = resolveCycle1214Viewports([
   { name: "mobile-320", width: 320, height: 800, mobile: true },
   { name: "mobile-375", width: 375, height: 812, mobile: true },
   { name: "mobile-390", width: 390, height: 844, mobile: true },
   { name: "tablet-768", width: 768, height: 1024, mobile: true },
   { name: "desktop-1280", width: 1280, height: 900, mobile: false },
-];
+]);
 let server;
 let chrome;
 let cdp;
@@ -43,6 +45,7 @@ let studentUserId;
 let sessionId;
 let screenshotCount = 0;
 const results = [];
+const startupAttempts = [];
 const evidence = beginVisualQaEvidence({ gate: "CYCLE_12_5_WORKOUT_PLAYER_VISUAL", reportPath: "reports/cycle-12-5-workout-player-visual.json", requiredScenarios: ["viewport-matrix", "loading", "recoverable-error", "resume", "terminal"] });
 
 try {
@@ -56,21 +59,19 @@ try {
   const login = await student.auth.signInWithPassword({ email, password });
   if (login.error) throw login.error;
 
-  await ensureFrontend();
-  chrome = await startChrome();
-  cdp = createCdpClient(await getWebSocketUrl());
+  const viteStartup = await startViteQaServer({ port: 5185, env: { VITE_STUDENT_EXPERIENCE_V2_ENABLED: "true" } }); server = viteStartup.child; startupAttempts.push({ component: "vite", attempts: viteStartup.attempts });
+  const chromeStartup = await startChromeQa({ cdpPort, profileDir }); chrome = chromeStartup.child; startupAttempts.push({ component: "chrome", attempts: chromeStartup.attempts });
+  cdp = createCdpClient(await getCdpWebSocketUrl(cdpPort));
   await cdp.ready;
   await cdp.send("Page.enable");
   await cdp.send("Runtime.enable");
   await cdp.send("Network.enable");
   await setViewport(cdp, viewports[2]);
-  await cdp.send("Page.navigate", { url: `${appBaseUrl}/login` });
-  await waitFor(cdp, "document.readyState !== 'loading'");
+  const loginStartup = await navigateWithReactReadiness(cdp, `${appBaseUrl}/login`, "document.querySelector('#root')?.childElementCount > 0"); startupAttempts.push({ component: "login-route", attempts: loginStartup.attempts });
   const authSession = login.data.session;
   assert(await evaluate(cdp, `(async () => { const { supabase } = await import('/src/services/supabase.js'); return !(await supabase.auth.setSession({ access_token: ${JSON.stringify(authSession.access_token)}, refresh_token: ${JSON.stringify(authSession.refresh_token)} })).error; })()`));
 
-  await cdp.send("Page.navigate", { url: `${appBaseUrl}/minha-area/treinos` });
-  await waitFor(cdp, "document.querySelector('[data-testid=\"student-training-library-v2\"]')", 30000);
+  const libraryStartup = await navigateWithReactReadiness(cdp, `${appBaseUrl}/minha-area/treinos`, "document.querySelector('[data-testid=\"student-training-library-v2\"]')", { timeoutMs: 30_000 }); startupAttempts.push({ component: "library-route", attempts: libraryStartup.attempts });
   await evaluate(cdp, `document.querySelector('.student-workout-card button').click()`);
   await waitFor(cdp, "location.pathname.startsWith('/minha-area/treino/') && document.querySelector('[data-testid=\"student-workout-player-v2\"]')", 30000);
   sessionId = (await evaluate(cdp, "location.pathname.split('/').at(-1)"));
@@ -96,7 +97,7 @@ try {
   await cdp.send("Input.dispatchKeyEvent", { type: "keyDown", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27 });
   await cdp.send("Input.dispatchKeyEvent", { type: "keyUp", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27 });
   await waitFor(cdp, "!document.querySelector('.workout-player-dialog[open]')");
-  assert(await evaluate(cdp, `document.activeElement?.getAttribute('aria-label') === 'Escolher exercício'`));
+  await waitFor(cdp, `document.activeElement?.getAttribute('aria-label') === 'Escolher exercício'`, 5000);
   results.push({ state: "switch-dialog-keyboard", escape: "PASS", focusReturn: "PASS", status: "PASS" });
 
   await evaluate(cdp, `document.querySelector('[aria-label="Escolher exercício"]').click()`);
@@ -106,7 +107,7 @@ try {
   assert((await evaluate(cdp, "document.body.innerText.includes('Sem demonstração disponível')")));
   const selectedName = await evaluate(cdp, "document.querySelector('.workout-player-stage h1').textContent");
   await cdp.send("Page.reload", { ignoreCache: true });
-  await waitFor(cdp, "document.querySelector('[data-testid=\"student-workout-player-v2\"]')", 30000);
+  await waitFor(cdp, `document.querySelector('.workout-player-stage h1')?.textContent === ${JSON.stringify(selectedName)}`, 30000);
   assert.equal(await evaluate(cdp, "document.querySelector('.workout-player-stage h1').textContent"), selectedName);
   assert.equal(Number(scalar(`select count(*) from public.workout_execution_sessions where aluno_id='${studentId}' and status='in_progress';`)), 1);
   results.push({ state: "reload-selected-exercise", sameSession: true, duplicateSessions: 0, status: "PASS" });
@@ -154,7 +155,7 @@ try {
   results.push({ state: "terminal", writesAvailable: false, status: "PASS" });
   evidence.scenario("terminal", "PASS");
 
-  const report = { decision: "PASS", scope: "CYCLE_12_5_WORKOUT_PLAYER_VISUAL", database_target: "LOCAL", production_accessed: false, production_mutated: false, screenshots: screenshotCount, viewports: viewports.map(({ name }) => name), results };
+  const report = { decision: "PASS", scope: "CYCLE_12_5_WORKOUT_PLAYER_VISUAL", database_target: "LOCAL", production_accessed: false, production_mutated: false, screenshots: screenshotCount, viewports: viewports.map(({ name }) => name), startup_attempts: startupAttempts, results };
   evidence.executionSucceeded(report);
   console.log(`decision=PASS screenshots=${screenshotCount} states=${[...new Set(results.map((result) => result.state))].join(",")}`);
 } catch (error) {
@@ -164,7 +165,7 @@ try {
   cdp?.close(); stopOwnedProcessTree(chrome); server?.kill();
   try { cleanupFixture({ strict: true }); } catch (error) { evidence.cleanupFailed(error); }
   if (studentUserId) { try { const admin = createClient(runtime.apiUrl, runtime.serviceRoleKey, { auth: { persistSession: false, autoRefreshToken: false } }); const deleted = await admin.auth.admin.deleteUser(studentUserId); if (deleted.error) throw deleted.error; } catch (error) { evidence.cleanupFailed(error); } }
-  try { rmSync(profileDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 300 }); } catch (error) { evidence.cleanupFailed(error); }
+  try { await removeQaProfileDir(profileDir); } catch (error) { evidence.cleanupFailed(error); }
   evidence.finalize();
 }
 

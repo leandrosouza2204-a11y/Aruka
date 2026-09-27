@@ -9,6 +9,8 @@ import { readLocalSupabaseRuntime } from "./lib/local-supabase-runtime.mjs";
 import { runPsql } from "./supabase-cycle-8-lib.mjs";
 import { beginVisualQaEvidence } from "./lib/visual-qa-evidence.mjs";
 import { stopOwnedProcessTree } from "./lib/qa-process-cleanup.mjs";
+import { resolveCycle1214Viewports } from "./lib/cycle-12-14-viewport-matrix.mjs";
+import { getCdpWebSocketUrl, navigateWithReactReadiness, removeQaProfileDir, startChromeQa, startViteQaServer, waitForViteStop } from "./lib/browser-qa-runtime.mjs";
 
 loadQaEnvFile(".env.local");
 loadQaEnvFile(".env.qa.local");
@@ -30,14 +32,14 @@ const exerciseMissingMedia = "00000000-0000-4000-8000-000000004852";
 const screenshotDir = join("tmp-responsive-screenshots", "cycle-12-4-training-library");
 const profileDir = join(tmpdir(), `aruka-cycle-12-4-chrome-${process.pid}`);
 const cdpPort = 9950 + Math.floor(Math.random() * 40);
-const viewports = [
+const viewports = resolveCycle1214Viewports([
   { name: "mobile-320", width: 320, height: 800, mobile: true },
   { name: "mobile-375", width: 375, height: 812, mobile: true },
   { name: "mobile-390", width: 390, height: 844, mobile: true },
   { name: "mobile-430", width: 430, height: 932, mobile: true },
   { name: "tablet-768", width: 768, height: 1024, mobile: true },
   { name: "desktop-1280", width: 1280, height: 900, mobile: false },
-];
+]);
 
 let server;
 let chrome;
@@ -46,6 +48,7 @@ let studentUserId;
 let startedSessionId;
 let screenshotCount = 0;
 const results = [];
+const startupAttempts = [];
 const evidence = beginVisualQaEvidence({
   gate: "CYCLE_12_4_TRAINING_LIBRARY_VISUAL",
   reportPath: "reports/cycle-12-4-training-library-visual.json",
@@ -64,24 +67,22 @@ try {
   const login = await student.auth.signInWithPassword({ email, password });
   if (login.error) throw login.error;
 
-  await ensureFrontend();
-  chrome = await startChrome();
-  cdp = createCdpClient(await getWebSocketUrl());
+  const viteStartup = await startViteQaServer({ port: 5184, env: { VITE_STUDENT_EXPERIENCE_V2_ENABLED: "true" } }); server = viteStartup.child; startupAttempts.push({ component: "vite-on", attempts: viteStartup.attempts });
+  const chromeStartup = await startChromeQa({ cdpPort, profileDir }); chrome = chromeStartup.child; startupAttempts.push({ component: "chrome", attempts: chromeStartup.attempts });
+  cdp = createCdpClient(await getCdpWebSocketUrl(cdpPort));
   await cdp.ready;
   await cdp.send("Page.enable");
   await cdp.send("Runtime.enable");
   await cdp.send("Network.enable");
   await setViewport(cdp, viewports[1]);
-  await cdp.send("Page.navigate", { url: `${appBaseUrl}/login` });
-  await waitFor(cdp, "document.readyState !== 'loading'");
+  const loginStartup = await navigateWithReactReadiness(cdp, `${appBaseUrl}/login`, "document.querySelector('#root')?.childElementCount > 0"); startupAttempts.push({ component: "login-route", attempts: loginStartup.attempts });
   const session = login.data.session;
   const sessionReady = await evaluate(cdp, `(async () => {
     const { supabase } = await import('/src/services/supabase.js');
     return !(await supabase.auth.setSession({ access_token: ${JSON.stringify(session.access_token)}, refresh_token: ${JSON.stringify(session.refresh_token)} })).error;
   })()`);
   assert(sessionReady);
-  await cdp.send("Page.navigate", { url: `${appBaseUrl}/minha-area/inicio` });
-  await waitFor(cdp, "document.querySelector('[data-testid=\"student-home-v2\"]')", 30000);
+  const homeStartup = await navigateWithReactReadiness(cdp, `${appBaseUrl}/minha-area/inicio`, "document.querySelector('[data-testid=\"student-home-v2\"]')", { timeoutMs: 30_000 }); startupAttempts.push({ component: "home-route", attempts: homeStartup.attempts });
   await evaluate(cdp, `document.querySelector('a[href="/minha-area/treinos"]').focus()`);
   await cdp.send("Input.dispatchKeyEvent", { type: "keyDown", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13 });
   await cdp.send("Input.dispatchKeyEvent", { type: "keyUp", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13 });
@@ -187,13 +188,15 @@ try {
   evidence.scenario("empty", "PASS");
 
   server.kill();
-  await waitForFrontendStop();
-  await ensureFrontend("false");
-  await cdp.send("Page.navigate", { url: `${appBaseUrl}/minha-area/treinos` });
-  await waitFor(cdp, "location.pathname === '/minha-area'", 30000);
+  await waitForViteStop(appBaseUrl);
+  const viteOffStartup = await startViteQaServer({ port: 5184, env: { VITE_STUDENT_EXPERIENCE_V2_ENABLED: "false" } }); server = viteOffStartup.child; startupAttempts.push({ component: "vite-off", attempts: viteOffStartup.attempts });
+  await evaluate(cdp, "(async()=>{for(const registration of await navigator.serviceWorker?.getRegistrations?.()||[]) await registration.unregister();return true})()");
+  await cdp.send("Network.clearBrowserCache");
+  const rolloutOffStartup = await navigateWithReactReadiness(cdp, `${appBaseUrl}/minha-area/treinos?qa_rollout_off=${Date.now()}`, "location.pathname === '/minha-area'", { timeoutMs: 30_000 });
+  startupAttempts.push({ component: "rollout-off-route", attempts: rolloutOffStartup.attempts });
   results.push({ state: "rollout-off", destination: "/minha-area", status: "PASS" });
 
-  const report = { decision: "PASS", scope: "CYCLE_12_4_TRAINING_LIBRARY_VISUAL", database_target: "LOCAL", production_accessed: false, production_mutated: false, screenshots: screenshotCount, viewports: viewports.map(({ name }) => name), results };
+  const report = { decision: "PASS", scope: "CYCLE_12_4_TRAINING_LIBRARY_VISUAL", database_target: "LOCAL", production_accessed: false, production_mutated: false, screenshots: screenshotCount, viewports: viewports.map(({ name }) => name), startup_attempts: startupAttempts, results };
   evidence.executionSucceeded(report);
   console.log(`decision=PASS screenshots=${screenshotCount} states=${[...new Set(results.map((result) => result.state))].join(",")}`);
 } catch (error) {
@@ -211,7 +214,7 @@ try {
       if (deleted.error) throw deleted.error;
     } catch (error) { evidence.cleanupFailed(error); }
   }
-  try { rmSync(profileDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 300 }); } catch (error) { evidence.cleanupFailed(error); }
+  try { await removeQaProfileDir(profileDir); } catch (error) { evidence.cleanupFailed(error); }
   evidence.finalize();
 }
 
@@ -243,8 +246,8 @@ function scalar(statement) {
 }
 
 async function navigateToLibrary() {
-  await cdp.send("Page.navigate", { url: `${appBaseUrl}/minha-area/treinos` });
-  await waitFor(cdp, "document.querySelector('[data-testid=\"student-training-library-v2\"]')", 30000);
+  const routeStartup = await navigateWithReactReadiness(cdp, `${appBaseUrl}/minha-area/treinos`, "document.querySelector('[data-testid=\"student-training-library-v2\"]')", { timeoutMs: 30_000 });
+  startupAttempts.push({ component: "library-route", attempts: routeStartup.attempts });
 }
 
 async function ensureFrontend(enabled = "true") {

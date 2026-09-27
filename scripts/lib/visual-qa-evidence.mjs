@@ -1,4 +1,4 @@
-import { closeSync, existsSync, mkdirSync, openSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
+import { closeSync, existsSync, fsyncSync, mkdirSync, openSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { randomUUID } from "node:crypto";
 import { spawnSync } from "node:child_process";
@@ -29,11 +29,48 @@ function processIsRunning(pid) {
   }
 }
 
-export function atomicWriteJson(path, payload) {
+const WINDOWS_TRANSIENT_RENAME_CODES = new Set(["EPERM", "EACCES", "EBUSY"]);
+
+function synchronousDelay(milliseconds) {
+  if (milliseconds <= 0) return;
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, milliseconds);
+}
+
+export function atomicWriteJson(path, payload, {
+  platform = process.platform,
+  rename = renameSync,
+  delay = synchronousDelay,
+  retryDelaysMs = [50, 100, 250, 500, 1_000, 2_000, 3_000],
+  createId = randomUUID,
+} = {}) {
   mkdirSync(dirname(path), { recursive: true });
-  const temporary = `${path}.${process.pid}.${randomUUID()}.tmp`;
-  writeFileSync(temporary, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
-  renameSync(temporary, path);
+  const temporary = `${path}.${process.pid}.${createId()}.tmp`;
+  let handle;
+  try {
+    handle = openSync(temporary, "wx");
+    writeFileSync(handle, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+    fsyncSync(handle);
+  } finally {
+    if (handle !== undefined) closeSync(handle);
+  }
+
+  let attempt = 0;
+  while (true) {
+    try {
+      rename(temporary, path);
+      return { path, temporary, attempts: attempt + 1 };
+    } catch (error) {
+      const retryable = platform === "win32"
+        && WINDOWS_TRANSIENT_RENAME_CODES.has(error?.code)
+        && attempt < retryDelaysMs.length;
+      if (!retryable) {
+        error.atomicWrite = { path, temporary, attempts: attempt + 1, retryable: false };
+        throw error;
+      }
+      delay(retryDelaysMs[attempt]);
+      attempt += 1;
+    }
+  }
 }
 
 export function beginVisualQaEvidence({
@@ -44,6 +81,7 @@ export function beginVisualQaEvidence({
   requiredScenarios = [],
   setProcessExitCode = true,
   now = () => new Date(),
+  writeJson = atomicWriteJson,
   runId = `${gate.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${Date.now()}-${randomUUID().slice(0, 8)}`,
 } = {}) {
   if (!gate || !reportPath) throw new Error("gate e reportPath são obrigatórios.");
@@ -79,7 +117,7 @@ export function beginVisualQaEvidence({
         finished_at: now().toISOString(),
         failures: [{ phase: "setup", name: "ConcurrentExecution", message: `Gate already running as ${owner.run_id || "unknown run"}.`, code: "QA_GATE_CONCURRENT" }],
       };
-      atomicWriteJson(`${absoluteReportPath}.${runId}.json`, blocked);
+      writeJson(`${absoluteReportPath}.${runId}.json`, blocked);
       const error = new Error(blocked.failures[0].message);
       error.code = "QA_GATE_CONCURRENT";
       throw error;
@@ -93,7 +131,7 @@ export function beginVisualQaEvidence({
     writeFileSync(lockHandle, JSON.stringify({ run_id: runId, pid: process.pid, started_at: startedAt }));
   } catch (error) {
     const blocked = { ...base, decision: "BLOCKED", finished_at: now().toISOString(), failures: [serializeError(error, "setup")] };
-    atomicWriteJson(`${absoluteReportPath}.${runId}.json`, blocked);
+    writeJson(`${absoluteReportPath}.${runId}.json`, blocked);
     throw error;
   } finally {
     if (lockHandle !== undefined) closeSync(lockHandle);
@@ -102,9 +140,14 @@ export function beginVisualQaEvidence({
   let state = base;
   let executionPassed = false;
   let finalized = false;
-  atomicWriteJson(absoluteReportPath, state);
+  try {
+    writeJson(absoluteReportPath, state);
+  } catch (error) {
+    rmSync(lockPath, { force: true });
+    throw error;
+  }
 
-  const persist = () => atomicWriteJson(absoluteReportPath, state);
+  const persist = () => writeJson(absoluteReportPath, state);
   return {
     runId,
     reportPath: absoluteReportPath,
@@ -143,8 +186,7 @@ export function beginVisualQaEvidence({
       }
       const decision = executionPassed && state.failures.length === 0 && cleanup.status !== "FAIL" ? "PASS" : (state.decision === "BLOCKED" ? "BLOCKED" : "FAIL");
       state = { ...state, decision, cleanup, finished_at: now().toISOString(), current_run: true };
-      persist();
-      rmSync(lockPath, { force: true });
+      try { persist(); } finally { rmSync(lockPath, { force: true }); }
       if (setProcessExitCode && decision !== "PASS") process.exitCode = 1;
       return state;
     },

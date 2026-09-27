@@ -1,0 +1,68 @@
+{
+  "evidence_contract_version": 1,
+  "run_id": "cycle-12-14-harness-integrity-1790487166362-bc389481",
+  "gate": "CYCLE_12_14_HARNESS_INTEGRITY",
+  "decision": "PASS",
+  "current_run": true,
+  "started_at": "2026-09-27T05:32:46.362Z",
+  "finished_at": "2026-09-27T05:32:50.016Z",
+  "head": "407e48761224a8c7bd4979791ad09f337d160e68",
+  "branch": "main",
+  "environment": "LOCAL",
+  "production_accessed": false,
+  "required_scenarios": [
+    "fault-injection",
+    "fail-closed",
+    "concurrency-isolation"
+  ],
+  "scenarios": [
+    {
+      "name": "fault-injection",
+      "status": "PASS",
+      "transient_recovery": true,
+      "persistent_failure": true,
+      "functional_assertion_not_retried": true,
+      "product_error_remains_fail": true
+    },
+    {
+      "name": "fail-closed",
+      "status": "PASS",
+      "stale_pass_rejected": true,
+      "current_run_id": true,
+      "current_head": true,
+      "timestamps": true,
+      "evidence_write_failure": true,
+      "non_pass_exit": true
+    },
+    {
+      "name": "concurrency-isolation",
+      "status": "PASS",
+      "per_gate_lock": true,
+      "unique_temp_files": true,
+      "concurrent_evidence_not_mixed": true
+    }
+  ],
+  "failures": [],
+  "cleanup": {
+    "attempted": false,
+    "status": "NOT_REQUIRED",
+    "failures": []
+  },
+  "suites": [
+    "scripts/lib/visual-qa-evidence.test.mjs",
+    "scripts/lib/browser-qa-runtime.test.mjs",
+    "scripts/lib/cycle-12-14-viewport-matrix.test.mjs",
+    "scripts/lib/cycle-12-14-suite-runner.test.mjs",
+    "scripts/lib/cycle-12-14-network-matrix.test.mjs"
+  ],
+  "test_output": [
+    "ℹ tests 23",
+    "ℹ suites 0",
+    "ℹ pass 23",
+    "ℹ fail 0",
+    "ℹ cancelled 0",
+    "ℹ skipped 0",
+    "ℹ todo 0",
+    "ℹ duration_ms 3188.1361"
+  ]
+}

@@ -1,5 +1,5 @@
 import { Activity, AlertCircle, CalendarDays, ClipboardList, Dumbbell, RefreshCcw, Scale } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   buscarMeuHistoricoValidoV2,
   buscarMinhaFrequenciaAlunoV2,
@@ -11,6 +11,7 @@ import {
   formatEvolutionDate,
   formatMeasurement,
 } from "../domain/studentEvolutionV2.js";
+import { createLatestRequestGuard } from "../profile/latestRequestGuard.js";
 
 const loadingState = () => ({ status: "loading", data: null, error: null });
 
@@ -18,39 +19,50 @@ function StudentEvolutionV2() {
   const [frequency, setFrequency] = useState(loadingState);
   const [history, setHistory] = useState(loadingState);
   const [assessments, setAssessments] = useState(loadingState);
+  const frequencyGuard = useRef(createLatestRequestGuard());
+  const historyGuard = useRef(createLatestRequestGuard());
+  const assessmentsGuard = useRef(createLatestRequestGuard());
 
   const loadFrequency = useCallback(async () => {
+    const version = frequencyGuard.current.start();
     await Promise.resolve();
     setFrequency(loadingState());
-    try { setFrequency({ status: "success", data: await buscarMinhaFrequenciaAlunoV2(), error: null }); }
-    catch (error) { setFrequency({ status: "error", data: null, error }); }
+    try { const data = await buscarMinhaFrequenciaAlunoV2(); if (frequencyGuard.current.isCurrent(version)) setFrequency({ status: "success", data, error: null }); }
+    catch (error) { if (frequencyGuard.current.isCurrent(version)) setFrequency({ status: "error", data: null, error }); }
   }, []);
   const loadHistory = useCallback(async () => {
+    const version = historyGuard.current.start();
     await Promise.resolve();
     setHistory(loadingState());
-    try { setHistory({ status: "success", data: await buscarMeuHistoricoValidoV2(20), error: null }); }
-    catch (error) { setHistory({ status: "error", data: null, error }); }
+    try { const data = await buscarMeuHistoricoValidoV2(20); if (historyGuard.current.isCurrent(version)) setHistory({ status: "success", data, error: null }); }
+    catch (error) { if (historyGuard.current.isCurrent(version)) setHistory({ status: "error", data: null, error }); }
   }, []);
   const loadAssessments = useCallback(async () => {
+    const version = assessmentsGuard.current.start();
     await Promise.resolve();
     setAssessments(loadingState());
-    try { setAssessments({ status: "success", data: await buscarMinhasAvaliacoesAlunoV2(), error: null }); }
-    catch (error) { setAssessments({ status: "error", data: null, error }); }
+    try { const data = await buscarMinhasAvaliacoesAlunoV2(); if (assessmentsGuard.current.isCurrent(version)) setAssessments({ status: "success", data, error: null }); }
+    catch (error) { if (assessmentsGuard.current.isCurrent(version)) setAssessments({ status: "error", data: null, error }); }
   }, []);
 
   useEffect(() => {
-    let active = true;
-    buscarMinhaFrequenciaAlunoV2()
-      .then((data) => { if (active) setFrequency({ status: "success", data, error: null }); })
-      .catch((error) => { if (active) setFrequency({ status: "error", data: null, error }); });
-    buscarMeuHistoricoValidoV2(20)
-      .then((data) => { if (active) setHistory({ status: "success", data, error: null }); })
-      .catch((error) => { if (active) setHistory({ status: "error", data: null, error }); });
-    buscarMinhasAvaliacoesAlunoV2()
-      .then((data) => { if (active) setAssessments({ status: "success", data, error: null }); })
-      .catch((error) => { if (active) setAssessments({ status: "error", data: null, error }); });
-    return () => { active = false; };
-  }, []);
+    const activeFrequencyGuard = frequencyGuard.current;
+    const activeHistoryGuard = historyGuard.current;
+    const activeAssessmentsGuard = assessmentsGuard.current;
+    let mounted = true;
+    queueMicrotask(() => {
+      if (!mounted) return;
+      void loadFrequency();
+      void loadHistory();
+      void loadAssessments();
+    });
+    return () => {
+      mounted = false;
+      activeFrequencyGuard.invalidate();
+      activeHistoryGuard.invalidate();
+      activeAssessmentsGuard.invalidate();
+    };
+  }, [loadAssessments, loadFrequency, loadHistory]);
 
   const workoutItems = useMemo(() => buildWorkoutEvolutionHistory(history.data || []), [history.data]);
   const assessmentView = useMemo(() => buildAssessmentEvolution(assessments.data || {}), [assessments.data]);
