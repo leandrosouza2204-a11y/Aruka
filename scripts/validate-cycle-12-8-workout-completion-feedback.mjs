@@ -23,6 +23,7 @@ const checks = [
   ["known backend gates are sanitized without exposing raw database errors", /SHORT_WORKOUT_CONFIRMATION_REQUIRED/.test(executionService) && /ZERO_COMPLETED_SETS/.test(executionService) && /WORKOUT_EXECUTION_FAILED/.test(executionService)],
   ["ambiguous failures reconcile before retry and preserve feedback", /Verificando se o treino foi concluído/.test(player) && /Seu feedback foi preservado/.test(player) && /status === "completed"/.test(player)],
   ["reload renders a backend-confirmed result summary and persisted feedback", /workout-completion-result/.test(player) && /deriveWorkoutCompletionSummary/.test(domain + player) && /'feedback'/.test(migration)],
+  ["server-confirmed completion refreshes shared student state", /result\?\.status !== "completed"[\s\S]*refreshAfterConfirmedSessionTransition\(result, reloadStudentExperience\)/.test(player)],
   ["feedback is not stored in local or session storage", !/(localStorage|sessionStorage)[\s\S]{0,120}feedback/i.test(player + playerService + executionService)],
   ["completion dialog and result retain keyboard and reduced-motion foundations", /<dialog aria-labelledby="complete-workout-title"/.test(player) && /aria-invalid/.test(player) && /focus-visible/.test(css) && /prefers-reduced-motion/.test(css)],
 ];

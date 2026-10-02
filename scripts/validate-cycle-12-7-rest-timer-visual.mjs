@@ -96,13 +96,12 @@ try {
   const started = await timerState(cdp);
   assert.equal(started.status, "active");
   assert.ok(started.remaining > 0 && started.remaining <= 300);
-  await scrollTimer(cdp);
+  assert.equal((await auditTimerViewport(cdp)).withinViewport, true);
   await screenshot(cdp, "mobile-390-rest-started.png");
-  results.push({ state: "rest-started", identity: started.identity, remainingSeconds: started.remaining, status: "PASS" });
+  results.push({ state: "rest-started", identity: started.identity, remainingSeconds: started.remaining, visibleWithoutScroll: true, status: "PASS" });
 
   for (const viewport of viewports) {
     await setViewport(cdp, viewport);
-    await scrollTimer(cdp);
     await prepareKeyboardFocus(cdp);
     await cdp.send("Input.dispatchKeyEvent", { type: "keyDown", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9 });
     await cdp.send("Input.dispatchKeyEvent", { type: "keyUp", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9 });
@@ -112,6 +111,7 @@ try {
     assert.ok(audit.counterFontSize >= 28, `${viewport.name}: contador ilegível`);
     assert.equal(audit.keyboardFocused, true, `${viewport.name}: controle sem foco por teclado`);
     assert.notEqual(audit.focusOutlineStyle, "none", `${viewport.name}: foco sem indicação visível`);
+    assert.equal(audit.withinViewport, true, `${viewport.name}: timer fora da viewport`);
     await screenshot(cdp, `${viewport.name}-rest-active.png`);
     results.push({ state: "rest-active", viewport: viewport.name, ...audit, status: "PASS" });
   }
@@ -122,7 +122,6 @@ try {
   const afterReload = await timerState(cdp);
   assert.equal(afterReload.identity, beforeReload.identity);
   assert.ok(afterReload.remaining <= beforeReload.remaining);
-  await scrollTimer(cdp);
   await screenshot(cdp, "desktop-1280-rest-reloaded.png");
   results.push({ state: "rest-reloaded", sameIdentity: true, didNotRestart: true, status: "PASS" });
 
@@ -132,7 +131,6 @@ try {
   await cdp.send("Fetch.failRequest", { requestId: paused, errorReason: "ConnectionFailed" });
   await cdp.send("Fetch.disable");
   await waitFor(cdp, "document.body.innerText.includes('última âncora confirmada')", 30000);
-  await scrollTimer(cdp);
   await screenshot(cdp, "desktop-1280-rest-recoverable-read-error.png");
   results.push({ state: "recoverable-read-error", timerPreserved: true, retryAvailable: await evaluate(cdp, "Boolean([...document.querySelectorAll('.workout-player-rest button')].find((button)=>button.innerText.includes('Sincronizar')))"), status: "PASS" });
 
@@ -140,7 +138,6 @@ try {
   await cdp.send("Page.reload", { ignoreCache: true });
   await waitFor(cdp, "document.querySelector('.workout-player-rest[data-rest-status=\"completed\"]')", 30000);
   assert.equal((await timerState(cdp)).remaining, 0);
-  await scrollTimer(cdp);
   await screenshot(cdp, "desktop-1280-rest-completed.png");
   results.push({ state: "rest-completed", negativeCountdown: false, status: "PASS" });
 
@@ -148,6 +145,23 @@ try {
   await waitFor(cdp, "!document.querySelector('.workout-player-rest')");
   await screenshot(cdp, "desktop-1280-rest-dismissed.png");
   results.push({ state: "rest-dismissed", canonicalSetStillCompleted: await evaluate(cdp, "Boolean(document.querySelector('.workout-player-set-selector button.is-complete'))"), status: "PASS" });
+
+  for (const setNumber of [2, 3]) {
+    await fillFirstInput(cdp, "10");
+    await evaluate(cdp, "document.querySelector('.workout-player-complete-set').click()");
+    await waitFor(cdp, `document.querySelectorAll('.workout-player-set-selector button.is-complete').length === ${setNumber}`, 30000);
+    if (setNumber < 3) {
+      await waitFor(cdp, "document.querySelector('.workout-player-rest[data-rest-status=\"active\"]')", 30000);
+      await evaluate(cdp, "[...document.querySelectorAll('.workout-player-rest button')].find((button)=>button.innerText.includes('Dispensar')).click()");
+      await waitFor(cdp, "!document.querySelector('.workout-player-rest')");
+    }
+  }
+  await waitFor(cdp, "document.querySelector('.workout-player-exercise-complete') && document.body.innerText.includes('Exercício concluído')", 30000);
+  await waitFor(cdp, "(() => { const rect = document.querySelector('.workout-player-exercise-complete').getBoundingClientRect(); return rect.top >= 0 && rect.bottom <= window.innerHeight; })()", 30000);
+  assert.equal(await evaluate(cdp, "document.querySelectorAll('.workout-player-set-selector button').length"), 3);
+  assert(await evaluate(cdp, "document.querySelector('.workout-player-progress').innerText.includes('3 de 3 séries concluídas')"));
+  await screenshot(cdp, "desktop-1280-exercise-completed.png");
+  results.push({ state: "exercise-completed", confirmedSets: 3, inventedSets: 0, automaticNavigation: false, status: "PASS" });
 
   runPsql(process.cwd(), `update public.workout_execution_sessions set status='cancelled',cancelled_at=now(),cancellation_reason='synthetic visual terminal' where id='${ids.session}';`);
   await cdp.send("Page.reload", { ignoreCache: true });
@@ -211,9 +225,9 @@ async function setViewport(client, viewport) { await client.send("Emulation.setD
 async function fillFirstInput(client, value) { await evaluate(client, `(() => { const input=document.querySelector('.workout-player-set-form input'); const setter=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set; setter.call(input,${JSON.stringify(value)}); input.dispatchEvent(new Event('input',{bubbles:true})); })()`); }
 async function auditPage(client) { return evaluate(client, "({noHorizontalOverflow:document.documentElement.scrollWidth<=innerWidth+1, timerVisible:Boolean(document.querySelector('.workout-player-rest'))})"); }
 async function prepareKeyboardFocus(client) { await evaluate(client, `(() => { document.querySelector('[data-rest-focus-sentinel]')?.remove(); const timer=document.querySelector('.workout-player-rest'); const sentinel=document.createElement('button'); sentinel.dataset.restFocusSentinel='true'; sentinel.style.position='fixed'; sentinel.style.left='-9999px'; timer.querySelector('.workout-player-rest-actions').prepend(sentinel); sentinel.focus(); })()`); }
-async function auditTimer(client) { return evaluate(client, `(() => { const timer=document.querySelector('.workout-player-rest'); const sentinel=timer.querySelector('[data-rest-focus-sentinel]'); const targets=[...timer.querySelectorAll('button')].filter((item)=>item!==sentinel&&!item.disabled&&item.getClientRects().length); const control=targets.at(-1); sentinel.remove(); const counter=timer.querySelector('.workout-player-rest-copy>strong'); return {noHorizontalOverflow:document.documentElement.scrollWidth<=innerWidth+1,minimumTarget:Math.min(...targets.map((item)=>item.getBoundingClientRect().height)),counterFontSize:parseFloat(getComputedStyle(counter).fontSize),liveRegions:timer.querySelectorAll('[aria-live]').length,keyboardFocused:document.activeElement===control,focusOutlineStyle:getComputedStyle(control).outlineStyle};})()`); }
+async function auditTimer(client) { return evaluate(client, `(() => { const timer=document.querySelector('.workout-player-rest'); const sentinel=timer.querySelector('[data-rest-focus-sentinel]'); const targets=[...timer.querySelectorAll('button')].filter((item)=>item!==sentinel&&!item.disabled&&item.getClientRects().length); const control=targets.at(-1); sentinel.remove(); const counter=timer.querySelector('.workout-player-rest-copy>strong'); const rect=timer.getBoundingClientRect(); return {noHorizontalOverflow:document.documentElement.scrollWidth<=innerWidth+1,withinViewport:rect.top>=0&&rect.bottom<=innerHeight+1,minimumTarget:Math.min(...targets.map((item)=>item.getBoundingClientRect().height)),counterFontSize:parseFloat(getComputedStyle(counter).fontSize),liveRegions:timer.querySelectorAll('[aria-live]').length,keyboardFocused:document.activeElement===control,focusOutlineStyle:getComputedStyle(control).outlineStyle};})()`); }
+async function auditTimerViewport(client) { return evaluate(client, `(()=>{const rect=document.querySelector('.workout-player-rest').getBoundingClientRect();return{withinViewport:rect.top>=0&&rect.bottom<=innerHeight+1,scrollY}})()`); }
 async function timerState(client) { return evaluate(client, `(() => { const timer=document.querySelector('.workout-player-rest'); return {identity:timer.dataset.restIdentity,status:timer.dataset.restStatus,remaining:Number(timer.querySelector('.workout-player-rest-copy>strong').getAttribute('aria-label').match(/\\d+/)?.[0]||0)};})()`); }
-async function scrollTimer(client) { await evaluate(client, "document.querySelector('.workout-player-rest')?.scrollIntoView({block:'center'})"); }
 async function screenshot(client, name) { mkdirSync(screenshotDir, { recursive: true }); const result = await client.send("Page.captureScreenshot", { format: "png", fromSurface: true, captureBeyondViewport: false }); writeFileSync(join(screenshotDir, name), Buffer.from(result.data, "base64")); screenshotCount += 1; }
 async function evaluate(client, expression) { const response = await client.send("Runtime.evaluate", { expression, awaitPromise: true, returnByValue: true }); if (response.exceptionDetails) throw new Error(response.exceptionDetails.text); return response.result.value; }
 async function waitFor(client, expression, timeout = 20000) { const started = Date.now(); while (Date.now() - started < timeout) { if (await evaluate(client, `Boolean(${expression})`)) return; await sleep(200); } throw new Error(`Timeout aguardando ${expression}`); }

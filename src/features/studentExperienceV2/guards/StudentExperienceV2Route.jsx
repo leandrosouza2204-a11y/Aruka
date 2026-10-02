@@ -12,7 +12,7 @@ function StudentExperienceV2Route({ children }) {
 
   const load = useCallback(async () => {
     if (!enabled) return null;
-    setState((current) => ({ ...current, status: "loading", error: null }));
+    setState({ status: "loading", home: null, error: null });
     try {
       const home = await buscarMinhaHomeAlunoV2();
       setState({ status: "success", home, error: null });

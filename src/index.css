@@ -28,9 +28,9 @@
 }
 .workout-player *, .workout-player-dialog * { box-sizing: border-box; min-width: 0; }
 .workout-player-header { align-items: center; background: rgba(243,247,245,.96); display: grid; gap: 12px; grid-template-columns: 44px minmax(0,1fr) 44px; padding: max(12px, env(safe-area-inset-top, 0px)) 0 12px; position: sticky; top: 0; z-index: 20; }
-.workout-player-header-copy { display: grid; justify-items: center; overflow: hidden; }
-.workout-player-header-copy span { color: var(--player-muted); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.workout-player-header-copy strong { font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.workout-player-header-copy { display: grid; justify-items: center; min-width: 0; overflow: visible; text-align: center; }
+.workout-player-header-copy span { color: var(--player-muted); font-size: 12px; line-height: 1.35; max-width: 100%; overflow-wrap: anywhere; white-space: normal; }
+.workout-player-header-copy strong { font-size: 15px; line-height: 1.35; max-width: 100%; overflow-wrap: anywhere; white-space: normal; }
 .workout-player-icon-button { align-items: center; background: transparent; border: 0; border-radius: 12px; color: var(--player-ink); cursor: pointer; display: inline-flex; height: 44px; justify-content: center; width: 44px; }
 .workout-player-icon-button:hover { background: var(--player-soft); }
 .workout-player-progress { padding: 14px 0 20px; }
@@ -58,7 +58,7 @@
 .workout-player-note { border-top: 1px solid var(--player-border); margin-top: 18px; padding-top: 16px; }
 .workout-player-note strong { display: block; font-size: 13px; margin-bottom: 4px; }
 .workout-player-set-stage { background: #fff; border: 1px solid #bbcec5; border-radius: 16px; margin-top: 14px; padding: clamp(16px,4vw,24px); }
-.workout-player-rest { align-items: center; background: #f3f8f5; border: 1px solid #a9cbbc; border-radius: 16px; display: grid; gap: 12px; grid-template-columns: auto minmax(0,1fr) auto; margin: 14px 0; padding: 14px 16px; }
+.workout-player-rest { align-items: center; background: #f3f8f5; border: 1px solid #77ad95; border-radius: 16px; box-shadow: 0 18px 44px rgba(18,48,37,.2); display: grid; gap: 12px; grid-template-columns: auto minmax(0,1fr) auto; left: 50%; margin: 0; max-width: min(720px,calc(100vw - 24px)); padding: 14px 16px; position: fixed; top: max(var(--workout-player-rest-top,72px),calc(env(safe-area-inset-top, 0px) + 64px)); transform: translateX(-50%); width: calc(100% - 24px); z-index: 40; }
 .workout-player-rest.is-complete { background: #f7f7f4; border-color: #c8c8bd; }
 .workout-player-rest-icon { align-items: center; background: #dcefe6; border-radius: 50%; color: var(--player-brand-dark); display: flex; height: 44px; justify-content: center; width: 44px; }
 .workout-player-rest.is-complete .workout-player-rest-icon { background: #e8e8e1; color: #39453f; }
@@ -97,6 +97,10 @@
 .workout-player-completed-set dl div { background: #fff; border-radius: 9px; padding: 9px 10px; }
 .workout-player-completed-set dt { color: var(--player-muted); font-size: 11px; }
 .workout-player-completed-set dd { font-size: 14px; font-weight: 800; margin-top: 2px; }
+.workout-player-exercise-complete { align-items: flex-start; background: #daf0e5; border: 1px solid #89bea5; border-radius: 12px; color: var(--player-brand-dark); display: flex; gap: 10px; margin-top: 14px; padding: 13px 14px; }
+.workout-player-exercise-complete svg { flex: 0 0 auto; margin-top: 1px; }
+.workout-player-exercise-complete strong { display: block; }
+.workout-player-exercise-complete p { color: #315f4d; margin-top: 3px; }
 .is-spinning { animation: workout-player-spin .8s linear infinite; }
 @keyframes workout-player-spin { to { transform: rotate(360deg); } }
 .workout-player-actions { align-items: stretch; background: rgba(243,247,245,.97); bottom: 0; display: grid; gap: 8px; grid-template-columns: repeat(3,minmax(0,1fr)); left: 0; margin: 22px auto 0; max-width: 760px; padding: 12px clamp(16px, 4vw, 34px) max(12px, env(safe-area-inset-bottom, 0px)); position: fixed; right: 0; z-index: 20; }
@@ -104,7 +108,7 @@
 .workout-player-button.is-primary { background: var(--player-brand); border-color: var(--player-brand); color: #fff; }
 .workout-player-button.is-danger { background: #a83232; border-color: #a83232; color: #fff; }
 .workout-player-button:disabled, .workout-player-skip:disabled { cursor: wait; opacity: .48; }
-.workout-player-skip { background: transparent; border: 0; color: var(--player-muted); cursor: pointer; display: inline-flex; grid-column: 1/2; justify-content: center; min-height: 44px; padding: 8px; }
+.workout-player-skip { align-items: center; background: #fff; border: 1px solid #9eb9ad; border-radius: 12px; color: var(--player-brand-dark); cursor: pointer; display: inline-flex; font-weight: 800; gap: 7px; grid-column: 1/2; justify-content: center; min-height: 44px; padding: 8px; }
 .workout-player-complete-workout { grid-column: 2/-1; min-height: 50px; }
 .workout-player-icon-button:focus-visible, .workout-player-button:focus-visible, .workout-player-skip:focus-visible, .workout-player-exercise-list button:focus-visible { outline: 3px solid #68d8ae; outline-offset: 2px; }
 .workout-player-dialog { background: #fff; border: 0; border-radius: 20px; color: #17211d; margin: auto; max-height: min(80dvh,700px); max-width: min(560px,calc(100vw - 24px)); padding: 22px; width: 100%; }
@@ -304,6 +308,7 @@
 .student-evolution-timeline div { display: grid; gap: 3px; }
 .student-evolution-timeline strong { margin: 0; }
 .student-evolution-timeline span { color: var(--student-v2-ink); font-size: 13px; }
+.student-evolution-detail-link { justify-self: start; margin-top: 7px; min-height: 44px; }
 .student-evolution-assessment-summary { align-items: center; background: var(--student-v2-brand-soft); border-radius: 13px; display: flex; gap: 12px; margin-bottom: 14px; padding: 15px; }
 .student-evolution-assessment-summary svg { color: var(--student-v2-brand); flex: 0 0 auto; }
 .student-evolution-assessment-summary div { display: grid; gap: 3px; }

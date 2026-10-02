@@ -1,17 +1,19 @@
 {
   "evidence_contract_version": 1,
-  "run_id": "cycle-12-5-workout-player-visual-1790439337480-de9d3e5f",
+  "run_id": "cycle-12-5-workout-player-visual-1790910816153-6eaa801d",
   "gate": "CYCLE_12_5_WORKOUT_PLAYER_VISUAL",
   "decision": "PASS",
   "current_run": true,
-  "started_at": "2026-09-26T16:15:37.481Z",
-  "finished_at": "2026-09-26T16:16:35.681Z",
-  "head": "c9ef3f8d185c2f67ea4727242719513a4d4b4a72",
+  "started_at": "2026-10-02T03:13:36.153Z",
+  "finished_at": "2026-10-02T03:14:39.137Z",
+  "head": "abe9e0c9a5359df5d09b5b182b00c7670bccb29c",
   "branch": "main",
   "environment": "LOCAL",
   "production_accessed": false,
   "required_scenarios": [
     "viewport-matrix",
+    "live-revalidation-continuity",
+    "header-reflow",
     "loading",
     "recoverable-error",
     "resume",
@@ -19,15 +21,33 @@
   ],
   "scenarios": [
     {
+      "name": "live-revalidation-continuity",
+      "status": "PASS",
+      "draft_fields": 4,
+      "exercise_identity": "stable",
+      "foreground_immediate": true,
+      "module_boundary_reconstructed": true,
+      "skeleton_observed": true,
+      "partial_set": 2
+    },
+    {
       "name": "viewport-matrix",
       "status": "PASS",
       "widths": [
         320,
         375,
         390,
+        250,
         768,
         1280
       ]
+    },
+    {
+      "name": "header-reflow",
+      "status": "PASS",
+      "normal": true,
+      "landscape": true,
+      "equivalent_zoom_150": true
     },
     {
       "name": "resume",
@@ -55,18 +75,82 @@
   "scope": "CYCLE_12_5_WORKOUT_PLAYER_VISUAL",
   "database_target": "LOCAL",
   "production_mutated": false,
-  "screenshots": 11,
+  "screenshots": 12,
   "viewports": [
     "mobile-320",
     "mobile-375",
     "mobile-390",
+    "mobile-reflow-150",
     "tablet-768",
     "desktop-1280"
+  ],
+  "startup_attempts": [
+    {
+      "component": "vite",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "http-and-entry-ready",
+          "elapsed_ms": 6712
+        }
+      ]
+    },
+    {
+      "component": "chrome",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "cdp-ready",
+          "elapsed_ms": 2416
+        }
+      ]
+    },
+    {
+      "component": "login-route",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "react-ready",
+          "elapsed_ms": 11465
+        }
+      ]
+    },
+    {
+      "component": "library-route",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "react-ready",
+          "elapsed_ms": 1718
+        }
+      ]
+    }
   ],
   "results": [
     {
       "state": "library-start",
       "sessionIdPresent": true,
+      "status": "PASS"
+    },
+    {
+      "state": "live-revalidation-draft",
+      "exercisePreserved": true,
+      "draftPreserved": true,
+      "foregroundImmediate": true,
+      "moduleBoundaryReconstructed": true,
+      "skeletonObserved": true,
+      "partialSet": 2,
+      "status": "PASS"
+    },
+    {
+      "state": "partial-exercise-remount",
+      "exercisePreserved": true,
+      "currentSet": 3,
+      "confirmedDraftCleared": true,
       "status": "PASS"
     },
     {
@@ -76,7 +160,7 @@
       "minimumTarget": 44,
       "targetSizes": [
         {
-          "label": "Sair do player e continuar depois",
+          "label": "Sair do treino e continuar depois",
           "height": 44
         },
         {
@@ -96,18 +180,35 @@
           "height": 46
         },
         {
-          "label": "Pular exercício",
-          "height": 58
-        },
-        {
           "label": "Finalizar treino",
-          "height": 58
+          "height": 60
         }
       ],
       "mainHeadings": 1,
       "progressbars": 1,
       "studentShell": false,
       "videoAutoplay": false,
+      "header": {
+        "top": 0,
+        "bottom": 92.8125,
+        "copyTop": 12,
+        "copyBottom": 80.8125,
+        "clientWidth": 184,
+        "scrollWidth": 184,
+        "clientHeight": 69,
+        "scrollHeight": 69,
+        "whiteSpaces": [
+          "normal",
+          "normal"
+        ],
+        "overflows": [
+          "visible",
+          "visible"
+        ]
+      },
+      "headerTextFullyVisible": true,
+      "headerWithinViewport": true,
+      "noHeaderTimerOverlap": true,
       "status": "PASS"
     },
     {
@@ -117,7 +218,7 @@
       "minimumTarget": 44,
       "targetSizes": [
         {
-          "label": "Sair do player e continuar depois",
+          "label": "Sair do treino e continuar depois",
           "height": 44
         },
         {
@@ -137,18 +238,35 @@
           "height": 46
         },
         {
-          "label": "Pular exercício",
-          "height": 58
-        },
-        {
           "label": "Finalizar treino",
-          "height": 58
+          "height": 60
         }
       ],
       "mainHeadings": 1,
       "progressbars": 1,
       "studentShell": false,
       "videoAutoplay": false,
+      "header": {
+        "top": 0,
+        "bottom": 76.625,
+        "copyTop": 12,
+        "copyBottom": 64.625,
+        "clientWidth": 231,
+        "scrollWidth": 231,
+        "clientHeight": 53,
+        "scrollHeight": 53,
+        "whiteSpaces": [
+          "normal",
+          "normal"
+        ],
+        "overflows": [
+          "visible",
+          "visible"
+        ]
+      },
+      "headerTextFullyVisible": true,
+      "headerWithinViewport": true,
+      "noHeaderTimerOverlap": true,
       "status": "PASS"
     },
     {
@@ -158,7 +276,7 @@
       "minimumTarget": 44,
       "targetSizes": [
         {
-          "label": "Sair do player e continuar depois",
+          "label": "Sair do treino e continuar depois",
           "height": 44
         },
         {
@@ -178,18 +296,93 @@
           "height": 46
         },
         {
-          "label": "Pular exercício",
-          "height": 58
-        },
-        {
           "label": "Finalizar treino",
-          "height": 58
+          "height": 60
         }
       ],
       "mainHeadings": 1,
       "progressbars": 1,
       "studentShell": false,
       "videoAutoplay": false,
+      "header": {
+        "top": 0,
+        "bottom": 76.625,
+        "copyTop": 12,
+        "copyBottom": 64.625,
+        "clientWidth": 246,
+        "scrollWidth": 246,
+        "clientHeight": 53,
+        "scrollHeight": 53,
+        "whiteSpaces": [
+          "normal",
+          "normal"
+        ],
+        "overflows": [
+          "visible",
+          "visible"
+        ]
+      },
+      "headerTextFullyVisible": true,
+      "headerWithinViewport": true,
+      "noHeaderTimerOverlap": true,
+      "status": "PASS"
+    },
+    {
+      "state": "current-media-prescription",
+      "viewport": "mobile-reflow-150",
+      "noHorizontalOverflow": true,
+      "minimumTarget": 44,
+      "targetSizes": [
+        {
+          "label": "Sair do treino e continuar depois",
+          "height": 44
+        },
+        {
+          "label": "Encerrar treino",
+          "height": 44
+        },
+        {
+          "label": "Concluir série",
+          "height": 46
+        },
+        {
+          "label": "Escolher exercício",
+          "height": 46
+        },
+        {
+          "label": "Próximo exercício",
+          "height": 46
+        },
+        {
+          "label": "Finalizar treino",
+          "height": 60
+        }
+      ],
+      "mainHeadings": 1,
+      "progressbars": 1,
+      "studentShell": false,
+      "videoAutoplay": false,
+      "header": {
+        "top": 0,
+        "bottom": 129.25,
+        "copyTop": 12,
+        "copyBottom": 117.25,
+        "clientWidth": 114,
+        "scrollWidth": 114,
+        "clientHeight": 105,
+        "scrollHeight": 105,
+        "whiteSpaces": [
+          "normal",
+          "normal"
+        ],
+        "overflows": [
+          "visible",
+          "visible"
+        ]
+      },
+      "headerTextFullyVisible": true,
+      "headerWithinViewport": true,
+      "noHeaderTimerOverlap": true,
       "status": "PASS"
     },
     {
@@ -199,7 +392,7 @@
       "minimumTarget": 44,
       "targetSizes": [
         {
-          "label": "Sair do player e continuar depois",
+          "label": "Sair do treino e continuar depois",
           "height": 44
         },
         {
@@ -219,10 +412,6 @@
           "height": 46
         },
         {
-          "label": "Pular exercício",
-          "height": 50
-        },
-        {
           "label": "Finalizar treino",
           "height": 50
         }
@@ -231,6 +420,27 @@
       "progressbars": 1,
       "studentShell": false,
       "videoAutoplay": false,
+      "header": {
+        "top": 0,
+        "bottom": 68,
+        "copyTop": 15.78125,
+        "copyBottom": 52.21875,
+        "clientWidth": 587,
+        "scrollWidth": 587,
+        "clientHeight": 36,
+        "scrollHeight": 36,
+        "whiteSpaces": [
+          "normal",
+          "normal"
+        ],
+        "overflows": [
+          "visible",
+          "visible"
+        ]
+      },
+      "headerTextFullyVisible": true,
+      "headerWithinViewport": true,
+      "noHeaderTimerOverlap": true,
       "status": "PASS"
     },
     {
@@ -240,7 +450,7 @@
       "minimumTarget": 44,
       "targetSizes": [
         {
-          "label": "Sair do player e continuar depois",
+          "label": "Sair do treino e continuar depois",
           "height": 44
         },
         {
@@ -260,10 +470,6 @@
           "height": 46
         },
         {
-          "label": "Pular exercício",
-          "height": 50
-        },
-        {
           "label": "Finalizar treino",
           "height": 50
         }
@@ -272,6 +478,27 @@
       "progressbars": 1,
       "studentShell": false,
       "videoAutoplay": false,
+      "header": {
+        "top": 0,
+        "bottom": 68,
+        "copyTop": 15.78125,
+        "copyBottom": 52.21875,
+        "clientWidth": 648,
+        "scrollWidth": 648,
+        "clientHeight": 36,
+        "scrollHeight": 36,
+        "whiteSpaces": [
+          "normal",
+          "normal"
+        ],
+        "overflows": [
+          "visible",
+          "visible"
+        ]
+      },
+      "headerTextFullyVisible": true,
+      "headerWithinViewport": true,
+      "noHeaderTimerOverlap": true,
       "status": "PASS"
     },
     {

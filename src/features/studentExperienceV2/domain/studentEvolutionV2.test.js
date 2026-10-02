@@ -46,6 +46,14 @@ test("history ordering is stable for equal civil dates", () => {
   assert.deepEqual(history.map((item) => item.id), ["b", "a"]);
 });
 
+test("history does not expose a detail action candidate without a canonical session id", () => {
+  const history = buildWorkoutEvolutionHistory([
+    { id: "", status: "completed", sessionDate: "2026-09-20" },
+    { id: "session-valid", status: "completed", sessionDate: "2026-09-19" },
+  ]);
+  assert.deepEqual(history.map((item) => item.id), ["session-valid"]);
+});
+
 test("assessment states distinguish empty baseline comparable and partial data", () => {
   assert.equal(buildAssessmentEvolution({ items: [] }).status, "empty");
   const baseline = buildAssessmentEvolution({ items: [{ id: "a", date: "2026-01-01", measurements: { weightKg: 80 } }] });

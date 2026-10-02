@@ -32,6 +32,7 @@ import {
   deriveWorkoutCompletionSummary,
   getPlayerTrackingFields,
   getPreviousSetReference,
+  isPlayerExerciseComplete,
   isPlayerSessionTerminal,
   resolveCurrentExerciseIndex,
   resolveCurrentSetNumber,
@@ -46,69 +47,118 @@ import {
   deriveRestTimerPresentation,
   estimateServerNow,
 } from "../domain/workoutRestTimerV2.js";
+import { useStudentExperienceV2 } from "../context/studentExperienceV2Context.js";
+import { refreshAfterConfirmedSessionTransition } from "../context/studentSessionTransition.js";
+import { createLatestRequestGuard } from "../profile/latestRequestGuard.js";
+import {
+  getVolatilePlayerDraftStore,
+  resolveActiveExerciseId,
+} from "./playerContinuity.js";
 
 const selectionKey = (sessionId) => `aruka:student-player-v2:${sessionId}:exercise`;
 const dismissedRestKey = (sessionId) => `aruka:student-player-v2:${sessionId}:dismissed-rest`;
+const volatileDraftStore = getVolatilePlayerDraftStore();
 
 export function WorkoutPlayerV2() {
   const { sessionId = "" } = useParams();
   const navigate = useNavigate();
+  const { reload: reloadStudentExperience } = useStudentExperienceV2();
   const titleRef = useRef(null);
+  const headerRef = useRef(null);
+  const leaveRef = useRef(null);
+  const leaveTriggerRef = useRef(null);
   const selectorRef = useRef(null);
   const selectorTriggerRef = useRef(null);
   const cancelRef = useRef(null);
   const completionRef = useRef(null);
+  const requestGuardRef = useRef(createLatestRequestGuard());
   const [state, setState] = useState({ status: "loading", data: null, message: "" });
-  const [currentIndex, setCurrentIndex] = useState(-1);
+  const [activeExerciseId, setActiveExerciseId] = useState("");
   const [action, setAction] = useState({ status: "idle", message: "" });
   const [completion, setCompletion] = useState({ status: "idle", feedback: "", message: "", error: "" });
+  const [restTop, setRestTop] = useState(72);
+
+  const applyPlayerSnapshot = useCallback((data) => {
+    setState({ status: "success", data, message: "" });
+    setActiveExerciseId((currentId) => {
+      const storedId = readExerciseSelection(sessionId);
+      const fallbackIndex = resolveCurrentExerciseIndex(data.exercises, currentId || storedId);
+      const fallbackId = fallbackIndex >= 0 ? data.exercises[fallbackIndex]?.id || "" : "";
+      const nextId = resolveActiveExerciseId(data.exercises, currentId || storedId, fallbackId);
+      persistExerciseSelection(sessionId, nextId);
+      return nextId;
+    });
+  }, [sessionId]);
 
   const load = useCallback(async () => {
+    const requestVersion = requestGuardRef.current.start();
     setState((current) => ({ ...current, status: "loading", message: "" }));
     try {
       const data = await buscarMeuWorkoutPlayerV2(sessionId);
+      if (!requestGuardRef.current.isCurrent(requestVersion)) return null;
       if (!data) {
         setState({ status: "missing", data: null, message: "" });
-        setCurrentIndex(-1);
+        setActiveExerciseId("");
         return null;
       }
-      const preferred = window.sessionStorage.getItem(selectionKey(sessionId)) || "";
-      setState({ status: "success", data, message: "" });
-      setCurrentIndex(resolveCurrentExerciseIndex(data.exercises, preferred));
+      applyPlayerSnapshot(data);
       return data;
     } catch {
+      if (!requestGuardRef.current.isCurrent(requestVersion)) return null;
       setState({ status: "error", data: null, message: "Não foi possível carregar este treino. Confira sua conexão e tente novamente." });
       return null;
     }
-  }, [sessionId]);
+  }, [applyPlayerSnapshot, sessionId]);
 
   useEffect(() => {
+    const requestGuard = requestGuardRef.current;
     const timeoutId = window.setTimeout(load, 0);
-    return () => window.clearTimeout(timeoutId);
+    return () => {
+      window.clearTimeout(timeoutId);
+      requestGuard.invalidate();
+    };
   }, [load]);
   useEffect(() => {
     const frameId = window.requestAnimationFrame(() => titleRef.current?.focus());
     return () => window.cancelAnimationFrame(frameId);
-  }, [currentIndex]);
+  }, [activeExerciseId]);
+  useEffect(() => {
+    if (isPlayerSessionTerminal(state.data?.status)) volatileDraftStore.clearSession(sessionId);
+  }, [sessionId, state.data?.status]);
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return undefined;
+    const updateRestTop = () => setRestTop(Math.ceil(header.getBoundingClientRect().bottom + 8));
+    updateRestTop();
+    const observer = new ResizeObserver(updateRestTop);
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, [state.status]);
 
   function selectExercise(index) {
     const exercise = state.data?.exercises[index];
     if (!exercise) return;
-    window.sessionStorage.setItem(selectionKey(sessionId), exercise.id);
-    setCurrentIndex(index);
+    persistExerciseSelection(sessionId, exercise.id);
+    setActiveExerciseId(exercise.id);
     selectorRef.current?.close();
   }
 
   async function skipCurrent() {
+    const currentIndex = resolveCurrentExerciseIndex(state.data?.exercises, activeExerciseId);
     const exercise = state.data?.exercises[currentIndex];
     if (!exercise || action.status !== "idle") return;
     setAction({ status: "skipping", message: "" });
     try {
       await skipWorkoutExercise(sessionId, exercise.id);
-      const refreshed = await buscarMeuWorkoutPlayerV2(sessionId);
-      setState({ status: "success", data: refreshed, message: "" });
-      const next = refreshed.exercises.findIndex((item, index) => index > currentIndex && item.status !== "skipped");
-      setCurrentIndex(next >= 0 ? next : Math.min(currentIndex, refreshed.exercises.length - 1));
+      const refreshed = await refreshPlayer();
+      if (!refreshed) return;
+      const refreshedIndex = refreshed.exercises.findIndex((item) => item.id === exercise.id);
+      const next = refreshed.exercises.findIndex((item, index) => index > refreshedIndex && item.status !== "skipped");
+      const nextExercise = refreshed.exercises[next >= 0 ? next : Math.min(refreshedIndex, refreshed.exercises.length - 1)];
+      if (nextExercise) {
+        persistExerciseSelection(sessionId, nextExercise.id);
+        setActiveExerciseId(nextExercise.id);
+      }
       setAction({ status: "idle", message: "Exercício pulado. Você pode continuar o treino." });
     } catch {
       setAction({ status: "idle", message: "Não foi possível pular este exercício agora." });
@@ -119,7 +169,9 @@ export function WorkoutPlayerV2() {
     if (action.status !== "idle") return;
     setAction({ status: "cancelling", message: "" });
     try {
-      await cancelWorkoutSession(sessionId, "Cancelado pelo aluno no Workout Player V2");
+      const cancelled = await cancelWorkoutSession(sessionId, "Cancelado pelo aluno no Workout Player V2");
+      await refreshAfterConfirmedSessionTransition(cancelled, reloadStudentExperience);
+      volatileDraftStore.clearSession(sessionId);
       cancelRef.current?.close();
       await load();
       setAction({ status: "idle", message: "" });
@@ -129,11 +181,17 @@ export function WorkoutPlayerV2() {
   }
 
   const refreshPlayer = useCallback(async () => {
-    const refreshed = await buscarMeuWorkoutPlayerV2(sessionId);
-    if (!refreshed) return null;
-    setState({ status: "success", data: refreshed, message: "" });
-    return refreshed;
-  }, [sessionId]);
+    const requestVersion = requestGuardRef.current.start();
+    try {
+      const refreshed = await buscarMeuWorkoutPlayerV2(sessionId);
+      if (!requestGuardRef.current.isCurrent(requestVersion) || !refreshed) return null;
+      applyPlayerSnapshot(refreshed);
+      return refreshed;
+    } catch (error) {
+      if (!requestGuardRef.current.isCurrent(requestVersion)) return null;
+      throw error;
+    }
+  }, [applyPlayerSnapshot, sessionId]);
 
   async function completeSession(shortDurationConfirmed = false) {
     if (completion.status === "submitting" || completion.status === "reconciling") return;
@@ -146,6 +204,8 @@ export function WorkoutPlayerV2() {
     try {
       const result = await concluirMeuWorkoutPlayerV2(sessionId, shortDurationConfirmed, validation.feedback);
       if (result?.status !== "completed") throw new Error("COMPLETION_CONFIRMATION_MISSING");
+      await refreshAfterConfirmedSessionTransition(result, reloadStudentExperience);
+      volatileDraftStore.clearSession(sessionId);
       completionRef.current?.close();
       setState((current) => ({
         status: "success",
@@ -172,8 +232,10 @@ export function WorkoutPlayerV2() {
 
       setCompletion((current) => ({ ...current, status: "reconciling", message: "Verificando se o treino foi concluído...", error: "" }));
       try {
-        const refreshed = await buscarMeuWorkoutPlayerV2(sessionId);
+        const refreshed = await refreshPlayer();
         if (refreshed?.status === "completed") {
+          await refreshAfterConfirmedSessionTransition(refreshed, reloadStudentExperience);
+          volatileDraftStore.clearSession(sessionId);
           completionRef.current?.close();
           setState({ status: "success", data: refreshed, message: "" });
           setCompletion({ status: "idle", feedback: refreshed.feedback, message: "", error: "" });
@@ -216,23 +278,24 @@ export function WorkoutPlayerV2() {
 
   const player = state.data;
   if (isPlayerSessionTerminal(player.status)) return <TerminalPlayerState player={player} onLeave={() => navigate(STUDENT_EXPERIENCE_V2_ROUTES.TRAINING)} />;
+  const currentIndex = resolveCurrentExerciseIndex(player.exercises, activeExerciseId);
   if (!player.exercises.length || currentIndex < 0) return <PlayerState icon={ImageOff} title="Treino sem exercícios" copy="A prescrição desta sessão não possui exercícios disponíveis." action={<button className="workout-player-button" onClick={() => navigate(STUDENT_EXPERIENCE_V2_ROUTES.TRAINING)} type="button">Voltar aos treinos</button>} />;
 
   const exercise = player.exercises[currentIndex];
   const progress = { ...derivePlayerProgress(player.exercises, currentIndex), sets: deriveCanonicalSetProgress(player.exercises) };
   return (
     <main className="workout-player" data-testid="student-workout-player-v2">
-      <header className="workout-player-header">
-        <button aria-label="Sair do player e continuar depois" className="workout-player-icon-button" onClick={() => navigate(STUDENT_EXPERIENCE_V2_ROUTES.TRAINING)} type="button"><X aria-hidden="true" size={22} /></button>
+      <header className="workout-player-header" ref={headerRef}>
+        <button aria-label="Sair do treino e continuar depois" className="workout-player-icon-button" onClick={() => leaveRef.current?.showModal()} ref={leaveTriggerRef} type="button"><X aria-hidden="true" size={22} /></button>
         <div className="workout-player-header-copy"><span>{player.workoutTitle}</span><strong>{player.dayName}</strong></div>
         <button aria-label="Encerrar treino" className="workout-player-icon-button" onClick={() => cancelRef.current?.showModal()} type="button"><LogOut aria-hidden="true" size={20} /></button>
       </header>
 
       <PlayerProgress progress={progress} />
       {action.message && <div className="workout-player-notice" role="status">{action.message}</div>}
-      <RestTimerNotice onRefresh={refreshPlayer} player={player} />
+      <RestTimerNotice onRefresh={refreshPlayer} player={player} topOffset={restTop} />
       <ExerciseStage exercise={exercise} titleRef={titleRef} />
-      <SetStage exercise={exercise} key={exercise.id} onApplyConfirmed={applyConfirmedSet} onRefresh={refreshPlayer} sessionId={sessionId} />
+      <SetStage draftStore={volatileDraftStore} exercise={exercise} key={exercise.id} onApplyConfirmed={applyConfirmedSet} onRefresh={refreshPlayer} sessionId={sessionId} />
       <PlayerActions
         busy={action.status !== "idle" || completion.status === "submitting" || completion.status === "reconciling"}
         canGoNext={currentIndex < player.exercises.length - 1}
@@ -247,6 +310,7 @@ export function WorkoutPlayerV2() {
       />
 
       <ExerciseSelector currentIndex={currentIndex} dialogRef={selectorRef} exercises={player.exercises} onClose={() => selectorTriggerRef.current?.focus()} onSelect={selectExercise} />
+      <LeaveWorkoutDialog dialogRef={leaveRef} onClose={() => leaveTriggerRef.current?.focus()} onLeave={() => navigate(STUDENT_EXPERIENCE_V2_ROUTES.TRAINING)} />
       <CancelDialog busy={action.status === "cancelling"} dialogRef={cancelRef} onConfirm={cancelSession} />
       <CompletionDialog completion={completion} dialogRef={completionRef} onConfirm={completeSession} onFeedbackChange={(feedback) => setCompletion((current) => ({ ...current, feedback, error: "", message: "" }))} />
     </main>
@@ -257,7 +321,7 @@ export function PlayerProgress({ progress }) {
   return <section aria-label="Progresso do treino" className="workout-player-progress"><div><span>{progress.sets.completed} de {progress.sets.total} séries concluídas</span><strong>Exercício {progress.position} de {progress.total}</strong></div><div aria-label={`${progress.sets.completed} de ${progress.sets.total} séries concluídas`} aria-valuemax={progress.sets.total} aria-valuemin="0" aria-valuenow={progress.sets.completed} className="workout-player-progressbar" role="progressbar"><span style={{ width: `${progress.sets.percent}%` }} /></div></section>;
 }
 
-export function RestTimerNotice({ onRefresh, player }) {
+export function RestTimerNotice({ onRefresh, player, topOffset = 72 }) {
   const rest = useMemo(() => deriveCanonicalRest(player), [player]);
   const anchor = useMemo(() => createServerClockAnchor(
     player.serverNow,
@@ -351,7 +415,7 @@ export function RestTimerNotice({ onRefresh, player }) {
 
   if (!presentation || dismissed) return <span aria-live="polite" className="sr-only">{announcement}</span>;
   const active = presentation.status === "active";
-  return <section aria-label="Temporizador de descanso" className={`workout-player-rest ${active ? "is-active" : "is-complete"}`} data-rest-duration={presentation.durationSeconds} data-rest-ends-at={new Date(presentation.endsAtMs).toISOString()} data-rest-identity={presentation.identity} data-rest-started-at={presentation.startedAt} data-rest-status={presentation.status}>
+  return <section aria-label="Temporizador de descanso" className={`workout-player-rest ${active ? "is-active" : "is-complete"}`} data-rest-duration={presentation.durationSeconds} data-rest-ends-at={new Date(presentation.endsAtMs).toISOString()} data-rest-identity={presentation.identity} data-rest-started-at={presentation.startedAt} data-rest-status={presentation.status} style={{ "--workout-player-rest-top": `${topOffset}px` }}>
     <div className="workout-player-rest-icon"><Timer aria-hidden="true" size={23} /></div>
     <div className="workout-player-rest-copy">
       <span>{active ? "Descanso em andamento" : "Descanso concluído"}</span>
@@ -375,6 +439,15 @@ function readDismissedRest(sessionId) {
   try { return window.sessionStorage.getItem(dismissedRestKey(sessionId)) || ""; } catch { return ""; }
 }
 
+function readExerciseSelection(sessionId) {
+  try { return window.sessionStorage.getItem(selectionKey(sessionId)) || ""; } catch { return ""; }
+}
+
+function persistExerciseSelection(sessionId, exerciseId) {
+  if (!exerciseId) return;
+  try { window.sessionStorage.setItem(selectionKey(sessionId), exerciseId); } catch { /* continuity remains in React state */ }
+}
+
 export function ExerciseStage({ exercise, titleRef }) {
   return <article className="workout-player-stage"><div className="workout-player-stage-heading"><span className="workout-player-eyebrow">Agora</span><h1 ref={titleRef} tabIndex="-1">{exercise.name}</h1>{exercise.group && <p>{exercise.group}</p>}</div><PlayerMedia exercise={exercise} key={exercise.id} /><ExercisePrescription exercise={exercise} /></article>;
 }
@@ -384,14 +457,36 @@ export function ExercisePrescription({ exercise }) {
   return <section aria-labelledby="workout-player-prescription-title" className="workout-player-prescription"><span className="workout-player-eyebrow">Prescrição da sessão</span><h2 id="workout-player-prescription-title">Como executar</h2>{facts.length ? <ul>{facts.map((fact) => <li key={fact}>{fact}</li>)}</ul> : <p>Sem detalhes adicionais de prescrição.</p>}{exercise.prescribedNotes && <div className="workout-player-note"><strong>Orientação</strong><p>{exercise.prescribedNotes}</p></div>}</section>;
 }
 
-export function SetStage({ exercise, onApplyConfirmed, onRefresh, sessionId }) {
+export function SetStage({ draftStore = volatileDraftStore, exercise, onApplyConfirmed, onRefresh, sessionId }) {
   const rows = buildPlayerSetRows(exercise);
+  const exerciseComplete = isPlayerExerciseComplete(exercise);
+  const exerciseCompleteRef = useRef(null);
   const fields = getPlayerTrackingFields(exercise.trackingConfig);
-  const [setNumber, setSetNumber] = useState(() => resolveCurrentSetNumber(exercise));
+  const [setNumber, setSetNumber] = useState(() => resolveCurrentSetNumber(
+    exercise,
+    draftStore.readSelectedSet(sessionId, exercise.id),
+  ));
   const selected = rows.find((set) => set.setNumber === setNumber) || rows[0];
-  const [values, setValues] = useState(() => valuesFromSet(selected));
+  const [values, setValues] = useState(() => draftStore.read(
+    sessionId,
+    exercise.id,
+    setNumber,
+    valuesFromSet(selected),
+  ));
   const [submission, setSubmission] = useState({ status: "idle", message: "", errors: {} });
   const [previous, setPrevious] = useState({ status: "loading", data: null });
+
+  useEffect(() => {
+    if (!exerciseComplete) return undefined;
+    const frame = window.requestAnimationFrame(() => {
+      exerciseCompleteRef.current?.scrollIntoView({ block: "center" });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [exercise.id, exerciseComplete]);
+
+  useEffect(() => {
+    if (selected?.completed) draftStore.clear(sessionId, exercise.id, setNumber);
+  }, [draftStore, exercise.id, selected?.completed, sessionId, setNumber]);
 
   useEffect(() => {
     let active = true;
@@ -403,13 +498,18 @@ export function SetStage({ exercise, onApplyConfirmed, onRefresh, sessionId }) {
 
   function selectSet(nextSetNumber, preserveMessage = false) {
     const next = rows.find((set) => set.setNumber === nextSetNumber);
+    draftStore.selectSet(sessionId, exercise.id, nextSetNumber);
     setSetNumber(nextSetNumber);
-    setValues(valuesFromSet(next));
+    setValues(draftStore.read(sessionId, exercise.id, nextSetNumber, valuesFromSet(next)));
     if (!preserveMessage) setSubmission({ status: "idle", message: "", errors: {} });
   }
 
   function updateValue(field, value) {
-    setValues((current) => ({ ...current, [field]: value }));
+    setValues((current) => {
+      const next = { ...current, [field]: value };
+      draftStore.write(sessionId, exercise.id, setNumber, next);
+      return next;
+    });
     setSubmission((current) => ({ ...current, message: "", errors: { ...current.errors, [field]: "" } }));
   }
 
@@ -417,7 +517,10 @@ export function SetStage({ exercise, onApplyConfirmed, onRefresh, sessionId }) {
     const refreshedRows = buildPlayerSetRows(refreshedExercise || exercise);
     const next = refreshedRows.find((set) => !set.completed && set.setNumber > setNumber)
       || refreshedRows.find((set) => !set.completed);
-    if (next) selectSet(next.setNumber, true);
+    if (next) {
+      selectSet(next.setNumber, true);
+      return;
+    }
   }
 
   async function reconcile() {
@@ -447,6 +550,7 @@ export function SetStage({ exercise, onApplyConfirmed, onRefresh, sessionId }) {
     try {
       const result = await concluirMinhaSerieNoWorkoutPlayerV2(sessionId, exercise.id, setNumber, buildPlayerSetCommandValues(values, exercise.trackingConfig));
       if (!onApplyConfirmed(exercise.id, setNumber, result)) throw new Error("SET_CONFIRMATION_MISSING");
+      draftStore.clear(sessionId, exercise.id, setNumber);
       setSubmission({ status: "idle", message: "Série registrada com sucesso.", errors: {} });
       try {
         const refreshed = await onRefresh();
@@ -484,6 +588,7 @@ export function SetStage({ exercise, onApplyConfirmed, onRefresh, sessionId }) {
       {submission.message && <p className={`workout-player-set-message ${submission.status === "uncertain" ? "is-error" : ""}`} role="status">{submission.message}</p>}
       {submission.status === "uncertain" ? <button className="workout-player-button is-primary" onClick={reconcile} type="button"><RefreshCcw aria-hidden="true" size={18} /> Verificar registro</button> : <button className="workout-player-button is-primary workout-player-complete-set" disabled={submission.status === "submitting"} type="submit">{submission.status === "submitting" ? <LoaderCircle aria-hidden="true" className="is-spinning" size={18} /> : <CheckCircle2 aria-hidden="true" size={18} />} {submission.status === "submitting" ? "Registrando..." : "Concluir série"}</button>}
     </form> : <p>Os campos configurados para este exercício ainda não possuem persistência canônica. Nenhuma conclusão foi criada.</p>}
+    {exerciseComplete && <div className="workout-player-exercise-complete" ref={exerciseCompleteRef} role="status"><CheckCircle2 aria-hidden="true" size={21} /><div><strong>Exercício concluído</strong><p>Descanse e escolha o próximo exercício quando estiver pronto.</p></div></div>}
     <div aria-hidden="true" data-rest-duration={exercise.prescribedRest} data-rest-ends-at="" data-rest-started-at={selected.completedAt || ""} />
   </section>;
 }
@@ -539,6 +644,15 @@ function PlayerMedia({ exercise }) {
 
 function ExerciseSelector({ currentIndex, dialogRef, exercises, onClose, onSelect }) {
   return <dialog aria-labelledby="exercise-selector-title" className="workout-player-dialog" onClose={onClose} ref={dialogRef}><div className="workout-player-dialog-heading"><div><span className="workout-player-eyebrow">Navegação</span><h2 id="exercise-selector-title">Escolha um exercício</h2></div><button aria-label="Fechar seletor de exercícios" className="workout-player-icon-button" onClick={() => dialogRef.current?.close()} type="button"><X aria-hidden="true" size={21} /></button></div><ol className="workout-player-exercise-list">{exercises.map((exercise, index) => <li key={exercise.id}><button aria-current={index === currentIndex ? "step" : undefined} onClick={() => onSelect(index)} type="button"><span>{index + 1}</span><strong>{exercise.name}</strong>{exercise.status === "skipped" && <small>Pulado</small>}</button></li>)}</ol></dialog>;
+}
+
+function LeaveWorkoutDialog({ dialogRef, onClose, onLeave }) {
+  function leave() {
+    dialogRef.current?.close();
+    onLeave();
+  }
+
+  return <dialog aria-labelledby="leave-workout-title" className="workout-player-dialog is-confirmation" onClose={onClose} ref={dialogRef}><span className="workout-player-eyebrow">Continuar depois</span><h2 id="leave-workout-title">Sair do treino?</h2><p>Seu progresso foi salvo e o treino continuará em andamento para você retomar depois.</p><div className="workout-player-dialog-actions"><button autoFocus className="workout-player-button" onClick={() => dialogRef.current?.close()} type="button">Continuar treinando</button><button className="workout-player-button is-primary" onClick={leave} type="button">Sair e continuar depois</button></div></dialog>;
 }
 
 function CancelDialog({ busy, dialogRef, onConfirm }) {

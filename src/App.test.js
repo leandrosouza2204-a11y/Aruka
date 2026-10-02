@@ -14,6 +14,7 @@ test("expired recovery hashes render recovery UX instead of the landing page", (
 test("student V2 routes are isolated behind the dedicated guard while legacy remains registered", () => {
   assert.match(source, /path="\/minha-area"/);
   assert.match(source, /<MinhaArea \/>/);
+  assert.match(source, /<StudentEntryRoute>[\s\S]*<MinhaArea \/>[\s\S]*<\/StudentEntryRoute>/);
   assert.match(source, /StudentExperienceV2Route/);
   assert.match(source, /path="treinos" element={<StudentTrainingLibraryV2 \/>}/);
   assert.match(source, /path="treinos\/:workoutId" element={<StudentTrainingLibraryV2 \/>}/);

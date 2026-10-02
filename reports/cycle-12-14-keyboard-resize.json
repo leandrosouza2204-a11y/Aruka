@@ -1,12 +1,12 @@
 {
   "evidence_contract_version": 1,
-  "run_id": "cycle-12-14-keyboard-resize-1790487636613-e0e9de0f",
+  "run_id": "cycle-12-14-keyboard-resize-1790910047562-eebafe25",
   "gate": "CYCLE_12_14_KEYBOARD_RESIZE",
   "decision": "PASS",
   "current_run": true,
-  "started_at": "2026-09-27T05:40:36.614Z",
-  "finished_at": "2026-09-27T05:42:05.662Z",
-  "head": "407e48761224a8c7bd4979791ad09f337d160e68",
+  "started_at": "2026-10-02T03:00:47.563Z",
+  "finished_at": "2026-10-02T03:02:43.132Z",
+  "head": "abe9e0c9a5359df5d09b5b182b00c7670bccb29c",
   "branch": "main",
   "environment": "LOCAL",
   "production_accessed": false,
@@ -18,7 +18,7 @@
     {
       "name": "tracking",
       "status": "PASS",
-      "run_id": "cycle-12-6-set-tracking-visual-1790487637428-f7f3948e",
+      "run_id": "cycle-12-6-set-tracking-visual-1790910048341-d46a10cf",
       "viewports": [
         "keyboard-resize-390x360",
         "keyboard-resize-640x320",
@@ -29,7 +29,7 @@
     {
       "name": "completion-feedback",
       "status": "PASS",
-      "run_id": "cycle-12-8-workout-completion-feedback-visual-1790487676165-4226c35e",
+      "run_id": "cycle-12-8-workout-completion-feedback-visual-1790910095742-49ea561a",
       "viewports": [
         "keyboard-resize-390x360",
         "keyboard-resize-640x320",
@@ -52,12 +52,12 @@
     {
       "surface": "tracking",
       "status": "PASS",
-      "run_id": "cycle-12-6-set-tracking-visual-1790487637428-f7f3948e"
+      "run_id": "cycle-12-6-set-tracking-visual-1790910048341-d46a10cf"
     },
     {
       "surface": "completion-feedback",
       "status": "PASS",
-      "run_id": "cycle-12-8-workout-completion-feedback-visual-1790487676165-4226c35e"
+      "run_id": "cycle-12-8-workout-completion-feedback-visual-1790910095742-49ea561a"
     }
   ]
 }

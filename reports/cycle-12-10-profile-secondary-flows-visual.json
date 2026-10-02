@@ -1,17 +1,19 @@
 {
   "evidence_contract_version": 1,
-  "run_id": "cycle-12-10-profile-secondary-flows-visual-1790439575182-5d9beab7",
+  "run_id": "cycle-12-10-profile-secondary-flows-visual-1790911110821-ec8ea3b1",
   "gate": "CYCLE_12_10_PROFILE_SECONDARY_FLOWS_VISUAL",
   "decision": "PASS",
   "current_run": true,
-  "started_at": "2026-09-26T16:19:35.183Z",
-  "finished_at": "2026-09-26T16:21:03.779Z",
-  "head": "c9ef3f8d185c2f67ea4727242719513a4d4b4a72",
+  "started_at": "2026-10-02T03:18:30.822Z",
+  "finished_at": "2026-10-02T03:19:52.511Z",
+  "head": "abe9e0c9a5359df5d09b5b182b00c7670bccb29c",
   "branch": "main",
   "environment": "LOCAL",
   "production_accessed": false,
   "required_scenarios": [
     "viewport-matrix",
+    "keyboard-focus",
+    "recoverable-error",
     "validation-error",
     "rollout-off"
   ],
@@ -26,6 +28,19 @@
         768,
         1280
       ]
+    },
+    {
+      "name": "keyboard-focus",
+      "status": "PASS",
+      "classification": "AUTOMATED_KEYBOARD_PASS",
+      "human_acceptance": false
+    },
+    {
+      "name": "recoverable-error",
+      "status": "PASS",
+      "safe_copy": true,
+      "retry_recovered": true,
+      "stale_private_data": false
     },
     {
       "name": "validation-error",
@@ -45,6 +60,118 @@
   "scope": "CYCLE_12_10_PROFILE_SECONDARY_FLOWS_VISUAL",
   "database_target": "LOCAL",
   "screenshots": 11,
+  "startup_attempts": [
+    {
+      "component": "vite-on",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "http-and-entry-ready",
+          "elapsed_ms": 8867
+        }
+      ]
+    },
+    {
+      "component": "student-chrome",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "cdp-ready",
+          "elapsed_ms": 1604
+        }
+      ]
+    },
+    {
+      "component": "login-route",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "react-ready",
+          "elapsed_ms": 7932
+        }
+      ]
+    },
+    {
+      "component": "route:/minha-area/perfil",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "react-ready",
+          "elapsed_ms": 1887
+        }
+      ]
+    },
+    {
+      "component": "professional-chrome",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "cdp-ready",
+          "elapsed_ms": 875
+        }
+      ]
+    },
+    {
+      "component": "login-route",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "react-ready",
+          "elapsed_ms": 739
+        }
+      ]
+    },
+    {
+      "component": "route:/contato-alunos",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "react-ready",
+          "elapsed_ms": 7978
+        }
+      ]
+    },
+    {
+      "component": "vite-off",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "http-and-entry-ready",
+          "elapsed_ms": 14893
+        }
+      ]
+    },
+    {
+      "component": "login-route",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "react-ready",
+          "elapsed_ms": 6874
+        }
+      ]
+    },
+    {
+      "component": "route:/minha-area/perfil",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "react-ready",
+          "elapsed_ms": 531
+        }
+      ]
+    }
+  ],
   "results": [
     {
       "screen": "student-profile",
@@ -56,6 +183,12 @@
       "channels": 2,
       "current": 1,
       "minTarget": 46,
+      "focusAudit": {
+        "focusVisible": true,
+        "inProfile": true,
+        "visible": true,
+        "order": true
+      },
       "status": "PASS"
     },
     {
@@ -68,6 +201,12 @@
       "channels": 2,
       "current": 1,
       "minTarget": 46,
+      "focusAudit": {
+        "focusVisible": true,
+        "inProfile": true,
+        "visible": true,
+        "order": true
+      },
       "status": "PASS"
     },
     {
@@ -80,6 +219,12 @@
       "channels": 2,
       "current": 1,
       "minTarget": 46,
+      "focusAudit": {
+        "focusVisible": true,
+        "inProfile": true,
+        "visible": true,
+        "order": true
+      },
       "status": "PASS"
     },
     {
@@ -92,6 +237,12 @@
       "channels": 2,
       "current": 1,
       "minTarget": 46,
+      "focusAudit": {
+        "focusVisible": true,
+        "inProfile": true,
+        "visible": true,
+        "order": true
+      },
       "status": "PASS"
     },
     {
@@ -104,6 +255,12 @@
       "channels": 2,
       "current": 1,
       "minTarget": 46,
+      "focusAudit": {
+        "focusVisible": true,
+        "inProfile": true,
+        "visible": true,
+        "order": true
+      },
       "status": "PASS"
     },
     {

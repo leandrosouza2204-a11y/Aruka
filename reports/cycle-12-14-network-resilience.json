@@ -1,12 +1,12 @@
 {
   "evidence_contract_version": 1,
-  "run_id": "cycle-12-14-network-resilience-1790506013830-ae0f0506",
+  "run_id": "cycle-12-14-network-resilience-1790910654417-0c83c5c7",
   "gate": "CYCLE_12_14_NETWORK_RESILIENCE",
   "decision": "PASS",
   "current_run": true,
-  "started_at": "2026-09-27T10:46:53.832Z",
-  "finished_at": "2026-09-27T10:55:21.456Z",
-  "head": "407e48761224a8c7bd4979791ad09f337d160e68",
+  "started_at": "2026-10-02T03:10:54.418Z",
+  "finished_at": "2026-10-02T03:19:55.681Z",
+  "head": "abe9e0c9a5359df5d09b5b182b00c7670bccb29c",
   "branch": "main",
   "environment": "LOCAL",
   "production_accessed": false,
@@ -25,58 +25,58 @@
     {
       "name": "home",
       "status": "PASS",
-      "run_id": "cycle-12-3-student-home-visual-1790506014828-83c6c257",
+      "run_id": "cycle-12-3-student-home-visual-1790910655114-9753b25d",
       "reads": "PROTECTED",
       "writes": "NOT_APPLICABLE",
-      "elapsed_ms": 96279
+      "elapsed_ms": 85711
     },
     {
       "name": "library",
       "status": "PASS",
-      "run_id": "cycle-12-4-training-library-visual-1790506110976-ff9f6c1f",
+      "run_id": "cycle-12-4-training-library-visual-1790910740914-abe23897",
       "reads": "PROTECTED",
       "writes": "NOT_APPLICABLE",
-      "elapsed_ms": 83599
+      "elapsed_ms": 75384
     },
     {
       "name": "player",
       "status": "PASS",
-      "run_id": "cycle-12-5-workout-player-visual-1790506194580-ffb0200d",
+      "run_id": "cycle-12-5-workout-player-visual-1790910816153-6eaa801d",
       "reads": "PROTECTED",
       "writes": "NOT_APPLICABLE",
-      "elapsed_ms": 55905
+      "elapsed_ms": 63394
     },
     {
       "name": "tracking",
       "status": "PASS",
-      "run_id": "cycle-12-6-set-tracking-visual-1790506250546-f3e1e257",
+      "run_id": "cycle-12-6-set-tracking-visual-1790910882099-7e3bd5e3",
       "reads": "NOT_APPLICABLE",
       "writes": "PROTECTED",
-      "elapsed_ms": 49967
+      "elapsed_ms": 100811
     },
     {
       "name": "completion-feedback",
       "status": "PASS",
-      "run_id": "cycle-12-8-workout-completion-feedback-visual-1790506300512-01a156fb",
+      "run_id": "cycle-12-8-workout-completion-feedback-visual-1790910980457-3fb77635",
       "reads": "NOT_APPLICABLE",
       "writes": "PROTECTED",
-      "elapsed_ms": 59162
+      "elapsed_ms": 61372
     },
     {
       "name": "evolution",
       "status": "PASS",
-      "run_id": "cycle-12-9-student-evolution-visual-1790506359696-5651b931",
+      "run_id": "cycle-12-9-student-evolution-visual-1790911041935-561e429d",
       "reads": "PROTECTED",
       "writes": "NOT_APPLICABLE",
-      "elapsed_ms": 68541
+      "elapsed_ms": 69029
     },
     {
       "name": "profile",
       "status": "PASS",
-      "run_id": "cycle-12-10-profile-secondary-flows-visual-1790506428182-3b632aa1",
+      "run_id": "cycle-12-10-profile-secondary-flows-visual-1790911110821-ec8ea3b1",
       "reads": "PROTECTED",
       "writes": "NOT_APPLICABLE",
-      "elapsed_ms": 91683
+      "elapsed_ms": 82133
     },
     {
       "name": "offline-pwa",
@@ -89,19 +89,19 @@
       "runs": [
         {
           "name": "pwa-installability",
-          "elapsed_ms": 279
+          "elapsed_ms": 277
         },
         {
           "name": "pwa-cache-security",
-          "elapsed_ms": 250
+          "elapsed_ms": 277
         },
         {
           "name": "route-fallback",
-          "elapsed_ms": 313
+          "elapsed_ms": 274
         },
         {
           "name": "continuity",
-          "elapsed_ms": 305
+          "elapsed_ms": 436
         }
       ]
     },
@@ -112,9 +112,13 @@
       "request_b_newer": true,
       "b_wins": true,
       "a_ignored": true,
+      "player_repeatability_runs": 100,
+      "player_draft_isolated": true,
       "runs": [
         "profile-stale-request",
-        "evolution-stale-request"
+        "evolution-stale-request",
+        "player-stale-request-and-draft",
+        "player-module-reconstruction-draft"
       ]
     }
   ],
@@ -149,7 +153,7 @@
       "reads": "PROTECTED",
       "writes": "NOT_APPLICABLE",
       "evidence": [
-        "cycle-12-3-student-home-visual-1790506014828-83c6c257"
+        "cycle-12-3-student-home-visual-1790910655114-9753b25d"
       ],
       "rationale": "Surface is read-only in this matrix."
     },
@@ -159,7 +163,7 @@
       "reads": "PROTECTED",
       "writes": "NOT_APPLICABLE",
       "evidence": [
-        "cycle-12-4-training-library-visual-1790506110976-ff9f6c1f"
+        "cycle-12-4-training-library-visual-1790910740914-abe23897"
       ],
       "rationale": "Surface is read-only in this matrix."
     },
@@ -169,7 +173,7 @@
       "reads": "PROTECTED",
       "writes": "NOT_APPLICABLE",
       "evidence": [
-        "cycle-12-5-workout-player-visual-1790506194580-ffb0200d"
+        "cycle-12-5-workout-player-visual-1790910816153-6eaa801d"
       ],
       "rationale": "Surface is read-only in this matrix."
     },
@@ -179,7 +183,7 @@
       "reads": "NOT_APPLICABLE",
       "writes": "PROTECTED",
       "evidence": [
-        "cycle-12-6-set-tracking-visual-1790506250546-f3e1e257"
+        "cycle-12-6-set-tracking-visual-1790910882099-7e3bd5e3"
       ],
       "rationale": null
     },
@@ -189,7 +193,7 @@
       "reads": "NOT_APPLICABLE",
       "writes": "PROTECTED",
       "evidence": [
-        "cycle-12-8-workout-completion-feedback-visual-1790506300512-01a156fb"
+        "cycle-12-8-workout-completion-feedback-visual-1790910980457-3fb77635"
       ],
       "rationale": null
     },
@@ -199,7 +203,7 @@
       "reads": "PROTECTED",
       "writes": "NOT_APPLICABLE",
       "evidence": [
-        "cycle-12-9-student-evolution-visual-1790506359696-5651b931"
+        "cycle-12-9-student-evolution-visual-1790911041935-561e429d"
       ],
       "rationale": "Surface is read-only in this matrix."
     },
@@ -209,7 +213,7 @@
       "reads": "PROTECTED",
       "writes": "NOT_APPLICABLE",
       "evidence": [
-        "cycle-12-10-profile-secondary-flows-visual-1790506428182-3b632aa1"
+        "cycle-12-10-profile-secondary-flows-visual-1790911110821-ec8ea3b1"
       ],
       "rationale": "Surface is read-only in this matrix."
     }

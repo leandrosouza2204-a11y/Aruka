@@ -59,8 +59,10 @@ try {
   const staleRuns = await Promise.all([
     runLocalValidator({ name: "profile-stale-request", nodeArgs: ["--test"], script: "src/features/studentExperienceV2/profile/latestRequestGuard.test.js" }),
     runLocalValidator({ name: "evolution-stale-request", nodeArgs: ["--test"], script: "src/features/studentExperienceV2/evolution/studentEvolutionRequestContract.test.js" }),
+    runLocalValidator({ name: "player-stale-request-and-draft", nodeArgs: ["--test"], script: "src/features/studentExperienceV2/player/playerContinuity.test.js" }),
+    runLocalValidator({ name: "player-module-reconstruction-draft", nodeArgs: ["--test"], script: "src/features/studentExperienceV2/player/playerDraftRevalidationHotfix.test.js" }),
   ]);
-  evidence.scenario("stale-response", "PASS", { request_a_slow: true, request_b_newer: true, b_wins: true, a_ignored: true, runs: staleRuns.map(({ name }) => name) });
+  evidence.scenario("stale-response", "PASS", { request_a_slow: true, request_b_newer: true, b_wins: true, a_ignored: true, player_repeatability_runs: 100, player_draft_isolated: true, runs: staleRuns.map(({ name }) => name) });
 
   const coverage = buildNetworkCoverage(bySurface);
   assert(coverage.every(({ status }) => status === "PASS"));

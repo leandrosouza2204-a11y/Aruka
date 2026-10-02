@@ -43,6 +43,7 @@ const ProfessionalContactSettings = lazy(() => import("./features/contactSetting
 const StudentWorkoutPlayerV2 = lazy(() => import("./features/studentExperienceV2/player/StudentWorkoutPlayerV2"));
 const StudentWorkoutFallback = lazy(() => import("./features/studentExperienceV2/routes/StudentWorkoutFallback"));
 const StudentExperienceV2Route = lazy(() => import("./features/studentExperienceV2/guards/StudentExperienceV2Route"));
+const StudentEntryRoute = lazy(() => import("./features/studentExperienceV2/guards/StudentEntryRoute"));
 
 function App() {
   return (
@@ -113,7 +114,9 @@ function App() {
             path="/minha-area"
             element={
               <ProtectedRoute>
-                <MinhaArea />
+                <StudentEntryRoute>
+                  <MinhaArea />
+                </StudentEntryRoute>
               </ProtectedRoute>
             }
           />

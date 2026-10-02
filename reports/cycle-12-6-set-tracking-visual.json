@@ -1,12 +1,12 @@
 {
   "evidence_contract_version": 1,
-  "run_id": "cycle-12-6-set-tracking-visual-1790439396162-86e5ed83",
+  "run_id": "cycle-12-6-set-tracking-visual-1790910882099-7e3bd5e3",
   "gate": "CYCLE_12_6_SET_TRACKING_VISUAL",
   "decision": "PASS",
   "current_run": true,
-  "started_at": "2026-09-26T16:16:36.163Z",
-  "finished_at": "2026-09-26T16:17:25.288Z",
-  "head": "c9ef3f8d185c2f67ea4727242719513a4d4b4a72",
+  "started_at": "2026-10-02T03:14:42.099Z",
+  "finished_at": "2026-10-02T03:16:19.974Z",
+  "head": "abe9e0c9a5359df5d09b5b182b00c7670bccb29c",
   "branch": "main",
   "environment": "LOCAL",
   "production_accessed": false,
@@ -31,6 +31,58 @@
     "tablet-768",
     "desktop-1280"
   ],
+  "startup_attempts": [
+    {
+      "component": "vite",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "http-and-entry-ready",
+          "elapsed_ms": 18991
+        }
+      ]
+    },
+    {
+      "component": "chrome",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "cdp-ready",
+          "elapsed_ms": 1638
+        }
+      ]
+    },
+    {
+      "component": "login-route",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "TRANSIENT_FAIL",
+          "phase": "react-mount-empty",
+          "elapsed_ms": 30119
+        },
+        {
+          "attempt": 2,
+          "status": "PASS",
+          "phase": "react-ready",
+          "elapsed_ms": 12181
+        }
+      ]
+    },
+    {
+      "component": "player-route",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "react-ready",
+          "elapsed_ms": 1217
+        }
+      ]
+    }
+  ],
   "results": [
     {
       "state": "pending-previous-available",
@@ -40,6 +92,19 @@
       "labels": 4,
       "inputs": 4,
       "progressbars": 1,
+      "keyboardAudit": {
+        "reachedSubmit": true,
+        "focusStayedInForm": true,
+        "focusVisible": true,
+        "submitVisible": true,
+        "sequence": [
+          "INPUT",
+          "INPUT",
+          "SELECT",
+          "INPUT",
+          "workout-player-button is-primary workout-player-complete-set"
+        ]
+      },
       "status": "PASS"
     },
     {
@@ -50,6 +115,19 @@
       "labels": 4,
       "inputs": 4,
       "progressbars": 1,
+      "keyboardAudit": {
+        "reachedSubmit": true,
+        "focusStayedInForm": true,
+        "focusVisible": true,
+        "submitVisible": true,
+        "sequence": [
+          "INPUT",
+          "INPUT",
+          "SELECT",
+          "INPUT",
+          "workout-player-button is-primary workout-player-complete-set"
+        ]
+      },
       "status": "PASS"
     },
     {
@@ -60,6 +138,19 @@
       "labels": 4,
       "inputs": 4,
       "progressbars": 1,
+      "keyboardAudit": {
+        "reachedSubmit": true,
+        "focusStayedInForm": true,
+        "focusVisible": true,
+        "submitVisible": true,
+        "sequence": [
+          "INPUT",
+          "INPUT",
+          "SELECT",
+          "INPUT",
+          "workout-player-button is-primary workout-player-complete-set"
+        ]
+      },
       "status": "PASS"
     },
     {
@@ -70,6 +161,19 @@
       "labels": 4,
       "inputs": 4,
       "progressbars": 1,
+      "keyboardAudit": {
+        "reachedSubmit": true,
+        "focusStayedInForm": true,
+        "focusVisible": true,
+        "submitVisible": true,
+        "sequence": [
+          "INPUT",
+          "INPUT",
+          "SELECT",
+          "INPUT",
+          "workout-player-button is-primary workout-player-complete-set"
+        ]
+      },
       "status": "PASS"
     },
     {
@@ -80,6 +184,19 @@
       "labels": 4,
       "inputs": 4,
       "progressbars": 1,
+      "keyboardAudit": {
+        "reachedSubmit": true,
+        "focusStayedInForm": true,
+        "focusVisible": true,
+        "submitVisible": true,
+        "sequence": [
+          "INPUT",
+          "INPUT",
+          "SELECT",
+          "INPUT",
+          "workout-player-button is-primary workout-player-complete-set"
+        ]
+      },
       "status": "PASS"
     },
     {
@@ -90,6 +207,19 @@
       "labels": 4,
       "inputs": 4,
       "progressbars": 1,
+      "keyboardAudit": {
+        "reachedSubmit": true,
+        "focusStayedInForm": true,
+        "focusVisible": true,
+        "submitVisible": true,
+        "sequence": [
+          "INPUT",
+          "INPUT",
+          "SELECT",
+          "INPUT",
+          "workout-player-button is-primary workout-player-complete-set"
+        ]
+      },
       "status": "PASS"
     },
     {

@@ -1,12 +1,12 @@
 {
   "evidence_contract_version": 1,
-  "run_id": "cycle-12-14-1790487165726-804752f4",
+  "run_id": "cycle-12-14-1790909540187-c7edd04b",
   "gate": "CYCLE_12_14",
   "decision": "PASS",
   "current_run": true,
-  "started_at": "2026-09-27T05:32:45.726Z",
-  "finished_at": "2026-09-27T05:55:58.917Z",
-  "head": "407e48761224a8c7bd4979791ad09f337d160e68",
+  "started_at": "2026-10-02T02:52:20.187Z",
+  "finished_at": "2026-10-02T03:19:55.775Z",
+  "head": "abe9e0c9a5359df5d09b5b182b00c7670bccb29c",
   "branch": "main",
   "environment": "LOCAL",
   "production_accessed": false,
@@ -21,32 +21,32 @@
     {
       "name": "harness-integrity",
       "status": "PASS",
-      "run_id": "cycle-12-14-harness-integrity-1790487166362-bc389481",
-      "elapsed_ms": 4013
+      "run_id": "cycle-12-14-harness-integrity-1790909540657-78b6074d",
+      "elapsed_ms": 3756
     },
     {
       "name": "landscape",
       "status": "PASS",
-      "run_id": "cycle-12-14-landscape-1790487170320-5fdf3dd0",
-      "elapsed_ms": 466215
+      "run_id": "cycle-12-14-landscape-1790909544442-a5e66d14",
+      "elapsed_ms": 502835
     },
     {
       "name": "keyboard-resize",
       "status": "PASS",
-      "run_id": "cycle-12-14-keyboard-resize-1790487636613-e0e9de0f",
-      "elapsed_ms": 89419
+      "run_id": "cycle-12-14-keyboard-resize-1790910047562-eebafe25",
+      "elapsed_ms": 116178
     },
     {
       "name": "keyboard-focus",
       "status": "PASS",
-      "run_id": "cycle-12-14-keyboard-focus-1790487725943-8c5db100",
-      "elapsed_ms": 393458
+      "run_id": "cycle-12-14-keyboard-focus-1790910163473-980fb0f4",
+      "elapsed_ms": 490910
     },
     {
       "name": "network-resilience",
       "status": "PASS",
-      "run_id": "cycle-12-14-network-resilience-1790488119497-2ee6cf19",
-      "elapsed_ms": 439754
+      "run_id": "cycle-12-14-network-resilience-1790910654417-0c83c5c7",
+      "elapsed_ms": 541631
     }
   ],
   "failures": [],
@@ -58,27 +58,27 @@
   "results": [
     {
       "gate": "harness-integrity",
-      "run_id": "cycle-12-14-harness-integrity-1790487166362-bc389481",
+      "run_id": "cycle-12-14-harness-integrity-1790909540657-78b6074d",
       "status": "PASS"
     },
     {
       "gate": "landscape",
-      "run_id": "cycle-12-14-landscape-1790487170320-5fdf3dd0",
+      "run_id": "cycle-12-14-landscape-1790909544442-a5e66d14",
       "status": "PASS"
     },
     {
       "gate": "keyboard-resize",
-      "run_id": "cycle-12-14-keyboard-resize-1790487636613-e0e9de0f",
+      "run_id": "cycle-12-14-keyboard-resize-1790910047562-eebafe25",
       "status": "PASS"
     },
     {
       "gate": "keyboard-focus",
-      "run_id": "cycle-12-14-keyboard-focus-1790487725943-8c5db100",
+      "run_id": "cycle-12-14-keyboard-focus-1790910163473-980fb0f4",
       "status": "PASS"
     },
     {
       "gate": "network-resilience",
-      "run_id": "cycle-12-14-network-resilience-1790488119497-2ee6cf19",
+      "run_id": "cycle-12-14-network-resilience-1790910654417-0c83c5c7",
       "status": "PASS"
     }
   ],

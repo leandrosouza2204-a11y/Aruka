@@ -1,5 +1,6 @@
 import { Activity, AlertCircle, CalendarDays, ClipboardList, Dumbbell, RefreshCcw, Scale } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   buscarMeuHistoricoValidoV2,
   buscarMinhaFrequenciaAlunoV2,
@@ -12,6 +13,7 @@ import {
   formatMeasurement,
 } from "../domain/studentEvolutionV2.js";
 import { createLatestRequestGuard } from "../profile/latestRequestGuard.js";
+import { buildStudentWorkoutPlayerRoute } from "../domain/studentExperienceV2Contracts.js";
 
 const loadingState = () => ({ status: "loading", data: null, error: null });
 
@@ -105,6 +107,7 @@ function StudentEvolutionV2() {
                   <span>{item.dayName || "Sessão concluída"} · {formatEvolutionDate(item.date)}</span>
                   <small>{item.completedSetCount} {item.completedSetCount === 1 ? "série concluída" : "séries concluídas"} em {item.completedExerciseCount} {item.completedExerciseCount === 1 ? "exercício" : "exercícios"}</small>
                   {item.shortDurationConfirmed && <small>Conclusão curta confirmada</small>}
+                  <Link aria-label={`Ver detalhes de ${item.title} concluído em ${formatEvolutionDate(item.date)}`} className="student-v2-text-link student-evolution-detail-link" to={buildStudentWorkoutPlayerRoute(item.id)}>Ver detalhes</Link>
                 </div>
               </li>
             ))}

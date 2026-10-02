@@ -35,6 +35,7 @@ const viewports = resolveCycle1214Viewports([
   { name: "mobile-320", width: 320, height: 800, mobile: true },
   { name: "mobile-375", width: 375, height: 812, mobile: true },
   { name: "mobile-390", width: 390, height: 844, mobile: true },
+  { name: "mobile-reflow-150", width: 250, height: 541, mobile: true },
   { name: "tablet-768", width: 768, height: 1024, mobile: true },
   { name: "desktop-1280", width: 1280, height: 900, mobile: false },
 ]);
@@ -46,7 +47,7 @@ let sessionId;
 let screenshotCount = 0;
 const results = [];
 const startupAttempts = [];
-const evidence = beginVisualQaEvidence({ gate: "CYCLE_12_5_WORKOUT_PLAYER_VISUAL", reportPath: "reports/cycle-12-5-workout-player-visual.json", requiredScenarios: ["viewport-matrix", "loading", "recoverable-error", "resume", "terminal"] });
+const evidence = beginVisualQaEvidence({ gate: "CYCLE_12_5_WORKOUT_PLAYER_VISUAL", reportPath: "reports/cycle-12-5-workout-player-visual.json", requiredScenarios: ["viewport-matrix", "live-revalidation-continuity", "header-reflow", "loading", "recoverable-error", "resume", "terminal"] });
 
 try {
   assert(password, "QA_USER_PASSWORD ausente.");
@@ -78,17 +79,52 @@ try {
   assert.equal(Number(scalar(`select count(*) from public.workout_execution_sessions where id='${sessionId}' and status='in_progress';`)), 1);
   results.push({ state: "library-start", sessionIdPresent: true, status: "PASS" });
 
+  const initialExerciseName = await evaluate(cdp, "document.querySelector('.workout-player-stage h1').textContent");
+  await fillTrackingDraft(cdp, ["10", "22", "2", "8"]);
+  await evaluate(cdp, "document.querySelector('.workout-player-complete-set').click()");
+  await waitFor(cdp, "document.querySelectorAll('.workout-player-set-selector button.is-complete').length === 1 && document.querySelector('#workout-player-tracking-title')?.textContent.includes('2')", 30000);
+  await fillTrackingDraft(cdp, ["10", "22", "2", "8"]);
+  await evaluate(cdp, "document.dispatchEvent(new Event('visibilitychange'))");
+  await evaluate(cdp, "window.dispatchEvent(new Event('focus'))");
+  assert.equal(await evaluate(cdp, "document.querySelector('.workout-player-stage h1').textContent"), initialExerciseName);
+  assert.deepEqual(await readTrackingDraft(cdp), ["10", "22", "2", "8"]);
+  assert.equal(await evaluate(cdp, "Boolean(document.querySelector('.workout-player-loading'))"), false);
+
+  const executionExerciseIds = scalar(`select string_agg(id::text,',' order by exercise_order_snapshot,id) from public.workout_execution_exercises where session_id='${sessionId}';`).split(",").filter(Boolean);
+  const reconstructedDraft = await evaluate(cdp, `(async()=>{const module=await import('/src/features/studentExperienceV2/player/playerContinuity.js?qa-reconstructed-boundary=1');const store=module.getVolatilePlayerDraftStore();return ${JSON.stringify(executionExerciseIds)}.map((exerciseId)=>({exerciseId,setNumber:2,draft:store.read(${JSON.stringify(sessionId)},exerciseId,2,{})})).find((entry)=>Object.keys(entry.draft).length)||null})()`);
+  assert.equal(reconstructedDraft?.setNumber, 2, `cache draft ausente ou em identidade incorreta: ${JSON.stringify(reconstructedDraft)}`);
+  assert.deepEqual(reconstructedDraft.draft, { reps: "10", loadValue: "22", loadUnit: "kg", rir: "2", rpe: "8" });
+
+  await leaveAndResume(cdp, sessionId, { observeSkeleton: true });
+  assert.equal(await evaluate(cdp, "document.querySelector('.workout-player-stage h1').textContent"), initialExerciseName);
+  assert.deepEqual(await readTrackingDraft(cdp), ["10", "22", "2", "8"]);
+  results.push({ state: "live-revalidation-draft", exercisePreserved: true, draftPreserved: true, foregroundImmediate: true, moduleBoundaryReconstructed: true, skeletonObserved: true, partialSet: 2, status: "PASS" });
+
+  await evaluate(cdp, "document.querySelector('.workout-player-complete-set').click()");
+  await waitFor(cdp, "document.querySelectorAll('.workout-player-set-selector button.is-complete').length === 2 && document.querySelector('#workout-player-tracking-title')?.textContent.includes('3')", 30000);
+  await leaveAndResume(cdp, sessionId);
+  assert.equal(await evaluate(cdp, "document.querySelector('.workout-player-stage h1').textContent"), initialExerciseName);
+  assert(await evaluate(cdp, "document.querySelector('#workout-player-tracking-title')?.textContent.includes('3')"));
+  assert.deepEqual(await readTrackingDraft(cdp), ["", "", "", ""]);
+  results.push({ state: "partial-exercise-remount", exercisePreserved: true, currentSet: 3, confirmedDraftCleared: true, status: "PASS" });
+  evidence.scenario("live-revalidation-continuity", "PASS", { draft_fields: 4, exercise_identity: "stable", foreground_immediate: true, module_boundary_reconstructed: true, skeleton_observed: true, partial_set: 2 });
+
   for (const viewport of viewports) {
     await setViewport(cdp, viewport);
+    await waitFor(cdp, "(() => { const header=document.querySelector('.workout-player-header')?.getBoundingClientRect(); const timer=document.querySelector('.workout-player-rest')?.getBoundingClientRect(); return header && header.top >= -0.5 && (!timer || timer.top >= header.bottom); })()", 5000);
     const audit = await auditPlayer(cdp);
     assert(audit.noHorizontalOverflow, `${viewport.name}: overflow horizontal`);
     assert(audit.minimumTarget >= 44, `${viewport.name}: target menor que 44px (${JSON.stringify(audit.targetSizes)})`);
     assert.equal(audit.mainHeadings, 1, `${viewport.name}: heading principal`);
     assert.equal(audit.progressbars, 1, `${viewport.name}: progressbar`);
+    assert(audit.headerTextFullyVisible, `${viewport.name}: texto do cabeçalho cortado (${JSON.stringify(audit.header)})`);
+    assert(audit.headerWithinViewport, `${viewport.name}: cabeçalho fora do viewport (${JSON.stringify(audit.header)})`);
+    assert(audit.noHeaderTimerOverlap, `${viewport.name}: timer sobrepõe o cabeçalho`);
     await screenshot(cdp, `${viewport.name}-current-media-prescription.png`);
     results.push({ state: "current-media-prescription", viewport: viewport.name, ...audit, status: "PASS" });
   }
-  evidence.scenario("viewport-matrix", "PASS", { widths: [320, 375, 390, 768, 1280] });
+  evidence.scenario("viewport-matrix", "PASS", { widths: viewports.map((item) => item.width) });
+  evidence.scenario("header-reflow", "PASS", { normal: true, landscape: viewports.some((item) => item.width > item.height), equivalent_zoom_150: viewports.some((item) => item.name === "mobile-reflow-150") });
 
   await setViewport(cdp, viewports[2]);
   await evaluate(cdp, `document.querySelector('[aria-label="Escolher exercício"]').click()`);
@@ -119,7 +155,10 @@ try {
   await screenshot(cdp, "mobile-390-last-exercise.png");
   results.push({ state: "last-exercise", status: "PASS" });
 
-  await evaluate(cdp, `document.querySelector('[aria-label="Sair do player e continuar depois"]').click()`);
+  await evaluate(cdp, `document.querySelector('[aria-label="Sair do treino e continuar depois"]').click()`);
+  await waitFor(cdp, "document.querySelector('#leave-workout-title') && document.querySelector('.workout-player-dialog[open]')");
+  assert.equal(scalar(`select status from public.workout_execution_sessions where id='${sessionId}';`), "in_progress");
+  await evaluate(cdp, `[...document.querySelectorAll('.workout-player-dialog[open] button')].find((button)=>button.innerText.includes('Sair e continuar depois')).click()`);
   await waitFor(cdp, "location.pathname === '/minha-area/treinos'", 30000);
   assert.equal(scalar(`select status from public.workout_execution_sessions where id='${sessionId}';`), "in_progress");
   await evaluate(cdp, `document.querySelector('[data-testid="student-training-active-session"] button').click()`);
@@ -176,23 +215,50 @@ function setupFixture(userId) {
     values ('${professionalId}','00000000-0000-0000-0000-000000000000','authenticated','authenticated','cycle-12-5-visual-professional@example.invalid','','','','','','','','',now(),now(),now(),'{}','{}',false);
     insert into public.perfis(id,user_id,nome,email,role,tipo_acesso,status) values ('${professionalId}','${professionalId}','Visual Professional','cycle-12-5-visual-professional@example.invalid','user','assinante','ativo');
     insert into public.alunos(id,user_id,nome,whatsapp,inicio,plano,valor,status,observacoes,student_user_id,student_access_status,student_access_activated_at) values ('${studentId}','${professionalId}','Aluno Visual','+550000005811',current_date,'QA',0,'Ativo','visual local','${userId}','active',now());
-    insert into public.treinos(id,user_id,aluno_id,nome_rotina,objetivo,nivel,dias_semana,observacoes,status,lifecycle_status,delivered_at) values ('${programId}','${professionalId}','${studentId}','Força e mobilidade','Condicionamento','Intermediário',3,'','Ativo','active',now());
+    insert into public.treinos(id,user_id,aluno_id,nome_rotina,objetivo,nivel,dias_semana,observacoes,status,lifecycle_status,delivered_at) values ('${programId}','${professionalId}','${studentId}','Programa de força, mobilidade e estabilidade para retorno progressivo','Condicionamento','Intermediário',3,'','Ativo','active',now());
     insert into public.treino_dias(id,treino_id,nome,grupo_muscular,ordem) values ('${dayId}','${programId}','Treino de corpo inteiro','Corpo inteiro',1);
     insert into public.treino_exercicios(id,treino_dia_id,nome,series,repeticoes,carga,descanso,observacoes,video_url,ordem,tracking_config,exercise_media_snapshot) values
-      ('${exerciseMedia}','${dayId}','Agachamento com amplitude controlada','4','8–10','Carga confortável','90 s','Mantenha os joelhos alinhados.','https://www.youtube.com/watch?v=dQw4w9WgXcQ',1,'{"load":true,"reps":true,"rir":true,"rpe":false,"duration":false,"distance":false}','{"name":"Agachamento","media":{"type":"youtube","videoId":"dQw4w9WgXcQ","youtubeUrl":"https://www.youtube.com/watch?v=dQw4w9WgXcQ"}}'),
+      ('${exerciseMedia}','${dayId}','Agachamento com amplitude controlada','4','8–10','Carga confortável','90 s','Mantenha os joelhos alinhados.','https://www.youtube.com/watch?v=dQw4w9WgXcQ',1,'{"load":true,"reps":true,"rir":true,"rpe":true,"duration":false,"distance":false}','{"name":"Agachamento","media":{"type":"youtube","videoId":"dQw4w9WgXcQ","youtubeUrl":"https://www.youtube.com/watch?v=dQw4w9WgXcQ"}}'),
       ('${exerciseMissing}','${dayId}','Crucifixo inclinado unilateral com nome longo','3','12','8 kg','60 s','Controle o retorno sem perder a postura.','',2,'{"load":true,"reps":true,"rir":false,"rpe":false,"duration":false,"distance":false}','{}'),
       ('${exerciseLast}','${dayId}','Prancha frontal','3','30 s','','45 s','Respire normalmente.','',3,'{"load":false,"reps":false,"rir":false,"rpe":false,"duration":true,"distance":false}','{}');
   `);
 }
 function cleanupFixture({ strict = false } = {}) { const result = runPsql(process.cwd(), `delete from public.workout_execution_sessions where aluno_id='${studentId}'; delete from public.treinos where aluno_id='${studentId}'; delete from public.alunos where id='${studentId}'; delete from public.perfis where id='${professionalId}'; delete from auth.users where id='${professionalId}';`, { throwOnError: false }); if (strict && result.status !== 0) throw new Error(`Cleanup SQL do Player falhou: ${result.stderr || result.stdout}`); }
 function scalar(statement) { return runPsql(process.cwd(), `\\pset tuples_only on\n\\pset format unaligned\n${statement}`).stdout.trim().split(/\r?\n/).filter(Boolean).at(-1) || ""; }
+async function fillTrackingDraft(client, values) {
+  assert.equal(await evaluate(client, "document.querySelectorAll('.workout-player-fields input').length"), values.length);
+  for (let index = 0; index < values.length; index += 1) {
+    await evaluate(client, `document.querySelectorAll('.workout-player-fields input')[${index}].focus()`);
+    await client.send("Input.dispatchKeyEvent", { type: "keyDown", key: "a", code: "KeyA", modifiers: 2, windowsVirtualKeyCode: 65 });
+    await client.send("Input.dispatchKeyEvent", { type: "keyUp", key: "a", code: "KeyA", modifiers: 2, windowsVirtualKeyCode: 65 });
+    await client.send("Input.dispatchKeyEvent", { type: "keyDown", key: "Backspace", code: "Backspace", windowsVirtualKeyCode: 8 });
+    await client.send("Input.dispatchKeyEvent", { type: "keyUp", key: "Backspace", code: "Backspace", windowsVirtualKeyCode: 8 });
+    await client.send("Input.insertText", { text: values[index] });
+  }
+}
+async function readTrackingDraft(client) { return evaluate(client, "[...document.querySelectorAll('.workout-player-fields input')].map((input)=>input.value)"); }
+async function leaveAndResume(client, expectedSessionId, { observeSkeleton = false } = {}) {
+  await evaluate(client, "document.querySelector('[aria-label=\"Sair do treino e continuar depois\"]').click()");
+  await waitFor(client, "document.querySelector('#leave-workout-title') && document.querySelector('.workout-player-dialog[open]')");
+  await evaluate(client, "[...document.querySelectorAll('.workout-player-dialog[open] button')].find((button)=>button.innerText.includes('Sair e continuar depois')).click()");
+  await waitFor(client, "location.pathname === '/minha-area/treinos' && document.querySelector('[data-testid=\"student-training-active-session\"] button')", 30000);
+  if (observeSkeleton) await client.send("Fetch.enable", { patterns: [{ urlPattern: "*get_my_workout_player_v2*", requestStage: "Request" }] });
+  await evaluate(client, "document.querySelector('[data-testid=\"student-training-active-session\"] button').click()");
+  if (observeSkeleton) {
+    await waitFor(client, "document.querySelector('.workout-player-loading')", 15000);
+    const paused = await waitForPausedRequest(client);
+    await client.send("Fetch.continueRequest", { requestId: paused });
+    await client.send("Fetch.disable");
+  }
+  await waitFor(client, `location.pathname.endsWith('${expectedSessionId}') && document.querySelector('[data-testid="student-workout-player-v2"]')`, 30000);
+}
 async function ensureFrontend() { server = spawn(process.execPath, [join("node_modules", "vite", "bin", "vite.js"), "--host", "127.0.0.1", "--port", "5185", "--strictPort"], { env: { ...process.env, VITE_STUDENT_EXPERIENCE_V2_ENABLED: "true" }, shell: false, stdio: "ignore" }); const started = Date.now(); while (Date.now()-started<45000) { if (await responds(appBaseUrl)) return; await sleep(300); } throw new Error("Frontend local não respondeu."); }
 async function responds(url) { try { return (await fetch(url,{redirect:"manual"})).status<500; } catch { return false; } }
 async function startChrome() { const path=process.platform==="win32"?"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe":"google-chrome"; assert(existsSync(path),`Chrome não encontrado em ${path}`); const handle=spawn(path,["--headless=new","--no-sandbox","--disable-gpu","--disable-dev-shm-usage","--no-first-run",`--user-data-dir=${profileDir}`,`--remote-debugging-port=${cdpPort}`,"about:blank"],{stdio:"ignore",shell:false}); const started=Date.now(); while(Date.now()-started<15000){try{if((await fetch(`http://127.0.0.1:${cdpPort}/json/version`)).ok)return handle;}catch{await sleep(200);}} throw new Error("Chrome CDP não iniciou."); }
 async function getWebSocketUrl(){const response=await fetch(`http://127.0.0.1:${cdpPort}/json/new?${encodeURIComponent("about:blank")}`,{method:"PUT"});if(response.ok)return(await response.json()).webSocketDebuggerUrl;return(await(await fetch(`http://127.0.0.1:${cdpPort}/json/version`)).json()).webSocketDebuggerUrl;}
 function createCdpClient(url){const socket=new WebSocket(url);let nextId=1;const pending=new Map();const paused=[];socket.addEventListener("message",(event)=>{const message=JSON.parse(event.data);if(message.method==="Fetch.requestPaused")paused.push(message.params.requestId);if(!message.id||!pending.has(message.id))return;const item=pending.get(message.id);pending.delete(message.id);if(message.error)item.reject(new Error(`${item.method}: ${message.error.message}`));else item.resolve(message.result);});return{ready:new Promise((resolve,reject)=>{socket.addEventListener("open",resolve,{once:true});socket.addEventListener("error",reject,{once:true});}),send(method,params={}){const id=nextId++;socket.send(JSON.stringify({id,method,params}));return new Promise((resolve,reject)=>pending.set(id,{method,resolve,reject}));},takePaused(){return paused.shift();},close(){socket.close();}};}
 async function setViewport(client,viewport){await client.send("Emulation.setDeviceMetricsOverride",{width:viewport.width,height:viewport.height,deviceScaleFactor:1,mobile:viewport.mobile});}
-async function auditPlayer(client){return evaluate(client,`(() => { const targets=[...document.querySelectorAll('.workout-player-button,.workout-player-icon-button,.workout-player-skip')].filter((item)=>!item.disabled&&item.getClientRects().length); const targetSizes=targets.map((item)=>({label:item.getAttribute('aria-label')||item.textContent.trim(),height:item.getBoundingClientRect().height})); return { noHorizontalOverflow: document.documentElement.scrollWidth <= innerWidth + 1, minimumTarget: Math.min(...targetSizes.map((item)=>item.height)), targetSizes, mainHeadings: document.querySelectorAll('main h1').length, progressbars: document.querySelectorAll('[role="progressbar"]').length, studentShell: Boolean(document.querySelector('[data-testid="student-v2-shell"]')), videoAutoplay: [...document.querySelectorAll('video')].some((video)=>video.autoplay) }; })()`);}
+async function auditPlayer(client){return evaluate(client,`(() => { const targets=[...document.querySelectorAll('.workout-player-button,.workout-player-icon-button,.workout-player-skip')].filter((item)=>!item.disabled&&item.getClientRects().length); const targetSizes=targets.map((item)=>({label:item.getAttribute('aria-label')||item.textContent.trim(),height:item.getBoundingClientRect().height})); const copy=document.querySelector('.workout-player-header-copy'); const headerNode=document.querySelector('.workout-player-header'); const timer=document.querySelector('.workout-player-rest'); const headerRect=headerNode.getBoundingClientRect(); const copyRect=copy.getBoundingClientRect(); const timerRect=timer?.getBoundingClientRect(); const header={top:headerRect.top,bottom:headerRect.bottom,copyTop:copyRect.top,copyBottom:copyRect.bottom,clientWidth:copy.clientWidth,scrollWidth:copy.scrollWidth,clientHeight:copy.clientHeight,scrollHeight:copy.scrollHeight,whiteSpaces:[...copy.children].map((item)=>getComputedStyle(item).whiteSpace),overflows:[...copy.children].map((item)=>getComputedStyle(item).overflow)}; return { noHorizontalOverflow: document.documentElement.scrollWidth <= innerWidth + 1, minimumTarget: Math.min(...targetSizes.map((item)=>item.height)), targetSizes, mainHeadings: document.querySelectorAll('main h1').length, progressbars: document.querySelectorAll('[role="progressbar"]').length, studentShell: Boolean(document.querySelector('[data-testid="student-v2-shell"]')), videoAutoplay: [...document.querySelectorAll('video')].some((video)=>video.autoplay), header, headerTextFullyVisible: header.scrollWidth <= header.clientWidth + 1 && header.scrollHeight <= header.clientHeight + 1 && header.whiteSpaces.every((value)=>value === 'normal') && header.overflows.every((value)=>value === 'visible'), headerWithinViewport: headerRect.top >= -0.5 && copyRect.top >= -0.5 && headerRect.bottom <= innerHeight + 0.5, noHeaderTimerOverlap: !timerRect || timerRect.top >= headerRect.bottom }; })()`);}
 async function screenshot(client,name){mkdirSync(screenshotDir,{recursive:true});const result=await client.send("Page.captureScreenshot",{format:"png",fromSurface:true,captureBeyondViewport:false});writeFileSync(join(screenshotDir,name),Buffer.from(result.data,"base64"));screenshotCount+=1;}
 async function evaluate(client,expression){const response=await client.send("Runtime.evaluate",{expression,awaitPromise:true,returnByValue:true});if(response.exceptionDetails)throw new Error(response.exceptionDetails.text);return response.result.value;}
 async function waitFor(client,expression,timeout=20000){const started=Date.now();while(Date.now()-started<timeout){if(await evaluate(client,`Boolean(${expression})`))return;await sleep(200);}throw new Error(`Timeout aguardando ${expression}`);}

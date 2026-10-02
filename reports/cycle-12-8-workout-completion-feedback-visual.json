@@ -1,12 +1,12 @@
 {
   "evidence_contract_version": 1,
-  "run_id": "cycle-12-8-workout-completion-feedback-visual-1790438975500-c084d504",
+  "run_id": "cycle-12-8-workout-completion-feedback-visual-1790910980457-3fb77635",
   "gate": "CYCLE_12_8_WORKOUT_COMPLETION_FEEDBACK_VISUAL",
   "decision": "PASS",
   "current_run": true,
-  "started_at": "2026-09-26T16:09:35.501Z",
-  "finished_at": "2026-09-26T16:11:25.133Z",
-  "head": "c9ef3f8d185c2f67ea4727242719513a4d4b4a72",
+  "started_at": "2026-10-02T03:16:20.457Z",
+  "finished_at": "2026-10-02T03:17:21.253Z",
+  "head": "abe9e0c9a5359df5d09b5b182b00c7670bccb29c",
   "branch": "main",
   "environment": "LOCAL",
   "production_accessed": false,
@@ -19,7 +19,9 @@
     "recoverable-error",
     "duplicate-prevention",
     "return-to-library",
+    "post-completion-refresh",
     "viewport-matrix",
+    "completion-dialog-keyboard",
     "terminal-state"
   ],
   "scenarios": [
@@ -33,6 +35,13 @@
         768,
         1280
       ]
+    },
+    {
+      "name": "completion-dialog-keyboard",
+      "status": "PASS",
+      "focus_contained": true,
+      "primary_reachable": true,
+      "classification": "AUTOMATED_KEYBOARD_PASS"
     },
     {
       "name": "submitting",
@@ -64,6 +73,14 @@
       "status": "PASS"
     },
     {
+      "name": "post-completion-refresh",
+      "status": "PASS",
+      "home_active_session": false,
+      "library_active_session": false,
+      "evolution_detail_link": true,
+      "new_session_created": false
+    },
+    {
       "name": "without-feedback",
       "status": "PASS"
     },
@@ -90,6 +107,65 @@
     768,
     1280
   ],
+  "startup_attempts": [
+    {
+      "component": "vite",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "http-and-entry-ready",
+          "elapsed_ms": 8669
+        }
+      ]
+    },
+    {
+      "component": "chrome",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "cdp-ready",
+          "elapsed_ms": 1005
+        }
+      ]
+    },
+    {
+      "component": "login-route",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "react-ready",
+          "elapsed_ms": 11927
+        }
+      ]
+    },
+    {
+      "component": "player-route",
+      "session_id": "00000000-0000-4000-8000-000000008901",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "react-ready",
+          "elapsed_ms": 1521
+        }
+      ]
+    },
+    {
+      "component": "player-route",
+      "session_id": "00000000-0000-4000-8000-000000008902",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "react-ready",
+          "elapsed_ms": 1362
+        }
+      ]
+    }
+  ],
   "results": [
     {
       "state": "completion-dialog",
@@ -98,6 +174,22 @@
       "minimumTarget": 46,
       "focusableDialog": true,
       "feedbackOptional": true,
+      "clientHeight": 483,
+      "scrollHeight": 483,
+      "overflowY": "auto",
+      "verticalOverflowManaged": true,
+      "keyboardAudit": {
+        "reachedPrimary": true,
+        "focusStayedInDialog": true,
+        "focusVisible": true,
+        "focusedControlVisible": true,
+        "sequence": [
+          "Treino concluído com boa execução.",
+          "Continuar treinando",
+          "Finalizar treino"
+        ],
+        "dialogScrollTop": 0
+      },
       "status": "PASS"
     },
     {
@@ -107,6 +199,22 @@
       "minimumTarget": 46,
       "focusableDialog": true,
       "feedbackOptional": true,
+      "clientHeight": 429,
+      "scrollHeight": 429,
+      "overflowY": "auto",
+      "verticalOverflowManaged": true,
+      "keyboardAudit": {
+        "reachedPrimary": true,
+        "focusStayedInDialog": true,
+        "focusVisible": true,
+        "focusedControlVisible": true,
+        "sequence": [
+          "Treino concluído com boa execução.",
+          "Continuar treinando",
+          "Finalizar treino"
+        ],
+        "dialogScrollTop": 0
+      },
       "status": "PASS"
     },
     {
@@ -116,6 +224,22 @@
       "minimumTarget": 46,
       "focusableDialog": true,
       "feedbackOptional": true,
+      "clientHeight": 429,
+      "scrollHeight": 429,
+      "overflowY": "auto",
+      "verticalOverflowManaged": true,
+      "keyboardAudit": {
+        "reachedPrimary": true,
+        "focusStayedInDialog": true,
+        "focusVisible": true,
+        "focusedControlVisible": true,
+        "sequence": [
+          "Treino concluído com boa execução.",
+          "Continuar treinando",
+          "Finalizar treino"
+        ],
+        "dialogScrollTop": 0
+      },
       "status": "PASS"
     },
     {
@@ -125,6 +249,22 @@
       "minimumTarget": 46,
       "focusableDialog": true,
       "feedbackOptional": true,
+      "clientHeight": 389,
+      "scrollHeight": 389,
+      "overflowY": "auto",
+      "verticalOverflowManaged": true,
+      "keyboardAudit": {
+        "reachedPrimary": true,
+        "focusStayedInDialog": true,
+        "focusVisible": true,
+        "focusedControlVisible": true,
+        "sequence": [
+          "Treino concluído com boa execução.",
+          "Continuar treinando",
+          "Finalizar treino"
+        ],
+        "dialogScrollTop": 0
+      },
       "status": "PASS"
     },
     {
@@ -134,6 +274,22 @@
       "minimumTarget": 46,
       "focusableDialog": true,
       "feedbackOptional": true,
+      "clientHeight": 402,
+      "scrollHeight": 402,
+      "overflowY": "auto",
+      "verticalOverflowManaged": true,
+      "keyboardAudit": {
+        "reachedPrimary": true,
+        "focusStayedInDialog": true,
+        "focusVisible": true,
+        "focusedControlVisible": true,
+        "sequence": [
+          "Treino concluído com boa execução.",
+          "Continuar treinando",
+          "Finalizar treino"
+        ],
+        "dialogScrollTop": 0
+      },
       "status": "PASS"
     },
     {
