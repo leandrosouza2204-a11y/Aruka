@@ -43,26 +43,26 @@ function setup() {
       ('${ids.professionalA}','${ids.professionalA}','Cycle 12.9 Professional A','cycle-12-9-prof-a@example.invalid','user','assinante','ativo'),
       ('${ids.professionalB}','${ids.professionalB}','Cycle 12.9 Professional B','cycle-12-9-prof-b@example.invalid','user','assinante','ativo');
     insert into public.alunos(id,user_id,nome,whatsapp,inicio,plano,valor,status,observacoes,student_user_id,student_access_status,student_access_activated_at) values
-      ('${ids.studentA}','${ids.professionalA}','Cycle 12.9 Student A','+550000009911',current_date,'QA',0,'Ativo','synthetic','${ids.userA}','active',now()),
-      ('${ids.studentB}','${ids.professionalB}','Cycle 12.9 Student B','+550000009912',current_date,'QA',0,'Ativo','synthetic','${ids.userB}','active',now());
+      ('${ids.studentA}','${ids.professionalA}','Cycle 12.9 Student A','+550000009911',(now() at time zone 'America/Sao_Paulo')::date,'QA',0,'Ativo','synthetic','${ids.userA}','active',now()),
+      ('${ids.studentB}','${ids.professionalB}','Cycle 12.9 Student B','+550000009912',(now() at time zone 'America/Sao_Paulo')::date,'QA',0,'Ativo','synthetic','${ids.userB}','active',now());
 
     insert into public.workout_execution_sessions(aluno_id,status,session_date,started_at,completed_at,short_duration_confirmed)
-    select '${ids.studentA}','completed',current_date,now() - make_interval(hours => n),now() - make_interval(hours => n),n=1
+    select '${ids.studentA}','completed',(now() at time zone 'America/Sao_Paulo')::date,now() - make_interval(hours => n),now() - make_interval(hours => n),n=1
     from generate_series(1,25) n;
     insert into public.workout_execution_sessions(aluno_id,status,session_date,started_at,completed_at) values
-      ('${ids.studentA}','completed',current_date-27,now()-interval '27 days',now()-interval '27 days'),
-      ('${ids.studentA}','completed',current_date-28,now()-interval '28 days',now()-interval '28 days'),
-      ('${ids.studentA}','completed',current_date+1,now(),now()),
-      ('${ids.studentB}','completed',current_date,now(),now());
+      ('${ids.studentA}','completed',(now() at time zone 'America/Sao_Paulo')::date-27,now()-interval '27 days',now()-interval '27 days'),
+      ('${ids.studentA}','completed',(now() at time zone 'America/Sao_Paulo')::date-28,now()-interval '28 days',now()-interval '28 days'),
+      ('${ids.studentA}','completed',(now() at time zone 'America/Sao_Paulo')::date+1,now(),now()),
+      ('${ids.studentB}','completed',(now() at time zone 'America/Sao_Paulo')::date,now(),now());
     insert into public.workout_execution_sessions(aluno_id,status,session_date,started_at) values
-      ('${ids.studentA}','in_progress',current_date,now());
+      ('${ids.studentA}','in_progress',(now() at time zone 'America/Sao_Paulo')::date,now());
     insert into public.workout_execution_sessions(aluno_id,status,session_date,started_at,abandoned_at) values
-      ('${ids.studentA}','abandoned',current_date,now(),now());
+      ('${ids.studentA}','abandoned',(now() at time zone 'America/Sao_Paulo')::date,now(),now());
 
     insert into public.avaliacoes(id,user_id,aluno_id,data_avaliacao,peso,cintura,observacoes,foto_frente_url) values
-      ('00000000-0000-4000-8000-000000009931','${ids.professionalA}','${ids.studentA}',current_date-30,70.5,80.0,'private A','private-a.jpg'),
-      ('00000000-0000-4000-8000-000000009932','${ids.professionalA}','${ids.studentA}',current_date,69.8,null,'private B','private-b.jpg'),
-      ('00000000-0000-4000-8000-000000009933','${ids.professionalB}','${ids.studentB}',current_date,91.2,99.0,'private C','private-c.jpg');
+      ('00000000-0000-4000-8000-000000009931','${ids.professionalA}','${ids.studentA}',(now() at time zone 'America/Sao_Paulo')::date-30,70.5,80.0,'private A','private-a.jpg'),
+      ('00000000-0000-4000-8000-000000009932','${ids.professionalA}','${ids.studentA}',(now() at time zone 'America/Sao_Paulo')::date,69.8,null,'private B','private-b.jpg'),
+      ('00000000-0000-4000-8000-000000009933','${ids.professionalB}','${ids.studentB}',(now() at time zone 'America/Sao_Paulo')::date,91.2,99.0,'private C','private-c.jpg');
   `);
 }
 
@@ -108,7 +108,7 @@ function main() {
     }
     assert.equal(scalar("select count(*) from pg_proc where oid in ('public.get_my_student_workout_frequency_v2()'::regprocedure,'public.get_my_student_assessments_v2()'::regprocedure) and prosecdef and proconfig=array['search_path=\"\"'];"), "2");
     assert.equal(scalar("select count(*) from pg_indexes where schemaname='public' and indexname in ('workout_execution_sessions_aluno_recent_idx','avaliacoes_aluno_id_idx','avaliacoes_user_data_idx');"), "3");
-    const frequencyPlan = sql(`set enable_seqscan=off; explain (costs off) select count(*) from public.workout_execution_sessions where aluno_id='${ids.studentA}' and status='completed' and session_date between current_date-27 and current_date;`).stdout;
+    const frequencyPlan = sql(`set enable_seqscan=off; explain (costs off) select count(*) from public.workout_execution_sessions where aluno_id='${ids.studentA}' and status='completed' and session_date between (now() at time zone 'America/Sao_Paulo')::date-27 and (now() at time zone 'America/Sao_Paulo')::date;`).stdout;
     const assessmentPlan = sql(`set enable_seqscan=off; explain (costs off) select id,data_avaliacao,peso from public.avaliacoes where aluno_id='${ids.studentA}' and user_id='${ids.professionalA}' order by data_avaliacao desc,id desc limit 24;`).stdout;
     assert.match(frequencyPlan, /workout_execution_sessions_(aluno_recent|valid_history)_idx/);
     assert.match(assessmentPlan, /avaliacoes_(aluno_id|user_data)_idx/);

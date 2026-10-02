@@ -174,7 +174,9 @@ async function main() {
     const historyPlan = sql(`set enable_seqscan=off; explain (format json) select id from public.workout_execution_sessions where aluno_id='${ids.studentA}' and status='completed' order by completed_at desc limit 1;`).stdout;
     const matchPlan = sql(`set enable_seqscan=off; explain (format json) select id from public.workout_execution_exercises where treino_exercicio_id='${ids.prescriptionA}' and session_id='${ids.previous}';`).stdout;
     assert.match(historyPlan, /workout_execution_sessions_valid_history_idx/);
-    assert.match(matchPlan, /workout_execution_exercises_prescription_session_idx/);
+    assert.equal(scalar("select to_regclass('public.workout_execution_exercises_prescription_session_idx')::text;"), "workout_execution_exercises_prescription_session_idx");
+    assert.match(matchPlan, /workout_execution_exercises_(?:prescription_session|session_id)_idx/);
+    assert.doesNotMatch(matchPlan, /"Node Type": "Seq Scan"[\s\S]{0,500}"Relation Name": "workout_execution_exercises"/);
 
     const report = {
       decision: "PASS",

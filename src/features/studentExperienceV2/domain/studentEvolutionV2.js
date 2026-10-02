@@ -40,7 +40,7 @@ export function normalizeStudentEvolutionPayload(payload = {}) {
 
 export function buildWorkoutEvolutionHistory(history = []) {
   return (Array.isArray(history) ? history : [])
-    .filter((session) => session?.status === "completed")
+    .filter((session) => session?.status === "completed" && String(session?.id || "").trim())
     .map((session) => {
       const completedSets = (session.exercises || []).flatMap((exercise) =>
         (exercise.sets || []).filter((set) => set.completed)

@@ -42,7 +42,7 @@ const isShortViewportProfile = ["landscape", "keyboard-resize"].includes(process
 const evidence = beginVisualQaEvidence({
   gate: "CYCLE_12_8_WORKOUT_COMPLETION_FEEDBACK_VISUAL",
   reportPath: "reports/cycle-12-8-workout-completion-feedback-visual.json",
-  requiredScenarios: ["completed-sets", "short-confirmation", "optional-feedback", "without-feedback", "submitting", "recoverable-error", "duplicate-prevention", "return-to-library", "viewport-matrix", "completion-dialog-keyboard", "terminal-state"],
+  requiredScenarios: ["completed-sets", "short-confirmation", "optional-feedback", "without-feedback", "submitting", "recoverable-error", "duplicate-prevention", "return-to-library", "post-completion-refresh", "viewport-matrix", "completion-dialog-keyboard", "terminal-state"],
 });
 
 let admin;
@@ -128,6 +128,18 @@ try {
   evidence.scenario("optional-feedback", "PASS");
   evidence.scenario("duplicate-prevention", "PASS", { feedback_rows: 1 });
   evidence.scenario("terminal-state", "PASS");
+
+  await evaluate("document.querySelector('[data-testid=\"workout-completion-result\"] button').click()");
+  await waitFor("location.pathname === '/minha-area/treinos' && document.querySelector('[data-testid=\"student-training-library-v2\"]')", 30000);
+  assert.equal(await evaluate("Boolean(document.querySelector('[data-testid=\"student-training-active-session\"]'))"), false);
+  await evaluate("document.querySelector('a[href=\"/minha-area/evolucao\"]').click()");
+  await waitFor("location.pathname === '/minha-area/evolucao' && document.querySelector('.student-evolution-timeline')", 30000);
+  assert(await evaluate(`Boolean(document.querySelector('a[href="/minha-area/treino/${shortSessionId}"]'))`));
+  await evaluate("document.querySelector('a[href=\"/minha-area/inicio\"]').click()");
+  await waitFor("location.pathname === '/minha-area/inicio' && document.querySelector('[data-testid=\"student-home-v2\"]')", 30000);
+  assert.equal(await evaluate("document.body.innerText.includes('Treino em andamento')"), false);
+  assert.equal(scalar(`select count(*) from public.workout_execution_sessions where aluno_id='${ids.student}' and status='in_progress';`), "0");
+  evidence.scenario("post-completion-refresh", "PASS", { home_active_session: false, library_active_session: false, evolution_detail_link: true, new_session_created: false });
 
   const noFeedbackSessionId = createSession("02", 400);
   await navigateToSession(noFeedbackSessionId);

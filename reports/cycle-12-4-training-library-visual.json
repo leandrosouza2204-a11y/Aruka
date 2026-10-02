@@ -1,12 +1,12 @@
 {
   "evidence_contract_version": 1,
-  "run_id": "cycle-12-4-training-library-visual-1790439246491-12863483",
+  "run_id": "cycle-12-4-training-library-visual-1790910740914-abe23897",
   "gate": "CYCLE_12_4_TRAINING_LIBRARY_VISUAL",
   "decision": "PASS",
   "current_run": true,
-  "started_at": "2026-09-26T16:14:06.491Z",
-  "finished_at": "2026-09-26T16:15:25.020Z",
-  "head": "c9ef3f8d185c2f67ea4727242719513a4d4b4a72",
+  "started_at": "2026-10-02T03:12:20.914Z",
+  "finished_at": "2026-10-02T03:13:35.746Z",
+  "head": "abe9e0c9a5359df5d09b5b182b00c7670bccb29c",
   "branch": "main",
   "environment": "LOCAL",
   "production_accessed": false,
@@ -51,7 +51,7 @@
     {
       "name": "canonical-player-route",
       "status": "PASS",
-      "session_id": "61113408-d852-40ac-bb7d-5953aff61b62"
+      "session_id": "58d6bc90-b501-46e6-90cb-2331a91d1f6e"
     },
     {
       "name": "double-start",
@@ -80,6 +80,85 @@
     "mobile-430",
     "tablet-768",
     "desktop-1280"
+  ],
+  "startup_attempts": [
+    {
+      "component": "vite-on",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "http-and-entry-ready",
+          "elapsed_ms": 7811
+        }
+      ]
+    },
+    {
+      "component": "chrome",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "cdp-ready",
+          "elapsed_ms": 960
+        }
+      ]
+    },
+    {
+      "component": "login-route",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "react-ready",
+          "elapsed_ms": 11477
+        }
+      ]
+    },
+    {
+      "component": "home-route",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "react-ready",
+          "elapsed_ms": 1547
+        }
+      ]
+    },
+    {
+      "component": "library-route",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "react-ready",
+          "elapsed_ms": 1035
+        }
+      ]
+    },
+    {
+      "component": "vite-off",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "http-and-entry-ready",
+          "elapsed_ms": 8516
+        }
+      ]
+    },
+    {
+      "component": "rollout-off-route",
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "PASS",
+          "phase": "react-ready",
+          "elapsed_ms": 8337
+        }
+      ]
+    }
   ],
   "results": [
     {
@@ -167,8 +246,8 @@
     },
     {
       "state": "canonical-player-route",
-      "route": "/minha-area/treino/61113408-d852-40ac-bb7d-5953aff61b62",
-      "sessionId": "61113408-d852-40ac-bb7d-5953aff61b62",
+      "route": "/minha-area/treino/58d6bc90-b501-46e6-90cb-2331a91d1f6e",
+      "sessionId": "58d6bc90-b501-46e6-90cb-2331a91d1f6e",
       "playerRendered": true,
       "status": "PASS"
     },

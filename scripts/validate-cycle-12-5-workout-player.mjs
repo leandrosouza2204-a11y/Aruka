@@ -20,12 +20,14 @@ const checks = [
   ["RPC derives ownership and active access from auth uid", /v_user_id uuid := auth\.uid\(\)/.test(migration) && /student_user_id = v_user_id/.test(migration) && /student_access_status = 'active'/.test(migration)],
   ["RPC pins search path and denies anon", /set search_path = ''/.test(migration) && /revoke all on function public\.get_my_workout_player_v2\(uuid\) from public, anon/.test(migration)],
   ["payload contains snapshots without global history", /tracking_config_snapshot/.test(migration) && /prescribed_series_snapshot/.test(migration) && !/valid_workout_execution_sessions|get_my_previous/.test(migration)],
-  ["navigation does not write and skip uses the canonical command", /setCurrentIndex/.test(player) && /skipWorkoutExercise/.test(player) && !/completeWorkoutSet/.test(player)],
-  ["leave and cancel are separate explicit actions", /Sair do player e continuar depois/.test(player) && /cancelWorkoutSession/.test(player) && /showModal/.test(player)],
+  ["navigation uses stable exercise identity and skip uses the canonical command", /setActiveExerciseId/.test(player) && /persistExerciseSelection/.test(player) && /skipWorkoutExercise/.test(player) && !/completeWorkoutSet/.test(player)],
+  ["revalidation rejects stale responses and keeps document-lifetime drafts isolated", /requestGuardRef/.test(player) && /isCurrent\(requestVersion\)/.test(player) && /getVolatilePlayerDraftStore/.test(player) && /draftStore\.clear\(sessionId, exercise\.id, setNumber\)/.test(player)],
+  ["leave and cancel are separate explicit actions", /Sair do treino e continuar depois/.test(player) && /Sair e continuar depois/.test(player) && /Encerrar este treino/.test(player) && /cancelWorkoutSession/.test(player) && /showModal/.test(player)],
   ["set tracking and previous performance preserve the prepared boundaries", /data-testid="set-tracker-boundary"/.test(player) && /data-previous-performance-boundary="ready"/.test(player)],
   ["terminal, invalid, empty, error and retry states exist", /isPlayerSessionTerminal/.test(player) && /status === "missing"/.test(player) && /Treino sem exercícios/.test(player) && /Tentar novamente/.test(player)],
   ["current media is lazy and has a dignified fallback", /ExerciseVideoPlayer/.test(player) && /Sem demonstração disponível/.test(player) && !/autoplay/.test(player)],
   ["mobile safe areas, touch targets and reduced motion exist", /safe-area-inset-top/.test(css) && /safe-area-inset-bottom/.test(css) && /min-height: 46px/.test(css) && /prefers-reduced-motion: reduce/.test(css)],
+  ["header wraps relevant names instead of clipping them", /workout-player-header-copy[^}]*overflow: visible/.test(css) && /workout-player-header-copy span[^}]*white-space: normal/.test(css) && /workout-player-header-copy strong[^}]*white-space: normal/.test(css) && !/workout-player-header-copy (?:span|strong)[^}]*text-overflow: ellipsis/.test(css)],
   ["client lifecycle hooks never cancel the workout", !/beforeunload/.test(player) && !/visibilitychange[\s\S]{0,500}cancelWorkoutSession/.test(player)],
 ];
 

@@ -99,6 +99,11 @@ export function deriveCanonicalSetProgress(exercises = []) {
   return { completed, total: rows.length, percent: rows.length ? Math.round((completed / rows.length) * 100) : 0 };
 }
 
+export function isPlayerExerciseComplete(exercise = {}) {
+  const rows = buildPlayerSetRows(exercise);
+  return rows.length > 0 && rows.every((set) => set.completed);
+}
+
 export function validateWorkoutFeedback(value = "") {
   const feedback = String(value || "").trim();
   return {
@@ -189,7 +194,7 @@ export function resolveCurrentExerciseIndex(exercises = [], preferredExerciseId 
   const preferred = exercises.findIndex((exercise) => exercise.id === preferredExerciseId);
   if (preferred >= 0) return preferred;
   const actionable = exercises.findIndex((exercise) => exercise.status !== WORKOUT_EXECUTION_EXERCISE_STATUS.SKIPPED
-    && !exercise.sets.some((set) => set.completed));
+    && !isPlayerExerciseComplete(exercise));
   return actionable >= 0 ? actionable : 0;
 }
 

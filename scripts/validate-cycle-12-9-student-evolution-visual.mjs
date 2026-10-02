@@ -25,6 +25,7 @@ const runToken = `${Date.now()}-${randomUUID().slice(0, 8)}`;
 const professionalEmail = `cycle-12-9-professional-${runToken}@example.invalid`;
 const studentEmail = `cycle-12-9-student-${runToken}@example.invalid`;
 const assessmentIds = [randomUUID(), randomUUID()];
+const completedSessionId = randomUUID();
 const viewports = resolveCycle1214Viewports([
   { name: "mobile-320", width: 320, height: 800, mobile: true },
   { name: "mobile-375", width: 375, height: 812, mobile: true },
@@ -41,7 +42,7 @@ let studentUser;
 const studentId = randomUUID();
 const results = [];
 const startupAttempts = [];
-const evidence = beginVisualQaEvidence({ gate: "CYCLE_12_9_STUDENT_EVOLUTION_VISUAL", reportPath: "reports/cycle-12-9-student-evolution-visual.json", requiredScenarios: ["self-contained-fixture", "browser-startup", "viewport-matrix", "recoverable-error", "rollout-off"] });
+const evidence = beginVisualQaEvidence({ gate: "CYCLE_12_9_STUDENT_EVOLUTION_VISUAL", reportPath: "reports/cycle-12-9-student-evolution-visual.json", requiredScenarios: ["self-contained-fixture", "browser-startup", "viewport-matrix", "history-detail", "recoverable-error", "rollout-off"] });
 
 try {
   assert(process.env.QA_USER_PASSWORD, "QA_USER_PASSWORD ausente.");
@@ -56,8 +57,8 @@ try {
     values ('${professionalUser.id}','${professionalUser.id}','Professional Visual Cycle 12.9','${professionalEmail}','user','assinante','ativo');
     insert into public.alunos(id,user_id,nome,whatsapp,inicio,plano,valor,status,observacoes,student_user_id,student_access_status,student_access_activated_at)
     values ('${studentId}','${professionalUser.id}','Aluno Visual Cycle 12.9','+550000009943',current_date,'QA',0,'Ativo','cycle-12-9-visual:${runToken}','${studentUser.id}','active',now());
-    insert into public.workout_execution_sessions(aluno_id,status,session_date,started_at,completed_at,notes,short_duration_confirmed)
-    values ('${studentId}', 'completed', current_date, now()-interval '120 seconds', now(), 'cycle-12-9-visual:${runToken}', true);
+    insert into public.workout_execution_sessions(id,aluno_id,status,session_date,started_at,completed_at,notes,short_duration_confirmed)
+    values ('${completedSessionId}','${studentId}', 'completed', current_date, now()-interval '120 seconds', now(), 'cycle-12-9-visual:${runToken}', true);
     insert into public.avaliacoes(id,user_id,aluno_id,data_avaliacao,peso,cintura) values
       ('${assessmentIds[0]}','${professionalUser.id}','${studentId}',current_date-30,71.4,82.0),
       ('${assessmentIds[1]}','${professionalUser.id}','${studentId}',current_date,70.8,null);
@@ -87,6 +88,24 @@ try {
     results.push({ viewport: viewport.name, ...audit, status: "PASS" });
   }
   evidence.scenario("viewport-matrix", "PASS", { viewports: viewports.map(({ width, height }) => `${width}x${height}`) });
+
+  const detailHref = `/minha-area/treino/${completedSessionId}`;
+  assert.equal(await evaluate(`document.querySelector('.student-evolution-detail-link')?.getAttribute('href')`), detailHref);
+  await evaluate("document.activeElement?.blur()");
+  for (let index = 0; index < 20; index += 1) {
+    if (await evaluate("document.activeElement?.matches('.student-evolution-detail-link')")) break;
+    await client.send("Input.dispatchKeyEvent", { type: "keyDown", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9 });
+    await client.send("Input.dispatchKeyEvent", { type: "keyUp", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9 });
+  }
+  assert.equal(await evaluate("document.activeElement?.matches('.student-evolution-detail-link:focus-visible')"), true);
+  assert.notEqual(await evaluate("getComputedStyle(document.activeElement).outlineStyle"), "none");
+  await client.send("Input.dispatchKeyEvent", { type: "keyDown", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13 });
+  await client.send("Input.dispatchKeyEvent", { type: "keyUp", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13 });
+  await waitFor(`location.pathname === '${detailHref}' && document.querySelector('[data-testid="workout-completion-result"]')`, 30000);
+  assert(await evaluate("document.body.innerText.includes('somente para leitura')"));
+  evidence.scenario("history-detail", "PASS", { keyboard: true, route: detailHref, readonly: true });
+  await client.send("Page.navigate", { url: `${appBaseUrl}/minha-area/evolucao` });
+  await waitFor("document.querySelector('[data-testid=\"student-evolution-v2\"]') && document.querySelector('.student-evolution-timeline')", 30000);
 
   await client.send("Network.setBlockedURLs", { urls: ["*get_my_student_workout_frequency_v2*"] });
   await client.send("Page.reload", { ignoreCache: true });

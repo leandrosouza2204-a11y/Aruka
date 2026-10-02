@@ -9,6 +9,7 @@ import {
   derivePlayerProgress,
   getPlayerTrackingFields,
   getPreviousSetReference,
+  isPlayerExerciseComplete,
   isPlayerSessionTerminal,
   normalizePreviousPerformance,
   normalizeWorkoutPlayerV2,
@@ -81,6 +82,28 @@ test("derives workout progress only from backend-confirmed sets", () => {
     { prescribedSeries: "2", sets: [{ setNumber: 1, completed: false }] },
   ];
   assert.deepEqual(deriveCanonicalSetProgress(exercises), { completed: 1, total: 4, percent: 25 });
+});
+
+test("fallback keeps a partially completed exercise instead of advancing to the next one", () => {
+  const exercises = [
+    { id: "completed", status: "completed", prescribedSeries: "1", sets: [{ setNumber: 1, completed: true }] },
+    { id: "partial", status: "partial", prescribedSeries: "3", sets: [{ setNumber: 1, completed: true }] },
+    { id: "next", status: "not_started", prescribedSeries: "3", sets: [] },
+  ];
+
+  assert.equal(resolveCurrentExerciseIndex(exercises), 1);
+});
+
+test("marks exercise completion only when every prescribed set is server-confirmed", () => {
+  const partial = { prescribedSeries: "3", sets: [
+    { setNumber: 1, completed: true },
+    { setNumber: 2, completed: true },
+  ] };
+  const completed = { ...partial, sets: [...partial.sets, { setNumber: 3, completed: true }] };
+
+  assert.equal(isPlayerExerciseComplete(partial), false);
+  assert.equal(isPlayerExerciseComplete(completed), true);
+  assert.deepEqual(deriveCanonicalSetProgress([completed]), { completed: 3, total: 3, percent: 100 });
 });
 
 test("validates optional feedback without inventing a rating contract", () => {

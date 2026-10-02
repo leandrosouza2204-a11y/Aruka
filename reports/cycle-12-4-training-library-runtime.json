@@ -4,7 +4,7 @@
   "database_target": "LOCAL",
   "production_accessed": false,
   "production_mutated": false,
-  "summary_payload_bytes": 1639,
+  "summary_payload_bytes": 1637,
   "summary_payload_budget_bytes": 15000,
   "detail_payload_bytes": 1091,
   "detail_payload_budget_bytes": 30000,

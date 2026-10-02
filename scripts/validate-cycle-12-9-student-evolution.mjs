@@ -19,6 +19,7 @@ const checks = [
   ["assessment payload is bounded and explicitly projected", /v_assessment_limit constant integer := 24/.test(migration) && /limit v_assessment_limit/.test(migration) && !/(foto_|observacoes|aderencia_|objetivo_|dobra_|percentual_|massa_|\bimc\b|\bsexo\b|\bidade\b)/i.test(migration)],
   ["no table grants or mutations are introduced", !/grant\s+(select|insert|update|delete|all)\s+on\s+(table\s+)?public\./i.test(migration) && !/\b(insert|update|delete)\s+(into|public\.|from)/i.test(migration)],
   ["workout presentation excludes non-completed sessions and skipped sets", /status === "completed"/.test(domain) && /filter\(\(set\) => set\.completed\)/.test(domain)],
+  ["completed history links to the existing read-only Player route", /buildStudentWorkoutPlayerRoute\(item\.id\)/.test(screen) && />Ver detalhes<\/Link>/.test(screen) && /String\(session\?\.id \|\| ""\)\.trim\(\)/.test(domain)],
   ["assessment comparison is numeric and neutral", /delta: current !== null && before !== null/.test(domain) && !/(melhor|pior|diagn[oó]st|recomend|score|ranking|proje[cç][aã]o)/i.test(domain + screen)],
   ["sections expose independent loading error retry and empty states", (screen.match(/status === "loading"/g) || []).length >= 3 && (screen.match(/status === "error"/g) || []).length >= 3 && (screen.match(/onRetry=/g) || []).length >= 3 && /SectionEmpty/.test(screen)],
   ["no photos media or signed URLs are loaded", !/(foto_|signedUrl|download|storage\.from)/i.test(service + screen + domain)],

@@ -1,12 +1,12 @@
 {
   "evidence_contract_version": 1,
-  "run_id": "cycle-12-14-harness-integrity-1790487166362-bc389481",
+  "run_id": "cycle-12-14-harness-integrity-1790909540657-78b6074d",
   "gate": "CYCLE_12_14_HARNESS_INTEGRITY",
   "decision": "PASS",
   "current_run": true,
-  "started_at": "2026-09-27T05:32:46.362Z",
-  "finished_at": "2026-09-27T05:32:50.016Z",
-  "head": "407e48761224a8c7bd4979791ad09f337d160e68",
+  "started_at": "2026-10-02T02:52:20.657Z",
+  "finished_at": "2026-10-02T02:52:24.148Z",
+  "head": "abe9e0c9a5359df5d09b5b182b00c7670bccb29c",
   "branch": "main",
   "environment": "LOCAL",
   "production_accessed": false,
@@ -63,6 +63,6 @@
     "ℹ cancelled 0",
     "ℹ skipped 0",
     "ℹ todo 0",
-    "ℹ duration_ms 3188.1361"
+    "ℹ duration_ms 3066.2909"
   ]
 }
