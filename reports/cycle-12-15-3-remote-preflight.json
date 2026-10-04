@@ -1,0 +1,100 @@
+{
+  "cycle": "12.15.3",
+  "audited_at": "2026-10-03T22:59:13-03:00",
+  "decision": "DISCOVERY_COMPLETE_READY_FOR_HUMAN_REVIEW",
+  "local_analysis": "PASS_WITH_LIMITATIONS",
+  "remote_preflight": "NO_GO",
+  "migration_readiness": "NO_GO",
+  "production_go": "NO_GO",
+  "baseline": {
+    "branch": "main",
+    "head": "91d0de27a9b80442eba1b1eb5069e415e89004e1",
+    "origin_main": "91d0de27a9b80442eba1b1eb5069e415e89004e1",
+    "initial_worktree": "clean"
+  },
+  "remote": {
+    "access": "VERIFIED_READ_ONLY",
+    "project_name": "aruka",
+    "project_ref": "vrizeuhuhvtvbrmtvdik",
+    "environment": "production",
+    "region": "us-east-2",
+    "status": "ACTIVE_HEALTHY",
+    "postgres_version": "17.6",
+    "transaction_read_only": true,
+    "migration_count": 25,
+    "public_table_count": 30,
+    "public_rls_table_count": 30,
+    "public_function_count": 49,
+    "public_policy_count": 75,
+    "direct_auth_policy_count": 70,
+    "cycle_12_13_allowlist_match": "58/62",
+    "anon_security_definer_function_count": 17,
+    "private_schema_exists": false,
+    "experience_origin_exists": false,
+    "rollout_function_count": 0,
+    "workout_session_aggregate": {
+      "total": 3,
+      "abandoned": 2,
+      "in_progress": 1
+    }
+  },
+  "local": {
+    "executable_migration_count": 39,
+    "expected_public_function_count_after_12_15_2": 67,
+    "supabase_ci_static": "PASS",
+    "cycle_12_15_2_unit_tests": "24/24 PASS",
+    "database_runtime": "NOT_EXECUTED_UNAVAILABLE",
+    "preserved_clean_bootstrap_evidence": "PASS"
+  },
+  "pending_migrations": [
+    "20260914130000_cycle12_execution_tracking_and_safety",
+    "20260914131000_cycle12_execution_commands",
+    "20260914132000_cycle12_completion_and_grants",
+    "20260914185833_cycle12_canonical_execution_reads",
+    "20260915014848_cycle12_student_home_v2",
+    "20260915140229_cycle12_student_training_library_v2",
+    "20260915201101_cycle12_workout_player_v2",
+    "20260919120000_cycle12_set_tracking_player_payload",
+    "20260919231657_cycle12_rest_timer_server_clock",
+    "20260920104727_cycle12_workout_completion_feedback",
+    "20260920144904_cycle12_student_evolution_v2",
+    "20260921010053_cycle12_profile_secondary_flows",
+    "20260926174027_cycle12_schema_rls_hardening",
+    "20261003163830_cycle12_controlled_rollout_foundation"
+  ],
+  "target_migrations": {
+    "20260926174027": {
+      "state": "PENDING",
+      "readiness": "NO_GO",
+      "sha256": "C4E01665FF8E55D0CDF5BD4A7B0692301E9E224E3EFFDBD9E6748AD2625DE770"
+    },
+    "20261003163830": {
+      "state": "PENDING",
+      "readiness": "NO_GO",
+      "sha256": "9D236465C9A7DBA35E2845CA965DD1E1806A73A1DB0D712D04CBBB068E4E6FDB"
+    }
+  },
+  "findings": [
+    { "id": "C12.15.3-DB-01", "severity": "BLOCKER", "migration_blocker": true, "pilot_blocker": true },
+    { "id": "C12.15.3-MIG-01", "severity": "BLOCKER", "migration_blocker": true, "pilot_blocker": true },
+    { "id": "C12.15.3-MIG-02", "severity": "BLOCKER", "migration_blocker": true, "pilot_blocker": true },
+    { "id": "C12.15.3-SEC-01", "severity": "HIGH", "migration_blocker": true, "pilot_blocker": true },
+    { "id": "C12.15.3-DB-02", "severity": "HIGH", "migration_blocker": true, "pilot_blocker": true },
+    { "id": "C12.15.3-OPS-01", "severity": "HIGH", "migration_blocker": true, "pilot_blocker": true },
+    { "id": "C12.15.3-OPS-02", "severity": "MEDIUM", "migration_blocker": false, "pilot_blocker": true },
+    { "id": "C12.15.3-AUTH-01", "severity": "MEDIUM", "migration_blocker": false, "pilot_blocker": true },
+    { "id": "C12.15.3-QA-01", "severity": "LOW", "migration_blocker": false, "pilot_blocker": false }
+  ],
+  "safety": {
+    "remote_write": false,
+    "migration_applied": false,
+    "migration_repair": false,
+    "auth_changed": false,
+    "rls_or_grants_changed": false,
+    "deploy": false,
+    "cohort_activated": false,
+    "git_published": false,
+    "destructive_cleanup": false
+  },
+  "next_stage": "CYCLE_12_15_4_PENDING_CHAIN_AND_DRIFT_RECONCILIATION_DISCOVERY"
+}
