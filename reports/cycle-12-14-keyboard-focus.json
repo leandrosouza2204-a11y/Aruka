@@ -1,12 +1,12 @@
 {
   "evidence_contract_version": 1,
-  "run_id": "cycle-12-14-keyboard-focus-1790910163473-980fb0f4",
+  "run_id": "cycle-12-14-keyboard-focus-1791073653012-b5cfeae0",
   "gate": "CYCLE_12_14_KEYBOARD_FOCUS",
   "decision": "PASS",
   "current_run": true,
-  "started_at": "2026-10-02T03:02:43.473Z",
-  "finished_at": "2026-10-02T03:10:54.094Z",
-  "head": "abe9e0c9a5359df5d09b5b182b00c7670bccb29c",
+  "started_at": "2026-10-04T00:27:33.013Z",
+  "finished_at": "2026-10-04T00:35:05.430Z",
+  "head": "9e8162d46486c1d6dc6f6b74abc3a7094c28df28",
   "branch": "main",
   "environment": "LOCAL",
   "production_accessed": false,
@@ -22,38 +22,38 @@
     {
       "name": "home-library-detail",
       "status": "PASS",
-      "run_id": "cycle-12-4-training-library-visual-1790910164271-7fc647bb",
-      "elapsed_ms": 90308
+      "run_id": "cycle-12-4-training-library-visual-1791073653657-487e257a",
+      "elapsed_ms": 80062
     },
     {
       "name": "player",
       "status": "PASS",
-      "run_id": "cycle-12-5-workout-player-visual-1790910254641-a3bd6c12",
-      "elapsed_ms": 73175
+      "run_id": "cycle-12-5-workout-player-visual-1791073733836-6e5e5c63",
+      "elapsed_ms": 63316
     },
     {
       "name": "tracking",
       "status": "PASS",
-      "run_id": "cycle-12-6-set-tracking-visual-1790910328502-05297c80",
-      "elapsed_ms": 45851
+      "run_id": "cycle-12-6-set-tracking-visual-1791073799524-2517cb44",
+      "elapsed_ms": 89529
     },
     {
       "name": "completion-feedback",
       "status": "PASS",
-      "run_id": "cycle-12-8-workout-completion-feedback-visual-1790910373594-8f7777cc",
-      "elapsed_ms": 117958
+      "run_id": "cycle-12-8-workout-completion-feedback-visual-1791073886673-9a3a4f8d",
+      "elapsed_ms": 62007
     },
     {
       "name": "evolution",
       "status": "PASS",
-      "run_id": "cycle-12-9-student-evolution-visual-1790910493274-27154af4",
-      "elapsed_ms": 76080
+      "run_id": "cycle-12-9-student-evolution-visual-1791073948665-39ffdfba",
+      "elapsed_ms": 68170
     },
     {
       "name": "profile",
       "status": "PASS",
-      "run_id": "cycle-12-10-profile-secondary-flows-visual-1790910567730-93dd6d56",
-      "elapsed_ms": 86889
+      "run_id": "cycle-12-10-profile-secondary-flows-visual-1791074016839-d2bb5887",
+      "elapsed_ms": 89023
     }
   ],
   "failures": [],
@@ -78,32 +78,32 @@
     {
       "segment": "home-library-detail",
       "status": "PASS",
-      "run_id": "cycle-12-4-training-library-visual-1790910164271-7fc647bb"
+      "run_id": "cycle-12-4-training-library-visual-1791073653657-487e257a"
     },
     {
       "segment": "player",
       "status": "PASS",
-      "run_id": "cycle-12-5-workout-player-visual-1790910254641-a3bd6c12"
+      "run_id": "cycle-12-5-workout-player-visual-1791073733836-6e5e5c63"
     },
     {
       "segment": "tracking",
       "status": "PASS",
-      "run_id": "cycle-12-6-set-tracking-visual-1790910328502-05297c80"
+      "run_id": "cycle-12-6-set-tracking-visual-1791073799524-2517cb44"
     },
     {
       "segment": "completion-feedback",
       "status": "PASS",
-      "run_id": "cycle-12-8-workout-completion-feedback-visual-1790910373594-8f7777cc"
+      "run_id": "cycle-12-8-workout-completion-feedback-visual-1791073886673-9a3a4f8d"
     },
     {
       "segment": "evolution",
       "status": "PASS",
-      "run_id": "cycle-12-9-student-evolution-visual-1790910493274-27154af4"
+      "run_id": "cycle-12-9-student-evolution-visual-1791073948665-39ffdfba"
     },
     {
       "segment": "profile",
       "status": "PASS",
-      "run_id": "cycle-12-10-profile-secondary-flows-visual-1790910567730-93dd6d56"
+      "run_id": "cycle-12-10-profile-secondary-flows-visual-1791074016839-d2bb5887"
     }
   ]
 }

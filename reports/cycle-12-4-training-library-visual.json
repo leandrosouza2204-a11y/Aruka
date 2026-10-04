@@ -1,12 +1,12 @@
 {
   "evidence_contract_version": 1,
-  "run_id": "cycle-12-4-training-library-visual-1790910740914-abe23897",
+  "run_id": "cycle-12-4-training-library-visual-1791074398255-da7f2884",
   "gate": "CYCLE_12_4_TRAINING_LIBRARY_VISUAL",
   "decision": "PASS",
   "current_run": true,
-  "started_at": "2026-10-02T03:12:20.914Z",
-  "finished_at": "2026-10-02T03:13:35.746Z",
-  "head": "abe9e0c9a5359df5d09b5b182b00c7670bccb29c",
+  "started_at": "2026-10-04T00:39:58.255Z",
+  "finished_at": "2026-10-04T00:41:27.171Z",
+  "head": "9e8162d46486c1d6dc6f6b74abc3a7094c28df28",
   "branch": "main",
   "environment": "LOCAL",
   "production_accessed": false,
@@ -51,7 +51,7 @@
     {
       "name": "canonical-player-route",
       "status": "PASS",
-      "session_id": "58d6bc90-b501-46e6-90cb-2331a91d1f6e"
+      "session_id": "a7e5d2ea-312b-4df1-8694-0cf47fa6c417"
     },
     {
       "name": "double-start",
@@ -89,7 +89,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "http-and-entry-ready",
-          "elapsed_ms": 7811
+          "elapsed_ms": 7801
         }
       ]
     },
@@ -100,7 +100,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "cdp-ready",
-          "elapsed_ms": 960
+          "elapsed_ms": 1479
         }
       ]
     },
@@ -111,7 +111,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "react-ready",
-          "elapsed_ms": 11477
+          "elapsed_ms": 11066
         }
       ]
     },
@@ -122,7 +122,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "react-ready",
-          "elapsed_ms": 1547
+          "elapsed_ms": 2285
         }
       ]
     },
@@ -133,7 +133,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "react-ready",
-          "elapsed_ms": 1035
+          "elapsed_ms": 2055
         }
       ]
     },
@@ -144,7 +144,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "http-and-entry-ready",
-          "elapsed_ms": 8516
+          "elapsed_ms": 10896
         }
       ]
     },
@@ -155,7 +155,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "react-ready",
-          "elapsed_ms": 8337
+          "elapsed_ms": 7064
         }
       ]
     }
@@ -246,8 +246,8 @@
     },
     {
       "state": "canonical-player-route",
-      "route": "/minha-area/treino/58d6bc90-b501-46e6-90cb-2331a91d1f6e",
-      "sessionId": "58d6bc90-b501-46e6-90cb-2331a91d1f6e",
+      "route": "/minha-area/treino/a7e5d2ea-312b-4df1-8694-0cf47fa6c417",
+      "sessionId": "a7e5d2ea-312b-4df1-8694-0cf47fa6c417",
       "playerRendered": true,
       "status": "PASS"
     },

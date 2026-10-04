@@ -11,6 +11,7 @@ import { beginVisualQaEvidence } from "./lib/visual-qa-evidence.mjs";
 import { stopOwnedProcessTree } from "./lib/qa-process-cleanup.mjs";
 import { resolveCycle1214Viewports } from "./lib/cycle-12-14-viewport-matrix.mjs";
 import { getCdpWebSocketUrl, navigateWithReactReadiness, removeQaProfileDir, startChromeQa, startViteQaServer, waitForViteStop } from "./lib/browser-qa-runtime.mjs";
+import { disableLocalStudentV2Rollout, enableLocalStudentV2Rollout } from "./lib/cycle-12-15-2-rollout-fixture.mjs";
 
 loadQaEnvFile(".env.local");
 loadQaEnvFile(".env.qa.local");
@@ -62,6 +63,7 @@ try {
   if (created.error) throw created.error;
   studentUserId = created.data.user.id;
   setupFixture(studentUserId);
+  enableLocalStudentV2Rollout(studentId);
 
   const student = createClient(runtime.apiUrl, runtime.anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
   const login = await student.auth.signInWithPassword({ email, password });
@@ -203,6 +205,7 @@ try {
   evidence.executionFailed(error, studentUserId ? "execution" : "setup");
   throw error;
 } finally {
+  disableLocalStudentV2Rollout(studentId);
   cdp?.close();
   stopOwnedProcessTree(chrome);
   server?.kill();

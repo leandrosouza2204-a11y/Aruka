@@ -1,12 +1,12 @@
 {
   "evidence_contract_version": 1,
-  "run_id": "cycle-12-6-set-tracking-visual-1790910882099-7e3bd5e3",
+  "run_id": "cycle-12-6-set-tracking-visual-1791074554021-79eb7a37",
   "gate": "CYCLE_12_6_SET_TRACKING_VISUAL",
   "decision": "PASS",
   "current_run": true,
-  "started_at": "2026-10-02T03:14:42.099Z",
-  "finished_at": "2026-10-02T03:16:19.974Z",
-  "head": "abe9e0c9a5359df5d09b5b182b00c7670bccb29c",
+  "started_at": "2026-10-04T00:42:34.021Z",
+  "finished_at": "2026-10-04T00:43:24.187Z",
+  "head": "9e8162d46486c1d6dc6f6b74abc3a7094c28df28",
   "branch": "main",
   "environment": "LOCAL",
   "production_accessed": false,
@@ -39,7 +39,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "http-and-entry-ready",
-          "elapsed_ms": 18991
+          "elapsed_ms": 8744
         }
       ]
     },
@@ -50,7 +50,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "cdp-ready",
-          "elapsed_ms": 1638
+          "elapsed_ms": 1098
         }
       ]
     },
@@ -59,15 +59,9 @@
       "attempts": [
         {
           "attempt": 1,
-          "status": "TRANSIENT_FAIL",
-          "phase": "react-mount-empty",
-          "elapsed_ms": 30119
-        },
-        {
-          "attempt": 2,
           "status": "PASS",
           "phase": "react-ready",
-          "elapsed_ms": 12181
+          "elapsed_ms": 7464
         }
       ]
     },
@@ -78,7 +72,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "react-ready",
-          "elapsed_ms": 1217
+          "elapsed_ms": 2174
         }
       ]
     }

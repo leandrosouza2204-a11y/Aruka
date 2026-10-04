@@ -1,0 +1,48 @@
+{
+  "cycle": "12.15.2",
+  "decision": "IMPLEMENTATION_COMPLETE_WITH_KNOWN_LIMITATIONS",
+  "environment": "LOCAL",
+  "production_accessed": false,
+  "branch": "main",
+  "head": "9e8162d46486c1d6dc6f6b74abc3a7094c28df28",
+  "origin_main": "9e8162d46486c1d6dc6f6b74abc3a7094c28df28",
+  "rollout": {
+    "global_enabled": false,
+    "emergency_blocked": false,
+    "targets": 0,
+    "state": "OFF"
+  },
+  "qa": {
+    "cycle_12_15_2_aggregate": "PASS",
+    "unit_tests": "24/24 PASS",
+    "runtime_security": "PASS",
+    "start_race": "PASS; origin=v1; sessions=1",
+    "coexistence": "PASS",
+    "concurrency": "PASS",
+    "lint": "PASS",
+    "build_pwa": "PASS",
+    "clean_bootstrap": "PASS; executable_migrations=39; public_functions=67",
+    "cycle_12_14_harness_integrity": "PASS; 23/23",
+    "cycle_12_14_landscape": "PASS; surfaces=7",
+    "cycle_12_14_keyboard_resize": "PASS",
+    "cycle_12_14_keyboard_focus": "AUTOMATED_KEYBOARD_PASS; human_acceptance=false",
+    "cycle_12_14_network_resilience": "PASS; surfaces=7; faults=16",
+    "cycle_12_14_canonical_wrapper": "FAIL; isolated browser readiness timeout after constituent gates passed; no functional criterion relaxed"
+  },
+  "fixture_cleanup": {
+    "rollout_targets": 0,
+    "rollout_audit_rows": 0,
+    "workout_sessions": 0,
+    "synthetic_users": 0,
+    "operational_events_preserved": 2663,
+    "removed_exact_synthetic_users": 2
+  },
+  "known_limitations": [
+    "Cycle 12.14 canonical wrapper retained a FAIL artifact caused by a non-reproducing browser readiness timeout; every constituent gate has fresh PASS evidence.",
+    "Physical iOS, TalkBack and VoiceOver acceptance is pending.",
+    "Remote read-only preflight was unavailable and not executed.",
+    "Telemetry retention automation and a dedicated metrics dashboard are pending.",
+    "PLAYER-02 remains KNOWN_NON_BLOCKING_UX_LIMITATION / DEFERRED."
+  ],
+  "production_go": "BLOCKED_PENDING_REMOTE_PREFLIGHT"
+}

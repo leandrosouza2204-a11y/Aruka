@@ -39,6 +39,7 @@ export function normalizeExecutionSession(session = null) {
     alunoId: session.alunoId || session.aluno_id || "",
     treinoId: session.treinoId || session.treino_id || "",
     treinoDiaId: session.treinoDiaId || session.treino_dia_id || "",
+    experienceOrigin: session.experienceOrigin || session.experience_origin || "v1",
     status: normalizeSessionStatus(session.status),
     sessionDate: session.sessionDate || session.session_date || "",
     startedAt: session.startedAt || session.started_at || "",

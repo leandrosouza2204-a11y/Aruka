@@ -1,12 +1,12 @@
 {
   "evidence_contract_version": 1,
-  "run_id": "cycle-12-14-landscape-1790909544442-a5e66d14",
+  "run_id": "cycle-12-14-landscape-1791072979019-669dd96d",
   "gate": "CYCLE_12_14_LANDSCAPE",
   "decision": "PASS",
   "current_run": true,
-  "started_at": "2026-10-02T02:52:24.442Z",
-  "finished_at": "2026-10-02T03:00:46.952Z",
-  "head": "abe9e0c9a5359df5d09b5b182b00c7670bccb29c",
+  "started_at": "2026-10-04T00:16:19.019Z",
+  "finished_at": "2026-10-04T00:25:45.061Z",
+  "head": "9e8162d46486c1d6dc6f6b74abc3a7094c28df28",
   "branch": "main",
   "environment": "LOCAL",
   "production_accessed": false,
@@ -23,86 +23,86 @@
     {
       "name": "home",
       "status": "PASS",
-      "run_id": "cycle-12-3-student-home-visual-1790909545156-3a75bce1",
+      "run_id": "cycle-12-3-student-home-visual-1791072981621-87b79c0c",
       "viewports": [
         "640x320",
         "812x375",
         "844x390",
         "1024x768"
       ],
-      "elapsed_ms": 93515
+      "elapsed_ms": 113878
     },
     {
       "name": "library",
       "status": "PASS",
-      "run_id": "cycle-12-4-training-library-visual-1790909638619-691e5b07",
+      "run_id": "cycle-12-4-training-library-visual-1791073093781-404c2361",
       "viewports": [
         "640x320",
         "812x375",
         "844x390",
         "1024x768"
       ],
-      "elapsed_ms": 78928
+      "elapsed_ms": 97120
     },
     {
       "name": "player",
       "status": "PASS",
-      "run_id": "cycle-12-5-workout-player-visual-1790909717562-f7e51204",
+      "run_id": "cycle-12-5-workout-player-visual-1791073190908-0dc0cc15",
       "viewports": [
         "640x320",
         "812x375",
         "844x390",
         "1024x768"
       ],
-      "elapsed_ms": 57934
+      "elapsed_ms": 65774
     },
     {
       "name": "timer",
       "status": "PASS",
-      "run_id": "cycle-12-7-rest-timer-visual-1790909775521-b9787f50",
+      "run_id": "cycle-12-7-rest-timer-visual-1791073256708-1563b43f",
       "viewports": [
         "640x320",
         "812x375",
         "844x390",
         "1024x768"
       ],
-      "elapsed_ms": 53501
+      "elapsed_ms": 59156
     },
     {
       "name": "completion-feedback",
       "status": "PASS",
-      "run_id": "cycle-12-8-workout-completion-feedback-visual-1790909829045-e8a28212",
+      "run_id": "cycle-12-8-workout-completion-feedback-visual-1791073315697-0ff18957",
       "viewports": [
         "640x320",
         "812x375",
         "844x390",
         "1024x768"
       ],
-      "elapsed_ms": 56894
+      "elapsed_ms": 62203
     },
     {
       "name": "evolution",
       "status": "PASS",
-      "run_id": "cycle-12-9-student-evolution-visual-1790909885907-0e650e82",
+      "run_id": "cycle-12-9-student-evolution-visual-1791073377946-d1ccb4dd",
       "viewports": [
         "640x320",
         "812x375",
         "844x390",
         "1024x768"
       ],
-      "elapsed_ms": 61612
+      "elapsed_ms": 67169
     },
     {
       "name": "profile",
       "status": "PASS",
-      "run_id": "cycle-12-10-profile-secondary-flows-visual-1790909947521-beb1f73b",
+      "run_id": "cycle-12-10-profile-secondary-flows-visual-1791073445136-1d8618a0",
       "viewports": [
         "640x320",
         "812x375",
         "844x390",
         "1024x768"
       ],
-      "elapsed_ms": 99852
+      "elapsed_ms": 100383
     }
   ],
   "failures": [],
@@ -117,7 +117,7 @@
     {
       "surface": "home",
       "status": "PASS",
-      "run_id": "cycle-12-3-student-home-visual-1790909545156-3a75bce1",
+      "run_id": "cycle-12-3-student-home-visual-1791072981621-87b79c0c",
       "viewports": [
         "640x320",
         "812x375",
@@ -128,7 +128,7 @@
     {
       "surface": "library",
       "status": "PASS",
-      "run_id": "cycle-12-4-training-library-visual-1790909638619-691e5b07",
+      "run_id": "cycle-12-4-training-library-visual-1791073093781-404c2361",
       "viewports": [
         "640x320",
         "812x375",
@@ -139,7 +139,7 @@
     {
       "surface": "player",
       "status": "PASS",
-      "run_id": "cycle-12-5-workout-player-visual-1790909717562-f7e51204",
+      "run_id": "cycle-12-5-workout-player-visual-1791073190908-0dc0cc15",
       "viewports": [
         "640x320",
         "812x375",
@@ -150,7 +150,7 @@
     {
       "surface": "timer",
       "status": "PASS",
-      "run_id": "cycle-12-7-rest-timer-visual-1790909775521-b9787f50",
+      "run_id": "cycle-12-7-rest-timer-visual-1791073256708-1563b43f",
       "viewports": [
         "640x320",
         "812x375",
@@ -161,7 +161,7 @@
     {
       "surface": "completion-feedback",
       "status": "PASS",
-      "run_id": "cycle-12-8-workout-completion-feedback-visual-1790909829045-e8a28212",
+      "run_id": "cycle-12-8-workout-completion-feedback-visual-1791073315697-0ff18957",
       "viewports": [
         "640x320",
         "812x375",
@@ -172,7 +172,7 @@
     {
       "surface": "evolution",
       "status": "PASS",
-      "run_id": "cycle-12-9-student-evolution-visual-1790909885907-0e650e82",
+      "run_id": "cycle-12-9-student-evolution-visual-1791073377946-d1ccb4dd",
       "viewports": [
         "640x320",
         "812x375",
@@ -183,7 +183,7 @@
     {
       "surface": "profile",
       "status": "PASS",
-      "run_id": "cycle-12-10-profile-secondary-flows-visual-1790909947521-beb1f73b",
+      "run_id": "cycle-12-10-profile-secondary-flows-visual-1791073445136-1d8618a0",
       "viewports": [
         "640x320",
         "812x375",

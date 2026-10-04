@@ -24,6 +24,7 @@ export function normalizeWorkoutPlayerV2(payload) {
     id: clean(payload.id),
     treinoId: clean(payload.treinoId ?? payload.treino_id),
     treinoDiaId: clean(payload.treinoDiaId ?? payload.treino_dia_id),
+    experienceOrigin: clean(payload.experienceOrigin ?? payload.experience_origin) || "v2",
     status: clean(payload.status) || WORKOUT_EXECUTION_SESSION_STATUS.IN_PROGRESS,
     startedAt: clean(payload.startedAt ?? payload.started_at),
     completedAt: clean(payload.completedAt ?? payload.completed_at),

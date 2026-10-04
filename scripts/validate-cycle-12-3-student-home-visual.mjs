@@ -9,6 +9,7 @@ import { beginVisualQaEvidence } from "./lib/visual-qa-evidence.mjs";
 import { stopOwnedProcessTree } from "./lib/qa-process-cleanup.mjs";
 import { resolveCycle1214Viewports } from "./lib/cycle-12-14-viewport-matrix.mjs";
 import { navigateWithReactReadiness, startChromeQa, startViteQaServer, waitForViteStop } from "./lib/browser-qa-runtime.mjs";
+import { disableLocalStudentV2Rollout, enableLocalStudentV2Rollout } from "./lib/cycle-12-15-2-rollout-fixture.mjs";
 
 loadQaEnvFile(".env.local");
 loadQaEnvFile(".env.qa.local");
@@ -60,6 +61,7 @@ try {
   if (created.error) throw created.error;
   studentUserId = created.data.user.id;
   setupFixture(studentUserId);
+  enableLocalStudentV2Rollout(fixtureStudentId);
   const student = createClient(runtime.apiUrl, runtime.anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
   const { data: login, error: loginError } = await student.auth.signInWithPassword({ email: studentEmail, password });
   if (loginError) throw loginError;
@@ -133,7 +135,16 @@ try {
   assert(longContentAudit.noHorizontalOverflow, "Long name or overdue review caused horizontal overflow.");
   await screenshot(client, "mobile-narrow-320-long-name-review-overdue.png");
   results.push({ state: "long-name", viewport: "320x800", noHorizontalOverflow: true, status: "PASS" });
-  await evaluate(client, `document.querySelector('[data-testid="student-home-review"]').scrollIntoView({ block: 'center' })`);
+  await waitFor(
+    client,
+    `(() => {
+      const review = document.querySelector('[data-testid="student-home-review"]');
+      if (!review) return false;
+      review.scrollIntoView({ block: 'center' });
+      return true;
+    })()`,
+    30000,
+  );
   await screenshot(client, "mobile-narrow-320-review-overdue.png");
   results.push({ state: "review-overdue", viewport: "320x800", noHorizontalOverflow: true, status: "PASS" });
   restoreProfileFixture();
@@ -147,17 +158,27 @@ try {
     p_treino_dia_id: latestHome.todayWorkout.treinoDiaId,
     p_idempotency_key: `cycle-12-3-visual-${Date.now()}`,
     p_session_date: latestHome.calendar.today,
+    p_experience_origin: "v2",
   });
   if (startError) throw startError;
   assert(started?.id, "Sessão ativa visual não criada.");
   await setViewport(client, viewports[2]);
   await client.send("Page.reload", { ignoreCache: true });
-  await waitFor(client, "document.querySelector('[data-testid=\"student-home-active-session\"]')", 30000);
+  await waitFor(client, "document.querySelector('[data-testid=\"student-home-active-session\"] button')", 30000);
   await screenshot(client, "mobile-390-active-session.png");
   results.push({ state: "active-session", viewport: "390x844", status: "PASS" });
 
   const playerRoute = `/minha-area/treino/${started.id}`;
-  await evaluate(client, `document.querySelector('[data-testid="student-home-active-session"] button').click()`);
+  await waitFor(
+    client,
+    `(() => {
+      const button = document.querySelector('[data-testid="student-home-active-session"] button');
+      if (!button) return false;
+      button.click();
+      return true;
+    })()`,
+    30000,
+  );
   await waitFor(client, `location.pathname === '${playerRoute}' && document.querySelector('[data-testid="student-workout-player-v2"]')`, 30000);
   results.push({ state: "home-to-player", route: playerRoute, sessionId: started.id, status: "PASS" });
   evidence.scenario("home-to-player", "PASS", { route: playerRoute, session_id: started.id });
@@ -244,6 +265,7 @@ try {
       restoreProfileFixture();
     } catch (error) { evidence.cleanupFailed(error); }
   }
+  disableLocalStudentV2Rollout(fixtureStudentId);
   client?.close();
   stopOwnedProcessTree(chrome);
   server?.kill();

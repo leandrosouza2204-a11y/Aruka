@@ -1,12 +1,12 @@
 {
   "evidence_contract_version": 1,
-  "run_id": "cycle-12-5-workout-player-visual-1790910816153-6eaa801d",
+  "run_id": "cycle-12-5-workout-player-visual-1791074487612-6f3ddbf5",
   "gate": "CYCLE_12_5_WORKOUT_PLAYER_VISUAL",
   "decision": "PASS",
   "current_run": true,
-  "started_at": "2026-10-02T03:13:36.153Z",
-  "finished_at": "2026-10-02T03:14:39.137Z",
-  "head": "abe9e0c9a5359df5d09b5b182b00c7670bccb29c",
+  "started_at": "2026-10-04T00:41:27.613Z",
+  "finished_at": "2026-10-04T00:42:33.561Z",
+  "head": "9e8162d46486c1d6dc6f6b74abc3a7094c28df28",
   "branch": "main",
   "environment": "LOCAL",
   "production_accessed": false,
@@ -92,7 +92,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "http-and-entry-ready",
-          "elapsed_ms": 6712
+          "elapsed_ms": 7757
         }
       ]
     },
@@ -103,7 +103,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "cdp-ready",
-          "elapsed_ms": 2416
+          "elapsed_ms": 1467
         }
       ]
     },
@@ -114,7 +114,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "react-ready",
-          "elapsed_ms": 11465
+          "elapsed_ms": 12302
         }
       ]
     },
@@ -125,7 +125,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "react-ready",
-          "elapsed_ms": 1718
+          "elapsed_ms": 2232
         }
       ]
     }

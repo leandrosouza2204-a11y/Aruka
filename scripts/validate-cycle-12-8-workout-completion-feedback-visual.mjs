@@ -11,6 +11,7 @@ import { stopOwnedProcessTree } from "./lib/qa-process-cleanup.mjs";
 import { runPsql } from "./supabase-cycle-8-lib.mjs";
 import { resolveCycle1214Viewports } from "./lib/cycle-12-14-viewport-matrix.mjs";
 import { getCdpWebSocketUrl, navigateWithReactReadiness, removeQaProfileDir, startChromeQa, startViteQaServer } from "./lib/browser-qa-runtime.mjs";
+import { disableLocalStudentV2Rollout, enableLocalStudentV2Rollout } from "./lib/cycle-12-15-2-rollout-fixture.mjs";
 
 loadQaEnvFile(".env.local");
 loadQaEnvFile(".env.qa.local");
@@ -61,6 +62,7 @@ try {
   if (created.error) throw created.error;
   studentUserId = created.data.user.id;
   setupFixture(studentUserId);
+  enableLocalStudentV2Rollout(ids.student);
   const shortSessionId = createSession("01", 120);
 
   const auth = createClient(runtime.apiUrl, runtime.anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
@@ -160,6 +162,7 @@ try {
   evidence.executionFailed(error, studentUserId ? "execution" : "setup");
   throw error;
 } finally {
+  disableLocalStudentV2Rollout(ids.student);
   cdp?.close(); stopOwnedProcessTree(chrome); server?.kill();
   try { cleanupFixture(true); } catch (error) { evidence.cleanupFailed(error); }
   if (admin && studentUserId) { try { const deleted = await admin.auth.admin.deleteUser(studentUserId); if (deleted.error) throw deleted.error; } catch (error) { evidence.cleanupFailed(error); } }
@@ -185,7 +188,7 @@ function setupFixture(userId) {
 function createSession(suffix, elapsedSeconds) {
   const sessionId = `00000000-0000-4000-8000-0000000089${suffix}`;
   const exerciseId = `00000000-0000-4000-8000-0000000088${suffix}`;
-  sql(`insert into public.workout_execution_sessions(id,aluno_id,treino_id,treino_dia_id,status,session_date,started_at,last_activity_at) values ('${sessionId}','${ids.student}','${ids.workout}','${ids.day}','in_progress',current_date,clock_timestamp()-interval '${elapsedSeconds} seconds',now()); insert into public.workout_execution_exercises(id,session_id,treino_exercicio_id,treino_dia_id,exercise_name_snapshot,prescribed_series_snapshot,prescribed_reps_snapshot,prescribed_load_snapshot,prescribed_rest_snapshot,prescribed_notes_snapshot,day_name_snapshot,group_snapshot,exercise_order_snapshot,day_order_snapshot,workout_title_snapshot,tracking_config_snapshot,status) values ('${exerciseId}','${sessionId}','${ids.prescription}','${ids.day}','Completion Exercise','1','10','','60 s','synthetic','A','Full body',1,1,'Completion Visual QA','{"load":false,"reps":true,"rir":false,"rpe":false,"duration":false,"distance":false}','not_started'); set request.jwt.claim.sub='${studentUserId}'; set role authenticated; select public.complete_workout_execution_set('${sessionId}','${exerciseId}',1,'{"reps":10}'::jsonb); reset role;`);
+  sql(`insert into public.workout_execution_sessions(id,aluno_id,treino_id,treino_dia_id,status,session_date,started_at,last_activity_at,experience_origin) values ('${sessionId}','${ids.student}','${ids.workout}','${ids.day}','in_progress',current_date,clock_timestamp()-interval '${elapsedSeconds} seconds',now(),'v2'); insert into public.workout_execution_exercises(id,session_id,treino_exercicio_id,treino_dia_id,exercise_name_snapshot,prescribed_series_snapshot,prescribed_reps_snapshot,prescribed_load_snapshot,prescribed_rest_snapshot,prescribed_notes_snapshot,day_name_snapshot,group_snapshot,exercise_order_snapshot,day_order_snapshot,workout_title_snapshot,tracking_config_snapshot,status) values ('${exerciseId}','${sessionId}','${ids.prescription}','${ids.day}','Completion Exercise','1','10','','60 s','synthetic','A','Full body',1,1,'Completion Visual QA','{"load":false,"reps":true,"rir":false,"rpe":false,"duration":false,"distance":false}','not_started'); set request.jwt.claim.sub='${studentUserId}'; set role authenticated; select public.complete_workout_execution_set('${sessionId}','${exerciseId}',1,'{"reps":10}'::jsonb); reset role;`);
   return sessionId;
 }
 function cleanupFixture(strict) { const result = sql(`delete from public.workout_execution_sessions where treino_id='${ids.workout}'; delete from public.treinos where id='${ids.workout}'; delete from public.alunos where id='${ids.student}'; delete from public.perfis where id='${ids.professional}'; delete from auth.users where id='${ids.professional}';`, { throwOnError: false }); if (strict && result.status !== 0) throw new Error(`Cleanup Cycle 12.8 falhou: ${result.stderr || result.stdout}`); }
