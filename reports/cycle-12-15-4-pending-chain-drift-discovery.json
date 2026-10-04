@@ -1,0 +1,131 @@
+{
+  "cycle": "12.15.4",
+  "decision": "DISCOVERY_COMPLETE_WITH_FINDINGS",
+  "captured_at": "2026-10-04T11:11:32.120401Z",
+  "advisor_observed_at": "2026-10-04T11:18:50.262Z",
+  "baseline": {
+    "branch": "main",
+    "head": "3c51a0a16d08ffc3231f146c5e39892a623ca4c6",
+    "origin_main": "3c51a0a16d08ffc3231f146c5e39892a623ca4c6",
+    "initial_worktree": "clean"
+  },
+  "remote": {
+    "access": "VERIFIED_READ_ONLY",
+    "project_name": "aruka",
+    "project_ref": "vrizeuhuhvtvbrmtvdik",
+    "environment": "production",
+    "region": "us-east-2",
+    "status": "ACTIVE_HEALTHY",
+    "postgres_version": "17.6",
+    "transaction_read_only": true,
+    "migration_count": 25,
+    "public_table_count": 30,
+    "public_rls_table_count": 30,
+    "public_function_count": 49,
+    "public_policy_count": 75,
+    "direct_auth_policy_count": 70,
+    "private_schema_exists": false,
+    "anon_security_definer_count": 17,
+    "workout_sessions": { "total": 3, "abandoned": 2, "in_progress": 1 }
+  },
+  "pending_migrations": [
+    { "order": 1, "version": "20260914130000", "name": "cycle12_execution_tracking_and_safety", "readiness": "READY_WITH_CONDITIONS", "risk": "HIGH" },
+    { "order": 2, "version": "20260914131000", "name": "cycle12_execution_commands", "readiness": "READY_WITH_CONDITIONS", "risk": "LOW" },
+    { "order": 3, "version": "20260914132000", "name": "cycle12_completion_and_grants", "readiness": "READY_WITH_CONDITIONS", "risk": "MEDIUM" },
+    { "order": 4, "version": "20260914185833", "name": "cycle12_canonical_execution_reads", "readiness": "READY_WITH_CONDITIONS", "risk": "MEDIUM" },
+    { "order": 5, "version": "20260915014848", "name": "cycle12_student_home_v2", "readiness": "READY_WITH_CONDITIONS", "risk": "MEDIUM" },
+    { "order": 6, "version": "20260915140229", "name": "cycle12_student_training_library_v2", "readiness": "READY_WITH_CONDITIONS", "risk": "LOW" },
+    { "order": 7, "version": "20260915201101", "name": "cycle12_workout_player_v2", "readiness": "READY_WITH_CONDITIONS", "risk": "LOW" },
+    { "order": 8, "version": "20260919120000", "name": "cycle12_set_tracking_player_payload", "readiness": "READY_WITH_CONDITIONS", "risk": "LOW" },
+    { "order": 9, "version": "20260919231657", "name": "cycle12_rest_timer_server_clock", "readiness": "READY_WITH_CONDITIONS", "risk": "LOW" },
+    { "order": 10, "version": "20260920104727", "name": "cycle12_workout_completion_feedback", "readiness": "READY_WITH_CONDITIONS", "risk": "MEDIUM" },
+    { "order": 11, "version": "20260920144904", "name": "cycle12_student_evolution_v2", "readiness": "READY_WITH_CONDITIONS", "risk": "LOW" },
+    { "order": 12, "version": "20260921010053", "name": "cycle12_profile_secondary_flows", "readiness": "READY_WITH_CONDITIONS", "risk": "MEDIUM" },
+    { "order": 13, "version": "20260926174027", "name": "cycle12_schema_rls_hardening", "readiness": "NO_GO", "risk": "HIGH" },
+    { "order": 14, "version": "20261003163830", "name": "cycle12_controlled_rollout_foundation", "readiness": "NO_GO", "risk": "HIGH" }
+  ],
+  "policy_findings": {
+    "reconciliation": "MIXED",
+    "direct_auth_current": 70,
+    "direct_auth_expected_pre_12_13": 62,
+    "eight_additional": "RESOLVED_BY_PENDING_MIGRATION_20260914132000",
+    "missing_alunos": [
+      { "command": "SELECT", "canonical": "Usuarios podem listar seus alunos", "remote": "Usuário vê apenas seus alunos", "classification": "PREEXISTING_DRIFT" },
+      { "command": "INSERT", "canonical": "Usuarios podem cadastrar seus alunos", "remote": "Usuário cadastra seus alunos", "classification": "PREEXISTING_DRIFT" },
+      { "command": "UPDATE", "canonical": "Usuarios podem atualizar seus alunos", "remote": "Usuário edita seus alunos", "classification": "PREEXISTING_DRIFT" },
+      { "command": "DELETE", "canonical": "Usuarios podem excluir seus alunos", "remote": "Usuário exclui seus alunos", "classification": "PREEXISTING_DRIFT" }
+    ]
+  },
+  "definer_functions": [
+    { "signature": "public.abandon_workout_execution_session(uuid)", "expected_roles": ["authenticated"], "risk": "MEDIUM", "chain_effect": "NONE" },
+    { "signature": "public.admin_listar_usuarios()", "expected_roles": ["authenticated", "service_role"], "risk": "MEDIUM", "chain_effect": "NONE" },
+    { "signature": "public.admin_subscription_lifecycle_action(uuid,text,text,date,date,date,text)", "expected_roles": ["authenticated", "service_role"], "risk": "MEDIUM", "chain_effect": "ACL_PRESERVED_BY_12_13" },
+    { "signature": "public.admin_upsert_assinatura(uuid,text,text,date,date,text,date,boolean)", "expected_roles": ["authenticated", "service_role"], "risk": "MEDIUM", "chain_effect": "NONE" },
+    { "signature": "public.aoe_user_owns_student(uuid)", "expected_roles": ["authenticated", "service_role"], "risk": "LOW", "chain_effect": "NONE" },
+    { "signature": "public.complete_workout_execution_session(uuid)", "expected_roles": ["authenticated"], "risk": "MEDIUM", "chain_effect": "NONE" },
+    { "signature": "public.desvincular_aluno_usuario(uuid)", "expected_roles": ["authenticated"], "risk": "MEDIUM", "chain_effect": "NONE" },
+    { "signature": "public.exercise_is_prescribed_to_current_student(uuid)", "expected_roles": ["authenticated", "service_role"], "risk": "LOW", "chain_effect": "NONE" },
+    { "signature": "public.get_my_workout_execution_state(integer)", "expected_roles": ["authenticated"], "risk": "LOW", "chain_effect": "NONE" },
+    { "signature": "public.get_student_access_state(uuid)", "expected_roles": ["authenticated"], "risk": "LOW", "chain_effect": "NONE" },
+    { "signature": "public.get_student_workout_execution_history(uuid,integer)", "expected_roles": ["authenticated"], "risk": "MEDIUM", "chain_effect": "NONE" },
+    { "signature": "public.manage_student_access(uuid,text,text,text)", "expected_roles": ["authenticated"], "risk": "MEDIUM", "chain_effect": "NONE" },
+    { "signature": "public.renovar_aluno_contrato(uuid,uuid,date,date,numeric,boolean,text,text,text)", "expected_roles": ["authenticated", "service_role"], "risk": "MEDIUM", "chain_effect": "NONE" },
+    { "signature": "public.save_workout_execution(uuid,jsonb)", "expected_roles": ["authenticated"], "risk": "MEDIUM", "chain_effect": "RESOLVED_BY_12_15_2" },
+    { "signature": "public.set_workout_execution_updated_at()", "expected_roles": [], "risk": "LOW", "chain_effect": "NONE" },
+    { "signature": "public.vincular_aluno_usuario(uuid,uuid)", "expected_roles": ["authenticated"], "risk": "MEDIUM", "chain_effect": "NONE" },
+    { "signature": "public.workout_execution_session_payload(uuid)", "expected_roles": [], "risk": "HIGH", "chain_effect": "RESOLVED_BY_PREDECESSOR_3" }
+  ],
+  "legacy_remote_only_overloads": [
+    "admin_atualizar_perfil(uuid,text,text,text,text)",
+    "admin_bloquear_usuario(uuid)",
+    "admin_liberar_assinante(uuid,text,date,date)",
+    "admin_liberar_beta(uuid)",
+    "admin_upsert_assinatura(uuid,text,text,date,date)"
+  ],
+  "decisions": {
+    "chain_understanding": "PASS",
+    "policy_reconciliation": "MIXED",
+    "security_definer_review": "PASS_WITH_FINDINGS",
+    "chain_static_readiness": "NO_GO",
+    "remote_migration_readiness": "NO_GO",
+    "production_go": "NO_GO",
+    "chain_can_apply_as_authored": "NO",
+    "reconciliation_migration_required_before_chain": "NO",
+    "reconciliation_required_before_12_13": "YES"
+  },
+  "qa": {
+    "migration_files_scanned": 39,
+    "pending_migrations_read_in_full": 14,
+    "supabase_ci_static": "PASS",
+    "node_files_checked": 457,
+    "powershell_files_checked": 8,
+    "json_reports_checked": 31,
+    "cycle_12_15_2_unit_tests": "24/24 PASS",
+    "evidence_json": "PASS",
+    "local_supabase_runtime": "NOT_EXECUTED_UNAVAILABLE"
+  },
+  "windows": [
+    { "name": "A", "migrations": ["20260914130000", "20260914131000", "20260914132000"], "risk": "HIGH" },
+    { "name": "B", "migrations": ["20260914185833", "20260915014848", "20260915140229"], "risk": "MEDIUM" },
+    { "name": "C", "migrations": ["20260915201101", "20260919120000", "20260919231657", "20260920104727"], "risk": "MEDIUM" },
+    { "name": "D", "migrations": ["20260920144904", "20260921010053"], "risk": "MEDIUM" },
+    { "name": "E", "migrations": ["FUTURE_RECONCILIATION"], "risk": "MEDIUM" },
+    { "name": "F", "migrations": ["20260926174027"], "risk": "HIGH" },
+    { "name": "G", "migrations": ["20261003163830"], "risk": "HIGH" }
+  ],
+  "safety": {
+    "remote_writes": 0,
+    "migrations_applied": 0,
+    "migration_repair": 0,
+    "auth_changes": 0,
+    "rls_changes": 0,
+    "grant_changes": 0,
+    "function_changes": 0,
+    "deployments": 0,
+    "real_cohort_changes": 0,
+    "rollout_activation": 0,
+    "git_publishing": 0,
+    "destructive_cleanup": 0,
+    "rollout": "OFF"
+  }
+}
