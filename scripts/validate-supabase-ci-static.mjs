@@ -71,7 +71,7 @@ try {
   const localRuntimeText = readFileSync(join(root, localRuntimeValidator), "utf8");
   for (const [name, value] of [
     ["ExpectedTables", "32"],
-    ["ExpectedFunctions", "62"],
+    ["ExpectedFunctions", "67"],
     ["ExpectedIndexes", "98"],
     ["ExpectedPolicies", "81"],
     ["ExpectedPublicPolicies", "73"],
