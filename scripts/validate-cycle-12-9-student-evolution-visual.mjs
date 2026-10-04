@@ -11,6 +11,7 @@ import { beginVisualQaEvidence } from "./lib/visual-qa-evidence.mjs";
 import { stopOwnedProcessTree } from "./lib/qa-process-cleanup.mjs";
 import { resolveCycle1214Viewports } from "./lib/cycle-12-14-viewport-matrix.mjs";
 import { createCdpClient, evaluateCdp, getCdpWebSocketUrl, navigateWithReactReadiness, removeQaProfileDir, sleep, startChromeQa, startViteQaServer, waitForViteStop } from "./lib/browser-qa-runtime.mjs";
+import { disableLocalStudentV2Rollout, enableLocalStudentV2Rollout } from "./lib/cycle-12-15-2-rollout-fixture.mjs";
 
 loadQaEnvFile(".env.local");
 loadQaEnvFile(".env.qa.local");
@@ -63,6 +64,7 @@ try {
       ('${assessmentIds[0]}','${professionalUser.id}','${studentId}',current_date-30,71.4,82.0),
       ('${assessmentIds[1]}','${professionalUser.id}','${studentId}',current_date,70.8,null);
   `);
+  enableLocalStudentV2Rollout(studentId);
   evidence.scenario("self-contained-fixture", "PASS", { run_token: runToken, auth_users: 2, fixed_ids: false });
   await startFrontend("true");
   chrome = await startChrome();
@@ -130,6 +132,7 @@ try {
   evidence.executionFailed(error, admin ? "execution" : "setup");
   throw error;
 } finally {
+  disableLocalStudentV2Rollout(studentId);
   try { cleanupFixtures(); } catch (error) { evidence.cleanupFailed(error); }
   for (const user of [studentUser, professionalUser]) { if (admin && user) { try { const deleted = await admin.auth.admin.deleteUser(user.id); if (deleted.error) throw deleted.error; } catch (error) { evidence.cleanupFailed(error); } } }
   client?.close(); stopOwnedProcessTree(chrome); stopOwnedProcessTree(server);

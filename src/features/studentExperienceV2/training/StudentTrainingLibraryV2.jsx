@@ -81,6 +81,7 @@ function StudentTrainingLibraryV2() {
       const session = await iniciarExecucaoTreino({
         treinoId: freshLibrary.currentProgram.id,
         treinoDiaId: freshWorkout.id,
+        experienceOrigin: "v2",
       });
       if (!session?.id) throw new Error("Sessão indisponível.");
       navigate(buildStudentWorkoutPlayerRoute(session.id));

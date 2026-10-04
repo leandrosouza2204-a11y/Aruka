@@ -1,12 +1,12 @@
 {
   "evidence_contract_version": 1,
-  "run_id": "cycle-12-8-workout-completion-feedback-visual-1790910980457-3fb77635",
+  "run_id": "cycle-12-8-workout-completion-feedback-visual-1791074604726-4e6f60e9",
   "gate": "CYCLE_12_8_WORKOUT_COMPLETION_FEEDBACK_VISUAL",
   "decision": "PASS",
   "current_run": true,
-  "started_at": "2026-10-02T03:16:20.457Z",
-  "finished_at": "2026-10-02T03:17:21.253Z",
-  "head": "abe9e0c9a5359df5d09b5b182b00c7670bccb29c",
+  "started_at": "2026-10-04T00:43:24.727Z",
+  "finished_at": "2026-10-04T00:44:27.724Z",
+  "head": "9e8162d46486c1d6dc6f6b74abc3a7094c28df28",
   "branch": "main",
   "environment": "LOCAL",
   "production_accessed": false,
@@ -115,7 +115,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "http-and-entry-ready",
-          "elapsed_ms": 8669
+          "elapsed_ms": 8359
         }
       ]
     },
@@ -126,7 +126,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "cdp-ready",
-          "elapsed_ms": 1005
+          "elapsed_ms": 1463
         }
       ]
     },
@@ -137,7 +137,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "react-ready",
-          "elapsed_ms": 11927
+          "elapsed_ms": 11515
         }
       ]
     },
@@ -149,7 +149,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "react-ready",
-          "elapsed_ms": 1521
+          "elapsed_ms": 2312
         }
       ]
     },
@@ -161,7 +161,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "react-ready",
-          "elapsed_ms": 1362
+          "elapsed_ms": 1755
         }
       ]
     }

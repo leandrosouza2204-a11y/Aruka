@@ -3,8 +3,9 @@ import {
   getLocalDateOnly,
   normalizeExecutionSession,
 } from "../features/workoutExecution/utils/workoutExecutionSession.js";
-import { buscarUsuarioLogado } from "./authSessionService";
-import { supabase } from "./supabase";
+import { buscarUsuarioLogado } from "./authSessionService.js";
+import { supabase } from "./supabase.js";
+import { recordStudentExperienceEvent } from "./studentExperienceTelemetryService.js";
 
 export async function buscarMeuEstadoExecucaoTreino(limit = 5) {
   await buscarUsuarioLogado();
@@ -21,16 +22,23 @@ export async function buscarMeuEstadoExecucaoTreino(limit = 5) {
   };
 }
 
-export async function iniciarExecucaoTreino({ treinoId, treinoDiaId = "", idempotencyKey = "" }) {
+export async function iniciarExecucaoTreino({ treinoId, treinoDiaId = "", idempotencyKey = "", experienceOrigin = "v1" }) {
   await buscarUsuarioLogado();
+  if (experienceOrigin === "v2") void recordStudentExperienceEvent("player_start_attempt", { experience: "v2" });
   const { data, error } = await supabase.rpc("start_workout_execution_session", {
     p_treino_id: treinoId,
     p_treino_dia_id: treinoDiaId || null,
     p_idempotency_key: idempotencyKey || createExecutionIdempotencyKey(treinoId, treinoDiaId),
     p_session_date: getLocalDateOnly(),
+    p_experience_origin: experienceOrigin,
   });
-  if (error) throw sanitizeWorkoutExecutionError(error);
-  return normalizeExecutionSession(data);
+  if (error) {
+    if (experienceOrigin === "v2") void recordStudentExperienceEvent("player_command_error", { experience: "v2", errorCategory: "START_FAILED" });
+    throw sanitizeWorkoutExecutionError(error);
+  }
+  const session = normalizeExecutionSession(data);
+  if (experienceOrigin === "v2") void recordStudentExperienceEvent("player_start_confirmed", { experience: "v2", sessionId: session?.id });
+  return session;
 }
 
 export async function salvarExecucaoTreino(session) {
@@ -62,6 +70,7 @@ export async function abandonarExecucaoTreino(sessionId) {
 }
 
 export async function completeWorkoutSet(sessionId, executionExerciseId, setNumber, values = {}) {
+  void recordStudentExperienceEvent("player_set_attempt", { experience: "v2", sessionId });
   return callV2Command("complete_workout_execution_set", {
     p_session_id: sessionId,
     p_execution_exercise_id: executionExerciseId,
@@ -78,22 +87,38 @@ export async function skipWorkoutExercise(sessionId, executionExerciseId) {
 }
 
 export async function cancelWorkoutSession(sessionId, reason = null) {
-  return callV2Command("cancel_workout_execution_session", { p_session_id: sessionId, p_reason: reason });
+  const result = await callV2Command("cancel_workout_execution_session", { p_session_id: sessionId, p_reason: reason });
+  void recordStudentExperienceEvent("player_cancel", { experience: "v2", sessionId });
+  return result;
 }
 
 export async function completeWorkoutSession(sessionId, shortDurationConfirmed = false, feedback = "") {
-  return callV2Command("complete_workout_execution_session_v2", {
+  void recordStudentExperienceEvent("player_completion_attempt", { experience: "v2", sessionId });
+  const result = await callV2Command("complete_workout_execution_session_v2", {
     p_session_id: sessionId,
     p_short_duration_confirmed: shortDurationConfirmed,
     p_feedback_text: feedback || null,
   });
+  void recordStudentExperienceEvent("player_completion_confirmed", { experience: "v2", sessionId });
+  return result;
 }
 
 async function callV2Command(name, params) {
   await buscarUsuarioLogado();
   const { data, error } = await supabase.rpc(name, params);
-  if (error) throw sanitizeWorkoutExecutionError(error);
-  return normalizeExecutionSession(data);
+  if (error) {
+    void recordStudentExperienceEvent("player_command_error", {
+      experience: "v2",
+      sessionId: params.p_session_id,
+      errorCategory: String(error?.message || "COMMAND_FAILED").includes("CONFLICT") ? "CONFLICT" : "COMMAND_FAILED",
+    });
+    throw sanitizeWorkoutExecutionError(error);
+  }
+  const session = normalizeExecutionSession(data);
+  if (name === "complete_workout_execution_set") {
+    void recordStudentExperienceEvent("player_set_confirmed", { experience: "v2", sessionId: params.p_session_id });
+  }
+  return session;
 }
 
 export async function getValidWorkoutExecutionHistory(limit = 20) {
@@ -139,6 +164,8 @@ function sanitizeWorkoutExecutionError(error) {
     "SESSION_NOT_IN_PROGRESS",
     "FEEDBACK_TOO_LONG",
     "FEEDBACK_CONFLICT",
+    "SESSION_EXPERIENCE_CONFLICT",
+    "V2_ROLLOUT_NOT_ALLOWED",
   ].find((code) => String(error?.message || "").includes(code));
   safe.code = knownCode || "WORKOUT_EXECUTION_FAILED";
   safe.cause = error;

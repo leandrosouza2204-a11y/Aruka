@@ -1,12 +1,12 @@
 {
   "evidence_contract_version": 1,
-  "run_id": "cycle-12-9-student-evolution-visual-1790911041935-561e429d",
+  "run_id": "cycle-12-9-student-evolution-visual-1791074668215-708713e7",
   "gate": "CYCLE_12_9_STUDENT_EVOLUTION_VISUAL",
   "decision": "PASS",
   "current_run": true,
-  "started_at": "2026-10-02T03:17:21.935Z",
-  "finished_at": "2026-10-02T03:18:30.364Z",
-  "head": "abe9e0c9a5359df5d09b5b182b00c7670bccb29c",
+  "started_at": "2026-10-04T00:44:28.215Z",
+  "finished_at": "2026-10-04T00:45:45.506Z",
+  "head": "9e8162d46486c1d6dc6f6b74abc3a7094c28df28",
   "branch": "main",
   "environment": "LOCAL",
   "production_accessed": false,
@@ -22,7 +22,7 @@
     {
       "name": "self-contained-fixture",
       "status": "PASS",
-      "run_token": "1790911041934-416a8723",
+      "run_token": "1791074668214-2b274539",
       "auth_users": 2,
       "fixed_ids": false
     },
@@ -34,25 +34,25 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "http-and-entry-ready",
-          "elapsed_ms": 7351
+          "elapsed_ms": 9910
         },
         {
           "attempt": 1,
           "status": "PASS",
           "phase": "cdp-ready",
-          "elapsed_ms": 1479
+          "elapsed_ms": 1493
         },
         {
           "attempt": 1,
           "status": "PASS",
           "phase": "react-ready",
-          "elapsed_ms": 2956
+          "elapsed_ms": 2708
         },
         {
           "attempt": 1,
           "status": "PASS",
           "phase": "http-and-entry-ready",
-          "elapsed_ms": 13931
+          "elapsed_ms": 18436
         }
       ]
     },
@@ -71,7 +71,7 @@
       "name": "history-detail",
       "status": "PASS",
       "keyboard": true,
-      "route": "/minha-area/treino/0c741297-7132-410d-a5e8-e0c756ae995c",
+      "route": "/minha-area/treino/4080d4f9-f33c-43e5-8ee2-27868c75a91d",
       "readonly": true
     },
     {

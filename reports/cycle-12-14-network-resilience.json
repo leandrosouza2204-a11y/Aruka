@@ -1,12 +1,12 @@
 {
   "evidence_contract_version": 1,
-  "run_id": "cycle-12-14-network-resilience-1790910654417-0c83c5c7",
+  "run_id": "cycle-12-14-network-resilience-1791074303584-076da590",
   "gate": "CYCLE_12_14_NETWORK_RESILIENCE",
   "decision": "PASS",
   "current_run": true,
-  "started_at": "2026-10-02T03:10:54.418Z",
-  "finished_at": "2026-10-02T03:19:55.681Z",
-  "head": "abe9e0c9a5359df5d09b5b182b00c7670bccb29c",
+  "started_at": "2026-10-04T00:38:23.585Z",
+  "finished_at": "2026-10-04T00:47:16.304Z",
+  "head": "9e8162d46486c1d6dc6f6b74abc3a7094c28df28",
   "branch": "main",
   "environment": "LOCAL",
   "production_accessed": false,
@@ -25,58 +25,58 @@
     {
       "name": "home",
       "status": "PASS",
-      "run_id": "cycle-12-3-student-home-visual-1790910655114-9753b25d",
+      "run_id": "cycle-12-3-student-home-visual-1791074304273-6250b653",
       "reads": "PROTECTED",
       "writes": "NOT_APPLICABLE",
-      "elapsed_ms": 85711
+      "elapsed_ms": 93879
     },
     {
       "name": "library",
       "status": "PASS",
-      "run_id": "cycle-12-4-training-library-visual-1790910740914-abe23897",
+      "run_id": "cycle-12-4-training-library-visual-1791074398255-da7f2884",
       "reads": "PROTECTED",
       "writes": "NOT_APPLICABLE",
-      "elapsed_ms": 75384
+      "elapsed_ms": 89407
     },
     {
       "name": "player",
       "status": "PASS",
-      "run_id": "cycle-12-5-workout-player-visual-1790910816153-6eaa801d",
+      "run_id": "cycle-12-5-workout-player-visual-1791074487612-6f3ddbf5",
       "reads": "PROTECTED",
       "writes": "NOT_APPLICABLE",
-      "elapsed_ms": 63394
+      "elapsed_ms": 66375
     },
     {
       "name": "tracking",
       "status": "PASS",
-      "run_id": "cycle-12-6-set-tracking-visual-1790910882099-7e3bd5e3",
+      "run_id": "cycle-12-6-set-tracking-visual-1791074554021-79eb7a37",
       "reads": "NOT_APPLICABLE",
       "writes": "PROTECTED",
-      "elapsed_ms": 100811
+      "elapsed_ms": 50618
     },
     {
       "name": "completion-feedback",
       "status": "PASS",
-      "run_id": "cycle-12-8-workout-completion-feedback-visual-1790910980457-3fb77635",
+      "run_id": "cycle-12-8-workout-completion-feedback-visual-1791074604726-4e6f60e9",
       "reads": "NOT_APPLICABLE",
       "writes": "PROTECTED",
-      "elapsed_ms": 61372
+      "elapsed_ms": 63545
     },
     {
       "name": "evolution",
       "status": "PASS",
-      "run_id": "cycle-12-9-student-evolution-visual-1790911041935-561e429d",
+      "run_id": "cycle-12-9-student-evolution-visual-1791074668215-708713e7",
       "reads": "PROTECTED",
       "writes": "NOT_APPLICABLE",
-      "elapsed_ms": 69029
+      "elapsed_ms": 77787
     },
     {
       "name": "profile",
       "status": "PASS",
-      "run_id": "cycle-12-10-profile-secondary-flows-visual-1790911110821-ec8ea3b1",
+      "run_id": "cycle-12-10-profile-secondary-flows-visual-1791074746139-ca86594b",
       "reads": "PROTECTED",
       "writes": "NOT_APPLICABLE",
-      "elapsed_ms": 82133
+      "elapsed_ms": 87479
     },
     {
       "name": "offline-pwa",
@@ -89,19 +89,19 @@
       "runs": [
         {
           "name": "pwa-installability",
-          "elapsed_ms": 277
+          "elapsed_ms": 346
         },
         {
           "name": "pwa-cache-security",
-          "elapsed_ms": 277
+          "elapsed_ms": 271
         },
         {
           "name": "route-fallback",
-          "elapsed_ms": 274
+          "elapsed_ms": 261
         },
         {
           "name": "continuity",
-          "elapsed_ms": 436
+          "elapsed_ms": 250
         }
       ]
     },
@@ -153,7 +153,7 @@
       "reads": "PROTECTED",
       "writes": "NOT_APPLICABLE",
       "evidence": [
-        "cycle-12-3-student-home-visual-1790910655114-9753b25d"
+        "cycle-12-3-student-home-visual-1791074304273-6250b653"
       ],
       "rationale": "Surface is read-only in this matrix."
     },
@@ -163,7 +163,7 @@
       "reads": "PROTECTED",
       "writes": "NOT_APPLICABLE",
       "evidence": [
-        "cycle-12-4-training-library-visual-1790910740914-abe23897"
+        "cycle-12-4-training-library-visual-1791074398255-da7f2884"
       ],
       "rationale": "Surface is read-only in this matrix."
     },
@@ -173,7 +173,7 @@
       "reads": "PROTECTED",
       "writes": "NOT_APPLICABLE",
       "evidence": [
-        "cycle-12-5-workout-player-visual-1790910816153-6eaa801d"
+        "cycle-12-5-workout-player-visual-1791074487612-6f3ddbf5"
       ],
       "rationale": "Surface is read-only in this matrix."
     },
@@ -183,7 +183,7 @@
       "reads": "NOT_APPLICABLE",
       "writes": "PROTECTED",
       "evidence": [
-        "cycle-12-6-set-tracking-visual-1790910882099-7e3bd5e3"
+        "cycle-12-6-set-tracking-visual-1791074554021-79eb7a37"
       ],
       "rationale": null
     },
@@ -193,7 +193,7 @@
       "reads": "NOT_APPLICABLE",
       "writes": "PROTECTED",
       "evidence": [
-        "cycle-12-8-workout-completion-feedback-visual-1790910980457-3fb77635"
+        "cycle-12-8-workout-completion-feedback-visual-1791074604726-4e6f60e9"
       ],
       "rationale": null
     },
@@ -203,7 +203,7 @@
       "reads": "PROTECTED",
       "writes": "NOT_APPLICABLE",
       "evidence": [
-        "cycle-12-9-student-evolution-visual-1790911041935-561e429d"
+        "cycle-12-9-student-evolution-visual-1791074668215-708713e7"
       ],
       "rationale": "Surface is read-only in this matrix."
     },
@@ -213,7 +213,7 @@
       "reads": "PROTECTED",
       "writes": "NOT_APPLICABLE",
       "evidence": [
-        "cycle-12-10-profile-secondary-flows-visual-1790911110821-ec8ea3b1"
+        "cycle-12-10-profile-secondary-flows-visual-1791074746139-ca86594b"
       ],
       "rationale": "Surface is read-only in this matrix."
     }

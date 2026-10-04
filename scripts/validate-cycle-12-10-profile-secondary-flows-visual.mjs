@@ -11,6 +11,7 @@ import { beginVisualQaEvidence } from "./lib/visual-qa-evidence.mjs";
 import { stopOwnedProcessTree } from "./lib/qa-process-cleanup.mjs";
 import { resolveCycle1214Viewports } from "./lib/cycle-12-14-viewport-matrix.mjs";
 import { getCdpWebSocketUrl, navigateWithReactReadiness, removeQaProfileDir, startChromeQa, startViteQaServer, waitForViteStop } from "./lib/browser-qa-runtime.mjs";
+import { disableLocalStudentV2Rollout, enableLocalStudentV2Rollout } from "./lib/cycle-12-15-2-rollout-fixture.mjs";
 
 loadQaEnvFile(".env.local"); loadQaEnvFile(".env.qa.local");
 process.env.QA_BASE_URL = process.env.ARUKA_QA_BASE_URL || process.env.QA_BASE_URL;
@@ -39,6 +40,7 @@ try {
     insert into public.alunos(id,user_id,nome,whatsapp,inicio,plano,valor,status,observacoes,student_user_id,student_access_status) values ('${studentId}','${professionalUser.id}','Ana Beatriz','+550000121099',current_date,'QA',0,'Ativo','synthetic','${studentUser.id}','active');
     insert into public.professional_contact_settings(professional_user_id,whatsapp_enabled,whatsapp_number,email_enabled,contact_email) values ('${professionalUser.id}',true,'5511999991234',true,'atendimento@aruka.test');
   `);
+  enableLocalStudentV2Rollout(studentId);
   const studentSession = await signIn("cycle-12-10-student@aruka.test");
   const professionalSession = await signIn("cycle-12-10-professional@aruka.test");
   const viteStartup = await startViteQaServer({ port: 5190, env: { VITE_STUDENT_EXPERIENCE_V2_ENABLED: "true" } }); server = viteStartup.child; startupAttempts.push({ component: "vite-on", attempts: viteStartup.attempts });
@@ -94,6 +96,7 @@ try {
   evidence.executionFailed(error, admin ? "execution" : "setup");
   throw error;
 } finally {
+  disableLocalStudentV2Rollout(studentId);
   try { cleanupRows(); } catch (error) { evidence.cleanupFailed(error); }
   if (admin && studentUser) try { const deleted = await admin.auth.admin.deleteUser(studentUser.id); if (deleted.error) throw deleted.error; } catch (error) { evidence.cleanupFailed(error); }
   if (admin && professionalUser) try { const deleted = await admin.auth.admin.deleteUser(professionalUser.id); if (deleted.error) throw deleted.error; } catch (error) { evidence.cleanupFailed(error); }

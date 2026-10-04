@@ -11,6 +11,7 @@ import { isExpiredRecoveryUrlError } from "./auth/recoveryUrlError";
 import LoadingFallback from "./components/LoadingFallback";
 import MobileBottomNavigation from "./components/MobileBottomNavigation";
 import PwaExperienceManager from "./features/pwa/PwaExperienceManager";
+import StudentExperienceErrorBoundary from "./features/studentExperienceV2/guards/StudentExperienceErrorBoundary.jsx";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Alunos = lazy(() => import("./pages/Alunos"));
@@ -122,7 +123,7 @@ function App() {
           />
           <Route
             path="/minha-area"
-            element={<ProtectedRoute><StudentExperienceV2Route><StudentShell /></StudentExperienceV2Route></ProtectedRoute>}
+            element={<ProtectedRoute><StudentExperienceErrorBoundary><StudentExperienceV2Route><StudentShell /></StudentExperienceV2Route></StudentExperienceErrorBoundary></ProtectedRoute>}
           >
             <Route path="inicio" element={<StudentHomeV2 />} />
             <Route path="treinos" element={<StudentTrainingLibraryV2 />} />
@@ -133,11 +134,11 @@ function App() {
           </Route>
           <Route
             path="/minha-area/treino/:sessionId"
-            element={<ProtectedRoute><StudentExperienceV2Route><StudentWorkoutPlayerV2 /></StudentExperienceV2Route></ProtectedRoute>}
+            element={<ProtectedRoute><StudentExperienceErrorBoundary><StudentExperienceV2Route><StudentWorkoutPlayerV2 /></StudentExperienceV2Route></StudentExperienceErrorBoundary></ProtectedRoute>}
           />
           <Route
             path="/workout/:sessionId"
-            element={<ProtectedRoute><StudentExperienceV2Route><StudentWorkoutFallback /></StudentExperienceV2Route></ProtectedRoute>}
+            element={<ProtectedRoute><StudentExperienceErrorBoundary><StudentExperienceV2Route><StudentWorkoutFallback /></StudentExperienceV2Route></StudentExperienceErrorBoundary></ProtectedRoute>}
           />
           <Route
             path="/contato-alunos"

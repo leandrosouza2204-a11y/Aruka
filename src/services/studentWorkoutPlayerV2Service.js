@@ -5,6 +5,7 @@ import {
 import { completeWorkoutSession, completeWorkoutSet, getPreviousPerformance } from "./workoutExecutionService.js";
 import { buscarUsuarioLogado } from "./authSessionService.js";
 import { supabase } from "./supabase.js";
+import { recordStudentExperienceEvent } from "./studentExperienceTelemetryService.js";
 
 export async function buscarMeuWorkoutPlayerV2(sessionId) {
   const id = String(sessionId || "").trim();
@@ -14,6 +15,7 @@ export async function buscarMeuWorkoutPlayerV2(sessionId) {
   const { data, error } = await supabase.rpc("get_my_workout_player_v2", { p_session_id: id });
   const responseReceivedAt = monotonicNow();
   if (error) throw sanitizePlayerError(error);
+  if (data) void recordStudentExperienceEvent("player_resume", { experience: "v2", sessionId: id });
   return normalizeWorkoutPlayerV2(data ? {
     ...data,
     serverRoundTripMs: Math.max(0, responseReceivedAt - requestStartedAt),

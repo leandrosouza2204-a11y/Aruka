@@ -1,12 +1,12 @@
 {
   "evidence_contract_version": 1,
-  "run_id": "cycle-12-10-profile-secondary-flows-visual-1790911110821-ec8ea3b1",
+  "run_id": "cycle-12-10-profile-secondary-flows-visual-1791074746139-ca86594b",
   "gate": "CYCLE_12_10_PROFILE_SECONDARY_FLOWS_VISUAL",
   "decision": "PASS",
   "current_run": true,
-  "started_at": "2026-10-02T03:18:30.822Z",
-  "finished_at": "2026-10-02T03:19:52.511Z",
-  "head": "abe9e0c9a5359df5d09b5b182b00c7670bccb29c",
+  "started_at": "2026-10-04T00:45:46.140Z",
+  "finished_at": "2026-10-04T00:47:13.027Z",
+  "head": "9e8162d46486c1d6dc6f6b74abc3a7094c28df28",
   "branch": "main",
   "environment": "LOCAL",
   "production_accessed": false,
@@ -68,7 +68,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "http-and-entry-ready",
-          "elapsed_ms": 8867
+          "elapsed_ms": 7966
         }
       ]
     },
@@ -79,7 +79,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "cdp-ready",
-          "elapsed_ms": 1604
+          "elapsed_ms": 1478
         }
       ]
     },
@@ -90,7 +90,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "react-ready",
-          "elapsed_ms": 7932
+          "elapsed_ms": 11724
         }
       ]
     },
@@ -101,7 +101,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "react-ready",
-          "elapsed_ms": 1887
+          "elapsed_ms": 2939
         }
       ]
     },
@@ -112,7 +112,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "cdp-ready",
-          "elapsed_ms": 875
+          "elapsed_ms": 949
         }
       ]
     },
@@ -123,7 +123,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "react-ready",
-          "elapsed_ms": 739
+          "elapsed_ms": 621
         }
       ]
     },
@@ -134,7 +134,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "react-ready",
-          "elapsed_ms": 7978
+          "elapsed_ms": 7939
         }
       ]
     },
@@ -145,7 +145,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "http-and-entry-ready",
-          "elapsed_ms": 14893
+          "elapsed_ms": 13375
         }
       ]
     },
@@ -156,7 +156,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "react-ready",
-          "elapsed_ms": 6874
+          "elapsed_ms": 7063
         }
       ]
     },
@@ -167,7 +167,7 @@
           "attempt": 1,
           "status": "PASS",
           "phase": "react-ready",
-          "elapsed_ms": 531
+          "elapsed_ms": 908
         }
       ]
     }

@@ -11,6 +11,7 @@ import { beginVisualQaEvidence } from "./lib/visual-qa-evidence.mjs";
 import { stopOwnedProcessTree } from "./lib/qa-process-cleanup.mjs";
 import { resolveCycle1214Viewports } from "./lib/cycle-12-14-viewport-matrix.mjs";
 import { getCdpWebSocketUrl, navigateWithReactReadiness, removeQaProfileDir, startChromeQa, startViteQaServer } from "./lib/browser-qa-runtime.mjs";
+import { disableLocalStudentV2Rollout, enableLocalStudentV2Rollout } from "./lib/cycle-12-15-2-rollout-fixture.mjs";
 
 loadQaEnvFile(".env.local");
 loadQaEnvFile(".env.qa.local");
@@ -63,6 +64,7 @@ try {
   if (created.error) throw created.error;
   studentUserId = created.data.user.id;
   setupFixture(studentUserId);
+  enableLocalStudentV2Rollout(ids.student);
   const student = createClient(runtime.apiUrl, runtime.anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
   const login = await student.auth.signInWithPassword({ email, password });
   if (login.error) throw login.error;
@@ -143,6 +145,7 @@ try {
   evidence.executionFailed(error, studentUserId ? "execution" : "setup");
   throw error;
 } finally {
+  disableLocalStudentV2Rollout(ids.student);
   cdp?.close();
   stopOwnedProcessTree(chrome);
   server?.kill();
@@ -170,9 +173,9 @@ function setupFixture(userId) {
     insert into public.treino_exercicios(id,treino_dia_id,nome,series,repeticoes,carga,descanso,observacoes,ordem,tracking_config,exercise_media_snapshot) values
       ('${ids.prescription}','${ids.day}','Agachamento controlado','3','10','20 kg','60 s','Mantenha o movimento estável.',1,'{"load":true,"reps":true,"rir":true,"rpe":false,"duration":false,"distance":false}','{}'),
       ('${ids.prescriptionNoHistory}','${ids.day}','Remada sem histórico anterior','2','12','15 kg','45 s','Controle a volta.',2,'{"load":true,"reps":true,"rir":false,"rpe":false,"duration":false,"distance":false}','{}');
-    insert into public.workout_execution_sessions(id,aluno_id,treino_id,treino_dia_id,status,session_date,started_at,last_activity_at,completed_at) values
-      ('${ids.session}','${ids.student}','${ids.program}','${ids.day}','in_progress',current_date,now()-interval '10 minutes',now(),null),
-      ('${ids.previous}','${ids.student}','${ids.program}','${ids.day}','completed',current_date-1,now()-interval '1 day 20 minutes',now()-interval '1 day',now()-interval '1 day');
+    insert into public.workout_execution_sessions(id,aluno_id,treino_id,treino_dia_id,status,session_date,started_at,last_activity_at,completed_at,experience_origin) values
+      ('${ids.session}','${ids.student}','${ids.program}','${ids.day}','in_progress',current_date,now()-interval '10 minutes',now(),null,'v2'),
+      ('${ids.previous}','${ids.student}','${ids.program}','${ids.day}','completed',current_date-1,now()-interval '1 day 20 minutes',now()-interval '1 day',now()-interval '1 day','v2');
     insert into public.workout_execution_exercises(id,session_id,treino_exercicio_id,treino_dia_id,exercise_name_snapshot,prescribed_series_snapshot,prescribed_reps_snapshot,prescribed_load_snapshot,prescribed_rest_snapshot,prescribed_notes_snapshot,day_name_snapshot,group_snapshot,exercise_order_snapshot,day_order_snapshot,workout_title_snapshot,tracking_config_snapshot,status) values
       ('${ids.exercise}','${ids.session}','${ids.prescription}','${ids.day}','Agachamento controlado','3','10','20 kg','60 s','Mantenha o movimento estável.','Treino visual','Corpo inteiro',1,1,'Set Tracking Visual','{"load":true,"reps":true,"rir":true,"rpe":false,"duration":false,"distance":false}','not_started'),
       ('${ids.exerciseNoHistory}','${ids.session}','${ids.prescriptionNoHistory}','${ids.day}','Remada sem histórico anterior','2','12','15 kg','45 s','Controle a volta.','Treino visual','Corpo inteiro',2,1,'Set Tracking Visual','{"load":true,"reps":true,"rir":false,"rpe":false,"duration":false,"distance":false}','not_started'),

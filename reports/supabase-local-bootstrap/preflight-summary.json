@@ -62,7 +62,9 @@
                               "20260919231657_cycle12_rest_timer_server_clock.sql",
                               "20260920104727_cycle12_workout_completion_feedback.sql",
                               "20260920144904_cycle12_student_evolution_v2.sql",
-                              "20260921010053_cycle12_profile_secondary_flows.sql"
+                              "20260921010053_cycle12_profile_secondary_flows.sql",
+                              "20260926174027_cycle12_schema_rls_hardening.sql",
+                              "20261003163830_cycle12_controlled_rollout_foundation.sql"
                           ],
     "expected_active_migrations":  [
                                        "20260728030000_workout_delivery_integration_v1.sql",
@@ -101,11 +103,13 @@
                                        "20260919231657_cycle12_rest_timer_server_clock.sql",
                                        "20260920104727_cycle12_workout_completion_feedback.sql",
                                        "20260920144904_cycle12_student_evolution_v2.sql",
-                                       "20260921010053_cycle12_profile_secondary_flows.sql"
+                                       "20260921010053_cycle12_profile_secondary_flows.sql",
+                                       "20260926174027_cycle12_schema_rls_hardening.sql",
+                                       "20261003163830_cycle12_controlled_rollout_foundation.sql"
                                    ],
-    "executable_migration_count":  37,
+    "executable_migration_count":  39,
     "reference_only_baseline_count":  1,
-    "total_database_change_artifact_count":  38,
+    "total_database_change_artifact_count":  40,
     "active_migrations_unexpected":  [
 
                                      ],
