@@ -1,0 +1,84 @@
+{
+  "cycle": "12.15.5",
+  "decision": "IMPLEMENTATION_COMPLETE_READY_FOR_HUMAN_REVIEW",
+  "baseline": {
+    "branch": "main",
+    "head": "388614565052df5f39d811bb07299e4d0a5f22a5",
+    "origin_main": "388614565052df5f39d811bb07299e4d0a5f22a5",
+    "initial_worktree": "clean"
+  },
+  "migration": {
+    "version": "20261004133801",
+    "name": "cycle12_forward_schema_security_reconciliation",
+    "transactional": true,
+    "policies": 4,
+    "security_definer_signatures": 17,
+    "default_acl_hardened_globally_and_in_public": true,
+    "legacy_overloads_dropped": 0,
+    "legacy_overloads_deferred": 5
+  },
+  "runtime": {
+    "docker_context": "desktop-linux",
+    "target": "local",
+    "clean_bootstrap": "PASS",
+    "executable_migrations": "40/40 PASS",
+    "ephemeral_chain_including_reference_baseline": "41/41 PASS",
+    "policy_runtime": "PASS",
+    "canonical_policy_allowlist": "62/62 PASS",
+    "optimized_expressions_after_cycle_12_13": 69,
+    "security_definer_acl_matrix": "17/17 PASS",
+    "default_acl_probe": "PASS",
+    "logical_pre_12_13_rehearsal": "PASS",
+    "physical_bootstrap_restored": "PASS",
+    "cycle_12_13_compatibility": "PASS",
+    "cycle_12_15_2_compatibility": "PASS",
+    "rollout": "OFF"
+  },
+  "qa": {
+    "static_contract": "PASS",
+    "repository_safety": "PASS",
+    "cycle_12_15_2_unit": "24/24 PASS",
+    "cycle_12_15_2_runtime": "PASS",
+    "cycle_12_15_2_race": "PASS",
+    "supabase_ci_static": "PASS (459 Node, 8 PowerShell, 31 harness JSON)",
+    "json_validation": "PASS",
+    "secret_scan": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "resolved_findings": [
+    "PL/pgSQL alias shadowing found by first clean bootstrap and corrected; failed transaction left no partial reconciliation",
+    "schema-scoped default ACL revoke could not subtract global PUBLIC EXECUTE; global PUBLIC default was revoked and runtime-probed",
+    "anonymous table access is denied before RLS evaluation and is accepted as the stronger expected denial"
+  ],
+  "decisions": {
+    "local_implementation": "PASS",
+    "policy_reconciliation": "PASS",
+    "security_definer_reconciliation": "PASS_WITH_DEFERRED_OVERLOADS",
+    "legacy_overload_reconciliation": "DEFERRED",
+    "clean_bootstrap": "PASS",
+    "cycle_12_13_compatibility": "PASS",
+    "cycle_12_15_2_compatibility": "PASS",
+    "production_upgrade_path": "NO_GO",
+    "remote_migration_readiness": "NO_GO",
+    "production_go": "NO_GO"
+  },
+  "safety": {
+    "remote_writes": 0,
+    "remote_migrations_applied": 0,
+    "remote_migration_repair": 0,
+    "remote_auth_changes": 0,
+    "remote_rls_changes": 0,
+    "remote_grant_changes": 0,
+    "remote_function_changes": 0,
+    "deployments": 0,
+    "real_cohort_changes": 0,
+    "rollout_activation": 0,
+    "real_user_data_mutations": 0,
+    "git_publishing": 0,
+    "destructive_remote_actions": 0,
+    "local_db_reset": true,
+    "rollout": "OFF"
+  }
+}
