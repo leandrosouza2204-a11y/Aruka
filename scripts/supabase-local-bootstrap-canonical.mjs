@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import {
   EXPECTED_EPHEMERAL_MIGRATION_HISTORY,
@@ -11,6 +11,14 @@ import {
 } from "./lib/supabase-local-environment.mjs";
 import { createIsolatedSupabaseCliEnvironment, sanitizeText, waitForLocalSupabaseHealth, waitForPostResetStability } from "./supabase-cycle-8-lib.mjs";
 import { runCommand } from "./supabase-cycle-8-lib.mjs";
+import {
+  classifyCiBootstrapResources,
+  deriveCiDbPort,
+  parseDockerPortInventory,
+  probeTcpPortAvailable,
+  readApiPort,
+  readDbPort,
+} from "./supabase-cycle-9-lib.mjs";
 
 const root = process.cwd();
 const reportDir = join(root, "reports/supabase-local-bootstrap");
@@ -45,6 +53,56 @@ let workdir;
 let localEnvironment;
 let payload;
 
+async function prepareIsolatedCiRuntime() {
+  const isCi = process.env.CI === "true" && process.env.SUPABASE_CI_LOCAL_ONLY === "true";
+  if (!isCi) return { mode: "local", cleanup: "NOT_REQUIRED" };
+
+  const config = readFileSync(join(root, "supabase/config.toml"), "utf8");
+  const projectId = config.match(/^project_id\s*=\s*"([^"]+)"/m)?.[1] || "";
+  const dbPort = readDbPort(config);
+  if (projectId !== process.env.SUPABASE_PROJECT_ID) throw new Error("CI_PROJECT_ID_MISMATCH");
+  const runProject = /^aruka_ci_\d+_\d+$/.test(projectId);
+  if (runProject) {
+    const expectedPort = deriveCiDbPort(projectId);
+    if (dbPort !== expectedPort) throw new Error(`CI_DB_PORT_MISMATCH expected=${expectedPort} actual=${dbPort}`);
+  } else if (!/^aruka_ci_[A-Za-z0-9_-]+$/.test(projectId) || dbPort === 54322) {
+    throw new Error("CI_HARNESS_REQUIRES_EXPLICIT_ISOLATED_DB_PORT");
+  }
+
+  const inspect = () => run("docker", ["ps", "-a", "--format", "{{.Names}}|{{.Ports}}"], 60000);
+  let inventoryResult = inspect();
+  if (inventoryResult.status !== 0) throw new Error(`CI_DOCKER_INVENTORY_FAILED: ${inventoryResult.stderr || inventoryResult.stdout}`);
+  let inventory = parseDockerPortInventory(inventoryResult.stdout);
+  let available = await probeTcpPortAvailable(dbPort);
+  let classification = classifyCiBootstrapResources({ projectId, dbPort, inventory, tcpPortAvailable: available });
+
+  console.log(`CI_BOOTSTRAP_PROJECT_ID=${projectId}`);
+  console.log(`CI_BOOTSTRAP_DB_PORT=${dbPort}`);
+  console.log(`CI_BOOTSTRAP_DB_PORT_SOURCE=${runProject ? "DETERMINISTIC_RUN" : "EXPLICIT_HARNESS"}`);
+  console.log(`CI_BOOTSTRAP_PORT_STATE=${classification.reason}`);
+  console.log(`CI_BOOTSTRAP_RELEVANT_CONTAINERS=${[...classification.owned, ...classification.foreign].join(",") || "none"}`);
+
+  if (classification.action === "REJECT") {
+    throw new Error(`CI_DB_PORT_OWNERSHIP_UNPROVEN: port=${dbPort} reason=${classification.reason}`);
+  }
+  if (classification.action === "CLEAN_OWNED") {
+    const cleanup = run(npx, ["-y", `supabase@${SUPABASE_CLI_VERSION}`, "stop", "--project-id", projectId, "--no-backup"], 180000, {
+      ...process.env,
+      SUPABASE_ACCESS_TOKEN: "",
+    });
+    if (cleanup.status !== 0) throw new Error(`CI_OWNED_RESOURCE_CLEANUP_FAILED: ${cleanup.stderr || cleanup.stdout}`);
+    inventoryResult = inspect();
+    if (inventoryResult.status !== 0) throw new Error(`CI_DOCKER_INVENTORY_FAILED_AFTER_CLEANUP: ${inventoryResult.stderr || inventoryResult.stdout}`);
+    inventory = parseDockerPortInventory(inventoryResult.stdout);
+    available = await probeTcpPortAvailable(dbPort);
+    classification = classifyCiBootstrapResources({ projectId, dbPort, inventory, tcpPortAvailable: available });
+    if (classification.action !== "READY") throw new Error(`CI_OWNED_RESOURCE_CLEANUP_INCOMPLETE: ${classification.reason}`);
+    console.log("CI_OWNED_RESOURCE_CLEANUP=PASS");
+  }
+  console.log("CLEANUP_SCOPE=OWNED_CI_RESOURCES_ONLY");
+  return { mode: "isolated_ci", projectId, dbPort, cleanup: classification.reason };
+}
+
 try {
   const contract = validateSupabaseLocalContract(root);
   if (!contract.ok) throw new Error(contract.errors.join("; "));
@@ -52,16 +110,21 @@ try {
   const preflight = run(powershell, ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "scripts/supabase-local-preflight.ps1"], 180000);
   if (preflight.status !== 0) throw new Error(`PREFLIGHT_FAILED: ${preflight.stderr || preflight.stdout}`);
 
+  const ciRuntime = await prepareIsolatedCiRuntime();
+
   workdir = createEphemeralSupabaseWorkdir(root, "bootstrap");
   localEnvironment = createIsolatedSupabaseCliEnvironment();
   const start = run(npx, ["-y", `supabase@${SUPABASE_CLI_VERSION}`, "--workdir", workdir.root, "start"], 600000, localEnvironment.env);
-  const health = start.status === 0 ? waitForLocalSupabaseHealth(root) : null;
+  const apiPort = readApiPort(readFileSync(join(root, "supabase/config.toml"), "utf8"));
+  console.log(`HEALTH_PROBE_API_PORT=${apiPort}`);
+  const health = start.status === 0 ? waitForLocalSupabaseHealth(root, { apiPort }) : null;
   const reset = start.status === 0
     ? run(npx, ["-y", `supabase@${SUPABASE_CLI_VERSION}`, "--workdir", workdir.root, "db", "reset", "--no-seed"], 600000, localEnvironment.env)
     : null;
   const output = [
     `SUPABASE_START_COMMAND=npx -y supabase@${SUPABASE_CLI_VERSION} --workdir [EPHEMERAL_WORKDIR] start`,
     `SUPABASE_START_EXIT_CODE=${start.status}`,
+    `SUPABASE_HEALTH_API_PORT=${apiPort}`,
     `SUPABASE_HEALTH_GATE=${health?.state ?? "NOT_REACHED"}`,
     `SUPABASE_RESET_COMMAND=npx -y supabase@${SUPABASE_CLI_VERSION} --workdir [EPHEMERAL_WORKDIR] db reset --no-seed`,
     `SUPABASE_RESET_EXIT_CODE=${reset?.status ?? "NOT_RUN"}`,
@@ -104,6 +167,7 @@ try {
     remote_access_performed: false,
     edge_functions_deployed: false,
     primary_error: null,
+    ci_runtime: ciRuntime,
   };
   writeReports(payload, output);
   console.log("REFERENCE_BASELINE_VALIDATED=YES");

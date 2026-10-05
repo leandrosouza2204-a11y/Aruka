@@ -142,9 +142,16 @@ export function startSupabaseAuxiliaryServices(root = process.cwd()) {
   return started;
 }
 
+export function buildLocalSupabaseHealthUrl(apiPort, path) {
+  if (!Number.isInteger(apiPort) || apiPort < 1024 || apiPort > 65535) throw new Error("Invalid local Supabase API port");
+  return `http://127.0.0.1:${apiPort}/${String(path).replace(/^\/+/, "")}`;
+}
+
 export function waitForLocalSupabaseHealth(root = process.cwd(), options = {}) {
   const timeoutMs = options.timeoutMs ?? 120000;
   const pollMs = options.pollMs ?? 500;
+  const apiPort = options.apiPort ?? 54321;
+  buildLocalSupabaseHealthUrl(apiPort, "");
   const projectId = getProjectId(root);
   const curl = process.platform === "win32" ? "curl.exe" : "curl";
   const containers = {
@@ -174,7 +181,7 @@ export function waitForLocalSupabaseHealth(root = process.cwd(), options = {}) {
       && states.gateway === "running|healthy";
     const endpointsReady = containersReady && ["auth/v1/health", "storage/v1/version", "rest/v1/"].every((path) => {
       const outputTarget = process.platform === "win32" ? "NUL" : "/dev/null";
-      const probe = spawnSync(curl, ["--silent", "--output", outputTarget, "--write-out", "%{http_code}", `http://127.0.0.1:54321/${path}`], {
+      const probe = spawnSync(curl, ["--silent", "--output", outputTarget, "--write-out", "%{http_code}", buildLocalSupabaseHealthUrl(apiPort, path)], {
         cwd: root,
         encoding: "utf8",
         shell: false,

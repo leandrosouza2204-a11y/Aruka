@@ -12,6 +12,12 @@ $Mode = if ($IsIsolatedCi) { "ISOLATED_CI" } else { "LOCAL" }
 $ExpectedHmlPreservation = -not $IsIsolatedCi
 $CiProjectId = if ($null -eq $env:SUPABASE_PROJECT_ID) { "" } else { $env:SUPABASE_PROJECT_ID.Trim() }
 $TempProjectId = if ($IsIsolatedCi -and -not [string]::IsNullOrWhiteSpace($CiProjectId)) { $CiProjectId } else { "aruka_ci_clean_worktree_validation" }
+$CiDbPort = 55422
+if ($TempProjectId -match '^aruka_ci_(\d+)_(\d+)$') {
+  $runId = [long]$Matches[1]
+  $runAttempt = [long]$Matches[2]
+  $CiDbPort = 20002 + (($runId * 31 + $runAttempt) % 2000) * 16
+}
 $TempBase = Join-Path ([System.IO.Path]::GetTempPath()) ("aruka-clean-worktree-" + [DateTimeOffset]::UtcNow.ToUnixTimeSeconds())
 $Worktree = Join-Path $TempBase "repo"
 $ReportDir = Join-Path $Root "reports/supabase-local-bootstrap"
@@ -185,7 +191,11 @@ function Invoke-Checked($CheckpointPrefix, $FilePath, [string[]]$ArgumentList, $
   $timings[$CheckpointPrefix.ToLowerInvariant()] = $result.duration_seconds
   Write-Checkpoint "${CheckpointPrefix}_END"
   if ($result.timed_out) { throw "$CheckpointPrefix timed out after $TimeoutSeconds seconds" }
-  if ($result.exit_code -ne 0) { throw "$CheckpointPrefix failed with exit code $($result.exit_code)" }
+  if ($result.exit_code -ne 0) {
+    $detail = (($result.stdout, $result.stderr | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }) -join "`n").Trim()
+    if ($detail.Length -gt 12000) { $detail = "[TRUNCATED_TO_LAST_12000_CHARS]`n" + $detail.Substring($detail.Length - 12000) }
+    throw "$CheckpointPrefix failed; PROJECT_ID=$TempProjectId DB_PORT=$CiDbPort EXIT_CODE=$($result.exit_code)`n$detail"
+  }
   return $result
 }
 
@@ -397,7 +407,7 @@ $result = [ordered]@{
   child_processes = @()
   primary_error = $null
   cleanup_errors = @()
-  ports = [ordered]@{ api = 55421; db = 55422; shadow = 55420; smtp = 55424; studio = 55423; analytics = 55427; pooler = 55429 }
+  ports = [ordered]@{ api = 55421; db = $CiDbPort; shadow = 55420; smtp = 55424; studio = 55423; analytics = 55427; pooler = 55429 }
 }
 
 try {
@@ -431,7 +441,7 @@ try {
     "scripts/supabase-local-validate.ps1", "scripts/supabase-local-stop.ps1",
     "scripts/supabase-local-clean.ps1", "scripts/supabase-local-cli.mjs",
     "scripts/supabase-local-bootstrap-canonical.mjs", "scripts/lib/supabase-local-environment.mjs",
-    "scripts/supabase-cycle-8-lib.mjs",
+    "scripts/supabase-cycle-8-lib.mjs", "scripts/supabase-cycle-9-lib.mjs",
     "scripts/validate-supabase-local-reproducibility.mjs",
     "scripts/test-supabase-clean-worktree.ps1", "scripts/test-supabase-local-reproducibility-negative.mjs",
     "supabase/config.toml", "supabase/reference-baselines/20260716090000_baseline_aruka_v1.sql",
@@ -481,7 +491,7 @@ try {
   $configPath = Join-Path $Worktree "supabase/config.toml"
   Set-ConfigValue $configPath 'project_id\s*=\s*"[^"]+"' "project_id = `"$TempProjectId`""
   Set-ConfigValue $configPath 'port\s*=\s*54321' "port = 55421"
-  Set-ConfigValue $configPath 'port\s*=\s*54322' "port = 55422"
+  Set-ConfigValue $configPath '(?ms)(^\[db\]\s*\r?\n(?:(?!^\[).)*?^port\s*=\s*)\d+' ('${1}' + $CiDbPort)
   Set-ConfigValue $configPath 'shadow_port\s*=\s*54320' "shadow_port = 55420"
   Set-ConfigValue $configPath 'port\s*=\s*54324' "port = 55424"
   Set-ConfigValue $configPath 'port\s*=\s*54323' "port = 55423"
@@ -499,6 +509,11 @@ try {
   $env:CI = if ($IsIsolatedCi) { "true" } else { $previousCi }
   $env:SUPABASE_CI_LOCAL_ONLY = if ($IsIsolatedCi) { "true" } else { $previousCiLocalOnly }
   $env:SUPABASE_PROJECT_ID = $TempProjectId
+  Write-Output "PARENT_PROJECT_ID=$CiProjectId"
+  Write-Output "PARENT_DB_PORT=$CiDbPort"
+  Write-Output "INNER_PROJECT_ID=$TempProjectId"
+  Write-Output "INNER_DB_PORT=$CiDbPort"
+  Write-Output "INNER_API_PORT=55421"
   $npmCi = Invoke-Checked "NPM_CI" $NpmCmd @("ci") $Worktree 900 "clean-worktree-npm-ci.log"
   $stepStatus.npm_ci_passed = $true
   $preflight = Invoke-Checked "INNER_PREFLIGHT" $NpmCmd @("run", "supabase:preflight") $Worktree 180 "clean-worktree-preflight.log"
