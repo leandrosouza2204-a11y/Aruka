@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import net from "node:net";
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
@@ -92,6 +93,81 @@ export function sanitizeText(text) {
 
 export function validateProjectId(value) {
   return typeof value === "string" && /^aruka_ci_[0-9]+_[0-9]+$/.test(value) && value !== PROTECTED_PROJECT_REF && !/[?*[\]{}]/.test(value);
+}
+
+const CI_PROJECT_PATTERN = /^aruka_ci_[A-Za-z0-9_-]+$/;
+const CI_RUN_PROJECT_PATTERN = /^aruka_ci_(\d+)_(\d+)$/;
+
+export function deriveCiDbPort(projectId) {
+  const match = String(projectId || "").match(CI_RUN_PROJECT_PATTERN);
+  if (!match) throw new Error("CI project ID is not eligible for deterministic DB port isolation");
+  const runId = BigInt(match[1]);
+  const attempt = BigInt(match[2]);
+  const slot = Number((runId * 31n + attempt) % 2000n);
+  return 20002 + slot * 16;
+}
+
+export function readDbPort(configText) {
+  const start = String(configText).search(/^\[db\]\s*$/m);
+  if (start < 0) throw new Error("Supabase [db] section is missing");
+  const tail = configText.slice(start);
+  const endMatch = tail.slice(1).match(/^\[/m);
+  const end = endMatch ? start + 1 + endMatch.index : configText.length;
+  const match = configText.slice(start, end).match(/^port\s*=\s*(\d+)\s*$/m);
+  if (!match) throw new Error("Supabase [db] port is missing");
+  return Number(match[1]);
+}
+
+export function rewriteDbPort(configText, port) {
+  if (!Number.isInteger(port) || port < 1024 || port > 65535) throw new Error("Invalid Supabase DB port");
+  const start = String(configText).search(/^\[db\]\s*$/m);
+  if (start < 0) throw new Error("Supabase [db] section is missing");
+  const tail = configText.slice(start);
+  const endMatch = tail.slice(1).match(/^\[/m);
+  const end = endMatch ? start + 1 + endMatch.index : configText.length;
+  const section = configText.slice(start, end);
+  if (!/^port\s*=\s*\d+\s*$/m.test(section)) throw new Error("Supabase [db] port is missing");
+  return configText.slice(0, start) + section.replace(/^port\s*=\s*\d+\s*$/m, `port = ${port}`) + configText.slice(end);
+}
+
+export function parseDockerPortInventory(output) {
+  return String(output || "").split(/\r?\n/).map((line) => line.trim()).filter(Boolean).map((line) => {
+    const separator = line.indexOf("|");
+    return separator < 0 ? { name: line, ports: "" } : { name: line.slice(0, separator), ports: line.slice(separator + 1) };
+  });
+}
+
+export function isOwnedCiContainer(name, projectId) {
+  if (!CI_PROJECT_PATTERN.test(String(projectId || ""))) return false;
+  const escaped = projectId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`^supabase_[a-z0-9_-]+_${escaped}$`).test(String(name || ""));
+}
+
+export function publishesHostPort(ports, port) {
+  return new RegExp(`(?:0\\.0\\.0\\.0|127\\.0\\.0\\.1|localhost|\\[::\\]|::):${port}->`).test(String(ports || ""));
+}
+
+export function classifyCiBootstrapResources({ projectId, dbPort, inventory, tcpPortAvailable }) {
+  if (!CI_PROJECT_PATTERN.test(String(projectId || ""))) return { action: "REJECT", reason: "INVALID_CI_PROJECT_ID", owned: [], foreign: [] };
+  const owned = inventory.filter((item) => isOwnedCiContainer(item.name, projectId)).map((item) => item.name);
+  const publishers = inventory.filter((item) => publishesHostPort(item.ports, dbPort));
+  const foreign = publishers.filter((item) => !isOwnedCiContainer(item.name, projectId)).map((item) => item.name);
+  if (foreign.length) return { action: "REJECT", reason: "UNOWNED_CONTAINER_OWNS_DB_PORT", owned, foreign };
+  if (!tcpPortAvailable && publishers.length === 0) return { action: "REJECT", reason: "UNKNOWN_PROCESS_OWNS_DB_PORT", owned, foreign: [] };
+  if (owned.length) return { action: "CLEAN_OWNED", reason: "OWNED_CI_RESIDUE", owned, foreign: [] };
+  return { action: "READY", reason: "DB_PORT_AVAILABLE", owned: [], foreign: [] };
+}
+
+export function probeTcpPortAvailable(port, host = "127.0.0.1") {
+  return new Promise((resolve, reject) => {
+    const server = net.createServer();
+    server.unref();
+    server.once("error", (error) => {
+      if (error.code === "EADDRINUSE" || error.code === "EACCES") resolve(false);
+      else reject(error);
+    });
+    server.listen({ host, port, exclusive: true }, () => server.close(() => resolve(true)));
+  });
 }
 
 export function assertNoForbiddenContent(root, files, options = {}) {
