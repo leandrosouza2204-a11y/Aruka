@@ -107,15 +107,24 @@ export function deriveCiDbPort(projectId) {
   return 20002 + slot * 16;
 }
 
-export function readDbPort(configText) {
-  const start = String(configText).search(/^\[db\]\s*$/m);
-  if (start < 0) throw new Error("Supabase [db] section is missing");
+function readSectionPort(configText, sectionName) {
+  const escapedSection = sectionName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const start = String(configText).search(new RegExp(`^\\[${escapedSection}\\]\\s*$`, "m"));
+  if (start < 0) throw new Error(`Supabase [${sectionName}] section is missing`);
   const tail = configText.slice(start);
   const endMatch = tail.slice(1).match(/^\[/m);
   const end = endMatch ? start + 1 + endMatch.index : configText.length;
   const match = configText.slice(start, end).match(/^port\s*=\s*(\d+)\s*$/m);
-  if (!match) throw new Error("Supabase [db] port is missing");
+  if (!match) throw new Error(`Supabase [${sectionName}] port is missing`);
   return Number(match[1]);
+}
+
+export function readApiPort(configText) {
+  return readSectionPort(configText, "api");
+}
+
+export function readDbPort(configText) {
+  return readSectionPort(configText, "db");
 }
 
 export function rewriteDbPort(configText, port) {

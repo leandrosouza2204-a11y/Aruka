@@ -16,6 +16,7 @@ import {
   deriveCiDbPort,
   parseDockerPortInventory,
   probeTcpPortAvailable,
+  readApiPort,
   readDbPort,
 } from "./supabase-cycle-9-lib.mjs";
 
@@ -114,13 +115,16 @@ try {
   workdir = createEphemeralSupabaseWorkdir(root, "bootstrap");
   localEnvironment = createIsolatedSupabaseCliEnvironment();
   const start = run(npx, ["-y", `supabase@${SUPABASE_CLI_VERSION}`, "--workdir", workdir.root, "start"], 600000, localEnvironment.env);
-  const health = start.status === 0 ? waitForLocalSupabaseHealth(root) : null;
+  const apiPort = readApiPort(readFileSync(join(root, "supabase/config.toml"), "utf8"));
+  console.log(`HEALTH_PROBE_API_PORT=${apiPort}`);
+  const health = start.status === 0 ? waitForLocalSupabaseHealth(root, { apiPort }) : null;
   const reset = start.status === 0
     ? run(npx, ["-y", `supabase@${SUPABASE_CLI_VERSION}`, "--workdir", workdir.root, "db", "reset", "--no-seed"], 600000, localEnvironment.env)
     : null;
   const output = [
     `SUPABASE_START_COMMAND=npx -y supabase@${SUPABASE_CLI_VERSION} --workdir [EPHEMERAL_WORKDIR] start`,
     `SUPABASE_START_EXIT_CODE=${start.status}`,
+    `SUPABASE_HEALTH_API_PORT=${apiPort}`,
     `SUPABASE_HEALTH_GATE=${health?.state ?? "NOT_REACHED"}`,
     `SUPABASE_RESET_COMMAND=npx -y supabase@${SUPABASE_CLI_VERSION} --workdir [EPHEMERAL_WORKDIR] db reset --no-seed`,
     `SUPABASE_RESET_EXIT_CODE=${reset?.status ?? "NOT_RUN"}`,

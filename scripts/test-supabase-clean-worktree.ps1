@@ -191,7 +191,11 @@ function Invoke-Checked($CheckpointPrefix, $FilePath, [string[]]$ArgumentList, $
   $timings[$CheckpointPrefix.ToLowerInvariant()] = $result.duration_seconds
   Write-Checkpoint "${CheckpointPrefix}_END"
   if ($result.timed_out) { throw "$CheckpointPrefix timed out after $TimeoutSeconds seconds" }
-  if ($result.exit_code -ne 0) { throw "$CheckpointPrefix failed with exit code $($result.exit_code)" }
+  if ($result.exit_code -ne 0) {
+    $detail = (($result.stdout, $result.stderr | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }) -join "`n").Trim()
+    if ($detail.Length -gt 12000) { $detail = "[TRUNCATED_TO_LAST_12000_CHARS]`n" + $detail.Substring($detail.Length - 12000) }
+    throw "$CheckpointPrefix failed; PROJECT_ID=$TempProjectId DB_PORT=$CiDbPort EXIT_CODE=$($result.exit_code)`n$detail"
+  }
   return $result
 }
 
@@ -505,6 +509,11 @@ try {
   $env:CI = if ($IsIsolatedCi) { "true" } else { $previousCi }
   $env:SUPABASE_CI_LOCAL_ONLY = if ($IsIsolatedCi) { "true" } else { $previousCiLocalOnly }
   $env:SUPABASE_PROJECT_ID = $TempProjectId
+  Write-Output "PARENT_PROJECT_ID=$CiProjectId"
+  Write-Output "PARENT_DB_PORT=$CiDbPort"
+  Write-Output "INNER_PROJECT_ID=$TempProjectId"
+  Write-Output "INNER_DB_PORT=$CiDbPort"
+  Write-Output "INNER_API_PORT=55421"
   $npmCi = Invoke-Checked "NPM_CI" $NpmCmd @("ci") $Worktree 900 "clean-worktree-npm-ci.log"
   $stepStatus.npm_ci_passed = $true
   $preflight = Invoke-Checked "INNER_PREFLIGHT" $NpmCmd @("run", "supabase:preflight") $Worktree 180 "clean-worktree-preflight.log"

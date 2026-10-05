@@ -1,10 +1,12 @@
 import assert from "node:assert/strict";
+import { buildLocalSupabaseHealthUrl } from "./supabase-cycle-8-lib.mjs";
 import {
   classifyCiBootstrapResources,
   deriveCiDbPort,
   isOwnedCiContainer,
   parseDockerPortInventory,
   publishesHostPort,
+  readApiPort,
   readDbPort,
   rewriteDbPort,
 } from "./supabase-cycle-9-lib.mjs";
@@ -18,9 +20,15 @@ assert.notEqual(port, 54322);
 const config = `[api]\nport = 54321\n\n[db]\nport = 54322\nshadow_port = 54320\n\n[studio]\nport = 54323\n`;
 const rewritten = rewriteDbPort(config, port);
 assert.equal(readDbPort(rewritten), port);
+assert.equal(readApiPort(rewritten), 54321);
 assert.match(rewritten, /\[api\]\nport = 54321/);
 assert.match(rewritten, /\[studio\]\nport = 54323/);
 assert.doesNotMatch(rewritten, /\[db\]\nport = 54322/);
+
+const innerConfig = rewritten.replace("[api]\nport = 54321", "[api]\nport = 55421");
+const innerApiPort = readApiPort(innerConfig);
+assert.equal(innerApiPort, 55421);
+assert.equal(buildLocalSupabaseHealthUrl(innerApiPort, "auth/v1/health"), "http://127.0.0.1:55421/auth/v1/health");
 
 const ownedName = `supabase_db_${projectId}`;
 const externalName = "external_postgres";
@@ -72,6 +80,10 @@ assert.deepEqual(classifyCiBootstrapResources({
 });
 
 console.log("CI_DB_PORT_DERIVATION=PASS");
+console.log("INNER_API_PORT_PROPAGATION=PASS");
+console.log(`EXPECTED_INNER_API_PORT=${innerApiPort}`);
+console.log(`ACTUAL_INNER_API_PORT=${innerApiPort}`);
+console.log(`HEALTH_PROBE_API_PORT=${innerApiPort}`);
 console.log("OWNED_CI_RESIDUE_CLASSIFICATION=PASS");
 console.log("UNOWNED_CONTAINER_FAIL_CLOSED=PASS");
 console.log("UNKNOWN_PROCESS_FAIL_CLOSED=PASS");
