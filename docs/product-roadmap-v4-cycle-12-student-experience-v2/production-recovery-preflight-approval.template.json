@@ -1,0 +1,17 @@
+{
+  "decision": "APPROVED_FOR_CONSISTENT_BACKUP_COLLECTION",
+  "project_ref": "vrizeuhuhvtvbrmtvdik",
+  "approved_by": "<human approver>",
+  "approved_at_utc": "<ISO-8601 UTC>",
+  "expires_at_utc": "<ISO-8601 UTC>",
+  "maintenance_window_started_at_utc": "<ISO-8601 UTC>",
+  "maintenance_window_ends_at_utc": "<ISO-8601 UTC>",
+  "application_maintenance_mode_approved": true,
+  "cron_pause_approved": true,
+  "storage_write_freeze_approved": true,
+  "database_snapshot_and_read_only_dumps_approved": true,
+  "storage_object_download_approved": true,
+  "encrypted_destination_verified": true,
+  "credential_custodian": "<human custodian>",
+  "release_writes_requires_human_confirmation": true
+}

@@ -1,0 +1,21 @@
+{
+  "decision": "PENDING_HUMAN_COMPLETION",
+  "scope": "STORAGE_EXPORT",
+  "project_ref": "vrizeuhuhvtvbrmtvdik",
+  "destination": "B:\\Aruka\\Recovery\\20261008-213100Z\\storage-export",
+  "credential_mode": "RLS_SESSION_TOKEN_PREFERRED",
+  "expected_objects": 8,
+  "rls_inventory_coverage_proven": false,
+  "conditional_full_s3_exception_authorized": true,
+  "full_s3_exception_activation_condition": "RLS_COVERAGE_REPORT_STATUS_INSUFFICIENT",
+  "allow_full_s3_access_key": false,
+  "temporary_and_revocable_credentials_required": true,
+  "read_operations_only": true,
+  "write_operations_prohibited": true,
+  "approved_by": null,
+  "credential_custodian": null,
+  "change_record": null,
+  "expires_at_utc": null,
+  "coverage_report_path": null,
+  "backup_started": false
+}

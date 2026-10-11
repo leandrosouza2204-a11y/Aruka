@@ -1,0 +1,39 @@
+{
+  "project_ref": "vrizeuhuhvtvbrmtvdik",
+  "region": "us-east-2",
+  "supabase_cli": {
+    "version": "2.120.0",
+    "archive_sha256": "0db5224fc5d92ae5f15e675ed65dad376967326921122ab8d9a78e790874c92e"
+  },
+  "postgres": {
+    "version": "17.6",
+    "image": "public.ecr.aws/supabase/postgres@sha256:be60aee15997daca475b710b734bc6bfe52cd544dcd7e9fd2ff58210b6747d83"
+  },
+  "aws_cli": {
+    "version": "2.37.10",
+    "image": "public.ecr.aws/aws-cli/aws-cli@sha256:3dacc5db57c923c4223e949795f538ecf1f2212b2b7d5a028b47b97f91564c0d"
+  },
+  "supabase_dump_profile": {
+    "validated_against": "supabase db dump --dry-run v2.120.0",
+    "schema_excludes": "information_schema|pg_*|_analytics|_realtime|_supavisor|auth|etl|extensions|pgbouncer|realtime|storage|supabase_functions|supabase_migrations|cron|dbdev|graphql|graphql_public|net|pgmq|pgsodium|pgsodium_masks|pgtle|repack|tiger|tiger_data|timescaledb_*|_timescaledb_*|topology|vault",
+    "data_excludes": "information_schema|pg_*|graphql|graphql_public|pgsodium|pgsodium_masks|pgtle|repack|tiger|tiger_data|timescaledb_*|_timescaledb_*|topology|vault|etl|extensions|pgbouncer|realtime|supabase_migrations|_analytics|_realtime|_supavisor",
+    "data_excluded_tables": [
+      "auth.schema_migrations",
+      "storage.migrations",
+      "supabase_functions.migrations",
+      "storage.buckets_vectors",
+      "storage.vector_indexes"
+    ]
+  },
+  "coverage_baseline": {
+    "public_tables": 30,
+    "public_functions": 49,
+    "public_policies": 75,
+    "migration_rows": 25,
+    "last_migration": "20260909110000",
+    "auth_data_tables": 26,
+    "public_data_tables": 30,
+    "storage_data_tables_after_exclusions": 5,
+    "storage_objects": 8
+  }
+}
