@@ -1,0 +1,9 @@
+{
+  "restore_started_at_utc": "2026-10-11T16:44:32.0161718+00:00",
+  "restore_completed_at_utc": "2026-10-11T16:44:44.8313021+00:00",
+  "restore_duration_seconds": 12.815,
+  "pg_restore_exit_code": 0,
+  "processed_data_blocks": 71,
+  "log_errors": 0,
+  "log_warnings": 0
+}
