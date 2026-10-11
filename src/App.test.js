@@ -26,3 +26,27 @@ test("student V2 routes are isolated behind the dedicated guard while legacy rem
   assert.match(source, /path="\/contato-alunos"/);
   assert.match(source, /<ProfessionalRoute>[\s\S]*<ProfessionalContactSettings \/>/);
 });
+
+test("PROFESSIONAL-02/04: professional refresh and deep links retain authentication and role guards", () => {
+  const professionalRoutes = [
+    ["dashboard", "Dashboard"],
+    ["alunos", "Alunos"],
+    ["financeiro", "Financeiro"],
+    ["planos", "Planos"],
+    ["gestao-inteligente", "GestaoInteligente"],
+    ["avaliacoes", "Avaliacoes"],
+    ["treinos", "Treinos"],
+    ["exercicios", "Exercicios"],
+    ["contato-alunos", "ProfessionalContactSettings"],
+  ];
+
+  for (const [path, component] of professionalRoutes) {
+    const route = new RegExp(`path="/${path}"[\\s\\S]*?<ProtectedRoute>[\\s\\S]*?<ProfessionalRoute>[\\s\\S]*?<${component} \\/>`);
+    assert.match(source, route, `${path} must validate both the restored session and professional role`);
+  }
+});
+
+test("STUDENT-02 and SECURITY-01: administrative routes keep explicit authorization guards", () => {
+  assert.match(source, /path="\/admin\/usuarios"[\s\S]*?<ProtectedRoute>[\s\S]*?<AdminRoute>[\s\S]*?<AdminUsuarios \/>/);
+  assert.match(source, /path="\/admin\/logs"[\s\S]*?<ProtectedRoute>[\s\S]*?<AdminRoute>[\s\S]*?<AdminLogs \/>/);
+});
