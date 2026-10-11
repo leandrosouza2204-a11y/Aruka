@@ -11,6 +11,9 @@ PROFESSIONAL_ROUTING_TESTS: PASS
 STUDENT_ROUTING_TESTS: PASS
 AUTH_SECURITY: PASS_LOCAL — rotas profissionais agora exigem ProfessionalRoute; rotas admin preservam AdminRoute; Supabase/RLS continuam como autoridade de dados
 HOTFIX_INDEPENDENT_OF_MIGRATIONS: YES
+HOTFIX_PR: #152 OPEN
+HOTFIX_CI: PASS
+HOTFIX_MERGE: NOT_AUTHORIZED
 HOTFIX_DEPLOY_STATUS: NOT_AUTHORIZED
 G1_STATUS: PARTIAL — Git/PR151/CI/Supabase/manifests/domínio verificados; inspeção autenticada de env e deployment anterior na Vercel pendente
 G2_STATUS: CONTINUE_REQUIRED — sem autorização operacional e janela UTC válidas
@@ -19,7 +22,7 @@ RESTORE_VERIFICATION: NOT_RUN
 MIGRATION_READINESS: READY_WITH_MITIGATIONS — 25 aplicadas, 15 pendentes, manifests A/B/C preservados
 V2_DEPLOY_READINESS: PREPARED_NOT_AUTHORIZED
 PRODUCTION_STATUS: NO_GO_FOR_V2
-NEXT_ACTION: CI do hotfix; depois autorização explícita para merge/deploy e, separadamente, janela G2
+NEXT_ACTION: autorização explícita para merge/deploy e, separadamente, autorização operacional com janela UTC para G2
 ```
 
 ## Evidência da correção
@@ -54,6 +57,7 @@ CYCLE_12_15_7_RECOVERY_STATIC=PASS
 - Advisors confirmam o drift já conhecido: 17 funções `SECURITY DEFINER` executáveis por `anon`, cobertas pela reconciliation pendente; nenhuma correção remota foi aplicada.
 - `https://www.aruka.com.br/` e `/login`: HTTP 200, TLS/HSTS e resposta Vercel.
 - Vercel CLI instalada, mas sem credencial autenticada. Projeto, variáveis e deployment anterior não foram inspecionados pela CLI.
+- PR #152: checks `validation`, `Vercel` e `Vercel Preview Comments` aprovados; preview criado sem promover produção.
 
 ## Limites operacionais
 
