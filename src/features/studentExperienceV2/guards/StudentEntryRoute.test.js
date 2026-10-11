@@ -10,10 +10,9 @@ test("legacy entry is rendered immediately while rollout is off", () => {
 });
 
 test("enabled entry resolves eligibility without rendering legacy first", () => {
-  assert.match(source, /resolverDestinoPosLogin\(null, null, \{/);
-  assert.match(source, /v2Enabled: true/);
+  assert.match(source, /resolverDestinoPosLogin\(undefined, \{/);
   assert.match(source, /fallbackRoute: STUDENT_EXPERIENCE_V2_ROUTES\.LEGACY/);
-  assert.match(source, /\.catch\(\(\) => \{/);
+  assert.match(source, /\.catch\(\(\) =>/);
   assert.match(source, /setDestination\(STUDENT_EXPERIENCE_V2_ROUTES\.LEGACY\)/);
   assert.match(source, /<Navigate to=\{destination\} replace \/>/);
   assert.match(source, /<LoadingFallback texto="Preparando sua área\.\.\." variant="route" \/>/);

@@ -5,12 +5,20 @@ import { buscarMinhaHomeAlunoV2 } from "../../../services/studentHomeV2Service.j
 import { buscarMinhaRotaExperienciaAluno } from "../../../services/studentExperienceRouteService.js";
 import { recordStudentExperienceEvent } from "../../../services/studentExperienceTelemetryService.js";
 import { StudentExperienceV2Provider } from "../context/StudentExperienceV2Context.jsx";
+import { isStudentExperienceV2Enabled } from "../config/studentExperienceV2Config.js";
 
 function StudentExperienceV2Route({ children }) {
   const location = useLocation();
-  const [state, setState] = useState({ status: "loading", home: null, decision: null, error: null });
+  const enabled = isStudentExperienceV2Enabled();
+  const [state, setState] = useState(() => enabled
+    ? { status: "loading", home: null, decision: null, error: null }
+    : { status: "denied", home: null, decision: null, error: null });
 
   const load = useCallback(async () => {
+    if (!enabled) {
+      setState({ status: "denied", home: null, decision: null, error: null });
+      return null;
+    }
     setState((current) => ({ ...current, status: "loading", error: null }));
     const decision = await buscarMinhaRotaExperienciaAluno();
     if (decision.experience !== "v2") {
@@ -26,9 +34,10 @@ function StudentExperienceV2Route({ children }) {
       setState({ status: "error", home: null, decision, error });
       throw error;
     }
-  }, [location.pathname]);
+  }, [enabled, location.pathname]);
 
   useEffect(() => {
+    if (!enabled) return undefined;
     let active = true;
     Promise.resolve()
       .then(async () => {
@@ -45,7 +54,7 @@ function StudentExperienceV2Route({ children }) {
       })
       .catch((error) => active && setState({ status: "error", home: null, decision: null, error }));
     return () => { active = false; };
-  }, [location.pathname]);
+  }, [enabled, location.pathname]);
 
   const context = useMemo(() => ({ ...state, reload: load }), [load, state]);
   if (state.status === "loading" && !state.decision) return <LoadingFallback texto="Validando seu acesso..." variant="route" />;
