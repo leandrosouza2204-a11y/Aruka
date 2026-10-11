@@ -11,7 +11,7 @@ const css = read("src/index.css");
 test("terminal server confirmations refresh shared Home state without optimistic clearing", () => {
   assert.match(player, /result\?\.status !== "completed"[\s\S]*refreshAfterConfirmedSessionTransition\(result, reloadStudentExperience\)/);
   assert.match(player, /cancelWorkoutSession[\s\S]*refreshAfterConfirmedSessionTransition\(cancelled, reloadStudentExperience\)/);
-  assert.match(guard, /setState\(\{ status: "loading", home: null, error: null \}\)/);
+  assert.match(guard, /setState\(\(current\) => \(\{ \.\.\.current, status: "loading", error: null \}\)\)/);
 });
 
 test("Evolution exposes a keyboard-native completed-session detail link with canonical route builder", () => {

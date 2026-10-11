@@ -1,0 +1,21 @@
+{
+  "status": "PENDING",
+  "mode": "CONTROLLED_NO_FULL_WRITE_FREEZE",
+  "project_ref": "vrizeuhuhvtvbrmtvdik",
+  "started_at_utc": null,
+  "valid_until_utc": null,
+  "maintenance_window_confirmed": false,
+  "no_active_users_confirmed": false,
+  "absence_of_activity_is_not_write_freeze_proof": true,
+  "integrations_assessed": false,
+  "edge_functions_state_recorded": false,
+  "edge_functions_unchanged": true,
+  "cron_previous_active_state": null,
+  "cron_paused": false,
+  "storage_inventory_before_captured": false,
+  "full_write_freeze_proven": false,
+  "cross_service_point_in_time_consistency_expected": "NOT_PROVEN",
+  "responsible_operator": null,
+  "change_record": null,
+  "backup_started": false
+}

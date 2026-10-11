@@ -1,0 +1,9 @@
+{
+  "decision": "APPROVED",
+  "scope": "STORAGE_EXPORT",
+  "project_ref": "<expected project ref>",
+  "expires_at_utc": "<ISO-8601 UTC>",
+  "allow_full_s3_access_key": false,
+  "approved_by": "<human approver identifier>",
+  "change_record": "<external change record>"
+}

@@ -1,0 +1,28 @@
+{
+  "decision": "AUTHORIZED_CONTROLLED_BACKUP_WINDOW",
+  "production_readiness": "NO_GO",
+  "consistency_mode": "CONTROLLED_NO_FULL_WRITE_FREEZE",
+  "window": {
+    "started_at_utc": "<ISO-8601 UTC>",
+    "ended_at_utc": "<ISO-8601 UTC>",
+    "full_write_freeze_proven": false,
+    "cron_paused": true,
+    "cron_restored": true
+  },
+  "database": {
+    "snapshot_started_at_utc": "<ISO-8601 UTC>",
+    "snapshot_completed_at_utc": "<ISO-8601 UTC>",
+    "artifacts": []
+  },
+  "storage": {
+    "inventory_before_path": "<absolute path outside Git>",
+    "inventory_after_path": "<absolute path outside Git>",
+    "export_started_at_utc": "<ISO-8601 UTC>",
+    "export_completed_at_utc": "<ISO-8601 UTC>",
+    "reconciliation_report_path": "<absolute path outside Git>/storage-reconciliation-report.json"
+  },
+  "credentials_revoked": false,
+  "database_snapshot_consistency": "PENDING",
+  "storage_byte_integrity": "PENDING",
+  "cross_service_point_in_time_consistency": "NOT_PROVEN"
+}

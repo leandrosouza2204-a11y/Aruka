@@ -1,0 +1,11 @@
+{
+  "status": "ACTIVE",
+  "project_ref": "<expected project ref>",
+  "started_at_utc": "<ISO-8601 UTC>",
+  "valid_until_utc": "<ISO-8601 UTC>",
+  "application_writes_frozen": true,
+  "storage_writes_frozen": true,
+  "background_jobs_paused": true,
+  "approved_by": "<human approver identifier>",
+  "change_record": "<external change record>"
+}
