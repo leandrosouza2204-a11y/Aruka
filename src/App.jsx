@@ -178,9 +178,11 @@ function App() {
               <ProtectedRoute>
                 <SubscriptionRoute>
                   <LegalRoute>
-                    <AppMobileNav>
-                      <Alunos />
-                    </AppMobileNav>
+                    <ProfessionalRoute>
+                      <AppMobileNav>
+                        <Alunos />
+                      </AppMobileNav>
+                    </ProfessionalRoute>
                   </LegalRoute>
                 </SubscriptionRoute>
               </ProtectedRoute>
@@ -192,9 +194,11 @@ function App() {
               <ProtectedRoute>
                 <SubscriptionRoute>
                   <LegalRoute>
-                    <AppMobileNav>
-                      <Financeiro />
-                    </AppMobileNav>
+                    <ProfessionalRoute>
+                      <AppMobileNav>
+                        <Financeiro />
+                      </AppMobileNav>
+                    </ProfessionalRoute>
                   </LegalRoute>
                 </SubscriptionRoute>
               </ProtectedRoute>
@@ -206,9 +210,11 @@ function App() {
               <ProtectedRoute>
                 <SubscriptionRoute>
                   <LegalRoute>
-                    <AppMobileNav>
-                      <Planos />
-                    </AppMobileNav>
+                    <ProfessionalRoute>
+                      <AppMobileNav>
+                        <Planos />
+                      </AppMobileNav>
+                    </ProfessionalRoute>
                   </LegalRoute>
                 </SubscriptionRoute>
               </ProtectedRoute>
@@ -236,9 +242,11 @@ function App() {
               <ProtectedRoute>
                 <SubscriptionRoute>
                   <LegalRoute>
-                    <AppMobileNav>
-                      <Avaliacoes />
-                    </AppMobileNav>
+                    <ProfessionalRoute>
+                      <AppMobileNav>
+                        <Avaliacoes />
+                      </AppMobileNav>
+                    </ProfessionalRoute>
                   </LegalRoute>
                 </SubscriptionRoute>
               </ProtectedRoute>
@@ -250,9 +258,11 @@ function App() {
               <ProtectedRoute>
                 <SubscriptionRoute>
                   <LegalRoute>
-                    <AppMobileNav>
-                      <Treinos />
-                    </AppMobileNav>
+                    <ProfessionalRoute>
+                      <AppMobileNav>
+                        <Treinos />
+                      </AppMobileNav>
+                    </ProfessionalRoute>
                   </LegalRoute>
                 </SubscriptionRoute>
               </ProtectedRoute>
@@ -264,9 +274,11 @@ function App() {
               <ProtectedRoute>
                 <SubscriptionRoute>
                   <LegalRoute>
-                    <AppMobileNav>
-                      <Exercicios />
-                    </AppMobileNav>
+                    <ProfessionalRoute>
+                      <AppMobileNav>
+                        <Exercicios />
+                      </AppMobileNav>
+                    </ProfessionalRoute>
                   </LegalRoute>
                 </SubscriptionRoute>
               </ProtectedRoute>

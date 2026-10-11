@@ -9,18 +9,20 @@ function StudentEntryRoute({ children }) {
   const location = useLocation();
   const enabled = isStudentExperienceV2Enabled();
   const isGuardFallback = Boolean(location.state?.studentV2FallbackFrom);
-  const [destination, setDestination] = useState(!enabled || isGuardFallback ? STUDENT_EXPERIENCE_V2_ROUTES.LEGACY : null);
+  const [destination, setDestination] = useState(null);
 
   useEffect(() => {
-    if (!enabled || isGuardFallback) return undefined;
     let active = true;
-    resolverDestinoPosLogin(undefined, { fallbackRoute: STUDENT_EXPERIENCE_V2_ROUTES.LEGACY })
-      .then((route) => active && setDestination(route))
+    resolverDestinoPosLogin(
+      enabled && !isGuardFallback ? undefined : async () => ({ experience: "v1" }),
+      undefined,
+      { fallbackRoute: STUDENT_EXPERIENCE_V2_ROUTES.LEGACY }
+    ).then((route) => active && setDestination(route))
       .catch(() => active && setDestination(STUDENT_EXPERIENCE_V2_ROUTES.LEGACY));
     return () => { active = false; };
   }, [enabled, isGuardFallback]);
 
-  if (!enabled || isGuardFallback || destination === STUDENT_EXPERIENCE_V2_ROUTES.LEGACY) return children;
+  if (destination === STUDENT_EXPERIENCE_V2_ROUTES.LEGACY) return children;
   if (destination) return <Navigate to={destination} replace />;
   return <LoadingFallback texto="Preparando sua área..." variant="route" />;
 }
