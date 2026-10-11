@@ -23,6 +23,7 @@
     "qa:cycle12:15:7": "node scripts/validate-cycle-12-15-7-production-readiness.mjs",
     "qa:cycle12:15:7:recovery-remediation": "node scripts/validate-cycle-12-15-7-recovery-remediation.mjs",
     "qa:cycle12:recovery-gap-closure": "node --test scripts/recovery-gap-closure.test.mjs",
+    "qa:cycle12:g2-isolated-restore": "node --test scripts/__tests__/aruka-g2-isolated-restore.test.mjs",
     "qa:visible-ui-copy": "node scripts/validate-visible-ui-copy.mjs",
     "qa:smart-management-foundation": "node scripts/validate-smart-management-foundation.mjs",
     "qa:smart-management-data-model": "node scripts/validate-smart-management-data-model.mjs",

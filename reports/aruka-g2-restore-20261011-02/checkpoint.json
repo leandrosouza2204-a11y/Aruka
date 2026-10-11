@@ -1,0 +1,15 @@
+{
+    "mission":  "ARUKA_G2_ISOLATED_RESTORE",
+    "run_id":  "20261011-02",
+    "updated_at_utc":  "2026-10-11T16:50:01.5333093+00:00",
+    "stage":  "REPORT_COMPLETED",
+    "backup_path":  "B:\\Aruka\\Recovery\\20261008-213100Z\\backups\\aruka-production-20261011-143722Z.dump",
+    "backup_sha256":  "7C95D044F7F4A6483B3B9EE0E7CA70E8B1FB35A361D31EB7FD9D3246D9D94E91",
+    "container":  "aruka-g2-restore-20261011-02",
+    "volume":  "aruka-g2-restore-20261011-02-data",
+    "image":  "public.ecr.aws/supabase/postgres:17.6.1.143",
+    "production_accessed":  false,
+    "report_json":  "C:\\Projetos\\ConsultoriaFitness\\reports\\aruka-g2-restore-20261011-02\\report.json",
+    "report_markdown":  "C:\\Projetos\\ConsultoriaFitness\\reports\\aruka-g2-restore-20261011-02\\report.md",
+    "decision":  "PASS"
+}

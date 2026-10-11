@@ -1,0 +1,850 @@
+;
+; Archive created at 2026-10-11 11:37:22
+;     dbname: postgres
+;     TOC Entries: 841
+;     Compression: gzip
+;     Dump Version: 1.16-0
+;     Format: CUSTOM
+;     Integer: 4 bytes
+;     Offset: 8 bytes
+;     Dumped from database version: 17.6
+;     Dumped by pg_dump version: 17.11
+;
+;
+; Selected TOC Entries:
+;
+30; 2615 16498 SCHEMA - auth supabase_admin
+6; 3079 18503 EXTENSION - pg_cron
+5222; 0 0 COMMENT - EXTENSION pg_cron
+18; 2615 16392 SCHEMA - extensions postgres
+28; 2615 16578 SCHEMA - graphql supabase_admin
+27; 2615 16567 SCHEMA - graphql_public supabase_admin
+7; 3079 18554 EXTENSION - pg_net
+5223; 0 0 COMMENT - EXTENSION pg_net
+11; 2615 16390 SCHEMA - pgbouncer pgbouncer
+5224; 0 0 COMMENT - SCHEMA public pg_database_owner
+123; 2615 16559 SCHEMA - realtime supabase_admin
+31; 2615 16546 SCHEMA - storage supabase_admin
+124; 2615 19046 SCHEMA - supabase_migrations postgres
+122; 2615 16607 SCHEMA - vault supabase_admin
+2; 3079 16393 EXTENSION - pg_stat_statements
+5225; 0 0 COMMENT - EXTENSION pg_stat_statements
+4; 3079 16447 EXTENSION - pgcrypto
+5226; 0 0 COMMENT - EXTENSION pgcrypto
+5; 3079 16608 EXTENSION - supabase_vault
+5227; 0 0 COMMENT - EXTENSION supabase_vault
+3; 3079 16436 EXTENSION - uuid-ossp
+5228; 0 0 COMMENT - EXTENSION "uuid-ossp"
+1265; 1247 16744 TYPE auth aal_level supabase_auth_admin
+1289; 1247 16885 TYPE auth code_challenge_method supabase_auth_admin
+1262; 1247 16738 TYPE auth factor_status supabase_auth_admin
+1259; 1247 16732 TYPE auth factor_type supabase_auth_admin
+1307; 1247 16988 TYPE auth oauth_authorization_status supabase_auth_admin
+1319; 1247 17061 TYPE auth oauth_client_type supabase_auth_admin
+1301; 1247 16966 TYPE auth oauth_registration_type supabase_auth_admin
+1310; 1247 16998 TYPE auth oauth_response_type supabase_auth_admin
+1295; 1247 16927 TYPE auth one_time_token_type supabase_auth_admin
+1364; 1247 17408 TYPE realtime action supabase_realtime_admin
+1367; 1247 17368 TYPE realtime equality_op supabase_realtime_admin
+1373; 1247 17383 TYPE realtime user_defined_filter supabase_realtime_admin
+1376; 1247 17450 TYPE realtime wal_column supabase_realtime_admin
+1455; 1247 17421 TYPE realtime wal_rls supabase_realtime_admin
+1349; 1247 17292 TYPE storage buckettype supabase_storage_admin
+606; 1255 16544 FUNCTION auth email() supabase_auth_admin
+5229; 0 0 COMMENT auth FUNCTION email() supabase_auth_admin
+508; 1255 16714 FUNCTION auth jwt() supabase_auth_admin
+604; 1255 16543 FUNCTION auth role() supabase_auth_admin
+5230; 0 0 COMMENT auth FUNCTION role() supabase_auth_admin
+611; 1255 16542 FUNCTION auth uid() supabase_auth_admin
+5231; 0 0 COMMENT auth FUNCTION uid() supabase_auth_admin
+599; 1255 16551 FUNCTION extensions grant_pg_cron_access() supabase_admin
+5232; 0 0 COMMENT extensions FUNCTION grant_pg_cron_access() supabase_admin
+528; 1255 16572 FUNCTION extensions grant_pg_graphql_access() supabase_admin
+5233; 0 0 COMMENT extensions FUNCTION grant_pg_graphql_access() supabase_admin
+495; 1255 16553 FUNCTION extensions grant_pg_net_access() supabase_admin
+5234; 0 0 COMMENT extensions FUNCTION grant_pg_net_access() supabase_admin
+447; 1255 16563 FUNCTION extensions pgrst_ddl_watch() supabase_admin
+460; 1255 16564 FUNCTION extensions pgrst_drop_watch() supabase_admin
+517; 1255 16574 FUNCTION extensions set_graphql_placeholder() supabase_admin
+5235; 0 0 COMMENT extensions FUNCTION set_graphql_placeholder() supabase_admin
+515; 1255 16665 FUNCTION graphql_public graphql(text, text, jsonb, jsonb) supabase_admin
+462; 1255 16391 FUNCTION pgbouncer get_auth(text) supabase_admin
+452; 1255 19319 FUNCTION public abandon_workout_execution_session(uuid) postgres
+511; 1255 18060 FUNCTION public admin_atualizar_perfil(uuid, text, text, text, text) postgres
+446; 1255 18126 FUNCTION public admin_atualizar_perfil(uuid, text, text, text, text, text) postgres
+472; 1255 18062 FUNCTION public admin_bloquear_usuario(uuid) postgres
+478; 1255 18128 FUNCTION public admin_bloquear_usuario(uuid, text) postgres
+590; 1255 18057 FUNCTION public admin_eh_admin() postgres
+568; 1255 18064 FUNCTION public admin_liberar_assinante(uuid, text, date, date) postgres
+605; 1255 18130 FUNCTION public admin_liberar_assinante(uuid, text, date, date, text) postgres
+458; 1255 18063 FUNCTION public admin_liberar_beta(uuid) postgres
+466; 1255 18129 FUNCTION public admin_liberar_beta(uuid, text) postgres
+520; 1255 18125 FUNCTION public admin_listar_logs(text, uuid, date, date, text) postgres
+486; 1255 19186 FUNCTION public admin_listar_usuarios() postgres
+483; 1255 18124 FUNCTION public admin_registrar_log(uuid, text, text, uuid, jsonb, jsonb, text) postgres
+584; 1255 19188 FUNCTION public admin_subscription_lifecycle_action(uuid, text, text, date, date, date, text) postgres
+477; 1255 18061 FUNCTION public admin_upsert_assinatura(uuid, text, text, date, date) postgres
+479; 1255 18127 FUNCTION public admin_upsert_assinatura(uuid, text, text, date, date, text) postgres
+598; 1255 19187 FUNCTION public admin_upsert_assinatura(uuid, text, text, date, date, text, date, boolean) postgres
+498; 1255 18058 FUNCTION public admin_validar_acesso() postgres
+441; 1255 18873 FUNCTION public alterar_estado_treino(uuid, text) postgres
+593; 1255 18758 FUNCTION public aoe_idempotency_get_or_create(text, uuid, uuid, text, text, text) postgres
+434; 1255 18757 FUNCTION public aoe_user_owns_student(uuid) postgres
+463; 1255 19352 FUNCTION public claim_pending_student_invite() postgres
+475; 1255 19318 FUNCTION public complete_workout_execution_session(uuid) postgres
+497; 1255 18980 FUNCTION public desvincular_aluno_usuario(uuid) postgres
+519; 1255 18872 FUNCTION public entregar_treino(uuid) postgres
+597; 1255 19456 FUNCTION public exercise_is_prescribed_to_current_student(uuid) postgres
+525; 1255 19489 FUNCTION public get_my_student_exercise_media(uuid) postgres
+469; 1255 18981 FUNCTION public get_my_student_workouts() postgres
+566; 1255 19320 FUNCTION public get_my_workout_execution_state(integer) postgres
+595; 1255 19167 FUNCTION public get_student_access_state(uuid) postgres
+514; 1255 19321 FUNCTION public get_student_workout_execution_history(uuid, integer) postgres
+481; 1255 19168 FUNCTION public manage_student_access(uuid, text, text, text) postgres
+550; 1255 18465 FUNCTION public processar_encerramento_automatico_aluno(uuid, uuid, date, date, text, uuid, text, integer, text) postgres
+523; 1255 19134 FUNCTION public renovar_aluno_contrato(uuid, uuid, date, date, numeric, boolean, text, text, text) postgres
+527; 1255 18870 FUNCTION public salvar_treino_composto(jsonb) postgres
+470; 1255 19589 FUNCTION public save_smart_management_location(uuid, text, text, text, numeric, jsonb) postgres
+551; 1255 19625 FUNCTION public save_smart_management_service(uuid, text, text, text, text, numeric, integer, integer, integer, integer, integer, integer) postgres
+564; 1255 19317 FUNCTION public save_workout_execution(uuid, jsonb) postgres
+482; 1255 19132 FUNCTION public set_aluno_contratos_updated_at() postgres
+591; 1255 19455 FUNCTION public set_exercise_library_updated_at() postgres
+609; 1255 19576 FUNCTION public set_smart_management_updated_at() postgres
+445; 1255 19296 FUNCTION public set_workout_execution_updated_at() postgres
+476; 1255 18638 FUNCTION public set_workout_templates_updated_at() postgres
+562; 1255 19577 FUNCTION public smart_management_current_user_is_professional() postgres
+448; 1255 19578 FUNCTION public smart_management_transfer_rule_matches_location_owner() postgres
+471; 1255 19579 FUNCTION public smart_management_transfer_tier_matches_rule_owner() postgres
+465; 1255 19332 FUNCTION public start_workout_execution_session(uuid, uuid, text, date) postgres
+484; 1255 18979 FUNCTION public vincular_aluno_usuario(uuid, uuid) postgres
+545; 1255 19315 FUNCTION public workout_execution_session_payload(uuid) postgres
+518; 1255 17443 FUNCTION realtime apply_rls(jsonb, integer) supabase_realtime_admin
+504; 1255 17522 FUNCTION realtime broadcast_changes(text, text, text, text, text, record, record, text) supabase_realtime_admin
+543; 1255 17455 FUNCTION realtime build_prepared_statement_sql(text, regclass, realtime.wal_column[]) supabase_realtime_admin
+503; 1255 17405 FUNCTION realtime cast(text, regtype) supabase_realtime_admin
+610; 1255 17400 FUNCTION realtime check_equality_op(realtime.equality_op, regtype, text, text) supabase_realtime_admin
+603; 1255 18499 FUNCTION realtime check_equality_op(realtime.equality_op, regtype, text, text, boolean) supabase_realtime_admin
+496; 1255 17451 FUNCTION realtime is_visible_through_filters(realtime.wal_column[], realtime.user_defined_filter[]) supabase_realtime_admin
+474; 1255 17558 FUNCTION realtime list_changes(name, name, integer, integer) supabase_realtime_admin
+453; 1255 17399 FUNCTION realtime quote_wal2json(regclass) supabase_realtime_admin
+559; 1255 17521 FUNCTION realtime send(jsonb, text, text, boolean) supabase_realtime_admin
+580; 1255 17559 FUNCTION realtime send_binary(bytea, text, text, boolean) supabase_realtime_admin
+602; 1255 17397 FUNCTION realtime subscription_check_filters() supabase_realtime_admin
+596; 1255 17432 FUNCTION realtime to_regrole(text) supabase_realtime_admin
+457; 1255 17515 FUNCTION realtime topic() supabase_realtime_admin
+506; 1255 17557 FUNCTION realtime wal2json_escape_identifier(text) supabase_realtime_admin
+444; 1255 17358 FUNCTION storage allow_any_operation(text[]) supabase_storage_admin
+546; 1255 17357 FUNCTION storage allow_only_operation(text) supabase_storage_admin
+499; 1255 17233 FUNCTION storage can_insert_object(text, text, uuid, jsonb) supabase_storage_admin
+473; 1255 19847 FUNCTION storage enforce_bucket_lifecycle_service_role() supabase_storage_admin
+585; 1255 17289 FUNCTION storage enforce_bucket_name_length() supabase_storage_admin
+529; 1255 17208 FUNCTION storage extension(text) supabase_storage_admin
+570; 1255 17207 FUNCTION storage filename(text) supabase_storage_admin
+485; 1255 17206 FUNCTION storage foldername(text) supabase_storage_admin
+526; 1255 17346 FUNCTION storage get_common_prefix(text, text, text) supabase_storage_admin
+556; 1255 19859 FUNCTION storage get_size_by_bucket(text, text) supabase_storage_admin
+488; 1255 19851 FUNCTION storage list_multipart_uploads_with_delimiter(text, text, text, integer, text, text, text) supabase_storage_admin
+577; 1255 19852 FUNCTION storage list_objects_with_delimiter(text, text, text, integer, text, text, text, text, text, timestamp with time zone, text) supabase_storage_admin
+594; 1255 17288 FUNCTION storage operation() supabase_storage_admin
+576; 1255 19846 FUNCTION storage protect_bucket_control_columns() supabase_storage_admin
+467; 1255 17353 FUNCTION storage protect_delete() supabase_storage_admin
+449; 1255 19854 FUNCTION storage search(text, text, integer, integer, integer, text, text, text, text, text) supabase_storage_admin
+589; 1255 19856 FUNCTION storage search_by_timestamp(text, text, integer, integer, text, text, text, text, text, text, text) supabase_storage_admin
+571; 1255 19858 FUNCTION storage search_v2(text, text, integer, integer, text, text, text, text, text, text, timestamp with time zone, text, boolean) supabase_storage_admin
+536; 1255 17223 FUNCTION storage update_updated_at_column() supabase_storage_admin
+352; 1259 16529 TABLE auth audit_log_entries supabase_auth_admin
+5236; 0 0 COMMENT auth TABLE audit_log_entries supabase_auth_admin
+371; 1259 17084 TABLE auth custom_oauth_providers supabase_auth_admin
+365; 1259 16889 TABLE auth flow_state supabase_auth_admin
+5237; 0 0 COMMENT auth TABLE flow_state supabase_auth_admin
+356; 1259 16686 TABLE auth identities supabase_auth_admin
+5238; 0 0 COMMENT auth TABLE identities supabase_auth_admin
+5239; 0 0 COMMENT auth COLUMN identities.email supabase_auth_admin
+351; 1259 16522 TABLE auth instances supabase_auth_admin
+5240; 0 0 COMMENT auth TABLE instances supabase_auth_admin
+360; 1259 16776 TABLE auth mfa_amr_claims supabase_auth_admin
+5241; 0 0 COMMENT auth TABLE mfa_amr_claims supabase_auth_admin
+359; 1259 16764 TABLE auth mfa_challenges supabase_auth_admin
+5242; 0 0 COMMENT auth TABLE mfa_challenges supabase_auth_admin
+358; 1259 16751 TABLE auth mfa_factors supabase_auth_admin
+5243; 0 0 COMMENT auth TABLE mfa_factors supabase_auth_admin
+5244; 0 0 COMMENT auth COLUMN mfa_factors.last_webauthn_challenge_data supabase_auth_admin
+431; 1259 19747 TABLE auth mfa_recovery_code_sets supabase_auth_admin
+432; 1259 19770 TABLE auth mfa_recovery_codes supabase_auth_admin
+368; 1259 17001 TABLE auth oauth_authorizations supabase_auth_admin
+370; 1259 17074 TABLE auth oauth_client_states supabase_auth_admin
+5245; 0 0 COMMENT auth TABLE oauth_client_states supabase_auth_admin
+367; 1259 16971 TABLE auth oauth_clients supabase_auth_admin
+369; 1259 17034 TABLE auth oauth_consents supabase_auth_admin
+366; 1259 16939 TABLE auth one_time_tokens supabase_auth_admin
+350; 1259 16511 TABLE auth refresh_tokens supabase_auth_admin
+5246; 0 0 COMMENT auth TABLE refresh_tokens supabase_auth_admin
+349; 1259 16510 SEQUENCE auth refresh_tokens_id_seq supabase_auth_admin
+5247; 0 0 SEQUENCE OWNED BY auth refresh_tokens_id_seq supabase_auth_admin
+363; 1259 16818 TABLE auth saml_providers supabase_auth_admin
+5248; 0 0 COMMENT auth TABLE saml_providers supabase_auth_admin
+364; 1259 16836 TABLE auth saml_relay_states supabase_auth_admin
+5249; 0 0 COMMENT auth TABLE saml_relay_states supabase_auth_admin
+353; 1259 16537 TABLE auth schema_migrations supabase_auth_admin
+5250; 0 0 COMMENT auth TABLE schema_migrations supabase_auth_admin
+430; 1259 19726 TABLE auth scim_tokens supabase_auth_admin
+429; 1259 19695 TABLE auth scim_users supabase_auth_admin
+357; 1259 16716 TABLE auth sessions supabase_auth_admin
+5251; 0 0 COMMENT auth TABLE sessions supabase_auth_admin
+5252; 0 0 COMMENT auth COLUMN sessions.not_after supabase_auth_admin
+5253; 0 0 COMMENT auth COLUMN sessions.refresh_token_hmac_key supabase_auth_admin
+5254; 0 0 COMMENT auth COLUMN sessions.refresh_token_counter supabase_auth_admin
+362; 1259 16803 TABLE auth sso_domains supabase_auth_admin
+5255; 0 0 COMMENT auth TABLE sso_domains supabase_auth_admin
+361; 1259 16794 TABLE auth sso_providers supabase_auth_admin
+5256; 0 0 COMMENT auth TABLE sso_providers supabase_auth_admin
+5257; 0 0 COMMENT auth COLUMN sso_providers.resource_id supabase_auth_admin
+348; 1259 16499 TABLE auth users supabase_auth_admin
+5258; 0 0 COMMENT auth TABLE users supabase_auth_admin
+5259; 0 0 COMMENT auth COLUMN users.is_sso_user supabase_auth_admin
+373; 1259 17149 TABLE auth webauthn_challenges supabase_auth_admin
+372; 1259 17126 TABLE auth webauthn_credentials supabase_auth_admin
+399; 1259 18065 TABLE public aceites_legais postgres
+401; 1259 18431 TABLE public acompanhamento_eventos postgres
+400; 1259 18099 TABLE public admin_logs postgres
+419; 1259 19088 TABLE public aluno_contratos postgres
+389; 1259 17573 TABLE public alunos postgres
+5260; 0 0 COMMENT public COLUMN alunos.user_id postgres
+5261; 0 0 COMMENT public COLUMN alunos.inicio postgres
+5262; 0 0 COMMENT public COLUMN alunos.student_user_id postgres
+5263; 0 0 COMMENT public COLUMN alunos.consultoria_inicio postgres
+5264; 0 0 COMMENT public COLUMN alunos.consultoria_inicio_confianca postgres
+391; 1259 17664 TABLE public anamneses postgres
+416; 1259 18736 TABLE public aoe_audit_events postgres
+413; 1259 18677 TABLE public aoe_decision_traces postgres
+412; 1259 18653 TABLE public aoe_decisions postgres
+414; 1259 18691 TABLE public aoe_human_reviews postgres
+415; 1259 18717 TABLE public aoe_idempotency_keys postgres
+397; 1259 17941 TABLE public assinaturas postgres
+390; 1259 17644 TABLE public avaliacoes postgres
+424; 1259 19412 TABLE public exercise_favorites postgres
+423; 1259 19397 TABLE public exercise_library postgres
+395; 1259 17825 TABLE public pagamentos postgres
+398; 1259 18001 TABLE public perfis postgres
+396; 1259 17893 TABLE public planos postgres
+425; 1259 19500 TABLE public smart_management_locations postgres
+428; 1259 19593 TABLE public smart_management_services postgres
+426; 1259 19510 TABLE public smart_management_transfer_rules postgres
+427; 1259 19520 TABLE public smart_management_transfer_tiers postgres
+393; 1259 17753 TABLE public treino_dias postgres
+417; 1259 18843 TABLE public treino_eventos postgres
+394; 1259 17769 TABLE public treino_exercicios postgres
+392; 1259 17729 TABLE public treinos postgres
+421; 1259 19234 TABLE public workout_execution_exercises postgres
+420; 1259 19199 TABLE public workout_execution_sessions postgres
+5265; 0 0 COMMENT public TABLE workout_execution_sessions postgres
+422; 1259 19273 TABLE public workout_execution_sets postgres
+411; 1259 18608 TABLE public workout_templates postgres
+388; 1259 17525 TABLE realtime messages supabase_realtime_admin
+382; 1259 17362 TABLE realtime schema_migrations supabase_admin
+385; 1259 17385 TABLE realtime subscription supabase_realtime_admin
+384; 1259 17384 SEQUENCE realtime subscription_id_seq supabase_realtime_admin
+375; 1259 17178 TABLE storage buckets supabase_storage_admin
+5266; 0 0 COMMENT storage COLUMN buckets.owner supabase_storage_admin
+379; 1259 17298 TABLE storage buckets_analytics supabase_storage_admin
+380; 1259 17311 TABLE storage buckets_vectors supabase_storage_admin
+374; 1259 17170 TABLE storage migrations supabase_storage_admin
+376; 1259 17188 TABLE storage objects supabase_storage_admin
+5267; 0 0 COMMENT storage COLUMN objects.owner supabase_storage_admin
+377; 1259 17237 TABLE storage s3_multipart_uploads supabase_storage_admin
+378; 1259 17251 TABLE storage s3_multipart_uploads_parts supabase_storage_admin
+381; 1259 17321 TABLE storage vector_indexes supabase_storage_admin
+418; 1259 19047 TABLE supabase_migrations schema_migrations postgres
+3959; 2604 16514 DEFAULT auth refresh_tokens id supabase_auth_admin
+5148; 0 16529 TABLE DATA auth audit_log_entries supabase_auth_admin
+5165; 0 17084 TABLE DATA auth custom_oauth_providers supabase_auth_admin
+5159; 0 16889 TABLE DATA auth flow_state supabase_auth_admin
+5150; 0 16686 TABLE DATA auth identities supabase_auth_admin
+5147; 0 16522 TABLE DATA auth instances supabase_auth_admin
+5154; 0 16776 TABLE DATA auth mfa_amr_claims supabase_auth_admin
+5153; 0 16764 TABLE DATA auth mfa_challenges supabase_auth_admin
+5152; 0 16751 TABLE DATA auth mfa_factors supabase_auth_admin
+5212; 0 19747 TABLE DATA auth mfa_recovery_code_sets supabase_auth_admin
+5213; 0 19770 TABLE DATA auth mfa_recovery_codes supabase_auth_admin
+5162; 0 17001 TABLE DATA auth oauth_authorizations supabase_auth_admin
+5164; 0 17074 TABLE DATA auth oauth_client_states supabase_auth_admin
+5161; 0 16971 TABLE DATA auth oauth_clients supabase_auth_admin
+5163; 0 17034 TABLE DATA auth oauth_consents supabase_auth_admin
+5160; 0 16939 TABLE DATA auth one_time_tokens supabase_auth_admin
+5146; 0 16511 TABLE DATA auth refresh_tokens supabase_auth_admin
+5157; 0 16818 TABLE DATA auth saml_providers supabase_auth_admin
+5158; 0 16836 TABLE DATA auth saml_relay_states supabase_auth_admin
+5149; 0 16537 TABLE DATA auth schema_migrations supabase_auth_admin
+5211; 0 19726 TABLE DATA auth scim_tokens supabase_auth_admin
+5210; 0 19695 TABLE DATA auth scim_users supabase_auth_admin
+5151; 0 16716 TABLE DATA auth sessions supabase_auth_admin
+5156; 0 16803 TABLE DATA auth sso_domains supabase_auth_admin
+5155; 0 16794 TABLE DATA auth sso_providers supabase_auth_admin
+5144; 0 16499 TABLE DATA auth users supabase_auth_admin
+5167; 0 17149 TABLE DATA auth webauthn_challenges supabase_auth_admin
+5166; 0 17126 TABLE DATA auth webauthn_credentials supabase_auth_admin
+3946; 0 18506 TABLE DATA cron job supabase_admin
+3948; 0 18525 TABLE DATA cron job_run_details supabase_admin
+5189; 0 18065 TABLE DATA public aceites_legais postgres
+5191; 0 18431 TABLE DATA public acompanhamento_eventos postgres
+5190; 0 18099 TABLE DATA public admin_logs postgres
+5200; 0 19088 TABLE DATA public aluno_contratos postgres
+5179; 0 17573 TABLE DATA public alunos postgres
+5181; 0 17664 TABLE DATA public anamneses postgres
+5197; 0 18736 TABLE DATA public aoe_audit_events postgres
+5194; 0 18677 TABLE DATA public aoe_decision_traces postgres
+5193; 0 18653 TABLE DATA public aoe_decisions postgres
+5195; 0 18691 TABLE DATA public aoe_human_reviews postgres
+5196; 0 18717 TABLE DATA public aoe_idempotency_keys postgres
+5187; 0 17941 TABLE DATA public assinaturas postgres
+5180; 0 17644 TABLE DATA public avaliacoes postgres
+5205; 0 19412 TABLE DATA public exercise_favorites postgres
+5204; 0 19397 TABLE DATA public exercise_library postgres
+5185; 0 17825 TABLE DATA public pagamentos postgres
+5188; 0 18001 TABLE DATA public perfis postgres
+5186; 0 17893 TABLE DATA public planos postgres
+5206; 0 19500 TABLE DATA public smart_management_locations postgres
+5209; 0 19593 TABLE DATA public smart_management_services postgres
+5207; 0 19510 TABLE DATA public smart_management_transfer_rules postgres
+5208; 0 19520 TABLE DATA public smart_management_transfer_tiers postgres
+5183; 0 17753 TABLE DATA public treino_dias postgres
+5198; 0 18843 TABLE DATA public treino_eventos postgres
+5184; 0 17769 TABLE DATA public treino_exercicios postgres
+5182; 0 17729 TABLE DATA public treinos postgres
+5202; 0 19234 TABLE DATA public workout_execution_exercises postgres
+5201; 0 19199 TABLE DATA public workout_execution_sessions postgres
+5203; 0 19273 TABLE DATA public workout_execution_sets postgres
+5192; 0 18608 TABLE DATA public workout_templates postgres
+5176; 0 17362 TABLE DATA realtime schema_migrations supabase_admin
+5178; 0 17385 TABLE DATA realtime subscription supabase_realtime_admin
+5169; 0 17178 TABLE DATA storage buckets supabase_storage_admin
+5173; 0 17298 TABLE DATA storage buckets_analytics supabase_storage_admin
+5174; 0 17311 TABLE DATA storage buckets_vectors supabase_storage_admin
+5168; 0 17170 TABLE DATA storage migrations supabase_storage_admin
+5170; 0 17188 TABLE DATA storage objects supabase_storage_admin
+5171; 0 17237 TABLE DATA storage s3_multipart_uploads supabase_storage_admin
+5172; 0 17251 TABLE DATA storage s3_multipart_uploads_parts supabase_storage_admin
+5175; 0 17321 TABLE DATA storage vector_indexes supabase_storage_admin
+5199; 0 19047 TABLE DATA supabase_migrations schema_migrations postgres
+3945; 0 16612 TABLE DATA vault secrets supabase_admin
+5268; 0 0 SEQUENCE SET auth refresh_tokens_id_seq supabase_auth_admin
+5269; 0 0 SEQUENCE SET cron jobid_seq supabase_admin
+5270; 0 0 SEQUENCE SET cron runid_seq supabase_admin
+5271; 0 0 SEQUENCE SET realtime subscription_id_seq supabase_realtime_admin
+4451; 2606 16789 CONSTRAINT auth mfa_amr_claims amr_id_pk supabase_auth_admin
+4420; 2606 16535 CONSTRAINT auth audit_log_entries audit_log_entries_pkey supabase_auth_admin
+4506; 2606 17121 CONSTRAINT auth custom_oauth_providers custom_oauth_providers_identifier_key supabase_auth_admin
+4508; 2606 17119 CONSTRAINT auth custom_oauth_providers custom_oauth_providers_pkey supabase_auth_admin
+4474; 2606 16895 CONSTRAINT auth flow_state flow_state_pkey supabase_auth_admin
+4429; 2606 16913 CONSTRAINT auth identities identities_pkey supabase_auth_admin
+4431; 2606 16923 CONSTRAINT auth identities identities_provider_id_provider_unique supabase_auth_admin
+4418; 2606 16528 CONSTRAINT auth instances instances_pkey supabase_auth_admin
+4453; 2606 16782 CONSTRAINT auth mfa_amr_claims mfa_amr_claims_session_id_authentication_method_pkey supabase_auth_admin
+4449; 2606 16770 CONSTRAINT auth mfa_challenges mfa_challenges_pkey supabase_auth_admin
+4441; 2606 16963 CONSTRAINT auth mfa_factors mfa_factors_last_challenged_at_key supabase_auth_admin
+4443; 2606 16757 CONSTRAINT auth mfa_factors mfa_factors_pkey supabase_auth_admin
+4748; 2606 19759 CONSTRAINT auth mfa_recovery_code_sets mfa_recovery_code_sets_mfa_factor_id_key supabase_auth_admin
+4750; 2606 19755 CONSTRAINT auth mfa_recovery_code_sets mfa_recovery_code_sets_pkey supabase_auth_admin
+4752; 2606 19757 CONSTRAINT auth mfa_recovery_code_sets mfa_recovery_code_sets_user_id_key supabase_auth_admin
+4754; 2606 19777 CONSTRAINT auth mfa_recovery_codes mfa_recovery_codes_pkey supabase_auth_admin
+4487; 2606 17022 CONSTRAINT auth oauth_authorizations oauth_authorizations_authorization_code_key supabase_auth_admin
+4489; 2606 17020 CONSTRAINT auth oauth_authorizations oauth_authorizations_authorization_id_key supabase_auth_admin
+4491; 2606 17018 CONSTRAINT auth oauth_authorizations oauth_authorizations_pkey supabase_auth_admin
+4501; 2606 17080 CONSTRAINT auth oauth_client_states oauth_client_states_pkey supabase_auth_admin
+4484; 2606 16982 CONSTRAINT auth oauth_clients oauth_clients_pkey supabase_auth_admin
+4495; 2606 17044 CONSTRAINT auth oauth_consents oauth_consents_pkey supabase_auth_admin
+4497; 2606 17046 CONSTRAINT auth oauth_consents oauth_consents_user_client_unique supabase_auth_admin
+4478; 2606 16948 CONSTRAINT auth one_time_tokens one_time_tokens_pkey supabase_auth_admin
+4412; 2606 16518 CONSTRAINT auth refresh_tokens refresh_tokens_pkey supabase_auth_admin
+4415; 2606 16699 CONSTRAINT auth refresh_tokens refresh_tokens_token_unique supabase_auth_admin
+4463; 2606 16829 CONSTRAINT auth saml_providers saml_providers_entity_id_key supabase_auth_admin
+4465; 2606 16827 CONSTRAINT auth saml_providers saml_providers_pkey supabase_auth_admin
+4470; 2606 16843 CONSTRAINT auth saml_relay_states saml_relay_states_pkey supabase_auth_admin
+4423; 2606 16541 CONSTRAINT auth schema_migrations schema_migrations_pkey supabase_auth_admin
+4743; 2606 19736 CONSTRAINT auth scim_tokens scim_tokens_pkey supabase_auth_admin
+4735; 2606 19706 CONSTRAINT auth scim_users scim_users_pkey supabase_auth_admin
+4436; 2606 16720 CONSTRAINT auth sessions sessions_pkey supabase_auth_admin
+4460; 2606 16810 CONSTRAINT auth sso_domains sso_domains_pkey supabase_auth_admin
+4455; 2606 16801 CONSTRAINT auth sso_providers sso_providers_pkey supabase_auth_admin
+4405; 2606 16883 CONSTRAINT auth users users_phone_key supabase_auth_admin
+4407; 2606 16505 CONSTRAINT auth users users_pkey supabase_auth_admin
+4516; 2606 17158 CONSTRAINT auth webauthn_challenges webauthn_challenges_pkey supabase_auth_admin
+4512; 2606 17141 CONSTRAINT auth webauthn_credentials webauthn_credentials_pkey supabase_auth_admin
+4622; 2606 18075 CONSTRAINT public aceites_legais aceites_legais_pkey postgres
+4625; 2606 18077 CONSTRAINT public aceites_legais aceites_legais_versao_unica postgres
+4636; 2606 18441 CONSTRAINT public acompanhamento_eventos acompanhamento_eventos_pkey postgres
+4631; 2606 18107 CONSTRAINT public admin_logs admin_logs_pkey postgres
+4681; 2606 19102 CONSTRAINT public aluno_contratos aluno_contratos_pkey postgres
+4557; 2606 17583 CONSTRAINT public alunos alunos_pkey postgres
+4572; 2606 17705 CONSTRAINT public anamneses anamneses_pkey postgres
+4670; 2606 18745 CONSTRAINT public aoe_audit_events aoe_audit_events_pkey postgres
+4659; 2606 18685 CONSTRAINT public aoe_decision_traces aoe_decision_traces_pkey postgres
+4655; 2606 18666 CONSTRAINT public aoe_decisions aoe_decisions_pkey postgres
+4663; 2606 18706 CONSTRAINT public aoe_human_reviews aoe_human_reviews_pkey postgres
+4667; 2606 18725 CONSTRAINT public aoe_idempotency_keys aoe_idempotency_keys_pkey postgres
+4607; 2606 17951 CONSTRAINT public assinaturas assinaturas_pkey postgres
+4567; 2606 17653 CONSTRAINT public avaliacoes avaliacoes_pkey postgres
+4707; 2606 19432 CONSTRAINT public exercise_favorites exercise_favorites_pkey postgres
+4710; 2606 19444 CONSTRAINT public exercise_favorites exercise_favorites_unique postgres
+4705; 2606 19418 CONSTRAINT public exercise_library exercise_library_pkey postgres
+4594; 2606 17838 CONSTRAINT public pagamentos pagamentos_pkey postgres
+4614; 2606 18015 CONSTRAINT public perfis perfis_pkey postgres
+4619; 2606 18017 CONSTRAINT public perfis perfis_user_id_key postgres
+4599; 2606 17905 CONSTRAINT public planos planos_pkey postgres
+4712; 2606 19527 CONSTRAINT public smart_management_locations smart_management_locations_pkey postgres
+4727; 2606 19606 CONSTRAINT public smart_management_services smart_management_services_pkey postgres
+4716; 2606 19554 CONSTRAINT public smart_management_transfer_rules smart_management_transfer_rules_location_owner_unique postgres
+4718; 2606 19537 CONSTRAINT public smart_management_transfer_rules smart_management_transfer_rules_pkey postgres
+4721; 2606 19556 CONSTRAINT public smart_management_transfer_tiers smart_management_transfer_tiers_pkey postgres
+4725; 2606 19570 CONSTRAINT public smart_management_transfer_tiers smart_management_transfer_tiers_unique_min postgres
+4585; 2606 17763 CONSTRAINT public treino_dias treino_dias_pkey postgres
+4673; 2606 18957 CONSTRAINT public treino_eventos treino_eventos_pkey postgres
+4589; 2606 17784 CONSTRAINT public treino_exercicios treino_exercicios_pkey postgres
+4577; 2606 17742 CONSTRAINT public treinos treinos_pkey postgres
+4694; 2606 19255 CONSTRAINT public workout_execution_exercises workout_execution_exercises_pkey postgres
+4691; 2606 19212 CONSTRAINT public workout_execution_sessions workout_execution_sessions_pkey postgres
+4698; 2606 19293 CONSTRAINT public workout_execution_sets workout_execution_sets_number_uidx postgres
+4700; 2606 19286 CONSTRAINT public workout_execution_sets workout_execution_sets_pkey postgres
+4650; 2606 18629 CONSTRAINT public workout_templates workout_templates_pkey postgres
+4332; 2606 17547 CHECK CONSTRAINT realtime messages messages_payload_exclusive supabase_realtime_admin
+4555; 2606 17539 CONSTRAINT realtime messages messages_pkey supabase_realtime_admin
+4551; 2606 17393 CONSTRAINT realtime subscription pk_subscription supabase_realtime_admin
+4548; 2606 17366 CONSTRAINT realtime schema_migrations schema_migrations_pkey supabase_admin
+4540; 2606 17344 CONSTRAINT storage buckets_analytics buckets_analytics_pkey supabase_storage_admin
+4524; 2606 17186 CONSTRAINT storage buckets buckets_pkey supabase_storage_admin
+4543; 2606 17320 CONSTRAINT storage buckets_vectors buckets_vectors_pkey supabase_storage_admin
+4519; 2606 17177 CONSTRAINT storage migrations migrations_name_key supabase_storage_admin
+4521; 2606 17175 CONSTRAINT storage migrations migrations_pkey supabase_storage_admin
+4533; 2606 17198 CONSTRAINT storage objects objects_pkey supabase_storage_admin
+4538; 2606 17260 CONSTRAINT storage s3_multipart_uploads_parts s3_multipart_uploads_parts_pkey supabase_storage_admin
+4536; 2606 17245 CONSTRAINT storage s3_multipart_uploads s3_multipart_uploads_pkey supabase_storage_admin
+4546; 2606 17330 CONSTRAINT storage vector_indexes vector_indexes_pkey supabase_storage_admin
+4678; 2606 19053 CONSTRAINT supabase_migrations schema_migrations schema_migrations_pkey postgres
+4421; 1259 16536 INDEX auth audit_logs_instance_id_idx supabase_auth_admin
+4391; 1259 16709 INDEX auth confirmation_token_idx supabase_auth_admin
+4502; 1259 17125 INDEX auth custom_oauth_providers_created_at_idx supabase_auth_admin
+4503; 1259 17124 INDEX auth custom_oauth_providers_enabled_idx supabase_auth_admin
+4504; 1259 17122 INDEX auth custom_oauth_providers_identifier_idx supabase_auth_admin
+4509; 1259 17123 INDEX auth custom_oauth_providers_provider_type_idx supabase_auth_admin
+4392; 1259 16711 INDEX auth email_change_token_current_idx supabase_auth_admin
+4393; 1259 16712 INDEX auth email_change_token_new_idx supabase_auth_admin
+4439; 1259 16791 INDEX auth factor_id_created_at_idx supabase_auth_admin
+4472; 1259 16899 INDEX auth flow_state_created_at_idx supabase_auth_admin
+4427; 1259 16879 INDEX auth identities_email_idx supabase_auth_admin
+5272; 0 0 COMMENT auth INDEX identities_email_idx supabase_auth_admin
+4432; 1259 16706 INDEX auth identities_user_id_idx supabase_auth_admin
+4475; 1259 16896 INDEX auth idx_auth_code supabase_auth_admin
+4499; 1259 17081 INDEX auth idx_oauth_client_states_created_at supabase_auth_admin
+4476; 1259 16897 INDEX auth idx_user_id_auth_method supabase_auth_admin
+4394; 1259 17167 INDEX auth idx_users_created_at_desc supabase_auth_admin
+4395; 1259 17166 INDEX auth idx_users_email supabase_auth_admin
+4396; 1259 17168 INDEX auth idx_users_last_sign_in_at_desc supabase_auth_admin
+4397; 1259 17169 INDEX auth idx_users_name supabase_auth_admin
+4447; 1259 16902 INDEX auth mfa_challenge_created_at_idx supabase_auth_admin
+4444; 1259 16763 INDEX auth mfa_factors_user_friendly_name_unique supabase_auth_admin
+4445; 1259 16908 INDEX auth mfa_factors_user_id_idx supabase_auth_admin
+4755; 1259 19783 INDEX auth mfa_recovery_codes_set_id_idx supabase_auth_admin
+4485; 1259 17033 INDEX auth oauth_auth_pending_exp_idx supabase_auth_admin
+4482; 1259 16986 INDEX auth oauth_clients_deleted_at_idx supabase_auth_admin
+4492; 1259 17059 INDEX auth oauth_consents_active_client_idx supabase_auth_admin
+4493; 1259 17057 INDEX auth oauth_consents_active_user_client_idx supabase_auth_admin
+4498; 1259 17058 INDEX auth oauth_consents_user_order_idx supabase_auth_admin
+4479; 1259 16955 INDEX auth one_time_tokens_relates_to_hash_idx supabase_auth_admin
+4480; 1259 16954 INDEX auth one_time_tokens_token_hash_hash_idx supabase_auth_admin
+4481; 1259 16956 INDEX auth one_time_tokens_user_id_token_type_key supabase_auth_admin
+4398; 1259 16713 INDEX auth reauthentication_token_idx supabase_auth_admin
+4399; 1259 16710 INDEX auth recovery_token_idx supabase_auth_admin
+4408; 1259 16519 INDEX auth refresh_tokens_instance_id_idx supabase_auth_admin
+4409; 1259 16520 INDEX auth refresh_tokens_instance_id_user_id_idx supabase_auth_admin
+4410; 1259 16705 INDEX auth refresh_tokens_parent_idx supabase_auth_admin
+4413; 1259 16793 INDEX auth refresh_tokens_session_id_revoked_idx supabase_auth_admin
+4416; 1259 16898 INDEX auth refresh_tokens_updated_at_idx supabase_auth_admin
+4466; 1259 16835 INDEX auth saml_providers_sso_provider_id_idx supabase_auth_admin
+4467; 1259 16900 INDEX auth saml_relay_states_created_at_idx supabase_auth_admin
+4468; 1259 16850 INDEX auth saml_relay_states_for_email_idx supabase_auth_admin
+4471; 1259 16849 INDEX auth saml_relay_states_sso_provider_id_idx supabase_auth_admin
+4741; 1259 19744 INDEX auth scim_tokens_expires_at_idx supabase_auth_admin
+4744; 1259 19745 INDEX auth scim_tokens_revoked_at_idx supabase_auth_admin
+4745; 1259 19743 INDEX auth scim_tokens_sso_provider_id_idx supabase_auth_admin
+4746; 1259 19742 INDEX auth scim_tokens_token_hash_key supabase_auth_admin
+4730; 1259 19722 INDEX auth scim_users_created_at_idx supabase_auth_admin
+4731; 1259 19725 INDEX auth scim_users_deleted_at_idx supabase_auth_admin
+4732; 1259 19718 INDEX auth scim_users_external_id_key supabase_auth_admin
+4733; 1259 19720 INDEX auth scim_users_id_idx supabase_auth_admin
+4736; 1259 19724 INDEX auth scim_users_sso_provider_id_idx supabase_auth_admin
+4737; 1259 19723 INDEX auth scim_users_updated_at_idx supabase_auth_admin
+4738; 1259 19719 INDEX auth scim_users_user_id_idx supabase_auth_admin
+4739; 1259 19721 INDEX auth scim_users_user_name_idx supabase_auth_admin
+4740; 1259 19717 INDEX auth scim_users_user_name_key supabase_auth_admin
+4433; 1259 16901 INDEX auth sessions_not_after_idx supabase_auth_admin
+4434; 1259 17071 INDEX auth sessions_oauth_client_id_idx supabase_auth_admin
+4437; 1259 16792 INDEX auth sessions_user_id_idx supabase_auth_admin
+4458; 1259 16817 INDEX auth sso_domains_domain_idx supabase_auth_admin
+4461; 1259 16816 INDEX auth sso_domains_sso_provider_id_idx supabase_auth_admin
+4456; 1259 16802 INDEX auth sso_providers_resource_id_idx supabase_auth_admin
+4457; 1259 16964 INDEX auth sso_providers_resource_id_pattern_idx supabase_auth_admin
+4446; 1259 16961 INDEX auth unique_phone_factor_per_user supabase_auth_admin
+4438; 1259 16790 INDEX auth user_id_created_at_idx supabase_auth_admin
+4400; 1259 16870 INDEX auth users_email_partial_key supabase_auth_admin
+5273; 0 0 COMMENT auth INDEX users_email_partial_key supabase_auth_admin
+4401; 1259 16707 INDEX auth users_instance_id_email_idx supabase_auth_admin
+4402; 1259 16509 INDEX auth users_instance_id_idx supabase_auth_admin
+4403; 1259 16925 INDEX auth users_is_anonymous_idx supabase_auth_admin
+4514; 1259 17165 INDEX auth webauthn_challenges_expires_at_idx supabase_auth_admin
+4517; 1259 17164 INDEX auth webauthn_challenges_user_id_idx supabase_auth_admin
+4510; 1259 17147 INDEX auth webauthn_credentials_credential_id_key supabase_auth_admin
+4513; 1259 17148 INDEX auth webauthn_credentials_user_id_idx supabase_auth_admin
+4620; 1259 18087 INDEX public aceites_legais_aceito_em_idx postgres
+4623; 1259 18085 INDEX public aceites_legais_user_id_idx postgres
+4626; 1259 18086 INDEX public aceites_legais_versoes_idx postgres
+4633; 1259 18459 INDEX public acompanhamento_eventos_aluno_id_idx postgres
+4634; 1259 18460 INDEX public acompanhamento_eventos_ocorrido_em_idx postgres
+4637; 1259 18461 INDEX public acompanhamento_eventos_user_aluno_ocorrido_idx postgres
+4638; 1259 18462 INDEX public acompanhamento_eventos_user_event_key_uidx postgres
+4639; 1259 18458 INDEX public acompanhamento_eventos_user_id_idx postgres
+4627; 1259 18120 INDEX public admin_logs_acao_idx postgres
+4628; 1259 18118 INDEX public admin_logs_admin_user_id_idx postgres
+4629; 1259 18121 INDEX public admin_logs_created_at_idx postgres
+4632; 1259 18119 INDEX public admin_logs_target_user_id_idx postgres
+4679; 1259 19126 INDEX public aluno_contratos_aluno_id_idx postgres
+4682; 1259 19127 INDEX public aluno_contratos_plano_id_idx postgres
+4683; 1259 19128 INDEX public aluno_contratos_renovado_de_id_idx postgres
+4684; 1259 19130 INDEX public aluno_contratos_um_ativo_por_aluno_uidx postgres
+4685; 1259 19129 INDEX public aluno_contratos_user_aluno_inicio_idx postgres
+4686; 1259 19125 INDEX public aluno_contratos_user_id_idx postgres
+4558; 1259 19166 INDEX public alunos_student_user_access_status_idx postgres
+4559; 1259 18977 INDEX public alunos_student_user_id_idx postgres
+4560; 1259 18976 INDEX public alunos_student_user_id_uidx postgres
+4561; 1259 18429 INDEX public alunos_user_acompanhamento_status_idx postgres
+4562; 1259 19165 INDEX public alunos_user_student_access_status_idx postgres
+4563; 1259 18353 INDEX public alunos_user_vencimento_idx postgres
+4570; 1259 17728 INDEX public anamneses_aluno_id_idx postgres
+4573; 1259 18359 INDEX public anamneses_user_created_at_idx postgres
+4574; 1259 17727 INDEX public anamneses_user_id_idx postgres
+4671; 1259 18756 INDEX public aoe_audit_org_event_date_idx postgres
+4651; 1259 18750 INDEX public aoe_decisions_actor_idx postgres
+4652; 1259 18752 INDEX public aoe_decisions_model_idx postgres
+4653; 1259 18751 INDEX public aoe_decisions_org_idx postgres
+4656; 1259 18748 INDEX public aoe_decisions_request_idx postgres
+4657; 1259 18749 INDEX public aoe_decisions_student_idx postgres
+4661; 1259 18747 INDEX public aoe_human_reviews_one_active_per_decision postgres
+4665; 1259 18755 INDEX public aoe_idempotency_expires_idx postgres
+4668; 1259 18746 INDEX public aoe_idempotency_unique_key postgres
+4664; 1259 18754 INDEX public aoe_reviews_decision_idx postgres
+4660; 1259 18753 INDEX public aoe_traces_decision_idx postgres
+4603; 1259 19184 INDEX public assinaturas_cancel_at_period_end_idx postgres
+4604; 1259 17961 INDEX public assinaturas_data_vencimento_idx postgres
+4605; 1259 19183 INDEX public assinaturas_grace_until_idx postgres
+4608; 1259 17960 INDEX public assinaturas_status_idx postgres
+4609; 1259 19185 INDEX public assinaturas_suspended_at_idx postgres
+4610; 1259 18355 INDEX public assinaturas_user_created_at_idx postgres
+4611; 1259 17959 INDEX public assinaturas_user_id_idx postgres
+4612; 1259 18356 INDEX public assinaturas_user_status_vencimento_idx postgres
+4564; 1259 17725 INDEX public avaliacoes_aluno_id_idx postgres
+4565; 1259 17726 INDEX public avaliacoes_data_idx postgres
+4568; 1259 18358 INDEX public avaliacoes_user_data_idx postgres
+4569; 1259 17724 INDEX public avaliacoes_user_id_idx postgres
+4708; 1259 19453 INDEX public exercise_favorites_professional_idx postgres
+4701; 1259 19452 INDEX public exercise_library_muscle_category_idx postgres
+4702; 1259 19450 INDEX public exercise_library_origin_status_name_idx postgres
+4703; 1259 19451 INDEX public exercise_library_owner_status_name_idx postgres
+4591; 1259 17854 INDEX public pagamentos_aluno_id_idx postgres
+4592; 1259 17855 INDEX public pagamentos_data_pagamento_idx postgres
+4595; 1259 18186 INDEX public pagamentos_user_aluno_data_idx postgres
+4596; 1259 17853 INDEX public pagamentos_user_id_idx postgres
+4615; 1259 18027 INDEX public perfis_status_idx postgres
+4616; 1259 18026 INDEX public perfis_tipo_acesso_idx postgres
+4617; 1259 18025 INDEX public perfis_user_id_idx postgres
+4597; 1259 17916 INDEX public planos_ativo_idx postgres
+4600; 1259 18354 INDEX public planos_user_ativo_idx postgres
+4601; 1259 17915 INDEX public planos_user_id_idx postgres
+4602; 1259 18421 INDEX public planos_user_nome_normalizado_unique_idx postgres
+4713; 1259 19571 INDEX public smart_management_locations_professional_status_idx postgres
+4728; 1259 19622 INDEX public smart_management_services_pricing_model_idx postgres
+4729; 1259 19621 INDEX public smart_management_services_professional_status_idx postgres
+4714; 1259 19573 INDEX public smart_management_transfer_rules_location_idx postgres
+4719; 1259 19572 INDEX public smart_management_transfer_rules_professional_idx postgres
+4722; 1259 19575 INDEX public smart_management_transfer_tiers_professional_idx postgres
+4723; 1259 19574 INDEX public smart_management_transfer_tiers_rule_idx postgres
+4586; 1259 17806 INDEX public treino_dias_treino_id_idx postgres
+4674; 1259 18868 INDEX public treino_eventos_treino_event_type_idx postgres
+4675; 1259 18867 INDEX public treino_eventos_user_aluno_occurred_idx postgres
+4676; 1259 18866 INDEX public treino_eventos_user_treino_occurred_idx postgres
+4587; 1259 19454 INDEX public treino_exercicios_exercise_id_idx postgres
+4590; 1259 17807 INDEX public treino_exercicios_treino_dia_id_idx postgres
+4575; 1259 17805 INDEX public treinos_aluno_id_idx postgres
+4578; 1259 18839 INDEX public treinos_user_aluno_lifecycle_idx postgres
+4579; 1259 18842 INDEX public treinos_user_application_idempotency_uidx postgres
+4580; 1259 18357 INDEX public treinos_user_created_at_idx postgres
+4581; 1259 18840 INDEX public treinos_user_delivered_at_idx postgres
+4582; 1259 17804 INDEX public treinos_user_id_idx postgres
+4583; 1259 18841 INDEX public treinos_user_template_origin_idx postgres
+4695; 1259 19272 INDEX public workout_execution_exercises_session_order_idx postgres
+4687; 1259 19230 INDEX public workout_execution_sessions_active_uidx postgres
+4688; 1259 19232 INDEX public workout_execution_sessions_aluno_recent_idx postgres
+4689; 1259 19231 INDEX public workout_execution_sessions_idempotency_uidx postgres
+4692; 1259 19233 INDEX public workout_execution_sessions_treino_recent_idx postgres
+4696; 1259 19295 INDEX public workout_execution_sets_exercise_order_idx postgres
+4646; 1259 18635 INDEX public workout_templates_owner_id_idx postgres
+4647; 1259 18637 INDEX public workout_templates_owner_split_idx postgres
+4648; 1259 18636 INDEX public workout_templates_owner_updated_idx postgres
+4549; 1259 17540 INDEX realtime ix_realtime_subscription_entity supabase_realtime_admin
+4553; 1259 17541 INDEX realtime messages_inserted_at_topic_index supabase_realtime_admin
+4552; 1259 17555 INDEX realtime subscription_subscription_id_entity_filters_action_filter_selec supabase_realtime_admin
+4522; 1259 17187 INDEX storage bname supabase_storage_admin
+4541; 1259 17345 INDEX storage buckets_analytics_unique_name_idx supabase_storage_admin
+4534; 1259 17271 INDEX storage idx_multipart_uploads_list supabase_storage_admin
+4525; 1259 17236 INDEX storage idx_objects_bucket_id_name supabase_storage_admin
+4526; 1259 17352 INDEX storage idx_objects_bucket_id_name_lower supabase_storage_admin
+4527; 1259 19631 INDEX storage idx_objects_current_version supabase_storage_admin
+4528; 1259 19860 INDEX storage idx_objects_delete_markers supabase_storage_admin
+4529; 1259 19632 INDEX storage idx_objects_null_version supabase_storage_admin
+4530; 1259 17205 INDEX storage name_prefix_search supabase_storage_admin
+4531; 1259 19630 INDEX storage objects_bucket_id_name_version_key supabase_storage_admin
+4544; 1259 17336 INDEX storage vector_indexes_name_bucket_id_idx supabase_storage_admin
+4846; 2620 19133 TRIGGER public aluno_contratos set_aluno_contratos_updated_at postgres
+4850; 2620 19457 TRIGGER public exercise_library set_exercise_library_updated_at postgres
+4851; 2620 19580 TRIGGER public smart_management_locations set_smart_management_locations_updated_at postgres
+4856; 2620 19623 TRIGGER public smart_management_services set_smart_management_services_updated_at postgres
+4852; 2620 19581 TRIGGER public smart_management_transfer_rules set_smart_management_transfer_rules_updated_at postgres
+4854; 2620 19582 TRIGGER public smart_management_transfer_tiers set_smart_management_transfer_tiers_updated_at postgres
+4848; 2620 19298 TRIGGER public workout_execution_exercises set_workout_execution_exercises_updated_at postgres
+4847; 2620 19297 TRIGGER public workout_execution_sessions set_workout_execution_sessions_updated_at postgres
+4849; 2620 19299 TRIGGER public workout_execution_sets set_workout_execution_sets_updated_at postgres
+4845; 2620 18639 TRIGGER public workout_templates set_workout_templates_updated_at postgres
+4853; 2620 19583 TRIGGER public smart_management_transfer_rules smart_management_transfer_rule_owner postgres
+4855; 2620 19584 TRIGGER public smart_management_transfer_tiers smart_management_transfer_tier_owner postgres
+4844; 2620 17398 TRIGGER realtime subscription tr_check_filters supabase_realtime_admin
+4837; 2620 17290 TRIGGER storage buckets enforce_bucket_name_length_trigger supabase_storage_admin
+4838; 2620 19848 TRIGGER storage buckets protect_bucket_control_insert supabase_storage_admin
+4839; 2620 19849 TRIGGER storage buckets protect_bucket_control_update supabase_storage_admin
+4840; 2620 19850 TRIGGER storage buckets protect_bucket_control_update_role supabase_storage_admin
+4841; 2620 17354 TRIGGER storage buckets protect_buckets_delete supabase_storage_admin
+4842; 2620 17355 TRIGGER storage objects protect_objects_delete supabase_storage_admin
+4843; 2620 17224 TRIGGER storage objects update_objects_updated_at supabase_storage_admin
+4757; 2606 16693 FK CONSTRAINT auth identities identities_user_id_fkey supabase_auth_admin
+4762; 2606 16783 FK CONSTRAINT auth mfa_amr_claims mfa_amr_claims_session_id_fkey supabase_auth_admin
+4761; 2606 16771 FK CONSTRAINT auth mfa_challenges mfa_challenges_auth_factor_id_fkey supabase_auth_admin
+4760; 2606 16758 FK CONSTRAINT auth mfa_factors mfa_factors_user_id_fkey supabase_auth_admin
+4834; 2606 19765 FK CONSTRAINT auth mfa_recovery_code_sets mfa_recovery_code_sets_mfa_factor_id_fkey supabase_auth_admin
+4835; 2606 19760 FK CONSTRAINT auth mfa_recovery_code_sets mfa_recovery_code_sets_user_id_fkey supabase_auth_admin
+4836; 2606 19778 FK CONSTRAINT auth mfa_recovery_codes mfa_recovery_codes_mfa_recovery_code_set_id_fkey supabase_auth_admin
+4768; 2606 17023 FK CONSTRAINT auth oauth_authorizations oauth_authorizations_client_id_fkey supabase_auth_admin
+4769; 2606 17028 FK CONSTRAINT auth oauth_authorizations oauth_authorizations_user_id_fkey supabase_auth_admin
+4770; 2606 17052 FK CONSTRAINT auth oauth_consents oauth_consents_client_id_fkey supabase_auth_admin
+4771; 2606 17047 FK CONSTRAINT auth oauth_consents oauth_consents_user_id_fkey supabase_auth_admin
+4767; 2606 16949 FK CONSTRAINT auth one_time_tokens one_time_tokens_user_id_fkey supabase_auth_admin
+4756; 2606 16726 FK CONSTRAINT auth refresh_tokens refresh_tokens_session_id_fkey supabase_auth_admin
+4764; 2606 16830 FK CONSTRAINT auth saml_providers saml_providers_sso_provider_id_fkey supabase_auth_admin
+4765; 2606 16903 FK CONSTRAINT auth saml_relay_states saml_relay_states_flow_state_id_fkey supabase_auth_admin
+4766; 2606 16844 FK CONSTRAINT auth saml_relay_states saml_relay_states_sso_provider_id_fkey supabase_auth_admin
+4833; 2606 19737 FK CONSTRAINT auth scim_tokens scim_tokens_sso_provider_id_fkey supabase_auth_admin
+4831; 2606 19707 FK CONSTRAINT auth scim_users scim_users_sso_provider_id_fkey supabase_auth_admin
+4832; 2606 19712 FK CONSTRAINT auth scim_users scim_users_user_id_fkey supabase_auth_admin
+4758; 2606 17066 FK CONSTRAINT auth sessions sessions_oauth_client_id_fkey supabase_auth_admin
+4759; 2606 16721 FK CONSTRAINT auth sessions sessions_user_id_fkey supabase_auth_admin
+4763; 2606 16811 FK CONSTRAINT auth sso_domains sso_domains_sso_provider_id_fkey supabase_auth_admin
+4773; 2606 17159 FK CONSTRAINT auth webauthn_challenges webauthn_challenges_user_id_fkey supabase_auth_admin
+4772; 2606 17142 FK CONSTRAINT auth webauthn_credentials webauthn_credentials_user_id_fkey supabase_auth_admin
+4795; 2606 18078 FK CONSTRAINT public aceites_legais aceites_legais_user_id_fkey postgres
+4798; 2606 18447 FK CONSTRAINT public acompanhamento_eventos acompanhamento_eventos_aluno_id_fkey postgres
+4799; 2606 18452 FK CONSTRAINT public acompanhamento_eventos acompanhamento_eventos_plano_id_fkey postgres
+4800; 2606 18442 FK CONSTRAINT public acompanhamento_eventos acompanhamento_eventos_user_id_fkey postgres
+4796; 2606 18108 FK CONSTRAINT public admin_logs admin_logs_admin_user_id_fkey postgres
+4797; 2606 18113 FK CONSTRAINT public admin_logs admin_logs_target_user_id_fkey postgres
+4811; 2606 19108 FK CONSTRAINT public aluno_contratos aluno_contratos_aluno_id_fkey postgres
+4812; 2606 19113 FK CONSTRAINT public aluno_contratos aluno_contratos_plano_id_fkey postgres
+4813; 2606 19118 FK CONSTRAINT public aluno_contratos aluno_contratos_renovado_de_id_fkey postgres
+4814; 2606 19103 FK CONSTRAINT public aluno_contratos aluno_contratos_user_id_fkey postgres
+4779; 2606 18971 FK CONSTRAINT public alunos alunos_student_user_id_fkey postgres
+4780; 2606 17584 FK CONSTRAINT public alunos alunos_user_id_fkey postgres
+4783; 2606 17711 FK CONSTRAINT public anamneses anamneses_aluno_id_fkey postgres
+4784; 2606 17706 FK CONSTRAINT public anamneses anamneses_user_id_fkey postgres
+4804; 2606 18686 FK CONSTRAINT public aoe_decision_traces aoe_decision_traces_decision_id_fkey postgres
+4802; 2606 18667 FK CONSTRAINT public aoe_decisions aoe_decisions_actor_id_fkey postgres
+4803; 2606 18672 FK CONSTRAINT public aoe_decisions aoe_decisions_student_id_fkey postgres
+4805; 2606 18707 FK CONSTRAINT public aoe_human_reviews aoe_human_reviews_decision_id_fkey postgres
+4806; 2606 18712 FK CONSTRAINT public aoe_human_reviews aoe_human_reviews_reviewer_id_fkey postgres
+4807; 2606 18726 FK CONSTRAINT public aoe_idempotency_keys aoe_idempotency_keys_actor_id_fkey postgres
+4808; 2606 18731 FK CONSTRAINT public aoe_idempotency_keys aoe_idempotency_keys_decision_id_fkey postgres
+4793; 2606 17952 FK CONSTRAINT public assinaturas assinaturas_user_id_fkey postgres
+4781; 2606 17659 FK CONSTRAINT public avaliacoes avaliacoes_aluno_id_fkey postgres
+4782; 2606 17654 FK CONSTRAINT public avaliacoes avaliacoes_user_id_fkey postgres
+4823; 2606 19438 FK CONSTRAINT public exercise_favorites exercise_favorites_exercise_id_fkey postgres
+4824; 2606 19433 FK CONSTRAINT public exercise_favorites exercise_favorites_professional_id_fkey postgres
+4822; 2606 19419 FK CONSTRAINT public exercise_library exercise_library_owner_id_fkey postgres
+4790; 2606 17844 FK CONSTRAINT public pagamentos pagamentos_aluno_id_fkey postgres
+4791; 2606 17839 FK CONSTRAINT public pagamentos pagamentos_user_id_fkey postgres
+4794; 2606 18018 FK CONSTRAINT public perfis perfis_user_id_fkey postgres
+4792; 2606 17906 FK CONSTRAINT public planos planos_user_id_fkey postgres
+4825; 2606 19528 FK CONSTRAINT public smart_management_locations smart_management_locations_professional_id_fkey postgres
+4830; 2606 19607 FK CONSTRAINT public smart_management_services smart_management_services_professional_id_fkey postgres
+4826; 2606 19538 FK CONSTRAINT public smart_management_transfer_rules smart_management_transfer_rules_location_id_fkey postgres
+4827; 2606 19543 FK CONSTRAINT public smart_management_transfer_rules smart_management_transfer_rules_professional_id_fkey postgres
+4828; 2606 19562 FK CONSTRAINT public smart_management_transfer_tiers smart_management_transfer_tiers_professional_id_fkey postgres
+4829; 2606 19557 FK CONSTRAINT public smart_management_transfer_tiers smart_management_transfer_tiers_transfer_rule_id_fkey postgres
+4787; 2606 17764 FK CONSTRAINT public treino_dias treino_dias_treino_id_fkey postgres
+4809; 2606 18963 FK CONSTRAINT public treino_eventos treino_eventos_aluno_id_fkey postgres
+4810; 2606 18958 FK CONSTRAINT public treino_eventos treino_eventos_treino_id_fkey postgres
+4788; 2606 19445 FK CONSTRAINT public treino_exercicios treino_exercicios_exercise_id_fkey postgres
+4789; 2606 17785 FK CONSTRAINT public treino_exercicios treino_exercicios_treino_dia_id_fkey postgres
+4785; 2606 17748 FK CONSTRAINT public treinos treinos_aluno_id_fkey postgres
+4786; 2606 17743 FK CONSTRAINT public treinos treinos_user_id_fkey postgres
+4818; 2606 19256 FK CONSTRAINT public workout_execution_exercises workout_execution_exercises_session_id_fkey postgres
+4819; 2606 19266 FK CONSTRAINT public workout_execution_exercises workout_execution_exercises_treino_dia_id_fkey postgres
+4820; 2606 19261 FK CONSTRAINT public workout_execution_exercises workout_execution_exercises_treino_exercicio_id_fkey postgres
+4815; 2606 19213 FK CONSTRAINT public workout_execution_sessions workout_execution_sessions_aluno_id_fkey postgres
+4816; 2606 19223 FK CONSTRAINT public workout_execution_sessions workout_execution_sessions_treino_dia_id_fkey postgres
+4817; 2606 19218 FK CONSTRAINT public workout_execution_sessions workout_execution_sessions_treino_id_fkey postgres
+4821; 2606 19287 FK CONSTRAINT public workout_execution_sets workout_execution_sets_execution_exercise_id_fkey postgres
+4801; 2606 18630 FK CONSTRAINT public workout_templates workout_templates_owner_id_fkey postgres
+4774; 2606 17199 FK CONSTRAINT storage objects objects_bucketId_fkey supabase_storage_admin
+4775; 2606 17246 FK CONSTRAINT storage s3_multipart_uploads s3_multipart_uploads_bucket_id_fkey supabase_storage_admin
+4776; 2606 17266 FK CONSTRAINT storage s3_multipart_uploads_parts s3_multipart_uploads_parts_bucket_id_fkey supabase_storage_admin
+4777; 2606 17261 FK CONSTRAINT storage s3_multipart_uploads_parts s3_multipart_uploads_parts_upload_id_fkey supabase_storage_admin
+4778; 2606 17331 FK CONSTRAINT storage vector_indexes vector_indexes_bucket_id_fkey supabase_storage_admin
+5008; 0 16529 ROW SECURITY auth audit_log_entries supabase_auth_admin
+5019; 0 16889 ROW SECURITY auth flow_state supabase_auth_admin
+5010; 0 16686 ROW SECURITY auth identities supabase_auth_admin
+5007; 0 16522 ROW SECURITY auth instances supabase_auth_admin
+5014; 0 16776 ROW SECURITY auth mfa_amr_claims supabase_auth_admin
+5013; 0 16764 ROW SECURITY auth mfa_challenges supabase_auth_admin
+5012; 0 16751 ROW SECURITY auth mfa_factors supabase_auth_admin
+5020; 0 16939 ROW SECURITY auth one_time_tokens supabase_auth_admin
+5006; 0 16511 ROW SECURITY auth refresh_tokens supabase_auth_admin
+5017; 0 16818 ROW SECURITY auth saml_providers supabase_auth_admin
+5018; 0 16836 ROW SECURITY auth saml_relay_states supabase_auth_admin
+5009; 0 16537 ROW SECURITY auth schema_migrations supabase_auth_admin
+5011; 0 16716 ROW SECURITY auth sessions supabase_auth_admin
+5016; 0 16803 ROW SECURITY auth sso_domains supabase_auth_admin
+5015; 0 16794 ROW SECURITY auth sso_providers supabase_auth_admin
+5005; 0 16499 ROW SECURITY auth users supabase_auth_admin
+5107; 3256 18994 POLICY public admin_logs Admins podem listar logs administrativos postgres
+5142; 3256 19036 POLICY public aoe_audit_events Auditoria AOE somente admin leitura postgres
+5069; 3256 19305 POLICY public workout_execution_exercises Authorized read workout execution exercises postgres
+5071; 3256 19310 POLICY public workout_execution_sets Authorized read workout execution sets postgres
+5141; 3256 19035 POLICY public aoe_idempotency_keys Idempotencia AOE restrita ao ator postgres
+5066; 3256 19301 POLICY public workout_execution_sessions Professionals read own student workout execution sessions postgres
+5076; 3256 19462 POLICY public exercise_library Profissionais arquivam exercicios pessoais postgres
+5075; 3256 19460 POLICY public exercise_library Profissionais atualizam exercicios pessoais postgres
+5074; 3256 19459 POLICY public exercise_library Profissionais criam exercicios pessoais postgres
+5078; 3256 19464 POLICY public exercise_favorites Profissionais favoritam exercicios visiveis postgres
+5084; 3256 19585 POLICY public smart_management_locations Profissionais gerenciam seus locais inteligentes postgres
+5087; 3256 19624 POLICY public smart_management_services Profissionais gerenciam seus servicos inteligentes postgres
+5086; 3256 19587 POLICY public smart_management_transfer_tiers Profissionais gerenciam suas faixas inteligentes postgres
+5085; 3256 19586 POLICY public smart_management_transfer_rules Profissionais gerenciam suas regras inteligentes postgres
+5073; 3256 19458 POLICY public exercise_library Profissionais leem biblioteca oficial e propria postgres
+5077; 3256 19463 POLICY public exercise_favorites Profissionais leem seus favoritos postgres
+5079; 3256 19465 POLICY public exercise_favorites Profissionais removem seus favoritos postgres
+5067; 3256 19302 POLICY public workout_execution_sessions Students insert own active workout execution sessions postgres
+5065; 3256 19300 POLICY public workout_execution_sessions Students read own workout execution sessions postgres
+5068; 3256 19303 POLICY public workout_execution_sessions Students update own in progress workout execution sessions postgres
+5070; 3256 19307 POLICY public workout_execution_exercises Students write in progress workout execution exercises postgres
+5072; 3256 19312 POLICY public workout_execution_sets Students write in progress workout execution sets postgres
+5137; 3256 19030 POLICY public aoe_decision_traces Traces AOE restritos ao profissional autorizado postgres
+5108; 3256 18995 POLICY public admin_logs Usuarios comuns nao inserem logs administrativos postgres
+5125; 3256 19012 POLICY public treino_dias Usuarios podem atualizar dias dos seus treinos postgres
+5129; 3256 19019 POLICY public treino_exercicios Usuarios podem atualizar exercicios dos seus treinos postgres
+5140; 3256 19033 POLICY public aoe_human_reviews Usuarios podem atualizar reviews AOE autorizadas postgres
+5133; 3256 19026 POLICY public workout_templates Usuarios podem atualizar seus modelos de treino postgres
+5105; 3256 18992 POLICY public pagamentos Usuarios podem atualizar seus pagamentos postgres
+5099; 3256 18986 POLICY public planos Usuarios podem atualizar seus planos postgres
+5122; 3256 19008 POLICY public treinos Usuarios podem atualizar seus treinos postgres
+5118; 3256 19004 POLICY public anamneses Usuarios podem atualizar suas anamneses postgres
+5113; 3256 19000 POLICY public avaliacoes Usuarios podem atualizar suas avaliacoes postgres
+5124; 3256 19011 POLICY public treino_dias Usuarios podem cadastrar dias dos seus treinos postgres
+5128; 3256 19017 POLICY public treino_exercicios Usuarios podem cadastrar exercicios dos seus treinos postgres
+5093; 3256 18464 POLICY public acompanhamento_eventos Usuarios podem cadastrar seus eventos de acompanhamento postgres
+5132; 3256 19025 POLICY public workout_templates Usuarios podem cadastrar seus modelos de treino postgres
+5104; 3256 18991 POLICY public pagamentos Usuarios podem cadastrar seus pagamentos postgres
+5098; 3256 18985 POLICY public planos Usuarios podem cadastrar seus planos postgres
+5121; 3256 19007 POLICY public treinos Usuarios podem cadastrar seus treinos postgres
+5116; 3256 19003 POLICY public anamneses Usuarios podem cadastrar suas anamneses postgres
+5102; 3256 18989 POLICY public assinaturas Usuarios podem cadastrar suas assinaturas postgres
+5112; 3256 18999 POLICY public avaliacoes Usuarios podem cadastrar suas avaliacoes postgres
+5138; 3256 19031 POLICY public aoe_human_reviews Usuarios podem consultar reviews AOE autorizadas postgres
+5136; 3256 19029 POLICY public aoe_decisions Usuarios podem criar decisoes AOE dos seus alunos postgres
+5139; 3256 19032 POLICY public aoe_human_reviews Usuarios podem criar reviews AOE autorizadas postgres
+5096; 3256 18983 POLICY public perfis Usuarios podem criar seu perfil padrao postgres
+5126; 3256 19014 POLICY public treino_dias Usuarios podem excluir dias dos seus treinos postgres
+5130; 3256 19022 POLICY public treino_exercicios Usuarios podem excluir exercicios dos seus treinos postgres
+5134; 3256 19027 POLICY public workout_templates Usuarios podem excluir seus modelos de treino postgres
+5106; 3256 18993 POLICY public pagamentos Usuarios podem excluir seus pagamentos postgres
+5100; 3256 18987 POLICY public planos Usuarios podem excluir seus planos postgres
+5123; 3256 19009 POLICY public treinos Usuarios podem excluir seus treinos postgres
+5119; 3256 19005 POLICY public anamneses Usuarios podem excluir suas anamneses postgres
+5114; 3256 19001 POLICY public avaliacoes Usuarios podem excluir suas avaliacoes postgres
+5135; 3256 19028 POLICY public aoe_decisions Usuarios podem listar decisoes AOE dos seus alunos postgres
+5117; 3256 19010 POLICY public treino_dias Usuarios podem listar dias dos seus treinos postgres
+5094; 3256 18901 POLICY public treino_eventos Usuarios podem listar eventos dos seus treinos postgres
+5127; 3256 19015 POLICY public treino_exercicios Usuarios podem listar exercicios dos seus treinos postgres
+5095; 3256 18982 POLICY public perfis Usuarios podem listar seu perfil postgres
+5109; 3256 18996 POLICY public aceites_legais Usuarios podem listar seus aceites legais postgres
+5064; 3256 19131 POLICY public aluno_contratos Usuarios podem listar seus contratos de alunos postgres
+5092; 3256 18463 POLICY public acompanhamento_eventos Usuarios podem listar seus eventos de acompanhamento postgres
+5131; 3256 19024 POLICY public workout_templates Usuarios podem listar seus modelos de treino postgres
+5103; 3256 18990 POLICY public pagamentos Usuarios podem listar seus pagamentos postgres
+5097; 3256 18984 POLICY public planos Usuarios podem listar seus planos postgres
+5120; 3256 19006 POLICY public treinos Usuarios podem listar seus treinos postgres
+5115; 3256 19002 POLICY public anamneses Usuarios podem listar suas anamneses postgres
+5101; 3256 18988 POLICY public assinaturas Usuarios podem listar suas assinaturas postgres
+5111; 3256 18998 POLICY public avaliacoes Usuarios podem listar suas avaliacoes postgres
+5110; 3256 18997 POLICY public aceites_legais Usuarios podem registrar seus aceites legais postgres
+5061; 3256 17590 POLICY public alunos Usuário cadastra seus alunos postgres
+5062; 3256 17591 POLICY public alunos Usuário edita seus alunos postgres
+5063; 3256 17592 POLICY public alunos Usuário exclui seus alunos postgres
+5060; 3256 17589 POLICY public alunos Usuário vê apenas seus alunos postgres
+5040; 0 18065 ROW SECURITY public aceites_legais postgres
+5042; 0 18431 ROW SECURITY public acompanhamento_eventos postgres
+5041; 0 18099 ROW SECURITY public admin_logs postgres
+5050; 0 19088 ROW SECURITY public aluno_contratos postgres
+5030; 0 17573 ROW SECURITY public alunos postgres
+5032; 0 17664 ROW SECURITY public anamneses postgres
+5048; 0 18736 ROW SECURITY public aoe_audit_events postgres
+5045; 0 18677 ROW SECURITY public aoe_decision_traces postgres
+5044; 0 18653 ROW SECURITY public aoe_decisions postgres
+5046; 0 18691 ROW SECURITY public aoe_human_reviews postgres
+5047; 0 18717 ROW SECURITY public aoe_idempotency_keys postgres
+5038; 0 17941 ROW SECURITY public assinaturas postgres
+5031; 0 17644 ROW SECURITY public avaliacoes postgres
+5055; 0 19412 ROW SECURITY public exercise_favorites postgres
+5054; 0 19397 ROW SECURITY public exercise_library postgres
+5036; 0 17825 ROW SECURITY public pagamentos postgres
+5039; 0 18001 ROW SECURITY public perfis postgres
+5037; 0 17893 ROW SECURITY public planos postgres
+5056; 0 19500 ROW SECURITY public smart_management_locations postgres
+5059; 0 19593 ROW SECURITY public smart_management_services postgres
+5057; 0 19510 ROW SECURITY public smart_management_transfer_rules postgres
+5058; 0 19520 ROW SECURITY public smart_management_transfer_tiers postgres
+5034; 0 17753 ROW SECURITY public treino_dias postgres
+5049; 0 18843 ROW SECURITY public treino_eventos postgres
+5035; 0 17769 ROW SECURITY public treino_exercicios postgres
+5033; 0 17729 ROW SECURITY public treinos postgres
+5052; 0 19234 ROW SECURITY public workout_execution_exercises postgres
+5051; 0 19199 ROW SECURITY public workout_execution_sessions postgres
+5053; 0 19273 ROW SECURITY public workout_execution_sets postgres
+5043; 0 18608 ROW SECURITY public workout_templates postgres
+5029; 0 17525 ROW SECURITY realtime messages supabase_realtime_admin
+5091; 3256 18420 POLICY storage objects avaliacoes_fotos_delete_own_folder supabase_storage_admin
+5089; 3256 18418 POLICY storage objects avaliacoes_fotos_insert_own_folder supabase_storage_admin
+5088; 3256 18417 POLICY storage objects avaliacoes_fotos_select_own_folder supabase_storage_admin
+5090; 3256 18419 POLICY storage objects avaliacoes_fotos_update_own_folder supabase_storage_admin
+5022; 0 17178 ROW SECURITY storage buckets supabase_storage_admin
+5026; 0 17298 ROW SECURITY storage buckets_analytics supabase_storage_admin
+5027; 0 17311 ROW SECURITY storage buckets_vectors supabase_storage_admin
+5083; 3256 19469 POLICY storage objects exercise_media_delete_own_folder supabase_storage_admin
+5081; 3256 19467 POLICY storage objects exercise_media_insert_own_folder supabase_storage_admin
+5080; 3256 19466 POLICY storage objects exercise_media_select_authorized supabase_storage_admin
+5082; 3256 19468 POLICY storage objects exercise_media_update_own_folder supabase_storage_admin
+5021; 0 17170 ROW SECURITY storage migrations supabase_storage_admin
+5023; 0 17188 ROW SECURITY storage objects supabase_storage_admin
+5024; 0 17237 ROW SECURITY storage s3_multipart_uploads supabase_storage_admin
+5025; 0 17251 ROW SECURITY storage s3_multipart_uploads_parts supabase_storage_admin
+5028; 0 17321 ROW SECURITY storage vector_indexes supabase_storage_admin
+5143; 6104 16430 PUBLICATION - supabase_realtime postgres
+3939; 3466 16575 EVENT TRIGGER - issue_graphql_placeholder supabase_admin
+3942; 3466 16654 EVENT TRIGGER - issue_pg_cron_access supabase_admin
+3944; 3466 16666 EVENT TRIGGER - issue_pg_graphql_access supabase_admin
+3943; 3466 16657 EVENT TRIGGER - issue_pg_net_access supabase_admin
+3940; 3466 16576 EVENT TRIGGER - pgrst_ddl_watch supabase_admin
+3941; 3466 16577 EVENT TRIGGER - pgrst_drop_watch supabase_admin
