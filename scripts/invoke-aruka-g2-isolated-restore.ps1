@@ -254,7 +254,13 @@ foreach ($extension in $expectedExtensions) {
 
 $containerLogs = Invoke-Native "docker" @("logs", $containerName)
 Write-Utf8 $containerLogPath ($containerLogs.Output -join "`n")
-$criticalLogLines = @($containerLogs.Output | Where-Object { $_ -match '(?i)\b(error|fatal|panic)\b' })
+$ignoredStartupLogLines = @($containerLogs.Output | Where-Object {
+  $_ -match '(?i)\bFATAL:\s+the database system is starting up\b'
+})
+$criticalLogLines = @($containerLogs.Output | Where-Object {
+  $_ -match '(?i)\b(error|fatal|panic)\b' -and
+  $_ -notmatch '(?i)\bFATAL:\s+the database system is starting up\b'
+})
 if ($criticalLogLines.Count -ne 0) { $validationFailures.Add("postgres critical log lines: $($criticalLogLines.Count)") }
 
 $isolationJson = (Invoke-Native "docker" @("inspect", "--format", "{{json .}}", $containerName)).Output -join "`n"
@@ -305,6 +311,7 @@ $report = [ordered]@{
     values = $validationMap
     failures = @($validationFailures)
     critical_postgres_log_lines = $criticalLogLines.Count
+    ignored_startup_log_lines = $ignoredStartupLogLines.Count
     completed_at_utc = $validationEnded.ToString("o")
     duration_seconds = [math]::Round(($validationEnded - $validationStarted).TotalSeconds, 3)
   }
@@ -357,6 +364,7 @@ DECISION: $decision
 - Restored data: $($validationMap['data.nonempty_tables']) non-empty tables; $($validationMap['data.total_rows']) total rows across 69 dump-owned tables
 - Critical reads: auth.users=$($validationMap['critical_rows.auth.users']); alunos=$($validationMap['critical_rows.public.alunos']); treinos=$($validationMap['critical_rows.public.treinos']); treino_exercicios=$($validationMap['critical_rows.public.treino_exercicios']); workout_execution_sessions=$($validationMap['critical_rows.public.workout_execution_sessions'])
 - Migration history: 25 rows; latest $($validationMap['migration_history.latest_version'])
+- PostgreSQL logs: $($criticalLogLines.Count) blocking critical lines; $($ignoredStartupLogLines.Count) transient startup-readiness lines ignored by exact match
 - Critical PostgreSQL log lines: $($criticalLogLines.Count)
 - Failures: $failureText
 

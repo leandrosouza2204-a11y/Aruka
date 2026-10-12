@@ -53,6 +53,7 @@ $ExpectedActiveMigrations = @(
   "20260926174027_cycle12_schema_rls_hardening.sql"
   "20261003163830_cycle12_controlled_rollout_foundation.sql"
   "20261004133801_cycle12_forward_schema_security_reconciliation.sql"
+  "20261011232512_harden_privileged_function_execution.sql"
 )
 $IsCi = $env:CI -eq "true"
 $IsCiLocalOnly = $env:SUPABASE_CI_LOCAL_ONLY -eq "true"

@@ -30,6 +30,13 @@ test("G2 restore runner preconfigures all required preload libraries", () => {
   assert.match(runner, /wal_level=logical/u);
 });
 
+test("G2 restore log gate ignores only the transient startup readiness race", () => {
+  assert.match(runner, /FATAL:\\s\+the database system is starting up/u);
+  assert.match(runner, /criticalLogLines/u);
+  assert.match(runner, /error\|fatal\|panic/iu);
+  assert.match(runner, /ignored_startup_log_lines/u);
+});
+
 test("G2 restore runner has no production connectivity or migration execution", () => {
   assert.doesNotMatch(runner, /supabase\s+(?:link|db push|migration up)/iu);
   assert.doesNotMatch(runner, /postgres(?:ql)?:\/\//iu);
