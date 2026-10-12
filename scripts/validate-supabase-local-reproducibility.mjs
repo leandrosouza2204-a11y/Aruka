@@ -55,6 +55,7 @@ const expectedExecutableMigrations = [
   "supabase/migrations/20260926174027_cycle12_schema_rls_hardening.sql",
   "supabase/migrations/20261003163830_cycle12_controlled_rollout_foundation.sql",
   "supabase/migrations/20261004133801_cycle12_forward_schema_security_reconciliation.sql",
+  "supabase/migrations/20261011232512_harden_privileged_function_execution.sql",
 ];
 const forbiddenProjectRef = "xrmqdkpx" + "nfvusmenadnf";
 const APPROVED_REDACTED_DB_URL =
