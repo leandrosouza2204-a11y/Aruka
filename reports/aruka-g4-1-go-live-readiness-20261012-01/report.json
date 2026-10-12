@@ -1,0 +1,95 @@
+{
+  "mission": "ARUKA_G4_1_PRODUCTION_GO_LIVE_READINESS",
+  "decision": "READY_FOR_AUTHORIZATION",
+  "observed_at_utc": "2026-10-12T13:53:15Z",
+  "production_writes": 0,
+  "gates": {
+    "repository": "PASS",
+    "supabase": "PASS",
+    "vercel": "PASS_WITH_OPERATOR_PRECHECK",
+    "rollout": "PASS",
+    "backup": "PASS_WITH_FRESH_SNAPSHOT_REQUIRED",
+    "storage": "DECISION_REQUIRED",
+    "security": "READY_AFTER_PENDING_CHAIN",
+    "observability": "PASS_WITH_OPERATOR_PRECHECK",
+    "deployment_plan": "PASS",
+    "qa_evidence": "PASS",
+    "git_closeout": "PENDING_PUBLICATION_AUTHORIZATION"
+  },
+  "repository": {
+    "branch_at_audit": "main",
+    "head": "58980add1a520f31f8b1dac68f801d344ee68704",
+    "origin_main": "58980add1a520f31f8b1dac68f801d344ee68704",
+    "pull_request": 155,
+    "merged": true,
+    "preexisting_untracked_preserved": "docs/product-roadmap-v4-cycle-12-student-experience-v2/37-production-go-live-preparation.md"
+  },
+  "production": {
+    "project_id": "vrizeuhuhvtvbrmtvdik",
+    "project_name": "aruka",
+    "status": "ACTIVE_HEALTHY",
+    "postgres": "17.6.1.127",
+    "migration_count": 25,
+    "last_migration": "20260909110000",
+    "public_tables": 30,
+    "public_tables_with_rls": 30,
+    "public_policies": 75,
+    "security_definer_functions": 40,
+    "anon_executable_security_definer": 17,
+    "rollout_objects_present": false
+  },
+  "deployment": {
+    "provider": "Vercel",
+    "state": "success",
+    "commit": "58980add1a520f31f8b1dac68f801d344ee68704",
+    "created_at_utc": "2026-10-12T11:15:50Z",
+    "deployment_id": "dpl_GKsbjo6GCPeNDR2Qch2Dp2ATqYug",
+    "deployment_url": "https://aruka-4p100o89t-leandrosouzafitness.vercel.app",
+    "canonical_domain": "https://www.aruka.com.br",
+    "student_v2_build_capability": false,
+    "schema_25_compatible": true,
+    "authenticated_vercel_logs_checked": false
+  },
+  "migrations": {
+    "pending": 16,
+    "expected_final_count": 41,
+    "operational_order_validated": true,
+    "security_migration": "20261011232512_harden_privileged_function_execution.sql",
+    "security_migration_sha256_canonical_lf": "8673CF833854A1FA6F3572E8E4D1121F1D2E51CABE65CB367FA18D6A1A58EB21"
+  },
+  "backup": {
+    "path": "B:\\Aruka\\Recovery\\20261008-213100Z\\backups\\aruka-production-20261011-143722Z.dump",
+    "bytes": 632622,
+    "sha256": "7C95D044F7F4A6483B3B9EE0E7CA70E8B1FB35A361D31EB7FD9D3246D9D94E91",
+    "isolated_restore": "PASS",
+    "fresh_snapshot_before_g4_2": "REQUIRED"
+  },
+  "storage": {
+    "database_only_backup": true,
+    "buckets": [
+      { "id": "avaliacoes-fotos", "public": false, "objects": 8, "metadata_size_bytes": 2113714 },
+      { "id": "exercise-media", "public": false, "objects": 0, "metadata_size_bytes": 0 }
+    ],
+    "byte_recovery": "NOT_PROVEN",
+    "required_decision": "FORMAL_DATABASE_ONLY_ACCEPTANCE_OR_SEPARATE_APPROVED_BYTE_BACKUP"
+  },
+  "qa": {
+    "g2_g3_static": "13/13 PASS",
+    "rollout_unit": "28/28 PASS",
+    "auth_v1_v2": "122/122 PASS",
+    "lint": "PASS",
+    "build": "PASS_2069_MODULES",
+    "local_database_runtime_rerun": "NOT_EXECUTED_LOCAL_STACK_STOPPED",
+    "isolated_g3_runtime_evidence": "PASS_PRESERVED"
+  },
+  "authorization_preconditions": [
+    "formal change authorization and named operators",
+    "maintenance/write/deploy/migration freeze",
+    "fresh database snapshot and isolated validation",
+    "Storage DATABASE_ONLY acceptance or approved byte backup",
+    "authenticated Vercel configuration and log precheck",
+    "exact history/hash/catalog revalidation",
+    "rollout OFF and zero targets",
+    "approved staged migration package in validated operational order"
+  ]
+}
