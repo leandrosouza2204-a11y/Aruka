@@ -2,9 +2,9 @@
   "cycle": "8",
   "result": "SAFE_RESET_VALIDATED",
   "decision": "LOCAL_SEEDS_AND_SAFE_RESET_VALIDATED",
-  "started_at": "2026-09-19T23:30:48.173Z",
-  "finished_at": "2026-09-19T23:37:52.738Z",
-  "duration_seconds": 424.562,
+  "started_at": "2026-10-12T10:44:34.482Z",
+  "finished_at": "2026-10-12T10:50:34.590Z",
+  "duration_seconds": 360.106,
   "reset_runs": 2,
   "baseline_sha_preserved": true,
   "baseline_sha": "67B35BF73A2C9662DA02C3E88D404B5018E4B1E982DB8F24A23E91AA4B1DCC5B",
@@ -54,15 +54,22 @@
       "20260915140229",
       "20260915201101",
       "20260919120000",
-      "20260919231657"
+      "20260919231657",
+      "20260920104727",
+      "20260920144904",
+      "20260921010053",
+      "20260926174027",
+      "20261003163830",
+      "20261004133801",
+      "20261011232512"
     ],
     "structure": {
-      "public_tables": 30,
-      "public_functions": 56,
+      "public_tables": 32,
+      "public_functions": 67,
       "public_triggers": 13,
-      "public_indexes": 134,
-      "public_policies": 70,
-      "rls_enabled_tables": 30,
+      "public_indexes": 136,
+      "public_policies": 73,
+      "rls_enabled_tables": 32,
       "private_assessment_bucket": true
     }
   },
@@ -100,14 +107,14 @@
   "post_reset_stability": {
     "first": {
       "stable": true,
-      "expectedLatestMigration": "20260919231657",
-      "tableCount": 30,
+      "expectedLatestMigration": "20261011232512",
+      "tableCount": 32,
       "consecutiveStableReads": 2
     },
     "second": {
       "stable": true,
-      "expectedLatestMigration": "20260919231657",
-      "tableCount": 30,
+      "expectedLatestMigration": "20261011232512",
+      "tableCount": 32,
       "consecutiveStableReads": 2
     }
   },
