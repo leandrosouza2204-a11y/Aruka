@@ -54,6 +54,10 @@ test("runner is isolated, resumable, atomic with history, and emits restricted r
   assert.match(runner, /initialHistory\.length === 40 \|\| initialHistory\.length === 41/);
   assert.match(runner, /insert into supabase_migrations\.schema_migrations/);
   assert.match(runner, /vulnerability-proof-before\.txt/);
+  assert.match(runner, /legacyProof\.status === 0/);
+  assert.match(runner, /permission denied for function/);
+  assert.match(runner, /replace\(\/\\r\\n\/g, "\\n"\)/);
+  assert.match(runner, /raw_worktree_sha256/);
   assert.match(runner, /privileged-functions-before\.json/);
   assert.match(runner, /report\.json/);
   assert.match(runner, /production_writes: 0/);

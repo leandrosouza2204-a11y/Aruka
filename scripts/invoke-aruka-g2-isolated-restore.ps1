@@ -10,6 +10,18 @@ param(
 
   [string]$PgRestorePath = "C:\Program Files\PostgreSQL\17\bin\pg_restore.exe",
 
+  [int]$ExpectedCatalogOutputLines = 850,
+
+  [int]$ExpectedTableDataEntries = 71,
+
+  [int]$ExpectedFunctionDefinitions = 95,
+
+  [int]$ExpectedSequenceEntries = 7,
+
+  [int]$ExpectedExtensionDefinitions = 6,
+
+  [int]$ExpectedFunctionsWithoutExtensionMembers = 95,
+
   [string]$EvidenceDirectory
 )
 
@@ -110,7 +122,13 @@ $catalogMetrics = [ordered]@{
   sequence_entries = @($tocLines | Where-Object { $_ -match '^\d+; \d+ \d+ SEQUENCE ' }).Count
   extension_definitions = @($tocLines | Where-Object { $_ -match '^\d+; \d+ \d+ EXTENSION ' }).Count
 }
-if ($catalogMetrics.output_lines -ne 850 -or $catalogMetrics.table_data_entries -ne 71 -or $catalogMetrics.function_definitions -ne 95 -or $catalogMetrics.sequence_entries -ne 7 -or $catalogMetrics.extension_definitions -ne 6) {
+if (
+  $catalogMetrics.output_lines -ne $ExpectedCatalogOutputLines -or
+  $catalogMetrics.table_data_entries -ne $ExpectedTableDataEntries -or
+  $catalogMetrics.function_definitions -ne $ExpectedFunctionDefinitions -or
+  $catalogMetrics.sequence_entries -ne $ExpectedSequenceEntries -or
+  $catalogMetrics.extension_definitions -ne $ExpectedExtensionDefinitions
+) {
   throw "Backup catalog metrics differ from the approved baseline."
 }
 Save-Checkpoint "BACKUP_VALIDATED" @{ backup_size_bytes = $backupInfo.Length; catalog = $catalogMetrics }
@@ -153,7 +171,7 @@ if ($applicationTableCount -eq 0) {
 DO $$
 DECLARE role_name text;
 BEGIN
-  FOREACH role_name IN ARRAY ARRAY['anon','authenticated','service_role','authenticator','pgbouncer','supabase_auth_admin','supabase_functions_admin','supabase_realtime_admin','supabase_storage_admin']
+  FOREACH role_name IN ARRAY ARRAY['anon','authenticated','service_role','authenticator','dashboard_user','pgbouncer','supabase_auth_admin','supabase_functions_admin','supabase_realtime_admin','supabase_storage_admin']
   LOOP
     IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = role_name) THEN
       EXECUTE format('CREATE ROLE %I NOLOGIN', role_name);
@@ -225,7 +243,7 @@ $requiredValues = [ordered]@{
   "configuration.pg_net.database_name" = "postgres"
   "schemas.expected" = $expectedSchemas
   "objects.tables_without_extension_members" = "69"
-  "objects.functions_without_extension_members" = "95"
+  "objects.functions_without_extension_members" = "$ExpectedFunctionsWithoutExtensionMembers"
   "objects.sequences_without_extension_members" = "2"
   "objects.foreign_keys" = "81"
   "objects.validated_foreign_keys" = "81"

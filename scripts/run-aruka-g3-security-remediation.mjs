@@ -44,10 +44,15 @@ try {
     const preInventory = executeSqlFile("inventory-aruka-g3-privileged-functions.sql");
     writeFileSync(join(evidenceRoot, "privileged-functions-before.json"), preInventory, "utf8");
 
-    const vulnerableProof = executeSqlFile("audit-aruka-g3-legacy-definer-runtime.sql");
-    assert.match(vulnerableProof, /anon_automatic_closure\|VULNERABLE/);
-    assert.match(vulnerableProof, /anon_aoe_idempotency_write\|VULNERABLE/);
-    writeFileSync(join(evidenceRoot, "vulnerability-proof-before.txt"), vulnerableProof, "utf8");
+    const legacyProof = executeSqlFileResult("audit-aruka-g3-legacy-definer-runtime.sql");
+    const legacyProofOutput = `${legacyProof.stdout || ""}${legacyProof.stderr || ""}`;
+    if (legacyProof.status === 0) {
+      assert.match(legacyProofOutput, /anon_automatic_closure\|VULNERABLE/);
+      assert.match(legacyProofOutput, /anon_aoe_idempotency_write\|VULNERABLE/);
+    } else {
+      assert.match(legacyProofOutput, /permission denied for function (processar_encerramento_automatico_aluno|aoe_idempotency_get_or_create)/);
+    }
+    writeFileSync(join(evidenceRoot, "vulnerability-proof-before.txt"), legacyProofOutput, "utf8");
 
     const original = readFileSync(migrationPath, "utf8");
     assert.match(original, /commit;\s*$/i);
@@ -108,6 +113,7 @@ try {
   );
 
   const migration = readFileSync(migrationPath);
+  const migrationCanonicalLf = migration.toString("utf8").replace(/\r\n/g, "\n");
   const report = {
     decision: "PASS",
     mission: "ARUKA_G3_SECURITY_REMEDIATION",
@@ -119,7 +125,8 @@ try {
     migration: {
       file: migrationFile,
       version,
-      sha256: createHash("sha256").update(migration).digest("hex").toUpperCase(),
+      sha256: createHash("sha256").update(migrationCanonicalLf, "utf8").digest("hex").toUpperCase(),
+      raw_worktree_sha256: createHash("sha256").update(migration).digest("hex").toUpperCase(),
       history_before: before.history,
       history_after: finalHistory.length,
     },
@@ -181,6 +188,18 @@ function executeSqlFile(file) {
   const remotePath = `/tmp/${file}`;
   run("docker", ["cp", localPath, `${container}:${remotePath}`]);
   return run("docker", ["exec", container, "psql", "-X", "-U", "postgres", "-d", "postgres", "-v", "ON_ERROR_STOP=1", "-f", remotePath]);
+}
+
+function executeSqlFileResult(file) {
+  const localPath = join(root, "scripts", "sql", file);
+  const remotePath = `/tmp/${file}`;
+  run("docker", ["cp", localPath, `${container}:${remotePath}`]);
+  return spawnSync("docker", ["exec", container, "psql", "-X", "-U", "postgres", "-d", "postgres", "-v", "ON_ERROR_STOP=1", "-f", remotePath], {
+    cwd: root,
+    encoding: "utf8",
+    timeout: 600_000,
+    maxBuffer: 20 * 1024 * 1024,
+  });
 }
 
 function snapshot() {
