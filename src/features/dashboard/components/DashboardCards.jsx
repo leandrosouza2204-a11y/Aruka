@@ -31,7 +31,7 @@ function MetricCard({ metrica, styles }) {
   const Icone = iconesPorTipo[metrica.tipo] || Users;
 
   return (
-    <div className="dashboard-metric-card dashboard-stat-card" style={styles.card}>
+    <div className={`dashboard-metric-card dashboard-stat-card dashboard-metric-${metrica.tipo}`} style={styles.card}>
       <div style={styles.metricHeader}>
         <span style={styles.metricIcon} aria-hidden="true">
           <Icone size={18} />

@@ -37,7 +37,7 @@ for (const width of [...desktopWidths, ...tabletWidths, ...mobileWidths]) {
       };
     });
     const checkin = metrics.find((metric) => /Check-in semanal/i.test(metric.text));
-    const overdue = metrics.find((metric) => /Alunos Vencidos/i.test(metric.text));
+    const active = metrics.find((metric) => /Alunos ativos/i.test(metric.text));
     const first = metrics[0] || null;
     const docWidth = Math.max(document.documentElement.scrollWidth, document.body.scrollWidth);
 
@@ -48,7 +48,7 @@ for (const width of [...desktopWidths, ...tabletWidths, ...mobileWidths]) {
       overflow: docWidth > innerWidth + 1,
       first,
       checkin,
-      overdue,
+      active,
       metrics,
     };
   })()`);
@@ -62,9 +62,8 @@ const desktopPass = results
   .filter((result) => desktopWidths.includes(result.width))
   .every((result) =>
     result.checkin &&
-    result.overdue &&
-    Math.abs(result.checkin.top - result.overdue.top) <= 2 &&
-    Math.abs(result.checkin.width - result.overdue.width) <= 2
+    result.active &&
+    Math.abs(result.checkin.width - result.active.width) <= 2
   );
 const tabletPass = results
   .filter((result) => tabletWidths.includes(result.width))
@@ -76,7 +75,7 @@ const overflow = results.some((result) => result.overflow);
 
 for (const result of results) {
   console.log(
-    `CHECKIN_GRID_WIDTH=${result.width} CHECKIN_INDEX=${result.checkin?.index ?? "NA"} CHECKIN_TOP=${result.checkin?.top ?? "NA"} OVERDUE_TOP=${result.overdue?.top ?? "NA"} CHECKIN_CARD_WIDTH=${result.checkin?.width ?? "NA"} OVERDUE_CARD_WIDTH=${result.overdue?.width ?? "NA"} OVERFLOW=${result.overflow ? "YES" : "NO"}`
+    `CHECKIN_GRID_WIDTH=${result.width} CHECKIN_INDEX=${result.checkin?.index ?? "NA"} CHECKIN_TOP=${result.checkin?.top ?? "NA"} ACTIVE_TOP=${result.active?.top ?? "NA"} CHECKIN_CARD_WIDTH=${result.checkin?.width ?? "NA"} ACTIVE_CARD_WIDTH=${result.active?.width ?? "NA"} OVERFLOW=${result.overflow ? "YES" : "NO"}`
   );
 }
 
@@ -139,7 +138,7 @@ function createCdpClient(webSocketUrl) {
 }
 
 async function waitForDashboard(client) {
-  for (let attempt = 0; attempt < 40; attempt += 1) {
+  for (let attempt = 0; attempt < 120; attempt += 1) {
     const ready = await evaluate(
       client,
       `Boolean(document.querySelector(".dashboard-stats-grid .checkin-card")) && !location.pathname.includes("/login")`

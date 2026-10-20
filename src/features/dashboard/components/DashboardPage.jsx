@@ -1,6 +1,5 @@
 import Sidebar from "../../../components/Sidebar";
 import { useDashboardPage } from "../hooks/useDashboardPage";
-import DashboardAlertas from "./DashboardAlertas";
 import DashboardAtalhos from "./DashboardAtalhos";
 import DashboardCards from "./DashboardCards";
 import DashboardCheckin from "./DashboardCheckin";
@@ -22,38 +21,25 @@ function DashboardPage() {
 
         {dashboard.erro && <div className="app-error">{dashboard.erro}</div>}
 
-        <div className="dashboard-onboarding-section">
-          <DashboardOnboardingChecklist status={dashboard.onboardingStatus} />
-        </div>
-
-        <DashboardSmartManagement />
-
-        <div className="dashboard-alerts-section">
-          <DashboardAlertas
-            alertas={dashboard.alertasConsultoria}
-            carregando={dashboard.carregando}
-            styles={styles}
-          />
-        </div>
-
-        <div className="dashboard-stats-grid dashboard-stats-section" style={styles.cardsGrid}>
-          <DashboardCards metricas={dashboard.metricas} styles={styles} />
-          <DashboardCheckin
-            alunos={dashboard.alunosAtivosCheckin}
-            carregando={dashboard.carregando}
-            modalAberto={dashboard.modalCheckinAberto}
-            onAbrirModal={dashboard.abrirModalCheckin}
-            onFecharModal={dashboard.fecharModalCheckin}
-            styles={styles}
-          />
-        </div>
-
-        <DashboardSinaisFitness
-          aviso={dashboard.avisoSinais}
-          carregando={dashboard.carregando}
-          sinais={dashboard.sinaisFitness}
-          styles={styles}
-        />
+        <section className="dashboard-operational-section" aria-labelledby="dashboard-operational-title">
+          <div className="dashboard-section-heading">
+            <div>
+              <h2 id="dashboard-operational-title">Indicadores operacionais</h2>
+              <p>O que precisa de leitura rápida hoje.</p>
+            </div>
+          </div>
+          <div className="dashboard-stats-grid dashboard-stats-section" style={styles.cardsGrid}>
+            <DashboardCards metricas={dashboard.metricas.filter((metrica) => metrica.prioritaria)} styles={styles} />
+            <DashboardCheckin
+              alunos={dashboard.alunosAtivosCheckin}
+              carregando={dashboard.carregando}
+              modalAberto={dashboard.modalCheckinAberto}
+              onAbrirModal={dashboard.abrirModalCheckin}
+              onFecharModal={dashboard.fecharModalCheckin}
+              styles={styles}
+            />
+          </div>
+        </section>
 
         <DashboardCoachAttentionQueue
           carregando={dashboard.carregando}
@@ -65,15 +51,47 @@ function DashboardPage() {
           styles={styles}
         />
 
-        <div className="dashboard-chart-section">
-          <DashboardAtalhos
-            carregando={dashboard.carregando}
-            maiorReceitaMensal={dashboard.maiorReceitaMensal}
-            receitaMensal={dashboard.receitaMensal}
-            resumoReceitaMensal={dashboard.resumoReceitaMensal}
-            styles={styles}
-          />
-        </div>
+        <DashboardSinaisFitness
+          aviso={dashboard.avisoSinais}
+          carregando={dashboard.carregando}
+          sinais={dashboard.sinaisFitness}
+          styles={styles}
+        />
+
+        <section className="dashboard-financial-section" aria-labelledby="dashboard-financial-title">
+          <div className="dashboard-section-heading">
+            <div>
+              <h2 id="dashboard-financial-title">Resumo financeiro</h2>
+              <p>Indicadores complementares e evolução dos últimos seis meses.</p>
+            </div>
+          </div>
+          <div className="dashboard-stats-grid dashboard-secondary-stats" style={styles.cardsGrid}>
+            <DashboardCards metricas={dashboard.metricas.filter((metrica) => !metrica.prioritaria)} styles={styles} />
+          </div>
+
+          <div className="dashboard-chart-section">
+            <DashboardAtalhos
+              carregando={dashboard.carregando}
+              maiorReceitaMensal={dashboard.maiorReceitaMensal}
+              receitaMensal={dashboard.receitaMensal}
+              resumoReceitaMensal={dashboard.resumoReceitaMensal}
+              styles={styles}
+            />
+          </div>
+        </section>
+
+        <section className="dashboard-tools-section" aria-labelledby="dashboard-tools-title">
+          <div className="dashboard-section-heading">
+            <div>
+              <h2 id="dashboard-tools-title">Ferramentas administrativas</h2>
+              <p>Acessos de apoio sem competir com as prioridades do dia.</p>
+            </div>
+          </div>
+          <DashboardSmartManagement />
+          <div className="dashboard-onboarding-section">
+            <DashboardOnboardingChecklist status={dashboard.onboardingStatus} />
+          </div>
+        </section>
       </div>
     </div>
   );

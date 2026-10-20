@@ -1,4 +1,5 @@
 import { formatarMoeda } from "../../../data/alunosUtils";
+import { Link } from "react-router-dom";
 
 function DashboardAtalhos({
   carregando,
@@ -22,7 +23,9 @@ function DashboardAtalhos({
             Evolução dos pagamentos confirmados nos últimos 6 meses.
           </p>
         </div>
-        <span style={styles.historicoTag}>Histórico de pagamentos</span>
+        <Link className="app-button app-button-secondary" to="/financeiro">
+          Ver relatórios e histórico
+        </Link>
       </div>
 
       {temReceita ? (
@@ -41,7 +44,7 @@ function DashboardAtalhos({
             </span>
           </div>
 
-          <table style={styles.chartTable} aria-label="Receita mensal em texto">
+          <table className="sr-only dashboard-revenue-table" aria-label="Receita mensal em texto">
             <thead>
               <tr>
                 <th style={styles.chartCell}>Mes</th>

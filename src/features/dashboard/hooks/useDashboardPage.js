@@ -11,7 +11,6 @@ import { buscarPlanosSupabase } from "../../../services/planosService";
 import { buscarTreinosSupabase } from "../../../services/treinosService";
 import {
   gerarResumoReceitaMensal,
-  montarAlertasConsultoria,
   montarSinaisFitness,
 } from "../utils/dashboardInsights";
 import {
@@ -98,8 +97,6 @@ export function useDashboardPage() {
 
     carregarDashboardInicial();
   }, [carregarDashboard]);
-
-  const totalAlunos = alunos.length;
 
   const receitaPrevista = useMemo(
     () => alunos.reduce((total, aluno) => total + Number(aluno.valor || 0), 0),
@@ -241,6 +238,7 @@ export function useDashboardPage() {
         students: alunosComAtencaoCobranca,
         workouts: treinos,
         acknowledgedItemIds: acknowledgedCoachAttentionItemIds,
+        limit: Math.max(alunosComAtencaoCobranca.length, 5),
       }),
     [acknowledgedCoachAttentionItemIds, alunosComAtencaoCobranca, treinos]
   );
@@ -248,18 +246,6 @@ export function useDashboardPage() {
   const coachAttentionQueueStats = useMemo(
     () => getCoachAttentionQueueStats(coachAttentionQueue),
     [coachAttentionQueue]
-  );
-
-  const alertasConsultoria = useMemo(
-    () =>
-      montarAlertasConsultoria({
-        alunosVencidos,
-        alunosVencendo: contratosVencendo,
-        parcelasVencendo,
-        alunosAtivosCheckin,
-        receitaPendente,
-      }),
-    [alunosVencidos, alunosAtivosCheckin, contratosVencendo, parcelasVencendo, receitaPendente]
   );
 
   const onboardingStatus = useMemo(
@@ -274,10 +260,11 @@ export function useDashboardPage() {
   const metricas = useMemo(
     () => [
       {
-        titulo: "Total de Alunos",
-        valor: carregando ? "..." : totalAlunos,
-        legenda: "Alunos cadastrados",
+        titulo: "Alunos ativos",
+        valor: carregando ? "..." : alunosOperacionais.length,
+        legenda: "Em acompanhamento",
         tipo: "alunos",
+        prioritaria: true,
         acao: {
           label: "Ver alunos",
           to: "/alunos?origem=dashboard",
@@ -290,6 +277,7 @@ export function useDashboardPage() {
         legenda: "Contratos atuais cadastrados",
         contexto: "Soma do valor vigente de cada aluno.",
         tipo: "prevista",
+        prioritaria: false,
       },
       {
         titulo: "Receita Recebida",
@@ -297,6 +285,7 @@ export function useDashboardPage() {
         legenda: "Historico carregado de pagamentos",
         contexto: "Inclui recebimentos confirmados registrados.",
         tipo: "recebida",
+        prioritaria: false,
         destaque: "#16a34a",
       },
       {
@@ -305,6 +294,7 @@ export function useDashboardPage() {
         legenda: "Em aberto nos contratos atuais",
         contexto: "Desconta pagamentos vinculados ao contrato vigente.",
         tipo: "pendente",
+        prioritaria: true,
         destaque: "#dc2626",
         acao: {
           label: "Revisar financeiro",
@@ -317,6 +307,7 @@ export function useDashboardPage() {
         valor: carregando ? "..." : contratosVencendo,
         legenda: "Próximos do vencimento",
         tipo: "vencendo",
+        prioritaria: true,
         destaque: "#f59e0b",
         acao: {
           label: "Ver contratos",
@@ -329,6 +320,7 @@ export function useDashboardPage() {
         valor: carregando ? "..." : parcelasVencendo,
         legenda: "Parcelas em alerta de cobranca",
         tipo: "vencendo",
+        prioritaria: true,
         destaque: "#f97316",
         acao: {
           label: "Ver parcelas",
@@ -341,6 +333,7 @@ export function useDashboardPage() {
         valor: carregando ? "..." : alunosVencidos,
         legenda: "Necessitam atenção",
         tipo: "atrasados",
+        prioritaria: false,
         destaque: "#dc2626",
         acao: {
           label: "Ver vencidos",
@@ -351,13 +344,13 @@ export function useDashboardPage() {
     ],
     [
       alunosVencidos,
+      alunosOperacionais.length,
       contratosVencendo,
       carregando,
       parcelasVencendo,
       receitaPendente,
       receitaPrevista,
       receitaRecebida,
-      totalAlunos,
     ]
   );
 
@@ -379,7 +372,6 @@ export function useDashboardPage() {
   }
 
   return {
-    alertasConsultoria,
     alunosAtivosCheckin,
     carregando,
     coachAttentionQueue,

@@ -14,7 +14,7 @@ const checks = [
   [viteConfig.includes('display: "standalone"') && viteConfig.includes("runtimeCaching: []"), "standalone PWA with no authenticated runtime cache"],
   [pwaManager.includes("useRegisterSW") && pwaManager.includes("updateServiceWorker(true)"), "controlled service-worker updates"],
   [pwaManager.includes("isStandaloneMode") && pwaManager.includes("getInstallPlatform"), "standalone and install detection"],
-  [dashboard.includes("getSmartManagementDashboardSummary") && dashboard.includes('to="/gestao-inteligente"'), "dashboard integration remains factual and internal"],
+  [!dashboard.includes("getSmartManagementDashboardSummary") && dashboard.includes('to="/gestao-inteligente"'), "dashboard shortcut remains compact and internal"],
 ];
 
 const missing = checks.filter(([ok]) => !ok).map(([, label]) => label);

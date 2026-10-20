@@ -6,10 +6,10 @@ const viewports = [320, 360, 375, 390, 412, 430, 768, 1024, 1280, 1440];
 
 const checks = [
   [css.includes("dashboard-smart-management"), "dashboard card styles"],
-  [css.includes("grid-template-columns: repeat(2, minmax(0, 1fr))"), "stable summary grid"],
-  [css.includes("@media (max-width: 560px)") && css.includes(".dashboard-smart-management-action"), "mobile CTA layout"],
+  [css.includes(".dashboard-smart-management") && css.includes("grid-template-columns: minmax(0, 1fr) auto"), "compact desktop layout"],
+  [css.includes(".dashboard-smart-management-action") && css.includes("justify-self: stretch"), "mobile CTA layout"],
   [css.includes("min-height: 44px"), "touch target"],
-  [component.includes("role=\"status\"") && component.includes("role=\"alert\""), "loading and error states"],
+  [!component.includes("useEffect") && !component.includes("getSmartManagementDashboardSummary"), "no loading state required for navigation shortcut"],
   [viewports.length === 10, "required viewport matrix documented"],
 ];
 
