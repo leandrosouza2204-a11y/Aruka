@@ -4,7 +4,7 @@ import { dirname, join } from "node:path";
 const files = {
   page: "src/features/dashboard/components/DashboardPage.jsx",
   cards: "src/features/dashboard/components/DashboardCards.jsx",
-  alertas: "src/features/dashboard/components/DashboardAlertas.jsx",
+  queue: "src/features/dashboard/components/DashboardCoachAttentionQueue.jsx",
   checkin: "src/features/dashboard/components/DashboardCheckin.jsx",
   sinais: "src/features/dashboard/components/DashboardSinaisFitness.jsx",
   atalhos: "src/features/dashboard/components/DashboardAtalhos.jsx",
@@ -21,9 +21,17 @@ const source = Object.fromEntries(
 
 const checks = [
   check(
-    "alerts_before_metric_cards",
-    source.page.indexOf("dashboard-alerts-section") < source.page.indexOf("dashboard-stats-grid"),
-    "Alertas acionaveis aparecem antes dos cards informativos."
+    "operational_hierarchy",
+    source.page.indexOf("dashboard-operational-section") < source.page.lastIndexOf("<DashboardCoachAttentionQueue") &&
+      source.page.lastIndexOf("<DashboardCoachAttentionQueue") < source.page.lastIndexOf("<DashboardSinaisFitness"),
+    "Indicadores prioritarios precedem fila de atencao, treinos e resumo financeiro."
+  ),
+  check(
+    "attention_queue_is_compact",
+    source.queue.includes("aria-expanded={expanded}") &&
+      source.queue.includes("getVisibleAttentionItems(group, showAll)") &&
+      source.queue.includes("Ver todos"),
+    "Fila de atencao e agrupada, recolhida e limitada a tres itens por previa."
   ),
   check(
     "metric_cards_have_real_ctas",
@@ -80,7 +88,7 @@ const checks = [
 
 const blocks = [
   row("onboarding_checklist", "planos/alunos/pagamentos", "ACTIONABLE", "P2", "yes", "yes", "config setup CTAs", "pass", "pass", "pass", "pass", "PASS", "Aparece somente enquanto onboarding esta incompleto; compacto quando concluido."),
-  row("alertas_consultoria", "alunos + pagamentos + planos", "ACTIONABLE", "P1", "yes", "yes", "Ver vencidos|Ver contratos|Ver parcelas|Ver pendentes", "pass", "pass", "pass", "pass", "PASS", "Movido para antes dos cards informativos."),
+  row("fila_atencao", "alunos + pagamentos + treinos", "ACTIONABLE", "P1", "yes", "yes", "Gerenciar treino|Ver aluno|Ver financeiro|Marcar como visto", "pass", "pass", "pass", "pass", "PASS", "Agrupada, recolhida e expansivel antes de treinos e avaliacoes."),
   row("metric_cards", "alunos + pagamentos + planos", "ACTIONABLE", "P2", "yes", "yes", "Ver alunos|Revisar financeiro|Ver contratos|Ver parcelas|Ver vencidos", "pass", "pass", "pass", "pass", "PASS", "Cards criticos receberam CTAs reais; receita prevista/recebida permanecem informativas."),
   row("checkin_semanal", "alunos + status financeiro", "ACTIONABLE", "P2", "yes", "yes", "Enviar check-ins", "pass", "pass", "pass", "pass", "PASS", "Usa somente alunos sem contrato vencido."),
   row("treinos_avaliacoes", "treinos + avaliacoes + alunos", "ACTIONABLE", "P2", "yes", "yes", "Abrir Treinos|Abrir Avaliacoes", "pass", "pass", "pass", "pass", "PASS", "Sinais derivados de dados existentes."),

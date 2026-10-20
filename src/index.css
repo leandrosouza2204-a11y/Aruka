@@ -6,6 +6,182 @@
   box-sizing: border-box;
 }
 
+/* Ciclo 1/3: pagamento mobile e central operacional do dashboard */
+.financeiro-modal.pagamento-modal {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.financeiro-modal.pagamento-modal .accessible-modal-body,
+.financeiro-modal.pagamento-modal .accessible-modal-body > div,
+.pagamento-modal-scroll,
+.pagamento-modal-grid,
+.pagamento-modal-footer {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+  width: 100%;
+}
+
+.financeiro-modal.pagamento-modal .accessible-modal-body > div {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.pagamento-modal-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overscroll-behavior: contain;
+  overflow-x: clip;
+  overflow-y: auto;
+  padding: 0 2px 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pagamento-modal-grid > *,
+.pagamento-modal-grid input,
+.pagamento-modal-grid select,
+.pagamento-modal-grid textarea {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.pagamento-modal-footer {
+  background: #fff;
+  border-top: 1px solid #e5e7eb;
+  flex: 0 0 auto;
+  margin-top: 0 !important;
+  padding-top: 12px;
+}
+
+.dashboard-section-heading {
+  align-items: end;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 22px;
+}
+
+.dashboard-section-heading h2 {
+  color: #111827;
+  font-size: 20px;
+  margin: 0;
+}
+
+.dashboard-section-heading p {
+  color: #64748b;
+  font-size: 13px;
+  margin: 4px 0 0;
+}
+
+.dashboard-operational-section .dashboard-metric-card,
+.dashboard-secondary-stats .dashboard-metric-card {
+  min-height: 0 !important;
+  padding: 14px !important;
+}
+
+.dashboard-operational-section .dashboard-stat-value,
+.dashboard-secondary-stats .dashboard-stat-value {
+  margin: 10px 0 0 !important;
+}
+
+.coach-attention-group {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.coach-attention-group-toggle {
+  align-items: center;
+  background: #f8fafc;
+  border: 0;
+  color: #0f172a;
+  cursor: pointer;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
+  min-height: 56px;
+  padding: 12px 14px;
+  text-align: left;
+  width: 100%;
+}
+
+.coach-attention-group-toggle:hover { background: #f1f5f9; }
+.coach-attention-group-toggle:focus-visible { outline: 3px solid #93c5fd; outline-offset: -3px; }
+.coach-attention-group-toggle[aria-expanded="true"] .coach-attention-group-chevron { transform: rotate(180deg); }
+.coach-attention-group-chevron { transition: transform 160ms ease; }
+
+.coach-attention-group-copy { display: grid; gap: 2px; min-width: 0; }
+.coach-attention-group-copy small { color: #64748b; font-size: 12px; font-weight: 500; }
+.coach-attention-group-count { align-items: center; background: #e2e8f0; border-radius: 999px; display: inline-flex; font-size: 12px; font-weight: 900; justify-content: center; min-height: 28px; min-width: 28px; padding: 4px 8px; }
+.coach-attention-group-content { display: grid; gap: 10px; padding: 10px; }
+.coach-attention-item-actions { align-items: stretch; display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.coach-attention-show-all { justify-self: start; }
+
+.dashboard-smart-management {
+  align-items: center;
+  grid-template-columns: minmax(0, 1fr) auto;
+  margin-top: 12px;
+  padding: 14px !important;
+}
+
+.dashboard-smart-management-header { min-width: 0; }
+.dashboard-smart-management-action { justify-self: end; }
+
+@media (max-width: 640px) {
+  .financeiro-modal.pagamento-modal {
+    padding-left: max(14px, env(safe-area-inset-left)) !important;
+    padding-right: max(14px, env(safe-area-inset-right)) !important;
+    padding-top: max(14px, env(safe-area-inset-top)) !important;
+  }
+
+  .pagamento-modal-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    margin-top: 0 !important;
+  }
+
+  .pagamento-modal-footer {
+    flex-direction: column-reverse;
+    gap: 8px !important;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  }
+
+  .pagamento-modal-footer > button { min-height: 44px; width: 100%; }
+  .dashboard-section-heading { margin-top: 16px; }
+  .coach-attention-group-toggle { grid-template-columns: minmax(0, 1fr) auto auto; }
+  .coach-attention-group-toggle .status-badge { grid-column: 1 / 2; justify-self: start; }
+  .coach-attention-group-count { grid-column: 2; grid-row: 1; }
+  .coach-attention-group-chevron { grid-column: 3; grid-row: 1; }
+  .coach-attention-queue-item { grid-template-columns: auto minmax(0, 1fr) !important; }
+  .coach-attention-item-actions { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr); }
+  .coach-attention-item-actions > * { justify-content: center; width: 100%; }
+  .dashboard-smart-management { align-items: stretch; grid-template-columns: minmax(0, 1fr); }
+  .dashboard-smart-management-action { justify-self: stretch; width: 100%; }
+}
+
+@media (min-width: 360px) and (max-width: 768px) {
+  .dashboard-operational-section .dashboard-stats-grid,
+  .dashboard-secondary-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .dashboard-operational-section .checkin-card { grid-column: span 2 !important; }
+}
+
+@media (max-width: 359px) {
+  .dashboard-operational-section .dashboard-stats-grid,
+  .dashboard-secondary-stats { grid-template-columns: minmax(0, 1fr) !important; }
+}
+
+body[data-theme="dark"] .pagamento-modal-footer { background: #111827; border-color: rgba(148, 163, 184, .25); }
+body[data-theme="dark"] .coach-attention-group { border-color: rgba(148, 163, 184, .24); }
+body[data-theme="dark"] .coach-attention-group-toggle { background: #111827; color: #f8fafc; }
+body[data-theme="dark"] .coach-attention-group-copy small { color: #cbd5e1; }
+body[data-theme="dark"] .coach-attention-group-count { background: #334155; }
+
 /* Cycle 12.5 — focused Student Workout Player V2 */
 .workout-player {
   --player-bg: #f3f7f5;
@@ -451,6 +627,26 @@
     max-width: 100%;
     min-width: 0;
   }
+}
+
+.dashboard-revenue-table {
+  min-width: 0 !important;
+  width: 1px !important;
+}
+
+@media (max-width: 768px) {
+  .dashboard-page > .page-hero { order: 0 !important; }
+  .dashboard-page > .app-error { order: 1; }
+  .dashboard-page > .dashboard-operational-section { order: 2; }
+  .dashboard-page > .coach-attention-queue { order: 3; }
+  .dashboard-page > .dashboard-panel:not(.coach-attention-queue) { order: 4; }
+  .dashboard-page > .dashboard-financial-section { order: 5; }
+  .dashboard-page > .dashboard-tools-section { order: 6; }
+
+  .dashboard-operational-section .dashboard-metric-alunos { order: 1; }
+  .dashboard-operational-section .dashboard-metric-pendente { order: 2; }
+  .dashboard-operational-section .checkin-card { order: 3 !important; }
+  .dashboard-operational-section .dashboard-metric-vencendo { order: 4; }
 }
 
 @media (max-width: 420px) {
@@ -7331,5 +7527,43 @@ body[data-theme="dark"] .coach-attention-queue-item-acknowledged {
     overflow-wrap: anywhere;
     white-space: normal;
     word-break: break-word;
+  }
+}
+
+/* Mission Cycle 1 cascade overrides */
+@media (max-width: 640px) {
+  .financeiro-modal-overlay .financeiro-modal.pagamento-modal {
+    padding-left: max(14px, env(safe-area-inset-left)) !important;
+    padding-right: max(14px, env(safe-area-inset-right)) !important;
+    padding-top: max(14px, env(safe-area-inset-top)) !important;
+  }
+
+  .financeiro-modal.pagamento-modal .pagamento-modal-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .financeiro-modal.pagamento-modal .pagamento-modal-footer {
+    padding-bottom: calc(12px + env(safe-area-inset-bottom)) !important;
+  }
+}
+
+@media (min-width: 360px) and (max-width: 768px) {
+  .dashboard-operational-section .dashboard-stats-grid,
+  .dashboard-secondary-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .dashboard-operational-section .checkin-card {
+    grid-column: span 2 !important;
+  }
+}
+
+@media (max-width: 359px) {
+  .dashboard-operational-section .dashboard-stats-grid,
+  .dashboard-secondary-stats {
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 }

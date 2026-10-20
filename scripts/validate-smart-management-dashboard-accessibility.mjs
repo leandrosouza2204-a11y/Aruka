@@ -5,11 +5,10 @@ const mojibake = [String.fromCharCode(0xc3, 0x83), String.fromCharCode(0xc3, 0x8
 const checks = [
   [component.includes('aria-labelledby="dashboard-smart-management-title"'), "section label"],
   [component.includes('id="dashboard-smart-management-title"'), "heading id"],
-  [component.includes('aria-label="Resumo de configuração"'), "summary label"],
-  [component.includes('role="status"') && component.includes('aria-live="polite"'), "loading announcement"],
-  [component.includes('role="alert"'), "error announcement"],
   [component.includes('aria-hidden="true"'), "decorative icons hidden"],
-  [component.includes("Tentar novamente"), "working retry action"],
+  [component.includes('className="app-button app-button-secondary dashboard-smart-management-action"'), "semantic navigation action"],
+  [component.includes("Acessar Gestão Inteligente"), "descriptive action text"],
+  [!component.includes("activeLocationsCount") && !component.includes("activeServicesCount"), "no redundant counts"],
   [mojibake.every((token) => !component.includes(token)), "no mojibake"],
 ];
 

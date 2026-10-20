@@ -16,7 +16,12 @@ function PagamentoModal({
   }
 
   return (
-    <ModalBase onClose={onClose} styles={styles} size="md">
+    <ModalBase
+      onClose={onClose}
+      styles={styles}
+      size="md"
+      contentClassName="pagamento-modal"
+    >
       <div className="financeiro-modal-topo" style={styles.modalTopo}>
         <div>
           <h2 style={styles.modalTitulo}>Registrar pagamento</h2>
@@ -24,10 +29,11 @@ function PagamentoModal({
             {registro.aluno.nome} - parcela {form.parcela}/{form.totalParcelas}
           </p>
         </div>
-        <button onClick={onClose} style={styles.botaoNeutro}>Fechar</button>
+        <button onClick={onClose} style={styles.botaoNeutro} disabled={atualizando}>Fechar</button>
       </div>
 
-      <div style={styles.modalGrid}>
+      <div className="pagamento-modal-scroll">
+        <div className="pagamento-modal-grid" style={styles.modalGrid}>
         <label style={styles.campoGrupo}>
           <span style={styles.labelCampo}>Data do pagamento</span>
           <input
@@ -115,11 +121,17 @@ function PagamentoModal({
             style={{ ...styles.campo, minHeight: "80px", resize: "vertical" }}
           />
         </label>
+        </div>
       </div>
 
-      <div className="financeiro-modal-footer" style={styles.rodapeModal}>
-        <button onClick={onClose} style={styles.botaoNeutro}>Cancelar</button>
-        <button onClick={onSave} style={styles.botaoReceber} disabled={atualizando}>
+      <div className="financeiro-modal-footer pagamento-modal-footer" style={styles.rodapeModal}>
+        <button onClick={onClose} style={styles.botaoNeutro} disabled={atualizando}>Cancelar</button>
+        <button
+          onClick={onSave}
+          style={styles.botaoReceber}
+          disabled={atualizando}
+          aria-busy={atualizando}
+        >
           {atualizando ? "Salvando..." : "Salvar pagamento"}
         </button>
       </div>
