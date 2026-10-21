@@ -2,8 +2,12 @@
 
 ## Estado retomável
 
-- Branch: `feat/cycle-2-professional-agenda`
+- Branch integrada: `feat/cycle-2-professional-agenda`
 - Base: `a030ee1` (PR #159, Ciclo 1/3)
+- PR: #160
+- Commit da funcionalidade: `050d276`
+- Merge commit: `af06171`
+- CI pós-merge: `39549096286` — sucesso em todos os Gates 1–9
 - Custo recorrente adicional: R$ 0,00
 - Produção e Supabase Cloud: não acessados nem modificados
 - G1 — Diagnóstico e arquitetura: concluído
@@ -12,8 +16,8 @@
 - G4 — Interface desktop: concluído
 - G5 — Interface mobile: concluído
 - G6 — Testes e QA: concluído
-- G7 — PR, CI e merge: pronto para abertura do PR
-- G8 — Pós-merge, cleanup e handoff: pendente do merge
+- G7 — PR, CI e merge: concluído
+- G8 — Pós-merge, cleanup e handoff: concluído
 
 ## Arquitetura
 
@@ -43,6 +47,21 @@ O serviço `src/services/agendaService.js` expõe, sem acoplar o dashboard à te
 - `buscarResumoAgenda(data)`
 
 Esses contratos retornam ocorrências já materializadas e participantes em lote, evitando N+1. O card definitivo da Agenda no dashboard não foi implementado neste ciclo.
+
+### Handoff de integração
+
+- Rota administrativa: `/agenda`, protegida por autenticação, assinatura, aceite legal e perfil profissional.
+- Navegação: item direto na sidebar desktop e item Agenda dentro de Mais no mobile.
+- Componentes reutilizáveis: `AgendaCalendar`, `AgendaEventCard`, `AgendaDetailsModal` e os utilitários de data/fuso em `agendaDate.js`.
+- Agenda de hoje: `buscarCompromissosDoDia(dateKey)` recebe a data local `YYYY-MM-DD` e devolve as ocorrências do profissional com participantes já agregados.
+- Próximos atendimentos: `buscarProximosAtendimentos(startIso, limit)` aceita um instante ISO e limite explícito.
+- Resumo: `buscarResumoAgenda(dateKey)` fornece total, atendimentos e pendências do dia sem acoplar o dashboard ao componente de tela.
+
+## Pendências técnicas reais
+
+- O card definitivo da Agenda no dashboard pertence ao Ciclo 3 e permanece intencionalmente fora deste escopo.
+- Agendamento pelo aluno, notificações, cobrança por sessão e integrações externas continuam fora do produto entregue.
+- O workflow registrou apenas avisos de manutenção futura do runner do GitHub Actions (`actions/*@v4` migrando de Node 20 e `ubuntu-latest` migrando para Ubuntu 26); não houve falha funcional ou de segurança.
 
 ## Validações executadas
 
