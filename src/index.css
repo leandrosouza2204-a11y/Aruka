@@ -131,6 +131,37 @@
 .dashboard-smart-management-header { min-width: 0; }
 .dashboard-smart-management-action { justify-self: end; }
 
+.dashboard-today-agenda { display: grid; gap: 16px; margin-top: 18px; min-width: 0; padding: 18px; }
+.dashboard-today-agenda-header { align-items: center; display: flex; gap: 18px; justify-content: space-between; min-width: 0; }
+.dashboard-today-agenda-header > div:first-child { min-width: 0; }
+.dashboard-today-agenda-eyebrow { align-items: center; color: #2563eb; display: inline-flex; font-size: 12px; font-weight: 850; gap: 6px; letter-spacing: .04em; text-transform: uppercase; }
+.dashboard-today-agenda h2 { color: #111827; font-size: 20px; line-height: 1.25; margin: 4px 0 0; text-transform: capitalize; }
+.dashboard-today-agenda-header p { color: #64748b; font-size: 13px; margin: 5px 0 0; }
+.dashboard-today-agenda-actions { display: flex; flex: 0 0 auto; flex-wrap: wrap; gap: 8px; }
+.dashboard-today-agenda-actions .app-button { align-items: center; display: inline-flex; gap: 7px; justify-content: center; min-height: 42px; text-decoration: none; }
+.dashboard-agenda-list { display: grid; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.dashboard-agenda-list li { min-width: 0; }
+.dashboard-agenda-item { align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; color: inherit; display: grid; gap: 8px 14px; grid-template-columns: 126px minmax(0, 1fr) auto; min-height: 66px; padding: 11px 13px; text-decoration: none; transition: border-color 150ms ease, background 150ms ease; }
+.dashboard-agenda-item:hover { background: #eff6ff; border-color: #bfdbfe; }
+.dashboard-agenda-item:focus-visible { outline: 3px solid #93c5fd; outline-offset: 2px; }
+.dashboard-agenda-time { align-items: center; color: #334155; display: inline-flex; font-size: 13px; font-weight: 800; gap: 6px; white-space: nowrap; }
+.dashboard-agenda-main { display: grid; gap: 2px; min-width: 0; }
+.dashboard-agenda-main strong { color: #0f172a; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dashboard-agenda-main small { color: #64748b; font-size: 12px; }
+.dashboard-agenda-status { border-radius: 999px; font-size: 12px; font-weight: 800; padding: 6px 9px; white-space: nowrap; }
+.dashboard-agenda-status.is-agendado { background: #dbeafe; color: #1d4ed8; }
+.dashboard-agenda-status.is-em_andamento { background: #dcfce7; color: #166534; }
+.dashboard-agenda-students { align-items: center; color: #64748b; display: flex; font-size: 12px; gap: 6px; grid-column: 2 / 4; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dashboard-agenda-skeleton { display: grid; gap: 8px; }
+.dashboard-agenda-skeleton span { animation: dashboard-agenda-pulse 1.2s ease-in-out infinite; background: #e2e8f0; border-radius: 8px; display: block; height: 66px; }
+.dashboard-agenda-error { align-items: center; background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; color: #9a3412; display: flex; font-size: 13px; gap: 12px; justify-content: space-between; padding: 11px 13px; }
+.dashboard-agenda-error .app-button { align-items: center; display: inline-flex; flex: 0 0 auto; gap: 6px; min-height: 38px; }
+.dashboard-agenda-empty { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; color: #166534; display: grid; font-size: 13px; gap: 3px; padding: 14px; }
+.dashboard-agenda-empty span { color: #3f6650; }
+.agenda-details-students { display: flex; flex-wrap: wrap; gap: 6px; }
+.agenda-details-students a { color: #1d4ed8; font-weight: 750; text-underline-offset: 3px; }
+@keyframes dashboard-agenda-pulse { 50% { opacity: .5; } }
+
 @media (max-width: 640px) {
   .financeiro-modal.pagamento-modal {
     padding-left: max(14px, env(safe-area-inset-left)) !important;
@@ -160,6 +191,17 @@
   .coach-attention-item-actions > * { justify-content: center; width: 100%; }
   .dashboard-smart-management { align-items: stretch; grid-template-columns: minmax(0, 1fr); }
   .dashboard-smart-management-action { justify-self: stretch; width: 100%; }
+  .dashboard-today-agenda { padding: 14px; }
+  .dashboard-today-agenda-header { align-items: stretch; flex-direction: column; }
+  .dashboard-today-agenda-actions { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .dashboard-today-agenda-actions .app-button { width: 100%; }
+  .dashboard-agenda-item { align-items: start; grid-template-columns: minmax(0, 1fr) auto; }
+  .dashboard-agenda-time { grid-column: 1; grid-row: 1; }
+  .dashboard-agenda-status { grid-column: 2; grid-row: 1; }
+  .dashboard-agenda-main { grid-column: 1 / -1; grid-row: 2; }
+  .dashboard-agenda-students { grid-column: 1 / -1; grid-row: 3; white-space: normal; }
+  .dashboard-agenda-error { align-items: stretch; flex-direction: column; }
+  .dashboard-agenda-error .app-button { justify-content: center; width: 100%; }
 }
 
 @media (min-width: 360px) and (max-width: 768px) {
@@ -181,6 +223,11 @@ body[data-theme="dark"] .coach-attention-group { border-color: rgba(148, 163, 18
 body[data-theme="dark"] .coach-attention-group-toggle { background: #111827; color: #f8fafc; }
 body[data-theme="dark"] .coach-attention-group-copy small { color: #cbd5e1; }
 body[data-theme="dark"] .coach-attention-group-count { background: #334155; }
+body[data-theme="dark"] .dashboard-today-agenda { background: #111827; border-color: rgba(148, 163, 184, .24); }
+body[data-theme="dark"] .dashboard-today-agenda h2, body[data-theme="dark"] .dashboard-agenda-main strong { color: #f8fafc; }
+body[data-theme="dark"] .dashboard-today-agenda-header p, body[data-theme="dark"] .dashboard-agenda-main small, body[data-theme="dark"] .dashboard-agenda-students, body[data-theme="dark"] .dashboard-agenda-time { color: #cbd5e1; }
+body[data-theme="dark"] .dashboard-agenda-item { background: #0f172a; border-color: #334155; }
+body[data-theme="dark"] .dashboard-agenda-item:hover { background: #172554; border-color: #3b82f6; }
 
 /* Cycle 12.5 — focused Student Workout Player V2 */
 .workout-player {
@@ -636,12 +683,13 @@ body[data-theme="dark"] .coach-attention-group-count { background: #334155; }
 
 @media (max-width: 768px) {
   .dashboard-page > .page-hero { order: 0 !important; }
-  .dashboard-page > .app-error { order: 1; }
-  .dashboard-page > .dashboard-operational-section { order: 2; }
-  .dashboard-page > .coach-attention-queue { order: 3; }
-  .dashboard-page > .dashboard-panel:not(.coach-attention-queue) { order: 4; }
-  .dashboard-page > .dashboard-financial-section { order: 5; }
-  .dashboard-page > .dashboard-tools-section { order: 6; }
+  .dashboard-page > .dashboard-today-agenda { order: 1; }
+  .dashboard-page > .app-error { order: 2; }
+  .dashboard-page > .dashboard-operational-section { order: 3; }
+  .dashboard-page > .coach-attention-queue { order: 4; }
+  .dashboard-page > .dashboard-panel:not(.coach-attention-queue) { order: 5; }
+  .dashboard-page > .dashboard-financial-section { order: 6; }
+  .dashboard-page > .dashboard-tools-section { order: 7; }
 
   .dashboard-operational-section .dashboard-metric-alunos { order: 1; }
   .dashboard-operational-section .dashboard-metric-pendente { order: 2; }

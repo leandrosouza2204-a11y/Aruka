@@ -94,20 +94,32 @@ export async function buscarCompromissosDoDia(dateKey) {
   );
 }
 
-export async function buscarProximosAtendimentos(startIso, limit = 5) {
+export async function buscarProximosAtendimentos(startIso, limit = 5, compromissosCarregados = null) {
   const end = new Date(new Date(startIso).getTime() + 30 * 24 * 60 * 60 * 1000).toISOString();
-  const commitments = await buscarCompromissosAgenda(startIso, end);
-  return commitments.filter((item) => item.tipo === "atendimento" && item.status === "agendado").slice(0, limit);
+  const commitments = compromissosCarregados || await buscarCompromissosAgenda(startIso, end);
+  const start = new Date(startIso).getTime();
+  return commitments
+    .filter((item) => item.tipo === "atendimento" && item.status === "agendado" && new Date(item.fim).getTime() >= start)
+    .slice(0, limit);
 }
 
-export async function buscarResumoAgenda(dateKey) {
-  const commitments = await buscarCompromissosDoDia(dateKey);
+export async function buscarResumoAgenda(dateKey, compromissosCarregados = null) {
+  const commitments = compromissosCarregados || await buscarCompromissosDoDia(dateKey);
   return {
     total: commitments.length,
     agendados: commitments.filter((item) => item.status === "agendado").length,
     concluidos: commitments.filter((item) => item.status === "concluido").length,
     faltas: commitments.filter((item) => item.status === "falta").length,
   };
+}
+
+export async function buscarPainelAgendaHoje(dateKey, startIso, limit = 3) {
+  const compromissos = await buscarCompromissosDoDia(dateKey);
+  const [proximosAtendimentos, resumo] = await Promise.all([
+    buscarProximosAtendimentos(startIso, limit, compromissos),
+    buscarResumoAgenda(dateKey, compromissos),
+  ]);
+  return { compromissos, proximosAtendimentos, resumo };
 }
 
 export function normalizeAgendaError(error) {

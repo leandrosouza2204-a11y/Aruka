@@ -8,6 +8,7 @@ import DashboardHeader from "./DashboardHeader";
 import DashboardOnboardingChecklist from "./DashboardOnboardingChecklist";
 import DashboardSinaisFitness from "./DashboardSinaisFitness";
 import DashboardSmartManagement from "./DashboardSmartManagement";
+import DashboardTodayAgenda from "./DashboardTodayAgenda";
 
 function DashboardPage() {
   const dashboard = useDashboardPage();
@@ -18,6 +19,7 @@ function DashboardPage() {
 
       <div className="dashboard-page app-main page-container" data-page="dashboard" style={styles.conteudo}>
         <DashboardHeader styles={styles} />
+        <DashboardTodayAgenda />
 
         {dashboard.erro && <div className="app-error">{dashboard.erro}</div>}
 
