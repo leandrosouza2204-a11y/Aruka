@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { buscarAlunosSupabase } from "../../../services/alunosService";
 import {
   atualizarCompromissoAgenda,
@@ -16,8 +17,11 @@ import {
   moveAgendaDate,
   todayKey,
 } from "../utils/agendaDate";
+import { DASHBOARD_AGENDA_UPDATED_EVENT } from "../../dashboard/hooks/useDashboardAgenda";
 
 export function useAgendaPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const handledIntent = useRef("");
   const [view, setView] = useState(() => window.matchMedia?.("(max-width: 767px)").matches ? "dia" : "semana");
   const [dateKey, setDateKey] = useState(() => todayKey());
   const [events, setEvents] = useState([]);
@@ -58,6 +62,37 @@ export function useAgendaPage() {
     return () => window.clearTimeout(timer);
   }, [load]);
 
+  useEffect(() => {
+    if (status !== "ready") return;
+    const compromissoId = searchParams.get("compromisso") || "";
+    const novaData = searchParams.get("novo") || "";
+    const intent = compromissoId ? `compromisso:${compromissoId}` : novaData ? `novo:${novaData}` : "";
+    if (!intent || handledIntent.current === intent) return;
+
+    const event = compromissoId ? events.find((item) => item.id === compromissoId) : null;
+    if (compromissoId && !event) return;
+    if (novaData && !/^\d{4}-\d{2}-\d{2}$/.test(novaData)) return;
+
+    const timer = window.setTimeout(() => {
+      if (event) {
+        setDetails(event);
+        setFormOpen(false);
+      } else {
+        setDateKey(novaData);
+        setEditing({ prefillDate: novaData });
+        setDetails(null);
+        setFormOpen(true);
+      }
+
+      handledIntent.current = intent;
+      const nextParams = new URLSearchParams(searchParams);
+      nextParams.delete("compromisso");
+      nextParams.delete("novo");
+      setSearchParams(nextParams, { replace: true });
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [events, searchParams, setSearchParams, status]);
+
   function openNew(prefillDate = dateKey) {
     setEditing({ prefillDate });
     setDetails(null);
@@ -91,6 +126,7 @@ export function useAgendaPage() {
       setFormOpen(false);
       setEditing(null);
       await load();
+      window.dispatchEvent(new Event(DASHBOARD_AGENDA_UPDATED_EVENT));
       return true;
     } catch (saveError) {
       setError(saveError?.message || "Não foi possível salvar o compromisso.");
@@ -109,6 +145,7 @@ export function useAgendaPage() {
       setDetails(null);
       toast.sucesso("Status atualizado", "O atendimento foi atualizado.");
       await load();
+      window.dispatchEvent(new Event(DASHBOARD_AGENDA_UPDATED_EVENT));
     } catch (statusError) {
       toast.erro("Não foi possível atualizar", statusError?.message || "Tente novamente.");
     } finally {
@@ -131,6 +168,7 @@ export function useAgendaPage() {
       setDetails(null);
       toast.sucesso("Compromisso cancelado", scope === "serie" ? "A série foi cancelada." : "A ocorrência foi cancelada.");
       await load();
+      window.dispatchEvent(new Event(DASHBOARD_AGENDA_UPDATED_EVENT));
     } catch (cancelError) {
       toast.erro("Não foi possível cancelar", cancelError?.message || "Tente novamente.");
     } finally {

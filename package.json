@@ -10,6 +10,8 @@
     "qa:agenda": "node scripts/validate-cycle-2-professional-agenda.mjs && node --test src/features/agenda/utils/agendaDate.test.js src/App.test.js",
     "qa:agenda:runtime": "node scripts/validate-cycle-2-agenda-runtime.mjs",
     "qa:agenda:responsive": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-cycle-2-agenda-responsive.mjs",
+    "qa:cycle-3-dashboard-agenda": "node scripts/validate-cycle-3-dashboard-agenda.mjs && node --test src/features/dashboard/utils/dashboardAgenda.test.js",
+    "qa:cycle-3-dashboard-agenda:responsive": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-cycle-3-dashboard-agenda-responsive.mjs",
     "preview": "vite preview",
     "qa:cycle12:14:manual:provision": "node scripts/provision-cycle-12-14-manual-student-qa.mjs",
     "qa:cycle12:14:manual:cleanup": "node scripts/cleanup-cycle-12-14-manual-student-qa.mjs",

@@ -1,5 +1,6 @@
 import AccessibleModal from "../../../components/AccessibleModal";
 import { CalendarDays, Clock3, FileText, Repeat2, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 import { eventDateKey, formatAgendaDate, formatAgendaTime } from "../utils/agendaDate";
 import { STATUS_LABELS, TYPE_LABELS } from "./AgendaEventCard";
 
@@ -9,7 +10,7 @@ export function AgendaDetailsModal({ event, busy, onCancel, onChangeStatus, onCl
       <dl className="agenda-details-list">
         <div><dt><CalendarDays aria-hidden="true" size={17} /> Data</dt><dd>{formatAgendaDate(eventDateKey(event.inicio), { weekday: true, year: true })}</dd></div>
         <div><dt><Clock3 aria-hidden="true" size={17} /> Horário</dt><dd>{formatAgendaTime(event.inicio)}–{formatAgendaTime(event.fim)}</dd></div>
-        <div><dt><Users aria-hidden="true" size={17} /> Participantes</dt><dd>{event.alunos.length ? event.alunos.map((student) => student.nome).join(", ") : "Sem alunos vinculados"}</dd></div>
+        <div><dt><Users aria-hidden="true" size={17} /> Participantes</dt><dd>{event.alunos.length ? <span className="agenda-details-students">{event.alunos.map((student) => <Link key={student.id} to={`/alunos?alunoId=${encodeURIComponent(student.id)}&origem=agenda`}>{student.nome}</Link>)}</span> : "Sem alunos vinculados"}</dd></div>
         {event.serieId && <div><dt><Repeat2 aria-hidden="true" size={17} /> Recorrência</dt><dd>{event.isException ? "Ocorrência alterada" : "Parte de uma série"}</dd></div>}
         {event.observacoes && <div><dt><FileText aria-hidden="true" size={17} /> Observações</dt><dd>{event.observacoes}</dd></div>}
       </dl>
