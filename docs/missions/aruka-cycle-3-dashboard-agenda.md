@@ -32,7 +32,15 @@
 - [x] Implementação funcional e estados de UI.
 - [x] Testes estáticos, unitários, lint, build e regressões.
 - [x] QA autenticado responsivo e funcional.
-- [ ] PR, CI, merge, CI pós-merge e cleanup.
+- [x] PR #162, CI, merge `0ce0f2af`, CI pós-merge e cleanup.
+
+## Encerramento
+
+- Commit da implementação: `55f5181`.
+- PR: #162, integrado pelo merge commit `0ce0f2af`.
+- CI pós-merge: run `39588133478`, tentativa 2, aprovado nos Gates 1–9.
+- A tentativa inicial falhou por limite de download do Public ECR e colisão transitória da porta do Mailpit no runner. A reexecução dos jobs com falha concluiu toda a cadeia sem mudança de produto.
+- Branch e worktree temporárias da implementação foram removidas após a integração.
 
 ## Evidências locais
 
