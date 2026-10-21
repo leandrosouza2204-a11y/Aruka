@@ -3,7 +3,7 @@ import { runPsql } from "./supabase-cycle-8-lib.mjs";
 const sql = String.raw`
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(24);
+select plan(36);
 
 insert into auth.users (id, email) values
   ('20000000-0000-4000-8000-000000000001', 'agenda-prof-a@example.invalid'),
@@ -18,6 +18,14 @@ insert into public.alunos (id, user_id, nome, whatsapp, inicio, plano) values
   ('20000000-0000-4000-8000-000000000012', '20000000-0000-4000-8000-000000000001', 'Aluno A2', '5511999990002', '2026-01-01', 'Teste'),
   ('20000000-0000-4000-8000-000000000021', '20000000-0000-4000-8000-000000000002', 'Aluno B', '5511999990003', '2026-01-01', 'Teste')
 on conflict (id) do nothing;
+
+select is(
+  has_table_privilege('authenticated', format('public.%I', table_name), privilege),
+  false,
+  format('authenticated cannot %s %s', privilege, table_name)
+)
+from unnest(array['agenda_series', 'agenda_compromissos', 'agenda_participantes', 'agenda_excecoes']) table_name
+cross join unnest(array['TRUNCATE', 'REFERENCES', 'TRIGGER']) privilege;
 
 set local role authenticated;
 select set_config('request.jwt.claim.sub', '20000000-0000-4000-8000-000000000001', true);

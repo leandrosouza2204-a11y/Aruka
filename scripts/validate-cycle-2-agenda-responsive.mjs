@@ -211,6 +211,8 @@ async function validateModal(client, viewport, filename) {
   assert(metrics.footerVisible, `${viewport.width}:MODAL_FOOTER_NOT_VISIBLE`);
   assert(metrics.fieldsInsideViewport, `${viewport.width}:MODAL_FIELD_OVERFLOW`);
   assert(metrics.closeNamed, `${viewport.width}:MODAL_CLOSE_UNNAMED`);
+  assert(metrics.studentOptionCount > 0, `${viewport.width}:ELIGIBLE_STUDENTS_MISSING`);
+  assert(!metrics.emptyStudentMessage, `${viewport.width}:INCORRECT_EMPTY_STUDENT_STATE`);
   await captureScreenshot(client, join(evidenceDir, filename));
   if (viewport.mobile) return;
   await closeModal(client);
@@ -229,6 +231,8 @@ async function inspectOpenModal(client) {
       fieldsInsideViewport: fieldRects.every((item) => item.left >= -1 && item.right <= innerWidth + 1),
       bodyScrollable: Boolean(body && body.scrollHeight > body.clientHeight),
       closeNamed: Boolean(modal?.querySelector('button[aria-label="Fechar modal"]')),
+      studentOptionCount: modal?.querySelectorAll('.agenda-student-options input[type="checkbox"]').length || 0,
+      emptyStudentMessage: /Nenhum aluno ativo disponível/.test(modal?.innerText || ''),
     };
   })()`);
 }

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const migration = read("supabase/migrations/20261021001403_professional_agenda.sql");
+const grantMigration = read("supabase/migrations/20261021153551_agenda_least_privilege_grants.sql");
 const app = read("src/App.jsx");
 const sidebar = read("src/components/Sidebar.jsx");
 const mobileNav = read("src/components/MobileBottomNavigation.jsx");
@@ -15,6 +16,11 @@ for (const table of ["agenda_series", "agenda_compromissos", "agenda_participant
   assert.match(migration, new RegExp(`alter table public\\.${table} enable row level security`), `${table} must enable RLS`);
   assert.match(migration, new RegExp(`grant select, insert, update, delete on table public\\.${table} to authenticated`), `${table} must opt into Data API access explicitly`);
   assert.match(migration, new RegExp(`revoke all on table public\\.${table} from anon`), `${table} must reject anon`);
+  assert.match(
+    grantMigration,
+    new RegExp(`revoke truncate, references, trigger on table public\\.${table} from authenticated`),
+    `${table} must deny privileges that bypass or alter the RLS boundary`,
+  );
 }
 
 assert.match(migration, /exclude using gist[\s\S]*tstzrange\(inicio, fim, '\[\)'\)/, "database must prevent overlaps atomically");
