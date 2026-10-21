@@ -195,6 +195,8 @@ jobs:
       - name: Gate 7 - regression suite
         if: ${{ steps.detect_changes.outputs.supabase_relevant == 'true' }}
         run: |
+          npm run qa:agenda
+          npm run qa:agenda:runtime
           npm run qa:supabase-local-reproducibility
           npm run qa:supabase-clean-worktree-wrapper
           npm run qa:supabase-cycle-8

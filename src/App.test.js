@@ -30,6 +30,7 @@ test("student V2 routes are isolated behind the dedicated guard while legacy rem
 test("PROFESSIONAL-02/04: professional refresh and deep links retain authentication and role guards", () => {
   const professionalRoutes = [
     ["dashboard", "Dashboard"],
+    ["agenda", "Agenda"],
     ["alunos", "Alunos"],
     ["financeiro", "Financeiro"],
     ["planos", "Planos"],
