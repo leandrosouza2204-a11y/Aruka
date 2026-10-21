@@ -14,6 +14,7 @@ import PwaExperienceManager from "./features/pwa/PwaExperienceManager";
 import StudentExperienceErrorBoundary from "./features/studentExperienceV2/guards/StudentExperienceErrorBoundary.jsx";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Agenda = lazy(() => import("./pages/Agenda"));
 const Alunos = lazy(() => import("./pages/Alunos"));
 const Financeiro = lazy(() => import("./pages/Financeiro"));
 const GestaoInteligente = lazy(() => import("./pages/GestaoInteligente"));
@@ -165,6 +166,22 @@ function App() {
                     <ProfessionalRoute>
                       <AppMobileNav>
                         <Dashboard />
+                      </AppMobileNav>
+                    </ProfessionalRoute>
+                  </LegalRoute>
+                </SubscriptionRoute>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agenda"
+            element={
+              <ProtectedRoute>
+                <SubscriptionRoute>
+                  <LegalRoute>
+                    <ProfessionalRoute>
+                      <AppMobileNav>
+                        <Agenda />
                       </AppMobileNav>
                     </ProfessionalRoute>
                   </LegalRoute>

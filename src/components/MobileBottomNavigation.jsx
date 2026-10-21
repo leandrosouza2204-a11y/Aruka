@@ -18,6 +18,7 @@ import {
   Users,
   X,
   MessageCircle,
+  CalendarDays,
 } from "lucide-react";
 import { usePwaInstall } from "../features/pwa/PwaInstallContext";
 import { encerrarSessao } from "../services/logoutService";
@@ -162,6 +163,12 @@ function MobileBottomNavigation() {
               />
               {usuarioProfissional && (
                 <>
+                  <MoreLink
+                    to="/agenda"
+                    icon={<CalendarDays size={18} />}
+                    label="Agenda"
+                    onNavigate={fecharMais}
+                  />
                   <MoreLink
                     to="/contato-alunos"
                     icon={<MessageCircle size={18} />}

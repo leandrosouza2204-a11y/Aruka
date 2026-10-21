@@ -19,6 +19,7 @@ import {
   Sun,
   Smartphone,
   MessageCircle,
+  CalendarDays,
 } from "lucide-react";
 import BrandLogo from "./BrandLogo";
 import { usePwaInstall } from "../features/pwa/PwaInstallContext";
@@ -235,6 +236,14 @@ function Sidebar() {
           icon={<LayoutDashboard size={21} />}
           label="Dashboard"
         />
+        {usuarioProfissional && (
+          <MenuLink
+            to="/agenda"
+            active={isActive("/agenda")}
+            icon={<CalendarDays size={21} />}
+            label="Agenda"
+          />
+        )}
         <MenuLink
           to="/alunos"
           active={isActive("/alunos")}
