@@ -126,10 +126,14 @@ async function authenticate(client) {
     document.querySelector('button[type="submit"]')?.click(); return true;
   })()`);
   await waitFor(client, "!location.pathname.includes('/login')", 20000);
+  await evaluate(client, "localStorage.setItem('aruka_pwa_install_hide_banner', 'true'); true");
 }
 
 async function navigateDashboard(client) {
+  await evaluate(client, "document.documentElement.dataset.qaOldDocument = 'true'; true");
   await client.send("Page.navigate", { url: `${qa.baseUrl}/dashboard` });
+  await sleep(350);
+  await waitFor(client, "document.documentElement.dataset.qaOldDocument !== 'true'", 20000);
   await waitFor(client, "document.querySelector('.dashboard-today-agenda') && document.querySelector('.dashboard-operational-section')", 20000);
   await waitFor(client, "!document.querySelector('.dashboard-agenda-skeleton')", 20000);
   await sleep(350);

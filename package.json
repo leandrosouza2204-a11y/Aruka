@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "qa:agenda": "node scripts/validate-cycle-2-professional-agenda.mjs && node --test src/features/agenda/utils/agendaDate.test.js src/App.test.js",
+    "qa:agenda": "node scripts/validate-cycle-2-professional-agenda.mjs && node --test src/features/agenda/utils/agendaDate.test.js src/features/agenda/utils/studentPicker.test.js src/App.test.js",
     "qa:agenda:runtime": "node scripts/validate-cycle-2-agenda-runtime.mjs",
     "qa:agenda:responsive": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-cycle-2-agenda-responsive.mjs",
     "qa:cycle-3-dashboard-agenda": "node scripts/validate-cycle-3-dashboard-agenda.mjs && node --test src/features/dashboard/utils/dashboardAgenda.test.js",

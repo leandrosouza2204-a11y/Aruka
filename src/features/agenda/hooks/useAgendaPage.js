@@ -26,6 +26,8 @@ export function useAgendaPage() {
   const [dateKey, setDateKey] = useState(() => todayKey());
   const [events, setEvents] = useState([]);
   const [students, setStudents] = useState([]);
+  const [studentsStatus, setStudentsStatus] = useState("loading");
+  const [studentsError, setStudentsError] = useState("");
   const [status, setStatus] = useState("loading");
   const [error, setError] = useState("");
   const [editing, setEditing] = useState(null);
@@ -37,25 +39,35 @@ export function useAgendaPage() {
 
   const range = useMemo(() => agendaRange(dateKey, view), [dateKey, view]);
 
+  const loadStudents = useCallback(async () => {
+    setStudentsStatus("loading");
+    setStudentsError("");
+    try {
+      const loadedStudents = await buscarAlunosSupabase();
+      setStudents(loadedStudents.filter((student) => student.status !== "Inativo"));
+      setStudentsStatus("ready");
+    } catch (loadError) {
+      setStudentsError(loadError?.message || "Não foi possível carregar os alunos elegíveis.");
+      setStudentsStatus("error");
+    }
+  }, []);
+
   const load = useCallback(async () => {
     setStatus("loading");
     setError("");
+    void loadStudents();
     try {
-      const [loadedEvents, loadedStudents] = await Promise.all([
-        buscarCompromissosAgenda(
-          localDateTimeToIso(range.startKey, "00:00"),
-          localDateTimeToIso(range.endKey, "00:00"),
-        ),
-        buscarAlunosSupabase(),
-      ]);
+      const loadedEvents = await buscarCompromissosAgenda(
+        localDateTimeToIso(range.startKey, "00:00"),
+        localDateTimeToIso(range.endKey, "00:00"),
+      );
       setEvents(loadedEvents);
-      setStudents(loadedStudents.filter((student) => student.status !== "Inativo"));
       setStatus("ready");
     } catch (loadError) {
       setError(loadError?.message || "Não foi possível carregar a agenda.");
       setStatus("error");
     }
-  }, [range.endKey, range.startKey]);
+  }, [loadStudents, range.endKey, range.startKey]);
 
   useEffect(() => {
     const timer = window.setTimeout(load, 0);
@@ -177,7 +189,7 @@ export function useAgendaPage() {
   }
 
   return {
-    view, setView, dateKey, setDateKey, events, students, status, error, load,
+    view, setView, dateKey, setDateKey, events, students, studentsStatus, studentsError, status, error, load, loadStudents,
     editing, details, formOpen, mutation, openNew, openDetails, openEdit, closeForm,
     closeDetails: () => setDetails(null), save, changeStatus, cancel,
     goToday: () => setDateKey(todayKey(new Date(), AGENDA_TIME_ZONE)),
