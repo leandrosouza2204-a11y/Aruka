@@ -4,6 +4,8 @@
 
 Aruka exits Roadmap v3 with Product Audit v2 closed, authenticated runtime validated, Supabase production front closed, canonical local CI harness available, and no pending db push. The product now has stable operational modules for alunos, treinos, avaliacoes, financeiro, dashboard, planos and admin.
 
+The responsive Dashboard and Professional Agenda delivery is formally closed through PR #166. Production migrations were applied by the Agenda hotfix, RLS and grants were validated, and no additional database change is required for this closeout. The owner declared production acceptance `APPROVED_8_OF_8` on a physical Android device. This human acceptance is distinct from automated CI evidence. Additional recurring cost remains R$ 0.00.
+
 ## Product maturity
 
 The platform is no longer primarily an infrastructure stabilization effort. Roadmap v4 should prioritize product value: helping the professional prescribe better, helping the student understand progress, and making recurring use more valuable.
@@ -23,6 +25,22 @@ The platform is no longer primarily an infrastructure stabilization effort. Road
 Priority favors improvements that reduce manual work, increase perceived acompanhamento, improve prescription quality, support retention and remain testable in controlled cycles. Infrastructure-only work is not a primary v4 axis unless it directly unlocks product value.
 
 ## Cycles
+
+### Cross-cycle delivery - Responsive Dashboard and Professional Agenda
+
+Status: COMPLETE
+
+Canonical closeout: `docs/missions/aruka-dashboard-agenda-cycle-closeout.md`
+
+Final implementation: PR #166, merge commit `e559835b473320c75b2d039633e065a1af743560`.
+
+Delivered scope: responsive Dashboard, mobile finance corrections, Professional Agenda with appointments and recurrence, multi-select and searchable students, Dashboard integration, time corrections, compact mobile time selection, and owner-declared physical Android production acceptance.
+
+Explicitly out of scope and non-blocking: student self-scheduling, notifications, per-session billing, external integrations, and further student-area evolution.
+
+CYCLE_STATUS=DASHBOARD_AND_PROFESSIONAL_AGENDA_CLOSED
+
+PENDING_BLOCKERS=NONE
 
 ### Cycle 01 - Student Progression Snapshot
 
