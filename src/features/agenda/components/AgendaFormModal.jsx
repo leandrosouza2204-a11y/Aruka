@@ -1,15 +1,16 @@
 import { useMemo, useState } from "react";
 import AccessibleModal from "../../../components/AccessibleModal";
-import { eventDateKey, formatAgendaTime, validateAgendaForm } from "../utils/agendaDate";
-import { getInitialStudentIds } from "../utils/studentPicker";
+import { validateAgendaForm } from "../utils/agendaDate";
+import { applyAgendaStartChange, createAgendaInitialForm } from "../utils/agendaForm";
 import { AgendaStudentPicker } from "./AgendaStudentPicker";
+import { AgendaTimePicker } from "./AgendaTimePicker";
 
 const WEEKDAYS = [
   [1, "Seg"], [2, "Ter"], [3, "Qua"], [4, "Qui"], [5, "Sex"], [6, "Sáb"], [0, "Dom"],
 ];
 
 export function AgendaFormModal({ editing, students, studentsStatus, studentsError, onRetryStudents, busy, onClose, onSave }) {
-  const initial = useMemo(() => initialForm(editing), [editing]);
+  const initial = useMemo(() => createAgendaInitialForm(editing), [editing]);
   const [form, setForm] = useState(initial);
   const [errors, setErrors] = useState({});
   const [scope, setScope] = useState("ocorrencia");
@@ -18,6 +19,19 @@ export function AgendaFormModal({ editing, students, studentsStatus, studentsErr
   function update(field, value) {
     setForm((current) => ({ ...current, [field]: value }));
     setErrors((current) => ({ ...current, [field]: undefined, form: undefined }));
+  }
+
+  function updateStart(value) {
+    const { crossesMidnight } = applyAgendaStartChange({}, value);
+    setForm((current) => applyAgendaStartChange(current, value).form);
+    setErrors((current) => ({
+      ...current,
+      inicio: undefined,
+      fim: crossesMidnight
+        ? "A duração sugerida de 60 minutos ultrapassaria a meia-noite. Escolha um término ainda hoje."
+        : undefined,
+      form: undefined,
+    }));
   }
 
   function toggleWeekday(day) {
@@ -79,8 +93,8 @@ export function AgendaFormModal({ editing, students, studentsStatus, studentsErr
             </select>
           </Field>
           <Field error={errors.data} label="Data"><input onChange={(event) => update("data", event.target.value)} type="date" value={form.data} /></Field>
-          <Field error={errors.inicio} label="Início"><input onChange={(event) => update("inicio", event.target.value)} type="time" value={form.inicio} /></Field>
-          <Field error={errors.fim} label="Término"><input onChange={(event) => update("fim", event.target.value)} type="time" value={form.fim} /></Field>
+          <AgendaTimePicker error={errors.inicio} label="Início" onChange={updateStart} value={form.inicio} />
+          <AgendaTimePicker error={errors.fim} label="Término" onChange={(value) => update("fim", value)} value={form.fim} />
         </div>
 
         <fieldset className="agenda-student-picker">
@@ -129,23 +143,4 @@ export function AgendaFormModal({ editing, students, studentsStatus, studentsErr
 
 function Field({ children, error, label, span = false }) {
   return <label className={`agenda-field${span ? " agenda-field-span" : ""}`}><span>{label}</span>{children}{error && <small className="agenda-field-error">{error}</small>}</label>;
-}
-
-function initialForm(editing) {
-  const date = editing?.id ? eventDateKey(editing.inicio) : editing?.prefillDate;
-  return {
-    titulo: editing?.titulo || "",
-    tipo: editing?.tipo || "atendimento",
-    data: date,
-    inicio: editing?.id ? formatAgendaTime(editing.inicio) : "09:00",
-    fim: editing?.id ? formatAgendaTime(editing.fim) : "10:00",
-    observacoes: editing?.observacoes || "",
-    alunoIds: getInitialStudentIds(editing),
-    frequencia: "nenhuma",
-    intervalo: "1",
-    diasSemana: [],
-    terminoRecorrencia: "quantidade",
-    quantidade: "4",
-    terminaEm: date,
-  };
 }
