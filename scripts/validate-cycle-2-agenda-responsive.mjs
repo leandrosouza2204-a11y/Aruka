@@ -12,7 +12,8 @@ const viewports = [
   { id: "mobile-390", width: 390, height: 844, mobile: true, expectedView: "Dia" },
   { id: "mobile-412", width: 412, height: 915, mobile: true, expectedView: "Dia" },
   { id: "mobile-430", width: 430, height: 932, mobile: true, expectedView: "Dia" },
-  { id: "desktop-1280", width: 1280, height: 800, mobile: false, expectedView: "Semana" },
+  { id: "desktop-1024", width: 1024, height: 768, mobile: false, expectedView: "Semana" },
+  { id: "desktop-1366", width: 1366, height: 768, mobile: false, expectedView: "Semana" },
   { id: "desktop-1440", width: 1440, height: 900, mobile: false, expectedView: "Semana" },
 ];
 
@@ -60,6 +61,7 @@ try {
 
     await validateMobileNavigation(client);
     await validateViewSwitches(client);
+    await validateStudentPicker(client);
     await validateModal(client, { width: 320, height: 700, mobile: true }, "modal-mobile-320.png");
     await setViewport(client, { width: 320, height: 500, mobile: true });
     const keyboardMetrics = await inspectOpenModal(client);
@@ -68,7 +70,7 @@ try {
     assert(keyboardMetrics.bodyScrollable, "KEYBOARD_MODAL_BODY_NOT_SCROLLABLE");
     await captureScreenshot(client, join(evidenceDir, "modal-mobile-keyboard-320x500.png"));
     await closeModal(client);
-    await validateModal(client, { width: 1280, height: 800, mobile: false }, "modal-desktop-1280.png");
+    await validateModal(client, { width: 1024, height: 768, mobile: false }, "modal-desktop-1024.png");
 
     const report = { status: failures.length ? "FAIL" : "PASS", environment: "LOCAL_QA", viewports: results, failures };
     writeFileSync(join(evidenceDir, "results.json"), `${JSON.stringify(report, null, 2)}\n`);
@@ -138,8 +140,10 @@ async function authenticate(client) {
 }
 
 async function navigateAgenda(client) {
+  await evaluate(client, "document.documentElement.dataset.qaOldDocument = 'true'; true");
   await client.send("Page.navigate", { url: `${qa.baseUrl}/agenda` });
   await sleep(1000);
+  await waitFor(client, "document.documentElement.dataset.qaOldDocument !== 'true'", 20000);
   await waitFor(client, "location.pathname === '/agenda' && document.querySelector('.agenda-page') && document.querySelector('.agenda-toolbar') && !/Verificando acesso|Verificando documentos/.test(document.body.innerText)", 20000);
   await waitFor(client, "!document.body.innerText.includes('Carregando agenda')", 20000);
   await sleep(750);
@@ -165,7 +169,9 @@ async function inspectPage(client, viewport) {
       bottomNavItems: bottomItems.filter((item) => item.getBoundingClientRect().width > 0).length,
       directAgendaTabs: bottomItems.filter((item) => /Agenda/i.test(item.textContent || '') && item.getBoundingClientRect().width > 0).length,
       hasFab: Boolean(document.querySelector('.agenda-mobile-fab')?.getBoundingClientRect().width),
-      desktopClearOfSidebar: !sidebar || !page || page.getBoundingClientRect().left >= sidebar.getBoundingClientRect().right - 1,
+      desktopClearOfSidebar: !sidebar || !page
+        || page.getBoundingClientRect().left >= sidebar.getBoundingClientRect().right - 1
+        || sidebar.getBoundingClientRect().bottom <= page.getBoundingClientRect().top + 1,
       fatalText: /erro fatal|failed to fetch|\\bundefined\\b|\\bNaN\\b|Invalid Date/i.test(document.body.innerText),
     };
   })()`);
@@ -206,6 +212,9 @@ async function validateModal(client, viewport, filename) {
   const selector = viewport.mobile ? ".agenda-mobile-fab" : ".agenda-new-button";
   await evaluate(client, `document.querySelector(${JSON.stringify(selector)})?.click(); true`);
   await waitFor(client, "document.querySelector('.agenda-form-modal')");
+  await waitFor(client, "!document.querySelector('.agenda-student-search input')?.disabled");
+  await evaluate(client, "document.querySelector('.agenda-student-search input')?.click(); true");
+  await waitFor(client, "document.querySelectorAll('.agenda-student-option').length > 0");
   const metrics = await inspectOpenModal(client);
   assert(metrics.insideViewport, `${viewport.width}:MODAL_OUTSIDE_VIEWPORT`);
   assert(metrics.footerVisible, `${viewport.width}:MODAL_FOOTER_NOT_VISIBLE`);
@@ -215,6 +224,81 @@ async function validateModal(client, viewport, filename) {
   assert(!metrics.emptyStudentMessage, `${viewport.width}:INCORRECT_EMPTY_STUDENT_STATE`);
   await captureScreenshot(client, join(evidenceDir, filename));
   if (viewport.mobile) return;
+  await closeModal(client);
+}
+
+async function validateStudentPicker(client) {
+  await setViewport(client, { width: 390, height: 700, mobile: true });
+  await navigateAgenda(client);
+  await evaluate(client, "document.querySelector('.agenda-mobile-fab')?.click(); true");
+  await waitFor(client, "document.querySelector('.agenda-student-search input') && !document.querySelector('.agenda-student-search input').disabled");
+  await evaluate(client, "document.querySelector('.agenda-student-search input').click(); true");
+  await waitFor(client, "document.querySelector('.agenda-student-search input')?.getAttribute('aria-expanded') === 'true'");
+  await sleep(500);
+  const initial = await evaluate(client, `(() => {
+    const input = document.querySelector('.agenda-student-search input');
+    const first = document.querySelector('.agenda-student-option');
+    return {
+      expanded: input?.getAttribute('aria-expanded'),
+      name: first?.textContent.trim() || '',
+      options: document.querySelectorAll('.agenda-student-option').length,
+      state: document.querySelector('.agenda-student-picker-state')?.textContent.trim() || '',
+    };
+  })()`);
+  assert(initial.expanded === "true", "STUDENT_PICKER_NOT_EXPANDED");
+  assert(Boolean(initial.name), `STUDENT_PICKER_OPTIONS_MISSING:${initial.state || "UNKNOWN"}`);
+  if (!initial.name) return;
+
+  const query = initial.name.slice(0, Math.min(3, initial.name.length));
+  await evaluate(client, `(() => {
+    const input = document.querySelector('.agenda-student-search input');
+    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+    setter.call(input, ${JSON.stringify(query)});
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    return true;
+  })()`);
+  await waitFor(client, "document.querySelectorAll('.agenda-student-option').length > 0");
+  await evaluate(client, `(() => {
+    const input = document.querySelector('.agenda-student-search input');
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    return true;
+  })()`);
+  await waitFor(client, "document.querySelectorAll('.agenda-student-chip').length === 1");
+
+  await evaluate(client, `(() => {
+    const input = document.querySelector('.agenda-student-search input');
+    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+    setter.call(input, 'resultado-impossivel-ux04');
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    return true;
+  })()`);
+  await waitFor(client, "/Nenhum aluno encontrado/.test(document.querySelector('.agenda-student-list')?.innerText || '')");
+  const preserved = await evaluate(client, "document.querySelectorAll('.agenda-student-chip').length");
+  assert(preserved === 1, "STUDENT_SELECTION_LOST_DURING_SEARCH");
+
+  await evaluate(client, `(() => {
+    const input = document.querySelector('.agenda-student-search input');
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    return true;
+  })()`);
+  const escaped = await evaluate(client, `(() => ({
+    modalOpen: Boolean(document.querySelector('.agenda-form-modal')),
+    expanded: document.querySelector('.agenda-student-search input')?.getAttribute('aria-expanded'),
+    chips: document.querySelectorAll('.agenda-student-chip').length,
+  }))()`);
+  assert(escaped.modalOpen, "STUDENT_PICKER_ESCAPE_CLOSED_MODAL");
+  assert(escaped.expanded === "false", "STUDENT_PICKER_ESCAPE_DID_NOT_CLOSE_LIST");
+  assert(escaped.chips === 1, "STUDENT_SELECTION_LOST_ON_CLOSE");
+
+  await evaluate(client, `(() => {
+    document.querySelector('.agenda-student-search input')?.click();
+    document.querySelector('.accessible-modal-header')?.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
+    return true;
+  })()`);
+  await waitFor(client, "document.querySelector('.agenda-student-search input')?.getAttribute('aria-expanded') === 'false'");
+  const afterOutsideClick = await evaluate(client, "document.querySelectorAll('.agenda-student-chip').length");
+  assert(afterOutsideClick === 1, "STUDENT_SELECTION_LOST_ON_OUTSIDE_CLICK");
   await closeModal(client);
 }
 
@@ -231,8 +315,8 @@ async function inspectOpenModal(client) {
       fieldsInsideViewport: fieldRects.every((item) => item.left >= -1 && item.right <= innerWidth + 1),
       bodyScrollable: Boolean(body && body.scrollHeight > body.clientHeight),
       closeNamed: Boolean(modal?.querySelector('button[aria-label="Fechar modal"]')),
-      studentOptionCount: modal?.querySelectorAll('.agenda-student-options input[type="checkbox"]').length || 0,
-      emptyStudentMessage: /Nenhum aluno ativo disponível/.test(modal?.innerText || ''),
+      studentOptionCount: modal?.querySelectorAll('.agenda-student-option').length || 0,
+      emptyStudentMessage: /Nenhum aluno ativo elegível/.test(modal?.innerText || ''),
     };
   })()`);
 }
