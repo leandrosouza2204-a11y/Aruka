@@ -62,6 +62,8 @@ try {
     await validateMobileNavigation(client);
     await validateViewSwitches(client);
     await validateStudentPicker(client);
+    await validateTimeBehavior(client);
+    await validateTimePickerResponsiveMatrix(client);
     await validateModal(client, { width: 320, height: 700, mobile: true }, "modal-mobile-320.png");
     await setViewport(client, { width: 320, height: 500, mobile: true });
     const keyboardMetrics = await inspectOpenModal(client);
@@ -72,7 +74,16 @@ try {
     await closeModal(client);
     await validateModal(client, { width: 1024, height: 768, mobile: false }, "modal-desktop-1024.png");
 
-    const report = { status: failures.length ? "FAIL" : "PASS", environment: "LOCAL_QA", viewports: results, failures };
+    const report = {
+      status: failures.length ? "FAIL" : "PASS",
+      environment: "LOCAL_QA",
+      browserQa: "DESKTOP_CHROME_CDP",
+      mobileQa: "DEVICE_METRICS_EMULATION",
+      realAndroidQa: "NOT_EXECUTED",
+      viewportConfig: viewports,
+      viewports: results,
+      failures,
+    };
     writeFileSync(join(evidenceDir, "results.json"), `${JSON.stringify(report, null, 2)}\n`);
     console.log(JSON.stringify(report, null, 2));
     if (failures.length) process.exitCode = 1;
@@ -104,7 +115,7 @@ async function ensureFrontend() {
 
 async function startChrome() {
   const chromePath = process.platform === "win32" ? "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" : "google-chrome";
-  const userDataDir = join(process.env.TEMP || process.env.TMP || ".", `aruka-agenda-qa-${process.pid}`);
+  const userDataDir = join(process.env.TEMP || process.env.TMP || ".", `aruka-agenda-qa-${process.pid}-${Date.now()}`);
   const child = spawn(chromePath, [
     "--headless=new",
     "--disable-gpu",
@@ -123,7 +134,8 @@ async function startChrome() {
 async function authenticate(client) {
   await setViewport(client, { width: 1280, height: 800, mobile: false });
   await client.send("Page.navigate", { url: `${qa.baseUrl}/login` });
-  await waitFor(client, "document.querySelector('input[type=\"email\"]') && document.querySelector('input[type=\"password\"]')", 20000);
+  await waitFor(client, "!location.pathname.includes('/login') || (document.querySelector('input[type=\"email\"]') && document.querySelector('input[type=\"password\"]'))", 20000);
+  if (await evaluate(client, "!location.pathname.includes('/login')")) return;
   const filled = await evaluate(client, `(() => {
     const email = document.querySelector('input[type="email"]');
     const password = document.querySelector('input[type="password"]');
@@ -300,6 +312,110 @@ async function validateStudentPicker(client) {
   const afterOutsideClick = await evaluate(client, "document.querySelectorAll('.agenda-student-chip').length");
   assert(afterOutsideClick === 1, "STUDENT_SELECTION_LOST_ON_OUTSIDE_CLICK");
   await closeModal(client);
+}
+
+async function validateTimeBehavior(client) {
+  await setViewport(client, { width: 390, height: 844, mobile: true });
+  await navigateAgenda(client);
+  await evaluate(client, "document.querySelector('.agenda-mobile-fab')?.click(); true");
+  await waitFor(client, "document.querySelectorAll('.agenda-time-picker').length === 2");
+
+  const initial = await readTimePickerState(client);
+  assert(initial.nativeTimeInputs === 0, "NATIVE_TIME_INPUT_STILL_PRESENT");
+  assert(initial.start === "09:00", `INITIAL_START_${initial.start}`);
+  assert(initial.end === "10:00", `INITIAL_END_${initial.end}`);
+  assert(initial.selectCount === 4, `TIME_SELECT_COUNT_${initial.selectCount}`);
+
+  await setTimePart(client, 0, 0, "18");
+  await waitFor(client, "document.querySelectorAll('.agenda-time-picker')[1]?.querySelectorAll('select')[0]?.value === '19'");
+  await setTimePart(client, 0, 1, "45");
+  await waitFor(client, "document.querySelectorAll('.agenda-time-picker')[1]?.querySelectorAll('select')[1]?.value === '45'");
+  const recalculated = await readTimePickerState(client);
+  assert(recalculated.start === "18:45", `RECALCULATED_START_${recalculated.start}`);
+  assert(recalculated.end === "19:45", `RECALCULATED_END_${recalculated.end}`);
+
+  await setTimePart(client, 1, 0, "20");
+  await setTimePart(client, 1, 1, "10");
+  await evaluate(client, `(() => {
+    const input = document.querySelector('.agenda-field input');
+    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+    setter.call(input, 'Consulta ajustada');
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    return true;
+  })()`);
+  const manualEnd = await readTimePickerState(client);
+  assert(manualEnd.end === "20:10", `MANUAL_END_NOT_PRESERVED_${manualEnd.end}`);
+
+  await setTimePart(client, 0, 0, "23");
+  await setTimePart(client, 0, 1, "30");
+  const midnight = await readTimePickerState(client);
+  assert(midnight.start === "23:30", `MIDNIGHT_START_${midnight.start}`);
+  assert(midnight.end === ":", `MIDNIGHT_END_SHOULD_BE_EMPTY_${midnight.end}`);
+  assert(/meia-noite/i.test(midnight.error), `MIDNIGHT_ERROR_MISSING_${midnight.error}`);
+
+  await setTimePart(client, 1, 0, "00");
+  await setTimePart(client, 1, 1, "30");
+  await evaluate(client, "document.querySelector('#agenda-form')?.requestSubmit(); true");
+  await waitFor(client, "/mesmo dia/i.test(document.querySelector('.agenda-time-picker.has-error')?.innerText || '')");
+  const invalid = await readTimePickerState(client);
+  assert(invalid.modalOpen, "INVALID_INTERVAL_CLOSED_MODAL");
+  assert(/mesmo dia/i.test(invalid.error), `INVALID_INTERVAL_ERROR_MISSING_${invalid.error}`);
+  await captureScreenshot(client, join(evidenceDir, "time-validation-mobile-390.png"));
+  await closeModal(client);
+}
+
+async function validateTimePickerResponsiveMatrix(client) {
+  for (const viewport of viewports) {
+    await setViewport(client, viewport);
+    await navigateAgenda(client);
+    const selector = viewport.mobile ? ".agenda-mobile-fab" : ".agenda-new-button";
+    await evaluate(client, `document.querySelector(${JSON.stringify(selector)})?.click(); true`);
+    await waitFor(client, "document.querySelectorAll('.agenda-time-picker select').length === 4");
+    const metrics = await evaluate(client, `(() => {
+      const modal = document.querySelector('.agenda-form-modal');
+      const fields = [...document.querySelectorAll('.agenda-time-picker select')];
+      const rect = modal?.getBoundingClientRect();
+      return {
+        modalInside: Boolean(rect && rect.left >= -1 && rect.right <= innerWidth + 1 && rect.top >= -1 && rect.bottom <= innerHeight + 1),
+        fieldsInside: fields.every((field) => {
+          const fieldRect = field.getBoundingClientRect();
+          return fieldRect.left >= -1 && fieldRect.right <= innerWidth + 1 && fieldRect.width >= 56 && fieldRect.height >= 43;
+        }),
+        nativeTimeInputs: document.querySelectorAll('input[type="time"]').length,
+      };
+    })()`);
+    assert(metrics.modalInside, `${viewport.id}:TIME_MODAL_OUTSIDE_VIEWPORT`);
+    assert(metrics.fieldsInside, `${viewport.id}:TIME_FIELDS_CLIPPED`);
+    assert(metrics.nativeTimeInputs === 0, `${viewport.id}:NATIVE_TIME_INPUT_PRESENT`);
+    await captureScreenshot(client, join(evidenceDir, `time-modal-${viewport.id}.png`));
+    await closeModal(client);
+  }
+}
+
+async function setTimePart(client, pickerIndex, selectIndex, value) {
+  await evaluate(client, `(() => {
+    const select = document.querySelectorAll('.agenda-time-picker')[${pickerIndex}]?.querySelectorAll('select')[${selectIndex}];
+    if (!select) return false;
+    select.value = ${JSON.stringify(value)};
+    select.dispatchEvent(new Event('change', { bubbles: true }));
+    return true;
+  })()`);
+  await sleep(100);
+}
+
+async function readTimePickerState(client) {
+  return evaluate(client, `(() => {
+    const pickers = [...document.querySelectorAll('.agenda-time-picker')];
+    const value = (picker) => [...(picker?.querySelectorAll('select') || [])].map((select) => select.value).join(':');
+    return {
+      start: value(pickers[0]),
+      end: value(pickers[1]),
+      error: pickers[1]?.querySelector('.agenda-field-error')?.textContent.trim() || '',
+      nativeTimeInputs: document.querySelectorAll('input[type="time"]').length,
+      selectCount: document.querySelectorAll('.agenda-time-picker select').length,
+      modalOpen: Boolean(document.querySelector('.agenda-form-modal')),
+    };
+  })()`);
 }
 
 async function inspectOpenModal(client) {

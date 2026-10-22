@@ -34,6 +34,23 @@ test("form validation supports personal events and requires students for appoint
   assert.match(appointment.errors.alunoIds, /aluno/);
 });
 
+test("form validation rejects invalid, reversed and cross-midnight intervals", () => {
+  const base = { titulo: "Bloqueio", tipo: "bloqueio", data: "2026-10-21", alunoIds: [], frequencia: "nenhuma" };
+  assert.match(validateAgendaForm({ ...base, inicio: "09:30", fim: "09:30" }).errors.fim, /posterior/);
+  assert.match(validateAgendaForm({ ...base, inicio: "19:45", fim: "18:00" }).errors.fim, /mesmo dia/);
+  assert.match(validateAgendaForm({ ...base, inicio: "23:30", fim: "00:30" }).errors.fim, /mesmo dia/);
+  assert.match(validateAgendaForm({ ...base, inicio: "25:00", fim: "26:00" }).errors.inicio, /válido/);
+});
+
+test("form validation explains when the default duration would cross midnight", () => {
+  const result = validateAgendaForm({
+    titulo: "Bloqueio", tipo: "bloqueio", data: "2026-10-21", inicio: "23:30", fim: "",
+    alunoIds: [], frequencia: "nenhuma",
+  });
+  assert.equal(result.valid, false);
+  assert.match(result.errors.fim, /meia-noite/);
+});
+
 test("recurrence validation enforces bounded series", () => {
   const result = validateAgendaForm({
     titulo: "Turma", tipo: "atendimento", data: "2026-10-21", inicio: "07:00", fim: "08:00",

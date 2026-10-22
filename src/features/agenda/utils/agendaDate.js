@@ -1,3 +1,5 @@
+import { parseAgendaTime, suggestAgendaEndTime } from "./agendaTime.js";
+
 const DATE_KEY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
 export const AGENDA_TIME_ZONE = "America/Sao_Paulo";
@@ -101,11 +103,15 @@ export function validateAgendaForm(form) {
   if (!form.data) errors.data = "Informe a data.";
   if (!form.inicio) errors.inicio = "Informe o início.";
   if (!form.fim) errors.fim = "Informe o término.";
-  if (form.data && form.inicio && form.fim) {
-    const start = new Date(`${form.data}T${form.inicio}:00`);
-    const end = new Date(`${form.data}T${form.fim}:00`);
-    if (end <= start) errors.fim = "O término deve ser posterior ao início.";
-    if (end - start > 24 * 60 * 60 * 1000) errors.fim = "A duração máxima é de 24 horas.";
+  const startMinutes = parseAgendaTime(form.inicio);
+  const endMinutes = parseAgendaTime(form.fim);
+  if (form.inicio && startMinutes === null) errors.inicio = "Informe um horário inicial válido.";
+  if (form.fim && endMinutes === null) errors.fim = "Informe um horário de término válido.";
+  if (startMinutes !== null && !form.fim && suggestAgendaEndTime(form.inicio).crossesMidnight) {
+    errors.fim = "A duração sugerida ultrapassaria a meia-noite. Escolha um término ainda hoje.";
+  }
+  if (startMinutes !== null && endMinutes !== null && endMinutes <= startMinutes) {
+    errors.fim = "O término deve ser posterior ao início e ocorrer no mesmo dia.";
   }
   if (form.tipo === "atendimento" && !form.alunoIds?.length) {
     errors.alunoIds = "Selecione ao menos um aluno para o atendimento.";
