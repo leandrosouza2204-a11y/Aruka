@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import AccessibleModal from "../../../components/AccessibleModal";
 import { validateAgendaForm } from "../utils/agendaDate";
 import { applyAgendaStartChange, createAgendaInitialForm } from "../utils/agendaForm";
@@ -14,11 +14,22 @@ export function AgendaFormModal({ editing, students, studentsStatus, studentsErr
   const [form, setForm] = useState(initial);
   const [errors, setErrors] = useState({});
   const [scope, setScope] = useState("ocorrencia");
+  const submitErrorRef = useRef(null);
   const isEdit = Boolean(editing?.id);
+
+  useEffect(() => {
+    if (!errors.schedule && !errors.form) return;
+    submitErrorRef.current?.focus();
+  }, [errors.form, errors.schedule]);
 
   function update(field, value) {
     setForm((current) => ({ ...current, [field]: value }));
-    setErrors((current) => ({ ...current, [field]: undefined, form: undefined }));
+    setErrors((current) => ({
+      ...current,
+      [field]: undefined,
+      schedule: ["data", "inicio", "fim"].includes(field) ? undefined : current.schedule,
+      form: undefined,
+    }));
   }
 
   function updateStart(value) {
@@ -30,6 +41,7 @@ export function AgendaFormModal({ editing, students, studentsStatus, studentsErr
       fim: crossesMidnight
         ? "A duração sugerida de 60 minutos ultrapassaria a meia-noite. Escolha um término ainda hoje."
         : undefined,
+      schedule: undefined,
       form: undefined,
     }));
   }
@@ -45,7 +57,15 @@ export function AgendaFormModal({ editing, students, studentsStatus, studentsErr
       setErrors(result.errors);
       return;
     }
-    await onSave(form, scope);
+    setErrors((current) => ({ ...current, schedule: undefined, form: undefined }));
+    const saveResult = await onSave(form, scope);
+    if (!saveResult?.ok && !saveResult?.ignored) {
+      const failure = saveResult?.error || {
+        field: "form",
+        message: "Não foi possível salvar o compromisso. Tente novamente.",
+      };
+      setErrors((current) => ({ ...current, [failure.field]: failure.message }));
+    }
   }
 
   const footer = (
@@ -96,6 +116,7 @@ export function AgendaFormModal({ editing, students, studentsStatus, studentsErr
           <AgendaTimePicker error={errors.inicio} label="Início" onChange={updateStart} value={form.inicio} />
           <AgendaTimePicker error={errors.fim} label="Término" onChange={(value) => update("fim", value)} value={form.fim} />
         </div>
+        {errors.schedule && <p className="agenda-form-error agenda-form-schedule-error" data-testid="agenda-schedule-error" ref={submitErrorRef} role="alert" tabIndex="-1">{errors.schedule}</p>}
 
         <fieldset className="agenda-student-picker">
           <legend>Alunos participantes {form.tipo !== "atendimento" && <small>(opcional)</small>}</legend>
@@ -135,7 +156,7 @@ export function AgendaFormModal({ editing, students, studentsStatus, studentsErr
         )}
 
         <Field label="Observações" span><textarea maxLength={2000} onChange={(event) => update("observacoes", event.target.value)} placeholder="Informações opcionais para o profissional" rows="4" value={form.observacoes} /></Field>
-        {errors.form && <p className="agenda-form-error" role="alert">{errors.form}</p>}
+        {errors.form && <p className="agenda-form-error" data-testid="agenda-form-error" ref={submitErrorRef} role="alert" tabIndex="-1">{errors.form}</p>}
       </form>
     </AccessibleModal>
   );

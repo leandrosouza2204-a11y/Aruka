@@ -1,6 +1,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { spawn } from "node:child_process";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { loadQaEnvFile, validateQaEnvironment } from "./lib/qa-environment-guard.mjs";
 
 const evidenceDir = join("tmp-responsive-screenshots", "cycle-2-agenda");
@@ -40,6 +41,7 @@ try {
   await client.send("Runtime.enable");
   try {
     await authenticate(client);
+      await validateConflictAndCancellation(client);
     for (const viewport of viewports) {
       await setViewport(client, viewport);
       await navigateAgenda(client);
@@ -97,7 +99,8 @@ try {
 
 async function ensureFrontend() {
   if (await responds(qa.baseUrl)) return;
-  devServer = spawn(process.execPath, [join("node_modules", "vite", "bin", "vite.js"), "--host", "127.0.0.1"], {
+  const viteEntry = join(dirname(fileURLToPath(import.meta.resolve("vite"))), "..", "..", "bin", "vite.js");
+  devServer = spawn(process.execPath, [viteEntry, "--host", "127.0.0.1"], {
     stdio: "pipe",
     shell: false,
     env: {
@@ -362,6 +365,102 @@ async function validateTimeBehavior(client) {
   assert(/mesmo dia/i.test(invalid.error), `INVALID_INTERVAL_ERROR_MISSING_${invalid.error}`);
   await captureScreenshot(client, join(evidenceDir, "time-validation-mobile-390.png"));
   await closeModal(client);
+}
+
+async function validateConflictAndCancellation(client) {
+  const suffix = `${Date.now()}`;
+  const firstTitle = `QA conflito base ${suffix}`;
+  const secondTitle = `QA conflito inline ${suffix}`;
+
+  await setViewport(client, { width: 390, height: 844, mobile: true });
+  await navigateAgenda(client);
+  await createAgendaCommitment(client, firstTitle);
+
+  await openAgendaForm(client);
+  await fillAgendaForm(client, secondTitle);
+  await evaluate(client, "document.querySelector('#agenda-form')?.requestSubmit(); true");
+  await waitFor(client, "document.querySelector('[data-testid=\"agenda-schedule-error\"]')");
+  const conflict = await evaluate(client, `(() => {
+    const alert = document.querySelector('[data-testid="agenda-schedule-error"]');
+    const title = document.querySelector('.agenda-form-grid .agenda-field-span input');
+    const submit = document.querySelector('button[form="agenda-form"][type="submit"]');
+    return {
+      modalOpen: Boolean(document.querySelector('.agenda-form-modal')),
+      message: alert?.textContent.trim() || '',
+      focused: document.activeElement === alert,
+      title: title?.value || '',
+      start: [...document.querySelectorAll('.agenda-time-picker')[0]?.querySelectorAll('select') || []].map((item) => item.value).join(':'),
+      end: [...document.querySelectorAll('.agenda-time-picker')[1]?.querySelectorAll('select') || []].map((item) => item.value).join(':'),
+      submitEnabled: Boolean(submit && !submit.disabled),
+    };
+  })()`);
+  assert(conflict.modalOpen, "CONFLICT_CLOSED_MODAL");
+  assert(conflict.message === "Já existe um compromisso nesse horário. Escolha outro intervalo.", `CONFLICT_MESSAGE_${conflict.message}`);
+  assert(conflict.focused, "CONFLICT_ALERT_NOT_FOCUSED");
+  assert(conflict.title === secondTitle, "CONFLICT_FORM_VALUES_LOST");
+  assert(conflict.start === "09:00" && conflict.end === "10:00", `CONFLICT_TIME_VALUES_${conflict.start}_${conflict.end}`);
+  assert(conflict.submitEnabled, "CONFLICT_SUBMIT_STILL_BUSY");
+  await captureScreenshot(client, join(evidenceDir, "conflict-inline-mobile-390.png"));
+
+  await setTimePart(client, 0, 0, "11");
+  await waitFor(client, "!document.querySelector('[data-testid=\"agenda-schedule-error\"]')");
+  await evaluate(client, "document.querySelector('#agenda-form')?.requestSubmit(); true");
+  await waitFor(client, "!document.querySelector('.agenda-form-modal')", 20000);
+  await waitFor(client, `[...document.querySelectorAll('.agenda-event')].some((item) => item.textContent.includes(${JSON.stringify(secondTitle)}))`, 20000);
+
+  await evaluate(client, `(() => {
+    window.__agendaDashboardEvents = 0;
+    window.addEventListener('aruka:agenda-updated', () => { window.__agendaDashboardEvents += 1; });
+    return true;
+  })()`);
+  await cancelAgendaCommitment(client, secondTitle);
+  await cancelAgendaCommitment(client, firstTitle);
+  const refreshEvents = await evaluate(client, "window.__agendaDashboardEvents || 0");
+  assert(refreshEvents === 2, `DASHBOARD_REFRESH_EVENT_COUNT_${refreshEvents}`);
+}
+
+async function openAgendaForm(client) {
+  await evaluate(client, "document.querySelector('.agenda-mobile-fab')?.click(); true");
+  await waitFor(client, "document.querySelector('.agenda-form-modal') && !document.querySelector('.agenda-student-search input')?.disabled");
+}
+
+async function fillAgendaForm(client, title) {
+  await evaluate(client, `(() => {
+    const input = document.querySelector('.agenda-form-grid .agenda-field-span input');
+    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+    setter.call(input, ${JSON.stringify(title)});
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    document.querySelector('.agenda-student-search input')?.click();
+    return true;
+  })()`);
+  await waitFor(client, "document.querySelectorAll('.agenda-student-option').length > 0");
+  await evaluate(client, "document.querySelector('.agenda-student-option')?.click(); true");
+  await waitFor(client, "document.querySelectorAll('.agenda-student-chip').length === 1");
+}
+
+async function createAgendaCommitment(client, title) {
+  await openAgendaForm(client);
+  await fillAgendaForm(client, title);
+  await evaluate(client, "document.querySelector('#agenda-form')?.requestSubmit(); true");
+  await waitFor(client, "!document.querySelector('.agenda-form-modal')", 20000);
+  await waitFor(client, `[...document.querySelectorAll('.agenda-event')].some((item) => item.textContent.includes(${JSON.stringify(title)}))`, 20000);
+}
+
+async function cancelAgendaCommitment(client, title) {
+  const opened = await evaluate(client, `(() => {
+    const event = [...document.querySelectorAll('.agenda-event')].find((item) => item.textContent.includes(${JSON.stringify(title)}));
+    event?.click();
+    return Boolean(event);
+  })()`);
+  assert(opened, `CANCEL_EVENT_NOT_FOUND_${title}`);
+  if (!opened) return;
+  await waitFor(client, "document.querySelector('[data-testid=\"agenda-cancel-occurrence\"]')");
+  await evaluate(client, "document.querySelector('[data-testid=\"agenda-cancel-occurrence\"]')?.click(); true");
+  await waitFor(client, "document.querySelector('[data-testid=\"agenda-cancel-confirmation-dialog\"]')");
+  await evaluate(client, "document.querySelector('[data-testid=\"agenda-cancel-confirmation-confirm\"]')?.click(); true");
+  await waitFor(client, "!document.querySelector('.agenda-details-modal')", 20000);
+  await waitFor(client, `![...document.querySelectorAll('.agenda-event')].some((item) => item.textContent.includes(${JSON.stringify(title)}))`, 20000);
+  await waitFor(client, "document.querySelector('.agenda-day-list') && !document.body.innerText.includes('Carregando agenda')", 20000);
 }
 
 async function validateTimePickerResponsiveMatrix(client) {

@@ -3,7 +3,7 @@ import { runPsql } from "./supabase-cycle-8-lib.mjs";
 const sql = String.raw`
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(36);
+select plan(41);
 
 insert into auth.users (id, email) values
   ('20000000-0000-4000-8000-000000000001', 'agenda-prof-a@example.invalid'),
@@ -36,6 +36,7 @@ select is((select count(*)::int from public.agenda_participantes where aluno_id 
 select lives_ok($$select public.agenda_criar_compromisso('Avaliação duplicada', 'atendimento', '2026-10-21 12:00+00', '2026-10-21 13:00+00', '', array['20000000-0000-4000-8000-000000000011']::uuid[], null, '20000000-0000-4000-8000-000000000101', 'America/Sao_Paulo')$$, 'idempotency replay succeeds');
 select is((select count(*)::int from public.agenda_compromissos where client_request_id = '20000000-0000-4000-8000-000000000101'), 1, 'idempotency prevents duplicates');
 select throws_ok($$select public.agenda_criar_compromisso('Conflito', 'pessoal', '2026-10-21 10:30+00', '2026-10-21 11:30+00', '', '{}'::uuid[], null, '20000000-0000-4000-8000-000000000102', 'America/Sao_Paulo')$$, '23P01', 'AGENDA_CONFLICT', 'overlap is rejected on the server');
+select throws_ok($$select public.agenda_criar_compromisso('Conflito exato', 'pessoal', '2026-10-21 10:00+00', '2026-10-21 11:00+00', '', '{}'::uuid[], null, '20000000-0000-4000-8000-000000000107', 'America/Sao_Paulo')$$, '23P01', 'AGENDA_CONFLICT', 'exact overlap is rejected on the server');
 select lives_ok($$select public.agenda_criar_compromisso('Pessoal', 'pessoal', '2026-10-21 12:00+00', '2026-10-21 13:00+00', '', '{}'::uuid[], null, '20000000-0000-4000-8000-000000000103', 'America/Sao_Paulo')$$, 'personal event needs no student');
 select lives_ok($$select public.agenda_criar_compromisso('Turma', 'atendimento', '2026-10-21 14:00+00', '2026-10-21 15:00+00', '', array['20000000-0000-4000-8000-000000000011','20000000-0000-4000-8000-000000000012']::uuid[], null, '20000000-0000-4000-8000-000000000104', 'America/Sao_Paulo')$$, 'one event accepts multiple students');
 select is((select count(*)::int from public.agenda_participantes p join public.agenda_compromissos c on c.id=p.compromisso_id where c.titulo='Turma'), 2, 'multiple participants are persisted');
@@ -65,8 +66,12 @@ select is((select count(*)::int from public.agenda_participantes p join public.a
 
 select lives_ok($$select public.agenda_atualizar_status((select id from public.agenda_compromissos where titulo='Avaliação'), 'concluido')$$, 'marks appointment complete');
 select is((select status from public.agenda_compromissos where titulo='Avaliação'), 'concluido', 'completion status persists');
+select lives_ok($$select public.agenda_cancelar_compromisso((select id from public.agenda_compromissos where titulo='Pessoal'), 'ocorrencia')$$, 'cancels one standalone commitment');
+select is((select status from public.agenda_compromissos where titulo='Pessoal'), 'cancelado', 'standalone cancellation is persisted logically');
 select lives_ok($$select public.agenda_cancelar_compromisso((select id from public.agenda_compromissos where titulo='Série atualizada' order by inicio limit 1), 'ocorrencia')$$, 'cancels one recurring occurrence');
 select is((select count(*)::int from public.agenda_excecoes where acao='cancelada'), 1, 'cancellation records an exception');
+select is((select count(*)::int from public.agenda_compromissos where serie_id is not null and status='cancelado'), 1, 'only the selected recurring occurrence is cancelled');
+select is((select count(*)::int from public.agenda_compromissos where serie_id is not null and status<>'cancelado'), 2, 'remaining recurring occurrences are preserved');
 
 select set_config('request.jwt.claim.sub', '20000000-0000-4000-8000-000000000002', true);
 select is((select count(*)::int from public.agenda_compromissos), 0, 'professional B cannot read professional A agenda');

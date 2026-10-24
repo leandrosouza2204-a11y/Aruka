@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { eventDateKey, formatAgendaDate, formatAgendaTime } from "../utils/agendaDate";
 import { STATUS_LABELS, TYPE_LABELS } from "./AgendaEventCard";
 
-export function AgendaDetailsModal({ event, busy, onCancel, onChangeStatus, onClose, onEdit }) {
+export function AgendaDetailsModal({ event, busy, error, onCancel, onChangeStatus, onClose, onEdit, onRetryCancel }) {
   return (
     <AccessibleModal isOpen title={event.titulo} description={`${TYPE_LABELS[event.tipo]} · ${STATUS_LABELS[event.status]}`} onClose={busy ? undefined : onClose} closeOnEscape={!busy} closeOnOverlayClick={!busy} showCloseButton={!busy} size="md" contentClassName="agenda-details-modal" aria-busy={busy || undefined}>
       <dl className="agenda-details-list">
@@ -14,11 +14,12 @@ export function AgendaDetailsModal({ event, busy, onCancel, onChangeStatus, onCl
         {event.serieId && <div><dt><Repeat2 aria-hidden="true" size={17} /> Recorrência</dt><dd>{event.isException ? "Ocorrência alterada" : "Parte de uma série"}</dd></div>}
         {event.observacoes && <div><dt><FileText aria-hidden="true" size={17} /> Observações</dt><dd>{event.observacoes}</dd></div>}
       </dl>
+      {error && <div className="agenda-action-error" data-testid="agenda-cancel-error" role="alert"><span>{error}</span><button className="app-button app-button-secondary" disabled={busy} onClick={onRetryCancel} type="button">Tentar novamente</button></div>}
       <div className="agenda-details-actions">
         {event.status !== "cancelado" && <button className="app-button app-button-secondary" disabled={busy} onClick={() => onEdit(event)} type="button">Editar ou remarcar</button>}
         {event.status === "agendado" && <><button className="app-button app-button-primary" disabled={busy} onClick={() => onChangeStatus(event, "concluido")} type="button">Concluir</button><button className="app-button app-button-secondary" disabled={busy} onClick={() => onChangeStatus(event, "falta")} type="button">Registrar falta</button></>}
         {event.status !== "agendado" && event.status !== "cancelado" && <button className="app-button app-button-secondary" disabled={busy} onClick={() => onChangeStatus(event, "agendado")} type="button">Voltar para agendado</button>}
-        {event.status !== "cancelado" && <button className="app-button app-button-danger" disabled={busy} onClick={() => onCancel(event, "ocorrencia")} type="button">Cancelar ocorrência</button>}
+        {event.status !== "cancelado" && <button className="app-button app-button-danger" data-testid="agenda-cancel-occurrence" disabled={busy} onClick={() => onCancel(event, "ocorrencia")} type="button">{busy ? "Processando..." : "Cancelar ocorrência"}</button>}
         {event.serieId && event.status !== "cancelado" && <button className="agenda-cancel-series" disabled={busy} onClick={() => onCancel(event, "serie")} type="button">Cancelar série inteira</button>}
       </div>
     </AccessibleModal>

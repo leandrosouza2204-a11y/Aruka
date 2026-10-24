@@ -18,6 +18,11 @@ import {
   todayKey,
 } from "../utils/agendaDate";
 import { DASHBOARD_AGENDA_UPDATED_EVENT } from "../../dashboard/hooks/useDashboardAgenda";
+import {
+  applyAgendaCancellation,
+  describeAgendaCancellationFailure,
+  describeAgendaSaveFailure,
+} from "../utils/agendaMutation";
 
 export function useAgendaPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -34,8 +39,10 @@ export function useAgendaPage() {
   const [details, setDetails] = useState(null);
   const [formOpen, setFormOpen] = useState(false);
   const [mutation, setMutation] = useState("");
+  const [actionError, setActionError] = useState(null);
+  const mutationRef = useRef("");
   const toast = useToast();
-  const confirm = useConfirm();
+  const { confirmar } = useConfirm();
 
   const range = useMemo(() => agendaRange(dateKey, view), [dateKey, view]);
 
@@ -106,17 +113,20 @@ export function useAgendaPage() {
   }, [events, searchParams, setSearchParams, status]);
 
   function openNew(prefillDate = dateKey) {
+    setActionError(null);
     setEditing({ prefillDate });
     setDetails(null);
     setFormOpen(true);
   }
 
   function openDetails(event) {
+    setActionError(null);
     setDetails(event);
     setFormOpen(false);
   }
 
   function openEdit(event) {
+    setActionError(null);
     setEditing(event);
     setDetails(null);
     setFormOpen(true);
@@ -129,8 +139,7 @@ export function useAgendaPage() {
   }
 
   async function save(form, scope) {
-    if (mutation) return false;
-    setMutation("save");
+    if (!beginMutation("save")) return { ok: false, ignored: true };
     try {
       if (editing?.id) await atualizarCompromissoAgenda(editing.id, scope, form);
       else await criarCompromissoAgenda(form);
@@ -139,19 +148,17 @@ export function useAgendaPage() {
       setEditing(null);
       await load();
       window.dispatchEvent(new Event(DASHBOARD_AGENDA_UPDATED_EVENT));
-      return true;
+      return { ok: true };
     } catch (saveError) {
-      setError(saveError?.message || "Não foi possível salvar o compromisso.");
-      toast.erro("Não foi possível salvar", saveError?.message || "Tente novamente.");
-      return false;
+      return { ok: false, error: describeAgendaSaveFailure(saveError) };
     } finally {
-      setMutation("");
+      finishMutation();
     }
   }
 
   async function changeStatus(event, nextStatus) {
-    if (mutation) return;
-    setMutation(`status-${event.id}`);
+    if (!beginMutation(`status-${event.id}`)) return;
+    setActionError(null);
     try {
       await atualizarStatusAgenda(event.id, nextStatus);
       setDetails(null);
@@ -161,37 +168,55 @@ export function useAgendaPage() {
     } catch (statusError) {
       toast.erro("Não foi possível atualizar", statusError?.message || "Tente novamente.");
     } finally {
-      setMutation("");
+      finishMutation();
     }
   }
 
   async function cancel(event, scope = "ocorrencia") {
-    const confirmed = await confirm({
-      titulo: scope === "serie" ? "Cancelar toda a série?" : "Cancelar este compromisso?",
-      descricao: scope === "serie"
-        ? "Todas as ocorrências da série serão canceladas."
-        : "O horário ficará disponível novamente.",
-      textoConfirmar: "Cancelar compromisso",
-    });
-    if (!confirmed || mutation) return;
-    setMutation(`cancel-${event.id}`);
+    if (!beginMutation(`confirm-cancel-${event.id}`)) return;
+    setActionError(null);
     try {
+      const confirmed = await confirmar({
+        titulo: scope === "serie" ? "Cancelar toda a série?" : "Cancelar este compromisso?",
+        descricao: scope === "serie"
+          ? "Todas as ocorrências da série serão canceladas."
+          : event.serieId
+            ? "Somente esta ocorrência será cancelada. As demais datas da série serão preservadas."
+            : "O horário ficará disponível novamente.",
+        textoConfirmar: "Cancelar compromisso",
+        testIdPrefix: "agenda-cancel",
+      });
+      if (!confirmed) return;
+      setMutation(`cancel-${event.id}`);
       await cancelarCompromissoAgenda(event.id, scope);
+      setEvents((current) => applyAgendaCancellation(current, event, scope));
       setDetails(null);
       toast.sucesso("Compromisso cancelado", scope === "serie" ? "A série foi cancelada." : "A ocorrência foi cancelada.");
-      await load();
       window.dispatchEvent(new Event(DASHBOARD_AGENDA_UPDATED_EVENT));
+      await load();
     } catch (cancelError) {
-      toast.erro("Não foi possível cancelar", cancelError?.message || "Tente novamente.");
+      setActionError({ message: describeAgendaCancellationFailure(cancelError), scope });
     } finally {
-      setMutation("");
+      finishMutation();
     }
+  }
+
+  function beginMutation(key) {
+    if (mutationRef.current) return false;
+    mutationRef.current = key;
+    setMutation(key);
+    return true;
+  }
+
+  function finishMutation() {
+    mutationRef.current = "";
+    setMutation("");
   }
 
   return {
     view, setView, dateKey, setDateKey, events, students, studentsStatus, studentsError, status, error, load, loadStudents,
-    editing, details, formOpen, mutation, openNew, openDetails, openEdit, closeForm,
-    closeDetails: () => setDetails(null), save, changeStatus, cancel,
+    editing, details, formOpen, mutation, actionError, openNew, openDetails, openEdit, closeForm,
+    closeDetails: () => { setActionError(null); setDetails(null); }, save, changeStatus, cancel,
     goToday: () => setDateKey(todayKey(new Date(), AGENDA_TIME_ZONE)),
     move: (direction) => setDateKey((current) => moveAgendaDate(current, view, direction)),
   };
