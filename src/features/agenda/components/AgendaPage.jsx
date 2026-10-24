@@ -33,7 +33,7 @@ export default function AgendaPage() {
 
         <button aria-label="Novo compromisso" className="agenda-mobile-fab" onClick={() => agenda.openNew()} type="button"><Plus aria-hidden="true" size={24} /></button>
         {agenda.formOpen && <AgendaFormModal busy={agenda.mutation === "save"} editing={agenda.editing} onClose={agenda.closeForm} onRetryStudents={agenda.loadStudents} onSave={agenda.save} students={agenda.students} studentsError={agenda.studentsError} studentsStatus={agenda.studentsStatus} />}
-        {agenda.details && <AgendaDetailsModal busy={Boolean(agenda.mutation)} event={agenda.details} onCancel={agenda.cancel} onChangeStatus={agenda.changeStatus} onClose={agenda.closeDetails} onEdit={agenda.openEdit} />}
+        {agenda.details && <AgendaDetailsModal busy={Boolean(agenda.mutation)} error={agenda.actionError?.message || ""} event={agenda.details} onCancel={agenda.cancel} onChangeStatus={agenda.changeStatus} onClose={agenda.closeDetails} onEdit={agenda.openEdit} onRetryCancel={() => agenda.cancel(agenda.details, agenda.actionError?.scope || "ocorrencia")} />}
       </main>
     </div>
   );

@@ -7918,6 +7918,22 @@ body[data-theme="dark"] .coach-attention-queue-item-acknowledged {
 
 .agenda-field textarea { min-height: 96px; resize: vertical; }
 .agenda-field-error { color: #b42318; display: block; font-size: 12px; font-weight: 700; }
+.agenda-form-error,
+.agenda-action-error {
+  background: #fff1f0;
+  border: 1px solid #fda29b;
+  border-radius: 9px;
+  color: #912018;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.45;
+  margin: 0;
+  padding: 10px 12px;
+}
+.agenda-form-error:focus { outline: 3px solid rgb(180 35 24 / 20%); outline-offset: 2px; }
+.agenda-form-schedule-error { margin-top: -8px; }
+.agenda-action-error { align-items: center; display: flex; gap: 10px; justify-content: space-between; margin-top: 16px; }
+.agenda-action-error .app-button { flex: 0 0 auto; min-height: 40px; }
 
 .agenda-time-picker {
   border: 0;
@@ -8202,6 +8218,8 @@ body[data-theme="dark"] .coach-attention-queue-item-acknowledged {
   .agenda-modal-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .agenda-details-modal { max-height: calc(100dvh - 24px); overflow-y: auto; width: calc(100vw - 24px); }
   .agenda-details-actions { grid-template-columns: minmax(0, 1fr); }
+  .agenda-action-error { align-items: stretch; flex-direction: column; }
+  .agenda-action-error .app-button { width: 100%; }
   .agenda-cancel-series { grid-column: auto; }
 }
 

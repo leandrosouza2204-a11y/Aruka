@@ -84,6 +84,9 @@ export async function cancelarCompromissoAgenda(id, scope = "ocorrencia") {
     p_escopo: scope,
   });
   if (error) throw normalizeAgendaError(error);
+  if (!data || Number(data.cancelados) < 1) {
+    throw Object.assign(new Error("O cancelamento não foi confirmado."), { code: "AGENDA_CANCEL_NOT_APPLIED" });
+  }
   return data;
 }
 
@@ -125,13 +128,16 @@ export async function buscarPainelAgendaHoje(dateKey, startIso, limit = 3) {
 export function normalizeAgendaError(error) {
   const detail = `${error?.message || ""} ${error?.details || ""}`;
   if (error?.code === "23P01" || detail.includes("AGENDA_CONFLICT")) {
-    return Object.assign(new Error("Já existe um compromisso nesse horário."), { code: "AGENDA_CONFLICT" });
+    return Object.assign(new Error("Já existe um compromisso nesse horário. Escolha outro intervalo."), { code: "AGENDA_CONFLICT" });
   }
   if (detail.includes("AGENDA_STUDENT_OWNER_MISMATCH")) {
     return Object.assign(new Error("Um dos alunos selecionados não pertence à sua conta."), { code: "AGENDA_FORBIDDEN_STUDENT" });
   }
   if (detail.includes("AGENDA_RECURRENCE")) {
     return Object.assign(new Error("Revise os limites da recorrência."), { code: "AGENDA_INVALID_RECURRENCE" });
+  }
+  if (error?.code === "P0002" || detail.includes("AGENDA_COMMITMENT_NOT_FOUND")) {
+    return Object.assign(new Error("Compromisso não encontrado."), { code: "AGENDA_COMMITMENT_NOT_FOUND" });
   }
   return error instanceof Error ? error : new Error("Não foi possível concluir a operação na agenda.");
 }
