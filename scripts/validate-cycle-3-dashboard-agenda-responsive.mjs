@@ -137,6 +137,8 @@ async function navigateDashboard(client) {
   await waitFor(client, "document.querySelector('.dashboard-today-agenda') && document.querySelector('.dashboard-operational-section')", 20000);
   await waitFor(client, "!document.querySelector('.dashboard-agenda-skeleton')", 20000);
   await sleep(350);
+  await waitFor(client, "document.querySelector('.dashboard-today-agenda') && document.querySelector('.dashboard-operational-section')", 20000);
+  await waitFor(client, "!document.querySelector('.dashboard-agenda-skeleton')", 20000);
 }
 
 async function inspect(client, viewport) {

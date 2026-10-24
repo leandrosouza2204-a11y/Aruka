@@ -3284,6 +3284,25 @@ body[data-theme="dark"] .table-menu-item:hover {
   margin-top: 22px;
 }
 
+.accessible-modal-overlay.confirm-dialog-overlay {
+  align-items: center;
+  box-sizing: border-box;
+  overflow-y: auto;
+  padding: max(12px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+}
+
+.accessible-modal.confirm-dialog-modal {
+  align-self: center;
+  height: auto;
+  max-height: calc(100vh - 24px);
+  max-height: calc(100dvh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+}
+
+.confirm-dialog-modal .accessible-modal-body:empty {
+  display: none;
+}
+
 @keyframes modal-enter {
   from {
     opacity: 0;
