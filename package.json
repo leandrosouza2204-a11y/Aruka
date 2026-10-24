@@ -11,6 +11,7 @@
     "qa:agenda:runtime": "node scripts/validate-cycle-2-agenda-runtime.mjs",
     "qa:agenda:responsive": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-cycle-2-agenda-responsive.mjs",
     "qa:hotfix-agenda-02": "node scripts/validate-hotfix-agenda-02.mjs && node --test src/features/agenda/utils/agendaMutation.test.js src/features/agenda/utils/agendaDate.test.js src/features/agenda/utils/agendaForm.test.js src/features/agenda/utils/agendaTime.test.js src/features/agenda/utils/studentPicker.test.js",
+    "qa:hotfix-agenda-03": "node scripts/validate-hotfix-agenda-03.mjs && npm run qa:hotfix-agenda-02",
     "qa:cycle-3-dashboard-agenda": "node scripts/validate-cycle-3-dashboard-agenda.mjs && node --test src/features/dashboard/utils/dashboardAgenda.test.js",
     "qa:cycle-3-dashboard-agenda:responsive": "node --env-file=.env.local --env-file=.env.qa.local scripts/validate-cycle-3-dashboard-agenda-responsive.mjs",
     "preview": "vite preview",

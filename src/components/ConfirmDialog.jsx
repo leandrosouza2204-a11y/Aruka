@@ -38,6 +38,8 @@ export function ConfirmProvider({ children }) {
           description={dialog.descricao}
           size="sm"
           role="alertdialog"
+          className="confirm-dialog-overlay"
+          contentClassName="confirm-dialog-modal"
           data-testid={
             dialog.testIdPrefix === "workout-template-unsaved"
               ? "workout-template-unsaved-dialog"

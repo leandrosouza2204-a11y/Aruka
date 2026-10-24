@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { loadQaEnvFile, validateQaEnvironment } from "./lib/qa-environment-guard.mjs";
 
 const evidenceDir = join("tmp-responsive-screenshots", "cycle-2-agenda");
+const confirmModalPhase = process.env.CONFIRM_MODAL_PHASE || "after";
 const cdpPort = String(9600 + Math.floor(Math.random() * 250));
 const viewports = [
   { id: "mobile-320", width: 320, height: 700, mobile: true, expectedView: "Dia" },
@@ -31,6 +32,7 @@ let devServer;
 let chrome;
 const failures = [];
 const results = [];
+const confirmationDialogs = [];
 
 try {
   await ensureFrontend();
@@ -41,7 +43,8 @@ try {
   await client.send("Runtime.enable");
   try {
     await authenticate(client);
-      await validateConflictAndCancellation(client);
+    await validateConflictAndCancellation(client);
+    await validateSharedConfirmationConsumer(client);
     for (const viewport of viewports) {
       await setViewport(client, viewport);
       await navigateAgenda(client);
@@ -84,6 +87,7 @@ try {
       realAndroidQa: "NOT_EXECUTED",
       viewportConfig: viewports,
       viewports: results,
+      confirmationDialogs,
       failures,
     };
     writeFileSync(join(evidenceDir, "results.json"), `${JSON.stringify(report, null, 2)}\n`);
@@ -413,7 +417,7 @@ async function validateConflictAndCancellation(client) {
     window.addEventListener('aruka:agenda-updated', () => { window.__agendaDashboardEvents += 1; });
     return true;
   })()`);
-  await cancelAgendaCommitment(client, secondTitle);
+  await cancelAgendaCommitment(client, secondTitle, { validateDialog: true });
   await cancelAgendaCommitment(client, firstTitle);
   const refreshEvents = await evaluate(client, "window.__agendaDashboardEvents || 0");
   assert(refreshEvents === 2, `DASHBOARD_REFRESH_EVENT_COUNT_${refreshEvents}`);
@@ -446,7 +450,7 @@ async function createAgendaCommitment(client, title) {
   await waitFor(client, `[...document.querySelectorAll('.agenda-event')].some((item) => item.textContent.includes(${JSON.stringify(title)}))`, 20000);
 }
 
-async function cancelAgendaCommitment(client, title) {
+async function cancelAgendaCommitment(client, title, { validateDialog = false } = {}) {
   const opened = await evaluate(client, `(() => {
     const event = [...document.querySelectorAll('.agenda-event')].find((item) => item.textContent.includes(${JSON.stringify(title)}));
     event?.click();
@@ -457,10 +461,140 @@ async function cancelAgendaCommitment(client, title) {
   await waitFor(client, "document.querySelector('[data-testid=\"agenda-cancel-occurrence\"]')");
   await evaluate(client, "document.querySelector('[data-testid=\"agenda-cancel-occurrence\"]')?.click(); true");
   await waitFor(client, "document.querySelector('[data-testid=\"agenda-cancel-confirmation-dialog\"]')");
+  if (validateDialog) {
+    await validateConfirmationDialogMatrix(client);
+    await evaluate(client, "document.querySelector('[data-testid=\"agenda-cancel-confirmation-dialog\"] button[aria-label=\"Fechar modal\"]')?.click(); true");
+    await waitFor(client, "!document.querySelector('[data-testid=\"agenda-cancel-confirmation-dialog\"]')");
+    assert(await evaluate(client, "Boolean(document.querySelector('.agenda-details-modal'))"), "CONFIRM_CLOSE_DISMISSED_DETAILS");
+
+    await evaluate(client, "document.querySelector('[data-testid=\"agenda-cancel-occurrence\"]')?.click(); true");
+    await waitFor(client, "document.querySelector('[data-testid=\"agenda-cancel-confirmation-dialog\"]')");
+    await evaluate(client, "document.querySelector('[data-testid=\"agenda-cancel-confirmation-cancel\"]')?.click(); true");
+    await waitFor(client, "!document.querySelector('[data-testid=\"agenda-cancel-confirmation-dialog\"]')");
+    assert(await evaluate(client, "Boolean(document.querySelector('.agenda-details-modal'))"), "CONFIRM_CANCEL_DISMISSED_DETAILS");
+
+    await evaluate(client, "document.querySelector('[data-testid=\"agenda-cancel-occurrence\"]')?.click(); true");
+    await waitFor(client, "document.querySelector('[data-testid=\"agenda-cancel-confirmation-dialog\"]')");
+  }
   await evaluate(client, "document.querySelector('[data-testid=\"agenda-cancel-confirmation-confirm\"]')?.click(); true");
   await waitFor(client, "!document.querySelector('.agenda-details-modal')", 20000);
   await waitFor(client, `![...document.querySelectorAll('.agenda-event')].some((item) => item.textContent.includes(${JSON.stringify(title)}))`, 20000);
   await waitFor(client, "document.querySelector('.agenda-day-list') && !document.body.innerText.includes('Carregando agenda')", 20000);
+}
+
+async function validateConfirmationDialogMatrix(client) {
+  const matrix = [
+    { id: "mobile-320x568", width: 320, height: 568, mobile: true },
+    { id: "mobile-360x640", width: 360, height: 640, mobile: true },
+    { id: "mobile-375x667", width: 375, height: 667, mobile: true },
+    { id: "mobile-390", width: 390, height: 844, mobile: true },
+    { id: "mobile-412", width: 412, height: 915, mobile: true },
+    { id: "mobile-430", width: 430, height: 932, mobile: true },
+    { id: "desktop-1024", width: 1024, height: 768, mobile: false },
+    { id: "desktop-1366", width: 1366, height: 768, mobile: false },
+    { id: "desktop-1440", width: 1440, height: 900, mobile: false },
+  ];
+
+  for (const viewport of matrix) {
+    await setViewport(client, viewport);
+    const metrics = await evaluate(client, `(() => {
+      const modal = document.querySelector('[data-testid="agenda-cancel-confirmation-dialog"]');
+      const rect = modal?.getBoundingClientRect();
+      const overlayRect = modal?.parentElement?.getBoundingClientRect();
+      const buttons = [...(modal?.querySelectorAll('button') || [])].map((button) => button.getBoundingClientRect());
+      const style = modal ? getComputedStyle(modal) : null;
+      const overlayStyle = modal?.parentElement ? getComputedStyle(modal.parentElement) : null;
+      return {
+        id: ${JSON.stringify(viewport.id)},
+        width: innerWidth,
+        height: innerHeight,
+        modalHeight: rect?.height || 0,
+        heightRatio: rect ? Number((rect.height / innerHeight).toFixed(3)) : 0,
+        centerDelta: rect && overlayRect ? Number(Math.abs((rect.top + rect.height / 2) - (overlayRect.top + overlayRect.height / 2)).toFixed(2)) : -1,
+        insideViewport: Boolean(rect && rect.left >= -1 && rect.right <= innerWidth + 1 && rect.top >= -1 && rect.bottom <= innerHeight + 1),
+        horizontalOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+        buttonsVisible: buttons.length === 3 && buttons.every((button) => button.left >= -1 && button.right <= innerWidth + 1 && button.top >= -1 && button.bottom <= innerHeight + 1),
+        overflowY: style?.overflowY || '',
+        overlayAlignItems: overlayStyle?.alignItems || '',
+        title: modal?.querySelector('h2')?.textContent.trim() || '',
+        description: modal?.querySelector('.accessible-modal-title-block p')?.textContent.trim() || '',
+        safeInitialFocus: document.activeElement?.getAttribute('data-testid') === 'agenda-cancel-confirmation-cancel',
+      };
+    })()`);
+    confirmationDialogs.push(metrics);
+    assert(metrics.insideViewport, `${viewport.id}:CONFIRM_OUTSIDE_VIEWPORT`);
+    assert(metrics.horizontalOverflow <= 1, `${viewport.id}:CONFIRM_HORIZONTAL_OVERFLOW_${metrics.horizontalOverflow}`);
+    assert(metrics.buttonsVisible, `${viewport.id}:CONFIRM_BUTTONS_CLIPPED`);
+    assert(Boolean(metrics.title && metrics.description), `${viewport.id}:CONFIRM_COPY_MISSING`);
+    if (confirmationDialogs.length === 1) assert(metrics.safeInitialFocus, `${viewport.id}:CONFIRM_INITIAL_FOCUS_UNSAFE`);
+    if (confirmModalPhase === "after") {
+      assert(metrics.overlayAlignItems === "center", `${viewport.id}:CONFIRM_NOT_CENTER_ALIGNED_${metrics.overlayAlignItems}`);
+      assert(metrics.centerDelta <= 8, `${viewport.id}:CONFIRM_CENTER_DELTA_${metrics.centerDelta}`);
+      assert(metrics.heightRatio < (viewport.mobile ? 0.72 : 0.55), `${viewport.id}:CONFIRM_EXCESS_HEIGHT_${metrics.heightRatio}`);
+    }
+    await captureScreenshot(client, join(evidenceDir, `${confirmModalPhase}-confirm-${viewport.id}.png`));
+  }
+  await validateLongConfirmationCopy(client);
+  await setViewport(client, { width: 390, height: 844, mobile: true });
+}
+
+async function validateLongConfirmationCopy(client) {
+  await setViewport(client, { width: 320, height: 568, mobile: true });
+  const metrics = await evaluate(client, `(() => {
+    const modal = document.querySelector('[data-testid="agenda-cancel-confirmation-dialog"]');
+    const description = modal?.querySelector('.accessible-modal-title-block p');
+    if (description) description.textContent = 'Esta confirmação possui uma explicação deliberadamente mais longa para validar quebra de linha, legibilidade, altura máxima, rolagem interna e acesso integral aos controles sem recorrer a uma altura fixa arbitrária.';
+    const rect = modal?.getBoundingClientRect();
+    const buttons = [...(modal?.querySelectorAll('button') || [])].map((button) => button.getBoundingClientRect());
+    return {
+      insideViewport: Boolean(rect && rect.left >= -1 && rect.right <= innerWidth + 1 && rect.top >= -1 && rect.bottom <= innerHeight + 1),
+      horizontalOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      buttonsVisible: buttons.length === 3 && buttons.every((button) => button.left >= -1 && button.right <= innerWidth + 1 && button.top >= -1 && button.bottom <= innerHeight + 1),
+      heightRatio: rect ? Number((rect.height / innerHeight).toFixed(3)) : 0,
+    };
+  })()`);
+  assert(metrics.insideViewport, "LONG_CONFIRM_OUTSIDE_VIEWPORT");
+  assert(metrics.horizontalOverflow <= 1, `LONG_CONFIRM_HORIZONTAL_OVERFLOW_${metrics.horizontalOverflow}`);
+  assert(metrics.buttonsVisible, "LONG_CONFIRM_BUTTONS_CLIPPED");
+  if (confirmModalPhase === "after") assert(metrics.heightRatio < 0.85, `LONG_CONFIRM_EXCESS_HEIGHT_${metrics.heightRatio}`);
+  await captureScreenshot(client, join(evidenceDir, `${confirmModalPhase}-confirm-long-copy-320x568.png`));
+}
+
+async function validateSharedConfirmationConsumer(client) {
+  await setViewport(client, { width: 320, height: 568, mobile: true });
+  await client.send("Page.navigate", { url: `${qa.baseUrl}/planos` });
+  await waitFor(client, "location.pathname === '/planos' && document.querySelector('.planos-page')", 20000);
+  await waitFor(client, "[...document.querySelectorAll('.planos-mobile-cards .table-button-danger')].some((button) => button.textContent.includes('Excluir'))", 20000);
+  await evaluate(client, `[...document.querySelectorAll('.planos-mobile-cards .table-button-danger')].find((button) => button.textContent.includes('Excluir'))?.click(); true`);
+  await waitFor(client, "document.querySelector('[data-testid=\"aluno-confirmation-dialog\"]')");
+  await sleep(300);
+  const metrics = await evaluate(client, `(() => {
+    const modal = document.querySelector('[data-testid="aluno-confirmation-dialog"]');
+    const rect = modal?.getBoundingClientRect();
+    const overlayRect = modal?.parentElement?.getBoundingClientRect();
+    return {
+      title: modal?.querySelector('h2')?.textContent.trim() || '',
+      insideViewport: Boolean(rect && rect.left >= -1 && rect.right <= innerWidth + 1 && rect.top >= -1 && rect.bottom <= innerHeight + 1),
+      heightRatio: rect ? Number((rect.height / innerHeight).toFixed(3)) : 0,
+      centerDelta: rect && overlayRect
+        ? Number(Math.abs((rect.top + rect.height / 2) - (overlayRect.top + overlayRect.height / 2)).toFixed(2))
+        : -1,
+      buttonsVisible: [...(modal?.querySelectorAll('button') || [])].every((button) => {
+        const buttonRect = button.getBoundingClientRect();
+        return buttonRect.left >= -1 && buttonRect.right <= innerWidth + 1 && buttonRect.top >= -1 && buttonRect.bottom <= innerHeight + 1;
+      }),
+    };
+  })()`);
+  assert(metrics.title === "Excluir plano?", `SHARED_CONFIRM_WRONG_CONSUMER_${metrics.title}`);
+  assert(metrics.insideViewport, "SHARED_CONFIRM_OUTSIDE_VIEWPORT");
+  assert(metrics.buttonsVisible, "SHARED_CONFIRM_BUTTONS_CLIPPED");
+  if (confirmModalPhase === "after") {
+    assert(metrics.centerDelta >= 0 && metrics.centerDelta <= 8, `SHARED_CONFIRM_NOT_CENTERED_${metrics.centerDelta}`);
+    assert(metrics.heightRatio < 0.72, `SHARED_CONFIRM_EXCESS_HEIGHT_${metrics.heightRatio}`);
+  }
+  await captureScreenshot(client, join(evidenceDir, `${confirmModalPhase}-confirm-planos-mobile-320x568.png`));
+  await evaluate(client, "document.querySelector('[data-testid=\"aluno-confirmation-cancel\"]')?.click(); true");
+  await waitFor(client, "!document.querySelector('[data-testid=\"aluno-confirmation-dialog\"]')");
 }
 
 async function validateTimePickerResponsiveMatrix(client) {
