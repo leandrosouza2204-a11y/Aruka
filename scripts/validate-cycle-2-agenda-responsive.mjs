@@ -43,6 +43,7 @@ try {
   await client.send("Runtime.enable");
   try {
     await authenticate(client);
+    await validateWeeklyRealService(client);
     await validateConflictAndCancellation(client);
     await validateSharedConfirmationConsumer(client);
     for (const viewport of viewports) {
@@ -99,6 +100,20 @@ try {
 } finally {
   chrome?.kill();
   devServer?.kill();
+}
+
+async function validateWeeklyRealService(client) {
+  await setViewport(client, { width: 390, height: 700, mobile: true });
+  await navigateAgenda(client);
+  await evaluate(client, `[...document.querySelectorAll('button')].find(b => b.textContent.includes('Compartilhar agenda semanal')).click()`);
+  await waitFor(client, "document.querySelector('.weekly-share-modal') && document.querySelector('.agenda-student-search input') && !document.querySelector('.agenda-student-search input').disabled", 30000);
+  await evaluate(client, "document.querySelector('.agenda-student-search input').click()");
+  await waitFor(client, "document.querySelector('.agenda-student-option')", 20000);
+  await evaluate(client, "document.querySelector('.agenda-student-option').click()");
+  await waitFor(client, "document.querySelector('#weekly-message') || /Nenhum atendimento agendado/.test(document.querySelector('.weekly-share-modal')?.innerText || '') || /Não foi possível carregar a agenda/.test(document.querySelector('.weekly-share-modal')?.innerText || '')", 30000);
+  const result = await evaluate(client, `(() => ({ error: /Não foi possível carregar a agenda/.test(document.querySelector('.weekly-share-modal').innerText), chips: document.querySelectorAll('.agenda-student-chip').length, hasMessage: !!document.querySelector('#weekly-message'), empty: /Nenhum atendimento agendado/.test(document.querySelector('.weekly-share-modal').innerText) }))()`);
+  assert(!result.error && result.chips === 1 && (result.hasMessage || result.empty), 'WEEKLY_REAL_SERVICE_FAILED');
+  await closeModal(client);
 }
 
 async function ensureFrontend() {

@@ -8258,3 +8258,13 @@ body[data-theme="dark"] .coach-attention-queue-item-acknowledged {
   .agenda-recurrence-end > label { align-items: start; grid-template-columns: auto minmax(0, 1fr); }
   .agenda-recurrence-end input { grid-column: 2; }
 }
+
+.weekly-share { display: grid; gap: 12px; min-width: 0; }
+.weekly-share fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.weekly-share textarea { box-sizing: border-box; width: 100%; min-width: 0; font: inherit; resize: vertical; padding: 10px; }
+.weekly-share-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.weekly-share-options button { min-height: 44px; }
+.weekly-share-options [aria-pressed="true"] { outline: 2px solid currentColor; }
+.weekly-share p, .weekly-share ul { margin: 0; overflow-wrap: anywhere; }
+.weekly-share ul { padding-inline-start: 1.25rem; }
+@media (max-width: 430px) { .weekly-share-options { display: grid; grid-template-columns: minmax(0, 1fr); } }

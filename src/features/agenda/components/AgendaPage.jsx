@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { AgendaWeeklyShareModal } from "./AgendaWeeklyShareModal";
 import { ChevronLeft, ChevronRight, Plus, RefreshCcw } from "lucide-react";
 import Sidebar from "../../../components/Sidebar";
 import PageHero from "../../../components/PageHero";
@@ -10,11 +12,15 @@ import { formatAgendaDate } from "../utils/agendaDate";
 
 export default function AgendaPage() {
   const agenda = useAgendaPage();
+  const [shareOpen, setShareOpen] = useState(false);
   return (
     <div className="app-shell agenda-shell">
       <Sidebar />
       <main className="app-main page-container agenda-page">
         <PageHero eyebrow="AGENDA" title="Agenda profissional" description="Organize atendimentos, compromissos pessoais e indisponibilidades em um só lugar." meta={`${agenda.events.length} compromissos no período`} actions={<button className="app-button app-button-primary agenda-new-button" onClick={() => agenda.openNew()} type="button"><Plus aria-hidden="true" size={18} /> Novo compromisso</button>} />
+
+        <button type="button" className="app-button app-button-secondary" onClick={() => setShareOpen(true)}>Compartilhar agenda semanal</button>
+        {shareOpen && <AgendaWeeklyShareModal students={agenda.allStudents} studentsStatus={agenda.studentsStatus} studentsError={agenda.studentsError} onRetryStudents={agenda.loadStudents} onClose={() => setShareOpen(false)} />}
 
         <section className="agenda-toolbar app-card" aria-label="Controles da agenda">
           <div className="agenda-date-navigation">

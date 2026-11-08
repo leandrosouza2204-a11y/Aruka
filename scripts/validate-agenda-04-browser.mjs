@@ -1,0 +1,139 @@
+﻿import { spawn } from 'node:child_process';
+import { mkdir, writeFile } from 'node:fs/promises';
+import process from 'node:process';
+import { dirname, join } from 'node:path';
+import { tmpdir } from 'node:os';
+import { fileURLToPath } from 'node:url';
+
+const port = 12000 + Math.floor(Math.random() * 1000), cdp = port + 1000;
+const artifacts = 'tmp-responsive-screenshots/agenda-04';
+await mkdir(artifacts, { recursive: true });
+const vite = join(dirname(fileURLToPath(import.meta.resolve('vite'))), '..', '..', 'bin', 'vite.js');
+const server = spawn(process.execPath, [vite, '--host', '127.0.0.1', '--port', String(port), '--strictPort'], { stdio: 'ignore' });
+let chrome, socket;
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+async function waitHttp(url) { for (let i = 0; i < 100; i++) { try { if ((await fetch(url)).ok) return; } catch { /* starting */ } await sleep(200); } throw new Error(`Unavailable: ${url}`); }
+function assert(value, text) { if (!value) throw new Error(text); }
+try {
+  await waitHttp(`http://127.0.0.1:${port}/scripts/fixtures/agenda04/index.html`);
+  chrome = spawn('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', ['--headless=new', '--disable-gpu', '--no-first-run', `--user-data-dir=${join(tmpdir(), `agenda04-${process.pid}`)}`, `--remote-debugging-port=${cdp}`, 'about:blank'], { stdio: 'ignore' });
+  await waitHttp(`http://127.0.0.1:${cdp}/json/version`);
+  const target = await (await fetch(`http://127.0.0.1:${cdp}/json/new?about:blank`, { method: 'PUT' })).json();
+  socket = new WebSocket(target.webSocketDebuggerUrl); await new Promise((resolve, reject) => { socket.addEventListener('open', resolve, { once: true }); socket.addEventListener('error', reject, { once: true }); });
+  let seq = 0; const pending = new Map();
+  socket.addEventListener('message', e => { const m = JSON.parse(e.data); const p = pending.get(m.id); if (p) { pending.delete(m.id); m.error ? p.reject(new Error(m.error.message)) : p.resolve(m.result); } });
+  const send = (method, params = {}) => new Promise((resolve, reject) => { const id = ++seq; pending.set(id, { resolve, reject }); socket.send(JSON.stringify({ id, method, params })); });
+  const evaluate = async expression => { const result = await send('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true }); if (result.exceptionDetails) throw new Error(JSON.stringify(result.exceptionDetails)); return result.result.value; };
+  const wait = async expression => { for (let i = 0; i < 100; i++) { if (await evaluate(`Boolean(${expression})`)) return; await sleep(100); } throw new Error(`Timeout: ${expression}`); };
+  const click = async expression => evaluate(`(${expression}).click()`);
+  const setInput = async (selector, value) => evaluate(`(() => { const e = document.querySelector(${JSON.stringify(selector)}); const setter = Object.getOwnPropertyDescriptor(e instanceof HTMLTextAreaElement ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype, 'value').set; setter.call(e, ${JSON.stringify(value)}); e.dispatchEvent(new Event('input', { bubbles:true })); })()`);
+  await send('Page.enable'); await send('Runtime.enable');
+  const snapshots = [];
+  for (const tz of ['America/Sao_Paulo', 'UTC', 'Asia/Tokyo']) {
+    await send('Emulation.setTimezoneOverride', { timezoneId: tz });
+    await send('Page.navigate', { url: `http://127.0.0.1:${port}/scripts/fixtures/agenda04/index.html` });
+    await wait('document.querySelector("#open")'); await click('document.querySelector("#open")');
+    await wait('document.querySelector(".weekly-share-modal") && !document.querySelector(".agenda-student-search input").disabled');
+    await wait('document.activeElement?.closest(".weekly-share-modal")');
+    assert(await evaluate('document.querySelector(".weekly-share-modal").getAttribute("role") === "dialog" && document.querySelector(".agenda-student-search input").getAttribute("aria-label")'), 'dialog or label missing');
+    await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Tab', code: 'Tab', windowsVirtualKeyCode: 9 });
+    await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Tab', code: 'Tab', windowsVirtualKeyCode: 9 });
+    assert(await evaluate('!!document.activeElement.closest(".weekly-share-modal")'), 'keyboard focus left dialog');
+    for (let i = 0; i < 8; i++) {
+      await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Tab', code: 'Tab', windowsVirtualKeyCode: 9 });
+      await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Tab', code: 'Tab', windowsVirtualKeyCode: 9 });
+      assert(await evaluate('!!document.activeElement.closest(".weekly-share-modal")'), 'focus trap failed');
+    }
+    await click('document.querySelector(".agenda-student-search input")');
+    assert(await evaluate('!![...document.querySelectorAll(".agenda-student-option")].find(e => e.innerText.includes("Clara")) && ![...document.querySelectorAll(".agenda-student-option")].find(e => e.innerText.includes("Dora"))'), 'inactive filtering');
+    await setInput('.agenda-student-search input', 'Ana');
+    await wait('document.querySelectorAll(".agenda-student-option").length === 1');
+    await click('document.querySelector(".agenda-student-option")');
+    await wait('document.querySelector("#weekly-message")');
+    const before = await evaluate('({ message: document.querySelector("#weekly-message").value, period: document.querySelector(".weekly-share fieldset p").innerText, calls: window.qa.calls })');
+    assert(before.message.includes('Olá, Ana!') && !before.message.includes('Clara') && !before.message.includes('private fixture'), 'personalisation/privacy');
+    await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText.includes("calendário"))');
+    await wait('window.qa.shared');
+    const shared = await evaluate('window.qa.shared');
+    assert(shared.type.startsWith('text/calendar') && shared.name.endsWith('.ics') && shared.content.includes('BEGIN:VEVENT') && !shared.content.includes('Clara'), 'calendar share');
+    snapshots.push({ period: before.period, message: before.message, first: before.calls[0], ics: shared.content.replace(/DTSTAMP:[^\r]+/, 'DTSTAMP:fixed') });
+    await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Próxima semana")');
+    await wait('document.querySelector(".weekly-share fieldset button[aria-pressed=true]")?.innerText === "Próxima semana" && document.querySelector("#weekly-message")');
+    assert(await evaluate('window.qa.calls.length >= 2'), 'next week request');
+    await click('document.querySelector(".accessible-modal-close")');
+    await wait('!document.querySelector(".weekly-share-modal")');
+  }
+  assert(JSON.stringify(snapshots[0]) === JSON.stringify(snapshots[1]) && JSON.stringify(snapshots[1]) === JSON.stringify(snapshots[2]), 'browser timezones differ');
+  await send('Emulation.setTimezoneOverride', { timezoneId: 'America/Sao_Paulo' });
+  await evaluate('document.querySelector("#open").focus()'); await click('document.querySelector("#open")'); await wait('document.querySelector(".agenda-student-search input") && !document.querySelector(".agenda-student-search input").disabled');
+  await click('document.querySelector(".agenda-student-search input")'); await setInput('.agenda-student-search input', 'Ana'); await wait('document.querySelector(".agenda-student-option")'); await click('document.querySelector(".agenda-student-option")'); await wait('document.querySelector("#weekly-message")');
+  await setInput('#weekly-message', 'Olá! 💪\nLinha dois');
+  const contrast = await evaluate(`(() => {
+    const button = [...document.querySelectorAll('.weekly-share button')].find(e => e.innerText === 'Enviar pelo WhatsApp');
+    const style = getComputedStyle(button);
+    const rgb = value => (value.match(/[\\d.]+/g) || []).slice(0, 3).map(Number);
+    const lum = values => values.map(v => { const c = v / 255; return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; }).reduce((sum, c, i) => sum + c * [0.2126, 0.7152, 0.0722][i], 0);
+    const a = lum(rgb(style.color)), b = lum(rgb(style.backgroundColor));
+    return (Math.max(a,b) + 0.05) / (Math.min(a,b) + 0.05);
+  })()`);
+  assert(contrast >= 4.5, `primary action contrast ${contrast}`);
+  await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Copiar mensagem")');
+  assert(await evaluate('window.qa.copied === "Olá! 💪\\nLinha dois"'), 'clipboard');
+  await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Enviar pelo WhatsApp")');
+  assert(await evaluate('window.qa.url.startsWith("https://wa.me/5511999991234?text=") && decodeURIComponent(window.qa.url).includes("Olá! 💪\\nLinha dois")'), 'whatsapp url');
+  await evaluate('window.qa.openFails = true'); await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Enviar pelo WhatsApp")');
+  assert(await evaluate('/Se o WhatsApp não abriu/.test(document.body.innerText)'), 'popup failure');
+  await evaluate('window.qa.share = "cancel"; window.qa.download = null'); await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText.includes("calendário"))'); await sleep(200);
+  assert(await evaluate('window.qa.download === null'), 'share cancellation downloaded');
+  await evaluate('window.qa.share = "unsupported"'); await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText.includes("calendário"))');
+  assert(await evaluate('!!window.qa.download && window.qa.download.type.startsWith("text/calendar")'), 'download fallback');
+  assert(await evaluate('window.qa.downloadName.endsWith(".ics") && window.qa.download.content.then(text => text.includes("BEGIN:VCALENDAR"))'), 'download file');
+  await evaluate('window.qa.share = "fail"; window.qa.download = null'); await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText.includes("calendário"))');
+  await wait('window.qa.download'); assert(await evaluate('/O arquivo será baixado/.test(document.body.innerText)'), 'share failure fallback');
+  await evaluate('window.qa.share = "canShareThrows"; window.qa.download = null'); await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText.includes("calendário"))');
+  await wait('window.qa.download');
+  for (const width of [320,360,375,390,412,430,768,1024,1366,1440]) {
+    const height = width === 320 ? 568 : width === 360 ? 640 : width === 375 ? 667 : 800;
+    await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: width < 768 }); await sleep(100);
+    const dimensions = await evaluate('(() => { const m = document.querySelector(".weekly-share-modal"); const r = m.getBoundingClientRect(); return { width: document.documentElement.scrollWidth - document.documentElement.clientWidth, left: r.left, right: r.right, top:r.top, bottom:r.bottom, viewport: innerHeight, body: m.querySelector(".accessible-modal-body").scrollHeight, client: m.querySelector(".accessible-modal-body").clientHeight }; })()');
+    assert(dimensions.width <= 1 && dimensions.left >= -1 && dimensions.right <= width + 1 && dimensions.top >= -1 && dimensions.bottom <= height + 1 && dimensions.body > dimensions.client, `overflow/scroll ${width}: ${JSON.stringify(dimensions)}`);
+    const image = await send('Page.captureScreenshot', { format: 'png', fromSurface: true }); await writeFile(`${artifacts}/${width}x${height}.png`, Buffer.from(image.data, 'base64'));
+    await evaluate('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText.includes("calendário")).scrollIntoView({block:"nearest"})');
+    await sleep(100);
+    const visible = await evaluate('(() => { const e = [...document.querySelectorAll(".weekly-share button")].find(e => e.innerText.includes("calendário")); const r = e.getBoundingClientRect(); const body = e.closest(".accessible-modal-body").getBoundingClientRect(); return r.top >= body.top - 1 && r.bottom <= body.bottom + 1; })()');
+    assert(visible, `calendar button unreachable ${width}`);
+    if (width <= 375) { const actions = await send('Page.captureScreenshot', { format: 'png', fromSurface: true }); await writeFile(`${artifacts}/${width}x${height}-actions.png`, Buffer.from(actions.data, 'base64')); }
+    await evaluate('document.querySelector(".weekly-share-modal .accessible-modal-body").scrollTop = 0');
+  }
+  await evaluate('document.querySelector(".weekly-share-modal").dispatchEvent(new KeyboardEvent("keydown", {key:"Escape", bubbles:true}))'); await wait('!document.querySelector(".weekly-share-modal")');
+  await sleep(100); assert(await evaluate('document.activeElement.id === "open"'), 'focus restoration');
+  await click('document.querySelector("#open")');
+  await wait('document.querySelector(".agenda-student-search input") && !document.querySelector(".agenda-student-search input").disabled');
+  await click('document.querySelector(".agenda-student-search input")');
+  await setInput('.agenda-student-search input', 'Fabi'); await wait('document.querySelector(".agenda-student-option")');
+  await click('document.querySelector(".agenda-student-option")');
+  await wait('/Nenhum atendimento agendado/.test(document.body.innerText)');
+  assert(await evaluate('!document.querySelector("#weekly-message") && ![...document.querySelectorAll(".weekly-share button")].some(e => e.innerText.includes("calendário"))'), 'empty calendar must not be exported');
+  await evaluate('window.qa.mode = "error"');
+  await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Próxima semana")');
+  await wait('/Não foi possível carregar a agenda/.test(document.body.innerText)');
+  assert(await evaluate('document.querySelector(".weekly-share [role=alert]")?.innerText.includes("Não foi possível carregar")'), 'error not announced');
+  await evaluate('window.qa.mode = "ok"'); await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Tentar novamente")');
+  await wait('/Nenhum atendimento agendado/.test(document.body.innerText)');
+  await click('document.querySelector(".agenda-student-search input")'); await setInput('.agenda-student-search input', 'Eli'); await wait('document.querySelector(".agenda-student-option")');
+  await click('document.querySelector(".agenda-student-option")'); await wait('document.querySelector("#weekly-message")');
+  assert(await evaluate('document.querySelectorAll(".agenda-student-chip").length === 1 && /Selecione o destinatário/.test(document.body.innerText)'), 'single selection or invalid phone');
+  await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Enviar pelo WhatsApp")');
+  assert(await evaluate('window.qa.url.startsWith("https://wa.me/?text=")'), 'generic WhatsApp destination');
+  assert(await evaluate('[...document.querySelectorAll(".weekly-share button")].some(e => e.innerText === "Compartilhar mensagem")'), 'generic share unavailable');
+  await click('document.querySelector(".agenda-student-search input")'); await setInput('.agenda-student-search input', 'Bia');
+  await wait('document.querySelector(".agenda-student-option")');
+  await evaluate('document.querySelector(".agenda-student-search input").focus()');
+  await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'ArrowDown', code: 'ArrowDown', windowsVirtualKeyCode: 40 });
+  await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'ArrowDown', code: 'ArrowDown', windowsVirtualKeyCode: 40 });
+  await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Enter', code: 'Enter', windowsVirtualKeyCode: 13 });
+  await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Enter', code: 'Enter', windowsVirtualKeyCode: 13 });
+  await wait('document.querySelector("#weekly-message") && document.querySelector("#weekly-message").value.includes("Olá, Bia!")');
+  assert(await evaluate('/Selecione o destinatário/.test(document.body.innerText) && document.querySelectorAll(".agenda-student-chip").length === 1'), 'missing phone or keyboard selection');
+  console.log('AGENDA_04_BROWSER=PASS: timezone, selection, message, WhatsApp, share, download, viewports and Escape');
+} finally { socket?.close(); chrome?.kill(); server.kill(); }

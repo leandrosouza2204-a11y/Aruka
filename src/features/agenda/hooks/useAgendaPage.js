@@ -31,6 +31,7 @@ export function useAgendaPage() {
   const [dateKey, setDateKey] = useState(() => todayKey());
   const [events, setEvents] = useState([]);
   const [students, setStudents] = useState([]);
+  const [allStudents, setAllStudents] = useState([]);
   const [studentsStatus, setStudentsStatus] = useState("loading");
   const [studentsError, setStudentsError] = useState("");
   const [status, setStatus] = useState("loading");
@@ -51,6 +52,7 @@ export function useAgendaPage() {
     setStudentsError("");
     try {
       const loadedStudents = await buscarAlunosSupabase();
+      setAllStudents(loadedStudents);
       setStudents(loadedStudents.filter((student) => student.status !== "Inativo"));
       setStudentsStatus("ready");
     } catch (loadError) {
@@ -214,7 +216,7 @@ export function useAgendaPage() {
   }
 
   return {
-    view, setView, dateKey, setDateKey, events, students, studentsStatus, studentsError, status, error, load, loadStudents,
+    view, setView, dateKey, setDateKey, events, students, allStudents, studentsStatus, studentsError, status, error, load, loadStudents,
     editing, details, formOpen, mutation, actionError, openNew, openDetails, openEdit, closeForm,
     closeDetails: () => { setActionError(null); setDetails(null); }, save, changeStatus, cancel,
     goToday: () => setDateKey(todayKey(new Date(), AGENDA_TIME_ZONE)),
