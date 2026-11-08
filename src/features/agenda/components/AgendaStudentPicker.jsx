@@ -10,6 +10,7 @@ export function AgendaStudentPicker({
   error = "",
   onChange,
   onRetry,
+  single = false,
 }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -54,7 +55,8 @@ export function AgendaStudentPicker({
   }, [activeIndex]);
 
   function choose(id) {
-    onChange(toggleStudentId(selectedIds, id));
+    onChange(single ? (selectedIds.includes(id) ? [] : [id]) : toggleStudentId(selectedIds, id));
+    if (single) setOpen(false);
   }
 
   function handleKeyDown(event) {
@@ -106,6 +108,7 @@ export function AgendaStudentPicker({
           ref={inputRef}
           type="text"
           role="combobox"
+          aria-label="Pesquisar aluno por nome"
           aria-autocomplete="list"
           aria-controls={listboxId}
           aria-describedby={helpId}
@@ -124,7 +127,7 @@ export function AgendaStudentPicker({
       </div>
 
       {open && status === "ready" && students.length > 0 && (
-        <div className="agenda-student-list" id={listboxId} ref={listRef} role="listbox" aria-label="Alunos elegíveis" aria-multiselectable="true">
+        <div className="agenda-student-list" id={listboxId} ref={listRef} role="listbox" aria-label="Alunos elegíveis" aria-multiselectable={!single || undefined}>
           {filteredStudents.length ? filteredStudents.map((student, index) => {
             const isSelected = selectedIds.includes(student.id);
             return (
