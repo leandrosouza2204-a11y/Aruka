@@ -58,6 +58,7 @@ const expectedExecutableMigrations = [
   "supabase/migrations/20261011232512_harden_privileged_function_execution.sql",
   "supabase/migrations/20261021001403_professional_agenda.sql",
   "supabase/migrations/20261021153551_agenda_least_privilege_grants.sql",
+  "supabase/migrations/20261109002142_agenda_introduction_confirmation.sql",
 ];
 const forbiddenProjectRef = "xrmqdkpx" + "nfvusmenadnf";
 const APPROVED_REDACTED_DB_URL =
