@@ -12,7 +12,7 @@ const vite = join(dirname(fileURLToPath(import.meta.resolve('vite'))), '..', '..
 const server = spawn(process.execPath, [vite, '--host', '127.0.0.1', '--port', String(port), '--strictPort'], { stdio: 'ignore' });
 let chrome, socket;
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-async function waitHttp(url) { for (let i = 0; i < 100; i++) { try { if ((await fetch(url)).ok) return; } catch { /* starting */ } await sleep(200); } throw new Error(`Unavailable: ${url}`); }
+async function waitHttp(url) { for (let i = 0; i < 100; i++) { try { if ((await fetch(url, { signal: AbortSignal.timeout(1000) })).ok) return; } catch { /* starting */ } await sleep(200); } throw new Error(`Unavailable: ${url}`); }
 function assert(value, text) { if (!value) throw new Error(text); }
 try {
   await waitHttp(`http://127.0.0.1:${port}/scripts/fixtures/agenda04/index.html`);
@@ -20,11 +20,11 @@ try {
   await waitHttp(`http://127.0.0.1:${cdp}/json/version`);
   const target = await (await fetch(`http://127.0.0.1:${cdp}/json/new?about:blank`, { method: 'PUT' })).json();
   socket = new WebSocket(target.webSocketDebuggerUrl); await new Promise((resolve, reject) => { socket.addEventListener('open', resolve, { once: true }); socket.addEventListener('error', reject, { once: true }); });
-  let seq = 0; const pending = new Map();
-  socket.addEventListener('message', e => { const m = JSON.parse(e.data); const p = pending.get(m.id); if (p) { pending.delete(m.id); m.error ? p.reject(new Error(m.error.message)) : p.resolve(m.result); } });
-  const send = (method, params = {}) => new Promise((resolve, reject) => { const id = ++seq; pending.set(id, { resolve, reject }); socket.send(JSON.stringify({ id, method, params })); });
+  let seq = 0; const pending = new Map(); const browserErrors = [];
+  socket.addEventListener('message', e => { const m = JSON.parse(e.data); if (m.method === 'Runtime.exceptionThrown') browserErrors.push(m.params.exceptionDetails.exception?.description || m.params.exceptionDetails.text); const p = pending.get(m.id); if (p) { clearTimeout(p.timer); pending.delete(m.id); m.error ? p.reject(new Error(m.error.message)) : p.resolve(m.result); } });
+  const send = (method, params = {}) => new Promise((resolve, reject) => { const id = ++seq; const timer = setTimeout(() => { pending.delete(id); reject(new Error(`CDP timeout: ${method}`)); }, 10000); pending.set(id, { resolve, reject, timer }); socket.send(JSON.stringify({ id, method, params })); });
   const evaluate = async expression => { const result = await send('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true }); if (result.exceptionDetails) throw new Error(JSON.stringify(result.exceptionDetails)); return result.result.value; };
-  const wait = async expression => { for (let i = 0; i < 100; i++) { if (await evaluate(`Boolean(${expression})`)) return; await sleep(100); } throw new Error(`Timeout: ${expression}`); };
+  const wait = async expression => { for (let i = 0; i < 300; i++) { if (await evaluate(`Boolean(${expression})`)) return; await sleep(100); } throw new Error(`Timeout: ${expression}; browser errors: ${browserErrors.join('; ')}`); };
   const click = async expression => evaluate(`(${expression}).click()`);
   const setInput = async (selector, value) => evaluate(`(() => { const e = document.querySelector(${JSON.stringify(selector)}); const setter = Object.getOwnPropertyDescriptor(e instanceof HTMLTextAreaElement ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype, 'value').set; setter.call(e, ${JSON.stringify(value)}); e.dispatchEvent(new Event('input', { bubbles:true })); })()`);
   await send('Page.enable'); await send('Runtime.enable');
@@ -50,8 +50,46 @@ try {
     await wait('document.querySelectorAll(".agenda-student-option").length === 1');
     await click('document.querySelector(".agenda-student-option")');
     await wait('document.querySelector("#weekly-message")');
+    await wait('document.querySelector("#introduction-message")');
+    assert(await evaluate('document.querySelector("#introduction-message").value.startsWith("Oii, Ana!")'), 'introduction personalization');
+    if (tz === 'America/Sao_Paulo') {
+      for (const width of [320,360,375,390,412,430,768,1024,1366,1440]) {
+        const height = width === 320 ? 568 : width === 360 ? 640 : width === 375 ? 667 : 800;
+        await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: width < 768 });
+        await evaluate('document.querySelector("#introduction-message").scrollIntoView({block:"nearest"})'); await sleep(100);
+        assert(await evaluate('document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1'), `introduction overflow ${width}`);
+        const screenshot = await send('Page.captureScreenshot', { format: 'png', fromSurface: true });
+        await writeFile(`${artifacts}/introduction-${width}x${height}.png`, Buffer.from(screenshot.data, 'base64'));
+      }
+      await send('Emulation.clearDeviceMetricsOverride');
+    }
+    await setInput('#introduction-message', 'Apresentação editada');
+    await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Copiar apresentação")');
+    assert(await evaluate('window.qa.copied === "Apresentação editada" && !window.qa.introductions.ana'), 'copy must not mark sent');
+    await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Enviar apresentação pelo WhatsApp")');
+    assert(await evaluate('decodeURIComponent(window.qa.url).includes("Apresentação editada") && !window.qa.introductions.ana'), 'WhatsApp must not mark sent');
+    await evaluate('window.qa.introductionWriteError = true');
+    await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Marcar apresentação como enviada")');
+    await wait('document.querySelector(".weekly-share [role=status]")?.innerText.includes("Não foi possível salvar")');
+    assert(await evaluate('!window.qa.introductions.ana'), 'failed save must remain pending');
+    await evaluate('window.qa.introductionWriteError = false');
+    await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Marcar apresentação como enviada")');
+    await wait('window.qa.introductions.ana && !document.querySelector("#introduction-message")');
+    await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Ver mensagem de apresentação")');
+    assert(await evaluate('document.querySelector("#introduction-message").value === "Apresentação editada"'), 'reopened draft');
+    await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Ocultar apresentação")');
+    await setInput('#weekly-message', 'Oii, Ana! Rascunho preservado');
+    await click('document.querySelector(".agenda-student-search input")');
+    await setInput('.agenda-student-search input', 'Bia'); await wait('document.querySelector(".agenda-student-option")');
+    await click('document.querySelector(".agenda-student-option")');
+    await wait('document.querySelector("#weekly-message")?.value.includes("Oii, Bia!")');
+    await click('document.querySelector(".agenda-student-search input")');
+    await setInput('.agenda-student-search input', 'Ana'); await wait('document.querySelector(".agenda-student-option")');
+    await click('document.querySelector(".agenda-student-option")');
+    await wait('document.querySelector("#weekly-message")?.value === "Oii, Ana! Rascunho preservado"');
+    assert(await evaluate('!![...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Ver mensagem de apresentação")'), 'confirmed introduction should stay hidden');
     const before = await evaluate('({ message: document.querySelector("#weekly-message").value, period: document.querySelector(".weekly-share fieldset p").innerText, calls: window.qa.calls })');
-    assert(before.message.includes('Olá, Ana!') && !before.message.includes('Clara') && !before.message.includes('private fixture'), 'personalisation/privacy');
+    assert(before.message.includes('Oii, Ana!') && !before.message.includes('Clara') && !before.message.includes('private fixture'), 'personalisation/privacy');
     await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText.includes("calendário"))');
     await wait('window.qa.shared');
     const shared = await evaluate('window.qa.shared');
@@ -60,6 +98,11 @@ try {
     await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Próxima semana")');
     await wait('document.querySelector(".weekly-share fieldset button[aria-pressed=true]")?.innerText === "Próxima semana" && document.querySelector("#weekly-message")');
     assert(await evaluate('window.qa.calls.length >= 2'), 'next week request');
+    await setInput('#weekly-message', 'Rascunho da próxima semana');
+    await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Semana atual")');
+    await wait('document.querySelector("#weekly-message")?.value === "Oii, Ana! Rascunho preservado"');
+    await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Próxima semana")');
+    await wait('document.querySelector("#weekly-message")?.value === "Rascunho da próxima semana"');
     await click('document.querySelector(".accessible-modal-close")');
     await wait('!document.querySelector(".weekly-share-modal")');
   }
@@ -126,6 +169,7 @@ try {
   await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Enviar pelo WhatsApp")');
   assert(await evaluate('window.qa.url.startsWith("https://wa.me/?text=")'), 'generic WhatsApp destination');
   assert(await evaluate('[...document.querySelectorAll(".weekly-share button")].some(e => e.innerText === "Compartilhar mensagem")'), 'generic share unavailable');
+  await evaluate('window.qa.introductionReadError = true');
   await click('document.querySelector(".agenda-student-search input")'); await setInput('.agenda-student-search input', 'Bia');
   await wait('document.querySelector(".agenda-student-option")');
   await evaluate('document.querySelector(".agenda-student-search input").focus()');
@@ -133,7 +177,11 @@ try {
   await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'ArrowDown', code: 'ArrowDown', windowsVirtualKeyCode: 40 });
   await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Enter', code: 'Enter', windowsVirtualKeyCode: 13 });
   await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Enter', code: 'Enter', windowsVirtualKeyCode: 13 });
-  await wait('document.querySelector("#weekly-message") && document.querySelector("#weekly-message").value.includes("Olá, Bia!")');
+  await wait('document.querySelector("#weekly-message") && document.querySelector("#weekly-message").value.includes("Oii, Bia!")');
+  await wait('document.querySelector(".weekly-share [role=alert]")?.innerText.includes("Não foi possível carregar a apresentação")');
+  await evaluate('window.qa.introductionReadError = false');
+  await click('document.querySelector(".weekly-share [role=alert] button")');
+  await wait('document.querySelector("#introduction-message")?.value.startsWith("Oii, Bia!")');
   assert(await evaluate('/Selecione o destinatário/.test(document.body.innerText) && document.querySelectorAll(".agenda-student-chip").length === 1'), 'missing phone or keyboard selection');
   console.log('AGENDA_04_BROWSER=PASS: timezone, selection, message, WhatsApp, share, download, viewports and Escape');
 } finally { socket?.close(); chrome?.kill(); server.kill(); }

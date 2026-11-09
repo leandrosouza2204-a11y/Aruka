@@ -196,6 +196,8 @@ jobs:
         if: ${{ steps.detect_changes.outputs.supabase_relevant == 'true' }}
         run: |
           npm run qa:agenda
+          node --test src/features/agenda/utils/personalizedMessages.test.js src/features/agenda/utils/weeklySharing.test.js
+          node scripts/validate-agenda-04-1-rls.mjs
           npm run qa:agenda:runtime
           npm run qa:cycle-3-dashboard-agenda
           npm run qa:supabase-local-reproducibility

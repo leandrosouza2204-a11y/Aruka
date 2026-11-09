@@ -51,6 +51,7 @@ export const EXPECTED_EXECUTABLE_MIGRATIONS = [
   "supabase/migrations/20261011232512_harden_privileged_function_execution.sql",
   "supabase/migrations/20261021001403_professional_agenda.sql",
   "supabase/migrations/20261021153551_agenda_least_privilege_grants.sql",
+  "supabase/migrations/20261109002142_agenda_introduction_confirmation.sql",
 ];
 export const EXPECTED_EPHEMERAL_MIGRATION_HISTORY = [
   "20260716090000",
@@ -97,6 +98,7 @@ export const EXPECTED_EPHEMERAL_MIGRATION_HISTORY = [
   "20261011232512",
   "20261021001403",
   "20261021153551",
+  "20261109002142",
 ];
 
 export function listFiles(root, dir) {

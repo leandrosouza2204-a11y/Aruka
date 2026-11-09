@@ -16,6 +16,18 @@ Arquivo .ics estático, sem sincronização automática. Se a agenda mudar, envi
 
 Custo recorrente adicional: R$ 0,00.
 
+## AGENDA-04.1 — apresentação e mensagens personalizadas
+
+O compartilhamento passa a oferecer uma apresentação editável para cada aluno, seguida da mensagem semanal com o primeiro nome e os mesmos horários da consulta da Agenda. O profissional pode copiar a apresentação ou abrir o WhatsApp; nenhuma dessas ações confirma envio. A confirmação é uma ação explícita. Depois dela, a apresentação fica recolhida e pode ser reaberta. Os rascunhos editados durante a abertura do modal ficam separados por aluno e, no caso da mensagem semanal, por semana.
+
+A confirmação usa uma linha por profissional e aluno em `agenda_apresentacoes`: ausência significa pendente. A política exige o usuário autenticado proprietário e a propriedade atual do aluno; não há acesso anônimo nem permissão de atualizar ou excluir. O registro é apenas uma declaração manual, não comprova entrega ou leitura. Falhas na leitura ou no registro são comunicadas na interface. Nenhum serviço faturável adicional é necessário.
+
+Para o rollout, manter o frontend atual enquanto a migration é revisada e validada; após as autorizações operacionais aplicáveis, instalar a migration no banco de produção e verificar tabela, RLS, policies e grants antes do merge que publica o frontend. Se a etapa de banco falhar, não integrar o frontend. Após o deploy, verificar a leitura e a confirmação com uma identidade autorizada e dados de teste, além da mensagem semanal e do calendário. A migration não altera linhas existentes nem requer novos serviços. A tabela não existia em produção na verificação de metadados desta missão.
+
+O teste `node scripts/validate-agenda-04-1-api.mjs` usa exclusivamente o Supabase local, cria identidades fictícias, testa Auth e REST com nova sessão, concorrência, RLS e erro de rede e remove os recursos identificados como seus. Uma interrupção abrupta pode impedir a limpeza: antes de retomar, verificar o marcador e os recursos locais em vez de apagar tabelas ou usuários desconhecidos. O teste de navegador usa persistência simulada, portanto não substitui a validação HTTP.
+
+Para homologação física em Android, selecionar um aluno, conferir a personalização, editar e abrir a apresentação no WhatsApp sem envio automático; confirmar o envio manualmente, recarregar e conferir a ocultação e reabertura. Conferir também a mensagem semanal, os prazos de 24 horas e 15 minutos e a exportação .ics. Essa homologação depende de confirmação do proprietário.
+
 ## Validação e homologação
 
 A validação inclui testes unitários de semana, filtragem, mensagem e estrutura básica do ICS; testes existentes de Agenda, Dashboard e hotfixes; lint, build e teste transacional local de recorrência e autorização. O parser independente ical.js 2.2.1 foi usado temporariamente para verificar a leitura dos eventos e o escaping. O teste automatizado do novo modal usa fixtures sintéticas no Chrome e verifica três fusos, edição, cópia, link do WhatsApp, compartilhamento, fallback, foco, teclado, contraste da ação principal e dez larguras; as capturas ficam em `tmp-responsive-screenshots/agenda-04`. A consulta também foi exercitada na página real com a conta de QA local. Essa emulação não substitui testes físicos de Android, iPhone e suas áreas seguras. Consulte o estado de execução local para resultados atualizados.
