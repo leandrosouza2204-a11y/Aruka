@@ -56,8 +56,10 @@ export function AgendaWeeklyShareModal({ students, studentsStatus, studentsError
   }
   function whatsapp(text) {
     const phone = brazilPhone(student?.whatsapp);
-    const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
-    const opened = window.open(url, '_blank', 'noopener,noreferrer');
+    const url = new URL('https://api.whatsapp.com/send/');
+    if (phone) url.searchParams.set('phone', phone);
+    url.searchParams.set('text', text);
+    const opened = window.open(url.toString(), '_blank', 'noopener,noreferrer');
     // Some browsers return null even when noopener opens successfully; do not claim delivery.
     if (!opened) setFeedback('Se o WhatsApp não abriu, permita pop-ups ou copie a mensagem. Confirme o destinatário e o envio no WhatsApp.');
     else setFeedback('Confirme o destinatário e o envio no WhatsApp.');
