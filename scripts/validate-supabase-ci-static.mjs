@@ -70,13 +70,13 @@ try {
   const localRuntimeValidator = "scripts/supabase-local-validate.ps1";
   const localRuntimeText = readFileSync(join(root, localRuntimeValidator), "utf8");
   for (const [name, value] of [
-    ["ExpectedTables", "36"],
+    ["ExpectedTables", "37"],
     ["ExpectedFunctions", "71"],
     ["ExpectedIndexes", "103"],
-    ["ExpectedPolicies", "85"],
-    ["ExpectedPublicPolicies", "77"],
+    ["ExpectedPolicies", "87"],
+    ["ExpectedPublicPolicies", "79"],
     ["ExpectedStoragePolicies", "8"],
-    ["ExpectedPublicRlsEnabledTables", "36"],
+    ["ExpectedPublicRlsEnabledTables", "37"],
   ]) {
     if (!new RegExp(`\\$${name}\\s*=\\s*${value}\\b`).test(localRuntimeText)) {
       errors.push(`${localRuntimeValidator} must validate current local runtime ${name}=${value}`);
