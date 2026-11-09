@@ -6,14 +6,14 @@ $ReportDir = Join-Path $Root "reports/supabase-local-bootstrap"
 $ConfigText = Get-Content -Raw "supabase/config.toml"
 $ManifestPath = Join-Path $Root "supabase/baseline-candidate/manifest.json"
 $Manifest = Get-Content -Raw $ManifestPath | ConvertFrom-Json
-$ExpectedTables = 36
+$ExpectedTables = 37
 $ExpectedFunctions = 71
 $ExpectedTriggers = 18
 $ExpectedIndexes = 103
-$ExpectedPolicies = 85
-$ExpectedPublicPolicies = 77
+$ExpectedPolicies = 87
+$ExpectedPublicPolicies = 79
 $ExpectedStoragePolicies = 8
-$ExpectedPublicRlsEnabledTables = 36
+$ExpectedPublicRlsEnabledTables = 37
 $ExpectedExecutableMigrationVersions = @(
   "20260728030000",
   "20260730090000",
@@ -58,6 +58,7 @@ $ExpectedExecutableMigrationVersions = @(
   "20261011232512"
   "20261021001403"
   "20261021153551"
+  "20261109002142"
 )
 $BaselineSqlPath = Join-Path $Root (Join-Path "supabase/baseline-candidate" $Manifest.main_file)
 $BaselineSql = Get-Content -Raw $BaselineSqlPath

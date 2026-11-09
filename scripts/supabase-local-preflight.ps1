@@ -56,6 +56,7 @@ $ExpectedActiveMigrations = @(
   "20261011232512_harden_privileged_function_execution.sql"
   "20261021001403_professional_agenda.sql"
   "20261021153551_agenda_least_privilege_grants.sql"
+  "20261109002142_agenda_introduction_confirmation.sql"
 )
 $IsCi = $env:CI -eq "true"
 $IsCiLocalOnly = $env:SUPABASE_CI_LOCAL_ONLY -eq "true"
