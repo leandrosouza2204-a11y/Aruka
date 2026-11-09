@@ -1,7 +1,19 @@
 # AGENDA-04.1 — estado de execução
 
-DECISION: CONTINUE_REQUIRED
-REASON: SESSION_BOUNDARY
+MISSION: AGENDA-04.1
+DECISION: COMPLETE
+ANDROID_HOMOLOGATION: PASS 11/11 — confirmado pelo proprietário em dispositivo físico.
+IOS_HOMOLOGATION: PENDING
+PRODUCTION: READY
+PENDING_NON_BLOCKING: iOS physical validation
+
+O proprietário confirmou primeiro nome, edição da mensagem, abertura do WhatsApp sem confirmação automática, confirmação manual, persistência após fechar e reabrir o modal e após recarregar, reabertura da apresentação, mensagem semanal e exportação ICS.
+
+PR #171 integrado no merge `d70380fbca14b99b694fac4ffe3c6a58a6284968`; CI pós-merge `42547289776` aprovado. Deploy Vercel de produção `dpl_9y7rbKPb4wbrhusZR4woHDDD2K8m` Ready nesse merge. Migration `20261109002142` aplicada; RLS, policies e grants validados. Cleanup da missão concluído e worktree G4.2 preservada.
+
+## Histórico de execução
+
+As seções seguintes registram checkpoints anteriores e descrevem o estado existente em cada etapa, não o estado final.
 
 Base: origin/main ca9f678f87ca83fe2716e5acc1d73dae403ca058; worktree .aruka-agenda-04-1; branch feat/agenda-04-1-personalized-messaging.
 

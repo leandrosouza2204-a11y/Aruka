@@ -26,7 +26,9 @@ Para o rollout, manter o frontend atual enquanto a migration é revisada e valid
 
 O teste `node scripts/validate-agenda-04-1-api.mjs` usa exclusivamente o Supabase local, cria identidades fictícias, testa Auth e REST com nova sessão, concorrência, RLS e erro de rede e remove os recursos identificados como seus. Uma interrupção abrupta pode impedir a limpeza: antes de retomar, verificar o marcador e os recursos locais em vez de apagar tabelas ou usuários desconhecidos. O teste de navegador usa persistência simulada, portanto não substitui a validação HTTP.
 
-Para homologação física em Android, selecionar um aluno, conferir a personalização, editar e abrir a apresentação no WhatsApp sem envio automático; confirmar o envio manualmente, recarregar e conferir a ocultação e reabertura. Conferir também a mensagem semanal, os prazos de 24 horas e 15 minutos e a exportação .ics. Essa homologação depende de confirmação do proprietário.
+O proprietário informou a aprovação da homologação física no Android: **11 de 11 verificações passaram**. Foram confirmados o primeiro nome, a edição da apresentação, a abertura do WhatsApp sem confirmação automática, a confirmação manual, a persistência ao fechar o modal e ao recarregar, a reabertura, a mensagem semanal e a exportação .ics. A homologação física no iOS continua pendente e não bloqueia o encerramento.
+
+Encerramento: **AGENDA-04.1 COMPLETE**. O [PR #171](https://github.com/leandrosouza2204-a11y/Aruka/pull/171) foi integrado no merge `d70380fbca14b99b694fac4ffe3c6a58a6284968`; o [CI pós-merge](https://github.com/leandrosouza2204-a11y/Aruka/actions/runs/42547289776) passou e o deploy de produção foi confirmado como Ready. A migration `20261109002142` foi aplicada, com RLS e grants validados. O cleanup da missão foi concluído. Pendência não bloqueante: validação física no iOS.
 
 ## Validação e homologação
 
