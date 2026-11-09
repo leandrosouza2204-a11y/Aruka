@@ -22,7 +22,7 @@ try {
   socket = new WebSocket(target.webSocketDebuggerUrl); await new Promise((resolve, reject) => { socket.addEventListener('open', resolve, { once: true }); socket.addEventListener('error', reject, { once: true }); });
   let seq = 0; const pending = new Map(); const browserErrors = [];
   socket.addEventListener('message', e => { const m = JSON.parse(e.data); if (m.method === 'Runtime.exceptionThrown') browserErrors.push(m.params.exceptionDetails.exception?.description || m.params.exceptionDetails.text); const p = pending.get(m.id); if (p) { clearTimeout(p.timer); pending.delete(m.id); m.error ? p.reject(new Error(m.error.message)) : p.resolve(m.result); } });
-  const send = (method, params = {}) => new Promise((resolve, reject) => { const id = ++seq; const timer = setTimeout(() => { pending.delete(id); reject(new Error(`CDP timeout: ${method}`)); }, 10000); pending.set(id, { resolve, reject, timer }); socket.send(JSON.stringify({ id, method, params })); });
+  const send = (method, params = {}) => new Promise((resolve, reject) => { const id = ++seq; const timer = setTimeout(() => { pending.delete(id); reject(new Error(`CDP timeout: ${method}`)); }, 30000); pending.set(id, { resolve, reject, timer }); socket.send(JSON.stringify({ id, method, params })); });
   const evaluate = async expression => { const result = await send('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true }); if (result.exceptionDetails) throw new Error(JSON.stringify(result.exceptionDetails)); return result.result.value; };
   const wait = async expression => { for (let i = 0; i < 300; i++) { if (await evaluate(`Boolean(${expression})`)) return; await sleep(100); } throw new Error(`Timeout: ${expression}; browser errors: ${browserErrors.join('; ')}`); };
   const click = async expression => evaluate(`(${expression}).click()`);
@@ -45,6 +45,30 @@ try {
       assert(await evaluate('!!document.activeElement.closest(".weekly-share-modal")'), 'focus trap failed');
     }
     await click('document.querySelector(".agenda-student-search input")');
+    if (tz === 'America/Sao_Paulo') {
+      const beforeHover = await evaluate('document.querySelector(".agenda-student-list").scrollTop');
+      const point = await evaluate('(() => { const r = document.querySelectorAll(".agenda-student-option")[1].getBoundingClientRect(); return {x: r.x + r.width / 2, y: r.y + r.height / 2}; })()');
+      await send('Input.dispatchMouseEvent', { type: 'mouseMoved', ...point });
+      await sleep(200);
+      const afterHover = await evaluate('document.querySelector(".agenda-student-list").scrollTop');
+      assert(afterHover === beforeHover, `hover unexpectedly scrolled list: ${beforeHover} -> ${afterHover}`);
+      await send('Input.dispatchMouseEvent', { type: 'mouseWheel', ...point, deltaY: 140, deltaX: 0 });
+      await sleep(200);
+      assert(await evaluate('document.querySelector(".agenda-student-list").scrollTop > 0'), 'manual wheel did not scroll the list');
+      await evaluate('document.querySelector(".agenda-student-search input").focus()');
+      await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'End', code: 'End', windowsVirtualKeyCode: 35 });
+      await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'End', code: 'End', windowsVirtualKeyCode: 35 });
+      await sleep(100);
+      assert(await evaluate('(() => { const input = document.querySelector(".agenda-student-search input"); const option = document.getElementById(input.getAttribute("aria-activedescendant")); const list = document.querySelector(".agenda-student-list").getBoundingClientRect(); const rect = option.getBoundingClientRect(); return rect.bottom <= list.bottom + 1 && rect.top >= list.top - 1; })()'), 'keyboard active option is not visible');
+      await evaluate('document.querySelector(".agenda-student-list").scrollTop = 0');
+      const mouseChoice = await evaluate('(() => { const e = document.querySelectorAll(".agenda-student-option")[1]; const r = e.getBoundingClientRect(); return { name: e.innerText, x: r.x + r.width / 2, y: r.y + r.height / 2 }; })()');
+      await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: mouseChoice.x, y: mouseChoice.y });
+      await send('Input.dispatchMouseEvent', { type: 'mousePressed', x: mouseChoice.x, y: mouseChoice.y, button: 'left', clickCount: 1 });
+      await send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: mouseChoice.x, y: mouseChoice.y, button: 'left', clickCount: 1 });
+      await wait(`document.querySelector('.agenda-student-chip')?.innerText.includes(${JSON.stringify(mouseChoice.name)})`);
+      await click('document.querySelector(".agenda-student-clear-selection")');
+      await click('document.querySelector(".agenda-student-search input")');
+    }
     assert(await evaluate('!![...document.querySelectorAll(".agenda-student-option")].find(e => e.innerText.includes("Clara")) && ![...document.querySelectorAll(".agenda-student-option")].find(e => e.innerText.includes("Dora"))'), 'inactive filtering');
     await setInput('.agenda-student-search input', 'Ana');
     await wait('document.querySelectorAll(".agenda-student-option").length === 1');
@@ -52,8 +76,21 @@ try {
     await wait('document.querySelector("#weekly-message")');
     await wait('document.querySelector("#introduction-message")');
     assert(await evaluate('document.querySelector("#introduction-message").value.startsWith("Oii, Ana!")'), 'introduction personalization');
+    const originalIntroduction = await evaluate('document.querySelector("#introduction-message").value');
+    await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Copiar apresentação")');
+    await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Enviar apresentação pelo WhatsApp")');
+    assert(await evaluate('(() => { const url = new URL(window.qa.url); return url.origin === "https://api.whatsapp.com" && url.pathname === "/send/" && url.searchParams.get("phone") === "5511999991234" && window.qa.copied === document.querySelector("#introduction-message").value && url.searchParams.get("text") === window.qa.copied && !window.qa.copied.includes("\\uFFFD"); })()'), 'introduction template differs between modal, clipboard and direct WhatsApp URL');
+    await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Copiar mensagem")');
+    await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Enviar pelo WhatsApp")');
+    assert(await evaluate('window.qa.copied === document.querySelector("#weekly-message").value && new URL(window.qa.url).searchParams.get("text") === window.qa.copied'), 'weekly template differs between modal, clipboard and URL');
+    const unicodeMessage = `Olá, João! 😊 💪 📅 👊 🔥 ❤️ 👩🏽‍💻\n*Linha dois!* ${'Texto longo. '.repeat(200)}`;
+    await setInput('#introduction-message', unicodeMessage);
+    await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Copiar apresentação")');
+    await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Enviar apresentação pelo WhatsApp")');
+    assert(await evaluate(`window.qa.copied === ${JSON.stringify(unicodeMessage)} && new URL(window.qa.url).searchParams.get("text") === window.qa.copied`), 'edited Unicode text differs between modal, clipboard and URL');
+    await setInput('#introduction-message', originalIntroduction);
     if (tz === 'America/Sao_Paulo') {
-      for (const width of [320,360,375,390,412,430,768,1024,1366,1440]) {
+      for (const width of [320,360,375,390,412,430,768,1024,1280,1366,1440]) {
         const height = width === 320 ? 568 : width === 360 ? 640 : width === 375 ? 667 : 800;
         await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: width < 768 });
         await evaluate('document.querySelector("#introduction-message").scrollIntoView({block:"nearest"})'); await sleep(100);
@@ -67,7 +104,7 @@ try {
     await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Copiar apresentação")');
     assert(await evaluate('window.qa.copied === "Apresentação editada" && !window.qa.introductions.ana'), 'copy must not mark sent');
     await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Enviar apresentação pelo WhatsApp")');
-    assert(await evaluate('decodeURIComponent(window.qa.url).includes("Apresentação editada") && !window.qa.introductions.ana'), 'WhatsApp must not mark sent');
+    assert(await evaluate('new URL(window.qa.url).searchParams.get("text") === "Apresentação editada" && !window.qa.introductions.ana'), 'WhatsApp must not mark sent');
     await evaluate('window.qa.introductionWriteError = true');
     await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Marcar apresentação como enviada")');
     await wait('document.querySelector(".weekly-share [role=status]")?.innerText.includes("Não foi possível salvar")');
@@ -123,7 +160,7 @@ try {
   await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Copiar mensagem")');
   assert(await evaluate('window.qa.copied === "Olá! 💪\\nLinha dois"'), 'clipboard');
   await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Enviar pelo WhatsApp")');
-  assert(await evaluate('window.qa.url.startsWith("https://wa.me/5511999991234?text=") && decodeURIComponent(window.qa.url).includes("Olá! 💪\\nLinha dois")'), 'whatsapp url');
+  assert(await evaluate('(() => { const url = new URL(window.qa.url); return url.origin === "https://api.whatsapp.com" && url.pathname === "/send/" && url.searchParams.get("phone") === "5511999991234" && url.searchParams.get("text") === "Olá! 💪\\nLinha dois"; })()'), 'whatsapp url');
   await evaluate('window.qa.openFails = true'); await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Enviar pelo WhatsApp")');
   assert(await evaluate('/Se o WhatsApp não abriu/.test(document.body.innerText)'), 'popup failure');
   await evaluate('window.qa.share = "cancel"; window.qa.download = null'); await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText.includes("calendário"))'); await sleep(200);
@@ -135,7 +172,7 @@ try {
   await wait('window.qa.download'); assert(await evaluate('/O arquivo será baixado/.test(document.body.innerText)'), 'share failure fallback');
   await evaluate('window.qa.share = "canShareThrows"; window.qa.download = null'); await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText.includes("calendário"))');
   await wait('window.qa.download');
-  for (const width of [320,360,375,390,412,430,768,1024,1366,1440]) {
+  for (const width of [320,360,375,390,412,430,768,1024,1280,1366,1440]) {
     const height = width === 320 ? 568 : width === 360 ? 640 : width === 375 ? 667 : 800;
     await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: width < 768 }); await sleep(100);
     const dimensions = await evaluate('(() => { const m = document.querySelector(".weekly-share-modal"); const r = m.getBoundingClientRect(); return { width: document.documentElement.scrollWidth - document.documentElement.clientWidth, left: r.left, right: r.right, top:r.top, bottom:r.bottom, viewport: innerHeight, body: m.querySelector(".accessible-modal-body").scrollHeight, client: m.querySelector(".accessible-modal-body").clientHeight }; })()');
@@ -167,7 +204,7 @@ try {
   await click('document.querySelector(".agenda-student-option")'); await wait('document.querySelector("#weekly-message")');
   assert(await evaluate('document.querySelectorAll(".agenda-student-chip").length === 1 && /Selecione o destinatário/.test(document.body.innerText)'), 'single selection or invalid phone');
   await click('[...document.querySelectorAll(".weekly-share button")].find(e => e.innerText === "Enviar pelo WhatsApp")');
-  assert(await evaluate('window.qa.url.startsWith("https://wa.me/?text=")'), 'generic WhatsApp destination');
+  assert(await evaluate('(() => { const url = new URL(window.qa.url); return url.origin === "https://api.whatsapp.com" && url.pathname === "/send/" && !url.searchParams.has("phone") && url.searchParams.get("text") === document.querySelector("#weekly-message").value; })()'), 'generic WhatsApp destination');
   assert(await evaluate('[...document.querySelectorAll(".weekly-share button")].some(e => e.innerText === "Compartilhar mensagem")'), 'generic share unavailable');
   await evaluate('window.qa.introductionReadError = true');
   await click('document.querySelector(".agenda-student-search input")'); await setInput('.agenda-student-search input', 'Bia');

@@ -9,6 +9,7 @@ const students = [
   { id: 'dora', nome: 'Dora Inativa', status: 'Inativo', whatsapp: '' },
   { id: 'eli', nome: 'Eli Exemplo', status: 'Ativo', whatsapp: '1234' },
   { id: 'fabi', nome: 'Fabi Vazia', status: 'Ativo', whatsapp: '' },
+  ...Array.from({ length: 20 }, (_, i) => ({ id: `fixture-${i}`, nome: `Teste ${String(i).padStart(2, '0')}`, status: 'Ativo', whatsapp: '' })),
 ];
 window.qa = { calls: [], mode: 'ok', share: 'ok', introductions: {}, introductionReadError: false, introductionWriteError: false };
 Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async text => { window.qa.copied = text; } } });

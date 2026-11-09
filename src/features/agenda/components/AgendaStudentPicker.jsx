@@ -18,6 +18,7 @@ export function AgendaStudentPicker({
   const rootRef = useRef(null);
   const listRef = useRef(null);
   const inputRef = useRef(null);
+  const scrollActiveOptionRef = useRef(false);
   const listboxId = useId();
   const helpId = useId();
 
@@ -43,15 +44,14 @@ export function AgendaStudentPicker({
   }, []);
 
   useEffect(() => {
-    if (activeIndex < 0 || !listRef.current) return;
+    if (!scrollActiveOptionRef.current || activeIndex < 0 || !listRef.current) return;
+    scrollActiveOptionRef.current = false;
     const option = listRef.current.querySelector(`[data-option-index="${activeIndex}"]`);
     if (!option) return;
-    const optionTop = option.offsetTop;
-    const optionBottom = optionTop + option.offsetHeight;
-    if (optionTop < listRef.current.scrollTop) listRef.current.scrollTop = optionTop;
-    else if (optionBottom > listRef.current.scrollTop + listRef.current.clientHeight) {
-      listRef.current.scrollTop = optionBottom - listRef.current.clientHeight;
-    }
+    const optionRect = option.getBoundingClientRect();
+    const listRect = listRef.current.getBoundingClientRect();
+    if (optionRect.top < listRect.top) listRef.current.scrollTop += optionRect.top - listRect.top;
+    else if (optionRect.bottom > listRect.bottom) listRef.current.scrollTop += optionRect.bottom - listRect.bottom;
   }, [activeIndex]);
 
   function choose(id) {
@@ -73,6 +73,7 @@ export function AgendaStudentPicker({
     if (["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) {
       event.preventDefault();
       setOpen(true);
+      scrollActiveOptionRef.current = true;
       setActiveIndex((current) => nextStudentIndex(current, event.key, filteredStudents.length));
       return;
     }
@@ -139,7 +140,7 @@ export function AgendaStudentPicker({
                 key={student.id}
                 onClick={() => choose(student.id)}
                 onMouseDown={(event) => event.preventDefault()}
-                onMouseEnter={() => setActiveIndex(index)}
+                onMouseEnter={() => { scrollActiveOptionRef.current = false; setActiveIndex(index); }}
                 role="option"
               >
                 <span>{student.nome}</span>
